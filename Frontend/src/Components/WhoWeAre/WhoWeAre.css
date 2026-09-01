@@ -1,0 +1,1148 @@
+/* =========================================================
+   WHO WE ARE SECTION
+========================================================= */
+
+.WhoWeAre {
+  --WhoWeAre-green: #61b341;
+  --WhoWeAre-orange: #ff9d20;
+  --WhoWeAre-blue: #3b9bd6;
+  --WhoWeAre-purple: #9b63d3;
+  --WhoWeAre-red: #e85b5b;
+  --WhoWeAre-yellow: #e7b52e;
+
+  --WhoWeAre-text: #0b0b0b;
+  --WhoWeAre-description: #747c84;
+
+  position: relative;
+
+  width: 100%;
+
+  padding: 55px 0 65px;
+
+  background: #ffffff;
+
+  overflow: hidden;
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.WhoWeAre__container {
+  width: min(100% - 55px, 1500px);
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADING AREA
+========================================================= */
+
+.WhoWeAre__heading-area {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  margin-bottom: 42px;
+}
+
+
+/* =========================================================
+   WHO WE ARE LABEL
+========================================================= */
+
+.WhoWeAre__label {
+  position: relative;
+
+  width: 175px;
+
+  height: 45px;
+
+  margin-bottom: 5px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: rgba(97, 179, 65, 0.2);
+
+  clip-path: polygon(
+    4% 26%,
+    15% 13%,
+    29% 18%,
+    44% 7%,
+    60% 16%,
+    77% 10%,
+    94% 26%,
+    97% 52%,
+    91% 72%,
+    76% 69%,
+    60% 87%,
+    43% 76%,
+    28% 88%,
+    13% 73%,
+    3% 78%,
+    7% 52%
+  );
+
+  animation: WhoWeAreLabelFloat 4s ease-in-out infinite;
+}
+
+
+.WhoWeAre__label span {
+  position: relative;
+
+  z-index: 2;
+
+  color: var(--WhoWeAre-green);
+
+  font-family:
+    "Brush Script MT",
+    "Segoe Script",
+    cursive;
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   LABEL ANIMATION
+========================================================= */
+
+@keyframes WhoWeAreLabelFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.WhoWeAre__title {
+  margin: 0;
+
+  color: var(--WhoWeAre-text);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  /*
+   * Smaller and less bold as requested
+   */
+  font-size: clamp(32px, 3vw, 46px);
+
+  font-weight: 600;
+
+  line-height: 1.12;
+
+  letter-spacing: -0.7px;
+}
+
+
+/* =========================================================
+   CARD GRID
+========================================================= */
+
+.WhoWeAre__grid {
+  width: 100%;
+
+  display: grid;
+
+  /*
+   * Exactly 3 cards in one row
+   * and 6 cards = 2 rows
+   */
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  column-gap: 30px;
+
+  row-gap: 38px;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.WhoWeAre__card {
+  position: relative;
+
+  min-width: 0;
+
+  /*
+   * Compact card size
+   */
+  height: 155px;
+
+  padding: 20px 28px;
+
+  border-radius: 11px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(0, 0, 0, 0.025);
+
+  box-shadow:
+    0 7px 25px rgba(0, 0, 0, 0.065);
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  /*
+   * Initial animation position
+   */
+  transform:
+    translateY(25px)
+    scale(0.98);
+
+  animation-delay: var(--WhoWeAre-delay);
+
+  transition:
+    background-color 0.35s ease,
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+
+/* =========================================================
+   REMOVE ALL CIRCLE HOVER EFFECTS
+========================================================= */
+
+.WhoWeAre__card::before,
+.WhoWeAre__card::after {
+  display: none;
+
+  content: none;
+}
+
+
+/* =========================================================
+   STAGGER CONFIGURATION
+========================================================= */
+
+/*
+   First row:
+
+   Card 1 = DOWN
+   Card 2 = UP
+   Card 3 = DOWN
+*/
+
+.WhoWeAre__card:nth-child(1) {
+  --WhoWeAre-offset: 8px;
+}
+
+
+.WhoWeAre__card:nth-child(2) {
+  --WhoWeAre-offset: -8px;
+}
+
+
+.WhoWeAre__card:nth-child(3) {
+  --WhoWeAre-offset: 8px;
+}
+
+
+/*
+   Second row:
+
+   Card 4 = UP
+   Card 5 = DOWN
+   Card 6 = UP
+*/
+
+.WhoWeAre__card:nth-child(4) {
+  --WhoWeAre-offset: -8px;
+}
+
+
+.WhoWeAre__card:nth-child(5) {
+  --WhoWeAre-offset: 8px;
+}
+
+
+.WhoWeAre__card:nth-child(6) {
+  --WhoWeAre-offset: -8px;
+}
+
+
+/* =========================================================
+   CARD ENTRANCE ANIMATION
+========================================================= */
+
+.WhoWeAre--visible
+.WhoWeAre__card {
+  animation:
+    WhoWeAreCardAppear 0.65s
+    cubic-bezier(0.2, 0.7, 0.2, 1)
+    forwards;
+
+  animation-delay: var(--WhoWeAre-delay);
+}
+
+
+@keyframes WhoWeAreCardAppear {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(
+        calc(25px + var(--WhoWeAre-offset, 0px))
+      )
+      scale(0.97);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateY(var(--WhoWeAre-offset, 0px))
+      scale(1);
+  }
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.WhoWeAre__card:hover {
+  transform:
+    translateY(
+      calc(var(--WhoWeAre-offset, 0px) - 6px)
+    )
+    scale(1.01);
+
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.14);
+}
+
+
+/* =========================================================
+   ICON WRAPPER
+========================================================= */
+
+.WhoWeAre__icon-wrapper {
+  position: relative;
+
+  z-index: 2;
+
+  flex: 0 0 72px;
+
+  width: 72px;
+
+  height: 72px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.WhoWeAre__icon {
+  width: 64px;
+
+  height: 64px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 53px;
+
+  transition:
+    color 0.3s ease,
+    transform 0.35s ease;
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.WhoWeAre__card-content {
+  position: relative;
+
+  z-index: 2;
+
+  min-width: 0;
+
+  flex: 1;
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.WhoWeAre__card-title {
+  margin: 0 0 10px;
+
+  color: var(--WhoWeAre-text);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+/* =========================================================
+   CARD DESCRIPTION
+========================================================= */
+
+.WhoWeAre__card-description {
+  margin: 0;
+
+  color: var(--WhoWeAre-description);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 12.5px;
+
+  font-weight: 400;
+
+  line-height: 1.7;
+
+  letter-spacing: 0.05px;
+
+  transition:
+    color 0.3s ease;
+}
+
+
+/* =========================================================
+   01 - GREEN
+========================================================= */
+
+.WhoWeAre__card--green
+.WhoWeAre__icon {
+  color: var(--WhoWeAre-green);
+}
+
+
+.WhoWeAre__card--green:hover {
+  background: var(--WhoWeAre-green);
+
+  border-color: var(--WhoWeAre-green);
+
+  box-shadow:
+    0 18px 35px rgba(97, 179, 65, 0.28);
+}
+
+
+.WhoWeAre__card--green:hover
+.WhoWeAre__icon {
+  color: #ffffff;
+
+  transform:
+    scale(1.08)
+    rotate(-4deg);
+}
+
+
+/* =========================================================
+   02 - ORANGE
+========================================================= */
+
+.WhoWeAre__card--orange
+.WhoWeAre__icon {
+  color: var(--WhoWeAre-orange);
+}
+
+
+.WhoWeAre__card--orange:hover {
+  background: var(--WhoWeAre-orange);
+
+  border-color: var(--WhoWeAre-orange);
+
+  box-shadow:
+    0 18px 35px rgba(255, 157, 32, 0.28);
+}
+
+
+.WhoWeAre__card--orange:hover
+.WhoWeAre__icon {
+  color: #ffffff;
+
+  transform:
+    scale(1.08)
+    rotate(4deg);
+}
+
+
+/* =========================================================
+   03 - BLUE
+========================================================= */
+
+.WhoWeAre__card--blue
+.WhoWeAre__icon {
+  color: var(--WhoWeAre-blue);
+}
+
+
+.WhoWeAre__card--blue:hover {
+  background: var(--WhoWeAre-blue);
+
+  border-color: var(--WhoWeAre-blue);
+
+  box-shadow:
+    0 18px 35px rgba(59, 155, 214, 0.28);
+}
+
+
+.WhoWeAre__card--blue:hover
+.WhoWeAre__icon {
+  color: #ffffff;
+
+  transform:
+    scale(1.08)
+    rotate(-4deg);
+}
+
+
+/* =========================================================
+   04 - PURPLE
+========================================================= */
+
+.WhoWeAre__card--purple
+.WhoWeAre__icon {
+  color: var(--WhoWeAre-purple);
+}
+
+
+.WhoWeAre__card--purple:hover {
+  background: var(--WhoWeAre-purple);
+
+  border-color: var(--WhoWeAre-purple);
+
+  box-shadow:
+    0 18px 35px rgba(155, 99, 211, 0.28);
+}
+
+
+.WhoWeAre__card--purple:hover
+.WhoWeAre__icon {
+  color: #ffffff;
+
+  transform:
+    scale(1.08)
+    rotate(4deg);
+}
+
+
+/* =========================================================
+   05 - RED
+========================================================= */
+
+.WhoWeAre__card--red
+.WhoWeAre__icon {
+  color: var(--WhoWeAre-red);
+}
+
+
+.WhoWeAre__card--red:hover {
+  background: var(--WhoWeAre-red);
+
+  border-color: var(--WhoWeAre-red);
+
+  box-shadow:
+    0 18px 35px rgba(232, 91, 91, 0.28);
+}
+
+
+.WhoWeAre__card--red:hover
+.WhoWeAre__icon {
+  color: #ffffff;
+
+  transform:
+    scale(1.08)
+    rotate(-4deg);
+}
+
+
+/* =========================================================
+   06 - YELLOW
+========================================================= */
+
+.WhoWeAre__card--yellow
+.WhoWeAre__icon {
+  color: var(--WhoWeAre-yellow);
+}
+
+
+.WhoWeAre__card--yellow:hover {
+  background: var(--WhoWeAre-yellow);
+
+  border-color: var(--WhoWeAre-yellow);
+
+  box-shadow:
+    0 18px 35px rgba(231, 181, 46, 0.28);
+}
+
+
+.WhoWeAre__card--yellow:hover
+.WhoWeAre__icon {
+  color: #ffffff;
+
+  transform:
+    scale(1.08)
+    rotate(4deg);
+}
+
+
+/* =========================================================
+   HOVER TEXT
+========================================================= */
+
+.WhoWeAre__card:hover
+.WhoWeAre__card-title,
+
+.WhoWeAre__card:hover
+.WhoWeAre__card-description {
+  color: #ffffff;
+}
+
+
+.WhoWeAre__card:hover
+.WhoWeAre__card-title {
+  transform: translateX(2px);
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (max-width: 1400px) {
+
+  .WhoWeAre__container {
+    width: min(100% - 45px, 1300px);
+  }
+
+
+  .WhoWeAre__grid {
+    column-gap: 24px;
+
+    row-gap: 32px;
+  }
+
+
+  .WhoWeAre__card {
+    height: 145px;
+
+    padding: 18px 22px;
+
+    gap: 16px;
+  }
+
+
+  .WhoWeAre__icon-wrapper {
+    flex-basis: 65px;
+
+    width: 65px;
+
+    height: 65px;
+  }
+
+
+  .WhoWeAre__icon {
+    width: 58px;
+
+    height: 58px;
+
+    font-size: 47px;
+  }
+
+
+  .WhoWeAre__card-title {
+    font-size: 17px;
+
+    margin-bottom: 8px;
+  }
+
+
+  .WhoWeAre__card-description {
+    font-size: 12px;
+
+    line-height: 1.65;
+  }
+}
+
+
+/* =========================================================
+   LAPTOP
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .WhoWeAre {
+    padding: 50px 0 60px;
+  }
+
+
+  .WhoWeAre__container {
+    width: calc(100% - 40px);
+  }
+
+
+  .WhoWeAre__heading-area {
+    margin-bottom: 38px;
+  }
+
+
+  .WhoWeAre__title {
+    font-size: 40px;
+  }
+
+
+  .WhoWeAre__grid {
+    column-gap: 18px;
+
+    row-gap: 30px;
+  }
+
+
+  .WhoWeAre__card {
+    height: 140px;
+
+    padding: 17px 18px;
+
+    gap: 13px;
+  }
+
+
+  .WhoWeAre__icon-wrapper {
+    flex-basis: 60px;
+
+    width: 60px;
+
+    height: 60px;
+  }
+
+
+  .WhoWeAre__icon {
+    width: 54px;
+
+    height: 54px;
+
+    font-size: 43px;
+  }
+
+
+  .WhoWeAre__card-title {
+    font-size: 16px;
+
+    margin-bottom: 8px;
+  }
+
+
+  .WhoWeAre__card-description {
+    font-size: 11.5px;
+
+    line-height: 1.65;
+  }
+
+
+  /*
+   * Keep stagger subtle on laptop.
+   */
+
+  .WhoWeAre__card:nth-child(1),
+  .WhoWeAre__card:nth-child(3),
+  .WhoWeAre__card:nth-child(5) {
+    --WhoWeAre-offset: 6px;
+  }
+
+
+  .WhoWeAre__card:nth-child(2),
+  .WhoWeAre__card:nth-child(4),
+  .WhoWeAre__card:nth-child(6) {
+    --WhoWeAre-offset: -6px;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 950px) {
+
+  .WhoWeAre {
+    padding: 45px 0 55px;
+  }
+
+
+  .WhoWeAre__container {
+    width: calc(100% - 32px);
+  }
+
+
+  .WhoWeAre__heading-area {
+    margin-bottom: 35px;
+  }
+
+
+  .WhoWeAre__title {
+    font-size: 37px;
+
+    font-weight: 600;
+  }
+
+
+  .WhoWeAre__grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    column-gap: 20px;
+
+    row-gap: 25px;
+  }
+
+
+  .WhoWeAre__card {
+    height: 140px;
+
+    padding: 18px;
+
+    gap: 13px;
+  }
+
+
+  /*
+   * Tablet uses two columns,
+   * therefore use a smaller stagger.
+   */
+
+  .WhoWeAre__card:nth-child(1),
+  .WhoWeAre__card:nth-child(4),
+  .WhoWeAre__card:nth-child(5) {
+    --WhoWeAre-offset: 5px;
+  }
+
+
+  .WhoWeAre__card:nth-child(2),
+  .WhoWeAre__card:nth-child(3),
+  .WhoWeAre__card:nth-child(6) {
+    --WhoWeAre-offset: -5px;
+  }
+
+
+  .WhoWeAre__icon-wrapper {
+    flex-basis: 55px;
+
+    width: 55px;
+
+    height: 55px;
+  }
+
+
+  .WhoWeAre__icon {
+    width: 50px;
+
+    height: 50px;
+
+    font-size: 40px;
+  }
+
+
+  .WhoWeAre__card-title {
+    font-size: 15px;
+  }
+
+
+  .WhoWeAre__card-description {
+    font-size: 11px;
+
+    line-height: 1.6;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .WhoWeAre {
+    padding: 40px 0 48px;
+  }
+
+
+  .WhoWeAre__container {
+    width: calc(100% - 24px);
+  }
+
+
+  .WhoWeAre__heading-area {
+    margin-bottom: 30px;
+  }
+
+
+  .WhoWeAre__label {
+    width: 145px;
+
+    height: 43px;
+  }
+
+
+  .WhoWeAre__label span {
+    font-size: 18px;
+  }
+
+
+  .WhoWeAre__title {
+    font-size: 32px;
+
+    letter-spacing: -0.5px;
+  }
+
+
+  /*
+   * One card per row on mobile.
+   */
+
+  .WhoWeAre__grid {
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+  }
+
+
+  /*
+   * Remove stagger on mobile
+   * for clean responsive layout.
+   */
+
+  .WhoWeAre__card:nth-child(1),
+  .WhoWeAre__card:nth-child(2),
+  .WhoWeAre__card:nth-child(3),
+  .WhoWeAre__card:nth-child(4),
+  .WhoWeAre__card:nth-child(5),
+  .WhoWeAre__card:nth-child(6) {
+    --WhoWeAre-offset: 0px;
+  }
+
+
+  .WhoWeAre__card {
+    width: 100%;
+
+    height: 120px;
+
+    min-height: 120px;
+
+    padding: 16px 18px;
+
+    gap: 15px;
+  }
+
+
+  .WhoWeAre__icon-wrapper {
+    flex-basis: 53px;
+
+    width: 53px;
+
+    height: 53px;
+  }
+
+
+  .WhoWeAre__icon {
+    width: 48px;
+
+    height: 48px;
+
+    font-size: 39px;
+  }
+
+
+  .WhoWeAre__card-title {
+    font-size: 16px;
+
+    margin-bottom: 7px;
+  }
+
+
+  .WhoWeAre__card-description {
+    font-size: 11.5px;
+
+    line-height: 1.6;
+  }
+
+
+  .WhoWeAre__card:hover {
+    transform:
+      translateY(-5px)
+      scale(1.01);
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .WhoWeAre {
+    padding: 34px 0 42px;
+  }
+
+
+  .WhoWeAre__container {
+    width: calc(100% - 18px);
+  }
+
+
+  .WhoWeAre__heading-area {
+    margin-bottom: 27px;
+  }
+
+
+  .WhoWeAre__label {
+    width: 135px;
+
+    height: 41px;
+  }
+
+
+  .WhoWeAre__label span {
+    font-size: 17px;
+  }
+
+
+  .WhoWeAre__title {
+    font-size: 29px;
+
+    letter-spacing: -0.4px;
+  }
+
+
+  .WhoWeAre__grid {
+    gap: 12px;
+  }
+
+
+  .WhoWeAre__card {
+    height: 112px;
+
+    min-height: 112px;
+
+    padding: 14px;
+
+    gap: 12px;
+
+    border-radius: 10px;
+  }
+
+
+  .WhoWeAre__icon-wrapper {
+    flex-basis: 48px;
+
+    width: 48px;
+
+    height: 48px;
+  }
+
+
+  .WhoWeAre__icon {
+    width: 44px;
+
+    height: 44px;
+
+    font-size: 35px;
+  }
+
+
+  .WhoWeAre__card-title {
+    font-size: 14px;
+
+    margin-bottom: 6px;
+  }
+
+
+  .WhoWeAre__card-description {
+    font-size: 10.5px;
+
+    line-height: 1.55;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .WhoWeAre *,
+  .WhoWeAre *::before,
+  .WhoWeAre *::after {
+    animation: none !important;
+
+    transition: none !important;
+  }
+}

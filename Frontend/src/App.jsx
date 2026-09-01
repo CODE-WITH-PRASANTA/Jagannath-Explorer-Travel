@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Topbar from "./Components/Topbar/Topbar";
 import Navbar from "./Components/Navbar/Navbar";
+import About from "./Page/About/About";
 
 
 // Pages
@@ -11,10 +12,11 @@ const App = () => {
     <BrowserRouter>
     <Topbar/>
     <Navbar/>
-      {/* Navbar will appear on every page */}
+     
 
       <Routes>
-        
+        <Route path="/about" element={<About />}/>
+
       </Routes>
     </BrowserRouter>
   );
