@@ -1,0 +1,170 @@
+/* Container Wrapper */
+.HotelRoomImages {
+  width: 100%;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card Container with Soft Shadow Base */
+.HotelRoomImages-container {
+  max-width: 1400px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+/* Base Card & Image Handling */
+.HotelRoomImages-mainCard,
+.HotelRoomImages-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.HotelRoomImages-mainCard {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+}
+
+.HotelRoomImages-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 200px);
+  gap: 16px;
+}
+
+.HotelRoomImages-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Hover Zoom Effect (Reflects Reference Image 2) */
+.HotelRoomImages-mainCard:hover .HotelRoomImages-image,
+.HotelRoomImages-card:hover .HotelRoomImages-image {
+  transform: scale(1.08);
+}
+
+/* Hover Dark Overlay */
+.HotelRoomImages-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.HotelRoomImages-mainCard:hover .HotelRoomImages-overlay,
+.HotelRoomImages-card:hover .HotelRoomImages-overlay {
+  opacity: 1;
+}
+
+/* Eye Icon in Main Card Center */
+.HotelRoomImages-eyeIconWrapper {
+  width: 44px;
+  height: 44px;
+  border: 2px solid #eab308;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.8);
+  transition: transform 0.4s ease;
+}
+
+.HotelRoomImages-mainCard:hover .HotelRoomImages-eyeIconWrapper {
+  transform: scale(1);
+}
+
+.HotelRoomImages-eyeIcon {
+  color: #eab308;
+  font-size: 1.3rem;
+}
+
+/* Static Darkened Overlays for Action Cards (View More & Watch Video) */
+.HotelRoomImages-staticOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.65) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+  transition: background 0.3s ease;
+}
+
+.HotelRoomImages-actionCard:hover .HotelRoomImages-staticOverlay {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.HotelRoomImages-actionIcon {
+  color: #eab308;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.HotelRoomImages-playIcon {
+  font-size: 2.2rem;
+}
+
+.HotelRoomImages-actionCard:hover .HotelRoomImages-actionIcon {
+  transform: scale(1.15);
+}
+
+.HotelRoomImages-actionText {
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 992px) {
+  .HotelRoomImages-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .HotelRoomImages-mainCard {
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 576px) {
+  .HotelRoomImages-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  
+  .HotelRoomImages-card {
+    height: 200px;
+  }
+  
+  .HotelRoomImages-mainCard {
+    min-height: 250px;
+  }
+}
