@@ -1,0 +1,137 @@
+/* Container styling */
+.topbar-container {
+  background-color: #1f2122; /* Dark theme background */
+  color: #ffffff;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13.5px;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.topbar-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Left Section: Email */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 25px;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.email-icon {
+  color: #5cb82b; /* Vibrant green color as in the image */
+  font-size: 20px;
+  transform: rotate(-10deg);
+}
+
+.email-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.email-text .label {
+  font-weight: 700;
+  font-size: 12px;
+  color: #ffffff;
+}
+
+.email-link {
+  color: #5cb82b;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  transition: opacity 0.2s ease;
+}
+
+.email-link:hover {
+  text-decoration: underline;
+}
+
+/* Center Section: Promo Text */
+.topbar-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #e5e5e5;
+  letter-spacing: 0.2px;
+}
+
+.book-link {
+  color: #5cb82b;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-left: 4px;
+  transition: color 0.2s ease;
+}
+
+.book-link:hover {
+  color: #72db35;
+}
+
+/* Right Section: Social Media Icons */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 25px;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  border-color: #5cb82b;
+  color: #5cb82b;
+  transform: translateY(-2px);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .topbar-wrapper {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  
+  .topbar-left,
+  .topbar-right {
+    border: none;
+    padding: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+
+  .topbar-center {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
