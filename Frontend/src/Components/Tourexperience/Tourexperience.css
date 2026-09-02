@@ -1,0 +1,547 @@
+/* ================= GLOBAL CONTAINER ================= */
+.tour-experience-section {
+  width: 100% !important;
+  background-color: #ffffff !important;
+  padding: 60px 16px 80px 16px !important;
+  box-sizing: border-box !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  color: #1e242b !important;
+}
+
+.tour-experience-container {
+  max-width: 1180px !important;
+  margin: 0 auto !important;
+}
+
+/* ================= HEADER ================= */
+.te-header {
+  text-align: center !important;
+  margin-bottom: 24px !important;
+}
+
+.te-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #5cb82b !important;
+  font-family: 'Brush Script MT', cursive, sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  margin-bottom: 4px !important;
+}
+
+.te-badge-arrow, .te-badge-wave {
+  font-size: 16px !important;
+}
+
+.te-main-title {
+  font-size: 38px !important;
+  font-weight: 800 !important;
+  color: #111417 !important;
+  margin: 0 !important;
+  letter-spacing: -0.5px !important;
+}
+
+/* ================= TAB NAVIGATION ================= */
+.te-tab-navigation {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 32px !important;
+  margin-bottom: 40px !important;
+}
+
+.te-tab-btn {
+  background: transparent !important;
+  border: none !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #2b303a !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+.te-tab-btn .tab-icon {
+  font-size: 16px !important;
+  color: #7b8375 !important;
+}
+
+.te-tab-btn.active {
+  color: #5cb82b !important;
+}
+
+.te-tab-btn.active .tab-icon {
+  color: #5cb82b !important;
+}
+
+.te-tab-btn:hover:not(.active) {
+  color: #5cb82b !important;
+}
+
+/* ================= 3-COLUMN GRID ================= */
+.te-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 24px !important;
+}
+
+/* ================= MAIN CARD BASE ================= */
+.te-card {
+  background: #ffffff !important;
+  border: 1px solid #edf0eb !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.te-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Card Image Section */
+.te-card-img-wrap {
+  position: relative !important;
+  width: 100% !important;
+  height: 200px !important;
+  overflow: hidden !important;
+  background-color: #f2f5f1 !important;
+}
+
+.te-card-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  transition: transform 0.5s ease !important;
+}
+
+.te-card:hover .te-card-img {
+  transform: scale(1.05) !important;
+}
+
+/* Card Body */
+.te-card-body {
+  padding: 18px 18px 16px 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
+.card-divider {
+  border: none !important;
+  border-top: 1px solid #edf0eb !important;
+  margin: 14px 0 !important;
+}
+
+/* ================= 1. TOUR PACKAGE CARD DETAILS ================= */
+.duration-tag {
+  position: absolute !important;
+  top: 12px !important;
+  left: 12px !important;
+  background-color: #111417 !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  padding: 4px 8px !important;
+  border-radius: 3px !important;
+  letter-spacing: 0.4px !important;
+  z-index: 2 !important;
+}
+
+.package-tag {
+  position: absolute !important;
+  top: 38px !important;
+  left: 12px !important;
+  background-color: #ffffff !important;
+  color: #1a201c !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  padding: 4px 8px !important;
+  border-radius: 3px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+  z-index: 2 !important;
+}
+
+.tag-pin {
+  color: #5cb82b !important;
+  font-size: 10px !important;
+}
+
+.card-tour-title {
+  font-size: 15.5px !important;
+  font-weight: 800 !important;
+  color: #161b1e !important;
+  line-height: 1.35 !important;
+  margin: 0 0 10px 0 !important;
+}
+
+.card-tour-route {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  color: #9ba49e !important;
+  letter-spacing: 0.3px !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.card-footer-row {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  margin-top: auto !important;
+}
+
+.price-box {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.starting-label {
+  font-size: 10px !important;
+  color: #838e87 !important;
+  font-weight: 600 !important;
+}
+
+.price-values {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 5px !important;
+}
+
+.curr-price {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #5cb82b !important;
+}
+
+.old-price {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #a4aca6 !important;
+  text-decoration: line-through !important;
+}
+
+.tax-label {
+  font-size: 8.5px !important;
+  font-weight: 700 !important;
+  color: #9da7a0 !important;
+  letter-spacing: 0.2px !important;
+}
+
+.btn-book-action {
+  background-color: #5cb82b !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 8px 14px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.btn-book-action:hover {
+  background-color: #4ca022 !important;
+}
+
+.btn-plane-icon {
+  font-size: 11px !important;
+  transform: rotate(45deg) !important;
+}
+
+/* ================= 2. HOTEL CARDS DETAILS ================= */
+.hotel-badge {
+  position: absolute !important;
+  top: 12px !important;
+  left: 12px !important;
+  background-color: #5cb82b !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 4px 8px !important;
+  border-radius: 3px !important;
+  z-index: 2 !important;
+}
+
+.image-dots-preview {
+  position: absolute !important;
+  bottom: 8px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  gap: 5px !important;
+  z-index: 2 !important;
+}
+
+.img-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  border: 1px solid #ffffff !important;
+  background: transparent !important;
+}
+
+.img-dot.active {
+  background-color: #5cb82b !important;
+  border-color: #5cb82b !important;
+}
+
+.star-rating-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  margin-bottom: 6px !important;
+}
+
+.stars {
+  color: #f7a833 !important;
+  font-size: 11px !important;
+  display: flex !important;
+  gap: 1.5px !important;
+}
+
+.rating-text {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #7b8375 !important;
+}
+
+.hotel-title {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #161b1e !important;
+  margin: 0 0 6px 0 !important;
+}
+
+.hotel-location-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-size: 11px !important;
+  color: #7b8375 !important;
+  margin-bottom: 10px !important;
+}
+
+.loc-icon {
+  color: #9ba49e !important;
+  font-size: 11px !important;
+}
+
+.show-map-link {
+  color: #5cb82b !important;
+  text-decoration: underline !important;
+  font-weight: 600 !important;
+  margin-left: 2px !important;
+}
+
+.dist-text {
+  margin-left: 4px !important;
+}
+
+.hotel-amenities {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 11px !important;
+  color: #6d7870 !important;
+  flex-wrap: wrap !important;
+}
+
+.hotel-amenities span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+}
+
+.hotel-amenities svg {
+  color: #5cb82b !important;
+  font-size: 11px !important;
+}
+
+.hotel-footer {
+  align-items: flex-end !important;
+}
+
+.room-details-box {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.room-type {
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  color: #171d22 !important;
+}
+
+.bed-info {
+  font-size: 10.5px !important;
+  color: #838e87 !important;
+  margin-bottom: 4px !important;
+}
+
+.cancellation-free {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #5cb82b !important;
+  line-height: 1.15 !important;
+}
+
+.cancellation-free small {
+  font-size: 9.5px !important;
+  font-weight: 500 !important;
+  color: #7b8375 !important;
+}
+
+.hotel-price-btn-box {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 3px !important;
+}
+
+.person-duration {
+  font-size: 10px !important;
+  color: #838e87 !important;
+}
+
+/* ================= 3. TRANSPORT CARDS DETAILS ================= */
+.distance-badge {
+  position: absolute !important;
+  top: 12px !important;
+  left: 12px !important;
+  background-color: #5cb82b !important;
+  color: #ffffff !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  padding: 3px 8px !important;
+  border-radius: 3px !important;
+  z-index: 2 !important;
+}
+
+.transport-title {
+  font-size: 15.5px !important;
+  font-weight: 800 !important;
+  color: #161b1e !important;
+  margin: 0 0 10px 0 !important;
+}
+
+.avail-label {
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  color: #555e58 !important;
+  margin-bottom: 8px !important;
+}
+
+.transport-modes-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 6px !important;
+  margin-bottom: 16px !important;
+}
+
+.transport-item {
+  border: 1px solid #e5ebe1 !important;
+  border-radius: 4px !important;
+  padding: 6px 2px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: #4a554d !important;
+  transition: all 0.2s ease !important;
+}
+
+.transport-item svg {
+  font-size: 14px !important;
+  color: #4a554d !important;
+}
+
+.transport-item:hover {
+  border-color: #5cb82b !important;
+  color: #5cb82b !important;
+}
+
+.transport-item:hover svg {
+  color: #5cb82b !important;
+}
+
+.transport-footer-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-top: auto !important;
+}
+
+.btn-view-details {
+  background-color: #5cb82b !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.btn-view-details:hover {
+  background-color: #4ca022 !important;
+}
+
+.trans-rating-box {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+}
+
+.rating-sub {
+  font-size: 10px !important;
+  color: #9da7a0 !important;
+  font-weight: 600 !important;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .te-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 18px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .tour-experience-section {
+    padding: 40px 12px !important;
+  }
+
+  .te-main-title {
+    font-size: 26px !important;
+  }
+
+  .te-tab-navigation {
+    gap: 16px !important;
+  }
+
+  .te-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}

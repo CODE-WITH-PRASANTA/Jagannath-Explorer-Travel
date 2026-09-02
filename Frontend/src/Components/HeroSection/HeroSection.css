@@ -1,0 +1,466 @@
+/* Container & Slider Background */
+.hero-container {
+  position: relative;
+  min-height: 94vh;
+  width: 100%;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 60px 20px 30px 20px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+/* Background Slider Layer */
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+  transform: scale(1.04);
+}
+
+.hero-background.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Walking / Continuous Zoom & Pan animation on the active image */
+.animated-bg.active {
+  animation: walkingKenBurns 20s infinite alternate ease-in-out;
+}
+
+@keyframes walkingKenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-1%, -0.5%);
+  }
+  100% {
+    transform: scale(1.02) translate(0.5%, 0.5%);
+  }
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.58) 100%);
+}
+
+/* Slider Nav Arrows */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 15;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.slider-arrow:hover {
+  background: #5cb82b;
+  border-color: #5cb82b;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.arrow-left {
+  left: 30px;
+}
+
+.arrow-right {
+  right: 30px;
+}
+
+/* Center Hero Content */
+.hero-content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  max-width: 820px;
+  margin-top: 30px;
+  animation: fadeInDown 0.8s ease;
+}
+
+.badge-wrapper {
+  margin-bottom: 18px;
+}
+
+.location-badge {
+  background-color: #f7a833;
+  color: #ffffff;
+  padding: 6px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-transform: capitalize;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.badge-icon {
+  font-size: 13px;
+}
+
+.hero-title {
+  color: #ffffff;
+  font-size: 54px;
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0 16px 0;
+  letter-spacing: -1px;
+}
+
+.hero-description {
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 660px;
+  margin: 0 auto 28px auto;
+  opacity: 0.94;
+}
+
+/* CTA & TripAdvisor */
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.btn-book-trip {
+  background-color: #5cb82b;
+  color: #ffffff;
+  border: none;
+  padding: 13px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-book-trip:hover {
+  background-color: #4da023;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(92, 184, 43, 0.4);
+}
+
+.tripadvisor-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 14px;
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
+
+.tripadvisor-icon {
+  font-size: 28px;
+  color: #00af87;
+}
+
+.rating-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.rating-title {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.rating-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.green-dots {
+  display: flex;
+  gap: 2.5px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #00af87;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot.half {
+  background: linear-gradient(90deg, #00af87 50%, rgba(255, 255, 255, 0.35) 50%);
+}
+
+.score-text {
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ================= SEARCH FILTER & TABS (ZERO GAP DESIGN) ================= */
+.search-filter-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1180px;
+  margin-top: 50px;
+}
+
+/* Tabs Header */
+.filter-tabs {
+  display: inline-flex;
+  gap: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  vertical-align: bottom;
+}
+
+.tab-btn {
+  background: #f1f4eb;
+  color: #2b303a;
+  border: none;
+  outline: none;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  margin-bottom: 0px;
+  transition: all 0.2s ease;
+}
+
+/* Active tab attaches seamlessly to card below */
+.tab-btn.active {
+  background-color: #5cb82b;
+  color: #ffffff;
+}
+
+.tab-btn:hover:not(.active) {
+  background-color: #e5ecd8;
+}
+
+/* Filter Card Panel */
+.filter-card {
+  background-color: #f1f4eb;
+  border-radius: 14px;
+  border-top-left-radius: 0;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  margin-top: 0px;
+}
+
+.search-form {
+  display: flex;
+  align-items: stretch;
+}
+
+.form-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  flex: 1;
+}
+
+.field-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px 22px;
+  gap: 12px;
+  border-right: 1px solid #dfebd0;
+  background-color: transparent;
+}
+
+.field-group:last-child {
+  border-right: none;
+}
+
+.field-icon {
+  color: #5cb82b;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.field-data {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.field-data label {
+  font-size: 11px;
+  color: #7b8375;
+  font-weight: 600;
+  margin-bottom: 3px;
+  text-transform: capitalize;
+}
+
+.field-data select {
+  background: transparent;
+  border: none;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #171d22;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+.field-data select option {
+  background-color: #ffffff;
+  color: #171d22;
+  font-weight: 600;
+}
+
+.field-data .count-display {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #171d22;
+}
+
+.select-arrow {
+  font-size: 11px;
+  color: #2b303a;
+  pointer-events: none;
+}
+
+/* Counter +/- arrows for rooms & guests */
+.counter-arrows {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.counter-arrows button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 10px;
+  color: #2b303a;
+  display: flex;
+  align-items: center;
+}
+
+.counter-arrows button:hover {
+  color: #5cb82b;
+}
+
+/* Big Green Search Button */
+.btn-search-submit {
+  background-color: #5cb82b;
+  color: #ffffff;
+  border: none;
+  padding: 0 50px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  letter-spacing: 0.3px;
+}
+
+.btn-search-submit:hover {
+  background-color: #4da023;
+}
+
+/* Keyframes */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 42px;
+  }
+  .form-fields-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .field-group:nth-child(2) {
+    border-right: none;
+  }
+  .search-form {
+    flex-direction: column;
+  }
+  .btn-search-submit {
+    padding: 16px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-container {
+    padding: 40px 15px 25px 15px;
+  }
+  .hero-title {
+    font-size: 32px;
+  }
+  .slider-arrow {
+    display: none;
+  }
+  .filter-tabs {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .tab-btn {
+    padding: 9px 14px;
+    font-size: 12.5px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+  }
+  .filter-card {
+    border-radius: 10px;
+  }
+  .form-fields-grid {
+    grid-template-columns: 1fr;
+  }
+  .field-group {
+    border-right: none;
+    border-bottom: 1px solid #dfebd0;
+  }
+}

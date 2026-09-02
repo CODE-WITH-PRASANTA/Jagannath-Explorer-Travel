@@ -1,0 +1,270 @@
+/* Container & Section Layout */
+.aboutus-section {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 80px 20px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #1a1e21;
+}
+
+.aboutus-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+/* ================= LEFT CONTENT STYLES ================= */
+.aboutus-left-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Subtitle Badge */
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #5cb82b;
+  font-family: 'Caveat', cursive, 'Segoe UI', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.badge-arrow, .badge-wave {
+  font-size: 18px;
+}
+
+/* Main Heading */
+.about-title {
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: #161b1e;
+  margin: 0 0 26px 0;
+  letter-spacing: -0.5px;
+}
+
+/* Feature Tabs */
+.about-feature-tabs {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  margin-bottom: 24px;
+}
+
+.feature-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.feature-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #7d8780;
+  transition: color 0.2s ease;
+}
+
+.feature-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #7d8780;
+  transition: color 0.2s ease;
+}
+
+/* Active Tab Highlight (Default: Green icon & text) */
+.feature-tab.active .feature-icon-wrapper,
+.feature-tab.active .feature-title {
+  color: #5cb82b;
+}
+
+/* Description Text */
+.about-description {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #778079;
+  margin: 0 0 34px 0;
+  max-width: 540px;
+}
+
+/* Action Area */
+.about-actions {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.btn-more-about {
+  background-color: #5cb82b;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14.5px;
+  font-weight: 700;
+  padding: 13px 32px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-more-about:hover {
+  background-color: #4da023;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(92, 184, 43, 0.3);
+}
+
+/* Customer Stack */
+.customer-avatar-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  object-fit: cover;
+  margin-left: -12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.avatar-img:first-child {
+  margin-left: 0;
+}
+
+.customer-count-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.count-number {
+  font-size: 16px;
+  font-weight: 800;
+  color: #161b1e;
+}
+
+.count-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #838e87;
+}
+
+/* ================= RIGHT GALLERY GRID STYLES ================= */
+.aboutus-right-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.gallery-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.img-card {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.35s ease;
+}
+
+.img-card:hover {
+  transform: translateY(-4px);
+}
+
+.img-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Heights matching the staggered reference design */
+.col-1 .img-card-large {
+  height: 250px;
+}
+
+.col-1 .img-card-medium {
+  height: 180px;
+}
+
+.col-2 .img-card-medium {
+  height: 180px;
+}
+
+.col-2 .img-card-large {
+  height: 250px;
+}
+
+/* ================= RESPONSIVE MEDIA QUERIES ================= */
+@media (max-width: 1024px) {
+  .aboutus-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-title {
+    font-size: 36px;
+  }
+
+  .aboutus-left-content {
+    max-width: 100%;
+  }
+
+  .about-description {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .aboutus-section {
+    padding: 50px 16px;
+  }
+
+  .about-title {
+    font-size: 28px;
+  }
+
+  .about-feature-tabs {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .about-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .aboutus-right-gallery {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .col-1 .img-card-large,
+  .col-1 .img-card-medium,
+  .col-2 .img-card-medium,
+  .col-2 .img-card-large {
+    height: 200px;
+  }
+}
