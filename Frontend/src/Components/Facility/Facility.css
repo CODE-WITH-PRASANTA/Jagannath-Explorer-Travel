@@ -1,0 +1,496 @@
+/* ================= GLOBAL SECTION & CONTAINER ================= */
+.facility-section {
+  width: 100%;
+  background-color: #fbfbf9;
+  padding: 80px 24px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #171d22;
+  overflow: hidden;
+}
+
+.facility-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* ================= LEFT CONTENT COLUMN ================= */
+.facility-left-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.facility-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #5cb82b;
+  font-family: 'Brush Script MT', cursive, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.badge-arrow, .badge-wave {
+  font-size: 16px;
+}
+
+/* ================= SLIDE TRANSITION ANIMATION ================= */
+.slide-content-wrapper {
+  transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slide-fade-in {
+  opacity: 1;
+  transform: translateX(0);
+  animation: slideInFromRight 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.slide-fade-out {
+  opacity: 0;
+  transform: translateX(-15px);
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.facility-title {
+  font-size: 42px;
+  font-weight: 900;
+  color: #111417;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.facility-desc {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: #6d7870;
+  margin: 0 0 30px 0;
+  max-width: 500px;
+}
+
+/* 2-Column Bullets */
+.facility-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+  row-gap: 16px;
+  margin-bottom: 40px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bullet-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #5cb82b;
+  flex-shrink: 0;
+}
+
+.feature-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #161b1e;
+}
+
+/* ================= PAGINATION CONTROLS ================= */
+.facility-pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  user-select: none;
+}
+
+.page-arrow {
+  background: none;
+  border: none;
+  color: #f7a833;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.page-arrow:hover {
+  transform: scale(1.2);
+  color: #5cb82b;
+}
+
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.num-btn {
+  cursor: pointer;
+  color: #b5beb7;
+  transition: all 0.25s ease;
+}
+
+.num-btn:hover {
+  color: #5cb82b;
+  transform: translateY(-1px);
+}
+
+.num-btn.active {
+  color: #5cb82b;
+  font-weight: 900;
+  transform: scale(1.15);
+}
+
+.num-slash {
+  color: #c7cec9;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+/* ================= RIGHT IMAGE & OVERLAYS ================= */
+.facility-right-col {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Main Background Image Container */
+.facility-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+  background-color: #222629;
+}
+
+.facility-main-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out, transform 0.6s ease;
+  transform: scale(1.05);
+}
+
+.facility-main-img.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Tripadvisor Badge */
+.tripadvisor-badge {
+  position: absolute;
+  top: 36%;
+  right: 40px;
+  background-color: #ffffff;
+  border: 2px solid #5cb82b;
+  border-radius: 50%;
+  width: 82px;
+  height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+.ta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1;
+}
+
+.ta-label-top {
+  font-size: 7.5px;
+  font-weight: 800;
+  color: #111417;
+}
+
+.ta-label-mid {
+  font-size: 9px;
+  font-weight: 900;
+  color: #111417;
+}
+
+.ta-icon {
+  font-size: 20px;
+  color: #00af87;
+  margin: 3px 0;
+}
+
+.ta-label-bot {
+  font-size: 7px;
+  font-weight: 700;
+  color: #555e58;
+}
+
+/* ================= FLOATING RATING OVERLAY PANEL ================= */
+.floating-rating-panel {
+  position: absolute;
+  left: -80px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+  width: 255px;
+}
+
+.rating-card-box {
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f3ee;
+}
+
+.card-box-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #161b1e;
+  margin: 0 0 8px 0;
+}
+
+.card-box-subtitle {
+  font-size: 9.5px;
+  line-height: 1.4;
+  color: #7d8780;
+  margin: 0 0 12px 0;
+}
+
+.rating-score-block {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.big-score {
+  font-size: 22px;
+  font-weight: 900;
+  color: #5cb82b;
+}
+
+.out-of-text {
+  font-size: 10.5px;
+  color: #838e87;
+  font-weight: 600;
+}
+
+.stars-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.yellow-star {
+  color: #f7a833;
+  font-size: 11px;
+}
+
+.star-score-val {
+  font-size: 10px;
+  font-weight: 800;
+  color: #171d22;
+  margin-left: 4px;
+}
+
+.review-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8.5px;
+  color: #838e87;
+  border-top: 1px solid #f4f6f2;
+  padding-top: 8px;
+}
+
+.mini-ta-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.ta-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #00af87;
+}
+
+.ta-dot.half {
+  background: linear-gradient(90deg, #00af87 50%, #d8e0d9 50%);
+}
+
+/* Experience breakdown box */
+.experience-breakdown {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.exp-score-box {
+  background-color: #f6faf2;
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 62px;
+}
+
+.exp-big-score {
+  font-size: 18px;
+  font-weight: 900;
+  color: #5cb82b;
+  line-height: 1;
+}
+
+.exp-out-of {
+  font-size: 9px;
+  color: #7b8375;
+  margin-bottom: 3px;
+}
+
+.exp-mini-stars {
+  color: #f7a833;
+  font-size: 8px;
+  display: flex;
+  gap: 1px;
+}
+
+/* Progress bars */
+.progress-bars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #555e58;
+}
+
+.star-num {
+  width: 14px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 5px;
+  background-color: #eef2ec;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #f7a833;
+  border-radius: 3px;
+}
+
+.count-val {
+  font-size: 7.5px;
+  color: #5cb82b;
+  width: 20px;
+  text-align: right;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .facility-container {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .facility-right-col {
+    justify-content: center;
+  }
+
+  .floating-rating-panel {
+    left: 10px;
+    bottom: 20px;
+    top: auto;
+    transform: none;
+    flex-direction: row;
+    width: auto;
+  }
+
+  .rating-card-box {
+    width: 220px;
+  }
+}
+
+@media (max-width: 650px) {
+  .facility-section {
+    padding: 50px 16px;
+  }
+
+  .facility-title {
+    font-size: 30px;
+  }
+
+  .facility-features-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .floating-rating-panel {
+    position: static;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .rating-card-box {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .facility-img-wrapper {
+    height: 320px;
+  }
+
+  .tripadvisor-badge {
+    top: 20px;
+    right: 20px;
+    width: 68px;
+    height: 68px;
+  }
+}

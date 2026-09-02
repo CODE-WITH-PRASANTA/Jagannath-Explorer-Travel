@@ -1,0 +1,358 @@
+/* ================= GLOBAL FOOTER CONTAINER ================= */
+.footer-section {
+  width: 100%;
+  background: radial-gradient(circle at 100% 100%, #172418 0%, #121814 60%, #0d120f 100%);
+  background-color: #121814; /* Deep Forest Dark Green / Black */
+  color: #a4b0a6;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  position: relative;
+  padding-top: 100px;
+  padding-bottom: 70px;
+  margin-top: 140px; /* Space for overlaying newsletter card */
+}
+
+.footer-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
+
+/* ================= 1. FLOATING NEWSLETTER CARD ================= */
+.newsletter-card {
+  position: absolute;
+  top: -210px;
+  left: 24px;
+  right: 24px;
+  background-color: #f7f8f4;
+  border-radius: 28px;
+  padding: 45px 30px 40px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  z-index: 20;
+}
+
+/* Palm Leaf Silhouette Background Highlights */
+.leaf-decor {
+  position: absolute;
+  width: 180px;
+  height: 100%;
+  top: 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.leaf-left {
+  left: 0;
+  background: radial-gradient(circle at left center, rgba(92, 184, 43, 0.22) 0%, transparent 70%);
+}
+
+.leaf-right {
+  right: 0;
+  background: radial-gradient(circle at right center, rgba(92, 184, 43, 0.22) 0%, transparent 70%);
+}
+
+.newsletter-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.newsletter-title {
+  color: #111813;
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+}
+
+.newsletter-subtitle {
+  color: #4a554d;
+  font-size: 13.5px;
+  font-weight: 500;
+  margin: 0 0 24px 0;
+}
+
+.newsletter-form {
+  display: flex;
+  align-items: center;
+  max-width: 440px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border: 1.5px solid #d4dfcc;
+  border-radius: 8px;
+  padding: 3px 4px 3px 14px;
+  transition: border-color 0.25s ease;
+}
+
+.newsletter-form:focus-within {
+  border-color: #5cb82b;
+}
+
+.newsletter-form input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 13px;
+  color: #333333;
+}
+
+.newsletter-form input::placeholder {
+  color: #9ea89f;
+}
+
+.newsletter-btn {
+  background-color: #5cb82b;
+  border: none;
+  color: #ffffff;
+  width: 40px;
+  height: 38px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.newsletter-btn:hover {
+  background-color: #4ca022;
+  transform: translateX(2px);
+}
+
+/* ================= 2. MAIN FOOTER CONTENT ================= */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.9fr 1.2fr 1.25fr;
+  gap: 40px;
+  padding-top: 50px;
+}
+
+/* Column 1: Brand */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.brand-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.footer-logo-img {
+  max-height: 38px;
+}
+
+.cta-headline {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.35;
+  margin: 0 0 22px 0;
+}
+
+.cta-light {
+  font-weight: 500;
+  color: #e5ece6;
+  margin-left: 5px;
+}
+
+.btn-book-tour {
+  display: inline-block;
+  background-color: #5cb82b;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 11px 26px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-book-tour:hover {
+  background-color: #4da023;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(92, 184, 43, 0.3);
+}
+
+/* Column Titles */
+.col-title {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 22px 0;
+  letter-spacing: 0.2px;
+}
+
+/* Column 2: Quick Links */
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links-list li a {
+  color: #a4b0a6;
+  text-decoration: none;
+  font-size: 13.5px;
+  transition: color 0.25s ease, padding-left 0.25s ease;
+}
+
+.footer-links-list li a:hover {
+  color: #5cb82b;
+  padding-left: 4px;
+}
+
+/* Column 3: Contact Info */
+.contact-block {
+  margin-bottom: 18px;
+}
+
+.contact-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.contact-icon {
+  color: #f7a833; /* Warm amber/yellow icon accent */
+  font-size: 13px;
+}
+
+.contact-value {
+  color: #929e94;
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.phone-link, .email-link {
+  transition: color 0.2s ease;
+}
+
+.phone-link:hover, .email-link:hover {
+  color: #5cb82b;
+}
+
+/* Column 4: About & Payment */
+.about-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #929e94;
+  margin: 0 0 24px 0;
+}
+
+.payment-title {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.payment-badges {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.payment-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1e2820;
+  color: #ffffff;
+  padding: 4px 9px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 4px;
+  min-width: 38px;
+  height: 24px;
+  box-sizing: border-box;
+}
+
+.payment-card.visa {
+  background-color: #0d47a1;
+  font-size: 16px;
+}
+
+.payment-card.stripe {
+  background-color: #6772e5;
+  font-size: 16px;
+}
+
+.payment-card.paypal {
+  background-color: #003087;
+  font-size: 15px;
+}
+
+.payment-card.mastercard {
+  background-color: #8c43ff;
+  font-size: 10px;
+}
+
+.payment-card.skrill {
+  background-color: #811e4d;
+  font-size: 10px;
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-section {
+    margin-top: 180px;
+    padding-top: 110px;
+  }
+
+  .newsletter-card {
+    top: -150px;
+    padding: 30px 20px;
+    border-radius: 18px;
+  }
+
+  .newsletter-title {
+    font-size: 24px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .col-brand {
+    text-align: left;
+  }
+}

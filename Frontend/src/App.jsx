@@ -6,6 +6,8 @@ import Hotel from "./Page/Hotel/Hotel";
 import HotelRoomDetails from "./Page/HotelRoomDetails/HotelRoomDetails";
 import Topbar from "./Components/Topbar/Topbar";
 import Navbar from "./Components/Navbar/Navbar";
+import Home from "./Page/Home/Home";
+import Footer from "./Components/footer/footer";
 import About from "./Page/About/About";
 import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
 
@@ -20,6 +22,8 @@ const App = () => {
      
 
       <Routes>
+        <Route path="/" element={<Home/>}/>
+        
         <Route path="/tours" element={<Tours/>}/>
         <Route path="/tourdetails" element={<TourDetails/>}/>
         <Route path="/hotel" element={<Hotel/>}/>
@@ -28,6 +32,7 @@ const App = () => {
         <Route path="/UrbaniaTraveller" element={<UrbaniaTraveller />} />
 
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 };
