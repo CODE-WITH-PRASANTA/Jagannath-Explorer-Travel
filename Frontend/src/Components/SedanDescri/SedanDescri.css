@@ -1,0 +1,647 @@
+/* ==========================================================================
+   Sedan Catalog — Clean Light Theme, Interactive Showroom & Responsive Layout
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+.sedan-catalog {
+  --bg-main: #f8fafc;
+  --panel-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --accent: #2563eb;
+
+  position: relative;
+  isolation: isolate;
+  padding: 88px 24px 96px;
+  background: var(--bg-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* -------------------------------------------------------------------------
+   Header
+   ------------------------------------------------------------------------- */
+
+.sedan-catalog__header {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto 56px;
+  text-align: center;
+}
+
+.sedan-catalog__eyebrow {
+  margin: 0 0 10px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sedan-catalog__title {
+  margin: 0 0 18px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.7rem, 3vw + 0.8rem, 2.6rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.sedan-catalog__desc {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.sedan-catalog__desc strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------------------------
+   Grid + Card (Desktop: 3 columns x 2 rows = 6 cards)
+   ------------------------------------------------------------------------- */
+
+.car-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.car-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 22px 22px 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+  opacity: 0;
+  transform: translateY(22px);
+  animation: cardRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--stagger) * 0.07s);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.car-card:hover,
+.car-card:focus-visible {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border-color));
+  box-shadow: 0 20px 35px -15px rgba(15, 23, 42, 0.08),
+    0 0 0 1px rgba(37, 99, 235, 0.1);
+}
+
+.car-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.car-card__frame {
+  position: relative;
+  height: 175px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.car-card__glow {
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 70%);
+  opacity: 0.6;
+  transition: opacity 0.35s ease, transform 0.6s ease;
+}
+
+.car-card:hover .car-card__glow {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.car-card__image {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.car-card:hover .car-card__image {
+  transform: scale(1.04);
+}
+
+.car-card__name {
+  margin: 0 0 14px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.car-card__specs {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.spec-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.spec-row:last-child {
+  border-bottom: none;
+}
+
+.spec-row__label {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.spec-row__value {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.car-card__footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.car-card__price {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+}
+
+.car-card__price-amount {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+/* -------------------------------------------------------------------------
+   Book button
+   ------------------------------------------------------------------------- */
+
+.book-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.book-btn:hover {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--accent) 85%, #000000);
+  box-shadow: 0 10px 20px -8px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.book-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.book-btn:hover svg {
+  transform: translateX(3px);
+}
+
+.book-btn--lg {
+  padding: 13px 24px;
+  font-size: 0.96rem;
+}
+
+/* -------------------------------------------------------------------------
+   Pagination Bar (Active on Mobile View)
+   ------------------------------------------------------------------------- */
+
+.pagination {
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.pagination__btn {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--panel-bg);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.pagination__btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.pagination__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination__indicators {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 180px;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+.pagination__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.pagination__dot.active {
+  background: var(--accent);
+  transform: scale(1.3);
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* -------------------------------------------------------------------------
+   Showroom stage (detail overlay)
+   ------------------------------------------------------------------------- */
+
+.car-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.car-stage__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.car-stage--open .car-stage__backdrop {
+  opacity: 1;
+}
+
+.car-stage__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 940px;
+  max-height: 88vh;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.25);
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.car-stage--open .car-stage__panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.car-stage__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: #f1f5f9;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.car-stage__close:hover {
+  background: #e2e8f0;
+  color: var(--text-primary);
+  transform: rotate(90deg);
+}
+
+.car-stage__close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------------
+   Visual / Turntable
+   ------------------------------------------------------------------------- */
+
+.car-stage__visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 28px 34px;
+  background: #f8fafc;
+  border-right: 1px solid var(--border-color);
+}
+
+.car-stage__spotlight {
+  position: absolute;
+  top: 10%;
+  width: 70%;
+  height: 55%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 70%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.car-stage__ring {
+  position: absolute;
+  bottom: 22%;
+  width: 260px;
+  height: 260px;
+  max-width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--accent) 40%, var(--border-color));
+  animation: ringSpin 15s linear infinite;
+  pointer-events: none;
+}
+
+.car-stage__turntable {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  touch-action: none;
+  cursor: grab;
+  padding: 30px 0 16px;
+  perspective: 1000px;
+}
+
+.car-stage__turntable:active {
+  cursor: grabbing;
+}
+
+.car-stage__figure {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.car-stage__image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 18px 25px -10px rgba(15, 23, 42, 0.2);
+  pointer-events: none;
+  user-select: none;
+}
+
+.car-stage__shadow {
+  margin: 12px auto 0;
+  width: 60%;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(15, 23, 42, 0.25), transparent 75%);
+}
+
+.car-stage__hint {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* -------------------------------------------------------------------------
+   Info panel
+   ------------------------------------------------------------------------- */
+
+.car-stage__info {
+  padding: 44px 36px 36px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.car-stage__eyebrow {
+  margin: 0 0 6px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.car-stage__name {
+  margin: 0 0 20px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 1.8vw + 1rem, 2rem);
+  color: var(--text-primary);
+}
+
+.car-stage__specs {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 26px;
+}
+
+.car-stage__specs .spec-row__label,
+.car-stage__specs .spec-row__value {
+  font-size: 0.92rem;
+}
+
+.car-stage__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.car-stage__price .car-card__price-amount {
+  font-size: 1.5rem;
+}
+
+/* -------------------------------------------------------------------------
+   Keyframes
+   ------------------------------------------------------------------------- */
+
+@keyframes cardRise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ringSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Responsive Breakpoints
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .car-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .car-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 860px) {
+  .car-stage__panel {
+    grid-template-columns: 1fr;
+    max-height: 92vh;
+  }
+
+  .car-stage__visual {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 44px 20px 24px;
+  }
+
+  .car-stage__info {
+    padding: 30px 26px 34px;
+  }
+}
+
+@media (max-width: 560px) {
+  .sedan-catalog {
+    padding: 64px 16px 72px;
+  }
+
+  .car-grid {
+    gap: 20px;
+  }
+
+  .car-card {
+    padding: 18px 18px 20px;
+  }
+
+  .car-card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .book-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .car-stage {
+    padding: 0;
+  }
+
+  .car-stage__panel {
+    border-radius: 20px 20px 0 0;
+    max-height: 94vh;
+  }
+
+  .car-stage__footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .book-btn--lg {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .car-card {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .car-stage__ring {
+    animation: none !important;
+  }
+
+  .car-stage__panel {
+    transition: opacity 0.3s ease !important;
+    transform: none !important;
+  }
+}

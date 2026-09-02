@@ -1,0 +1,278 @@
+/* =========================================================
+   TEMPO FAQ PAGE - BLACK & WHITE PREMIUM THEME
+   ========================================================= */
+
+.tempofaq-page {
+  --tf-black: #0f172a;
+  --tf-black-light: #1e293b;
+  --tf-white: #ffffff;
+  --tf-gray-bg: #f8fafc;
+  --tf-gray-border: #e2e8f0;
+  --tf-text-main: #0f172a;
+  --tf-text-muted: #64748b;
+  --tf-accent-orange: #f97316;
+
+  width: 100%;
+  min-height: 100vh;
+  background: var(--tf-gray-bg);
+  color: var(--tf-text-main);
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tempofaq-page *,
+.tempofaq-page *::before,
+.tempofaq-page *::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER SECTION
+========================================================= */
+
+.tempofaq-header {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px 30px;
+  text-align: center;
+  animation: tfFadeInUp 0.8s ease both;
+}
+
+.tempofaq-subtitle {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--tf-accent-orange);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.tempofaq-title {
+  position: relative;
+  margin: 0 0 10px 0;
+  color: var(--tf-black);
+  font-size: clamp(32px, 4.5vw, 48px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.tempofaq-description {
+  margin: 0;
+  color: var(--tf-text-muted);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.tempofaq-title-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.tempofaq-title-line span {
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--tf-black));
+  border-radius: 10px;
+}
+
+.tempofaq-title-line span:last-child {
+  background: linear-gradient(90deg, var(--tf-black), transparent);
+}
+
+.tempofaq-title-line i {
+  color: var(--tf-black);
+  font-size: 10px;
+  font-style: normal;
+}
+
+
+/* =========================================================
+   FAQ CONTENT GRID SECTION
+========================================================= */
+
+.tempofaq-content-section {
+  width: 100%;
+  padding: 10px 24px 80px;
+}
+
+.tempofaq-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tempofaq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+
+/* =========================================================
+   ACCORDION CARD STYLING
+========================================================= */
+
+.tempofaq-card {
+  background: var(--tf-white);
+  border: 1px solid var(--tf-gray-border);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: tfFadeInUp 0.6s ease both;
+}
+
+.tempofaq-card:hover {
+  border-color: var(--tf-black);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+}
+
+.tempofaq-card-active {
+  border-color: var(--tf-black);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.tempofaq-card-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--tf-black);
+  font-size: 16px;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.tempofaq-card-question:hover {
+  color: var(--tf-black-light);
+}
+
+.tempofaq-icon-wrapper {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.tempofaq-card-active .tempofaq-icon-wrapper {
+  transform: rotate(180deg);
+}
+
+.tempofaq-chevron {
+  width: 18px;
+  height: 18px;
+  stroke: var(--tf-black);
+  stroke-width: 2.5;
+}
+
+.tempofaq-card-answer-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tempofaq-card-answer {
+  padding: 0 24px 20px 24px;
+  border-top: 1px dashed var(--tf-gray-border);
+  margin-top: -2px;
+  padding-top: 14px;
+}
+
+.tempofaq-card-answer p {
+  margin: 0;
+  color: var(--tf-text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes tfFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+========================================================= */
+
+@media (max-width: 900px) {
+  .tempofaq-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .tempofaq-header {
+    padding: 40px 16px 20px;
+  }
+
+  .tempofaq-content-section {
+    padding: 10px 16px 50px;
+  }
+
+  .tempofaq-card-question {
+    padding: 18px 20px;
+    font-size: 15px;
+  }
+
+  .tempofaq-card-answer {
+    padding: 0 20px 18px 20px;
+    padding-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tempofaq-title {
+    font-size: 26px;
+  }
+
+  .tempofaq-card-question {
+    font-size: 14.5px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .tempofaq-page *,
+  .tempofaq-page *::before,
+  .tempofaq-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

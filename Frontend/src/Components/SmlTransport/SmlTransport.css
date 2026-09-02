@@ -1,0 +1,541 @@
+/* =========================================================
+   SML TRANSPORT PAGE - BLACK & WHITE PREMIUM THEME
+   ========================================================= */
+
+.smltransport-page {
+  --st-black: #0f172a;
+  --st-black-light: #1e293b;
+  --st-white: #ffffff;
+  --st-gray-bg: #f8fafc;
+  --st-gray-border: #e2e8f0;
+  --st-text-main: #0f172a;
+  --st-text-muted: #64748b;
+  --st-accent: #0f172a;
+  
+  width: 100%;
+  min-height: 100vh;
+  background: var(--st-gray-bg);
+  color: var(--st-text-main);
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.smltransport-page *,
+.smltransport-page *::before,
+.smltransport-page *::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.smltransport-header {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px 40px;
+  text-align: center;
+  animation: stFadeInUp 0.8s ease both;
+}
+
+.smltransport-subtitle {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--st-accent);
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+  font-family: 'Georgia', serif;
+}
+
+.smltransport-title {
+  position: relative;
+  margin: 0;
+  color: var(--st-black);
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.smltransport-title-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.smltransport-title-line span {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--st-black));
+  border-radius: 10px;
+}
+
+.smltransport-title-line span:last-child {
+  background: linear-gradient(90deg, var(--st-black), transparent);
+}
+
+.smltransport-title-line i {
+  color: var(--st-black);
+  font-size: 12px;
+  font-style: normal;
+}
+
+
+/* =========================================================
+   TARIFF SECTION
+========================================================= */
+
+.smltransport-tariff-section {
+  width: 100%;
+  padding: 0 24px 60px;
+}
+
+.smltransport-tariff-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--st-white);
+  border: 1px solid var(--st-gray-border);
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+  animation: stFadeInUp 0.9s 0.1s ease both;
+}
+
+
+/* =========================================================
+   BANNER
+========================================================= */
+
+.smltransport-tariff-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 12px 20px;
+  background: var(--st-black);
+  color: var(--st-white);
+  text-align: center;
+}
+
+.smltransport-banner-text {
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   DESKTOP TABLE
+========================================================= */
+
+.smltransport-table-container {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--st-black) var(--st-gray-bg);
+}
+
+.smltransport-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: var(--st-white);
+}
+
+.smltransport-table th,
+.smltransport-table td {
+  border-right: 1px solid var(--st-gray-border);
+  border-bottom: 1px solid var(--st-gray-border);
+  text-align: left;
+}
+
+.smltransport-table th:last-child,
+.smltransport-table td:last-child {
+  border-right: none;
+}
+
+.smltransport-table th {
+  height: 56px;
+  padding: 12px 20px;
+  color: var(--st-black);
+  background: var(--st-white);
+  font-size: 15px;
+  font-weight: 700;
+  border-bottom: 2px solid var(--st-black);
+}
+
+.smltransport-table td {
+  height: 52px;
+  padding: 12px 20px;
+  color: var(--st-text-main);
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.smltransport-table tbody tr:hover td {
+  background: #f1f5f9;
+}
+
+.smltransport-table tbody tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+.smltransport-table tbody tr:nth-child(even):hover td {
+  background: #f1f5f9;
+}
+
+.smltransport-featured-row td {
+  background: #f8fafc;
+  font-weight: 600;
+  position: relative;
+  box-shadow: inset 4px 0 0 var(--st-black);
+}
+
+.smltransport-featured-row:hover td {
+  background: #e2e8f0;
+}
+
+/* Column Widths */
+.smltransport-th-vehicle { width: 26%; }
+.smltransport-th-tenHrs { width: 16%; }
+.smltransport-th-eightHrs { width: 15%; }
+.smltransport-th-fourHrs { width: 15%; }
+.smltransport-th-extraHrs { width: 14%; }
+.smltransport-th-extraKm { width: 14%; }
+
+.smltransport-vehicle-name {
+  display: inline-block;
+  color: var(--st-black);
+}
+
+.smltransport-popular-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--st-black);
+  color: var(--st-white);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.smltransport-na {
+  color: #94a3b8 !important;
+}
+
+
+/* =========================================================
+   MOBILE LIST
+========================================================= */
+
+.smltransport-mobile-list {
+  display: none;
+  padding: 16px;
+  background: var(--st-gray-bg);
+}
+
+.smltransport-mobile-card {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 20px;
+  border: 1px solid var(--st-gray-border);
+  border-radius: 12px;
+  background: var(--st-white);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.smltransport-mobile-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--st-black);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.smltransport-mobile-card:hover::before {
+  transform: scaleX(1);
+}
+
+.smltransport-mobile-card-featured {
+  border-color: var(--st-black);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+.smltransport-mobile-card-featured::before {
+  transform: scaleX(1);
+}
+
+.smltransport-mobile-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--st-gray-border);
+}
+
+.smltransport-mobile-vehicle-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--st-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.smltransport-mobile-vehicle h3 {
+  margin: 0;
+  color: var(--st-black);
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.smltransport-mobile-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--st-black);
+  color: var(--st-white);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.smltransport-mobile-price-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 16px;
+}
+
+.smltransport-mobile-price {
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+}
+
+.smltransport-mobile-price span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--st-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.smltransport-mobile-price strong {
+  color: var(--st-black);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TERMS SECTION
+========================================================= */
+
+.smltransport-terms-section {
+  position: relative;
+  width: 100%;
+  padding: 0 24px 80px;
+}
+
+.smltransport-terms-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  border: 1px solid var(--st-gray-border);
+  border-radius: 12px;
+  background: var(--st-white);
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+}
+
+.smltransport-terms-heading-area {
+  margin-bottom: 30px;
+}
+
+.smltransport-terms-title {
+  margin: 0;
+  color: var(--st-black);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.smltransport-terms-line {
+  width: 60px;
+  height: 3px;
+  margin-top: 12px;
+  border-radius: 4px;
+  background: var(--st-black);
+}
+
+.smltransport-terms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.smltransport-term-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.smltransport-term-item:last-child {
+  border-bottom: none;
+}
+
+.smltransport-term-item p {
+  margin: 0;
+  color: var(--st-text-muted);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.smltransport-term-item:hover p {
+  color: var(--st-black);
+}
+
+/* Check Icon */
+.smltransport-check-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.smltransport-check-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--st-black);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s ease;
+}
+
+.smltransport-term-item:hover .smltransport-check-icon svg {
+  transform: scale(1.1);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes stFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+========================================================= */
+
+@media (max-width: 1024px) {
+  .smltransport-table th,
+  .smltransport-table td {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 900px) {
+  .smltransport-table-container {
+    display: none;
+  }
+  .smltransport-mobile-list {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .smltransport-header {
+    padding: 40px 16px 30px;
+  }
+
+  .smltransport-tariff-section,
+  .smltransport-terms-section {
+    padding: 0 16px 40px;
+  }
+
+  .smltransport-terms-wrapper {
+    padding: 24px 20px;
+  }
+
+  .smltransport-term-item p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .smltransport-banner-text {
+    font-size: 14px;
+  }
+  .smltransport-mobile-card {
+    padding: 16px;
+  }
+  .smltransport-mobile-vehicle h3 {
+    font-size: 16px;
+  }
+  .smltransport-mobile-price strong {
+    font-size: 15px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .smltransport-page *,
+  .smltransport-page *::before,
+  .smltransport-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

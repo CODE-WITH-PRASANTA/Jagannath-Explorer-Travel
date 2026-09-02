@@ -1,23 +1,27 @@
+
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-// Change this path according to your logo location
+// Logo
 import logo from "../../assets/Logo 006 (2).png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCarRentalOpen, setIsCarRentalOpen] = useState(false);
 
+  // Close mobile menu
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
     setIsCarRentalOpen(false);
   };
 
+  // Toggle mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
   };
 
+  // Toggle car rental dropdown
   const toggleCarRental = () => {
     setIsCarRentalOpen((prev) => !prev);
   };
@@ -44,7 +48,7 @@ const Navbar = () => {
         </NavLink>
 
         {/* =========================
-            DESKTOP NAVIGATION
+            NAVIGATION
         ========================= */}
         <nav
           className={`navbar-navigation ${
@@ -234,7 +238,9 @@ const Navbar = () => {
               <span className="navbar-link-text">FAQ</span>
             </NavLink>
 
-            {/* Mobile Contact */}
+            {/* =========================
+                MOBILE CONTACT
+            ========================= */}
             <NavLink
               to="/contact"
               onClick={closeMobileMenu}
@@ -253,6 +259,7 @@ const Navbar = () => {
                   strokeWidth="2"
                   strokeLinecap="round"
                 />
+
                 <path
                   d="M13 6L19 12L13 18"
                   stroke="currentColor"
@@ -289,6 +296,7 @@ const Navbar = () => {
                 strokeWidth="2"
                 strokeLinecap="round"
               />
+
               <path
                 d="M13 6L19 12L13 18"
                 stroke="currentColor"
@@ -323,3 +331,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
