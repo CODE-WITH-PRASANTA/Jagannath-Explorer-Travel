@@ -64,6 +64,9 @@ const Navbar = ({ logoSrc }) => {
             <li className="nav-item">
                 <a href="faq" className="nav-link">Faq</a>
             </li>
+            <li className="nav-item">
+                <a href="contact" className="nav-link">Contact</a>
+            </li>
           </ul>
         </nav>
 

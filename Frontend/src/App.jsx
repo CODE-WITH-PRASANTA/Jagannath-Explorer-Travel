@@ -10,6 +10,7 @@ import Home from "./Page/Home/Home";
 import Footer from "./Components/footer/footer";
 import About from "./Page/About/About";
 import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
+import Contact from "./Page/Contact/Contact";
 
 
 // Pages
@@ -30,6 +31,8 @@ const App = () => {
         <Route path="/hotelroomdetails" element={<HotelRoomDetails/>}/>
         <Route path="/about" element={<About />}/>
         <Route path="/UrbaniaTraveller" element={<UrbaniaTraveller />} />
+
+        <Route path="/contact" element={<Contact/>} />
 
       </Routes>
       <Footer/>
