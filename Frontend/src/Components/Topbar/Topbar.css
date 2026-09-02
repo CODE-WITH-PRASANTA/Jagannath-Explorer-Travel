@@ -1,137 +1,271 @@
-/* Container styling */
-.topbar-container {
-  background-color: #1f2122; /* Dark theme background */
-  color: #ffffff;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 13.5px;
+/* =========================================
+   TOPBAR
+========================================= */
+
+.topbar {
   width: 100%;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  height: 34px;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
 }
 
-.topbar-wrapper {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 10px 24px;
+.topbar *,
+.topbar *::before,
+.topbar *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   TOPBAR CONTAINER
+========================================= */
+
+.topbar-container {
+  width: 100%;
+  height: 100%;
+  padding: 0 7px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Left Section: Email */
-.topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-right: 25px;
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
-}
+/* =========================================
+   LOCATION
+========================================= */
 
-.email-icon {
-  color: #5cb82b; /* Vibrant green color as in the image */
-  font-size: 20px;
-  transform: rotate(-10deg);
-}
-
-.email-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.25;
-}
-
-.email-text .label {
-  font-weight: 700;
-  font-size: 12px;
-  color: #ffffff;
-}
-
-.email-link {
-  color: #5cb82b;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 13px;
-  transition: opacity 0.2s ease;
-}
-
-.email-link:hover {
-  text-decoration: underline;
-}
-
-/* Center Section: Promo Text */
-.topbar-center {
+.topbar-location {
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 500;
-  color: #e5e5e5;
-  letter-spacing: 0.2px;
+  height: 100%;
 }
 
-.book-link {
-  color: #5cb82b;
-  text-decoration: underline;
-  font-weight: 500;
-  margin-left: 4px;
+.topbar-icon {
+  width: 16px;
+  height: 20px;
+  flex: 0 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00a9ff;
+}
+
+.topbar-icon svg {
+  width: 16px;
+  height: 20px;
+  display: block;
+}
+
+.topbar-text {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================
+   CONTACTS
+========================================= */
+
+.topbar-contacts {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.topbar-contact {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
   transition: color 0.2s ease;
 }
 
-.book-link:hover {
-  color: #72db35;
+.topbar-contact:hover {
+  color: #00a9ff;
 }
 
-/* Right Section: Social Media Icons */
-.topbar-right {
+.topbar-phone-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding-left: 25px;
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.social-icon {
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 12px;
-  transition: all 0.3s ease;
+  color: #00a9ff;
 }
 
-.social-icon:hover {
-  border-color: #5cb82b;
-  color: #5cb82b;
-  transform: translateY(-2px);
+.topbar-phone-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
-/* Responsive Styles */
-@media (max-width: 992px) {
-  .topbar-wrapper {
-    flex-wrap: wrap;
-    gap: 12px;
+/* =========================================
+   DIVIDER
+========================================= */
+
+.topbar-divider {
+  width: 1px;
+  height: 19px;
+  margin: 0 22px;
+  background-color: #777777;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   LARGE TABLETS
+========================================= */
+
+@media (max-width: 1100px) {
+  .topbar-text {
+    font-size: 14px;
+  }
+
+  .topbar-contact {
+    font-size: 14px;
+  }
+
+  .topbar-divider {
+    margin: 0 15px;
+  }
+}
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media (max-width: 850px) {
+  .topbar {
+    height: auto;
+    min-height: 38px;
+  }
+
+  .topbar-container {
+    min-height: 38px;
+    padding: 6px 12px;
+    gap: 15px;
+  }
+
+  .topbar-location {
+    flex: 1;
+  }
+
+  .topbar-text {
+    font-size: 13px;
+  }
+
+  .topbar-contact {
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .topbar-divider {
+    height: 16px;
+    margin: 0 10px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+  .topbar {
+    min-height: auto;
+  }
+
+  .topbar-container {
+    height: auto;
+    min-height: 38px;
+    padding: 7px 12px;
     justify-content: center;
   }
-  
-  .topbar-left,
-  .topbar-right {
-    border: none;
-    padding: 0;
+
+  .topbar-location {
+    display: none;
+  }
+
+  .topbar-contacts {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .topbar-contact {
+    font-size: 13px;
+  }
+
+  .topbar-divider {
+    margin: 0 12px;
   }
 }
 
-@media (max-width: 600px) {
-  .topbar-wrapper {
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
-    padding: 12px 16px;
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 450px) {
+  .topbar-container {
+    padding: 7px 8px;
   }
 
-  .topbar-center {
-    flex-direction: column;
-    gap: 4px;
+  .topbar-contacts {
+    justify-content: space-between;
+  }
+
+  .topbar-contact {
+    font-size: 11px;
+    gap: 5px;
+  }
+
+  .topbar-phone-icon {
+    width: 15px;
+    height: 15px;
+    flex-basis: 15px;
+  }
+
+  .topbar-phone-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .topbar-divider {
+    height: 15px;
+    margin: 0 7px;
+  }
+}
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .topbar-contact {
+    font-size: 10px;
+  }
+
+  .topbar-divider {
+    margin: 0 5px;
+  }
+
+  .topbar-phone-icon {
+    width: 13px;
+    height: 13px;
+    flex-basis: 13px;
+  }
+
+  .topbar-phone-icon svg {
+    width: 13px;
+    height: 13px;
   }
 }

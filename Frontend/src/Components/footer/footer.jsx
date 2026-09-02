@@ -1,163 +1,336 @@
-import React, { useState } from 'react';
-import { 
-  FaArrowRight, 
-  FaPhoneAlt, 
-  FaPaperPlane, 
-  FaMapMarkerAlt, 
-  FaCcVisa, 
-  FaCcStripe, 
-  FaCcPaypal 
-} from 'react-icons/fa';
-import { SiVisa, SiStripe, SiPaypal } from 'react-icons/si';
-import './Footer.css';
+import React from "react";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaYoutube,
+  FaLinkedinIn,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaClock,
+  FaSuitcaseRolling,
+  FaArrowRight,
+} from "react-icons/fa";
 
-// अगर आपके पास न्यूज़लेटर बैकग्राउंड या लोगो इमेज है, तो ऐसे इम्पोर्ट कर सकते हैं:
-import newsletterBannerBg from '../../assets/banner3-vector2.webp';
-import customLogo from '../../assets/Logo 006.webp';
+import logo from "../../assets/Logo 006 (2).png";
+import "./footer.css";
 
-const Footer = ({ logoSrc, newsletterBg }) => {
-  const [email, setEmail] = useState('');
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (!email) return;
-    alert(`Subscribed successfully with: ${email}`);
-    setEmail('');
-  };
-
+const Footer = () => {
   return (
-    <footer className="footer-section">
-      <div className="footer-container">
-        
-        {/* ================= 1. NEWSLETTER CARD ================= */}
-        <div 
-          className="newsletter-card"
-          style={{
-            backgroundImage: newsletterBg 
-              ? `url(${newsletterBg})` 
-              : `radial-gradient(circle at 10% 20%, rgba(92, 184, 43, 0.08) 0%, transparent 40%),
-                 radial-gradient(circle at 90% 20%, rgba(92, 184, 43, 0.08) 0%, transparent 40%),
-                 linear-gradient(180deg, #fbfbf9 0%, #f4f5f0 100%)`
-          }}
-        >
-          {/* Decorative Corner Leaf Graphics */}
-          <div className="leaf-decor leaf-left"></div>
-          <div className="leaf-decor leaf-right"></div>
+    <footer className="footer">
 
-          <div className="newsletter-content">
-            <h2 className="newsletter-title">Join The Newsletter</h2>
-            <p className="newsletter-subtitle">To receive our best monthly deals</p>
+      {/* ================= TOP WAVE ================= */}
+      <div className="footer-wave">
+        <div className="footer-wave-dark"></div>
+        <div className="footer-wave-blue"></div>
+        <div className="footer-wave-light"></div>
+        <div className="footer-wave-gold"></div>
+      </div>
 
-            <form className="newsletter-form" onSubmit={handleSubscribe}>
-              <input 
-                type="email" 
-                placeholder="Enter Your Gmail..." 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+      {/* ================= MAIN FOOTER ================= */}
+      <div className="footer-main">
+
+        <div className="footer-container">
+
+          {/* BRAND */}
+          <div className="footer-brand">
+
+            <div className="footer-logo-box">
+              <img
+                src={logo}
+                alt="Travel Logo"
+                className="footer-logo"
               />
-              <button type="submit" className="newsletter-btn" aria-label="Subscribe">
-                <FaArrowRight />
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* ================= 2. MAIN FOOTER CONTENT ================= */}
-        <div className="footer-grid">
-          
-          {/* Column 1: Brand & CTA */}
-          <div className="footer-col col-brand">
-            <div className="footer-logo">
-              {logoSrc ? (
-                <img src={logoSrc} alt="TripRex Logo" className="footer-logo-img" />
-              ) : (
-                <div className="brand-wrapper">
-                  <svg className="brand-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 20C24 16 20 12 16 16C12 20 16 24 20 24" fill="#5cb82b" />
-                    <path d="M28 24C32 24 36 20 32 16C28 12 24 16 24 20" fill="#5cb82b" />
-                    <path d="M24 28C24 32 28 36 32 32C36 28 32 24 28 24" fill="#5cb82b" />
-                    <path d="M20 24C16 24 12 28 16 32C20 36 24 32 24 28" fill="#5cb82b" />
-                    <path d="M27 19L23 23M23 23L21 21M23 23L25 25M27 19L28 16L25 17L23 23" stroke="#5cb82b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span className="brand-name">Trip<span className="brand-bold">Rex</span></span>
-                </div>
-              )}
             </div>
 
-            <h3 className="cta-headline">
-              Want<span className="cta-light">to Take</span><br />Tour Packages?
-            </h3>
-
-            <a href="#book-tour" className="btn-book-tour">
-              Book A Tour
-            </a>
-          </div>
-
-          {/* Column 2: Quick Links */}
-          <div className="footer-col col-links">
-            <h4 className="col-title">Quick Link</h4>
-            <ul className="footer-links-list">
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#destinations">Destinations</a></li>
-              <li><a href="#tour-package">Tour Package</a></li>
-              <li><a href="#tour-guide">Tour Guide</a></li>
-              <li><a href="#article">Article</a></li>
-            </ul>
-          </div>
-
-          {/* Column 3: Contact Details */}
-          <div className="footer-col col-contact">
-            <div className="contact-block">
-              <div className="contact-heading">
-                <FaPhoneAlt className="contact-icon" />
-                <span>More Inquiry</span>
-              </div>
-              <a href="tel:+999858624984" className="contact-value phone-link">+999-858 624 984</a>
-            </div>
-
-            <div className="contact-block">
-              <div className="contact-heading">
-                <FaPaperPlane className="contact-icon" />
-                <span>Send Mail</span>
-              </div>
-              <a href="mailto:info@example.com" className="contact-value email-link">info@example.com</a>
-            </div>
-
-            <div className="contact-block">
-              <div className="contact-heading">
-                <FaMapMarkerAlt className="contact-icon" />
-                <span>Address</span>
-              </div>
-              <p className="contact-value address-text">
-                House 168/170, Avenue 01, Mirpur<br />
-                DOHS, Dhaka Bangladesh
-              </p>
-            </div>
-          </div>
-
-          {/* Column 4: About & Payment Partners */}
-          <div className="footer-col col-about">
-            <h4 className="col-title">We Are Here</h4>
-            <p className="about-text">
-              Quisque purus augue, facilisis andi neque idont accumsan fringilla massa. Vivamusol id nibhom condimentum.
+            <p className="footer-description">
+              We craft unforgettable journeys that bring the world
+              closer to you. Explore more. Worry less.
             </p>
 
-            <div className="payment-partner-section">
-              <h5 className="payment-title">Payment Partner</h5>
-              <div className="payment-badges">
-                <span className="payment-card visa"><SiVisa /></span>
-                <span className="payment-card stripe"><SiStripe /></span>
-                <span className="payment-card paypal"><SiPaypal /></span>
-                <span className="payment-card mastercard">WP</span>
-                <span className="payment-card skrill">Skrill</span>
-              </div>
+            <div className="footer-social">
+
+              <a href="#" className="footer-social-link facebook">
+                <FaFacebookF />
+              </a>
+
+              <a href="#" className="footer-social-link instagram">
+                <FaInstagram />
+              </a>
+
+              <a href="#" className="footer-social-link twitter">
+                <FaTwitter />
+              </a>
+
+              <a href="#" className="footer-social-link youtube">
+                <FaYoutube />
+              </a>
+
+              <a href="#" className="footer-social-link linkedin">
+                <FaLinkedinIn />
+              </a>
+
             </div>
+
+          </div>
+
+          {/* QUICK LINKS */}
+          <div className="footer-column">
+
+            <h3 className="footer-title">
+              Quick Links
+            </h3>
+
+            <ul className="footer-links">
+
+              <li>
+                <a href="#">
+                  <FaArrowRight />
+                  Home
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <FaArrowRight />
+                  About Us
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <FaArrowRight />
+                  Tour Packages
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <FaArrowRight />
+                  Destinations
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <FaArrowRight />
+                  Blog
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <FaArrowRight />
+                  Contact Us
+                </a>
+              </li>
+
+            </ul>
+
+          </div>
+
+          {/* DESTINATIONS */}
+          <div className="footer-column">
+
+            <h3 className="footer-title">
+              Top Destinations
+            </h3>
+
+            <ul className="footer-links footer-destination-links">
+
+              <li>
+                <a href="#">
+                  <span className="footer-location-dot">●</span>
+                  Maldives
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <span className="footer-location-dot">●</span>
+                  Bali, Indonesia
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <span className="footer-location-dot">●</span>
+                  Dubai, UAE
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <span className="footer-location-dot">●</span>
+                  Switzerland
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <span className="footer-location-dot">●</span>
+                  Thailand
+                </a>
+              </li>
+
+              <li>
+                <a href="#">
+                  <span className="footer-location-dot">●</span>
+                  Singapore
+                </a>
+              </li>
+
+            </ul>
+
+          </div>
+
+          {/* CONTACT */}
+          <div className="footer-column footer-contact">
+
+            <h3 className="footer-title">
+              Contact Us
+            </h3>
+
+            <div className="footer-contact-item">
+
+              <div className="footer-contact-icon phone">
+                <FaPhoneAlt />
+              </div>
+
+              <div>
+                <a href="tel:+911234567890">
+                  +91 123 456 7890
+                </a>
+
+                <a href="tel:+911234567891">
+                  +91 123 456 7891
+                </a>
+              </div>
+
+            </div>
+
+            <div className="footer-contact-item">
+
+              <div className="footer-contact-icon email">
+                <FaEnvelope />
+              </div>
+
+              <div>
+                <a href="mailto:info@example.com">
+                  info@example.com
+                </a>
+
+                <a href="mailto:support@example.com">
+                  support@example.com
+                </a>
+              </div>
+
+            </div>
+
+            <div className="footer-contact-item">
+
+              <div className="footer-contact-icon location">
+                <FaMapMarkerAlt />
+              </div>
+
+              <p>
+                Bhubaneswar, Odisha,
+                <br />
+                India
+              </p>
+
+            </div>
+
+            <div className="footer-contact-item">
+
+              <div className="footer-contact-icon clock">
+                <FaClock />
+              </div>
+
+              <p>
+                Mon - Sat: 9:00 AM - 6:00 PM
+                <br />
+                Sunday: Closed
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* ================= CTA ================= */}
+
+        <div className="footer-cta">
+
+          <div className="footer-cta-content">
+
+            <div className="footer-cta-icon">
+              <FaSuitcaseRolling />
+            </div>
+
+            <div className="footer-cta-text">
+              <h4>
+                Let's Plan Your Next Adventure!
+              </h4>
+
+              <p>
+                Find the best deals and exclusive offers
+                on amazing destinations.
+              </p>
+            </div>
+
+          </div>
+
+          <a href="#" className="footer-cta-button">
+            Explore Packages
+            <FaArrowRight />
+          </a>
+
+        </div>
+
+      </div>
+
+      {/* ================= BOTTOM ================= */}
+
+      <div className="footer-bottom">
+
+        <div className="footer-bottom-container">
+
+          <p>
+            © {new Date().getFullYear()} Your Travel Company.
+            All Rights Reserved.
+          </p>
+
+          <p className="footer-made">
+            ♥ Made with passion for travelers
+          </p>
+
+          <div className="footer-bottom-links">
+
+            <a href="#">
+              Privacy Policy
+            </a>
+
+            <span>•</span>
+
+            <a href="#">
+              Terms & Conditions
+            </a>
+
+            <span>•</span>
+
+            <a href="#">
+              Sitemap
+            </a>
+
           </div>
 
         </div>
 
       </div>
+
     </footer>
   );
 };

@@ -17,7 +17,7 @@ import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
 const App = () => {
   return (
     <BrowserRouter>
-    <Topbar/>
+   
     <Navbar/>
      
 
