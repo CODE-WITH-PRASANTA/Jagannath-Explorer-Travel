@@ -1,0 +1,644 @@
+/* Custom Variable Palette — Dark Navy + Green Accent */
+:root {
+  --topbar-bg: #101828;
+  --topbar-border: rgba(255, 255, 255, 0.08);
+  --primary-green: #22c55e;
+  --primary-green-hover: #16a34a;
+  --primary-green-bg: rgba(34, 197, 94, 0.12);
+  --text-main: #f1f5f9;
+  --text-muted: rgba(226, 232, 240, 0.55);
+  --surface: #182236;
+  --surface-hover: #1f2c45;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 20px 40px -10px rgba(0, 0, 0, 0.55), 0 8px 16px -8px rgba(0, 0, 0, 0.35);
+  --topbar-height: 64px;
+}
+
+/* Force consistent box-sizing everywhere inside the topbar so padding/borders
+   never push it wider than the viewport (the usual cause of a horizontal
+   scrollbar on mobile). */
+.Topbar,
+.Topbar *,
+.Topbar *::before,
+.Topbar *::after {
+  box-sizing: border-box;
+}
+
+/* Fixed instead of sticky: sticky silently stops working if any ancestor
+   sets overflow/transform, which is what was causing it to scroll away.
+   Fixed always stays put regardless of parent layout. */
+.Topbar {
+  position: fixed;
+  top: 0;
+  /* Matches the sidebar's current width via the shared --sidebar-width
+     variable (set on .MainLayout in MainLayout.css) so the topbar can
+     never sit behind or misalign with the sidebar again. */
+  left: var(--sidebar-width, 270px);
+  right: 0;
+  z-index: 90;
+  height: var(--topbar-height);
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--topbar-border);
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reserves the space the fixed topbar now removes from normal flow.
+   Render this as the very first child inside .MainLayout-container,
+   right before <Topbar />. */
+.Topbar-spacer {
+  height: var(--topbar-height);
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.Topbar-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: opacity 0.15s ease;
+}
+
+.Topbar-inner.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.Topbar-left,
+.Topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* Sidebar Toggle */
+.Topbar-toggle-btn {
+  background: var(--surface);
+  border: 1px solid var(--topbar-border);
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.Topbar-toggle-btn:hover {
+  background-color: var(--surface-hover);
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+/* Search Bar (desktop / tablet) */
+.Topbar-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.Topbar-search-icon {
+  position: absolute;
+  left: 14px;
+  color: rgba(226, 232, 240, 0.4);
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+.Topbar-search-input {
+  background-color: var(--surface);
+  border: 1px solid var(--topbar-border);
+  padding: 9px 60px 9px 38px;
+  border-radius: 20px;
+  outline: none;
+  width: clamp(160px, 22vw, 280px);
+  font-size: 13px;
+  color: var(--text-main);
+  transition: all 0.25s ease;
+  font-family: inherit;
+}
+
+.Topbar-search-input::placeholder {
+  color: rgba(226, 232, 240, 0.35);
+}
+
+.Topbar-search-input:focus {
+  width: clamp(200px, 26vw, 300px);
+  border-color: var(--primary-green);
+  background-color: var(--surface-hover);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
+}
+
+.Topbar-search-input:focus + .Topbar-search-icon {
+  color: var(--primary-green);
+}
+
+.Topbar-search-shortcut {
+  position: absolute;
+  right: 12px;
+  font-size: 10px;
+  font-family: inherit;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.5);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--topbar-border);
+  padding: 2px 6px;
+  border-radius: 5px;
+  pointer-events: none;
+  letter-spacing: 0.3px;
+}
+
+/* Mobile search trigger — hidden until small screens */
+.Topbar-mobile-search-btn {
+  display: none;
+}
+
+/* Mobile search overlay — full-width row that replaces the topbar content */
+.Topbar-mobile-search-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 max(16px, env(safe-area-inset-left)) 0 max(16px, env(safe-area-inset-right));
+  background: var(--topbar-bg);
+  animation: topbarSearchSlide 0.18s ease-out;
+}
+
+.Topbar-mobile-search-overlay .Topbar-search-icon {
+  position: static;
+  flex-shrink: 0;
+  color: var(--primary-green);
+}
+
+.Topbar-mobile-search-input {
+  flex: 1;
+  min-width: 0;
+  background-color: var(--surface);
+  border: 1px solid var(--primary-green);
+  padding: 9px 14px;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+  color: var(--text-main);
+  font-family: inherit;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
+}
+
+.Topbar-mobile-search-input::placeholder {
+  color: rgba(226, 232, 240, 0.35);
+}
+
+.Topbar-mobile-search-close {
+  background: var(--surface);
+  border: 1px solid var(--topbar-border);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.Topbar-mobile-search-close:hover {
+  color: var(--text-main);
+  background-color: var(--surface-hover);
+}
+
+@keyframes topbarSearchSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Actions Wrapper */
+.Topbar-right {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.Topbar-action-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Action Button */
+.Topbar-action-btn {
+  background: var(--surface);
+  border: 1px solid var(--topbar-border);
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.Topbar-action-btn:hover,
+.Topbar-action-btn.active {
+  color: var(--primary-green);
+  background-color: var(--primary-green-bg);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.Topbar-action-btn:focus-visible,
+.Topbar-toggle-btn:focus-visible,
+.Topbar-user:focus-visible,
+.Topbar-dropdown-item:focus-visible {
+  outline: 2px solid var(--primary-green);
+  outline-offset: 2px;
+}
+
+.Topbar-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: var(--primary-green);
+  color: #06210f;
+  font-size: 10px;
+  font-weight: 800;
+  height: 17px;
+  min-width: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--topbar-bg);
+  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.45);
+}
+
+/* User Card Button */
+.Topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 4px 10px 4px 5px;
+  border-radius: 30px;
+  position: relative;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.Topbar-user:hover,
+.Topbar-user.active {
+  background-color: var(--surface);
+  border-color: var(--topbar-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.Topbar-avatar-wrapper {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.Topbar-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(34, 197, 94, 0.4);
+}
+
+.Topbar-status-indicator {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 9px;
+  height: 9px;
+  background-color: var(--primary-green);
+  border: 2px solid var(--topbar-bg);
+  border-radius: 50%;
+}
+
+.Topbar-user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.Topbar-username {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.Topbar-role {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.Topbar-chevron {
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.Topbar-chevron.open {
+  transform: rotate(180deg);
+}
+
+/* Universal Dropdown Styling */
+.Topbar-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -4px;
+  background-color: var(--surface);
+  border: 1px solid var(--topbar-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  width: min(260px, calc(100vw - 32px));
+  animation: topbarDropdownSlide 0.2s ease-out;
+}
+
+@keyframes topbarDropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.Topbar-user-dropdown {
+  width: min(210px, calc(100vw - 32px));
+}
+
+.Topbar-user-card {
+  padding: 8px 10px;
+}
+
+.Topbar-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.Topbar-card-email {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 2px 0 0 0;
+  word-break: break-all;
+}
+
+.Topbar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.Topbar-dropdown-item:hover {
+  background-color: var(--primary-green-bg);
+  color: var(--primary-green);
+}
+
+.Topbar-dropdown-item.logout {
+  color: #f87171;
+}
+
+.Topbar-dropdown-item.logout:hover {
+  background-color: rgba(248, 113, 113, 0.12);
+  color: #ef4444;
+}
+
+.Topbar-dropdown-divider {
+  height: 1px;
+  background-color: var(--topbar-border);
+  margin: 4px 0;
+}
+
+/* Notification / Mail Dropdown Specifics */
+.Topbar-notifications-dropdown {
+  width: min(280px, calc(100vw - 32px));
+  padding: 12px;
+}
+
+.Topbar-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--topbar-border);
+  margin-bottom: 8px;
+}
+
+.Topbar-dropdown-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.Topbar-dropdown-badge {
+  font-size: 10px;
+  background: var(--primary-green-bg);
+  color: var(--primary-green);
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.Topbar-notification-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.Topbar-notification-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.15s;
+}
+
+.Topbar-notification-item:hover {
+  background-color: var(--surface-hover);
+}
+
+.Topbar-notification-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-green);
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.Topbar-notification-text {
+  font-size: 12px;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.Topbar-notification-text strong {
+  color: var(--text-main);
+}
+
+.Topbar-notification-time {
+  font-size: 10px;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+/* ===== Responsive breakpoints ===== */
+
+/* Tablet: tighten the search width, keep everything visible */
+@media (max-width: 1024px) {
+  .Topbar {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+
+  .Topbar-search-input {
+    width: clamp(140px, 18vw, 220px);
+  }
+
+  .Topbar-user-info {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Mobile: swap the inline search box for the icon + overlay pattern */
+@media (max-width: 768px) {
+  .Topbar {
+    /* Sidebar goes off-canvas on mobile, so the topbar always spans the
+       full width here regardless of --sidebar-width. */
+    left: 0;
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+  }
+
+  .Topbar-inner {
+    gap: 8px;
+  }
+
+  .Topbar-left,
+  .Topbar-right {
+    gap: 8px;
+  }
+
+  .Topbar-search-box {
+    display: none;
+  }
+
+  .Topbar-mobile-search-btn {
+    display: flex;
+  }
+
+  .Topbar-user-info {
+    display: none;
+  }
+
+  .Topbar-user {
+    padding: 4px;
+    margin-left: 0;
+  }
+
+  .Topbar-chevron {
+    display: none;
+  }
+
+  /* Anchor every dropdown to the viewport edges instead of its trigger
+     button. The bell/mail icons sit left-of-center in the topbar, so
+     absolute-positioning off them pushed the dropdown past the left
+     edge of the screen — this keeps it fully on-screen regardless of
+     which icon opened it. */
+  .Topbar-dropdown {
+    position: fixed;
+    top: calc(var(--topbar-height) + 8px);
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+
+  .Topbar-notification-list {
+    max-height: 50vh;
+  }
+}
+
+/* Small phones: drop the least essential action and shrink touch targets slightly */
+@media (max-width: 480px) {
+  :root {
+    --topbar-height: 58px;
+  }
+
+  .Topbar-fullscreen-btn {
+    display: none;
+  }
+
+  .Topbar-toggle-btn,
+  .Topbar-action-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .Topbar-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .Topbar-dropdown {
+    left: 8px;
+    right: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Topbar-inner,
+  .Topbar-dropdown,
+  .Topbar-mobile-search-overlay,
+  .Topbar-toggle-btn,
+  .Topbar-action-btn,
+  .Topbar-chevron {
+    transition: none;
+    animation: none;
+  }
+}
