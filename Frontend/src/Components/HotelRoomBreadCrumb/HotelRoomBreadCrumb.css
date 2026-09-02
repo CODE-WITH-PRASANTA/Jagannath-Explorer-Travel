@@ -1,0 +1,81 @@
+/* Container Base */
+.HotelRoomBreadCrumb {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 60px 20px;
+  font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header Text & Breadcrumb */
+.HotelRoomBreadCrumb-hero {
+  text-align: center;
+  color: #ffffff;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.HotelRoomBreadCrumb-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.HotelRoomBreadCrumb-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.HotelRoomBreadCrumb-home {
+  color: #72bf44;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.HotelRoomBreadCrumb-home:hover {
+  color: #5ea635;
+  text-decoration: underline;
+}
+
+.HotelRoomBreadCrumb-arrow {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.HotelRoomBreadCrumb-current {
+  color: #ffffff;
+}
+
+/* Entrance Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Scaling */
+@media (max-width: 600px) {
+  .HotelRoomBreadCrumb {
+    min-height: 220px;
+    padding: 40px 15px;
+  }
+
+  .HotelRoomBreadCrumb-title {
+    font-size: 2rem;
+  }
+
+  .HotelRoomBreadCrumb-nav {
+    font-size: 0.85rem;
+  }
+}
