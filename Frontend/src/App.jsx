@@ -1,13 +1,21 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Tours from "./Page/Tours/Tours";
+import TourDetails from "./Page/TourDetails/TourDetails";
+import Hotel from "./Page/Hotel/Hotel";
+import HotelRoomDetails from "./Page/HotelRoomDetails/HotelRoomDetails";
 import Topbar from "./Components/Topbar/Topbar";
 import Navbar from "./Components/Navbar/Navbar";
-import SedanHome from "./Components/SedanHome/SedanHome";
+
 import SedanCar from "./Page/SedanCar/SedanCar";
 import Suvcars from "./Page/Suvcars/Suvcars";
 import LuxuryCars from "./Page/LuxuryCars/LuxuryCars";
 import TempoTravell from "./Page/TempoTravell/TempoTravell";
 import SmlCoach from "./Page/SmlCoach/SmlCoach";
+import Home from "./Page/Home/Home";
+import Footer from "./Components/footer/footer";
+import About from "./Page/About/About";
+import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
 
 
 // Pages
@@ -17,7 +25,7 @@ const App = () => {
     <BrowserRouter>
     <Topbar/>
     <Navbar/>
-      {/* Navbar will appear on every page */}
+     
 
       <Routes>
         <Route path="/sedan-car"element={<SedanCar/>}/>
@@ -25,7 +33,17 @@ const App = () => {
         <Route path="/luxury-car"element={<LuxuryCars/>}/>
         <Route path="/tempo-cars"element={<TempoTravell/>}/>
         <Route path="/sml-cars"element={<SmlCoach/>}/>
+        <Route path="/" element={<Home/>}/>
+        
+        <Route path="/tours" element={<Tours/>}/>
+        <Route path="/tourdetails" element={<TourDetails/>}/>
+        <Route path="/hotel" element={<Hotel/>}/>
+        <Route path="/hotelroomdetails" element={<HotelRoomDetails/>}/>
+        <Route path="/about" element={<About />}/>
+        <Route path="/UrbaniaTraveller" element={<UrbaniaTraveller />} />
+
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 };

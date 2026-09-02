@@ -44,22 +44,25 @@ const Navbar = ({ logoSrc }) => {
         <nav className={`navbar-nav ${mobileMenuOpen ? 'active' : ''}`}>
           <ul className="nav-list">
             <li className="nav-item">
-              <a href="#home" className="nav-link">HOME +</a>
+              <a href="#home" className="nav-link">HOME </a>
             </li>
             <li className="nav-item">
               <a href="#about" className="nav-link">ABOUT</a>
             </li>
             <li className="nav-item">
-              <a href="#tours" className="nav-link">TOURS +</a>
+              <a href="#tours" className="nav-link">TOURS </a>
             </li>
             <li className="nav-item">
-              <a href="#destination" className="nav-link">DESTINATION +</a>
+              <a href="#destination" className="nav-link">Car rental all</a>
             </li>
             <li className="nav-item">
-              <a href="#pages" className="nav-link">PAGES +</a>
+              <a href="#hotel" className="nav-link">Hotel</a>
             </li>
             <li className="nav-item">
-              <a href="#contact" className="nav-link">CONTACT</a>
+              <a href="#gallery" className="nav-link">Gallery</a>
+            </li>
+            <li className="nav-item">
+                <a href="faq" className="nav-link">Faq</a>
             </li>
           </ul>
         </nav>
