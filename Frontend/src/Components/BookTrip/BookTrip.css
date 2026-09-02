@@ -1,0 +1,284 @@
+/* Container Layout */
+.BookTrip {
+  width: 100%;
+  padding: 40px 20px;
+  background-color: #f8fafc;
+  box-sizing: border-box;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+.BookTrip-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.BookTrip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* Card Styling */
+.BookTrip-card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+              box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.BookTrip-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Image Wrapper */
+.BookTrip-imageContainer {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.BookTrip-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Zoom In - Zoom Out Animation Loop on Hover */
+.BookTrip-card:hover .BookTrip-image {
+  animation: pulseZoom 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseZoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+/* Badges */
+.BookTrip-durationBadge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+.BookTrip-locationTag {
+  position: absolute;
+  top: 42px;
+  left: 15px;
+  background: #ffffff;
+  color: #2e3138;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.BookTrip-tagIcon {
+  color: #61b138;
+  font-size: 0.8rem;
+}
+
+/* Card Body */
+.BookTrip-content {
+  padding: 22px 20px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.BookTrip-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #121827;
+  line-height: 1.4;
+  margin: 0 0 16px 0;
+  min-height: 44px;
+}
+
+/* Running Text Line (Right to Left Animation) */
+.BookTrip-routeTicker {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  margin-bottom: 12px;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.BookTrip-routeTrack {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  animation: scrollRoute 14s linear infinite;
+}
+
+.BookTrip-cityName {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+}
+
+.BookTrip-arrow {
+  color: #cbd5e1;
+  font-size: 0.7rem;
+}
+
+@keyframes scrollRoute {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.BookTrip-divider {
+  height: 1px;
+  background-color: #f1f5f9;
+  margin-bottom: 16px;
+}
+
+/* Footer & Price */
+.BookTrip-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.BookTrip-priceBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.BookTrip-priceLabel {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.BookTrip-priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.BookTrip-currentPrice {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #61b138;
+}
+
+.BookTrip-oldPrice {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.BookTrip-taxInfo {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Green to Black Hover Button */
+.BookTrip-btn {
+  background-color: #61b138;
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(97, 177, 56, 0.25);
+}
+
+.BookTrip-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #111827;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.BookTrip-btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.BookTrip-btn:hover {
+  box-shadow: 0 6px 18px rgba(17, 24, 39, 0.3);
+  transform: translateY(-2px);
+}
+
+.BookTrip-btnIcon {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.BookTrip-btn:hover .BookTrip-btnIcon {
+  transform: translateX(3px) rotate(-10deg);
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .BookTrip-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .BookTrip-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .BookTrip-card {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
