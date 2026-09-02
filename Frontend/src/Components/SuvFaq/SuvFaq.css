@@ -1,0 +1,254 @@
+/* ==========================================================================
+   SuvFaq — Premium White Showroom Theme & Exact Reference Layout
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+.suv-faq-section {
+  --bg-main: #f8fafc;
+  --panel-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: #cbd5e1;
+  --accent: #ea580c; /* Matching vibrant orange-red accent from reference */
+  --accent-soft: rgba(234, 88, 12, 0.08);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 80px 24px 96px;
+  background: var(--bg-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.suv-faq-section__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(50% 40% at 50% 0%, rgba(234, 88, 12, 0.03), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, var(--bg-main) 100%);
+}
+
+/* -------------------------------------------------------------------------
+   Header
+   ------------------------------------------------------------------------- */
+
+.suv-faq-section__header {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.suv-faq-section__eyebrow {
+  display: inline-block;
+  margin: 0 0 10px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.suv-faq-section__title {
+  margin: 0 0 12px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 3.2vw + 0.8rem, 3rem);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.suv-faq-section__subtitle {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+/* -------------------------------------------------------------------------
+   Grid
+   ------------------------------------------------------------------------- */
+
+.suv-faq-grid {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 24px;
+  align-items: start;
+}
+
+/* -------------------------------------------------------------------------
+   FaqItem
+   ------------------------------------------------------------------------- */
+
+.suv-faq-item {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: suvFaqRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--stagger) * 0.04s);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.suv-faq-item:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border-color));
+}
+
+.suv-faq-item--open {
+  border-color: var(--accent);
+  box-shadow: 0 10px 25px -10px rgba(234, 88, 12, 0.15), inset 3px 0 0 var(--accent);
+}
+
+.suv-faq-item__heading {
+  margin: 0;
+}
+
+.suv-faq-item__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.suv-faq-item__trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+.suv-faq-item__question {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.suv-faq-item--open .suv-faq-item__question {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.suv-faq-item__icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: #f8fafc;
+  color: var(--text-secondary);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.suv-faq-item--open .suv-faq-item__icon {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.suv-faq-item__chevron {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.suv-faq-item--open .suv-faq-item__chevron {
+  transform: rotate(180deg);
+}
+
+.suv-faq-item__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.suv-faq-item--open .suv-faq-item__panel {
+  grid-template-rows: 1fr;
+}
+
+.suv-faq-item__panel-inner {
+  overflow: hidden;
+}
+
+.suv-faq-item__answer {
+  margin: 0;
+  padding: 0 24px 22px 24px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* -------------------------------------------------------------------------
+   Keyframes
+   ------------------------------------------------------------------------- */
+
+@keyframes suvFaqRise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .suv-faq-section {
+    padding: 60px 16px 72px;
+  }
+
+  .suv-faq-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .suv-faq-item__trigger {
+    padding: 16px 18px;
+  }
+
+  .suv-faq-item__question {
+    font-size: 0.98rem;
+  }
+
+  .suv-faq-item__answer {
+    padding: 0 18px 18px 18px;
+    font-size: 0.9rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Reduced Motion
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .suv-faq-item {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .suv-faq-item__panel,
+  .suv-faq-item__chevron {
+    transition: none !important;
+  }
+}
