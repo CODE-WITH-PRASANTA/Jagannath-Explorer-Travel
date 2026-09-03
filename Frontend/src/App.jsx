@@ -4,8 +4,14 @@ import Tours from "./Page/Tours/Tours";
 import TourDetails from "./Page/TourDetails/TourDetails";
 import Hotel from "./Page/Hotel/Hotel";
 import HotelRoomDetails from "./Page/HotelRoomDetails/HotelRoomDetails";
-import Topbar from "./Components/Topbar/Topbar";
+
 import Navbar from "./Components/Navbar/Navbar";
+
+import SedanCar from "./Page/SedanCar/SedanCar";
+import Suvcars from "./Page/Suvcars/Suvcars";
+import LuxuryCars from "./Page/LuxuryCars/LuxuryCars";
+import TempoTravell from "./Page/TempoTravell/TempoTravell";
+import SmlCoach from "./Page/SmlCoach/SmlCoach";
 import Home from "./Page/Home/Home";
 import Footer from "./Components/footer/footer";
 import About from "./Page/About/About";
@@ -14,16 +20,24 @@ import Blogs from "./Page/Blogs/Blogs";
 import BLogDetails from "./Page/BLogDetails/BLogDetails";
 import Gallery from "./Components/Gallery/Gallery";
  
+import Contact from "./Page/Contact/Contact";
+
+
 // Pages
 
 const App = () => {
   return (
     <BrowserRouter>
-    <Topbar/>
+   
     <Navbar/>
      
 
       <Routes>
+        <Route path="/sedan-car"element={<SedanCar/>}/>
+        <Route path="/suv-cars"element={<Suvcars/>}/>
+        <Route path="/luxury-car"element={<LuxuryCars/>}/>
+        <Route path="/tempo-cars"element={<TempoTravell/>}/>
+        <Route path="/sml-cars"element={<SmlCoach/>}/>
         <Route path="/" element={<Home/>}/>
         
         <Route path="/tours" element={<Tours/>}/>
@@ -36,6 +50,9 @@ const App = () => {
         <Route path="/blogsdetails" element={<BLogDetails />} />
         <Route path="/gallery" element={<Gallery />} />
         
+
+        <Route path="/contact" element={<Contact/>} />
+
       </Routes>
       <Footer/>
     </BrowserRouter>
