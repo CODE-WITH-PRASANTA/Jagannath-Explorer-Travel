@@ -10,8 +10,10 @@ import Home from "./Page/Home/Home";
 import Footer from "./Components/footer/footer";
 import About from "./Page/About/About";
 import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
-
-
+import Blogs from "./Page/Blogs/Blogs";
+import BLogDetails from "./Page/BLogDetails/BLogDetails";
+import Gallery from "./Components/Gallery/Gallery";
+ 
 // Pages
 
 const App = () => {
@@ -30,7 +32,10 @@ const App = () => {
         <Route path="/hotelroomdetails" element={<HotelRoomDetails/>}/>
         <Route path="/about" element={<About />}/>
         <Route path="/UrbaniaTraveller" element={<UrbaniaTraveller />} />
-
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogsdetails" element={<BLogDetails />} />
+        <Route path="/gallery" element={<Gallery />} />
+        
       </Routes>
       <Footer/>
     </BrowserRouter>
