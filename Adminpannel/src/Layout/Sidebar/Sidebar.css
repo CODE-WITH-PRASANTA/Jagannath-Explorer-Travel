@@ -1,0 +1,556 @@
+/* Sidebar.css — Alka Drops premium dark navy + green accent 3D theme */
+
+.Sidebar {
+  --sb-green: #22c55e;
+  --sb-green-dark: #15803d;
+  --sb-green-glow: rgba(34, 197, 94, 0.45);
+  --sb-text: rgba(226, 232, 240, 0.68);
+  --sb-text-strong: #ffffff;
+  --sb-border: rgba(255, 255, 255, 0.08);
+  --sb-hover-bg: rgba(255, 255, 255, 0.06);
+
+  width: 270px;
+  height: 100vh;
+  background: linear-gradient(180deg, #131b2e 0%, #0e1524 55%, #0a0f1c 100%);
+  color: var(--sb-text-strong);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: 12px 0 38px rgba(0, 0, 0, 0.45), inset -1px 0 0 rgba(255, 255, 255, 0.06);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.Sidebar.collapsed {
+  width: 76px;
+}
+
+/* Glossy top-left light sheen */
+.Sidebar-sheen {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.06), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.08), transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.Sidebar-logo,
+.Sidebar-nav,
+.Sidebar-brandFooter {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================
+   LOGO / BRAND HEADER
+============================ */
+
+.Sidebar-logo {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--sb-border);
+  flex-shrink: 0;
+}
+
+.Sidebar.collapsed .Sidebar-logo {
+  padding: 0;
+  justify-content: center;
+}
+
+/* Wrapper for Logo Mark */
+.Sidebar-logo-iconWrap {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Sidebar-logo-iconWrap::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 14px;
+  background: radial-gradient(circle, var(--sb-green-glow), transparent 70%);
+  animation: darkLogoGlow 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes darkLogoGlow {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+}
+
+.Sidebar-logo-icon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: block;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.6));
+  flex-shrink: 0;
+}
+
+.Sidebar-logo-text-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.Sidebar-logo-text {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--sb-text-strong);
+  white-space: nowrap;
+  letter-spacing: -0.3px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.Sidebar-logo-tagline {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Mobile drawer close button — sits at the far right of the logo row.
+   Hidden by default; only shown on mobile (see media query below), and
+   only ever rendered by React while the drawer is actually open. */
+.Sidebar-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--sb-border);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.Sidebar-close-btn:hover {
+  background-color: rgba(248, 113, 113, 0.12);
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.3);
+}
+
+.Sidebar-close-btn:focus-visible {
+  outline: 2px solid var(--sb-green);
+  outline-offset: 2px;
+}
+
+/* ============================
+   NAV
+============================ */
+
+.Sidebar-nav {
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.Sidebar-nav::-webkit-scrollbar {
+  width: 5px;
+}
+.Sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.Sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 11px 14px;
+  color: var(--sb-text);
+  text-decoration: none;
+  border-radius: 12px;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  gap: 14px;
+  white-space: nowrap;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.Sidebar-link:hover {
+  background-color: var(--sb-hover-bg);
+  color: var(--sb-text-strong);
+  transform: translateX(4px);
+}
+
+.Sidebar-link.active {
+  background: linear-gradient(160deg, #34d961 0%, var(--sb-green) 45%, var(--sb-green-dark) 100%);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(21, 128, 61, 0.5), 0 2px 5px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateX(2px);
+}
+
+.Sidebar-link.active .Sidebar-icon {
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+.Sidebar-dropdown-toggle {
+  justify-content: flex-start;
+}
+
+.Sidebar-chevron {
+  margin-left: auto;
+  transition: transform 0.2s ease;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.Sidebar-dropdown-wrapper.is-open > .Sidebar-link {
+  background-color: var(--sb-hover-bg);
+  color: var(--sb-text-strong);
+}
+
+.Sidebar-chevron.rotated {
+  transform: rotate(180deg);
+  color: var(--sb-green);
+}
+
+.Sidebar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  color: rgba(255, 255, 255, 0.55);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.Sidebar-link:hover .Sidebar-icon {
+  transform: scale(1.08);
+  color: var(--sb-text-strong);
+}
+
+/* ============================
+   SECTION HEADINGS
+============================ */
+
+.Sidebar-section-wrapper {
+  margin: 16px 0 8px 0;
+  padding: 0 14px;
+}
+
+.Sidebar-animated-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.03));
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+
+.Sidebar-section-title {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.35);
+  padding-left: 2px;
+}
+
+.Sidebar.collapsed .Sidebar-section-wrapper {
+  padding: 0 8px;
+}
+
+/* ============================
+   SUBMENU
+============================ */
+
+.Sidebar-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  margin: 2px 0 0 25px;
+  background-color: rgba(0, 0, 0, 0.22);
+  border-radius: 8px;
+  border-left: 2px dashed rgba(34, 197, 94, 0.35);
+}
+
+.Sidebar-dropdown-wrapper.is-open .Sidebar-submenu {
+  max-height: 300px;
+  padding: 6px 0;
+}
+
+.Sidebar-submenu-link {
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.Sidebar-submenu-link:hover {
+  background-color: var(--sb-hover-bg);
+  color: var(--sb-green);
+  padding-left: 20px;
+}
+
+.Sidebar-submenu-link.active {
+  background-color: rgba(34, 197, 94, 0.16);
+  color: var(--sb-green);
+  font-weight: 700;
+}
+
+/* ============================
+   BOTTOM BRAND FOOTER
+============================ */
+
+.Sidebar-brandFooter {
+  position: relative;
+  height: 180px;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+.Sidebar-brandFooter-waves {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.wave {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.wave-1 {
+  fill: rgba(34, 197, 94, 0.08);
+  animation: waveDrift 7s ease-in-out infinite;
+}
+
+.wave-2 {
+  fill: rgba(34, 197, 94, 0.12);
+  animation: waveDrift 9s ease-in-out infinite reverse;
+}
+
+.wave-3 {
+  fill: rgba(255, 255, 255, 0.08);
+  animation: waveDrift 11s ease-in-out infinite;
+}
+
+@keyframes waveDrift {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-3%);
+  }
+}
+
+.droplet {
+  fill: rgba(255, 255, 255, 0.5);
+  animation: dropletFloat 3.6s ease-in-out infinite;
+}
+
+.droplet-1 { animation-delay: 0s; }
+.droplet-2 { animation-delay: 0.5s; }
+.droplet-3 { animation-delay: 1s; }
+.droplet-4 { animation-delay: 1.4s; fill: rgba(34, 197, 94, 0.65); }
+.droplet-5 { animation-delay: 0.2s; fill: rgba(34, 197, 94, 0.65); }
+
+@keyframes dropletFloat {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* ============================
+   TRANSPARENT 3D BOTTLE EFFECT
+============================ */
+
+.Sidebar-bottle-wrapper {
+  position: relative;
+  width: 90px;
+  height: 165px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.Sidebar-bottle-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 2px 4px rgba(34, 197, 94, 0.2));
+  animation: bottleFloat 4s ease-in-out infinite, bottleGlint 3.2s ease-in-out infinite;
+}
+
+.Sidebar-bottle-img.is-ready {
+  opacity: 1;
+}
+
+.Sidebar-bottle-glow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.5) 0%, rgba(34, 197, 94, 0.15) 40%, transparent 75%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.Sidebar-bottle-ring {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%) rotateX(75deg);
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(34, 197, 94, 0.5);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.6), inset 0 0 10px rgba(34, 197, 94, 0.35);
+  pointer-events: none;
+  z-index: 1;
+  animation: ringPulse 4s ease-in-out infinite;
+}
+
+.Sidebar-bottle-shadow {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 8px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, transparent 80%);
+  border-radius: 50%;
+  z-index: 1;
+  animation: shadowPulse 4s ease-in-out infinite;
+}
+
+@keyframes bottleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes bottleGlint {
+  0%, 100% {
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 2px 4px rgba(34, 197, 94, 0.2)) brightness(1);
+  }
+  50% {
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 2px 6px rgba(34, 197, 94, 0.35)) brightness(1.06);
+  }
+}
+
+@keyframes ringPulse {
+  0%, 100% {
+    transform: translateX(-50%) rotateX(75deg) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(-50%) rotateX(75deg) scale(1.15);
+    opacity: 0.9;
+  }
+}
+
+@keyframes shadowPulse {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) scale(0.75);
+    opacity: 0.4;
+  }
+}
+
+/* ============================
+   MOBILE RESPONSIVE
+============================ */
+
+@media (max-width: 768px) {
+  .Sidebar {
+    left: -270px;
+  }
+  .Sidebar.mobile-open {
+    left: 0;
+    width: 270px;
+    box-shadow: 12px 0 44px rgba(0, 0, 0, 0.6);
+  }
+  .Sidebar.collapsed {
+    left: -270px;
+  }
+  .Sidebar.collapsed.mobile-open {
+    left: 0;
+    width: 270px;
+  }
+
+  /* Force the logo/text back on for the mobile drawer even if the desktop
+     "collapsed" state happens to be true, so the close button always has
+     the full header row to sit in. */
+  .Sidebar.collapsed.mobile-open .Sidebar-logo {
+    padding: 0 20px;
+    justify-content: flex-start;
+  }
+
+  .Sidebar-close-btn {
+    display: flex;
+  }
+}

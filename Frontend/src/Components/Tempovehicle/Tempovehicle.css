@@ -1,0 +1,410 @@
+/* =========================================================
+   TEMPO VEHICLE SECTION - CLEAN WHITE & BLACK PREMIUM THEME
+   ========================================================= */
+
+.tempovehicle-section {
+  --tv-primary: #000000;
+  --tv-secondary: #ffffff;
+  --tv-gray-light: #f8f9fa;
+  --tv-gray-border: #e5e7eb;
+  --tv-text-main: #111827;
+  --tv-text-muted: #6b7280;
+
+  width: 100%;
+  padding: 70px 24px;
+  background: #ffffff;
+  color: var(--tv-text-main);
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+.tempovehicle-section *,
+.tempovehicle-section *::before,
+.tempovehicle-section *::after {
+  box-sizing: border-box;
+}
+
+/* Header Area */
+.tempovehicle-header-area {
+  max-width: 900px;
+  margin: 0 auto 50px auto;
+  text-align: center;
+
+  animation: tvHeaderReveal 0.8s ease both;
+}
+
+.tempovehicle-subtitle {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--tv-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Sora', sans-serif;
+}
+
+.tempovehicle-main-title {
+  margin: 0;
+  color: var(--tv-text-main);
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  font-family: 'Sora', sans-serif;
+}
+
+.tempovehicle-main-title span {
+  font-family: serif;
+  font-style: italic;
+  font-weight: 500;
+  color: #374151;
+}
+
+.tempovehicle-title-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.tempovehicle-title-divider span {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--tv-primary));
+  border-radius: 10px;
+}
+
+.tempovehicle-title-divider span:last-child {
+  background: linear-gradient(90deg, var(--tv-primary), transparent);
+}
+
+.tempovehicle-title-divider i {
+  color: var(--tv-primary);
+  font-size: 14px;
+}
+
+.tempovehicle-description {
+  margin: 0;
+  color: var(--tv-text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* Grid Layout */
+.tempovehicle-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tempovehicle-desktop-grid-wrapper {
+  display: block;
+}
+
+.tempovehicle-mobile-slider-wrapper {
+  display: none;
+}
+
+.tempovehicle-desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  perspective: 1500px;
+}
+
+.tempovehicle-mobile-slider {
+  perspective: 1500px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Card Wrapper & 3D Flip System */
+.tempovehicle-card-wrapper {
+  width: 100%;
+  height: 490px;
+  background: transparent;
+}
+
+.tempovehicle-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+}
+
+.tempovehicle-card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+/* Card Faces */
+.tempovehicle-card-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: var(--tv-secondary);
+  border: 1px solid var(--tv-gray-border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tempovehicle-card-face:hover {
+  border-color: var(--tv-primary);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.12);
+}
+
+.tempovehicle-card-back {
+  transform: rotateY(180deg);
+  padding: 24px;
+  background: var(--tv-gray-light);
+}
+
+/* Front Image Area */
+.tempovehicle-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background: #f3f4f6;
+  overflow: hidden;
+}
+
+.tempovehicle-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.tempovehicle-card-wrapper:hover .tempovehicle-img {
+  transform: scale(1.05);
+}
+
+.tempovehicle-badge-tag {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--tv-primary);
+  color: var(--tv-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Card Content Styling */
+.tempovehicle-front-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.tempovehicle-card-title {
+  margin: 0 0 12px 0;
+  color: var(--tv-text-main);
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Sora', sans-serif;
+}
+
+.tempovehicle-back-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--tv-gray-border);
+  padding-bottom: 10px;
+}
+
+.tempovehicle-close-btn {
+  background: var(--tv-secondary);
+  border: 1px solid var(--tv-gray-border);
+  color: var(--tv-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tempovehicle-close-btn:hover {
+  background: var(--tv-primary);
+  color: var(--tv-secondary);
+  border-color: var(--tv-primary);
+}
+
+/* Specs Rows */
+.tempovehicle-specs-preview,
+.tempovehicle-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.tempovehicle-spec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13.5px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--tv-gray-border);
+}
+
+.tempovehicle-spec-row span {
+  color: var(--tv-text-muted);
+  font-weight: 500;
+}
+
+.tempovehicle-spec-row strong {
+  color: var(--tv-text-main);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Feature Chips on Back */
+.tempovehicle-features-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: auto;
+}
+
+.tempovehicle-feat-chip {
+  background: var(--tv-secondary);
+  border: 1px solid var(--tv-gray-border);
+  color: var(--tv-text-muted);
+  font-size: 11.5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* Card Footer & Buttons */
+.tempovehicle-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--tv-gray-border);
+  margin-top: auto;
+}
+
+.tempovehicle-price-box strong {
+  display: block;
+  color: var(--tv-text-main);
+  font-size: 18px;
+  font-weight: 800;
+  font-family: 'Sora', sans-serif;
+}
+
+.tempovehicle-price-box span {
+  color: var(--tv-text-muted);
+  font-size: 11px;
+}
+
+.tempovehicle-action-btn,
+.tempovehicle-book-now-btn {
+  background: var(--tv-primary);
+  color: var(--tv-secondary);
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.tempovehicle-action-btn:hover,
+.tempovehicle-book-now-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* Pagination Bar */
+.tempovehicle-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.tempovehicle-page-btn {
+  background: var(--tv-secondary);
+  border: 1px solid var(--tv-gray-border);
+  color: var(--tv-text-main);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tempovehicle-page-btn:hover:not(:disabled) {
+  background: var(--tv-primary);
+  color: var(--tv-secondary);
+  border-color: var(--tv-primary);
+}
+
+.tempovehicle-page-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: var(--tv-gray-light);
+}
+
+.tempovehicle-page-indicator {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tv-text-muted);
+}
+
+/* Responsive Queries */
+@media (max-width: 1024px) {
+  .tempovehicle-desktop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .tempovehicle-section {
+    padding: 40px 16px;
+  }
+
+  .tempovehicle-desktop-grid-wrapper {
+    display: none;
+  }
+
+  .tempovehicle-mobile-slider-wrapper {
+    display: block;
+  }
+
+  .tempovehicle-card-wrapper {
+    height: 480px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .tempovehicle-card-inner {
+    transition: none !important;
+  }
+}

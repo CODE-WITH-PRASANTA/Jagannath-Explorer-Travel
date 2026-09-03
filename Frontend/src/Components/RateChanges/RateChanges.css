@@ -1,0 +1,446 @@
+/* ==========================================================================
+   Rates & Charges — Premium Clean White Showroom Theme
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+.rate-section {
+  --bg-main: #f8fafc;
+  --panel-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --accent: #2563eb;
+  --accent-soft: rgba(37, 99, 235, 0.06);
+  --featured-bg: rgba(37, 99, 235, 0.03);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 96px 24px 110px;
+  background: var(--bg-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.rate-section__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(60% 50% at 90% 0%, rgba(37, 99, 235, 0.04), transparent 60%),
+    radial-gradient(50% 40% at 5% 40%, rgba(14, 165, 233, 0.04), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, var(--bg-main) 100%);
+}
+
+/* -------------------------------------------------------------------------
+   Header
+   ------------------------------------------------------------------------- */
+
+.rate-section__header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 56px;
+}
+
+.rate-section__eyebrow {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+}
+
+.rate-section__title {
+  margin: 0 0 14px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 3.5vw + 1rem, 3.2rem);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.rate-section__subtitle {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.rate-section__body {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* -------------------------------------------------------------------------
+   Tariff Card + Banner
+   ------------------------------------------------------------------------- */
+
+.tariff-table-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.07),
+    0 0 0 1px rgba(15, 23, 42, 0.02);
+}
+
+.tariff-banner {
+  position: relative;
+  overflow: hidden;
+  padding: 18px 28px;
+  text-align: center;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 0.98rem;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tariff-banner__icon {
+  font-size: 1.1rem;
+}
+
+.tariff-banner__shine {
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  animation: bannerShine 5s ease-in-out infinite;
+}
+
+/* -------------------------------------------------------------------------
+   Table
+   ------------------------------------------------------------------------- */
+
+.tariff-table-wrap {
+  position: relative;
+}
+
+.tariff-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.tariff-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tariff-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.tariff-table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+.tariff-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f8fafc;
+  color: var(--text-primary);
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-align: left;
+  padding: 18px 24px;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--border-color);
+  letter-spacing: -0.01em;
+}
+
+.tariff-table thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+
+.tariff-row {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease, background 0.25s ease;
+  transition-delay: calc(var(--stagger) * 0.03s);
+}
+
+.tariff-row.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tariff-row td,
+.tariff-row__vehicle {
+  padding: 16px 24px;
+  font-size: 0.94rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.tariff-row__vehicle {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--panel-bg);
+}
+
+.tariff-row:nth-child(even) .tariff-row__vehicle {
+  background: #fcfcfd;
+}
+
+.tariff-row:nth-child(even) td {
+  background: #fcfcfd;
+}
+
+.tariff-row:hover td,
+.tariff-row:hover .tariff-row__vehicle {
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+.tariff-row--featured .tariff-row__vehicle,
+.tariff-row--featured td {
+  background: var(--featured-bg);
+  box-shadow: inset 4px 0 0 var(--accent);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tariff-row--featured:hover .tariff-row__vehicle,
+.tariff-row--featured:hover td {
+  background: rgba(37, 99, 235, 0.07);
+}
+
+.tariff-row__badge {
+  display: inline-block;
+  margin-left: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+.tariff-table-wrap__hint {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  animation: hintNudge 1.6s ease-in-out infinite;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.tariff-scroll--scrolled + .tariff-table-wrap__hint {
+  opacity: 0;
+}
+
+/* -------------------------------------------------------------------------
+   Terms & Conditions
+   ------------------------------------------------------------------------- */
+
+.terms-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 40px 36px;
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.07),
+    0 0 0 1px rgba(15, 23, 42, 0.02);
+}
+
+.terms-card__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.terms-card__badge-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  border-radius: 12px;
+  font-size: 1.25rem;
+  border: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.terms-card__title {
+  margin: 0;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.terms-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 36px;
+}
+
+.term-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: calc(var(--stagger) * 0.04s);
+}
+
+.term-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.term-item__icon {
+  flex-shrink: 0;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+.term-item__text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* -------------------------------------------------------------------------
+   Keyframes
+   ------------------------------------------------------------------------- */
+
+@keyframes bannerShine {
+  0% {
+    left: -40%;
+  }
+  55%,
+  100% {
+    left: 130%;
+  }
+}
+
+@keyframes hintNudge {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateX(5px);
+    opacity: 0.6;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .terms-card__list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .rate-section {
+    padding: 64px 16px 80px;
+  }
+
+  .terms-card {
+    padding: 30px 22px;
+  }
+
+  .tariff-table-wrap__hint {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .tariff-banner {
+    font-size: 0.85rem;
+    padding: 14px 18px;
+  }
+
+  .tariff-table thead th,
+  .tariff-row td,
+  .tariff-row__vehicle {
+    padding: 14px 16px;
+    font-size: 0.86rem;
+  }
+
+  .terms-card__title {
+    font-size: 1.25rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .tariff-row,
+  .term-item {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .tariff-banner__shine,
+  .tariff-table-wrap__hint {
+    animation: none !important;
+  }
+}
