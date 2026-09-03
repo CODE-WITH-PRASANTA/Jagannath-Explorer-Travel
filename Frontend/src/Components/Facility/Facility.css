@@ -1,45 +1,74 @@
-/* ================= GLOBAL SECTION & CONTAINER ================= */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= SECTION & CONTAINER ================= */
 .facility-section {
   width: 100%;
   background-color: #fbfbf9;
   padding: 80px 24px;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: #171d22;
   overflow: hidden;
+  position: relative;
 }
 
+/* दोनों कॉलम्स को बराबर ऊंचाई (Equal Height) देने के लिए align-items: stretch रखा गया है */
 .facility-container {
-  max-width: 1240px;
+  max-width: 1300px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  gap: 60px;
-  align-items: center;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 70px;
+  align-items: stretch;
 }
 
-/* ================= LEFT CONTENT COLUMN ================= */
+/* ================= LEFT CONTENT & SOFT FADE BACKGROUND ================= */
 .facility-left-col {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 24px 0;
+  z-index: 1;
+}
+
+/* Soft ambient fade background */
+.facility-left-col::before {
+  content: '';
+  position: absolute;
+  top: 0%;
+  left: -20%;
+  width: 135%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(92, 184, 43, 0.09) 0%, rgba(251, 251, 249, 0) 70%);
+  filter: blur(55px);
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .facility-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  color: #5cb82b;
-  font-family: 'Brush Script MT', cursive, sans-serif;
-  font-size: 22px;
+  gap: 8px;
+  color: #5da943;
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
-.badge-arrow, .badge-wave {
+.badge-arrow,
+.badge-wave {
   font-size: 16px;
 }
 
-/* ================= SLIDE TRANSITION ANIMATION ================= */
+/* ================= SLIDE TRANSITIONS ================= */
 .slide-content-wrapper {
   transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -47,7 +76,7 @@
 .slide-fade-in {
   opacity: 1;
   transform: translateX(0);
-  animation: slideInFromRight 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: slideInText 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .slide-fade-out {
@@ -55,7 +84,7 @@
   transform: translateX(-15px);
 }
 
-@keyframes slideInFromRight {
+@keyframes slideInText {
   from {
     opacity: 0;
     transform: translateX(25px);
@@ -67,27 +96,27 @@
 }
 
 .facility-title {
-  font-size: 42px;
-  font-weight: 900;
+  font-size: 44px;
+  font-weight: 800;
   color: #111417;
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
   letter-spacing: -0.5px;
   line-height: 1.2;
 }
 
 .facility-desc {
-  font-size: 13.5px;
-  line-height: 1.75;
-  color: #6d7870;
-  margin: 0 0 30px 0;
-  max-width: 500px;
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: #636e67;
+  margin-bottom: 32px;
+  max-width: 520px;
 }
 
-/* 2-Column Bullets */
+/* 2-Column Features Grid */
 .facility-features-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 20px;
+  column-gap: 24px;
   row-gap: 16px;
   margin-bottom: 40px;
 }
@@ -102,39 +131,45 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: #5cb82b;
+  background-color: #5da943;
   flex-shrink: 0;
 }
 
 .feature-name {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
-  color: #161b1e;
+  color: #171d22;
 }
 
-/* ================= PAGINATION CONTROLS ================= */
+/* ================= PAGINATION ================= */
 .facility-pagination {
   display: inline-flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   user-select: none;
+  margin-top: auto;
 }
 
 .page-arrow {
-  background: none;
-  border: none;
-  color: #f7a833;
-  font-size: 14px;
+  background: #ffffff;
+  border: 1px solid #e5e8e3;
+  color: #6a746e;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 13px;
   cursor: pointer;
-  padding: 4px;
   display: flex;
   align-items: center;
-  transition: transform 0.25s ease, color 0.25s ease;
+  justify-content: center;
+  transition: all 0.25s ease;
 }
 
 .page-arrow:hover {
-  transform: scale(1.2);
-  color: #5cb82b;
+  background-color: #5da943;
+  border-color: #5da943;
+  color: #ffffff;
+  transform: scale(1.05);
 }
 
 .page-numbers {
@@ -148,43 +183,40 @@
 .num-btn {
   cursor: pointer;
   color: #b5beb7;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
 
 .num-btn:hover {
-  color: #5cb82b;
-  transform: translateY(-1px);
+  color: #5da943;
 }
 
 .num-btn.active {
-  color: #5cb82b;
-  font-weight: 900;
-  transform: scale(1.15);
+  color: #5da943;
+  font-weight: 800;
 }
 
 .num-slash {
-  color: #c7cec9;
-  font-weight: 400;
-  font-size: 15px;
+  color: #d1d8d2;
+  font-size: 16px;
 }
 
-/* ================= RIGHT IMAGE & OVERLAYS ================= */
+/* ================= RIGHT IMAGE COLUMN (EXPANDED TO FULL HEIGHT) ================= */
 .facility-right-col {
   position: relative;
   display: flex;
-  align-items: center;
+  align-self: stretch; /* पूरे कंटेनर की ऊंचाई लेगा */
+  width: 100%;
 }
 
-/* Main Background Image Container */
 .facility-img-wrapper {
   position: relative;
   width: 100%;
-  height: 480px;
-  border-radius: 20px;
+  height: 100%; /* कंपोनेंट के बराबर 100% ऊंचाई */
+  min-height: 600px; /* बड़ी स्क्रीन पर बड़ा और प्रीमियम लुक */
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-  margin-left: auto;
-  background-color: #222629;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  background-color: #1f2427;
 }
 
 .facility-main-img {
@@ -193,9 +225,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* इमेज बिना किसी विकृति के पूरी जगह भरेगी */
   opacity: 0;
-  transition: opacity 0.6s ease-in-out, transform 0.6s ease;
+  transition: opacity 0.7s ease-in-out, transform 0.7s ease;
   transform: scale(1.05);
 }
 
@@ -207,17 +239,17 @@
 /* Tripadvisor Badge */
 .tripadvisor-badge {
   position: absolute;
-  top: 36%;
-  right: 40px;
+  top: 30px;
+  right: 30px;
   background-color: #ffffff;
-  border: 2px solid #5cb82b;
+  border: 2px solid #5da943;
   border-radius: 50%;
-  width: 82px;
-  height: 82px;
+  width: 86px;
+  height: 86px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
   z-index: 5;
 }
 
@@ -226,7 +258,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .ta-label-top {
@@ -236,56 +268,68 @@
 }
 
 .ta-label-mid {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 900;
   color: #111417;
 }
 
 .ta-icon {
-  font-size: 20px;
+  font-size: 22px;
   color: #00af87;
   margin: 3px 0;
 }
 
 .ta-label-bot {
-  font-size: 7px;
+  font-size: 7.5px;
   font-weight: 700;
   color: #555e58;
 }
 
-/* ================= FLOATING RATING OVERLAY PANEL ================= */
+/* ================= 2-IN-1 UNIFIED RATING OVERLAY ================= */
 .floating-rating-panel {
   position: absolute;
-  left: -80px;
+  left: -85px;
   top: 50%;
   transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   z-index: 10;
-  width: 255px;
+  width: 280px;
 }
 
-.rating-card-box {
-  background-color: #ffffff;
-  border-radius: 14px;
-  padding: 16px 18px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f0f3ee;
+.unified-rating-card {
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 22px 20px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(230, 235, 228, 0.85);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-inner-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #edf1ea;
+  margin: 16px 0;
+}
+
+.rating-part {
+  display: flex;
+  flex-direction: column;
 }
 
 .card-box-title {
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 800;
   color: #161b1e;
-  margin: 0 0 8px 0;
+  margin-bottom: 8px;
 }
 
 .card-box-subtitle {
-  font-size: 9.5px;
-  line-height: 1.4;
+  font-size: 10px;
+  line-height: 1.45;
   color: #7d8780;
-  margin: 0 0 12px 0;
+  margin-bottom: 12px;
 }
 
 .rating-score-block {
@@ -296,13 +340,14 @@
 }
 
 .big-score {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 900;
-  color: #5cb82b;
+  color: #5da943;
+  line-height: 1;
 }
 
 .out-of-text {
-  font-size: 10.5px;
+  font-size: 11px;
   color: #838e87;
   font-weight: 600;
 }
@@ -316,11 +361,11 @@
 
 .yellow-star {
   color: #f7a833;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .star-score-val {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   color: #171d22;
   margin-left: 4px;
@@ -332,8 +377,6 @@
   justify-content: space-between;
   font-size: 8.5px;
   color: #838e87;
-  border-top: 1px solid #f4f6f2;
-  padding-top: 8px;
 }
 
 .mini-ta-dots {
@@ -352,7 +395,7 @@
   background: linear-gradient(90deg, #00af87 50%, #d8e0d9 50%);
 }
 
-/* Experience breakdown box */
+/* Experience Breakdown */
 .experience-breakdown {
   display: flex;
   align-items: center;
@@ -367,18 +410,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 62px;
+  min-width: 65px;
 }
 
 .exp-big-score {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 900;
-  color: #5cb82b;
+  color: #5da943;
   line-height: 1;
 }
 
 .exp-out-of {
-  font-size: 9px;
+  font-size: 9.5px;
   color: #7b8375;
   margin-bottom: 3px;
 }
@@ -390,11 +433,10 @@
   gap: 1px;
 }
 
-/* Progress bars */
 .progress-bars-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   flex: 1;
 }
 
@@ -402,7 +444,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 8px;
+  font-size: 8.5px;
   font-weight: 700;
   color: #555e58;
 }
@@ -426,9 +468,9 @@
 }
 
 .count-val {
-  font-size: 7.5px;
-  color: #5cb82b;
-  width: 20px;
+  font-size: 8px;
+  color: #5da943;
+  width: 22px;
   text-align: right;
 }
 
@@ -439,21 +481,20 @@
     gap: 50px;
   }
 
-  .facility-right-col {
-    justify-content: center;
+  .facility-img-wrapper {
+    min-height: 480px;
   }
 
   .floating-rating-panel {
-    left: 10px;
-    bottom: 20px;
-    top: auto;
+    position: static;
     transform: none;
-    flex-direction: row;
-    width: auto;
+    width: 100%;
+    margin-top: 24px;
   }
 
-  .rating-card-box {
-    width: 220px;
+  .unified-rating-card {
+    max-width: 480px;
+    margin: 0 auto;
   }
 }
 
@@ -463,7 +504,7 @@
   }
 
   .facility-title {
-    font-size: 30px;
+    font-size: 32px;
   }
 
   .facility-features-grid {
@@ -471,26 +512,12 @@
     gap: 12px;
   }
 
-  .floating-rating-panel {
-    position: static;
-    flex-direction: column;
-    margin-top: 20px;
-    width: 100%;
-  }
-
-  .rating-card-box {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
   .facility-img-wrapper {
-    height: 320px;
+    min-height: 380px;
   }
 
-  .tripadvisor-badge {
-    top: 20px;
-    right: 20px;
-    width: 68px;
-    height: 68px;
+  .unified-rating-card {
+    width: 100%;
+    padding: 16px;
   }
 }

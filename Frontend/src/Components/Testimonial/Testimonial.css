@@ -1,0 +1,353 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= MAIN CONTAINER ================= */
+.testimonial-section {
+  position: relative;
+  width: 100%;
+  background-color: #f7f5ef;
+  padding: 85px 24px 105px 24px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #171d22;
+  overflow: hidden;
+}
+
+.testimonial-container {
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+/* ================= HEADER ================= */
+.testimonial-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.testimonial-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #5da943;
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.badge-arrow,
+.badge-sparkle {
+  font-size: 16px;
+}
+
+.testimonial-main-title {
+  font-size: 44px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+/* ================= PLATFORM SELECTOR PILL ================= */
+.platform-nav-pill {
+  background-color: #ffffff;
+  width: fit-content;
+  max-width: 720px;
+  margin: 0 auto 55px auto;
+  border-radius: 8px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.pill-btn {
+  background: none;
+  border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #525b62;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.pill-btn.active {
+  color: #5da943;
+  font-weight: 700;
+}
+
+.pill-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #5da943;
+  border-radius: 2px;
+}
+
+.platform-icon {
+  font-size: 16px;
+}
+
+.tripadvisor-color {
+  color: #00af87;
+}
+
+.circle-fb-icon,
+.circle-g-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #6b7280;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ================= SLIDER AREA WITH ARROWS ================= */
+.slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+}
+
+/* Circular Arrow Buttons */
+.nav-arrow-btn {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1.5px solid #8ec47a;
+  color: #5da943;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.nav-arrow-btn:hover {
+  background-color: #5da943;
+  color: #ffffff;
+  border-color: #5da943;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.left-arrow {
+  left: -15px;
+}
+
+.right-arrow {
+  right: -15px;
+}
+
+/* ================= 3x3 CARDS GRID ================= */
+.reviews-3x3-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  width: 100%;
+}
+
+.review-unit {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Speech Bubble Box */
+.speech-bubble-box {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 34px 28px 26px 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.035);
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.review-quote-text {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: #525960;
+  margin-bottom: 24px;
+}
+
+/* Bubble Pointer Tail at Center Bottom */
+.bubble-pointer-tail {
+  position: absolute;
+  bottom: -10px;
+  left: 36px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 11px solid #ffffff;
+}
+
+/* Card Bottom Metadata */
+.card-meta-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  border-top: 1px solid #f6f8f5;
+  padding-top: 16px;
+}
+
+.stars-row {
+  display: flex;
+  gap: 2px;
+}
+
+.star-char {
+  color: #fca834;
+  font-size: 18px;
+}
+
+.quote-watermark-icon {
+  position: absolute;
+  left: 48%;
+  transform: translateX(-50%);
+  font-size: 48px;
+  font-weight: 900;
+  color: #f1f4ef;
+  line-height: 1;
+  pointer-events: none;
+  font-family: serif;
+}
+
+.timestamp-block {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  line-height: 1.35;
+}
+
+.date-str {
+  font-size: 11px;
+  font-weight: 800;
+  color: #171d22;
+}
+
+.time-str {
+  font-size: 10px;
+  font-weight: 600;
+  color: #8c968f;
+}
+
+/* ================= TRAVELER PROFILE ROW ================= */
+.traveler-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-left: 16px;
+}
+
+.traveler-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.traveler-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.traveler-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #171d22;
+  line-height: 1.2;
+}
+
+.traveler-country {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8c968f;
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+@media (max-width: 1080px) {
+  .reviews-3x3-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .reviews-3x3-grid .review-unit:last-child {
+    display: none;
+  }
+
+  .slider-wrapper {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonial-section {
+    padding: 60px 16px 75px 16px;
+  }
+
+  .testimonial-main-title {
+    font-size: 30px;
+  }
+
+  .platform-nav-pill {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    padding: 10px;
+  }
+
+  .reviews-3x3-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reviews-3x3-grid .review-unit:last-child {
+    display: flex;
+  }
+
+  .slider-wrapper {
+    padding: 0;
+  }
+
+  .nav-arrow-btn {
+    top: 38%;
+  }
+
+  .left-arrow {
+    left: -12px;
+  }
+
+  .right-arrow {
+    right: -12px;
+  }
+}

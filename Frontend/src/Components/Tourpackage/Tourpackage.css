@@ -1,8 +1,8 @@
 /* ================= GLOBAL SECTION & CONTAINER ================= */
 .tourpackage-section {
   width: 100%;
-  background-color: #ffffff;
-  padding: 70px 20px 90px 20px;
+  background-color: #fbfbfd;
+  padding: 80px 20px 100px 20px;
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: #171d22;
@@ -16,7 +16,7 @@
 /* ================= HEADER SECTION ================= */
 .tourpackage-header {
   text-align: center;
-  margin-bottom: 45px;
+  margin-bottom: 50px;
 }
 
 .tourpackage-badge {
@@ -25,7 +25,7 @@
   gap: 6px;
   color: #5cb82b;
   font-family: 'Brush Script MT', cursive, sans-serif;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 6px;
 }
@@ -35,11 +35,12 @@
 }
 
 .tourpackage-main-title {
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 800;
   color: #111417;
   margin: 0;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
+  line-height: 1.2;
 }
 
 /* ================= 3-COLUMN CARDS GRID ================= */
@@ -47,6 +48,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 26px;
+  margin-bottom: 50px;
 }
 
 /* ================= TOUR CARD COMPONENT ================= */
@@ -67,11 +69,11 @@
   border-color: #dbe7d5;
 }
 
-/* Card Image Section */
+/* 🌟 Image Section & Shine Effect */
 .card-img-wrap {
   position: relative;
   width: 100%;
-  height: 215px;
+  height: 220px;
   overflow: hidden;
   background-color: #eef2ec;
 }
@@ -88,6 +90,31 @@
   transform: scale(1.08);
 }
 
+/* 🌟 IMAGE SHINE SWEEP इफ़ेक्ट */
+.shine-sweep-overlay {
+  position: absolute;
+  top: 0;
+  left: -150%; /* स्क्रीन से बाहर शुरू करें */
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%, /* बीच में चमकदार */
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg); /* थोड़ा टेढ़ा */
+  z-index: 1;
+  pointer-events: none; /* क्लिक्स को रोके नहीं */
+  transition: none;
+}
+
+/* होवर पर चमकती हुई लाइन गुज़रना */
+.tourpackage-card:hover .shine-sweep-overlay {
+  left: 150%; /* स्क्रीन के दूसरी तरफ गुज़ारें */
+  transition: left 0.8s ease-in-out;
+}
+
 /* Overlay Duration & Location Tags */
 .badge-duration {
   position: absolute;
@@ -97,7 +124,7 @@
   color: #ffffff;
   font-size: 10.5px;
   font-weight: 800;
-  padding: 4px 10px;
+  padding: 5px 10px;
   border-radius: 4px;
   letter-spacing: 0.5px;
   z-index: 2;
@@ -105,7 +132,7 @@
 
 .badge-location-tag {
   position: absolute;
-  top: 42px;
+  top: 44px;
   left: 14px;
   background-color: #ffffff;
   color: #1a201c;
@@ -127,17 +154,17 @@
 
 /* Card Body Content */
 .card-body-content {
-  padding: 20px 18px 18px 18px;
+  padding: 22px 20px 20px 20px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .card-title {
-  font-size: 16.5px;
+  font-size: 17px;
   font-weight: 800;
   color: #161b1e;
-  line-height: 1.35;
+  line-height: 1.4;
   margin: 0 0 10px 0;
   transition: color 0.25s ease;
 }
@@ -147,7 +174,7 @@
 }
 
 .card-route-text {
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 700;
   color: #9ba49e;
   letter-spacing: 0.3px;
@@ -160,7 +187,7 @@
 .card-divider-line {
   border: none;
   border-top: 1px solid #edf1ea;
-  margin: 16px 0;
+  margin: 18px 0;
 }
 
 /* Card Footer: Price and CTA */
@@ -177,7 +204,7 @@
 }
 
 .starting-text {
-  font-size: 10.5px;
+  font-size: 11px;
   color: #838e87;
   font-weight: 600;
 }
@@ -189,20 +216,21 @@
 }
 
 .active-price {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 800;
   color: #5cb82b;
 }
 
 .striked-price {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #a4aca6;
   text-decoration: line-through;
+  margin-left: -1px;
 }
 
 .taxes-note {
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 700;
   color: #9da7a0;
   letter-spacing: 0.2px;
@@ -213,10 +241,10 @@
   background-color: #5cb82b;
   color: #ffffff;
   border: none;
-  padding: 9px 16px;
-  font-size: 12.5px;
+  padding: 10px 18px;
+  font-size: 13px;
   font-weight: 700;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -227,7 +255,7 @@
 .btn-book-tour-pkg:hover {
   background-color: #4ca022;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(92, 184, 43, 0.35);
+  box-shadow: 0 5px 15px rgba(92, 184, 43, 0.35);
 }
 
 .plane-fly-icon {
@@ -237,32 +265,94 @@
 }
 
 .btn-book-tour-pkg:hover .plane-fly-icon {
-  transform: rotate(45deg) translate(2px, -2px);
+  transform: rotate(45deg) translate(3px, -3px);
+}
+
+/* ================= 🌟 VIEW ALL PACKAGES BUTTON (DEEP GOLDEN) ================= */
+.view-all-packages-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.btn-view-all-golden {
+  background-color: transparent;
+  border: 2px solid #b7914e; /* गहरे सुनहरे रंग का बॉर्डर */
+  color: #b7914e; /* गहरा सुनहरा टेक्स्ट रंग */
+  padding: 13px 30px;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 50px; /* कैप्सूल आकार */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* होवर पर: ब्लैक बैकग्राउंड और व्हाइट टेक्स्ट */
+.btn-view-all-golden:hover {
+  background-color: #111417; /* ब्लैक बैकग्राउंड */
+  border-color: #111417;
+  color: #ffffff; /* व्हाइट टेक्स्ट रंग */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+.view-all-arrow {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.btn-view-all-golden:hover .view-all-arrow {
+  transform: translateX(4px);
 }
 
 /* ================= RESPONSIVE DESIGN ================= */
 @media (max-width: 1024px) {
   .tourpackage-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tourpackage-section {
+    padding: 60px 20px 80px 20px;
+  }
+
+  .tourpackage-main-title {
+    font-size: 32px;
   }
 }
 
 @media (max-width: 650px) {
-  .tourpackage-section {
-    padding: 50px 16px 60px 16px;
+  .tourpackage-badge {
+    font-size: 20px;
   }
 
   .tourpackage-main-title {
     font-size: 28px;
+    letter-spacing: -0.5px;
   }
 
   .tourpackage-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 20px;
   }
 
   .card-img-wrap {
-    height: 190px;
+    height: 200px;
+  }
+
+  .active-price {
+    font-size: 20px;
+  }
+
+  .btn-view-all-golden {
+    padding: 12px 25px;
+    font-size: 14px;
   }
 }

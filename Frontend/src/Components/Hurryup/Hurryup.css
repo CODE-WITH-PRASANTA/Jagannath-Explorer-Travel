@@ -1,0 +1,419 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600;700&family=Kaushan+Script&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= MAIN WRAPPER ================= */
+.hurryup-section {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 85px 24px 105px 24px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #171d22;
+  overflow: hidden;
+}
+
+.hurryup-container {
+  max-width: 1220px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Background Pine Tree Illustration */
+.bg-trees-art {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  width: 90px;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ================= HEADER ================= */
+.hurryup-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.hurryup-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #5da943;
+  font-family: 'Caveat', cursive;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.badge-arrow,
+.badge-sparkle {
+  font-size: 16px;
+}
+
+.hurryup-main-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+/* ================= 3-COLUMN DEALS GRID ================= */
+.deals-grid {
+  display: grid;
+  grid-template-columns: 290px 1.4fr 340px;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* Base Card Styling */
+.deal-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: #f3f5f2;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.deal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.deal-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.deal-card:hover .deal-bg-img {
+  transform: scale(1.06);
+}
+
+/* ================= 1. LEFT CARD (TALL, 20% OFF) ================= */
+.card-tall-left {
+  height: 480px;
+}
+
+.inner-border-line {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  bottom: 120px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.green-torn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #5da943;
+  padding: 0 20px 24px 20px;
+  text-align: center;
+  z-index: 2;
+}
+
+.torn-paper-svg {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  display: block;
+}
+
+.green-torn .script-subtitle {
+  color: #ffffff;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 600;
+  display: block;
+  margin-top: -6px;
+}
+
+.green-torn .discount-title {
+  color: #ffd43b;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 2px 0 6px 0;
+}
+
+.green-torn .deal-action-text {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ================= 2. MIDDLE COLUMN (2 CARDS) ================= */
+.middle-stacked-col {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  height: 480px;
+}
+
+/* Card Mid Top */
+.card-mid-top {
+  flex: 1;
+}
+
+.brown-torn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #bd6a37;
+  padding: 0 22px 18px 22px;
+  z-index: 2;
+}
+
+.horizontal-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -4px;
+}
+
+.brown-torn .script-subtitle {
+  color: #fed7aa;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  display: block;
+}
+
+.brown-torn .location-heading {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.round-badge-disc {
+  background-color: #5da943;
+  color: #ffffff;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.round-badge-disc span {
+  font-size: 14px;
+}
+
+.round-badge-disc small {
+  font-size: 10px;
+}
+
+/* Card Mid Bottom */
+.card-mid-bottom {
+  flex: 1;
+  background-color: #2f694d;
+  flex-direction: row;
+}
+
+.curve-right-img {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 48%;
+  height: 100%;
+  border-radius: 65% 0 0 50% / 50% 0 0 50%;
+  z-index: 1;
+}
+
+.dark-green-panel {
+  position: relative;
+  z-index: 2;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 58%;
+}
+
+.dark-green-panel .script-subtitle {
+  color: #fef08a;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+}
+
+.panel-heading {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 2px 0 6px 0;
+}
+
+.yellow-accent {
+  color: #fca834;
+}
+
+.panel-sub {
+  color: #e5e7eb;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.btn-pill-orange {
+  background-color: #fca834;
+  color: #ffffff;
+  border: none;
+  padding: 8px 22px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-pill-orange:hover {
+  background-color: #e99522;
+  transform: translateY(-1px);
+}
+
+/* ================= 3. RIGHT CARD (50% OFF BANNER + LAKE IMAGE) ================= */
+.card-tall-right {
+  height: 480px;
+  background-color: #fca834;
+}
+
+.yellow-top-banner {
+  position: relative;
+  padding: 24px 22px 35px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.torn-paper-bottom-svg {
+  position: absolute;
+  bottom: -22px;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  display: block;
+}
+
+.banner-text-left .script-subtitle {
+  color: #ffffff;
+  font-family: 'Caveat', cursive;
+  font-size: 21px;
+  display: block;
+}
+
+.banner-heading {
+  font-size: 32px;
+  font-weight: 900;
+  color: #111827;
+  line-height: 1.1;
+  margin: 2px 0 2px 0;
+}
+
+.banner-sub {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #4b5563;
+}
+
+.btn-green-book {
+  background-color: #5da943;
+  color: #ffffff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-green-book:hover {
+  background-color: #4c8f35;
+}
+
+.bottom-img-half {
+  height: 62%;
+  margin-top: auto;
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+@media (max-width: 1080px) {
+  .deals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-tall-left {
+    height: 420px;
+  }
+
+  .middle-stacked-col {
+    height: 420px;
+  }
+
+  .card-tall-right {
+    grid-column: span 2;
+    height: 380px;
+  }
+
+  .bottom-img-half {
+    height: 55%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hurryup-section {
+    padding: 60px 16px 70px 16px;
+  }
+
+  .hurryup-main-title {
+    font-size: 30px;
+  }
+
+  .deals-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .card-tall-left,
+  .middle-stacked-col,
+  .card-tall-right {
+    grid-column: auto;
+    height: 380px;
+  }
+
+  .card-mid-bottom {
+    min-height: 180px;
+  }
+}
