@@ -6,10 +6,10 @@
   --bds-text-secondary: #71717a;
   --bds-border: #e4e4e7;
   --bds-bg: #ffffff;
-
+ 
   max-width: 880px;
   margin: 0 auto;
-  padding: 32px 20px 80px;
+  padding: 50px 24px;
   background-color: var(--bds-bg);
   color: var(--bds-text-primary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -41,13 +41,13 @@
 
 /* Article Content */
 .BlogsDetailsSection-content {
-  margin-top: 36px;
+  margin-top: 30px;
 }
 
 .BlogsDetailsSection-title {
   font-size: 2rem;
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.20;
   color: var(--bds-text-primary);
   margin: 0 0 18px;
 }

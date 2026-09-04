@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Gallery.css';
 
-import img1 from '../assets/images/gallery-1.jpg';
-import img2 from '../assets/images/gallery-2.jpg';
-import img3 from '../assets/images/gallery-3.jpg';
-import img4 from '../assets/images/gallery-4.jpg';
-import img5 from '../assets/images/gallery-5.jpg';
-import img6 from '../assets/images/gallery-6.jpg';
-import img7 from '../assets/images/gallery-7.jpg';
-import img8 from '../assets/images/gallery-8.jpg';
-import img9 from '../assets/images/gallery-9.jpg';
+import img1 from '../../assets/gallery-01.webp';
+import img2 from '../../assets/gallery-02.webp';
+import img3 from '../../assets/gallery-03.webp';
+import img4 from '../../assets/gallery-04.webp';
+import img5 from '../../assets/gallery-05.webp';
+import img6 from '../../assets/gallery-06.webp';
+import img7 from '../../assets/gallery-07.webp';
+import img8 from '../../assets/gallery-08.webp';
+import img9 from '../../assets/gallery-09.webp';
 
 const galleryItems = [
   {

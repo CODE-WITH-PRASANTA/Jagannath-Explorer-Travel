@@ -22,7 +22,6 @@ import Gallery from "./Components/Gallery/Gallery";
  
 import Contact from "./Page/Contact/Contact";
 
-
 // Pages
 
 const App = () => {
@@ -31,7 +30,6 @@ const App = () => {
    
     <Navbar/>
      
-
       <Routes>
         <Route path="/sedan-car"element={<SedanCar/>}/>
         <Route path="/suv-cars"element={<Suvcars/>}/>
@@ -46,11 +44,10 @@ const App = () => {
         <Route path="/hotelroomdetails" element={<HotelRoomDetails/>}/>
         <Route path="/about" element={<About />}/>
         <Route path="/UrbaniaTraveller" element={<UrbaniaTraveller />} />
-        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blog" element={<Blogs />} />
         <Route path="/blogsdetails" element={<BLogDetails />} />
         <Route path="/gallery" element={<Gallery />} />
         
-
         <Route path="/contact" element={<Contact/>} />
 
       </Routes>
