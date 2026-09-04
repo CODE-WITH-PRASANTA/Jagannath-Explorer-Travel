@@ -1,0 +1,339 @@
+/* ================= MAIN CONTAINER ================= */
+.car-rental {
+  width: 100%;
+  padding: 64px 24px 74px 24px;
+  box-sizing: border-box;
+  background-color: #f7fbf4;
+  background-image: radial-gradient(#dcecd2 1.3px, transparent 1.3px);
+  background-size: 26px 26px;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ================= HEADER SECTION ================= */
+.car-rental__header {
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto 38px auto;
+  position: relative;
+}
+
+.car-rental__subtitle {
+  display: inline-block;
+  color: #5cb82b;
+  background-color: #e9f5e2;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.car-rental__title {
+  color: #172419;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.6px;
+}
+
+.car-rental__description {
+  color: #58695b;
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0 auto 10px auto;
+  max-width: 880px;
+}
+
+.car-rental__description strong {
+  color: #1d2d20;
+  font-weight: 700;
+}
+
+/* ================= SLIDER WRAPPER (CONTAINING LEFT/RIGHT BUTTONS) ================= */
+.car-rental__slider-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+/* ================= SIDE ARROW BUTTONS (LEFT & RIGHT) ================= */
+.car-rental__side-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid #d4e7ca;
+  background-color: #ffffff;
+  color: #3b4e3f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 6px 18px rgba(35, 78, 20, 0.12);
+  z-index: 10;
+  transition: all 0.25s ease;
+}
+
+.car-rental__side-arrow:hover {
+  background-color: #5cb82b;
+  color: #ffffff;
+  border-color: #5cb82b;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 8px 22px rgba(92, 184, 43, 0.4);
+}
+
+.car-rental__side-arrow--left {
+  left: 0px;
+}
+
+.car-rental__side-arrow--right {
+  right: 0px;
+}
+
+/* ================= CAROUSEL TRACK ================= */
+.car-rental__carousel-window {
+  width: 100%;
+  max-width: 1220px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 14px 0 24px 0;
+}
+
+.car-rental__carousel-track {
+  display: flex;
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+.car-rental__slide-item {
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+/* ================= CAR CARD ================= */
+.car-rental__card {
+  background-color: #ffffff;
+  border-radius: 18px;
+  border: 1.5px solid #e2f0d9;
+  box-shadow: 0 10px 24px rgba(35, 78, 20, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.car-rental__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(35, 78, 20, 0.12);
+  border-color: #b7e09e;
+}
+
+/* इमेज बॉक्स */
+.car-rental__image-box {
+  width: 100%;
+  height: 220px;
+  background-color: #fbfdfa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 14px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #f0f7ec;
+}
+
+.car-rental__car-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.car-rental__card:hover .car-rental__car-image {
+  transform: scale(1.06);
+}
+
+/* कार्ड बॉडी */
+.car-rental__body {
+  padding: 22px 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.car-rental__car-name {
+  color: #1a271c;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+  margin: 0 0 18px 0;
+}
+
+/* स्पेक्स लिस्ट */
+.car-rental__specs-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+  border-top: 1px solid #edf5e8;
+}
+
+.car-rental__spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #edf5e8;
+}
+
+.car-rental__spec-label {
+  color: #27362a;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.car-rental__spec-value {
+  color: #6a7b6d;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* कार्ड फुटर */
+.car-rental__footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  gap: 12px;
+}
+
+.car-rental__price-box {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.car-rental__price {
+  color: #172419;
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.car-rental__duration {
+  color: #6a7b6d;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.car-rental__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.car-rental__actions--full {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* बटन्स */
+.car-rental__btn {
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.car-rental__btn--primary {
+  background-color: #5cb82b;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(92, 184, 43, 0.3);
+}
+
+.car-rental__btn--primary:hover {
+  background-color: #4ba021;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(92, 184, 43, 0.45);
+}
+
+.car-rental__btn--outline {
+  background-color: #ffffff;
+  color: #2b3a2e;
+  border: 1.5px solid #c9e2bd;
+}
+
+.car-rental__btn--outline:hover {
+  background-color: #eef7e9;
+  border-color: #5cb82b;
+  color: #5cb82b;
+  transform: translateY(-1.5px);
+}
+
+/* ================= DOTS ================= */
+.car-rental__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.car-rental__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #d1e7c6;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  padding: 0;
+}
+
+.car-rental__dot--active {
+  background-color: #5cb82b;
+  width: 26px;
+  border-radius: 10px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .car-rental__side-arrow {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .car-rental {
+    padding: 40px 12px 50px 12px;
+  }
+  .car-rental__title {
+    font-size: 25px;
+  }
+  .car-rental__side-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+  .car-rental__carousel-window {
+    padding: 10px 38px 20px 38px; /* मोबाइल पर एरो के लिए साइड स्पेस */
+  }
+}

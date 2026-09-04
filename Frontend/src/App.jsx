@@ -18,6 +18,7 @@ import About from "./Page/About/About";
 import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
 import Contact from "./Page/Contact/Contact";
 import Topbar from "./Components/Topbar/Topbar";
+import Faqs from "./Page/Faqs/Faqs";
 
 
 // Pages
@@ -30,11 +31,11 @@ const App = () => {
      
 
       <Routes>
-        <Route path="/sedan-car"element={<SedanCar/>}/>
-        <Route path="/suv-cars"element={<Suvcars/>}/>
-        <Route path="/luxury-car"element={<LuxuryCars/>}/>
-        <Route path="/tempo-cars"element={<TempoTravell/>}/>
-        <Route path="/sml-cars"element={<SmlCoach/>}/>
+        <Route path="/car-rental/sedan-cars"element={<SedanCar/>}/>
+        <Route path="/car-rental/suv-cars"element={<Suvcars/>}/>
+        <Route path="/car-rental/luxury-cars"element={<LuxuryCars/>}/>
+        <Route path="/car-rental/tempo-travellers"element={<TempoTravell/>}/>
+        <Route path="/car-rental/small-coach"element={<SmlCoach/>}/>
         <Route path="/" element={<Home/>}/>
         
         <Route path="/tours" element={<Tours/>}/>
@@ -42,9 +43,10 @@ const App = () => {
         <Route path="/hotel" element={<Hotel/>}/>
         <Route path="/hotelroomdetails" element={<HotelRoomDetails/>}/>
         <Route path="/about" element={<About />}/>
-        <Route path="/UrbaniaTraveller" element={<UrbaniaTraveller />} />
+        <Route path="/car-rental/urbania-travellers" element={<UrbaniaTraveller />} />
 
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/faq" element={<Faqs/>}/>
 
       </Routes>
       <Footer/>

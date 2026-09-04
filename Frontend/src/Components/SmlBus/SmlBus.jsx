@@ -403,7 +403,7 @@ const SmlBus = () => {
 
       </div>
 
-      {/* Preview Modal: Auto-Rotating Showcase */}
+      {/* Compact, Premium, Elegant Eye-Catching Modal Popup */}
       {modalBus && (
         <div className="smlbus-modal-overlay" onClick={closeModal}>
           <div className="smlbus-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -420,7 +420,7 @@ const SmlBus = () => {
             </div>
 
             <div className="smlbus-modal-info">
-              <div className="smlbus-modal-badge">Verified Fleet</div>
+              <span className="smlbus-modal-badge">Verified Fleet</span>
               <h3 className="smlbus-modal-title">{modalBus.title}</h3>
 
               <div className="smlbus-modal-specs-grid">
@@ -429,23 +429,9 @@ const SmlBus = () => {
                   <strong>{modalBus.ac}</strong>
                 </div>
                 <div className="smlbus-modal-spec">
-                  <span>Seating Type</span>
-                  <strong>{modalBus.seatingType}</strong>
-                </div>
-                <div className="smlbus-modal-spec">
-                  <span>Comfort Level</span>
+                  <span>Comfort</span>
                   <strong>{modalBus.comfortLevel}</strong>
                 </div>
-                <div className="smlbus-modal-spec">
-                  <span>Best For</span>
-                  <strong>{modalBus.bestFor}</strong>
-                </div>
-              </div>
-
-              <div className="smlbus-features-tags">
-                {modalBus.features.map((feat, idx) => (
-                  <span key={idx} className="smlbus-feat-chip">✓ {feat}</span>
-                ))}
               </div>
 
               <div className="smlbus-modal-footer">

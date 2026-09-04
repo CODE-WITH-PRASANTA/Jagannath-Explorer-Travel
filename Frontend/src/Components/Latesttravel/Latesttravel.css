@@ -1,0 +1,421 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= SECTION & BACKGROUND ================= */
+.latesttravel-section {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 85px 24px 105px 24px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #171d22;
+  overflow: hidden;
+}
+
+.latesttravel-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Background Map & Pine Line Art */
+.bg-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bg-world-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(#e4ece0 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.55;
+  mask-image: radial-gradient(circle, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle, black 40%, transparent 80%);
+}
+
+.bg-pine-trees {
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  width: 90px;
+  opacity: 0.6;
+}
+
+/* ================= HEADER ================= */
+.latesttravel-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.latesttravel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #5da943;
+  font-family: 'Caveat', cursive;
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.badge-arrow,
+.badge-sparkle {
+  font-size: 16px;
+}
+
+.latesttravel-main-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+/* ================= 2-COLUMN GRID ================= */
+.latesttravel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 30px;
+  align-items: stretch;
+}
+
+/* ================= IMAGE & SHINE HOVER EFFECT ================= */
+.blog-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.shine-overlay {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-22deg);
+  pointer-events: none;
+  transition: none;
+}
+
+.featured-card:hover .shine-overlay,
+.horizontal-post-card:hover .shine-overlay {
+  left: 150%;
+  transition: left 0.8s ease-in-out;
+}
+
+.featured-card:hover .blog-img,
+.horizontal-post-card:hover .blog-img {
+  transform: scale(1.06);
+}
+
+/* ================= LEFT FEATURED CARD ================= */
+.featured-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f2ee;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featured-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+}
+
+.featured-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  background-color: #121619;
+}
+
+.featured-content {
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #7b8580;
+  margin-bottom: 12px;
+}
+
+.author-link {
+  background: none;
+  border: none;
+  color: #555e58;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.meta-dot {
+  font-size: 10px;
+  color: #b0b8af;
+}
+
+.featured-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111417;
+  line-height: 1.4;
+  margin-bottom: 22px;
+}
+
+.featured-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  border-top: 1px solid #f4f6f2;
+  padding-top: 18px;
+}
+
+/* ================= VIEW POST BUTTON ================= */
+.view-post-btn {
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #5da943;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.arrow-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.2px solid #5da943;
+  font-size: 11px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.view-post-btn:hover .arrow-circle {
+  transform: translate(2px, -2px);
+}
+
+.social-links-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.social-links-row button {
+  background: none;
+  border: none;
+  color: #717c75;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.social-links-row button:hover {
+  color: #5da943;
+  transform: translateY(-1px);
+}
+
+/* ================= RIGHT STACKED CARDS ================= */
+.stacked-cards-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.horizontal-post-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f2ee;
+  display: flex;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 165px;
+}
+
+.horizontal-post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+}
+
+.horizontal-img-wrap {
+  position: relative;
+  width: 220px;
+  min-width: 220px;
+  overflow: hidden;
+  background-color: #1f2427;
+}
+
+/* Circular Date Badge */
+.date-circle-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(22, 27, 30, 0.55);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.date-number {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.date-month {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.horizontal-content {
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #7d8882;
+  margin-bottom: 8px;
+}
+
+.category-text {
+  color: #7d8882;
+  font-weight: 600;
+}
+
+.horizontal-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #111417;
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+
+.horizontal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.read-time-box {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fire-icon {
+  font-size: 12px;
+}
+
+.read-time-text {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #838e88;
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 1024px) {
+  .latesttravel-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .featured-img-wrap {
+    height: 320px;
+  }
+
+  .horizontal-img-wrap {
+    width: 200px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 650px) {
+  .latesttravel-section {
+    padding: 60px 16px 70px 16px;
+  }
+
+  .latesttravel-main-title {
+    font-size: 30px;
+  }
+
+  .horizontal-post-card {
+    flex-direction: column;
+  }
+
+  .horizontal-img-wrap {
+    width: 100%;
+    min-width: 100%;
+    height: 190px;
+  }
+
+  .featured-img-wrap {
+    height: 240px;
+  }
+
+  .featured-content,
+  .horizontal-content {
+    padding: 18px 16px;
+  }
+}

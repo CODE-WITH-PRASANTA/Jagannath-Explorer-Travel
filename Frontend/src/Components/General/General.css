@@ -1,0 +1,284 @@
+/* ================= MAIN CONTAINER ================= */
+.general-faq {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 70px 24px 90px 24px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #171d22;
+}
+
+.general-faq__container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ================= 2-COLUMN LAYOUT ================= */
+.general-faq__layout-grid {
+  display: grid;
+  grid-template-columns: 370px 1fr;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+/* ================= STICKY LEFT SIDEBAR ================= */
+.general-faq__sidebar {
+  position: sticky;
+  top: 40px;
+}
+
+/* ================= LEFT PROMO CARD (50% OFF) ================= */
+.general-faq__promo-card {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.general-faq__promo-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  z-index: 1;
+}
+
+/* येलो टॉप बैनर (रग्ड/वेवी कटआउट) */
+.general-faq__promo-badge-box {
+  position: relative;
+  z-index: 2;
+  background-color: #f7a833;
+  padding: 24px 22px 34px 22px;
+  color: #ffffff;
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 85% 95%, 70% 90%, 50% 98%, 30% 92%, 15% 97%, 0 90%);
+}
+
+.general-faq__promo-cursive {
+  font-family: 'Brush Script MT', 'Caveat', cursive, sans-serif;
+  font-size: 21px;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.general-faq__promo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.general-faq__promo-offer {
+  display: flex;
+  flex-direction: column;
+}
+
+.general-faq__promo-discount {
+  font-size: 34px;
+  font-weight: 900;
+  margin: 0;
+  line-height: 1.1;
+  color: #171d22;
+}
+
+.general-faq__promo-sub {
+  font-size: 11.5px;
+  font-weight: 700;
+  margin: 4px 0 0 0;
+  color: #ffffff;
+}
+
+.general-faq__promo-btn {
+  background-color: #5cb82b;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  padding: 10px 22px;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(92, 184, 43, 0.35);
+  white-space: nowrap;
+}
+
+.general-faq__promo-btn:hover {
+  background-color: #4da023;
+  transform: translateY(-2px);
+}
+
+/* ================= RIGHT CONTENT AREA ================= */
+.general-faq__content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px; /* General और Travel Tips के बीच का क्लीन गैप */
+}
+
+.general-faq__block {
+  width: 100%;
+}
+
+/* ================= HEADINGS ================= */
+.general-faq__title {
+  font-size: 38px;
+  font-weight: 900;
+  color: #171d22;
+  margin: 0 0 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.6px;
+}
+
+.general-faq__star-badge {
+  color: #c9e6b5;
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* ================= ACCORDION COMPONENT ================= */
+.general-faq__accordion-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1.5px solid #2b3036;
+}
+
+.general-faq__item {
+  border-bottom: 1.5px solid #2b3036;
+}
+
+.general-faq__question-bar {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 18px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.general-faq__question-text {
+  font-size: 16px;
+  font-weight: 800;
+  color: #171d22;
+  line-height: 1.4;
+  padding-right: 18px;
+}
+
+.general-faq__number {
+  font-weight: 800;
+  margin-right: 4px;
+}
+
+.general-faq__icon {
+  font-size: 14px;
+  color: #171d22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.general-faq__question-bar:hover .general-faq__question-text {
+  color: #5cb82b;
+}
+
+/* एकॉर्डियन ओपन आंसर टेक्स्ट */
+.general-faq__answer-box {
+  padding: 4px 0 22px 0;
+  animation: faqFadeIn 0.25s ease-in-out;
+}
+
+.general-faq__answer-text {
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: #727a82;
+  margin: 0;
+  max-width: 900px;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes faqFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 1024px) {
+  .general-faq__layout-grid {
+    grid-template-columns: 320px 1fr;
+    gap: 36px;
+  }
+  .general-faq__promo-discount {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 860px) {
+  .general-faq__layout-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .general-faq__sidebar {
+    position: static;
+  }
+
+  .general-faq__promo-card {
+    height: 380px;
+    max-width: 480px;
+    margin: 0 auto 20px auto;
+  }
+  
+  .general-faq__title {
+    font-size: 30px;
+  }
+  
+  .general-faq__question-text {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 520px) {
+  .general-faq {
+    padding: 40px 16px 60px 16px;
+  }
+  
+  .general-faq__promo-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  
+  .general-faq__promo-btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .general-faq__title {
+    font-size: 26px;
+  }
+  
+  .general-faq__question-text {
+    font-size: 14px;
+  }
+}

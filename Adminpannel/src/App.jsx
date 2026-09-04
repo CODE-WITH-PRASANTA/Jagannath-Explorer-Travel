@@ -4,6 +4,7 @@ import "./App.css";
 
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import DashBoard from "./Pages/DashBoard/DashBoard";
+import Hotel from "./Pages/Hotel/Hotel";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         {/* Bypass ProtectedRoute temporarily to test if layout shows */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<DashBoard />} />
+          <Route path="/hotels"element={<Hotel/>}/>
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,0 +1,259 @@
+/* =========================================================
+   FAQ BREADCRUMB
+========================================================= */
+
+.FaqBreadcrumb {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.FaqBreadcrumb__overlay {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.52);
+
+  z-index: 1;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.FaqBreadcrumb__container {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+  padding: 40px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.FaqBreadcrumb__content {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.FaqBreadcrumb__title {
+  margin: 0 0 25px;
+
+  color: #ffffff;
+
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1.15;
+
+  letter-spacing: -1px;
+
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.FaqBreadcrumb__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  font-size: 17px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   HOME
+========================================================= */
+
+.FaqBreadcrumb__home {
+  color: #72c837;
+
+  text-decoration: none;
+
+  transition: color 0.3s ease;
+}
+
+.FaqBreadcrumb__home:hover {
+  color: #8ee650;
+}
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.FaqBreadcrumb__arrow {
+  color: #ffffff;
+
+  font-size: 22px;
+  line-height: 1;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   CURRENT PAGE
+========================================================= */
+
+.FaqBreadcrumb__current {
+  color: #ffffff;
+
+  font-weight: 500;
+}
+
+/* =========================================================
+   LARGE TABLETS
+========================================================= */
+
+@media (max-width: 992px) {
+  .FaqBreadcrumb {
+    min-height: 320px;
+  }
+
+  .FaqBreadcrumb__container {
+    padding: 35px 25px;
+  }
+
+  .FaqBreadcrumb__title {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+
+  .FaqBreadcrumb__navigation {
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   TABLETS
+========================================================= */
+
+@media (max-width: 768px) {
+  .FaqBreadcrumb {
+    min-height: 280px;
+
+    background-position: center center;
+  }
+
+  .FaqBreadcrumb__container {
+    padding: 30px 20px;
+  }
+
+  .FaqBreadcrumb__title {
+    font-size: 42px;
+    letter-spacing: -0.5px;
+
+    margin-bottom: 18px;
+  }
+
+  .FaqBreadcrumb__navigation {
+    gap: 8px;
+    font-size: 15px;
+  }
+
+  .FaqBreadcrumb__arrow {
+    font-size: 20px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+  .FaqBreadcrumb {
+    min-height: 230px;
+  }
+
+  .FaqBreadcrumb__container {
+    padding: 25px 15px;
+  }
+
+  .FaqBreadcrumb__title {
+    font-size: 34px;
+    line-height: 1.2;
+
+    margin-bottom: 14px;
+  }
+
+  .FaqBreadcrumb__navigation {
+    gap: 7px;
+
+    font-size: 14px;
+  }
+
+  .FaqBreadcrumb__arrow {
+    font-size: 18px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+  .FaqBreadcrumb {
+    min-height: 210px;
+  }
+
+  .FaqBreadcrumb__container {
+    padding: 20px 12px;
+  }
+
+  .FaqBreadcrumb__title {
+    font-size: 29px;
+    margin-bottom: 12px;
+  }
+
+  .FaqBreadcrumb__navigation {
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .FaqBreadcrumb__arrow {
+    font-size: 17px;
+  }
+}

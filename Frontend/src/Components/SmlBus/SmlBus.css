@@ -31,7 +31,6 @@
   max-width: 950px;
   margin: 0 auto 50px auto;
   text-align: center;
-
   animation: sbHeaderReveal 0.8s ease both;
 }
 
@@ -418,48 +417,47 @@
 }
 
 /* =========================================================
-   PREVIEW MODAL — AUTO-ROTATING SHOWCASE
+   COMPACT & ELEGANT PREVIEW MODAL — EYE-CATCHING POPUP
    ========================================================= */
 
 .smlbus-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(10, 10, 10, 0.72);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
   animation: sbOverlayFade 0.25s ease both;
 }
 
 .smlbus-modal-content {
   position: relative;
   width: 100%;
-  max-width: 460px;
-  max-height: 92vh;
-  overflow-y: auto;
+  max-width: 380px; /* Reduced for a sleek compact popup size */
   background: var(--sb-secondary);
   border-radius: 20px;
-  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.5);
-  animation: sbModalPop 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  scrollbar-width: thin;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+  animation: sbModalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  overflow: hidden;
+  border: 1px solid rgba(229, 231, 235, 0.8);
 }
 
 .smlbus-modal-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  z-index: 5;
-  width: 34px;
-  height: 34px;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: none;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.75);
   color: var(--sb-secondary);
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -474,21 +472,20 @@
 
 .smlbus-modal-stage {
   position: relative;
-  height: 280px;
-  background: radial-gradient(circle at 50% 35%, #f4f4f5 0%, #e5e7eb 70%, #dcdde0 100%);
+  height: 200px; /* Perfectly compact showcase container */
+  background: radial-gradient(circle at 50% 40%, #f9fafb 0%, #f3f4f6 70%, #e5e7eb 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  perspective: 1200px;
 }
 
 .smlbus-modal-glow {
   position: absolute;
-  width: 260px;
-  height: 260px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%);
   animation: sbGlowPulse 3s ease-in-out infinite;
 }
 
@@ -500,43 +497,43 @@
 }
 
 .smlbus-modal-img {
-  max-width: 340px;
-  max-height: 230px;
+  max-width: 260px;
+  max-height: 155px;
   width: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.2));
 }
 
 .smlbus-modal-shadow {
   position: absolute;
-  bottom: 18px;
-  width: 220px;
-  height: 22px;
+  bottom: 14px;
+  width: 150px;
+  height: 16px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0) 75%);
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 75%);
   animation: sbShadowPulse 6s ease-in-out infinite;
 }
 
 .smlbus-modal-info {
-  padding: 24px;
+  padding: 20px;
 }
 
 .smlbus-modal-badge {
   display: inline-block;
   background: var(--sb-primary);
   color: var(--sb-secondary);
-  font-size: 10.5px;
+  font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 999px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .smlbus-modal-title {
-  margin: 0 0 16px 0;
-  font-size: 20px;
+  margin: 0 0 12px 0;
+  font-size: 17px;
   font-weight: 800;
   color: var(--sb-text-main);
   font-family: 'Sora', sans-serif;
@@ -545,22 +542,22 @@
 .smlbus-modal-specs-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .smlbus-modal-spec {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 10px 12px;
+  gap: 2px;
+  padding: 8px 10px;
   background: var(--sb-gray-light);
   border: 1px solid var(--sb-gray-border);
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .smlbus-modal-spec span {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--sb-text-muted);
   font-weight: 600;
   text-transform: uppercase;
@@ -568,7 +565,7 @@
 }
 
 .smlbus-modal-spec strong {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--sb-text-main);
   font-weight: 700;
 }
@@ -577,8 +574,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
-  margin-top: 16px;
+  padding-top: 12px;
+  margin-top: 4px;
   border-top: 1px solid var(--sb-gray-border);
 }
 
@@ -671,7 +668,7 @@
 }
 
 @keyframes sbModalPop {
-  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  from { opacity: 0; transform: scale(0.85) translateY(15px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
@@ -722,21 +719,17 @@
   }
 
   .smlbus-modal-content {
-    max-width: 100%;
+    max-width: 340px;
     border-radius: 18px;
   }
 
   .smlbus-modal-stage {
-    height: 220px;
+    height: 180px;
   }
 
   .smlbus-modal-img {
-    max-width: 260px;
-    max-height: 180px;
-  }
-
-  .smlbus-modal-specs-grid {
-    grid-template-columns: 1fr;
+    max-width: 220px;
+    max-height: 140px;
   }
 }
 

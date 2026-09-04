@@ -16,6 +16,7 @@ import {
   ChevronDown,
   Bus,
   X,
+  Hotel,
 } from 'lucide-react';
 
 import './Sidebar.css';
@@ -110,6 +111,8 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
     },
 
     { type: 'link', icon: <Settings size={20} />, text: 'Settings', path: '/settings' },
+    { type: 'link', icon: <Hotel size={20} />, text: 'Hotel', path: '/hotels' },
+
   ];
 
   return (

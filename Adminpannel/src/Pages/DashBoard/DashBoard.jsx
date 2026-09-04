@@ -1,8 +1,13 @@
 import React from 'react'
+import DashboardHome from '../../Components/DashboardHome/DashboardHome'
+import DashboardSec from '../../Components/DashboardSec/DashboardSec'
 
 const DashBoard = () => {
   return (
-    <div>DashBoard</div>
+    <div>
+      <DashboardHome/>
+      <DashboardSec/>
+    </div>
   )
 }
 
