@@ -17,6 +17,7 @@ import Footer from "./Components/footer/footer";
 import About from "./Page/About/About";
 import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
 import Contact from "./Page/Contact/Contact";
+import Topbar from "./Components/Topbar/Topbar";
 
 
 // Pages
@@ -24,7 +25,7 @@ import Contact from "./Page/Contact/Contact";
 const App = () => {
   return (
     <BrowserRouter>
-   
+   <Topbar />
     <Navbar/>
      
 

@@ -4,6 +4,7 @@
 
 .topbar {
   width: 100%;
+  position: fixed;
   height: 34px;
   background-color: #000000;
   color: #ffffff;
