@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Main Wrapper - 60% Left Aligned */
+.tbi-admin-page-container {
+  width: 60%;
+  padding: 10px 0 48px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
+  box-sizing: border-box;
+}
+ 
+.tbi-admin-page-container * {
+  box-sizing: border-box;
+}
+
+/* Page Header & Breadcrumbs */
+.tbi-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tbi-page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.tbi-breadcrumbs {
+  font-size: 13px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tbi-separator {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.tbi-current {
+  color: #475569;
+}
+
+/* Card Container */
+.tbi-section-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+/* Accordion Header */
+.tbi-section-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tbi-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tbi-icon-badge {
+  width: 36px;
+  height: 36px;
+  background-color: #eef2ff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tbi-header-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.tbi-chevron-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transform: rotate(180deg);
+  transition: transform 0.2s ease-in-out;
+}
+
+.tbi-chevron-btn.tbi-open {
+  transform: rotate(0deg);
+}
+
+/* Form Layout */
+.tbi-form-content {
+  padding: 4px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tbi-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 20px;
+}
+
+.tbi-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.tbi-full-width {
+  width: 100%;
+}
+
+.tbi-input-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.tbi-req {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+/* Inputs and Counters */
+.tbi-plain-input,
+.tbi-input-with-counter input,
+.tbi-textarea-with-counter textarea,
+.tbi-editor-body textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tbi-plain-input:focus,
+.tbi-input-with-counter input:focus,
+.tbi-textarea-with-counter textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.tbi-plain-input::placeholder,
+.tbi-input-with-counter input::placeholder,
+.tbi-textarea-with-counter textarea::placeholder,
+.tbi-editor-body textarea::placeholder {
+  color: #94a3b8;
+}
+
+.tbi-plain-input {
+  padding: 10px 14px;
+  height: 42px;
+}
+
+.tbi-input-with-counter {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tbi-input-with-counter input {
+  padding: 10px 58px 10px 14px;
+  height: 42px;
+}
+
+.tbi-textarea-with-counter {
+  position: relative;
+}
+
+.tbi-textarea-with-counter textarea {
+  padding: 12px 14px 28px 14px;
+  resize: vertical;
+}
+
+.tbi-counter {
+  position: absolute;
+  right: 12px;
+  font-size: 11.5px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.tbi-input-with-counter .tbi-counter {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tbi-textarea-with-counter .tbi-counter {
+  bottom: 8px;
+}
+
+/* Rich Editor Styling */
+.tbi-rich-editor-wrapper {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.tbi-rich-editor-wrapper:focus-within {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.tbi-editor-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #ffffff;
+}
+
+.tbi-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tbi-mock-select {
+  font-size: 13px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.tbi-divider {
+  width: 1px;
+  height: 16px;
+  background-color: #e2e8f0;
+}
+
+.tbi-tool-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tbi-tool-btn:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+.tbi-tool-btn.tbi-bold {
+  font-weight: 700;
+}
+
+.tbi-tool-btn.tbi-italic {
+  font-style: italic;
+}
+
+.tbi-tool-btn.tbi-underline {
+  text-decoration: underline;
+}
+
+.tbi-editor-body {
+  position: relative;
+}
+
+.tbi-editor-body textarea {
+  border: none;
+  border-radius: 0;
+  padding: 14px 14px 28px 14px;
+  outline: none;
+}
+
+.tbi-editor-body textarea:focus {
+  box-shadow: none;
+}
+
+.tbi-editor-body .tbi-counter {
+  bottom: 8px;
+}
+
+/* Action Buttons */
+.tbi-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.tbi-btn-cancel {
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.tbi-btn-cancel:hover {
+  background: #e2e8f0;
+}
+
+.tbi-btn-save {
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 22px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(79, 70, 229, 0.2);
+  transition: background-color 0.15s ease;
+}
+
+.tbi-btn-save:hover {
+  background: #4338ca;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .tbi-admin-page-container {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .tbi-admin-page-container {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .tbi-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .tbi-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .tbi-btn-cancel,
+  .tbi-btn-save {
+    width: 100%;
+    height: 40px;
+  }
+}

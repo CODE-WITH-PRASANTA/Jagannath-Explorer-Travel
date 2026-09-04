@@ -2,10 +2,12 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
+// Components
 import Topbar from "./Components/Topbar/Topbar";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/footer/footer";
 
+// Pages
 import Home from "./Page/Home/Home";
 import Tours from "./Page/Tours/Tours";
 import TourDetails from "./Page/TourDetails/TourDetails";
@@ -24,12 +26,13 @@ import Faqs from "./Page/Faqs/Faqs";
 const App = () => {
   return (
     <BrowserRouter>
-      {/* Topbar ऊपर और Navbar ठीक उसके नीचे रहेगा */}
-      <header className="app-header">
-        <Topbar />
-        <Navbar />
-      </header>
+      {/* Topbar सामान्य रहेगा (स्क्रॉल होने पर ऊपर छिप जाएगा) */}
+      <Topbar />
 
+      {/* Navbar हमेशा टॉप पर चिपका रहेगा */}
+      <Navbar />
+
+      {/* Routes */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/car-rental/sedan-cars" element={<SedanCar />} />
@@ -47,6 +50,7 @@ const App = () => {
         <Route path="/faq" element={<Faqs />} />
       </Routes>
 
+      {/* Footer */}
       <Footer />
     </BrowserRouter>
   );

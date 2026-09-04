@@ -1,0 +1,167 @@
+/* =========================================
+   MAIN TOURS PAGE
+========================================= */
+
+.tours-page {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+
+  display: grid;
+
+  /*
+    IMPORTANT:
+    Left side and right side stay close together.
+  */
+  grid-template-columns: minmax(0, 1fr) 360px;
+
+  gap: 20px;
+
+  align-items: start;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   LEFT CONTENT
+========================================= */
+
+.tours-main-content {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+/* Make every left section use the available width */
+
+.tours-main-content > * {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   RIGHT SIDEBAR
+========================================= */
+
+.tours-right-sidebar {
+  width: 360px;
+  max-width: 100%;
+
+  position: sticky;
+  top: 20px;
+
+  align-self: start;
+  box-sizing: border-box;
+}
+
+
+/* Make ToursAllSection fill sidebar */
+
+.tours-right-sidebar > * {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   DESKTOP
+========================================= */
+
+@media (min-width: 1200px) {
+  .tours-page {
+    max-width: 1120px;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      360px;
+
+    gap: 18px;
+
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+
+/* =========================================
+   LAPTOP
+========================================= */
+
+@media (max-width: 1000px) {
+  .tours-page {
+    max-width: 950px;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      330px;
+
+    gap: 18px;
+
+    padding: 25px 18px;
+  }
+
+  .tours-right-sidebar {
+    width: 330px;
+  }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 800px) {
+  .tours-page {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 20px;
+
+    padding: 20px 16px;
+  }
+
+  .tours-right-sidebar {
+    width: 100%;
+    position: static;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+  .tours-page {
+    padding: 15px 12px;
+    gap: 16px;
+  }
+
+  .tours-main-content {
+    gap: 16px;
+  }
+
+  .tours-right-sidebar {
+    width: 100%;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+  .tours-page {
+    padding: 12px 10px;
+  }
+}
