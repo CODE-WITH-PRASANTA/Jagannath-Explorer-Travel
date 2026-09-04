@@ -1,0 +1,450 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ============================================================
+   Component: ToursImagesMedia
+   Fully Synchronized with tbi-admin page architecture
+   ============================================================
+*/
+
+/* Main Card Wrapper - Inherits exact borders, radius, and shadows from .tbi-section-card */
+.tours-images-media-card {
+  width: 60%;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.tours-images-media-card *,
+.tours-images-media-card *::before,
+.tours-images-media-card *::after {
+  box-sizing: border-box;
+}
+
+/* Accordion Header - Synchronized with .tbi-section-header */
+.tours-images-media-header {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  background: #ffffff;
+}
+
+.tours-images-media-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tours-images-media-header-icon-box {
+  width: 36px;
+  height: 36px;
+  background-color: #eef2ff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tours-images-media-header-icon {
+  font-size: 19px;
+  color: #4f46e5;
+}
+
+.tours-images-media-header-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.tours-images-media-collapse-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 1.25rem;
+  transform: rotate(180deg);
+  transition: transform 0.2s ease-in-out, color 0.15s ease;
+}
+
+.tours-images-media-collapse-btn.tbi-open {
+  transform: rotate(0deg);
+}
+
+.tours-images-media-collapse-btn:hover {
+  color: #0f172a;
+}
+
+/* Card Body Content - Synchronized with .tbi-form-content */
+.tours-images-media-body {
+  padding: 4px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Inner Layout Grid: 58% Left Column / 42% Right Column */
+.tours-images-media-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 992px) {
+  .tours-images-media-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .tours-images-media-left-col {
+    flex: 0 0 calc(58% - 10px);
+    max-width: calc(58% - 10px);
+  }
+
+  .tours-images-media-right-col {
+    flex: 0 0 calc(42% - 10px);
+    max-width: calc(42% - 10px);
+  }
+}
+
+/* Form Groups & Labels - Synchronized with .tbi-form-group and .tbi-input-label */
+.tours-images-media-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.tours-images-media-video-group {
+  margin-top: 16px;
+}
+
+.tours-images-media-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.tours-images-media-label-muted {
+  font-weight: 400;
+  color: #64748b;
+}
+
+.tours-images-media-required {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.tours-images-media-sublabel {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Main Image Dropzone */
+.tours-images-media-main-dropzone {
+  margin-top: 3px;
+  border: 1.5px dashed #c7d2fe;
+  border-radius: 8px;
+  background-color: #f8faff;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tours-images-media-main-dropzone:hover {
+  border-color: #4f46e5;
+  background-color: #eef2ff;
+}
+
+.tours-images-media-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.tours-images-media-upload-icon-wrapper {
+  margin-bottom: 12px;
+}
+
+.tours-images-media-cloud-icon {
+  font-size: 48px;
+  color: #4f46e5;
+}
+
+.tours-images-media-placeholder-text {
+  margin: 0 0 4px 0;
+  font-size: 13.5px;
+  color: #64748b;
+}
+
+.tours-images-media-bold-text {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tours-images-media-hint-text {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* Main Image Preview */
+.tours-images-media-preview-container {
+  width: 100%;
+  height: 250px;
+  position: relative;
+}
+
+.tours-images-media-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tours-images-media-remove-main-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.65);
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.15s ease;
+}
+
+.tours-images-media-remove-main-btn:hover {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+/* Video Input Field - Synchronized with .tbi-plain-input */
+.tours-images-media-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tours-images-media-input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 15px;
+  color: #94a3b8;
+}
+
+.tours-images-media-input {
+  width: 100%;
+  height: 42px;
+  padding: 10px 14px 10px 38px;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  background-color: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tours-images-media-input::placeholder {
+  color: #94a3b8;
+}
+
+.tours-images-media-input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.tours-images-media-subtext {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* Gallery Controls */
+.tours-images-media-gallery-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.tours-images-media-gallery-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #ffffff;
+  border: 1.5px solid #c7d2fe;
+  color: #4f46e5;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  transition: all 0.15s ease;
+}
+
+.tours-images-media-gallery-btn:hover {
+  background-color: #eef2ff;
+  border-color: #4f46e5;
+}
+
+.tours-images-media-btn-icon {
+  font-size: 15px;
+}
+
+/* Gallery Thumbnails Grid */
+.tours-images-media-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 540px) {
+  .tours-images-media-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.tours-images-media-thumb-card {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.tours-images-media-thumb-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.tours-images-media-thumb-card:hover img {
+  transform: scale(1.05);
+}
+
+.tours-images-media-remove-thumb-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.65);
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  transition: background-color 0.15s ease;
+}
+
+.tours-images-media-remove-thumb-btn:hover {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+/* Footer & Buttons - Synchronized with .tbi-form-actions */
+.tours-images-media-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.tours-images-media-btn-cancel {
+  background: #f1f5f9;
+  color: #334155;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.tours-images-media-btn-cancel:hover {
+  background: #e2e8f0;
+}
+
+.tours-images-media-btn-save {
+  background: #4f46e5;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 22px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(79, 70, 229, 0.2);
+  transition: background-color 0.15s ease;
+}
+
+.tours-images-media-btn-save:hover {
+  background: #4338ca;
+}
+
+/* Responsive Viewports - Synchronized with tbi-admin breakpoints */
+@media (max-width: 1200px) {
+  .tours-images-media-card {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .tours-images-media-card {
+    width: 100%;
+  }
+
+  .tours-images-media-body {
+    padding: 4px 24px 24px 24px;
+  }
+
+  .tours-images-media-footer {
+    flex-direction: column-reverse;
+  }
+
+  .tours-images-media-btn-cancel,
+  .tours-images-media-btn-save {
+    width: 100%;
+    height: 40px;
+  }
+}

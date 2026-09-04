@@ -16,10 +16,13 @@ import Home from "./Page/Home/Home";
 import Footer from "./Components/footer/footer";
 import About from "./Page/About/About";
 import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
+import Blogs from "./Page/Blogs/Blogs";
+import BLogDetails from "./Page/BLogDetails/BLogDetails";
+import Gallery from "./Components/Gallery/Gallery";
+ 
 import Contact from "./Page/Contact/Contact";
 import Topbar from "./Components/Topbar/Topbar";
 import Faqs from "./Page/Faqs/Faqs";
-
 
 // Pages
 
@@ -29,7 +32,6 @@ const App = () => {
    <Topbar />
     <Navbar/>
      
-
       <Routes>
         <Route path="/car-rental/sedan-cars"element={<SedanCar/>}/>
         <Route path="/car-rental/suv-cars"element={<Suvcars/>}/>
@@ -43,6 +45,11 @@ const App = () => {
         <Route path="/hotel" element={<Hotel/>}/>
         <Route path="/hotelroomdetails" element={<HotelRoomDetails/>}/>
         <Route path="/about" element={<About />}/>
+        <Route path="/UrbaniaTraveller" element={<UrbaniaTraveller />} />
+        <Route path="/blog" element={<Blogs />} />
+        <Route path="/blogsdetails" element={<BLogDetails />} />
+        <Route path="/gallery" element={<Gallery />} />
+        
         <Route path="/car-rental/urbania-travellers" element={<UrbaniaTraveller />} />
 
         <Route path="/contact" element={<Contact/>} />

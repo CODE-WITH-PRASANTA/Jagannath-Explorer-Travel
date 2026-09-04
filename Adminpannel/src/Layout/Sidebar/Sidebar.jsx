@@ -54,7 +54,7 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
   // cross button and the backdrop tap already do.
   const handleNavClick = () => {
     if (isMobileOpen && onClose) onClose();
-  };
+  }; 
 
   const menuItems = [
     { type: 'link', icon: <LayoutDashboard size={20} />, text: 'Dashboard', path: '/' },
