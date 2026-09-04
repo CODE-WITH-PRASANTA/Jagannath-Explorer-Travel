@@ -21,6 +21,7 @@ import BLogDetails from "./Page/BLogDetails/BLogDetails";
 import Gallery from "./Components/Gallery/Gallery";
  
 import Contact from "./Page/Contact/Contact";
+import Faqs from "./Page/Faqs/Faqs";
 
 // Pages
 
@@ -31,11 +32,11 @@ const App = () => {
     <Navbar/>
      
       <Routes>
-        <Route path="/sedan-car"element={<SedanCar/>}/>
-        <Route path="/suv-cars"element={<Suvcars/>}/>
-        <Route path="/luxury-car"element={<LuxuryCars/>}/>
-        <Route path="/tempo-cars"element={<TempoTravell/>}/>
-        <Route path="/sml-cars"element={<SmlCoach/>}/>
+        <Route path="/car-rental/sedan-cars"element={<SedanCar/>}/>
+        <Route path="/car-rental/suv-cars"element={<Suvcars/>}/>
+        <Route path="/car-rental/luxury-cars"element={<LuxuryCars/>}/>
+        <Route path="/car-rental/tempo-travellers"element={<TempoTravell/>}/>
+        <Route path="/car-rental/small-coach"element={<SmlCoach/>}/>
         <Route path="/" element={<Home/>}/>
         
         <Route path="/tours" element={<Tours/>}/>
@@ -48,7 +49,10 @@ const App = () => {
         <Route path="/blogsdetails" element={<BLogDetails />} />
         <Route path="/gallery" element={<Gallery />} />
         
+        <Route path="/car-rental/urbania-travellers" element={<UrbaniaTraveller />} />
+
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/faq" element={<Faqs/>}/>
 
       </Routes>
       <Footer/>
