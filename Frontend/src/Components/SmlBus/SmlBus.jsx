@@ -70,7 +70,23 @@ const SmlBus = () => {
   const [flippedCards, setFlippedCards] = useState({});
   const [desktopPage, setDesktopPage] = useState(0);
   const [mobileIndex, setMobileIndex] = useState(0);
-  const [modalBus, setModalBus] = useState(null);
+
+  // Booking Modal States
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState(1); // 1: Trip Details, 2: Personal Details
+  const [selectedBus, setSelectedBus] = useState(null);
+
+  // Form Fields State
+  const [formData, setFormData] = useState({
+    pickupLocation: "",
+    dropLocation: "",
+    pickupDateTime: "",
+    dropDateTime: "",
+    fullName: "",
+    mobileNumber: "",
+    message: "",
+    agreedToTerms: false
+  });
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -82,8 +98,58 @@ const SmlBus = () => {
     }));
   };
 
-  const openModal = (bus) => setModalBus(bus);
-  const closeModal = () => setModalBus(null);
+  const handleOpenModal = (bus) => {
+    setSelectedBus(bus);
+    setModalStep(1);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedBus(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
+    }));
+  };
+
+  const handleNextStep = (e) => {
+    e.preventDefault();
+    if (!formData.pickupLocation || !formData.dropLocation || !formData.pickupDateTime) {
+      alert("Please fill in the required pickup and drop details.");
+      return;
+    }
+    setModalStep(2);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.fullName || !formData.mobileNumber) {
+      alert("Please enter your Full Name and Mobile Number.");
+      return;
+    }
+    if (!formData.agreedToTerms) {
+      alert("You must agree to the Terms & Conditions.");
+      return;
+    }
+
+    alert(`Booking confirmed successfully for ${selectedBus?.title}! We will get in touch with you shortly.`);
+    setIsModalOpen(false);
+    setFormData({
+      pickupLocation: "",
+      dropLocation: "",
+      pickupDateTime: "",
+      dropDateTime: "",
+      fullName: "",
+      mobileNumber: "",
+      message: "",
+      agreedToTerms: false
+    });
+  };
 
   const totalDesktopPages = Math.ceil(SML_BUS_LIST.length / ITEMS_PER_DESKTOP_PAGE);
   const currentDesktopBuses = SML_BUS_LIST.slice(
@@ -143,18 +209,9 @@ const SmlBus = () => {
 
                     {/* FRONT SIDE */}
                     <div className="smlbus-card-face smlbus-card-front">
-                      <div
-                        className="smlbus-image-wrapper"
-                        onClick={() => openModal(bus)}
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`Preview ${bus.title}`}
-                      >
+                      <div className="smlbus-image-wrapper">
                         <img src={bus.image} alt={bus.title} className="smlbus-img" />
                         <div className="smlbus-badge-tag">Verified Fleet</div>
-                        <div className="smlbus-zoom-hint">
-                          <span>⤢ Tap to Preview</span>
-                        </div>
                       </div>
 
                       <div className="smlbus-front-content">
@@ -222,7 +279,7 @@ const SmlBus = () => {
                           <strong>₹{bus.price}</strong>
                           <span>/ 8 Hours</span>
                         </div>
-                        <button className="smlbus-book-now-btn">
+                        <button className="smlbus-book-now-btn" onClick={() => handleOpenModal(bus)}>
                           Book Now →
                         </button>
                       </div>
@@ -273,18 +330,9 @@ const SmlBus = () => {
 
                     {/* FRONT SIDE */}
                     <div className="smlbus-card-face smlbus-card-front">
-                      <div
-                        className="smlbus-image-wrapper"
-                        onClick={() => openModal(bus)}
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`Preview ${bus.title}`}
-                      >
+                      <div className="smlbus-image-wrapper">
                         <img src={bus.image} alt={bus.title} className="smlbus-img" />
                         <div className="smlbus-badge-tag">Verified Fleet</div>
-                        <div className="smlbus-zoom-hint">
-                          <span>⤢ Tap to Preview</span>
-                        </div>
                       </div>
 
                       <div className="smlbus-front-content">
@@ -352,7 +400,7 @@ const SmlBus = () => {
                           <strong>₹{bus.price}</strong>
                           <span>/ 8 Hours</span>
                         </div>
-                        <button className="smlbus-book-now-btn">
+                        <button className="smlbus-book-now-btn" onClick={() => handleOpenModal(bus)}>
                           Book Now →
                         </button>
                       </div>
@@ -403,47 +451,147 @@ const SmlBus = () => {
 
       </div>
 
-      {/* Compact, Premium, Elegant Eye-Catching Modal Popup */}
-      {modalBus && (
-        <div className="smlbus-modal-overlay" onClick={closeModal}>
+      {/* 2-STEP BOOKING POPUP MODAL FORM */}
+      {isModalOpen && selectedBus && (
+        <div className="smlbus-modal-overlay" onClick={handleCloseModal}>
           <div className="smlbus-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="smlbus-modal-close" onClick={closeModal} aria-label="Close preview">
+            <button className="smlbus-modal-close" onClick={handleCloseModal} aria-label="Close modal">
               ✕
             </button>
 
-            <div className="smlbus-modal-stage">
-              <div className="smlbus-modal-glow"></div>
-              <div className="smlbus-modal-rotator">
-                <img src={modalBus.image} alt={modalBus.title} className="smlbus-modal-img" />
-              </div>
-              <div className="smlbus-modal-shadow"></div>
-            </div>
+            {modalStep === 1 ? (
+              /* STEP 1: START YOUR BOOKING */
+              <form onSubmit={handleNextStep}>
+                <h2 className="smlbus-modal-heading">Start Your Booking</h2>
 
-            <div className="smlbus-modal-info">
-              <span className="smlbus-modal-badge">Verified Fleet</span>
-              <h3 className="smlbus-modal-title">{modalBus.title}</h3>
+                <div className="smlbus-selected-vehicle-banner">
+                  <img src={selectedBus.image} alt={selectedBus.title} />
+                  <span>{selectedBus.title}</span>
+                </div>
 
-              <div className="smlbus-modal-specs-grid">
-                <div className="smlbus-modal-spec">
-                  <span>A/C</span>
-                  <strong>{modalBus.ac}</strong>
-                </div>
-                <div className="smlbus-modal-spec">
-                  <span>Comfort</span>
-                  <strong>{modalBus.comfortLevel}</strong>
-                </div>
-              </div>
+                <div className="smlbus-form-grid">
+                  <div className="smlbus-form-group">
+                    <label>Pick Up Location</label>
+                    <input 
+                      type="text" 
+                      name="pickupLocation"
+                      placeholder="Pick Up Location"
+                      value={formData.pickupLocation}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="smlbus-form-group">
+                    <label>Drop Off Location</label>
+                    <input 
+                      type="text" 
+                      name="dropLocation"
+                      placeholder="Drop Off Location"
+                      value={formData.dropLocation}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
 
-              <div className="smlbus-modal-footer">
-                <div className="smlbus-price-box">
-                  <strong>₹{modalBus.price}</strong>
-                  <span>/ 8 Hours</span>
+                  <div className="smlbus-form-group">
+                    <label>Pick Up Date &amp; Time</label>
+                    <div className="smlbus-input-wrap">
+                      <input 
+                        type="datetime-local" 
+                        name="pickupDateTime"
+                        value={formData.pickupDateTime}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="smlbus-form-group">
+                    <label>Drop Date &amp; Time</label>
+                    <div className="smlbus-input-wrap">
+                      <input 
+                        type="datetime-local" 
+                        name="dropDateTime"
+                        value={formData.dropDateTime}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <button className="smlbus-book-now-btn">
-                  Book Now →
-                </button>
-              </div>
-            </div>
+
+                <div className="smlbus-modal-actions">
+                  <button type="submit" className="smlbus-action-submit-btn">
+                    Next <span className="smlbus-arrow-icon">→</span>
+                  </button>
+                </div>
+              </form>
+            ) : (
+              /* STEP 2: CONFIRM YOUR BOOKING DETAILS */
+              <form onSubmit={handleFormSubmit}>
+                <h2 className="smlbus-modal-heading">Confirm Your Booking Details</h2>
+
+                <div className="smlbus-form-group">
+                  <div className="smlbus-input-icon-box">
+                    <input 
+                      type="text" 
+                      name="fullName"
+                      placeholder="* Enter Your Full Name"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <span className="smlbus-field-icon">👤</span>
+                  </div>
+                </div>
+
+                <div className="smlbus-form-group">
+                  <div className="smlbus-input-icon-box">
+                    <input 
+                      type="tel" 
+                      name="mobileNumber"
+                      placeholder="* Enter 10 Digit Mobile Number"
+                      maxLength="10"
+                      value={formData.mobileNumber}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <span className="smlbus-field-icon">📞</span>
+                  </div>
+                </div>
+
+                <div className="smlbus-form-group">
+                  <textarea 
+                    name="message"
+                    rows="4"
+                    maxLength="150"
+                    placeholder="Your Message (max 150 characters)"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                  ></textarea>
+                </div>
+
+                <div className="smlbus-checkbox-row">
+                  <label>
+                    <input 
+                      type="checkbox" 
+                      name="agreedToTerms"
+                      checked={formData.agreedToTerms}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    I agree to the <span className="smlbus-link-text">Terms &amp; Conditions</span> from <strong>Jagannath Tours &amp; Travels</strong>.
+                  </label>
+                </div>
+
+                <div className="smlbus-modal-actions smlbus-step2-btns">
+                  <button type="button" className="smlbus-prev-btn" onClick={() => setModalStep(1)}>
+                    ← Previous
+                  </button>
+                  <button type="submit" className="smlbus-submit-btn">
+                    Submit →
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}

@@ -744,3 +744,219 @@
     transition: none !important;
   }
 }
+/* =========================================================
+   2-STEP BOOKING MODAL POPUP STYLING
+   ========================================================= */
+
+.smlbus-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: sbOverlayFade 0.25s ease both;
+}
+
+.smlbus-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+  padding: 32px;
+  box-sizing: border-box;
+  animation: sbModalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+}
+
+.smlbus-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.smlbus-modal-close:hover {
+  color: #000000;
+}
+
+.smlbus-modal-heading {
+  text-align: center;
+  margin: 0 0 24px 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+  font-family: 'Sora', sans-serif;
+}
+
+.smlbus-selected-vehicle-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+}
+
+.smlbus-selected-vehicle-banner img {
+  width: 70px;
+  height: 45px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 2px;
+}
+
+.smlbus-selected-vehicle-banner span {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.smlbus-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.smlbus-form-group {
+  margin-bottom: 16px;
+}
+
+.smlbus-form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.smlbus-form-group input,
+.smlbus-form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+  background: #ffffff;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.smlbus-form-group input:focus,
+.smlbus-form-group textarea:focus {
+  border-color: #000000;
+}
+
+.smlbus-input-icon-box {
+  position: relative;
+}
+
+.smlbus-field-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #9ca3af;
+}
+
+.smlbus-checkbox-row {
+  margin: 20px 0;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.smlbus-checkbox-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.smlbus-checkbox-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #0ea5e9;
+  cursor: pointer;
+}
+
+.smlbus-link-text {
+  color: #0ea5e9;
+  font-weight: 600;
+}
+
+.smlbus-modal-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.smlbus-step2-btns {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.smlbus-action-submit-btn,
+.smlbus-submit-btn {
+  background: #0ea5e9;
+  color: #ffffff;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.smlbus-action-submit-btn:hover,
+.smlbus-submit-btn:hover {
+  background: #0284c7;
+  transform: translateY(-1px);
+}
+
+.smlbus-prev-btn {
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.smlbus-prev-btn:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 640px) {
+  .smlbus-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .smlbus-modal-content {
+    padding: 20px;
+  }
+}

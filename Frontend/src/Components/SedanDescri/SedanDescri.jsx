@@ -2,9 +2,14 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import './SedanDescri.css';
 
 /* ---------------------------------------------------------------------------
-   Data
-   6 premium sedan cars curated for the car rental fleet.
+   Data — Exactly 5 curated sedan cars imported with the requested assets.
 --------------------------------------------------------------------------- */
+
+import sedan1 from '../../assets/Sedan1.webp';
+import sedan2 from '../../assets/Sedan2.webp';
+import sedan3 from '../../assets/Sedan3.webp';
+import sedan4 from '../../assets/Sedan4.webp';
+import sedan5 from '../../assets/Sedan5.webp';
 
 const CARS = [
   {
@@ -17,7 +22,7 @@ const CARS = [
     fuel: 'Petrol',
     price: 2200,
     duration: '8 Hours',
-    image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop',
+    image: sedan1,
   },
   {
     id: 'aura',
@@ -29,7 +34,7 @@ const CARS = [
     fuel: 'Petrol',
     price: 2200,
     duration: '8 Hours',
-    image: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=800&auto=format&fit=crop',
+    image: sedan2,
   },
   {
     id: 'xcent',
@@ -41,7 +46,7 @@ const CARS = [
     fuel: 'Petrol',
     price: 2200,
     duration: '8 Hours',
-    image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop',
+    image: sedan3,
   },
   {
     id: 'city',
@@ -53,7 +58,7 @@ const CARS = [
     fuel: 'Petrol',
     price: 4500,
     duration: '8 Hours',
-    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800&auto=format&fit=crop',
+    image: sedan4,
   },
   {
     id: 'verna',
@@ -65,21 +70,12 @@ const CARS = [
     fuel: 'Petrol',
     price: 4500,
     duration: '8 Hours',
-    image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=800&auto=format&fit=crop',
-  },
-  {
-    id: 'ciaz',
-    name: 'Maruti Ciaz',
-    accent: '#4f46e5',
-    seating: '5 Seater',
-    ac: 'Automatic Climate Control',
-    boot: '510L',
-    fuel: 'Petrol / Hybrid',
-    price: 3800,
-    duration: '8 Hours',
-    image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=800&auto=format&fit=crop',
+    image: sedan5,
   },
 ];
+
+const STAGE_TRANSITION_MS = 420;
+const BOOKING_TRANSITION_MS = 320;
 
 /* ---------------------------------------------------------------------------
    SpecRow
@@ -104,11 +100,282 @@ const BookIcon = () => (
   </svg>
 );
 
+const CloseIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+    <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+  </svg>
+);
+
+/* ---------------------------------------------------------------------------
+   BookingModal — multi-step wizard matching reference layout & step 2 design
+--------------------------------------------------------------------------- */
+
+const BookingModal = ({ car, open, onRequestClose }) => {
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    pickupLocation: '',
+    dropOffLocation: '',
+    pickupDateTime: '',
+    dropDateTime: '',
+    fullName: '',
+    mobileNumber: '',
+    message: '',
+    termsAgreed: false,
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const firstFieldRef = useRef(null);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onRequestClose();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKey);
+    };
+  }, [onRequestClose]);
+
+  useEffect(() => {
+    if (open) {
+      const t = setTimeout(() => firstFieldRef.current?.focus(), 260);
+      return () => clearTimeout(t);
+    }
+    return undefined;
+  }, [open, step]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleNext = (e) => {
+    e.preventDefault();
+    setStep(2);
+  };
+
+  const handlePrevious = () => {
+    setStep(1);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      setSuccess(true);
+    }, 800);
+  };
+
+  return (
+    <div
+      className={`booking-modal-overlay${open ? ' booking-modal-overlay--open' : ''}`}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Book ${car.name}`}
+    >
+      <div className="booking-modal-backdrop" onClick={onRequestClose} />
+      <div className="booking-modal-container">
+        <button
+          type="button"
+          className="booking-modal__close"
+          onClick={onRequestClose}
+          aria-label="Close booking form"
+        >
+          <CloseIcon />
+        </button>
+
+        {!success ? (
+          <>
+            {step === 1 ? (
+              <>
+                <p className="booking-modal__eyebrow">Reserve Your Ride</p>
+                <h3 className="booking-modal__title">Start Your Booking</h3>
+
+                <div className="booking-modal__selected-car">
+                  <img src={car.image} alt={car.name} className="booking-modal__car-thumb" />
+                  <div className="booking-modal__car-meta">
+                    <span className="booking-modal__car-name">{car.name}</span>
+                    <span className="booking-modal__car-price">
+                      ₹{car.price} <em>/{car.duration}</em>
+                    </span>
+                  </div>
+                </div>
+
+                <form className="booking-modal__form" onSubmit={handleNext}>
+                  <div className="booking-modal__row">
+                    <div className="booking-modal__field">
+                      <label htmlFor="pickupLocation">Pick Up Location</label>
+                      <input
+                        ref={firstFieldRef}
+                        type="text"
+                        id="pickupLocation"
+                        name="pickupLocation"
+                        required
+                        placeholder="Pick Up Location"
+                        value={formData.pickupLocation}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="booking-modal__field">
+                      <label htmlFor="dropOffLocation">Drop Off Location</label>
+                      <input
+                        type="text"
+                        id="dropOffLocation"
+                        name="dropOffLocation"
+                        required
+                        placeholder="Drop Off Location"
+                        value={formData.dropOffLocation}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="booking-modal__row">
+                    <div className="booking-modal__field">
+                      <label htmlFor="pickupDateTime">Pick Up Date &amp; Time</label>
+                      <input
+                        type="datetime-local"
+                        id="pickupDateTime"
+                        name="pickupDateTime"
+                        required
+                        value={formData.pickupDateTime}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="booking-modal__field">
+                      <label htmlFor="dropDateTime">Drop Date &amp; Time</label>
+                      <input
+                        type="datetime-local"
+                        id="dropDateTime"
+                        name="dropDateTime"
+                        required
+                        value={formData.dropDateTime}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="booking-modal__submit-wrapper">
+                    <button type="submit" className="booking-modal__submit">
+                      Next →
+                    </button>
+                  </div>
+                </form>
+              </>
+            ) : (
+              <>
+                <h3 className="booking-modal__title">Confirm Your Booking Details</h3>
+
+                <form className="booking-modal__form" onSubmit={handleSubmit}>
+                  <div className="booking-modal__field booking-modal__field--full">
+                    <div className="booking-modal__input-icon-wrapper">
+                      <input
+                        ref={firstFieldRef}
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        required
+                        placeholder="* Enter Your Full Name"
+                        value={formData.fullName}
+                        onChange={handleChange}
+                      />
+                      <span className="booking-modal__input-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="booking-modal__field booking-modal__field--full">
+                    <div className="booking-modal__input-icon-wrapper">
+                      <input
+                        type="tel"
+                        id="mobileNumber"
+                        name="mobileNumber"
+                        required
+                        pattern="[0-9]{10}"
+                        maxLength="10"
+                        placeholder="* Enter 10 Digit Mobile Number"
+                        value={formData.mobileNumber}
+                        onChange={handleChange}
+                      />
+                      <span className="booking-modal__input-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="booking-modal__field booking-modal__field--full">
+                    <textarea
+                      id="message"
+                      name="message"
+                      maxLength="150"
+                      rows="4"
+                      placeholder="Your Message (max 150 characters)"
+                      value={formData.message}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  <div className="booking-modal__terms">
+                    <label className="booking-modal__checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="termsAgreed"
+                        required
+                        checked={formData.termsAgreed}
+                        onChange={handleChange}
+                      />
+                      <span>
+                        I agree to the <span className="booking-modal__terms-link">Terms & Conditions</span> from <strong>Jagannath Tours & Travels</strong>.
+                      </span>
+                    </label>
+                  </div>
+
+                  <div className="booking-modal__actions-row">
+                    <button type="button" className="booking-modal__prev-btn" onClick={handlePrevious}>
+                      ← Previous
+                    </button>
+                    <button type="submit" className="booking-modal__submit" disabled={submitting}>
+                      {submitting ? (
+                        <span className="booking-modal__spinner" aria-hidden="true" />
+                      ) : (
+                        'Submit →'
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+          </>
+        ) : (
+          <div className="booking-modal__success">
+            <div className="booking-modal__success-icon">✓</div>
+            <h3>Booking Request Received!</h3>
+            <p>
+              Your vehicle reservation request for <strong>{car.name}</strong> has been logged
+              successfully. Our team will contact you shortly.
+            </p>
+            <button type="button" className="booking-modal__submit" onClick={onRequestClose}>
+              Done
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 /* ---------------------------------------------------------------------------
    CarCard
 --------------------------------------------------------------------------- */
 
-const CarCard = ({ car, index, onOpen }) => {
+const CarCard = ({ car, index, onOpen, onBook }) => {
   const specs = [
     { label: 'Seating Capacity', value: car.seating },
     { label: 'A/C', value: car.ac },
@@ -131,6 +398,8 @@ const CarCard = ({ car, index, onOpen }) => {
         }
       }}
     >
+      <span className="car-card__badge">Available Today</span>
+
       <div className="car-card__frame">
         <div className="car-card__glow" aria-hidden="true" />
         <img className="car-card__image" src={car.image} alt={car.name} loading="lazy" />
@@ -154,10 +423,10 @@ const CarCard = ({ car, index, onOpen }) => {
           className="book-btn"
           onClick={(e) => {
             e.stopPropagation();
-            onOpen(car.id);
+            onBook(car);
           }}
         >
-          Book Now
+          <span>Book Now</span>
           <BookIcon />
         </button>
       </div>
@@ -166,12 +435,11 @@ const CarCard = ({ car, index, onOpen }) => {
 };
 
 /* ---------------------------------------------------------------------------
-   CarStage — full-screen white showroom with auto-rotating & interactive model
+   CarStage — Showroom overlay, symmetric fade/scale open+close, drag-to-rotate
 --------------------------------------------------------------------------- */
 
-const CarStage = ({ car, onClose }) => {
+const CarStage = ({ car, open, onRequestClose, onBook }) => {
   const [angle, setAngle] = useState(0);
-  const [mounted, setMounted] = useState(false);
   const angleRef = useRef(0);
   const draggingRef = useRef(false);
   const startXRef = useRef(0);
@@ -180,16 +448,15 @@ const CarStage = ({ car, onClose }) => {
   const closeBtnRef = useRef(null);
 
   useEffect(() => {
-    const raf = requestAnimationFrame(() => setMounted(true));
-    closeBtnRef.current?.focus();
-    return () => cancelAnimationFrame(raf);
-  }, []);
+    if (open) {
+      const t = setTimeout(() => closeBtnRef.current?.focus(), 260);
+      return () => clearTimeout(t);
+    }
+    return undefined;
+  }, [open]);
 
-  // Continuous auto-rotation loop that pauses when dragged
   useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return undefined;
 
     let lastTime = performance.now();
@@ -210,14 +477,14 @@ const CarStage = ({ car, onClose }) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     const handleKey = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onRequestClose();
     };
     window.addEventListener('keydown', handleKey);
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKey);
     };
-  }, [onClose]);
+  }, [onRequestClose]);
 
   const handlePointerDown = (e) => {
     draggingRef.current = true;
@@ -239,29 +506,22 @@ const CarStage = ({ car, onClose }) => {
 
   return (
     <div
-      className={`car-stage${mounted ? ' car-stage--open' : ''}`}
+      className={`car-stage${open ? ' car-stage--open' : ''}`}
       role="dialog"
       aria-modal="true"
       aria-label={`${car.name} details`}
     >
-      <div className="car-stage__backdrop" onClick={onClose} />
+      <div className="car-stage__backdrop" onClick={onRequestClose} />
 
       <div className="car-stage__panel">
         <button
           ref={closeBtnRef}
           type="button"
           className="car-stage__close"
-          onClick={onClose}
+          onClick={onRequestClose}
           aria-label="Close details"
         >
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path
-              d="M4 4l10 10M14 4L4 14"
-              stroke="currentColor"
-              strokeWidth="1.7"
-              strokeLinecap="round"
-            />
-          </svg>
+          <CloseIcon />
         </button>
 
         <div className="car-stage__visual" style={{ '--accent': car.accent }}>
@@ -284,7 +544,7 @@ const CarStage = ({ car, onClose }) => {
             <div className="car-stage__shadow" />
           </div>
 
-          <span className="car-stage__hint">Drag to rotate / Auto-rotating</span>
+          <span className="car-stage__hint">Drag to rotate · Auto-rotating</span>
         </div>
 
         <div className="car-stage__info">
@@ -303,9 +563,8 @@ const CarStage = ({ car, onClose }) => {
               <span className="car-card__price-amount">₹{car.price}</span>
               <span className="car-card__price-unit">/{car.duration}</span>
             </p>
-            <button type="button" className="book-btn book-btn--lg">
-              Book Now
-              <BookIcon />
+            <button type="button" className="book-btn book-btn--lg" onClick={() => onBook(car)}>
+              <span>Book Now →</span>
             </button>
           </div>
         </div>
@@ -315,27 +574,58 @@ const CarStage = ({ car, onClose }) => {
 };
 
 /* ---------------------------------------------------------------------------
-   SedanDescri — Clean Light Theme Section with Responsive Pagination
+   SedanDescri — Premium light-theme section, symmetric open/close everywhere
 --------------------------------------------------------------------------- */
 
 const SedanDescri = () => {
-  const [openId, setOpenId] = useState(null);
+  const [stageCar, setStageCar] = useState(null);
+  const [stageOpen, setStageOpen] = useState(false);
+  const [bookingCar, setBookingCar] = useState(null);
+  const [bookingOpen, setBookingOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
 
+  const stageTimeoutRef = useRef(null);
+  const bookingTimeoutRef = useRef(null);
+
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const handleOpen = useCallback((id) => setOpenId(id), []);
-  const handleClose = useCallback(() => setOpenId(null), []);
+  useEffect(
+    () => () => {
+      clearTimeout(stageTimeoutRef.current);
+      clearTimeout(bookingTimeoutRef.current);
+    },
+    []
+  );
 
-  // Desktop shows all 6 cards at once (no pagination needed, or 1 page). Mobile shows 1 per page.
+  const handleOpen = useCallback((id) => {
+    clearTimeout(stageTimeoutRef.current);
+    const car = CARS.find((c) => c.id === id) || null;
+    setStageCar(car);
+    requestAnimationFrame(() => requestAnimationFrame(() => setStageOpen(true)));
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setStageOpen(false);
+    stageTimeoutRef.current = setTimeout(() => setStageCar(null), STAGE_TRANSITION_MS);
+  }, []);
+
+  const handleOpenBooking = useCallback((car) => {
+    clearTimeout(bookingTimeoutRef.current);
+    setBookingCar(car);
+    requestAnimationFrame(() => requestAnimationFrame(() => setBookingOpen(true)));
+  }, []);
+
+  const handleCloseBooking = useCallback(() => {
+    setBookingOpen(false);
+    bookingTimeoutRef.current = setTimeout(() => setBookingCar(null), BOOKING_TRANSITION_MS);
+  }, []);
+
   const itemsPerPage = isMobile ? 1 : CARS.length;
   const totalPages = Math.ceil(CARS.length / itemsPerPage);
 
@@ -345,8 +635,6 @@ const SedanDescri = () => {
     return CARS.slice(start, start + itemsPerPage);
   }, [isMobile, currentPage, itemsPerPage]);
 
-  const activeCar = CARS.find((c) => c.id === openId) || null;
-
   return (
     <section className="sedan-catalog">
       <header className="sedan-catalog__header">
@@ -355,17 +643,16 @@ const SedanDescri = () => {
           Travel in Style with Our Sedan Car Rental Agencies in Bhubaneswar
         </h2>
         <p className="sedan-catalog__desc">
-          Sedan provides 5-seater <strong>Cab Taxi Service in Bhubaneswar</strong> with
-          clean vehicles, skilled drivers, airport pickup, local sightseeing, and
-          outstation trips at fair prices with smooth, safe travel.{' '}
-          <strong>Best Cab Rental in Bhubaneswar</strong> for local travel, airport
-          pickup, outstation trips, and daily booking.
+          Sedan provides 5-seater <strong>Cab Taxi Service in Bhubaneswar</strong> with clean
+          vehicles, skilled drivers, airport pickup, local sightseeing, and outstation trips at
+          fair prices with smooth, safe travel. <strong>Best Cab Rental in Bhubaneswar</strong>{' '}
+          for local travel, airport pickup, outstation trips, and daily booking.
         </p>
       </header>
 
       <div className="car-grid">
         {displayedCars.map((car, i) => (
-          <CarCard key={car.id} car={car} index={i} onOpen={handleOpen} />
+          <CarCard key={car.id} car={car} index={i} onOpen={handleOpen} onBook={handleOpenBooking} />
         ))}
       </div>
 
@@ -410,7 +697,21 @@ const SedanDescri = () => {
         </div>
       )}
 
-      {activeCar && <CarStage car={activeCar} onClose={handleClose} />}
+      {stageCar && (
+        <CarStage
+          car={stageCar}
+          open={stageOpen}
+          onRequestClose={handleClose}
+          onBook={(car) => {
+            handleClose();
+            handleOpenBooking(car);
+          }}
+        />
+      )}
+
+      {bookingCar && (
+        <BookingModal car={bookingCar} open={bookingOpen} onRequestClose={handleCloseBooking} />
+      )}
     </section>
   );
 };

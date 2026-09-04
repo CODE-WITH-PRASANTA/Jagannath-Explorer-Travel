@@ -14,8 +14,8 @@ import image5 from "../../assets/Weddingcar5.webp";
 import image6 from "../../assets/Weddingcar6.webp";
 
 /* =========================================================
-   WEDDING CAR DATA (Fully Curated, Imported Real Imagery & Dynamic Previews)
-   ================================================================ */
+   WEDDING CAR DATA
+   ========================================================= */
 const WEDDING_CARS = [
   {
     id: "audi-a4",
@@ -107,11 +107,11 @@ const ArrowIcon = () => (
 );
 
 /* =========================================================
-   WEDDING CAR IMAGE (Clean, High-End Framing & Badges)
+   WEDDING CAR IMAGE (Click to open 3D Showcase)
    ========================================================= */
-const WeddingCarImage = ({ car }) => {
+const WeddingCarImage = ({ car, onOpenStage }) => {
   return (
-    <div className="wed-card-image-box">
+    <div className="wed-card-image-box" onClick={() => onOpenStage(car.id)}>
       <div className="wed-card-image-wrap">
         <img
           className="wed-card-image"
@@ -145,7 +145,7 @@ const SpecRow = ({ label, value }) => (
 /* =========================================================
    CAR CARD COMPONENT
    ========================================================= */
-const WedCard = ({ car, index, onOpen }) => {
+const WedCard = ({ car, index, onOpenStage, onOpenBooking }) => {
   const specs = [
     { label: "Sunroof", value: car.sunroof },
     { label: "Interior", value: car.interior },
@@ -160,18 +160,8 @@ const WedCard = ({ car, index, onOpen }) => {
         "--accent": car.accent,
         "--delay": `${index * 0.1}s`,
       }}
-      onClick={() => onOpen(car.id)}
-      role="button"
-      tabIndex={0}
-      aria-label={`View ${car.name} wedding car`}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpen(car.id);
-        }
-      }}
     >
-      <WeddingCarImage car={car} />
+      <WeddingCarImage car={car} onOpenStage={onOpenStage} />
 
       <div className="wed-card-content">
         <div className="car-type">
@@ -179,7 +169,9 @@ const WedCard = ({ car, index, onOpen }) => {
           {car.type}
         </div>
 
-        <h3 className="wed-card-name">{car.name}</h3>
+        <h3 className="wed-card-name" onClick={() => onOpenStage(car.id)} style={{ cursor: "pointer" }}>
+          {car.name}
+        </h3>
 
         <div className="gold-line">
           <span />
@@ -197,7 +189,6 @@ const WedCard = ({ car, index, onOpen }) => {
           <a
             href="tel:+919876543210"
             className="wed-btn wed-btn-dark"
-            onClick={(e) => e.stopPropagation()}
           >
             Call Now
             <ArrowIcon />
@@ -206,10 +197,7 @@ const WedCard = ({ car, index, onOpen }) => {
           <button
             type="button"
             className="wed-btn wed-btn-gold"
-            onClick={(e) => {
-              e.stopPropagation();
-              onOpen(car.id);
-            }}
+            onClick={() => onOpenBooking(car)}
           >
             Book Now
             <ArrowIcon />
@@ -221,9 +209,9 @@ const WedCard = ({ car, index, onOpen }) => {
 };
 
 /* =========================================================
-   3D SHOWROOM MODAL STAGE
+   3D SHOWROOM STAGE MODAL
    ========================================================= */
-const WedStage = ({ car, onClose }) => {
+const WedStage = ({ car, onClose, onOpenBooking }) => {
   const [angle, setAngle] = useState(0);
   const angleRef = useRef(0);
   const draggingRef = useRef(false);
@@ -338,17 +326,214 @@ const WedStage = ({ car, onClose }) => {
               <ArrowIcon />
             </a>
 
-            <a
-              href="https://wa.me/919876543210"
-              target="_blank"
-              rel="noreferrer"
+            <button
+              type="button"
               className="wed-btn wed-btn-gold large"
+              onClick={() => onOpenBooking(car)}
             >
               Book Now
               <ArrowIcon />
-            </a>
+            </button>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+/* =========================================================
+   MULTI-STEP BOOKING POPUP MODAL
+   ========================================================= */
+const BookingModal = ({ car, onClose }) => {
+  const [modalStep, setModalStep] = useState(1);
+  const [formData, setFormData] = useState({
+    pickupLocation: "",
+    dropLocation: "",
+    pickupDateTime: "",
+    dropDateTime: "",
+    fullName: "",
+    mobileNumber: "",
+    message: "",
+    agreedToTerms: false,
+  });
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleNextStep = (e) => {
+    e.preventDefault();
+    if (!formData.pickupLocation || !formData.dropLocation || !formData.pickupDateTime) {
+      alert("Please fill in required pickup and drop details.");
+      return;
+    }
+    setModalStep(2);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.fullName || !formData.mobileNumber) {
+      alert("Please enter your Full Name and Mobile Number.");
+      return;
+    }
+    if (!formData.agreedToTerms) {
+      alert("You must agree to the Terms & Conditions.");
+      return;
+    }
+
+    alert(`Booking successfully requested for ${car.name}! We will contact you soon.`);
+    onClose();
+  };
+
+  return (
+    <div className="wed-booking-overlay" onClick={onClose}>
+      <div className="wed-booking-content" onClick={(e) => e.stopPropagation()}>
+        <button className="wed-booking-close" onClick={onClose} aria-label="Close">
+          ✕
+        </button>
+
+        {modalStep === 1 ? (
+          <form onSubmit={handleNextStep}>
+            <h2 className="wed-booking-title">Start Your Booking</h2>
+
+            <div className="wed-selected-car-banner">
+              <img src={car.image} alt={car.name} />
+              <span>{car.name}</span>
+            </div>
+
+            <div className="wed-form-grid">
+              <div className="wed-form-group">
+                <label>Pick Up Location</label>
+                <input
+                  type="text"
+                  name="pickupLocation"
+                  placeholder="Pick Up Location"
+                  value={formData.pickupLocation}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="wed-form-group">
+                <label>Drop Off Location</label>
+                <input
+                  type="text"
+                  name="dropLocation"
+                  placeholder="Drop Off Location"
+                  value={formData.dropLocation}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="wed-form-group">
+                <label>Pick Up Date &amp; Time</label>
+                <input
+                  type="datetime-local"
+                  name="pickupDateTime"
+                  value={formData.pickupDateTime}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="wed-form-group">
+                <label>Drop Date &amp; Time</label>
+                <input
+                  type="datetime-local"
+                  name="dropDateTime"
+                  value={formData.dropDateTime}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            <div className="wed-booking-actions">
+              <button type="submit" className="wed-booking-next-btn">
+                Next →
+              </button>
+            </div>
+          </form>
+        ) : (
+          <form onSubmit={handleFormSubmit}>
+            <h2 className="wed-booking-title">Confirm Your Booking Details</h2>
+
+            <div className="wed-form-group">
+              <div className="wed-input-icon-box">
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="* Enter Your Full Name"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  required
+                />
+                <span className="wed-field-icon">👤</span>
+              </div>
+            </div>
+
+            <div className="wed-form-group">
+              <div className="wed-input-icon-box">
+                <input
+                  type="tel"
+                  name="mobileNumber"
+                  placeholder="* Enter 10 Digit Mobile Number"
+                  maxLength="10"
+                  value={formData.mobileNumber}
+                  onChange={handleInputChange}
+                  required
+                />
+                <span className="wed-field-icon">📞</span>
+              </div>
+            </div>
+
+            <div className="wed-form-group">
+              <textarea
+                name="message"
+                rows="4"
+                maxLength="150"
+                placeholder="Your Message (max 150 characters)"
+                value={formData.message}
+                onChange={handleInputChange}
+              ></textarea>
+            </div>
+
+            <div className="wed-checkbox-row">
+              <label>
+                <input
+                  type="checkbox"
+                  name="agreedToTerms"
+                  checked={formData.agreedToTerms}
+                  onChange={handleInputChange}
+                  required
+                />
+                I agree to the <span className="wed-link-text">Terms &amp; Conditions</span> from <strong>Jagannath Tours &amp; Travels</strong>.
+              </label>
+            </div>
+
+            <div className="wed-booking-actions wed-step2-footer">
+              <button
+                type="button"
+                className="wed-booking-prev-btn"
+                onClick={() => setModalStep(1)}
+              >
+                ← Previous
+              </button>
+              <button type="submit" className="wed-booking-submit-btn">
+                Submit →
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
@@ -358,7 +543,8 @@ const WedStage = ({ car, onClose }) => {
    MAIN COMPONENT (WedCars)
    ========================================================= */
 const WedCars = () => {
-  const [openId, setOpenId] = useState(null);
+  const [stageCarId, setStageCarId] = useState(null);
+  const [bookingCar, setBookingCar] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -371,8 +557,14 @@ const WedCars = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const handleOpen = useCallback((id) => setOpenId(id), []);
-  const handleClose = useCallback(() => setOpenId(null), []);
+  const handleOpenStage = useCallback((id) => setStageCarId(id), []);
+  const handleCloseStage = useCallback(() => setStageCarId(null), []);
+
+  const handleOpenBooking = useCallback((car) => {
+    setStageCarId(null); // Close 3D stage if open
+    setBookingCar(car);
+  }, []);
+  const handleCloseBooking = useCallback(() => setBookingCar(null), []);
 
   const itemsPerPage = isMobile ? 1 : 3;
   const totalPages = Math.ceil(WEDDING_CARS.length / itemsPerPage);
@@ -382,8 +574,8 @@ const WedCars = () => {
     return WEDDING_CARS.slice(start, start + itemsPerPage);
   }, [currentPage, itemsPerPage]);
 
-  const activeCar =
-    WEDDING_CARS.find((car) => car.id === openId) || null;
+  const activeStageCar =
+    WEDDING_CARS.find((car) => car.id === stageCarId) || null;
 
   return (
     <section className="wed-catalog">
@@ -418,7 +610,8 @@ const WedCars = () => {
             key={car.id}
             car={car}
             index={index}
-            onOpen={handleOpen}
+            onOpenStage={handleOpenStage}
+            onOpenBooking={handleOpenBooking}
           />
         ))}
       </div>
@@ -464,7 +657,17 @@ const WedCars = () => {
         </div>
       )}
 
-      {activeCar && <WedStage car={activeCar} onClose={handleClose} />}
+      {activeStageCar && (
+        <WedStage
+          car={activeStageCar}
+          onClose={handleCloseStage}
+          onOpenBooking={handleOpenBooking}
+        />
+      )}
+
+      {bookingCar && (
+        <BookingModal car={bookingCar} onClose={handleCloseBooking} />
+      )}
     </section>
   );
 };
