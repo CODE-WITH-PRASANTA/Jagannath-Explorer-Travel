@@ -1,0 +1,255 @@
+/* =========================================================
+   GALLERY BREADCRUMB
+========================================================= */
+
+.GalleryBreadcrumb {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.GalleryBreadcrumb__overlay {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.52);
+
+  z-index: 1;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.GalleryBreadcrumb__container {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+  padding: 40px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.GalleryBreadcrumb__content {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.GalleryBreadcrumb__title {
+  margin: 0 0 25px;
+
+  color: #ffffff;
+
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1.15;
+
+  letter-spacing: -1px;
+
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.GalleryBreadcrumb__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  font-size: 17px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   HOME
+========================================================= */
+
+.GalleryBreadcrumb__home {
+  color: #72c837;
+
+  text-decoration: none;
+
+  transition: color 0.3s ease;
+}
+
+.GalleryBreadcrumb__home:hover {
+  color: #8ee650;
+}
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.GalleryBreadcrumb__arrow {
+  color: #ffffff;
+
+  font-size: 22px;
+  line-height: 1;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   CURRENT PAGE
+========================================================= */
+
+.GalleryBreadcrumb__current {
+  color: #ffffff;
+
+  font-weight: 500;
+}
+
+/* =========================================================
+   LARGE TABLETS
+========================================================= */
+
+@media (max-width: 992px) {
+  .GalleryBreadcrumb {
+    min-height: 320px;
+  }
+
+  .GalleryBreadcrumb__container {
+    padding: 35px 25px;
+  }
+
+  .GalleryBreadcrumb__title {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+
+  .GalleryBreadcrumb__navigation {
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   TABLETS
+========================================================= */
+
+@media (max-width: 768px) {
+  .GalleryBreadcrumb {
+    min-height: 280px;
+    background-position: center center;
+  }
+
+  .GalleryBreadcrumb__container {
+    padding: 30px 20px;
+  }
+
+  .GalleryBreadcrumb__title {
+    font-size: 42px;
+    letter-spacing: -0.5px;
+    margin-bottom: 18px;
+  }
+
+  .GalleryBreadcrumb__navigation {
+    gap: 8px;
+    font-size: 15px;
+  }
+
+  .GalleryBreadcrumb__arrow {
+    font-size: 20px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+  .GalleryBreadcrumb {
+    min-height: 230px;
+  }
+
+  .GalleryBreadcrumb__container {
+    padding: 25px 15px;
+  }
+
+  .GalleryBreadcrumb__title {
+    font-size: 34px;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+
+  .GalleryBreadcrumb__navigation {
+    gap: 7px;
+    font-size: 14px;
+  }
+
+  .GalleryBreadcrumb__arrow {
+    font-size: 18px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+  .GalleryBreadcrumb {
+    min-height: 210px;
+  }
+
+  .GalleryBreadcrumb__container {
+    padding: 20px 12px;
+  }
+
+  .GalleryBreadcrumb__title {
+    font-size: 29px;
+    margin-bottom: 12px;
+  }
+
+  .GalleryBreadcrumb__navigation {
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .GalleryBreadcrumb__arrow {
+    font-size: 17px;
+  }
+}

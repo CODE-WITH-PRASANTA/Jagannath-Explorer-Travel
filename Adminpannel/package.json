@@ -13,13 +13,9 @@
     "lucide-react": "^1.39.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-<<<<<<< HEAD
     "react-icons": "^5.7.0",
-    "react-router-dom": "^7.18.3"
-=======
     "react-router-dom": "^7.18.3",
     "recharts": "^3.10.1"
->>>>>>> eb483eb6b6bc8c030b5654d9bdb97054841edffe
   },
   "devDependencies": {
     "@types/react": "^19.2.18",

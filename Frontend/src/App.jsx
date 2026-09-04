@@ -4,7 +4,7 @@ import Tours from "./Page/Tours/Tours";
 import TourDetails from "./Page/TourDetails/TourDetails";
 import Hotel from "./Page/Hotel/Hotel";
 import HotelRoomDetails from "./Page/HotelRoomDetails/HotelRoomDetails";
-
+ 
 import Navbar from "./Components/Navbar/Navbar";
 
 import SedanCar from "./Page/SedanCar/SedanCar";
@@ -18,10 +18,11 @@ import About from "./Page/About/About";
 import UrbaniaTraveller from "./Page/UrbaniaTraveller/UrbaniaTraveller";
 import Blogs from "./Page/Blogs/Blogs";
 import BLogDetails from "./Page/BLogDetails/BLogDetails";
-import Gallery from "./Components/Gallery/Gallery";
+
  
 import Contact from "./Page/Contact/Contact";
 import Faqs from "./Page/Faqs/Faqs";
+import Gallery from "./Page/Gallery/Gallery";
 
 // Pages
 
