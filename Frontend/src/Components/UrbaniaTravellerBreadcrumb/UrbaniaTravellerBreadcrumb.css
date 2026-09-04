@@ -1,0 +1,522 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+.urbania-traveller-breadcrumb {
+  --urbania-traveller-breadcrumb-bg-0: #030508;
+  --urbania-traveller-breadcrumb-bg-1: #070e17;
+  --urbania-traveller-breadcrumb-bg-2: #0f1c2d;
+  --urbania-traveller-breadcrumb-chrome-100: #f8fafc;
+  --urbania-traveller-breadcrumb-chrome-300: #cbd5e1;
+  --urbania-traveller-breadcrumb-chrome-500: #94a3b8;
+  --urbania-traveller-breadcrumb-chrome-700: #334155;
+  --urbania-traveller-breadcrumb-amber: #f59e0b;
+  --urbania-traveller-breadcrumb-amber-soft: rgba(245, 158, 11, 0.35);
+  --urbania-traveller-breadcrumb-cyan: #38bdf8;
+  --urbania-traveller-breadcrumb-cyan-soft: rgba(56, 189, 248, 0.3);
+  --urbania-traveller-breadcrumb-hairline: rgba(255, 255, 255, 0.12);
+
+  --tiltX: 0;
+  --tiltY: 0;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 290px;
+  padding: 56px 20px 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    140% 160% at 50% 10%,
+    var(--urbania-traveller-breadcrumb-bg-2) 0%,
+    var(--urbania-traveller-breadcrumb-bg-1) 50%,
+    var(--urbania-traveller-breadcrumb-bg-0) 100%
+  );
+  perspective: 1200px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* -------------------------------------------------------------------------
+   Road & Motion Layer
+------------------------------------------------------------------------- */
+.urbania-traveller-breadcrumb-road {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  perspective: 900px;
+}
+
+.urbania-traveller-breadcrumb-road__horizon-glow {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  width: 55vw;
+  height: 55vw;
+  max-width: 620px;
+  max-height: 620px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    var(--urbania-traveller-breadcrumb-amber-soft) 0%,
+    rgba(56, 189, 248, 0.08) 45%,
+    transparent 75%
+  );
+  filter: blur(10px);
+  animation: urbaniaTravellerBreadcrumbHorizonPulse 6s ease-in-out infinite;
+}
+
+.urbania-traveller-breadcrumb-road__grid-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background-image:
+    linear-gradient(to right, rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+  background-size: 44px 26px;
+  transform: rotateX(65deg);
+  transform-origin: bottom center;
+  animation: urbaniaTravellerBreadcrumbGridScroll 3.2s linear infinite;
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 15%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 15%, transparent 85%);
+}
+
+.urbania-traveller-breadcrumb-road__lanes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.urbania-traveller-breadcrumb-road__lane-line {
+  stroke: var(--urbania-traveller-breadcrumb-cyan);
+  stroke-width: 1.5;
+  opacity: 0;
+  stroke-dasharray: 6 10;
+  animation: urbaniaTravellerBreadcrumbLaneDrift 2.2s linear infinite;
+  animation-fill-mode: forwards;
+  filter: drop-shadow(0 0 6px var(--urbania-traveller-breadcrumb-cyan));
+}
+
+/* Van Profiles */
+.urbania-traveller-breadcrumb-road__van {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  width: 34px;
+  height: 18px;
+  transform-origin: center bottom;
+  opacity: 0;
+  animation-name: urbaniaTravellerBreadcrumbVanCruising;
+  animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+  z-index: 1;
+}
+
+.urbania-traveller-breadcrumb-road__van--lane-0 { --lane-offset: -130px; }
+.urbania-traveller-breadcrumb-road__van--lane-1 { --lane-offset: 10px; }
+.urbania-traveller-breadcrumb-road__van--lane-2 { --lane-offset: 145px; }
+
+.urbania-traveller-breadcrumb-van__body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #1e293b, #475569);
+  border-radius: 4px 4px 1px 1px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.urbania-traveller-breadcrumb-van__roof {
+  position: absolute;
+  top: -6px;
+  left: 3px;
+  right: 3px;
+  height: 7px;
+  background: #0f172a;
+  border-radius: 4px 4px 0 0;
+}
+
+.urbania-traveller-breadcrumb-van__windows {
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  right: 4px;
+  height: 4px;
+  background: rgba(56, 189, 248, 0.35);
+  border-radius: 1px;
+}
+
+.urbania-traveller-breadcrumb-van__taillights {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  width: 3px;
+  height: 6px;
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
+  border-radius: 1px;
+}
+
+.urbania-traveller-breadcrumb-van__taillights::after {
+  content: '';
+  position: absolute;
+  right: -27px;
+  top: 0;
+  width: 3px;
+  height: 6px;
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
+  border-radius: 1px;
+}
+
+.urbania-traveller-breadcrumb-van__glow {
+  position: absolute;
+  inset: -3px;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.25) 0%, transparent 70%);
+  filter: blur(3px);
+  z-index: -1;
+}
+
+/* Light Streaks */
+.urbania-traveller-breadcrumb-road__streak {
+  position: absolute;
+  left: -15%;
+  width: 25%;
+  height: 2px;
+  border-radius: 2px;
+  opacity: 0;
+  animation-name: urbaniaTravellerBreadcrumbStreakTravel;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
+.urbania-traveller-breadcrumb-road__streak--amber {
+  background: linear-gradient(90deg, transparent, var(--urbania-traveller-breadcrumb-amber), transparent);
+  box-shadow: 0 0 8px var(--urbania-traveller-breadcrumb-amber-soft);
+}
+
+.urbania-traveller-breadcrumb-road__streak--cyan {
+  background: linear-gradient(90deg, transparent, var(--urbania-traveller-breadcrumb-cyan), transparent);
+  box-shadow: 0 0 8px var(--urbania-traveller-breadcrumb-cyan-soft);
+}
+
+.urbania-traveller-breadcrumb__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(3, 5, 8, 0.4) 0%, rgba(3, 5, 8, 0) 30%, rgba(3, 5, 8, 0.7) 100%),
+    radial-gradient(120% 90% at 50% 100%, rgba(3, 5, 8, 0.85) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.urbania-traveller-breadcrumb__floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 0%, var(--urbania-traveller-breadcrumb-bg-0) 90%);
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------
+   Interactive 3D Stage & Typography
+------------------------------------------------------------------------- */
+.urbania-traveller-breadcrumb__stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 760px;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--tiltX) * 1deg)) rotateY(calc(var(--tiltY) * 1deg));
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.urbania-traveller-breadcrumb__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateZ(35px);
+}
+
+.urbania-traveller-breadcrumb__badge {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--urbania-traveller-breadcrumb-amber);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.urbania-traveller-breadcrumb--loaded .urbania-traveller-breadcrumb__badge {
+  animation: urbaniaTravellerBreadcrumbRiseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.urbania-traveller-breadcrumb__title {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4.4vw + 0.4rem, 3.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.urbania-traveller-breadcrumb--loaded .urbania-traveller-breadcrumb__title {
+  animation: urbaniaTravellerBreadcrumbRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
+}
+
+.urbania-traveller-breadcrumb__title-shine {
+  display: inline-block;
+  background: linear-gradient(
+    105deg,
+    var(--urbania-traveller-breadcrumb-chrome-500) 0%,
+    var(--urbania-traveller-breadcrumb-chrome-100) 22%,
+    var(--urbania-traveller-breadcrumb-cyan) 38%,
+    var(--urbania-traveller-breadcrumb-amber) 50%,
+    var(--urbania-traveller-breadcrumb-chrome-300) 65%,
+    var(--urbania-traveller-breadcrumb-chrome-100) 84%,
+    var(--urbania-traveller-breadcrumb-chrome-500) 100%
+  );
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: urbaniaTravellerBreadcrumbChromeSweep 5s ease-in-out infinite;
+  text-shadow: 0 0 25px rgba(56, 189, 248, 0.12);
+}
+
+.urbania-traveller-breadcrumb__subtitle {
+  margin: 10px 0 0;
+  font-size: clamp(0.88rem, 1vw + 0.5rem, 1.02rem);
+  font-weight: 400;
+  color: var(--urbania-traveller-breadcrumb-chrome-500);
+  max-width: 48ch;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.urbania-traveller-breadcrumb--loaded .urbania-traveller-breadcrumb__subtitle {
+  animation: urbaniaTravellerBreadcrumbRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.16s forwards;
+}
+
+/* -------------------------------------------------------------------------
+   Breadcrumb Navigation
+------------------------------------------------------------------------- */
+.urbania-traveller-breadcrumb__nav-wrap {
+  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.urbania-traveller-breadcrumb--loaded .urbania-traveller-breadcrumb__nav-wrap {
+  animation: urbaniaTravellerBreadcrumbRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.24s forwards;
+}
+
+.urbania-traveller-breadcrumb-nav {
+  display: inline-flex;
+}
+
+.urbania-traveller-breadcrumb-nav__list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--urbania-traveller-breadcrumb-hairline);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.urbania-traveller-breadcrumb-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.urbania-traveller-breadcrumb-nav__link {
+  position: relative;
+  color: var(--urbania-traveller-breadcrumb-chrome-500);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+.urbania-traveller-breadcrumb-nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--urbania-traveller-breadcrumb-cyan);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.urbania-traveller-breadcrumb-nav__link:hover {
+  color: var(--urbania-traveller-breadcrumb-chrome-100);
+}
+
+.urbania-traveller-breadcrumb-nav__link:hover::after,
+.urbania-traveller-breadcrumb-nav__link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.urbania-traveller-breadcrumb-nav__link:focus-visible {
+  outline: 2px solid var(--urbania-traveller-breadcrumb-cyan);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.urbania-traveller-breadcrumb-nav__current {
+  color: var(--urbania-traveller-breadcrumb-chrome-100);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.urbania-traveller-breadcrumb-nav__sep {
+  color: var(--urbania-traveller-breadcrumb-chrome-700);
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------------------
+   Keyframes
+------------------------------------------------------------------------- */
+@keyframes urbaniaTravellerBreadcrumbRiseIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes urbaniaTravellerBreadcrumbChromeSweep {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes urbaniaTravellerBreadcrumbHorizonPulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+@keyframes urbaniaTravellerBreadcrumbGridScroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 44px; }
+}
+
+@keyframes urbaniaTravellerBreadcrumbLaneDrift {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 60;
+  }
+  15% { opacity: 0.45; }
+  85% { opacity: 0.45; }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes urbaniaTravellerBreadcrumbVanCruising {
+  0% {
+    opacity: 0;
+    transform: translate(var(--lane-offset), 95px) scale(0.12);
+  }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--lane-offset) * 3.2), -100px) scale(1.2);
+  }
+}
+
+@keyframes urbaniaTravellerBreadcrumbStreakTravel {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  10% { opacity: 1; }
+  85% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translateX(550%);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Responsive & Accessibility
+------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .urbania-traveller-breadcrumb {
+    min-height: 230px;
+    padding: 40px 16px 30px;
+  }
+
+  .urbania-traveller-breadcrumb-nav__list {
+    padding: 5px 14px;
+  }
+
+  .urbania-traveller-breadcrumb-road__horizon-glow {
+    width: 80vw;
+    height: 80vw;
+  }
+}
+
+@media (max-width: 420px) {
+  .urbania-traveller-breadcrumb__subtitle {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .urbania-traveller-breadcrumb__title,
+  .urbania-traveller-breadcrumb__subtitle,
+  .urbania-traveller-breadcrumb__nav-wrap,
+  .urbania-traveller-breadcrumb__badge {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .urbania-traveller-breadcrumb__title-shine,
+  .urbania-traveller-breadcrumb-road__horizon-glow,
+  .urbania-traveller-breadcrumb-road__lane-line,
+  .urbania-traveller-breadcrumb-road__streak,
+  .urbania-traveller-breadcrumb-road__van,
+  .urbania-traveller-breadcrumb-road__grid-floor {
+    animation: none !important;
+  }
+
+  .urbania-traveller-breadcrumb-road__lane-line {
+    opacity: 0.25;
+  }
+
+  .urbania-traveller-breadcrumb__stage {
+    transform: none !important;
+  }
+}
