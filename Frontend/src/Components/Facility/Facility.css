@@ -218,7 +218,32 @@
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
   background-color: #1f2427;
 }
+/* ================= LEFT CONTENT & WEBP BACKGROUND ================= */
+.facility-left-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 24px 0;
+  z-index: 1;
+}
 
+/* Imported WebP background image overlay */
+.facility-left-col::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -15%;
+  width: 130%;
+  height: 120%;
+  background-image: var(--bg-image);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  opacity: 0.12; /* Adjust transparency to fit your layout */
+  z-index: -1;
+  pointer-events: none;
+}
 .facility-main-img {
   position: absolute;
   top: 0;

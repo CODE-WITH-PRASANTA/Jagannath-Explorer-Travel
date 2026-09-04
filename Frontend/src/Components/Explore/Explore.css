@@ -18,7 +18,7 @@
 }
 
 .explore-container {
-  max-width: 1100px;
+  max-width: 1150px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -135,7 +135,7 @@
   background-color: #f0f6ed;
   border: 1.5px solid transparent;
   border-radius: 12px;
-  padding: 22px 10px 16px 10px;
+  padding: 18px 10px 16px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,7 +143,7 @@
   gap: 10px;
   cursor: pointer;
   transition: all 0.28s ease;
-  min-height: 108px;
+  min-height: 118px; /* बड़ा फ़ॉन्ट सही से फिट होने के लिए थोड़ा बढ़ाया गया */
 }
 
 .activity-tab-btn:hover {
@@ -159,8 +159,8 @@
 }
 
 .tab-icon-wrap {
-  width: 32px;
-  height: 32px;
+  width: 38px;  /* आइकन का साइज़ बड़ा किया गया */
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,11 +173,13 @@
   transition: color 0.2s ease;
 }
 
+/* बॉक्स के अंदर का लेबल (Font Size Increased) */
 .tab-label {
-  font-size: 12.5px;
+  font-size: 16px; /* 12.5px से बढ़ाकर 16px किया गया */
   font-weight: 700;
   color: #161b1e;
   text-align: center;
+  line-height: 1.25;
   transition: color 0.2s ease;
 }
 
@@ -193,7 +195,7 @@
   padding: 0 10px;
 }
 
-/* Brush Badge */
+/* Brush Badge Box (Font Size Increased) */
 .brush-tag-wrap {
   margin-bottom: 12px;
 }
@@ -203,9 +205,9 @@
   background-color: #fca834;
   color: #ffffff;
   font-family: 'Caveat', cursive;
-  font-size: 20px;
+  font-size: 24px; /* 20px से बढ़ाकर 24px किया गया */
   font-weight: 700;
-  padding: 3px 18px;
+  padding: 4px 22px;
   border-radius: 20px 4px 20px 4px;
   letter-spacing: 0.5px;
 }
@@ -433,6 +435,10 @@
   .activities-tabs-grid {
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
+  }
+
+  .tab-label {
+    font-size: 14.5px;
   }
 
   .activity-features-list {

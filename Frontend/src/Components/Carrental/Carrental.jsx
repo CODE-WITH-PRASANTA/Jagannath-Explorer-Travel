@@ -2,11 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './Carrental.css';
 
+// अपनी इमेज फ़ाइल्स को यहाँ इम्पोर्ट करें (पाथ और नाम अपने अनुसार सेट करें)
+import swiftDzireImg from '../../assets/Swift-Dezire.webp';
+import ertigaImg from '../../assets/Maruti-Suzuki-Ertiga.webp';
+import audiA4Img from '../../assets/Wedding-car-Audi-A4-1.webp';
+import innovaCrystaImg from '../../assets/Tempo-Traveller-13-SEATER.webp';
+import scorpioNImg from '../../assets/Urbania-Traveller.webp';
+import eClassImg from '../../assets/SML-COACH-13-SEATER.webp';
+
 const carData = [
   {
     id: 1,
     name: 'Swift Dzire',
-    image: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/45691/dzire-exterior-right-front-three-quarter-3.jpeg?q=80',
+    image: swiftDzireImg, // इम्पोर्ट किया गया वेरिएबल यहाँ असाइन करें
     specs: [
       { label: 'Seating Capacity', value: '5 Seater' },
       { label: 'A/C', value: 'Automatic Climate Control' },
@@ -20,7 +28,7 @@ const carData = [
   {
     id: 2,
     name: 'Maruti Suzuki Ertiga',
-    image: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/102663/ertiga-exterior-right-front-three-quarter-5.jpeg?q=80',
+    image: ertigaImg,
     specs: [
       { label: 'Seating Capacity', value: '7 Seater' },
       { label: 'A/C', value: 'Automatic + Rear AC Vents' },
@@ -34,7 +42,7 @@ const carData = [
   {
     id: 3,
     name: 'Audi A4',
-    image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=800&auto=format&fit=crop',
+    image: audiA4Img,
     specs: [
       { label: 'Sunroof', value: 'Electric Sunroof' },
       { label: 'Interior', value: 'Premium Leather Interior' },
@@ -47,8 +55,8 @@ const carData = [
   },
   {
     id: 4,
-    name: 'Toyota Innova Crysta',
-    image: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/140809/innova-crysta-exterior-right-front-three-quarter-2.png?q=80',
+    name: 'Tempo Traveller',
+    image: innovaCrystaImg,
     specs: [
       { label: 'Seating Capacity', value: '7/8 Seater' },
       { label: 'A/C', value: 'Dual Zone Climate Control' },
@@ -61,8 +69,8 @@ const carData = [
   },
   {
     id: 5,
-    name: 'Mahindra Scorpio-N',
-    image: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/40432/scorpio-n-exterior-right-front-three-quarter-75.jpeg?q=80',
+    name: '10 Seater Urbania',
+    image: scorpioNImg,
     specs: [
       { label: 'Seating Capacity', value: '7 Seater' },
       { label: 'A/C', value: 'Dual Zone FATC' },
@@ -75,8 +83,8 @@ const carData = [
   },
   {
     id: 6,
-    name: 'Mercedes-Benz E-Class',
-    image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop',
+    name: 'SML Coach-13 Seater',
+    image: eClassImg,
     specs: [
       { label: 'Sunroof', value: 'Panoramic Sunroof' },
       { label: 'Interior', value: 'Artico Leather + Ambient Light' },
@@ -130,14 +138,12 @@ const Carrental = () => {
     return () => stopAutoSlide();
   }, [maxIndex]);
 
-  // राइट एरो क्लिक -> आगे (Right/Next) स्लाइड
   const handleNext = () => {
     stopAutoSlide();
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
     startAutoSlide();
   };
 
-  // लेफ्ट एरो क्लिक -> पीछे (Left/Prev) स्लाइड
   const handlePrev = () => {
     stopAutoSlide();
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
@@ -158,7 +164,6 @@ const Carrental = () => {
       onMouseEnter={stopAutoSlide}
       onMouseLeave={startAutoSlide}
     >
-      {/* हेडर */}
       <div className="car-rental__header">
         <span className="car-rental__subtitle">Car Rental</span>
         <h2 className="car-rental__title">
@@ -169,10 +174,7 @@ const Carrental = () => {
         </p>
       </div>
 
-      {/* स्लाइडर रैपर जिसके दोनों साइड्स में एरो बटन्स हैं */}
       <div className="car-rental__slider-wrapper">
-        
-        {/* लेफ्ट साइड एरो */}
         <button 
           type="button" 
           className="car-rental__side-arrow car-rental__side-arrow--left" 
@@ -182,7 +184,6 @@ const Carrental = () => {
           <FaChevronLeft />
         </button>
 
-        {/* राइट साइड एरो */}
         <button 
           type="button" 
           className="car-rental__side-arrow car-rental__side-arrow--right" 
@@ -192,7 +193,6 @@ const Carrental = () => {
           <FaChevronRight />
         </button>
 
-        {/* कार्ड्स ट्रैक */}
         <div className="car-rental__carousel-window">
           <div 
             className="car-rental__carousel-track"
@@ -207,8 +207,6 @@ const Carrental = () => {
                 style={{ flex: `0 0 ${100 / visibleCount}%` }}
               >
                 <div className="car-rental__card">
-                  
-                  {/* कार इमेज */}
                   <div className="car-rental__image-box">
                     <img 
                       src={car.image} 
@@ -218,7 +216,6 @@ const Carrental = () => {
                     />
                   </div>
 
-                  {/* कार विवरण */}
                   <div className="car-rental__body">
                     <h3 className="car-rental__car-name">{car.name}</h3>
 
@@ -231,7 +228,6 @@ const Carrental = () => {
                       ))}
                     </div>
 
-                    {/* फुटर (कीमत व बटन) */}
                     <div className="car-rental__footer">
                       {car.price ? (
                         <div className="car-rental__price-box">
@@ -269,7 +265,6 @@ const Carrental = () => {
         </div>
       </div>
 
-      {/* बॉटम डॉट्स */}
       <div className="car-rental__dots">
         {Array.from({ length: maxIndex + 1 }).map((_, index) => (
           <button
