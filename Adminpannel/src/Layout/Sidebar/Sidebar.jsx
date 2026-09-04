@@ -59,7 +59,7 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
   const menuItems = [
     { type: 'link', icon: <LayoutDashboard size={20} />, text: 'Dashboard', path: '/' },
 
-    {
+    { 
       type: 'dropdown',
       icon: <CalendarCheck size={20} />,
       text: 'Bookings',
