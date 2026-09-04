@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
 /* =========================================================
    TRAVELLER JOURNEY
 ========================================================= */
@@ -8,7 +10,7 @@
   padding: 0 0 55px;
   background: #ffffff;
   color: #080808;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   overflow: hidden;
   position: relative;
 }
@@ -64,7 +66,6 @@
   margin: 0 auto 17px;
   color: #050505;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(32px, 3vw, 44px);
   font-weight: 600;
   line-height: 1.1;
@@ -180,9 +181,8 @@
   margin: 0 0 17px;
   color: #080808;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 27px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
   white-space: nowrap;
 }
@@ -215,20 +215,12 @@
   line-height: 1.25;
 }
 
-/* =========================================================
-   LEFT LABEL
-========================================================= */
-
 .TravellerJourney__detailRow > span:first-child {
   flex: 0 0 auto;
   min-width: 0;
   color: #0b0b0b;
   white-space: nowrap;
 }
-
-/* =========================================================
-   RIGHT VALUE
-========================================================= */
 
 .TravellerJourney__detailValue {
   flex: 1 1 auto;
@@ -257,10 +249,6 @@
   gap: 15px;
 }
 
-/* =========================================================
-   PRICE
-========================================================= */
-
 .TravellerJourney__price {
   min-width: 0;
   display: flex;
@@ -272,7 +260,7 @@
 .TravellerJourney__priceAmount {
   color: #080808;
   font-size: 27px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -300,7 +288,7 @@
   gap: 13px;
   background: #20a6df;
   color: #ffffff;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: inherit;
   font-size: 17px;
   font-weight: 600;
   white-space: nowrap;
@@ -354,7 +342,7 @@
 }
 
 /* =========================================================
-   MODAL OVERLAY & POPUP (Matches Screenshot)
+   BOOKING MODAL OVERLAY & CARD
 ========================================================= */
 
 .TravellerJourney__modalOverlay {
@@ -376,7 +364,7 @@
   background: #ffffff;
   border: 1.5px solid #20a6df;
   border-radius: 20px;
-  padding: 30px 42px 36px;
+  padding: 32px 42px 36px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
   animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -409,13 +397,13 @@
 .TravellerJourney__modalTitle {
   margin: 0 0 20px;
   text-align: center;
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 700;
   color: #0a0a0a;
 }
 
 /* =========================================================
-   SELECTED VEHICLE BAR (Screenshot style)
+   SELECTED VEHICLE CARD (Exact Screenshot Match)
 ========================================================= */
 
 .TravellerJourney__selectedVehicle {
@@ -498,6 +486,7 @@
   font-size: 14px;
   color: #222222;
   outline: none;
+  font-family: inherit;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -512,7 +501,6 @@
 }
 
 .TravellerJourney__dateWrapper input[type="datetime-local"] {
-  font-family: inherit;
   color: #4b5563;
   cursor: pointer;
 }
@@ -534,6 +522,7 @@
   justify-content: center;
   gap: 9px;
   color: #ffffff;
+  font-family: inherit;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -555,7 +544,7 @@
   transform: translateX(3px);
 }
 
-/* Animations */
+/* Modal Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -573,7 +562,7 @@
 }
 
 /* =========================================================
-   RESPONSIVE BREAKPOINTS
+   MEDIA QUERIES
 ========================================================= */
 
 @media (max-width: 1200px) {
@@ -642,7 +631,7 @@
   .TravellerJourney__priceHours { font-size: 14px; }
   .TravellerJourney__bookButton { width: 145px; min-width: 145px; height: 48px; padding: 0 14px; }
 
-  /* Modal Mobile */
+  /* Modal Mobile Responsiveness */
   .TravellerJourney__modal { padding: 25px 20px; border-radius: 16px; }
   .TravellerJourney__formGrid { grid-template-columns: 1fr; gap: 14px; }
   .TravellerJourney__modalTitle { font-size: 20px; }

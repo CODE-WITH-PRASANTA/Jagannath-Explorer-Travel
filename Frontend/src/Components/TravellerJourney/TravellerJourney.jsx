@@ -287,7 +287,7 @@ const TravellerJourney = () => {
               <FaTimes />
             </button>
 
-            {/* MODAL INNER */}
+            {/* MODAL INNER CONTAINER */}
             <div className="TravellerJourney__modalInner">
               {/* MODAL TITLE */}
               <h2 className="TravellerJourney__modalTitle">
