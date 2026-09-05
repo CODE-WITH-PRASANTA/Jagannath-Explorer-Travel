@@ -14,10 +14,10 @@
 
 /* Base Page Wrapper */
 .ToursItinerary {
-  width: 100%;
-  padding: 36px 28px;
+  width: 60%;
+  padding: 20px 20px;
   background-color: #fbfcfd;
-  min-height: 100vh;
+  
   box-sizing: border-box;
   display: flex;
   justify-content: flex-start;
@@ -26,7 +26,7 @@
 
 /* Main Box Container (60% Desktop Width, Left-aligned) */
 .ToursItinerary-container {
-  width: 60%;
+  width: 100%;
   background: #ffffff;
   border: 1px solid var(--tours-border-color);
   border-radius: 8px;

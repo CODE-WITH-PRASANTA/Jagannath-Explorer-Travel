@@ -12,7 +12,7 @@ import "./Tours.css";
 const Tours = () => {
   return (
     <div className="tours-page">
-
+ 
       {/* LEFT CONTENT */}
       <main className="tours-main-content">
         <ToursBasicInformation />

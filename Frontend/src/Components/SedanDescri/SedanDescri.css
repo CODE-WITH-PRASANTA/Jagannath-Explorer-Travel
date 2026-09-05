@@ -1,22 +1,27 @@
 /* ==========================================================================
-   Sedan Catalog — Clean Light Theme, Interactive Showroom & Responsive Layout
+   Sedan Catalog — Premium Light Theme, Interactive Showroom & Responsive Layout
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 .sedan-catalog {
-  --bg-main: #f8fafc;
+  --bg-main: #f7f9fc;
   --panel-bg: #ffffff;
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #94a3b8;
-  --border-color: #e2e8f0;
+  --border-color: #e6ebf2;
   --accent: #2563eb;
+  --gold: #d4a94a;
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 
   position: relative;
   isolation: isolate;
   padding: 88px 24px 96px;
-  background: var(--bg-main);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(37, 99, 235, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 90% 12%, rgba(212, 169, 74, 0.06) 0%, transparent 40%),
+    var(--bg-main);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -33,13 +38,28 @@
 }
 
 .sedan-catalog__eyebrow {
-  margin: 0 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
   font-family: 'Sora', sans-serif;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.86rem;
   color: var(--accent);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.sedan-catalog__eyebrow::before,
+.sedan-catalog__eyebrow::after {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent));
+}
+
+.sedan-catalog__eyebrow::after {
+  background: linear-gradient(90deg, var(--accent), transparent);
 }
 
 .sedan-catalog__title {
@@ -65,7 +85,7 @@
 }
 
 /* -------------------------------------------------------------------------
-   Grid + Card (Desktop: 3 columns x 2 rows = 6 cards)
+   Grid + Card Design (5 Cards)
    ------------------------------------------------------------------------- */
 
 .car-grid {
@@ -73,8 +93,8 @@
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 28px;
-  max-width: 1200px;
+  gap: 24px;
+  max-width: 1160px;
   margin: 0 auto;
 }
 
@@ -84,24 +104,42 @@
   flex-direction: column;
   background: var(--panel-bg);
   border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 22px 22px 24px;
+  border-radius: 18px;
+  padding: 16px 16px 18px;
   cursor: pointer;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -18px rgba(15, 23, 42, 0.15);
   opacity: 0;
   transform: translateY(22px);
-  animation: cardRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: calc(var(--stagger) * 0.07s);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.35s ease, box-shadow 0.35s ease;
+  animation: cardRise 0.65s var(--ease-premium) forwards;
+  animation-delay: calc(var(--stagger) * 0.08s);
+  transition: transform 0.4s var(--ease-premium), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.car-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, color-mix(in srgb, var(--accent) 0%, transparent), color-mix(in srgb, var(--accent) 35%, transparent) 50%, transparent 80%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.car-card:hover::before,
+.car-card:focus-visible::before {
+  opacity: 1;
 }
 
 .car-card:hover,
 .car-card:focus-visible {
-  transform: translateY(-6px);
-  border-color: color-mix(in srgb, var(--accent) 50%, var(--border-color));
-  box-shadow: 0 20px 35px -15px rgba(15, 23, 42, 0.08),
-    0 0 0 1px rgba(37, 99, 235, 0.1);
+  transform: translateY(-8px);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border-color));
+  box-shadow: 0 30px 45px -20px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(37, 99, 235, 0.08);
 }
 
 .car-card:focus-visible {
@@ -109,12 +147,49 @@
   outline-offset: 3px;
 }
 
+.car-card__badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border-color);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #16a34a;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.car-card__badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+}
+
+.car-card:hover .car-card__badge,
+.car-card:focus-visible .car-card__badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .car-card__frame {
   position: relative;
-  height: 175px;
-  border-radius: 14px;
-  margin-bottom: 18px;
-  background: #f1f5f9;
+  height: 140px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: linear-gradient(160deg, #f1f5f9, #e9eef5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,14 +200,14 @@
   position: absolute;
   width: 140%;
   height: 140%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 70%);
   opacity: 0.6;
-  transition: opacity 0.35s ease, transform 0.6s ease;
+  transition: opacity 0.4s ease, transform 0.65s ease;
 }
 
 .car-card:hover .car-card__glow {
   opacity: 1;
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
 .car-card__image {
@@ -141,27 +216,27 @@
   width: 90%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 8px;
+  box-shadow: 0 14px 22px -8px rgba(15, 23, 42, 0.18);
+  transition: transform 0.55s var(--ease-premium);
 }
 
 .car-card:hover .car-card__image {
-  transform: scale(1.04);
+  transform: scale(1.05) translateY(-2px);
 }
 
 .car-card__name {
-  margin: 0 0 14px;
+  margin: 0 0 8px;
   font-family: 'Sora', sans-serif;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   color: var(--text-primary);
 }
 
 .car-card__specs {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .spec-row {
@@ -169,8 +244,8 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--border-color);
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--border-color);
 }
 
 .spec-row:last-child {
@@ -178,14 +253,14 @@
 }
 
 .spec-row__label {
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--text-primary);
   flex-shrink: 0;
 }
 
 .spec-row__value {
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
   text-align: right;
 }
@@ -195,19 +270,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
 }
 
 .car-card__price {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 0.86rem;
+  font-size: 0.78rem;
 }
 
 .car-card__price-amount {
   font-family: 'Sora', sans-serif;
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: var(--text-primary);
 }
 
@@ -220,27 +297,52 @@
   overflow: hidden;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   border: none;
   border-radius: 999px;
-  padding: 10px 18px;
-  background: var(--accent);
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #1d4ed8));
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background-color 0.25s ease;
+  box-shadow: 0 8px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
+  transition: transform 0.3s var(--ease-premium), box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.book-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.35) 48%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
 }
 
 .book-btn:hover {
   transform: translateY(-2px);
-  background: color-mix(in srgb, var(--accent) 85%, #000000);
-  box-shadow: 0 10px 20px -8px color-mix(in srgb, var(--accent) 50%, transparent);
+  filter: brightness(1.05);
+  box-shadow: 0 14px 24px -10px color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.book-btn:hover::after {
+  transform: translateX(120%);
+}
+
+.book-btn:active {
+  transform: translateY(0);
 }
 
 .book-btn svg {
+  position: relative;
+  z-index: 1;
   transition: transform 0.25s ease;
+}
+
+.book-btn span {
+  position: relative;
+  z-index: 1;
 }
 
 .book-btn:hover svg {
@@ -248,8 +350,10 @@
 }
 
 .book-btn--lg {
-  padding: 13px 24px;
-  font-size: 0.96rem;
+  padding: 12px 26px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 /* -------------------------------------------------------------------------
@@ -273,8 +377,8 @@
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: all 0.3s var(--ease-premium);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .pagination__btn:hover:not(:disabled) {
@@ -282,6 +386,7 @@
   color: #ffffff;
   border-color: var(--accent);
   transform: translateY(-1px);
+  box-shadow: 0 10px 18px -10px color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
 .pagination__btn:disabled {
@@ -305,7 +410,7 @@
   border: none;
   background: var(--border-color);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.35s var(--ease-premium);
   flex-shrink: 0;
 }
 
@@ -317,7 +422,7 @@
 }
 
 /* -------------------------------------------------------------------------
-   Showroom stage (detail overlay)
+   Showroom stage
    ------------------------------------------------------------------------- */
 
 .car-stage {
@@ -328,39 +433,45 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
+  pointer-events: none;
+}
+
+.car-stage--open {
+  pointer-events: auto;
 }
 
 .car-stage__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(10, 14, 26, 0.55);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.42s var(--ease-premium), backdrop-filter 0.42s var(--ease-premium);
 }
 
 .car-stage--open .car-stage__backdrop {
   opacity: 1;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .car-stage__panel {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 940px;
-  max-height: 88vh;
+  max-width: 900px;
+  max-height: 86vh;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1fr 1fr;
   background: #ffffff;
   border: 1px solid var(--border-color);
-  border-radius: 24px;
-  box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.25);
+  border-radius: 22px;
+  box-shadow: 0 40px 80px -20px rgba(10, 14, 26, 0.35);
   opacity: 0;
-  transform: translateY(20px) scale(0.96);
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px) scale(0.94);
+  transition: opacity 0.42s var(--ease-premium), transform 0.42s var(--ease-premium);
 }
 
 .car-stage--open .car-stage__panel {
@@ -368,37 +479,32 @@
   transform: translateY(0) scale(1);
 }
 
+.car-stage__close,
+.booking-modal__close {
+  cursor: pointer;
+}
+
 .car-stage__close {
   position: absolute;
   top: 16px;
   right: 16px;
   z-index: 3;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
   border-radius: 50%;
   border: 1px solid var(--border-color);
-  background: #f1f5f9;
+  background: #f8fafc;
   color: var(--text-secondary);
-  cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.3s var(--ease-premium);
 }
 
 .car-stage__close:hover {
-  background: #e2e8f0;
+  background: #eef2f7;
   color: var(--text-primary);
   transform: rotate(90deg);
 }
-
-.car-stage__close:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* -------------------------------------------------------------------------
-   Visual / Turntable
-   ------------------------------------------------------------------------- */
 
 .car-stage__visual {
   position: relative;
@@ -406,8 +512,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 28px 34px;
-  background: #f8fafc;
+  padding: 36px 20px 24px;
+  background: linear-gradient(180deg, #f8fafc, #eef2f7);
   border-right: 1px solid var(--border-color);
 }
 
@@ -416,7 +522,7 @@
   top: 10%;
   width: 70%;
   height: 55%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 70%);
   filter: blur(8px);
   pointer-events: none;
 }
@@ -424,10 +530,8 @@
 .car-stage__ring {
   position: absolute;
   bottom: 22%;
-  width: 260px;
-  height: 260px;
-  max-width: 70%;
-  aspect-ratio: 1;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   border: 1px dashed color-mix(in srgb, var(--accent) 40%, var(--border-color));
   animation: ringSpin 15s linear infinite;
@@ -437,10 +541,10 @@
 .car-stage__turntable {
   position: relative;
   width: 100%;
-  max-width: 360px;
+  max-width: 320px;
   touch-action: none;
   cursor: grab;
-  padding: 30px 0 16px;
+  padding: 20px 0 10px;
   perspective: 1000px;
 }
 
@@ -458,32 +562,28 @@
   height: auto;
   object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 18px 25px -10px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 20px 30px -12px rgba(15, 23, 42, 0.25);
   pointer-events: none;
   user-select: none;
 }
 
 .car-stage__shadow {
-  margin: 12px auto 0;
-  width: 60%;
-  height: 12px;
+  margin: 10px auto 0;
+  width: 50%;
+  height: 10px;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(15, 23, 42, 0.25), transparent 75%);
 }
 
 .car-stage__hint {
-  margin-top: 10px;
-  font-size: 0.78rem;
+  margin-top: 8px;
+  font-size: 0.72rem;
   color: var(--text-muted);
   letter-spacing: 0.02em;
 }
 
-/* -------------------------------------------------------------------------
-   Info panel
-   ------------------------------------------------------------------------- */
-
 .car-stage__info {
-  padding: 44px 36px 36px 36px;
+  padding: 40px 32px 32px 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -493,29 +593,29 @@
   margin: 0 0 6px;
   font-family: 'Sora', sans-serif;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: var(--accent);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
 .car-stage__name {
-  margin: 0 0 20px;
+  margin: 0 0 18px;
   font-family: 'Sora', sans-serif;
   font-weight: 800;
-  font-size: clamp(1.5rem, 1.8vw + 1rem, 2rem);
+  font-size: 1.8rem;
   color: var(--text-primary);
 }
 
 .car-stage__specs {
   display: flex;
   flex-direction: column;
-  margin-bottom: 26px;
+  margin-bottom: 22px;
 }
 
 .car-stage__specs .spec-row__label,
 .car-stage__specs .spec-row__value {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .car-stage__footer {
@@ -523,14 +623,362 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-color);
 }
 
 .car-stage__price .car-card__price-amount {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 /* -------------------------------------------------------------------------
-   Keyframes
+   BookingModal — symmetric open/close & reference step 2 styling
+   ------------------------------------------------------------------------- */
+
+.booking-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  pointer-events: none;
+}
+
+.booking-modal-overlay--open {
+  pointer-events: auto;
+}
+
+.booking-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 14, 26, 0.6);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  opacity: 0;
+  transition: opacity 0.36s var(--ease-premium), backdrop-filter 0.36s var(--ease-premium);
+}
+
+.booking-modal-overlay--open .booking-modal-backdrop {
+  opacity: 1;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.booking-modal-container {
+  position: relative;
+  background: #ffffff;
+  width: 100%;
+  max-width: 640px;
+  border-radius: 18px;
+  padding: 28px 32px;
+  box-shadow: 0 30px 60px -15px rgba(10, 14, 26, 0.3);
+  z-index: 2;
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  opacity: 0;
+  transform: translateY(22px) scale(0.96);
+  transition: opacity 0.36s var(--ease-premium), transform 0.36s var(--ease-premium);
+}
+
+.booking-modal-overlay--open .booking-modal-container {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.booking-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #f1f5f9;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  transition: color 0.25s ease, background 0.25s ease, transform 0.3s var(--ease-premium);
+}
+
+.booking-modal__close:hover {
+  color: #0f172a;
+  background: #e2e8f0;
+  transform: rotate(90deg);
+}
+
+.booking-modal__eyebrow {
+  margin: 0 0 4px;
+  text-align: center;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  color: #0ea5e9;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.booking-modal__title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 20px;
+  font-family: 'Sora', sans-serif;
+}
+
+/* Selected car strip preview */
+.booking-modal__selected-car {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, #f1f5f9, #eef4fb);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 22px;
+  border: 1px solid #e2e8f0;
+}
+
+.booking-modal__car-thumb {
+  width: 64px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px -6px rgba(15, 23, 42, 0.3);
+}
+
+.booking-modal__car-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.booking-modal__car-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.booking-modal__car-price {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0ea5e9;
+}
+
+.booking-modal__car-price em {
+  font-style: normal;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.booking-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.booking-modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.booking-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.booking-modal__field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.booking-modal__field input,
+.booking-modal__field textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  color: #0f172a;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+.booking-modal__field input:focus,
+.booking-modal__field textarea:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.14);
+}
+
+.booking-modal__field input::placeholder,
+.booking-modal__field textarea::placeholder {
+  color: #94a3b8;
+}
+
+.booking-modal__field--full {
+  grid-column: 1 / -1;
+}
+
+.booking-modal__input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.booking-modal__input-icon-wrapper input {
+  padding-right: 48px;
+}
+
+.booking-modal__input-icon {
+  position: absolute;
+  right: 16px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.booking-modal__terms {
+  margin-top: 4px;
+}
+
+.booking-modal__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+}
+
+.booking-modal__checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0ea5e9;
+  cursor: pointer;
+}
+
+.booking-modal__terms-link {
+  color: #0ea5e9;
+  text-decoration: underline;
+}
+
+.booking-modal__submit-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.booking-modal__actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.booking-modal__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #ffffff;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.25s ease, transform 0.25s var(--ease-premium), box-shadow 0.25s ease;
+  box-shadow: 0 10px 20px -8px rgba(14, 165, 233, 0.4);
+}
+
+.booking-modal__submit:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px -10px rgba(14, 165, 233, 0.5);
+}
+
+.booking-modal__submit:disabled {
+  cursor: progress;
+  opacity: 0.85;
+}
+
+.booking-modal__prev-btn {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 28px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s var(--ease-premium);
+  box-shadow: 0 10px 20px -8px rgba(15, 23, 42, 0.4);
+}
+
+.booking-modal__prev-btn:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+.booking-modal__spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  animation: spin 0.7s linear infinite;
+}
+
+.booking-modal__success {
+  text-align: center;
+  padding: 20px 0 10px;
+}
+
+.booking-modal__success-icon {
+  width: 52px;
+  height: 52px;
+  background: #ecfdf5;
+  color: #059669;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 14px;
+  font-weight: bold;
+  animation: successPop 0.5s var(--ease-premium);
+  box-shadow: 0 0 0 6px rgba(5, 150, 105, 0.08);
+}
+
+.booking-modal__success h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 6px;
+  font-family: 'Sora', sans-serif;
+}
+
+.booking-modal__success p {
+  font-size: 13.5px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+/* -------------------------------------------------------------------------
+   Keyframes & Responsive Breakpoints
    ------------------------------------------------------------------------- */
 
 @keyframes cardRise {
@@ -546,9 +994,25 @@
   }
 }
 
-/* -------------------------------------------------------------------------
-   Responsive Breakpoints
-   ------------------------------------------------------------------------- */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes successPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 @media (max-width: 1024px) {
   .car-grid {
@@ -561,6 +1025,10 @@
     grid-template-columns: 1fr;
     max-width: 420px;
   }
+  .booking-modal__row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 }
 
 @media (max-width: 860px) {
@@ -572,11 +1040,11 @@
   .car-stage__visual {
     border-right: none;
     border-bottom: 1px solid var(--border-color);
-    padding: 44px 20px 24px;
+    padding: 36px 20px 20px;
   }
 
   .car-stage__info {
-    padding: 30px 26px 34px;
+    padding: 30px 24px 30px;
   }
 }
 
@@ -590,13 +1058,13 @@
   }
 
   .car-card {
-    padding: 18px 18px 20px;
+    padding: 16px 16px 18px;
   }
 
   .car-card__footer {
     flex-direction: column;
     align-items: flex-start;
-    gap: 14px;
+    gap: 12px;
   }
 
   .book-btn {
@@ -609,7 +1077,7 @@
   }
 
   .car-stage__panel {
-    border-radius: 20px 20px 0 0;
+    border-radius: 22px 22px 0 0;
     max-height: 94vh;
   }
 
@@ -623,11 +1091,11 @@
     width: 100%;
     justify-content: center;
   }
-}
 
-/* -------------------------------------------------------------------------
-   Reduced motion
-   ------------------------------------------------------------------------- */
+  .booking-modal-container {
+    padding: 24px 20px;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .car-card {
@@ -640,8 +1108,11 @@
     animation: none !important;
   }
 
-  .car-stage__panel {
-    transition: opacity 0.3s ease !important;
+  .car-stage__panel,
+  .booking-modal-container,
+  .car-stage__backdrop,
+  .booking-modal-backdrop {
+    transition: opacity 0.25s ease !important;
     transform: none !important;
   }
 }

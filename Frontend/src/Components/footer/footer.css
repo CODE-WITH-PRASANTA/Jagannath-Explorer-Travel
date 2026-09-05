@@ -4,18 +4,13 @@
 
 .footer {
   width: 100%;
-  height: 70vh;
+  height: auto;
   min-height: 560px;
-
   background: #ffffff;
-
   font-family: "Poppins", sans-serif;
-
   overflow: hidden;
-
   position: relative;
 }
-
 
 /* =========================================
    TOP WAVE
@@ -23,80 +18,45 @@
 
 .footer-wave {
   position: relative;
-
   width: 100%;
-
   height: 115px;
-
   overflow: hidden;
-
   z-index: 3;
-
   background: #eef6ff;
 }
 
-
-/* DARK BLUE WAVE */
-
 .footer-wave-dark {
   position: absolute;
-
   width: 115%;
   height: 150px;
-
   left: -8%;
   top: -85px;
-
   background: #073b9c;
-
   border-radius: 0 0 55% 45% / 0 0 70% 50%;
-
   transform: rotate(-2deg);
 }
 
-
-/* MAIN BLUE WAVE */
-
 .footer-wave-blue {
   position: absolute;
-
   width: 120%;
   height: 105px;
-
   left: -10%;
   top: -38px;
-
   background: #1685f5;
-
   border-radius: 0 0 50% 50% / 0 0 80% 70%;
-
   transform: rotate(-1deg);
 }
 
-
-/* LIGHT BLUE WAVE */
-
 .footer-wave-light {
   position: absolute;
-
   width: 120%;
   height: 90px;
-
   left: -7%;
   top: 5px;
-
   background: #dceeff;
-
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-
   transform: rotate(1deg);
 }
-
-
-/* GOLD WAVE */
-
-
-
 
 /* =========================================
    MAIN FOOTER
@@ -104,46 +64,27 @@
 
 .footer-main {
   width: 100%;
-
-  height: calc(70vh - 163px);
-
   min-height: 397px;
-
   padding: 28px 0 22px;
-
   background: #ffffff;
-
   position: relative;
-
   z-index: 2;
 }
 
-
 /* =========================================
-   CONTAINER
+   CONTAINER (DESKTOP)
 ========================================= */
 
 .footer-container {
   width: 90%;
   max-width: 1250px;
-
   margin: 0 auto;
-
   display: grid;
-
-  grid-template-columns:
-    1.55fr
-    1fr
-    1fr
-    1.3fr;
-
+  grid-template-columns: 1.55fr 1fr 1fr 1.3fr;
   gap: 40px;
-
   position: relative;
-
   z-index: 4;
 }
-
 
 /* =========================================
    BRAND
@@ -155,34 +96,24 @@
 
 .footer-logo-box {
   display: flex;
-
   align-items: center;
-
   margin-bottom: 10px;
 }
 
 .footer-logo {
   width: 140px;
-
   height: auto;
-
   display: block;
-
   object-fit: contain;
 }
 
 .footer-description {
   color: #536176;
-
   font-size: 12px;
-
   line-height: 1.7;
-
   max-width: 310px;
-
   margin: 0 0 15px;
 }
-
 
 /* =========================================
    SOCIAL
@@ -190,64 +121,35 @@
 
 .footer-social {
   display: flex;
-
   gap: 8px;
-
   align-items: center;
 }
 
 .footer-social-link {
   width: 31px;
   height: 31px;
-
   border-radius: 50%;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   color: #ffffff;
-
   text-decoration: none;
-
   font-size: 11px;
-
   transition: 0.3s ease;
 }
 
 .footer-social-link:hover {
   transform: translateY(-4px);
-
-  box-shadow:
-    0 7px 18px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.15);
 }
 
-.footer-social-link.facebook {
-  background: #1877f2;
-}
-
+.footer-social-link.facebook { background: #1877f2; }
 .footer-social-link.instagram {
-  background: linear-gradient(
-    135deg,
-    #833ab4,
-    #fd1d1d,
-    #fcb045
-  );
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
 }
-
-.footer-social-link.twitter {
-  background: #1da1f2;
-}
-
-.footer-social-link.youtube {
-  background: #ff0000;
-}
-
-.footer-social-link.linkedin {
-  background: #0a66c2;
-}
-
+.footer-social-link.twitter { background: #1da1f2; }
+.footer-social-link.youtube { background: #ff0000; }
+.footer-social-link.linkedin { background: #0a66c2; }
 
 /* =========================================
    TITLE
@@ -255,36 +157,23 @@
 
 .footer-title {
   color: #102858;
-
   font-size: 15px;
-
   font-weight: 700;
-
   margin: 0 0 16px;
-
   padding-bottom: 8px;
-
   position: relative;
 }
 
 .footer-title::after {
   content: "";
-
   position: absolute;
-
   left: 0;
-
   bottom: 0;
-
   width: 32px;
-
   height: 3px;
-
   background: #1685f5;
-
   border-radius: 20px;
 }
-
 
 /* =========================================
    LINKS
@@ -292,9 +181,7 @@
 
 .footer-links {
   list-style: none;
-
   margin: 0;
-
   padding: 0;
 }
 
@@ -304,32 +191,23 @@
 
 .footer-links li a {
   display: inline-flex;
-
   align-items: center;
-
   gap: 8px;
-
   color: #536176;
-
   text-decoration: none;
-
   font-size: 11.5px;
-
   transition: 0.25s ease;
 }
 
 .footer-links li a svg {
   color: #1685f5;
-
   font-size: 8px;
 }
 
 .footer-links li a:hover {
   color: #1685f5;
-
   transform: translateX(4px);
 }
-
 
 /* =========================================
    DESTINATIONS
@@ -337,14 +215,12 @@
 
 .footer-location-dot {
   color: #ffbd3d;
-
   font-size: 9px;
 }
 
 .footer-destination-links li a {
   gap: 10px;
 }
-
 
 /* =========================================
    CONTACT
@@ -356,79 +232,60 @@
 
 .footer-contact-item {
   display: flex;
-
   align-items: flex-start;
-
   gap: 10px;
-
   margin-bottom: 11px;
 }
 
 .footer-contact-icon {
   min-width: 31px;
-
   width: 31px;
   height: 31px;
-
   border-radius: 9px;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   font-size: 11px;
 }
 
 .footer-contact-icon.phone {
   color: #1679eb;
-
   background: #e4f1ff;
 }
 
 .footer-contact-icon.email {
   color: #3a9c62;
-
   background: #e5f7eb;
 }
 
 .footer-contact-icon.location {
   color: #8150d8;
-
   background: #f0e7ff;
 }
 
 .footer-contact-icon.clock {
   color: #ed9d18;
-
   background: #fff1d7;
 }
 
 .footer-contact-item a,
 .footer-contact-item p {
   color: #536176;
-
   font-size: 11px;
-
   line-height: 1.55;
-
   margin: 0;
-
   text-decoration: none;
 }
 
 .footer-contact-item div:not(.footer-contact-icon) {
   display: flex;
-
   flex-direction: column;
-
   gap: 1px;
 }
 
 .footer-contact-item a:hover {
   color: #1685f5;
 }
-
 
 /* =========================================
    CTA
@@ -437,119 +294,72 @@
 .footer-cta {
   width: 90%;
   max-width: 1250px;
-
   margin: 18px auto 0;
-
   padding: 12px 18px;
-
   border-radius: 12px;
-
-  background:
-    linear-gradient(
-      100deg,
-      #e2f1ff,
-      #f7fbff 55%,
-      #fff0d2
-    );
-
+  background: linear-gradient(100deg, #e2f1ff, #f7fbff 55%, #fff0d2);
   border: 1px solid #e1edf8;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   gap: 20px;
-
   position: relative;
-
   z-index: 5;
 }
 
 .footer-cta-content {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 }
 
 .footer-cta-icon {
   width: 37px;
   height: 37px;
-
   min-width: 37px;
-
   border-radius: 50%;
-
   background: #086dd9;
-
   color: #ffffff;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   font-size: 14px;
 }
 
 .footer-cta-text h4 {
   margin: 0 0 2px;
-
   color: #103b80;
-
   font-size: 13px;
-
   font-weight: 700;
 }
 
 .footer-cta-text p {
   margin: 0;
-
   color: #64748b;
-
   font-size: 10px;
 }
 
 .footer-cta-button {
   display: inline-flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 8px;
-
   padding: 9px 17px;
-
   border-radius: 7px;
-
   background: #086dd9;
-
   color: #ffffff;
-
   text-decoration: none;
-
   font-size: 10px;
-
   font-weight: 600;
-
   white-space: nowrap;
-
   transition: 0.3s ease;
 }
 
 .footer-cta-button:hover {
   background: #0754a8;
-
   transform: translateY(-2px);
-
-  box-shadow:
-    0 7px 18px rgba(8, 109, 217, 0.2);
+  box-shadow: 0 7px 18px rgba(8, 109, 217, 0.2);
 }
-
 
 /* =========================================
    BOTTOM BAR
@@ -557,38 +367,26 @@
 
 .footer-bottom {
   height: 48px;
-
   width: 100%;
-
   background: #073f9d;
-
   position: relative;
-
   z-index: 10;
 }
 
 .footer-bottom-container {
   width: 90%;
   max-width: 1250px;
-
   height: 100%;
-
   margin: auto;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   gap: 20px;
 }
 
 .footer-bottom p {
   margin: 0;
-
   color: rgba(255, 255, 255, 0.9);
-
   font-size: 9.5px;
 }
 
@@ -598,19 +396,14 @@
 
 .footer-bottom-links {
   display: flex;
-
   align-items: center;
-
   gap: 9px;
 }
 
 .footer-bottom-links a {
   color: #ffffff;
-
   font-size: 9.5px;
-
   text-decoration: none;
-
   transition: 0.2s ease;
 }
 
@@ -620,49 +413,37 @@
 
 .footer-bottom-links span {
   color: rgba(255, 255, 255, 0.4);
-
   font-size: 9px;
 }
-
 
 /* =========================================
    TABLET
 ========================================= */
 
 @media (max-width: 1000px) {
-
   .footer {
     height: auto;
-
     min-height: 70vh;
   }
 
   .footer-main {
     height: auto;
-
     min-height: 0;
-
     padding: 30px 0 25px;
   }
 
   .footer-container {
-    grid-template-columns:
-      1.4fr
-      1fr
-      1fr;
-
+    grid-template-columns: 1.4fr 1fr 1fr;
     gap: 30px 25px;
   }
 
   .footer-contact {
     grid-column: span 3;
-
     max-width: 100%;
   }
 
   .footer-contact-item {
     display: inline-flex;
-
     margin-right: 25px;
   }
 
@@ -672,7 +453,6 @@
 
   .footer-bottom {
     height: auto;
-
     min-height: 48px;
   }
 
@@ -681,16 +461,13 @@
   }
 }
 
-
 /* =========================================
-   MOBILE
+   MOBILE & SMALL MOBILE (2-COL LINKS & CONTACT BELOW)
 ========================================= */
 
 @media (max-width: 700px) {
-
   .footer {
     height: auto;
-
     min-height: 0;
   }
 
@@ -700,103 +477,78 @@
 
   .footer-wave-dark {
     width: 130%;
-
     height: 95px;
-
     left: -15%;
-
     top: -55px;
   }
 
   .footer-wave-blue {
     width: 130%;
-
     height: 75px;
-
     left: -15%;
-
     top: -25px;
   }
 
   .footer-wave-light {
     width: 130%;
-
     height: 65px;
-
     left: -15%;
-
     top: 10px;
   }
 
-  .footer-wave-gold {
-    width: 60%;
-
-    height: 45px;
-
-    right: -15%;
-
-    top: 28px;
-  }
-
   .footer-main {
-    padding: 28px 0 25px;
+    padding: 24px 0 20px;
   }
 
+  /* 2 कॉलम ग्रिड: Left = Quick Links, Right = Top Destinations */
   .footer-container {
-    width: 88%;
-
+    width: 90%;
     grid-template-columns: 1fr 1fr;
-
-    gap: 28px 20px;
+    gap: 22px 18px;
   }
 
+  /* Brand सबसे ऊपर 2 कॉलम स्पेस लेगा */
   .footer-brand {
     grid-column: span 2;
-
     max-width: 100%;
   }
 
   .footer-logo {
-    width: 130px;
+    width: 125px;
   }
 
   .footer-description {
     max-width: 100%;
-
     font-size: 11px;
   }
 
   .footer-title {
     font-size: 13px;
-
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .footer-links li a {
-    font-size: 10.5px;
+    font-size: 11px;
   }
 
+  /* Contact Us दोनों लिंक्स के नीचे 2 कॉलम स्पेस लेगा */
   .footer-contact {
     grid-column: span 2;
-
     max-width: 100%;
+    margin-top: 4px;
   }
 
   .footer-contact-item {
     display: flex;
-
     margin-right: 0;
+    margin-bottom: 12px;
   }
 
   .footer-cta {
-    width: 88%;
-
+    width: 90%;
     flex-direction: column;
-
     align-items: flex-start;
-
-    padding: 13px;
-
+    padding: 14px;
     gap: 12px;
   }
 
@@ -809,62 +561,24 @@
   }
 
   .footer-bottom-container {
-    width: 88%;
-
+    width: 90%;
     padding: 12px 0;
-
     flex-direction: column;
-
-    gap: 6px;
-
+    gap: 8px;
     text-align: center;
   }
 }
 
-
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
+/* 430px और छोटे स्क्रीन्स के लिए फाइन ट्यूनिंग */
 @media (max-width: 430px) {
-
-  .footer-wave {
-    height: 65px;
-  }
-
-  .footer-main {
-    padding: 25px 0 22px;
-  }
-
   .footer-container {
-    width: 86%;
-
-    grid-template-columns: 1fr;
-
-    gap: 24px;
-  }
-
-  .footer-brand,
-  .footer-contact {
-    grid-column: auto;
-  }
-
-  .footer-logo {
-    width: 120px;
-  }
-
-  .footer-description {
-    font-size: 10.5px;
-
-    line-height: 1.65;
-  }
-
-  .footer-title {
-    font-size: 13px;
+    width: 90%;
+    grid-template-columns: 1fr 1fr; /* दोनों लिंक्स साइड-बाय-साइड ही रहेंगे */
+    gap: 20px 14px;
   }
 
   .footer-links li {
-    margin-bottom: 7px;
+    margin-bottom: 6px;
   }
 
   .footer-links li a {
@@ -876,24 +590,11 @@
     font-size: 10.5px;
   }
 
-  .footer-cta {
-    width: 86%;
-  }
-
   .footer-cta-text h4 {
-    font-size: 11.5px;
+    font-size: 12px;
   }
 
   .footer-cta-text p {
-    font-size: 9px;
-  }
-
-  .footer-bottom-container {
-    width: 86%;
-  }
-
-  .footer-bottom p,
-  .footer-bottom-links a {
-    font-size: 8.5px;
+    font-size: 9.5px;
   }
 }

@@ -86,11 +86,8 @@ button {
 }
 
 /* Prevent horizontal overflow */
-html,
-body {
-  overflow-x: hidden;
-  padding-top: 40px;
-}
+
+
 
 /* Responsive media */
 video,

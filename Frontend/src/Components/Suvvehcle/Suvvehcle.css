@@ -1,30 +1,27 @@
-/* ==========================================================================
-   Suvvehcle — Premium Clean Luxury Showroom Theme & Responsive Grid
-   ========================================================================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 .suv-catalog {
-  --bg-main: #f8fafc;
+  --bg-main: #ffffff;
   --panel-bg: #ffffff;
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #94a3b8;
   --border-color: #e2e8f0;
-  --accent: #2563eb;
-  --accent-soft: rgba(37, 99, 235, 0.08);
+  --accent: #0ea5e9;
 
   position: relative;
   isolation: isolate;
   padding: 88px 24px 96px;
   background: var(--bg-main);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  box-sizing: border-box;
 }
 
-/* -------------------------------------------------------------------------
-   Header
-   ------------------------------------------------------------------------- */
+.suv-catalog *, .suv-catalog *::before, .suv-catalog *::after {
+  box-sizing: border-box;
+}
 
+/* Header */
 .suv-catalog__header {
   position: relative;
   z-index: 1;
@@ -37,8 +34,8 @@
   margin: 0 0 10px;
   font-family: 'Sora', sans-serif;
   font-weight: 700;
-  font-size: 1rem;
-  color: #ea580c; /* Matches reference accent orange/red */
+  font-size: 0.9rem;
+  color: #ea580c;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -65,10 +62,7 @@
   font-weight: 600;
 }
 
-/* -------------------------------------------------------------------------
-   Grid + Card (Desktop: 3 columns)
-   ------------------------------------------------------------------------- */
-
+/* Grid + Small Sleek Cards */
 .suv-grid {
   position: relative;
   z-index: 1;
@@ -86,52 +80,40 @@
   background: var(--panel-bg);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 24px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
-  opacity: 0;
-  transform: translateY(22px);
-  animation: suvCardRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: calc(var(--stagger) * 0.09s);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.35s ease, box-shadow 0.35s ease;
+  padding: 22px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-.suv-card:hover,
-.suv-card:focus-visible {
+.suv-card:hover {
   transform: translateY(-6px);
-  border-color: color-mix(in srgb, var(--accent) 50%, var(--border-color));
-  box-shadow: 0 20px 35px -15px rgba(15, 23, 42, 0.08),
-    0 0 0 1px rgba(37, 99, 235, 0.1);
-}
-
-.suv-card:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  border-color: rgba(14, 165, 233, 0.5);
+  box-shadow: 0 20px 35px -15px rgba(15, 23, 42, 0.08);
 }
 
 .suv-card__frame {
   position: relative;
-  height: 185px;
+  height: 160px;
   border-radius: 14px;
-  margin-bottom: 20px;
-  background: #f1f5f9;
+  margin-bottom: 18px;
+  background: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .suv-card__glow {
   position: absolute;
   width: 140%;
   height: 140%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, transparent 70%);
   opacity: 0.6;
   transition: opacity 0.35s ease, transform 0.6s ease;
 }
 
-.suv-card:hover .suv-card__glow {
+.suv-card__frame:hover .suv-card__glow {
   opacity: 1;
   transform: scale(1.08);
 }
@@ -139,30 +121,28 @@
 .suv-card__image {
   position: relative;
   z-index: 1;
-  width: 92%;
+  width: 90%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  object-fit: contain;
+  transition: transform 0.5s ease;
 }
 
-.suv-card:hover .suv-card__image {
-  transform: scale(1.04);
+.suv-card__frame:hover .suv-card__image {
+  transform: scale(1.05);
 }
 
 .suv-card__name {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   font-family: 'Sora', sans-serif;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: var(--text-primary);
 }
 
 .suv-card__specs {
   display: flex;
   flex-direction: column;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .suv-spec-row {
@@ -170,7 +150,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -179,14 +159,13 @@
 }
 
 .suv-spec-row__label {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-primary);
-  flex-shrink: 0;
 }
 
 .suv-spec-row__value {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
   text-align: right;
 }
@@ -202,36 +181,31 @@
 .suv-card__price {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 }
 
 .suv-card__price-amount {
   font-family: 'Sora', sans-serif;
   font-weight: 800;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   color: var(--text-primary);
 }
 
-/* -------------------------------------------------------------------------
-   Book Button (Matching reference blue pill style)
-   ------------------------------------------------------------------------- */
-
+/* Book Button */
 .suv-book-btn {
-  position: relative;
-  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   border: none;
   border-radius: 999px;
-  padding: 11px 20px;
-  background: #0ea5e9; /* Reference vibrant blue */
+  padding: 10px 18px;
+  background: #0ea5e9;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background-color 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
 .suv-book-btn:hover {
@@ -253,10 +227,7 @@
   font-size: 0.98rem;
 }
 
-/* -------------------------------------------------------------------------
-   Pagination Bar (Matching reference Prev/Next style)
-   ------------------------------------------------------------------------- */
-
+/* Pagination Bar */
 .suv-pagination {
   margin-top: 56px;
   display: flex;
@@ -275,20 +246,15 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .suv-pagination__btn:hover:not(:disabled) {
   background: #0ea5e9;
   color: #ffffff;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.3);
 }
 
 .suv-pagination__btn:disabled {
   opacity: 0.4;
-  border-color: var(--border-color);
-  color: var(--text-muted);
   cursor: not-allowed;
 }
 
@@ -299,14 +265,224 @@
   color: var(--text-primary);
 }
 
-/* -------------------------------------------------------------------------
-   3D Showroom Stage (Modal Overlay)
-   ------------------------------------------------------------------------- */
+/* Booking Modal */
+.booking-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
 
+.booking-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.booking-modal-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: modalPopup 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalPopup {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.booking-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.booking-modal__title {
+  margin: 0 0 24px;
+  text-align: center;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.booking-modal__selected-car {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f1f5f9;
+  padding: 10px 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.booking-modal__car-thumb {
+  width: 70px;
+  height: 45px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.booking-modal__car-name {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+
+.booking-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.booking-modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.booking-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.booking-modal__field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.booking-modal__field input,
+.booking-modal__field textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  outline: none;
+  background: #ffffff;
+  color: var(--text-primary);
+  box-sizing: border-box;
+}
+
+.booking-modal__field input:focus,
+.booking-modal__field textarea:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+.booking-modal__field--full {
+  grid-column: 1 / -1;
+}
+
+.booking-modal__input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.booking-modal__input-icon-wrapper input {
+  padding-right: 44px;
+}
+
+.booking-modal__input-icon {
+  position: absolute;
+  right: 16px;
+  color: var(--text-muted);
+}
+
+.booking-modal__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.booking-modal__checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0ea5e9;
+}
+
+.booking-modal__terms-link {
+  color: #0ea5e9;
+  text-decoration: underline;
+}
+
+.booking-modal__submit-wrapper, .booking-modal__actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.booking-modal__submit-wrapper {
+  justify-content: center;
+}
+
+.booking-modal__submit, .booking-modal__prev-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 32px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.booking-modal__submit {
+  background: #0ea5e9;
+  color: #ffffff;
+}
+
+.booking-modal__submit:hover {
+  background: #0284c7;
+}
+
+.booking-modal__prev-btn {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.booking-modal__success {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.booking-modal__success-icon {
+  width: 60px;
+  height: 60px;
+  background: #22c55e;
+  color: #ffffff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.8rem;
+  margin: 0 auto 16px;
+}
+
+/* 3D Showroom Stage Modal */
 .suv-stage {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,37 +494,19 @@
   inset: 0;
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.suv-stage--open .suv-stage__backdrop {
-  opacity: 1;
 }
 
 .suv-stage__panel {
   position: relative;
-  z-index: 1;
+  z-index: 10;
   width: 100%;
-  max-width: 960px;
-  max-height: 88vh;
-  overflow-y: auto;
+  max-width: 900px;
   display: grid;
   grid-template-columns: 1.15fr 1fr;
   background: #ffffff;
-  border: 1px solid var(--border-color);
   border-radius: 24px;
   box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.25);
-  opacity: 0;
-  transform: translateY(20px) scale(0.96);
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.suv-stage--open .suv-stage__panel {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+  overflow: hidden;
 }
 
 .suv-stage__close {
@@ -363,25 +521,8 @@
   border-radius: 50%;
   border: 1px solid var(--border-color);
   background: #f1f5f9;
-  color: var(--text-secondary);
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
-
-.suv-stage__close:hover {
-  background: #e2e8f0;
-  color: var(--text-primary);
-  transform: rotate(90deg);
-}
-
-.suv-stage__close:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* -------------------------------------------------------------------------
-   Visual / Turntable
-   ------------------------------------------------------------------------- */
 
 .suv-stage__visual {
   position: relative;
@@ -394,56 +535,23 @@
   border-right: 1px solid var(--border-color);
 }
 
-.suv-stage__spotlight {
-  position: absolute;
-  top: 10%;
-  width: 70%;
-  height: 55%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 70%);
-  filter: blur(8px);
-  pointer-events: none;
-}
-
-.suv-stage__ring {
-  position: absolute;
-  bottom: 22%;
-  width: 260px;
-  height: 260px;
-  max-width: 70%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px dashed color-mix(in srgb, var(--accent) 40%, var(--border-color));
-  animation: suvRingSpin 15s linear infinite;
-  pointer-events: none;
-}
-
 .suv-stage__turntable {
   position: relative;
   width: 100%;
   max-width: 380px;
-  touch-action: none;
   cursor: grab;
-  padding: 30px 0 16px;
   perspective: 1000px;
-}
-
-.suv-stage__turntable:active {
-  cursor: grabbing;
+  padding: 30px 0 16px;
 }
 
 .suv-stage__figure {
   transform-style: preserve-3d;
-  will-change: transform;
 }
 
 .suv-stage__image {
   width: 100%;
   height: auto;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 18px 25px -10px rgba(15, 23, 42, 0.2);
-  pointer-events: none;
-  user-select: none;
+  object-fit: contain;
 }
 
 .suv-stage__shadow {
@@ -458,15 +566,10 @@
   margin-top: 10px;
   font-size: 0.78rem;
   color: var(--text-muted);
-  letter-spacing: 0.02em;
 }
 
-/* -------------------------------------------------------------------------
-   Info Panel
-   ------------------------------------------------------------------------- */
-
 .suv-stage__info {
-  padding: 44px 36px 36px 36px;
+  padding: 44px 36px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -479,14 +582,13 @@
   font-size: 0.85rem;
   color: #ea580c;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
 .suv-stage__name {
   margin: 0 0 20px;
   font-family: 'Sora', sans-serif;
   font-weight: 800;
-  font-size: clamp(1.6rem, 1.8vw + 1rem, 2.2rem);
+  font-size: 2rem;
   color: var(--text-primary);
 }
 
@@ -494,11 +596,6 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 26px;
-}
-
-.suv-stage__specs .suv-spec-row__label,
-.suv-stage__specs .suv-spec-row__value {
-  font-size: 0.94rem;
 }
 
 .suv-stage__footer {
@@ -512,27 +609,6 @@
   font-size: 1.6rem;
 }
 
-/* -------------------------------------------------------------------------
-   Keyframes
-   ------------------------------------------------------------------------- */
-
-@keyframes suvCardRise {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes suvRingSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* -------------------------------------------------------------------------
-   Responsive Breakpoints
-   ------------------------------------------------------------------------- */
-
 @media (max-width: 1024px) {
   .suv-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -544,87 +620,22 @@
     grid-template-columns: 1fr;
     max-width: 420px;
   }
-}
-
-@media (max-width: 860px) {
   .suv-stage__panel {
     grid-template-columns: 1fr;
-    max-height: 92vh;
-  }
-
-  .suv-stage__visual {
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    padding: 44px 20px 24px;
-  }
-
-  .suv-stage__info {
-    padding: 30px 26px 34px;
   }
 }
 
 @media (max-width: 560px) {
-  .suv-catalog {
-    padding: 64px 16px 72px;
+  .booking-modal__row {
+    grid-template-columns: 1fr;
   }
-
-  .suv-grid {
-    gap: 20px;
-  }
-
-  .suv-card {
-    padding: 20px;
-  }
-
   .suv-card__footer {
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
   }
-
   .suv-book-btn {
     width: 100%;
     justify-content: center;
-  }
-
-  .suv-stage {
-    padding: 0;
-  }
-
-  .suv-stage__panel {
-    border-radius: 20px 20px 0 0;
-    max-height: 94vh;
-  }
-
-  .suv-stage__footer {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-  }
-
-  .suv-book-btn--lg {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* -------------------------------------------------------------------------
-   Reduced Motion
-   ------------------------------------------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-  .suv-card {
-    animation: none !important;
-    opacity: 1;
-    transform: none;
-  }
-
-  .suv-stage__ring {
-    animation: none !important;
-  }
-
-  .suv-stage__panel {
-    transition: opacity 0.3s ease !important;
-    transform: none !important;
   }
 }

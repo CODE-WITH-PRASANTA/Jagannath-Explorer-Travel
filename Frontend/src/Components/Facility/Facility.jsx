@@ -3,9 +3,8 @@ import { FaStar, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { SiTripadvisor } from 'react-icons/si';
 import './Facility.css';
 
-// आवश्यकतानुसार अपनी लोकल इमेज यहाँ इम्पोर्ट कर सकते हैं:
-// import trailerImg1 from './assets/facility-1.jpg';
-// import trailerImg2 from './assets/facility-2.jpg';
+// Import your webp background image from assets
+import bgPattern from '../../assets/travel_background.webp'; // Adjust filename/path as needed
 
 const facilitySlides = [
   {
@@ -69,8 +68,11 @@ const Facility = () => {
     <section className="facility-section">
       <div className="facility-container">
         
-        {/* ================= LEFT CONTENT COLUMN ================= */}
-        <div className="facility-left-col">
+        {/* ================= LEFT CONTENT COLUMN WITH WEBP BG ================= */}
+        <div 
+          className="facility-left-col" 
+          style={{ '--bg-image': `url(${bgPattern})` }}
+        >
           <div className="facility-badge">
             <span className="badge-arrow">➔</span>
             <span className="badge-text">Our Facility</span>

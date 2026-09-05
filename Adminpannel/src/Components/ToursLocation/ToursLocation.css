@@ -1,12 +1,12 @@
 /* Layout wrapper - strictly 60% on desktop aligned to the left */
 .ToursLocation-wrapper {
   width: 60%;
-  padding: 32px 0 48px 32px;
+  padding: 10px 0 48px 32px;
   margin-left: 0;
   margin-right: auto;
   box-sizing: border-box;
 }
-
+ 
 /* Card Container */
 .ToursLocation-card {
   width: 100%;

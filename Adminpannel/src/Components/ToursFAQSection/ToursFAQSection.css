@@ -14,26 +14,26 @@
 }
 
 .faq-page-wrapper {
-  width: 100%;
+  width: 60%;
   min-height: 100vh;
   background-color: var(--body-bg);
-  padding: 10px 32px;
+  padding: 10px 0 48px 32px;
   display: flex;
   justify-content: flex-start; /* Aligns container to the left on desktop */
   align-items: flex-start;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
-
+ 
 /* Desktop 60% Width Requirement (Left Aligned) */
 .faq-card-container {
-  width: 60%;
+  width: 100%;
   margin-left: 0;
   margin-right: auto;
   background: var(--card-bg);
   border: 1px solid var(--border-light);
   border-radius: 20px;
-  padding: 32px 36px;
+  padding: 10px 20px;
   box-shadow: 0 10px 35px -10px rgba(17, 24, 39, 0.05),
               0 1px 3px rgba(0, 0, 0, 0.02);
   transition: all 0.3s ease;

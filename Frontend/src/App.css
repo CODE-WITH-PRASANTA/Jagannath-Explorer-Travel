@@ -1,0 +1,8 @@
+/* Topbar और Navbar को एक साथ ऊपर स्टिकी रखने के लिए */
+.app-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
