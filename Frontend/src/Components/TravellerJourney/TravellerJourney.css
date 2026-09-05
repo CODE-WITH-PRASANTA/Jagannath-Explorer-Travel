@@ -7,12 +7,15 @@
 .TravellerJourney {
   width: 100%;
   min-height: 100vh;
-  padding: 0 0 55px;
-  background: #ffffff;
+  padding: 40px 0 60px;
+  background: #fcfcfd;
   color: #080808;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   overflow: hidden;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .TravellerJourney,
@@ -23,12 +26,15 @@
 }
 
 /* =========================================================
-   MAIN CONTAINER
+   MAIN CONTAINER (Centered & Streamlined)
 ========================================================= */
 
 .TravellerJourney__container {
-  width: min(100% - 40px, 1435px);
+  width: min(100% - 40px, 1200px);
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* =========================================================
@@ -41,43 +47,43 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 
 .TravellerJourney__eyebrow {
-  margin: 0 0 2px;
-  color: #f4512c;
-  font-family: "Comic Sans MS", "Trebuchet MS", cursive;
-  font-size: 27px;
-  font-weight: 400;
-  line-height: 1.15;
+  margin: 0 0 4px;
+  color: #20a6df;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .TravellerJourney__heading {
-  width: min(100%, 1350px);
-  margin: 0 auto 17px;
-  color: #050505;
+  width: min(100%, 1050px);
+  margin: 0 auto 12px;
+  color: #111827;
   text-align: center;
-  font-size: clamp(32px, 3vw, 44px);
+  font-size: clamp(26px, 2.5vw, 36px);
   font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -1px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
 }
 
 .TravellerJourney__description {
-  width: min(100%, 1450px);
+  width: min(100%, 1100px);
   margin: 0 auto;
-  color: #666666;
+  color: #4b5563;
   text-align: center;
-  font-size: 19px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.55;
-  letter-spacing: 0.1px;
+  line-height: 1.5;
 }
 
 .TravellerJourney__description strong {
-  color: #606060;
-  font-weight: 700;
+  color: #1f2937;
+  font-weight: 600;
 }
 
 /* =========================================================
@@ -88,41 +94,42 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 25px;
-  align-items: stretch;
+  gap: 22px;
+  align-items: center;
+  justify-content: center;
 }
 
 /* =========================================================
-   VEHICLE CARD
+   VEHICLE CARD (More Compact & Premium)
 ========================================================= */
 
 .TravellerJourney__card {
   position: relative;
   width: 100%;
-  min-width: 0;
-  min-height: 430px;
+  max-width: 380px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid #d0d0d0;
-  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
   background: #ffffff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .TravellerJourney__card:hover {
-  transform: translateY(-3px);
-  border-color: #c4c4c4;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  border-color: #20a6df;
+  box-shadow: 0 12px 30px rgba(32, 166, 223, 0.12);
 }
 
 .TravellerJourney__imageWrapper {
   width: 100%;
-  height: 272px;
+  height: 200px;
   flex-shrink: 0;
   overflow: hidden;
-  background: #eeeeee;
+  background: #f3f4f6;
 }
 
 .TravellerJourney__image {
@@ -131,141 +138,131 @@
   display: block;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .TravellerJourney__card:hover .TravellerJourney__image {
-  transform: scale(1.02);
+  transform: scale(1.06);
 }
 
 .TravellerJourney__content {
   width: 100%;
-  min-width: 0;
-  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px 26px 24px;
+  padding: 18px 20px 20px;
 }
 
 .TravellerJourney__vehicleName {
   width: 100%;
-  min-width: 0;
-  margin: 0 0 17px;
-  color: #080808;
+  margin: 0 0 14px;
+  color: #111827;
   text-align: center;
-  font-size: 27px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 600;
   line-height: 1.2;
-  white-space: nowrap;
 }
 
 .TravellerJourney__details {
   width: 100%;
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .TravellerJourney__detailRow {
   width: 100%;
-  min-width: 0;
-  min-height: 47px;
+  min-height: 38px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  border-bottom: 1px solid #c5d1d7;
-  color: #0b0b0b;
-  font-size: 18px;
+  gap: 12px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #4b5563;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.25;
+}
+
+.TravellerJourney__detailRow:last-child {
+  border-bottom: none;
 }
 
 .TravellerJourney__detailRow > span:first-child {
-  flex: 0 0 auto;
-  min-width: 0;
-  color: #0b0b0b;
+  color: #6b7280;
+  font-weight: 500;
   white-space: nowrap;
 }
 
 .TravellerJourney__detailValue {
-  flex: 1 1 auto;
-  min-width: 0;
-  max-width: 68%;
-  color: #707070;
+  color: #1f2937;
+  font-weight: 500;
   text-align: right;
-  font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: clip;
+  text-overflow: ellipsis;
 }
 
 .TravellerJourney__bottom {
   width: 100%;
-  min-width: 0;
-  margin-top: auto;
-  padding-top: 32px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #edf2f7;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
+  gap: 12px;
 }
 
 .TravellerJourney__price {
-  min-width: 0;
   display: flex;
   align-items: baseline;
-  flex-shrink: 1;
   white-space: nowrap;
 }
 
 .TravellerJourney__priceAmount {
-  color: #080808;
-  font-size: 27px;
-  font-weight: 600;
+  color: #111827;
+  font-size: 21px;
+  font-weight: 700;
   line-height: 1;
 }
 
 .TravellerJourney__priceHours {
-  color: #777777;
-  font-size: 17px;
+  color: #6b7280;
+  font-size: 13px;
   font-weight: 400;
-  white-space: nowrap;
+  margin-left: 2px;
 }
 
 .TravellerJourney__bookButton {
-  width: 168px;
-  min-width: 168px;
-  height: 52px;
-  padding: 0 20px;
+  height: 42px;
+  padding: 0 16px;
   border: none;
-  border-radius: 30px;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 13px;
+  gap: 8px;
   background: #20a6df;
   color: #ffffff;
   font-family: inherit;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .TravellerJourney__bookButton:hover {
   background: #1494cb;
   transform: translateY(-2px);
-  box-shadow: 0 7px 18px rgba(32, 166, 223, 0.25);
+  box-shadow: 0 6px 15px rgba(32, 166, 223, 0.3);
 }
 
 .TravellerJourney__bookButton svg {
-  flex-shrink: 0;
-  font-size: 17px;
-  transition: transform 0.3s ease;
+  font-size: 13px;
+  transition: transform 0.2s ease;
 }
 
 .TravellerJourney__bookButton:hover svg {
-  transform: translateX(4px);
+  transform: translateX(3px);
 }
 
 /* =========================================================
@@ -276,8 +273,8 @@
   position: fixed;
   right: 25px;
   bottom: 25px;
-  width: 54px;
-  height: 54px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: #20a6df;
   color: #ffffff;
@@ -285,9 +282,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(32, 166, 223, 0.35);
   z-index: 99;
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
@@ -304,7 +301,8 @@
 .TravellerJourney__modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -316,12 +314,12 @@
 .TravellerJourney__modal {
   position: relative;
   width: 100%;
-  max-width: 620px;
+  max-width: 560px;
   background: #ffffff;
-  border: 1.5px solid #20a6df;
-  border-radius: 20px;
-  padding: 34px 38px 30px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -331,10 +329,10 @@
   right: 16px;
   background: transparent;
   border: none;
-  color: #555555;
-  font-size: 18px;
+  color: #6b7280;
+  font-size: 16px;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -342,8 +340,8 @@
 }
 
 .TravellerJourney__modalClose:hover {
-  color: #0b0b0b;
-  transform: scale(1.15);
+  color: #111827;
+  transform: scale(1.1);
 }
 
 .TravellerJourney__modalInner {
@@ -351,11 +349,11 @@
 }
 
 .TravellerJourney__modalTitle {
-  margin: 0 0 24px;
+  margin: 0 0 20px;
   text-align: center;
-  font-size: 24px;
-  font-weight: 700;
-  color: #0d0d0d;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
 }
 
 /* STEP 1: SELECTED VEHICLE */
@@ -363,65 +361,64 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: #edf0f5;
-  border-radius: 9px;
-  padding: 7px 12px;
-  margin-bottom: 24px;
+  gap: 14px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 20px;
 }
 
 .TravellerJourney__selectedImage {
-  width: 78px;
-  height: 48px;
+  width: 68px;
+  height: 44px;
   flex-shrink: 0;
   border-radius: 6px;
   overflow: hidden;
   background: #ffffff;
-  border: 1px solid #dcdfe4;
+  border: 1px solid #e5e7eb;
 }
 
 .TravellerJourney__selectedImage img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
   display: block;
 }
 
 .TravellerJourney__selectedName {
-  font-size: 16px;
-  font-weight: 700;
-  color: #111111;
-  letter-spacing: -0.2px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
 }
 
 /* =========================================================
-   FORM CONTROLS & STEP 2 INPUTS
+   FORM CONTROLS & INPUTS
 ========================================================= */
 
 .TravellerJourney__form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 15px;
 }
 
 .TravellerJourney__formGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 15px;
 }
 
 .TravellerJourney__field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
 }
 
 .TravellerJourney__field label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  color: #181818;
+  color: #374151;
 }
 
 .TravellerJourney__inputWrapper {
@@ -429,99 +426,57 @@
   width: 100%;
 }
 
-.TravellerJourney__inputWrapper input {
+.TravellerJourney__inputWrapper input,
+.TravellerJourney__inputWrapperWithIcon input,
+.TravellerJourney__textarea {
   width: 100%;
   height: 44px;
   padding: 0 14px;
-  border: 1px solid #dbe1e6;
+  border: 1px solid #d1d5db;
   border-radius: 8px;
   background: #ffffff;
   font-size: 14px;
-  color: #222222;
+  color: #1f2937;
   outline: none;
   font-family: inherit;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.TravellerJourney__inputWrapper input:focus {
+.TravellerJourney__inputWrapper input:focus,
+.TravellerJourney__inputWrapperWithIcon input:focus,
+.TravellerJourney__textarea:focus {
   border-color: #20a6df;
   box-shadow: 0 0 0 3px rgba(32, 166, 223, 0.15);
 }
 
-.TravellerJourney__inputWrapper input::placeholder {
-  color: #8c96a0;
-  font-size: 13.5px;
-}
-
-.TravellerJourney__dateWrapper input[type="datetime-local"] {
-  color: #4b5563;
-  cursor: pointer;
-}
-
-/* Icons & Inputs for Step 2 */
 .TravellerJourney__inputWrapperWithIcon {
   position: relative;
-  width: 100%;
   display: flex;
   align-items: center;
 }
 
 .TravellerJourney__inputWrapperWithIcon input {
-  width: 100%;
-  height: 52px;
-  padding: 0 46px 0 16px;
-  border: 1px solid #d9dfe5;
-  border-radius: 9px;
-  background: #ffffff;
-  font-size: 15px;
-  color: #222222;
-  outline: none;
-  font-family: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.TravellerJourney__inputWrapperWithIcon input::placeholder {
-  color: #64748b;
-  font-size: 14px;
-}
-
-.TravellerJourney__inputWrapperWithIcon input:focus {
-  border-color: #20a6df;
-  box-shadow: 0 0 0 3px rgba(32, 166, 223, 0.15);
+  padding-right: 42px;
 }
 
 .TravellerJourney__inputIcon {
   position: absolute;
-  right: 18px;
-  color: #556270;
-  font-size: 17px;
+  right: 15px;
+  color: #9ca3af;
+  font-size: 15px;
   pointer-events: none;
 }
 
-/* Textarea */
 .TravellerJourney__textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #d9dfe5;
-  border-radius: 9px;
-  background: #ffffff;
-  font-size: 15px;
-  color: #222222;
-  font-family: inherit;
+  height: auto;
+  padding: 12px 14px;
   resize: vertical;
-  min-height: 120px;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 90px;
 }
 
-.TravellerJourney__textarea::placeholder {
-  color: #64748b;
-  font-size: 14px;
-}
-
-.TravellerJourney__textarea:focus {
-  border-color: #20a6df;
-  box-shadow: 0 0 0 3px rgba(32, 166, 223, 0.15);
+.TravellerJourney__dateWrapper input[type="datetime-local"] {
+  color: #4b5563;
+  cursor: pointer;
 }
 
 /* Terms Checkbox */
@@ -530,21 +485,20 @@
   align-items: center;
   gap: 10px;
   margin: 4px 0;
-  font-size: 14px;
-  color: #1a1a1a;
+  font-size: 13px;
+  color: #4b5563;
 }
 
 .TravellerJourney__termsWrapper input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   accent-color: #20a6df;
   cursor: pointer;
-  margin: 0;
 }
 
 .TravellerJourney__termsWrapper label {
   cursor: pointer;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .TravellerJourney__termsLink {
@@ -561,86 +515,55 @@
 .TravellerJourney__nextWrapper {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
-.TravellerJourney__nextButton {
-  background: #20a6df;
+.TravellerJourney__nextButton,
+.TravellerJourney__prevButton,
+.TravellerJourney__submitButton {
   border: none;
-  border-radius: 28px;
-  height: 44px;
-  padding: 0 36px;
+  border-radius: 8px;
+  height: 42px;
+  padding: 0 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  color: #ffffff;
+  gap: 8px;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.TravellerJourney__nextButton:hover {
+.TravellerJourney__nextButton,
+.TravellerJourney__submitButton {
+  background: #20a6df;
+  color: #ffffff;
+}
+
+.TravellerJourney__nextButton:hover,
+.TravellerJourney__submitButton:hover {
   background: #1494cb;
   transform: translateY(-1px);
-  box-shadow: 0 5px 15px rgba(32, 166, 223, 0.3);
+  box-shadow: 0 4px 12px rgba(32, 166, 223, 0.25);
 }
 
 .TravellerJourney__actionsRow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-top: 8px;
+  gap: 12px;
+  margin-top: 5px;
 }
 
 .TravellerJourney__prevButton {
-  background: #000000;
-  border: none;
-  border-radius: 28px;
-  height: 44px;
-  padding: 0 30px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  background: #f3f4f6;
+  color: #374151;
 }
 
 .TravellerJourney__prevButton:hover {
-  background: #222222;
-  transform: translateY(-1px);
-}
-
-.TravellerJourney__submitButton {
-  background: #47a7f5;
-  border: none;
-  border-radius: 28px;
-  height: 44px;
-  padding: 0 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.TravellerJourney__submitButton:hover {
-  background: #2895ea;
-  transform: translateY(-1px);
-  box-shadow: 0 5px 15px rgba(71, 167, 245, 0.3);
+  background: #e5e7eb;
 }
 
 /* Animations */
@@ -664,47 +587,17 @@
    RESPONSIVE DESIGN
 ========================================================= */
 
-@media (max-width: 1200px) {
-  .TravellerJourney__container { width: calc(100% - 40px); }
-  .TravellerJourney__heading { font-size: 40px; }
-  .TravellerJourney__description { font-size: 17px; }
-  .TravellerJourney__grid { gap: 20px; }
-  .TravellerJourney__content { padding: 19px 20px 22px; }
-  .TravellerJourney__vehicleName { font-size: 23px; }
-  .TravellerJourney__detailRow { font-size: 16px; gap: 10px; }
-  .TravellerJourney__detailValue { max-width: 67%; }
-  .TravellerJourney__priceAmount { font-size: 24px; }
-  .TravellerJourney__priceHours { font-size: 15px; }
+@media (max-width: 1024px) {
+  .TravellerJourney__container { width: min(100% - 30px, 900px); }
+  .TravellerJourney__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-@media (max-width: 900px) {
-  .TravellerJourney { padding-bottom: 50px; }
-  .TravellerJourney__container { width: calc(100% - 40px); }
-  .TravellerJourney__header { margin-bottom: 32px; }
-  .TravellerJourney__heading { font-size: 34px; }
-  .TravellerJourney__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-  .TravellerJourney__card { min-height: 580px; }
-  .TravellerJourney__imageWrapper { height: 245px; }
-}
-
-@media (max-width: 650px) {
-  .TravellerJourney { padding: 25px 0 40px; }
-  .TravellerJourney__container { width: calc(100% - 28px); }
-  .TravellerJourney__heading { font-size: 28px; }
-  .TravellerJourney__grid { grid-template-columns: 1fr; gap: 22px; }
-  .TravellerJourney__card { min-height: auto; }
-  .TravellerJourney__imageWrapper { height: 250px; }
-
-  .TravellerJourney__modal { padding: 25px 20px; border-radius: 16px; }
-  .TravellerJourney__formGrid { grid-template-columns: 1fr; gap: 14px; }
-  .TravellerJourney__modalTitle { font-size: 20px; }
-  
-  .TravellerJourney__actionsRow {
-    flex-direction: column;
-    width: 100%;
-  }
+@media (max-width: 768px) {
+  .TravellerJourney__container { width: min(100% - 24px, 100%); }
+  .TravellerJourney__grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  .TravellerJourney__formGrid { grid-template-columns: 1fr; }
+  .TravellerJourney__modal { padding: 22px 18px; }
+  .TravellerJourney__actionsRow { flex-direction: column-reverse; width: 100%; }
   .TravellerJourney__prevButton,
-  .TravellerJourney__submitButton {
-    width: 100%;
-  }
+  .TravellerJourney__submitButton { width: 100%; }
 }

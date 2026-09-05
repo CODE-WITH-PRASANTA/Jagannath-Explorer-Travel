@@ -55,7 +55,6 @@ const faqData = [
 ];
 
 const Frequently = () => {
-  // First item open by default to mirror screenshot 2
   const [openIds, setOpenIds] = useState([1]);
 
   const toggleAccordion = (id) => {
@@ -64,7 +63,6 @@ const Frequently = () => {
     );
   };
 
-  // Split into left and right columns (5 items each)
   const leftColumn = faqData.filter((_, idx) => idx % 2 === 0);
   const rightColumn = faqData.filter((_, idx) => idx % 2 !== 0);
 
@@ -85,10 +83,10 @@ const Frequently = () => {
           <span className="faq-chevron-icon" aria-hidden="true">
             <svg
               viewBox="0 0 24 24"
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.2"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -112,8 +110,8 @@ const Frequently = () => {
       <div className="faq-container">
         <div className="faq-header">
           <span className="faq-pill-label">FAQ's</span>
-          <h2 className="faq-main-title">Frequently Ask Questions</h2>
-          <p className="faq-subtitle">Have questions about our services or bookings?</p>
+          <h2 className="faq-main-title">Frequently Asked Questions</h2>
+          <p className="faq-subtitle">Have questions about our services or bookings? Find your answers below.</p>
         </div>
 
         <div className="faq-grid">
