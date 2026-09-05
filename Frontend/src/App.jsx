@@ -26,6 +26,7 @@ import Faqs from "./Page/Faqs/Faqs";
 import Gallery from "./Page/Gallery/Gallery";
 import Blogs from "./Page/Blogs/Blogs";
 import BLogDetails from "./Page/BLogDetails/BLogDetails";
+import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
 
 const App = () => {
   // Manage popup state at root
@@ -62,7 +63,7 @@ const App = () => {
 
       {/* Footer */}
       <Footer />
-
+      <FloatingIcons />
       {/* Fixed Interactive Form Modal */}
       <FloatingForm 
         isOpen={isModalOpen} 
