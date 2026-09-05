@@ -17,6 +17,7 @@ import {
   Bus,
   X,
   Hotel,
+  MessageSquareQuote, // Added icon for Testimonial
 } from 'lucide-react';
 
 import './Sidebar.css';
@@ -99,6 +100,9 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
 
     { type: 'link', icon: <Mail size={20} />, text: 'Enquiries', path: '/enquiries' },
     { type: 'link', icon: <Tag size={20} />, text: 'Coupons', path: '/coupons' },
+    
+    /* Added Testimonial link here */
+    { type: 'link', icon: <MessageSquareQuote size={20} />, text: 'Testimonial', path: '/testimonials' },
 
     {
       type: 'dropdown',
@@ -130,9 +134,7 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
           </div>
         )}
 
-        {/* Mobile-only close button — only rendered while the mobile
-            drawer is open, and hidden by CSS above the mobile breakpoint
-            as a second safety net. */}
+        {/* Mobile-only close button */}
         {isMobileOpen && (
           <button
             className="Sidebar-close-btn"
