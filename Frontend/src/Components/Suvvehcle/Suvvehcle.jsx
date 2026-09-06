@@ -46,7 +46,6 @@ const carsData = [
 const Suvvehcle = () => {
   const [selectedCar, setSelectedCar] = useState(null);
   const [step, setStep] = useState(0); // 0: Closed, 1: Step 1 (Pickup/Drop), 2: Step 2 (Details)
-  const [currentMobileIndex, setCurrentMobileIndex] = useState(0); // For mobile pagination slider
 
   // Form State
   const [formData, setFormData] = useState({
@@ -97,14 +96,6 @@ const Suvvehcle = () => {
     handleCloseModal();
   };
 
-  const nextMobileSlide = () => {
-    setCurrentMobileIndex((prev) => (prev + 1) % carsData.length);
-  };
-
-  const prevMobileSlide = () => {
-    setCurrentMobileIndex((prev) => (prev - 1 + carsData.length) % carsData.length);
-  };
-
   return (
     <section className="Suvvehcle">
       {/* Header Section */}
@@ -120,13 +111,10 @@ const Suvvehcle = () => {
         </p>
       </div>
 
-      {/* Car Cards Grid / Mobile Pagination Container */}
+      {/* Car Cards Grid */}
       <div className="Suvvehcle-grid">
-        {carsData.map((car, index) => (
-          <div 
-            className={`Suvvehcle-card ${index === currentMobileIndex ? 'active-mobile-card' : ''}`} 
-            key={car.id}
-          >
+        {carsData.map((car) => (
+          <div className="Suvvehcle-card" key={car.id}>
             <div className="Suvvehcle-card-image-wrapper">
               <img src={car.image} alt={car.name} className="Suvvehcle-card-image" />
             </div>
@@ -165,25 +153,6 @@ const Suvvehcle = () => {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Mobile Pagination Controls */}
-      <div className="Suvvehcle-mobile-pagination">
-        <button className="Suvvehcle-page-nav-btn" onClick={prevMobileSlide} aria-label="Previous Vehicle">
-          <FaArrowLeft />
-        </button>
-        <div className="Suvvehcle-pagination-dots">
-          {carsData.map((_, idx) => (
-            <span 
-              key={idx} 
-              className={`Suvvehcle-dot ${idx === currentMobileIndex ? 'active' : ''}`}
-              onClick={() => setCurrentMobileIndex(idx)}
-            />
-          ))}
-        </div>
-        <button className="Suvvehcle-page-nav-btn" onClick={nextMobileSlide} aria-label="Next Vehicle">
-          <FaArrowRight />
-        </button>
       </div>
 
       {/* Modal / Popup Container */}

@@ -160,53 +160,6 @@
   background: #008cc3;
 }
 
-/* Mobile Pagination Controls (Hidden on desktop) */
-.Suvvehcle-mobile-pagination {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 25px;
-}
-
-.Suvvehcle-page-nav-btn {
-  background: #0b132a;
-  color: #fff;
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: background 0.2s ease;
-}
-
-.Suvvehcle-page-nav-btn:hover {
-  background: #00a8e8;
-}
-
-.Suvvehcle-pagination-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.Suvvehcle-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #cbd5e0;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.Suvvehcle-dot.active {
-  background: #00a8e8;
-  transform: scale(1.2);
-}
-
 /* ================= Modal Styling ================= */
 .Suvvehcle-modal-overlay {
   position: fixed;
@@ -483,22 +436,7 @@
 
 @media (max-width: 600px) {
   .Suvvehcle-grid {
-    display: block;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .Suvvehcle-card {
-    display: none;
-  }
-
-  .Suvvehcle-card.active-mobile-card {
-    display: flex;
-    animation: fadeIn 0.3s ease;
-  }
-
-  .Suvvehcle-mobile-pagination {
-    display: flex;
+    grid-template-columns: 1fr;
   }
 
   .Suvvehcle-form-grid {
