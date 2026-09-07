@@ -1,146 +1,247 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import "./Tempofaq.css";
 
 /* =========================================================
-   FAQ DATA
+   BUSINESS INFORMATION
+========================================================= */
+
+const BUSINESS = {
+  name: "Jagannath Explorer Travels",
+  address:
+    "Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur, Bhubaneswar, Odisha, Pin - 751002",
+  phone1: "9668892441",
+  phone2: "9556355446",
+};
+
+/* =========================================================
+   FAQ DATA (12 Short & Essential Questions)
 ========================================================= */
 
 const FAQ_ITEMS = [
   {
-    question: "What types of cars are available for rent?",
+    question: "What vehicles are available for rent?",
     answer:
-      "We offer a wide range of vehicles including Swift Dzire, Aura, Ertiga, Innova, Crysta, Honda City, Verna, 13-25 Seater Travellers, Urbanias, and SML Coaches.",
+      "We offer Swift Dzire, Aura, Ertiga, Toyota Innova, Innova Crysta, Honda City, Verna, Travellers, Urbania, and SML Coaches based on your group size.",
   },
   {
-    question: "Is hourly booking available?",
+    question: "Do you offer local and outstation bookings?",
     answer:
-      "Yes, flexible hourly packages such as 4 Hrs/40 Km, 8 Hrs/80 Km, and 10 Hrs/100 Km are available for local and city travel.",
+      "Yes, we provide reliable cars and coaches for local sightseeing, airport transfers, corporate travel, and outstation trips across Odisha.",
   },
   {
-    question: "How can booking be done?",
+    question: "What hourly rental packages do you provide?",
     answer:
-      "Bookings can be made directly through our website inquiry or by contacting our 24/7 customer support line.",
+      "Our local rental plans include flexible options such as 4 Hrs/40 Km, 8 Hrs/80 Km, and 10 Hrs/100 Km packages.",
   },
   {
-    question: "What payment options are available?",
+    question: "How can I book a vehicle?",
     answer:
-      "We support secure online transactions, UPI, bank transfers, and cash payments as per your booking preference.",
+      "You can book instantly by calling our team directly with your travel dates, pickup location, destination, and vehicle preference.",
   },
   {
-    question: "Are drivers experienced and licensed?",
+    question: "Do you provide airport and railway station pickup?",
     answer:
-      "All our chauffeurs are professionally verified, fully licensed, uniformed, and highly experienced in both local and outstation routes.",
+      "Yes, 24/7 airport and railway station pickup and drop services are available across Bhubaneswar.",
   },
   {
-    question: "Can a booking be cancelled or changed?",
+    question: "Do you offer Odisha tourism packages?",
     answer:
-      "Yes, cancellations or modifications are permitted. Cancellations made 24 hours prior are subject to our standard terms.",
+      "Yes, we customize sightseeing and tour itineraries across popular Odisha destinations. Contact us for personalized pricing.",
   },
   {
-    question: "Do you provide airport and railway pickup?",
+    question: "Are experienced drivers provided?",
     answer:
-      "Yes, round-the-clock airport and railway station pickup and drop services are available across Bhubaneswar.",
+      "Yes, all our vehicles come with polite, licensed, and experienced drivers who are well-versed with all local routes and tourist destinations.",
   },
   {
-    question: "Are AC and comfort features available?",
+    question: "Can I book a vehicle for family or group tours?",
     answer:
-      "All vehicles in our fleet are fully air-conditioned and equipped with comfortable pushback or luxury seating.",
+      "Absolutely. We offer spacious SUVs, Tempo Travellers, Urbania, and large SML Coaches suitable for comfortable family and group travels.",
   },
   {
-    question: "Can I Rent Outstation Cab Booking?",
+    question: "What are the outstation travel guidelines?",
     answer:
-      "Yes, outstation rentals are calculated with a minimum daily threshold of 300 km as per our tariff guidelines.",
+      "For outstation journeys, a minimum daily distance threshold applies along with driver allowances and night halt charges as per tariff rules.",
   },
   {
-    question: "Is service available at all times, Best Travels in Bhubaneswar?",
+    question: "How early should I book my vehicle?",
     answer:
-      "Yes, our elite transportation and rental services operate 24/7 across Bhubaneswar and neighboring areas.",
+      "While last-minute bookings depend on availability, we recommend reserving your vehicle in advance for weekends, holidays, and peak tourist seasons.",
+  },
+  {
+    question: "What is your booking cancellation policy?",
+    answer:
+      "Bookings can be cancelled or modified by contacting our support team. Cancellation charges may apply based on the notice period provided.",
+  },
+  {
+    question: "Why choose Jagannath Explorer Travels?",
+    answer:
+      "We guarantee transparent pricing, immaculately maintained vehicles, punctual pick-ups, and dedicated customer support throughout your trip.",
   },
 ];
+
+/* =========================================================
+   FAQ SCHEMA
+========================================================= */
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
 
 /* =========================================================
    COMPONENT
 ========================================================= */
 
 const Tempofaq = () => {
-  const [openIndices, setOpenIndices] = useState([1]); // Default second item open like reference image
+  const [openIndices, setOpenIndices] = useState([0]);
 
   const toggleAccordion = (index) => {
-    if (openIndices.includes(index)) {
-      setOpenIndices(openIndices.filter((i) => i !== index));
-    } else {
-      setOpenIndices([...openIndices, index]);
-    }
+    setOpenIndices((current) =>
+      current.includes(index)
+        ? current.filter((item) => item !== index)
+        : [...current, index]
+    );
   };
 
   return (
     <main className="tempofaq-page">
+      <Helmet>
+        <html lang="en" />
+        <title>
+          Best Tour and Travel Agency in Bhubaneswar | Jagannath Explorer Travels
+        </title>
+        <meta
+          name="description"
+          content="Jagannath Explorer Travels offers local, outstation, group travel, and Odisha tourism packages in Bhubaneswar."
+        />
+        <meta
+          name="keywords"
+          content="Best tour and travel agency in bhubaneswar, travel agency in bhubaneswar, odisha tourism packages"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </Helmet>
 
-      {/* =====================================================
-          HEADER SECTION
-      ===================================================== */}
+      {/* HEADER */}
       <section className="tempofaq-header">
-        <span className="tempofaq-subtitle">FAQ's</span>
-        <h1 className="tempofaq-title">Frequently Ask Questions</h1>
-        <p className="tempofaq-description">
-          Have questions about our services or bookings?
-        </p>
-        <div className="tempofaq-title-line">
-          <span></span>
-          <i>◆</i>
-          <span></span>
+        <div className="tempofaq-header-inner">
+          <span className="tempofaq-subtitle">Jagannath Explorer Travels</span>
+          <h1 className="tempofaq-title">
+            Best tour and travel agency in bhubaneswar
+          </h1>
+          <p className="tempofaq-description">
+            Quick answers about vehicle rentals, local sightseeing, and outstation trips.
+          </p>
         </div>
       </section>
 
-      {/* =====================================================
-          FAQ GRID SECTION (2 Columns matching reference)
-      ===================================================== */}
+      {/* INTRO SECTION */}
+      <section className="tempofaq-intro-section">
+        <div className="tempofaq-container">
+          <div className="tempofaq-intro-card">
+            <div className="tempofaq-intro-content">
+              <span className="tempofaq-section-label">Travel Support</span>
+              <h2>Your Trusted Travel Partner in Odisha</h2>
+              <p>
+                Looking for a dependable vehicle for your trip? Jagannath Explorer Travels provides well-maintained cars, SUVs, and coaches for all your local and outstation journeys with experienced drivers.
+              </p>
+            </div>
+
+            <div className="tempofaq-business-box">
+              <span className="tempofaq-business-label">Contact Us</span>
+              <address>
+                <div className="tempofaq-business-row">
+                  <span className="tempofaq-business-icon">📍</span>
+                  <span>{BUSINESS.address}</span>
+                </div>
+                <div className="tempofaq-business-row">
+                  <span className="tempofaq-business-icon">📞</span>
+                  <div className="tempofaq-phone-links">
+                    <a href={`tel:+91${BUSINESS.phone1}`}>+91 {BUSINESS.phone1}</a>
+                    <a href={`tel:+91${BUSINESS.phone2}`}>+91 {BUSINESS.phone2}</a>
+                  </div>
+                </div>
+              </address>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ SECTION */}
       <section className="tempofaq-content-section">
         <div className="tempofaq-container">
+          <div className="tempofaq-section-heading">
+            <span className="tempofaq-section-label">FAQ</span>
+            <h2>Frequently Asked Questions</h2>
+          </div>
+
           <div className="tempofaq-grid">
             {FAQ_ITEMS.map((item, index) => {
               const isOpen = openIndices.includes(index);
+
               return (
-                <div
+                <article
                   key={`tempofaq-${index}`}
                   className={`tempofaq-card ${isOpen ? "tempofaq-card-active" : ""}`}
                 >
                   <button
+                    type="button"
                     className="tempofaq-card-question"
                     onClick={() => toggleAccordion(index)}
                     aria-expanded={isOpen}
+                    aria-controls={`tempofaq-answer-${index}`}
                   >
                     <span>{item.question}</span>
-                    <div className="tempofaq-icon-wrapper">
-                      <svg
-                        className="tempofaq-chevron"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="18 15 12 9 6 15"></polyline>
-                      </svg>
-                    </div>
+                    <span className="tempofaq-icon-wrapper">▼</span>
                   </button>
 
                   <div
+                    id={`tempofaq-answer-${index}`}
                     className="tempofaq-card-answer-wrapper"
-                    style={{ maxHeight: isOpen ? "220px" : "0px" }}
+                    style={{ maxHeight: isOpen ? "300px" : "0px" }}
                   >
                     <div className="tempofaq-card-answer">
                       <p>{item.answer}</p>
                     </div>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
         </div>
       </section>
 
+      {/* CTA SECTION */}
+      <section className="tempofaq-cta-section">
+        <div className="tempofaq-container">
+          <div className="tempofaq-cta">
+            <div className="tempofaq-cta-content">
+              <span className="tempofaq-section-label">Book Now</span>
+              <h2>Ready for your next journey?</h2>
+              <p>Call our team today to reserve your vehicle or plan your custom itinerary.</p>
+            </div>
+            <div className="tempofaq-cta-actions">
+              <a href={`tel:+91${BUSINESS.phone1}`} className="tempofaq-call-button">
+                Call {BUSINESS.phone1}
+              </a>
+              <a href={`tel:+91${BUSINESS.phone2}`} className="tempofaq-call-button tempofaq-call-button-light">
+                Call {BUSINESS.phone2}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 };

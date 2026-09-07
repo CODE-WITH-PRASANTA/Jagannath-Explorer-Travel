@@ -6,6 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import "./WedCars.css";
+
 import image1 from "../../assets/Weddingcar1.webp";
 import image2 from "../../assets/Weddingcar2.webp";
 import image3 from "../../assets/Weddingcar3.webp";
@@ -14,8 +15,21 @@ import image5 from "../../assets/Weddingcar5.webp";
 import image6 from "../../assets/Weddingcar6.webp";
 
 /* =========================================================
+   BUSINESS INFORMATION
+   ========================================================= */
+
+const BUSINESS = {
+  name: "Jagannath Explorer Travels",
+  address:
+    "Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur, Bhubaneswar, Odisha, Pin - 751002",
+  phone1: "9668892441",
+  phone2: "9556355446",
+};
+
+/* =========================================================
    WEDDING CAR DATA
    ========================================================= */
+
 const WEDDING_CARS = [
   {
     id: "audi-a4",
@@ -88,6 +102,7 @@ const WEDDING_CARS = [
 /* =========================================================
    ARROW ICON
    ========================================================= */
+
 const ArrowIcon = () => (
   <svg
     width="16"
@@ -107,8 +122,9 @@ const ArrowIcon = () => (
 );
 
 /* =========================================================
-   CHAT / ENQUIRE ICON
+   CHAT ICON
    ========================================================= */
+
 const ChatIcon = () => (
   <svg
     viewBox="0 0 24 24"
@@ -124,34 +140,43 @@ const ChatIcon = () => (
 );
 
 /* =========================================================
-   WEDDING CAR IMAGE (Click to open 3D Showcase)
+   WEDDING CAR IMAGE
    ========================================================= */
+
 const WeddingCarImage = ({ car, onOpenStage }) => {
   return (
-    <div className="wed-card-image-box" onClick={() => onOpenStage(car.id)}>
+    <div
+      className="wed-card-image-box"
+      onClick={() => onOpenStage(car.id)}
+    >
       <div className="wed-card-image-wrap">
         <img
           className="wed-card-image"
           src={car.image}
-          alt={`${car.name} luxury wedding car`}
+          alt={`${car.name} luxury wedding car rental in Bhubaneswar`}
           loading="lazy"
         />
+
         <div className="wed-image-overlay" />
+
         <div className="wedding-badge">
           <span>✦</span>
           WEDDING HIRE
           <span>✦</span>
         </div>
+
         <div className="image-shine" />
       </div>
+
       <div className="image-bottom-fade" />
     </div>
   );
 };
 
 /* =========================================================
-   SPEC ROW COMPONENT
+   SPEC ROW
    ========================================================= */
+
 const SpecRow = ({ label, value }) => (
   <div className="wed-spec-row">
     <span className="wed-spec-label">{label}</span>
@@ -160,14 +185,32 @@ const SpecRow = ({ label, value }) => (
 );
 
 /* =========================================================
-   CAR CARD COMPONENT
+   CAR CARD
    ========================================================= */
-const WedCard = ({ car, index, onOpenStage, onOpenBooking }) => {
+
+const WedCard = ({
+  car,
+  index,
+  onOpenStage,
+  onOpenBooking,
+}) => {
   const specs = [
-    { label: "Sunroof", value: car.sunroof },
-    { label: "Interior", value: car.interior },
-    { label: "Use", value: car.use },
-    { label: "Advantage", value: car.advantage },
+    {
+      label: "Sunroof",
+      value: car.sunroof,
+    },
+    {
+      label: "Interior",
+      value: car.interior,
+    },
+    {
+      label: "Use",
+      value: car.use,
+    },
+    {
+      label: "Advantage",
+      value: car.advantage,
+    },
   ];
 
   return (
@@ -178,7 +221,10 @@ const WedCard = ({ car, index, onOpenStage, onOpenBooking }) => {
         "--delay": `${index * 0.1}s`,
       }}
     >
-      <WeddingCarImage car={car} onOpenStage={onOpenStage} />
+      <WeddingCarImage
+        car={car}
+        onOpenStage={onOpenStage}
+      />
 
       <div className="wed-card-content">
         <div className="car-type">
@@ -186,9 +232,12 @@ const WedCard = ({ car, index, onOpenStage, onOpenBooking }) => {
           {car.type}
         </div>
 
-        <h3 className="wed-card-name" onClick={() => onOpenStage(car.id)} style={{ cursor: "pointer" }}>
+        <h2
+          className="wed-card-name"
+          onClick={() => onOpenStage(car.id)}
+        >
           {car.name}
-        </h3>
+        </h2>
 
         <div className="gold-line">
           <span />
@@ -198,13 +247,17 @@ const WedCard = ({ car, index, onOpenStage, onOpenBooking }) => {
 
         <div className="wed-specs">
           {specs.map((item) => (
-            <SpecRow key={item.label} label={item.label} value={item.value} />
+            <SpecRow
+              key={item.label}
+              label={item.label}
+              value={item.value}
+            />
           ))}
         </div>
 
         <div className="wed-card-footer">
           <a
-            href="tel:+919876543210"
+            href={`tel:+91${BUSINESS.phone1}`}
             className="wed-btn wed-btn-dark"
           >
             Call Now
@@ -226,10 +279,16 @@ const WedCard = ({ car, index, onOpenStage, onOpenBooking }) => {
 };
 
 /* =========================================================
-   3D SHOWROOM STAGE MODAL (Compact Scale)
+   3D SHOWCASE STAGE
    ========================================================= */
-const WedStage = ({ car, onClose, onOpenBooking }) => {
+
+const WedStage = ({
+  car,
+  onClose,
+  onOpenBooking,
+}) => {
   const [angle, setAngle] = useState(0);
+
   const angleRef = useRef(0);
   const draggingRef = useRef(false);
   const startXRef = useRef(0);
@@ -238,10 +297,15 @@ const WedStage = ({ car, onClose, onOpenBooking }) => {
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
+
     const handleKey = (e) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+      }
     };
+
     window.addEventListener("keydown", handleKey);
+
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKey);
@@ -252,35 +316,51 @@ const WedStage = ({ car, onClose, onOpenBooking }) => {
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReduced) return;
+
+    if (prefersReduced) {
+      return;
+    }
 
     let lastTime = performance.now();
+
     const animate = (time) => {
       const delta = time - lastTime;
       lastTime = time;
 
       if (!draggingRef.current) {
-        angleRef.current = (angleRef.current + delta * 0.035) % 360;
+        angleRef.current =
+          (angleRef.current + delta * 0.035) % 360;
+
         setAngle(angleRef.current);
       }
+
       rafRef.current = requestAnimationFrame(animate);
     };
+
     rafRef.current = requestAnimationFrame(animate);
 
-    return () => cancelAnimationFrame(rafRef.current);
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   const handlePointerDown = (e) => {
     draggingRef.current = true;
     startXRef.current = e.clientX;
     startAngleRef.current = angleRef.current;
+
     e.currentTarget.setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e) => {
     if (!draggingRef.current) return;
-    const delta = (e.clientX - startXRef.current) * 0.5;
-    angleRef.current = startAngleRef.current + delta;
+
+    const delta =
+      (e.clientX - startXRef.current) * 0.5;
+
+    angleRef.current =
+      startAngleRef.current + delta;
+
     setAngle(angleRef.current);
   };
 
@@ -289,15 +369,32 @@ const WedStage = ({ car, onClose, onOpenBooking }) => {
   };
 
   return (
-    <div className="wed-stage" role="dialog" aria-modal="true">
-      <div className="wed-stage-backdrop" onClick={onClose} />
+    <div
+      className="wed-stage"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${car.name} wedding car showcase`}
+    >
+      <div
+        className="wed-stage-backdrop"
+        onClick={onClose}
+      />
 
       <div className="wed-stage-panel">
-        <button className="wed-stage-close" onClick={onClose} aria-label="Close">
+        <button
+          className="wed-stage-close"
+          onClick={onClose}
+          aria-label="Close wedding car showcase"
+        >
           ×
         </button>
 
-        <div className="wed-stage-visual" style={{ "--accent": car.accent }}>
+        <div
+          className="wed-stage-visual"
+          style={{
+            "--accent": car.accent,
+          }}
+        >
           <div className="stage-glow" />
           <div className="stage-ring" />
 
@@ -314,31 +411,60 @@ const WedStage = ({ car, onClose, onOpenBooking }) => {
                 transform: `perspective(1000px) rotateY(${angle}deg)`,
               }}
             >
-              <img src={car.image} alt={car.name} />
+              <img
+                src={car.image}
+                alt={`${car.name} wedding car`}
+              />
             </div>
+
             <div className="stage-shadow" />
           </div>
 
-          <div className="drag-hint">↔ Drag to rotate · Auto rotating 3D view</div>
+          <div className="drag-hint">
+            ↔ Drag to rotate · Auto rotating 3D view
+          </div>
         </div>
 
         <div className="wed-stage-info">
-          <span className="stage-label">Luxury Wedding Collection</span>
+          <span className="stage-label">
+            Luxury Wedding Collection
+          </span>
+
           <h2>{car.name}</h2>
+
           <p className="stage-description">
-            Make your special day unforgettable with our immaculately maintained,
-            chauffeur-driven {car.name} designed for grand wedding entrances.
+            Make your wedding day memorable with the
+            elegant {car.name}. Jagannath Explorer Travels
+            provides premium wedding car arrangements
+            for grand entrances, bride and groom
+            transfers and special celebrations in
+            Bhubaneswar.
           </p>
 
           <div className="stage-specs">
-            <SpecRow label="Sunroof" value={car.sunroof} />
-            <SpecRow label="Interior" value={car.interior} />
-            <SpecRow label="Use" value={car.use} />
-            <SpecRow label="Advantage" value={car.advantage} />
+            <SpecRow
+              label="Sunroof"
+              value={car.sunroof}
+            />
+            <SpecRow
+              label="Interior"
+              value={car.interior}
+            />
+            <SpecRow
+              label="Use"
+              value={car.use}
+            />
+            <SpecRow
+              label="Advantage"
+              value={car.advantage}
+            />
           </div>
 
           <div className="stage-footer">
-            <a href="tel:+919876543210" className="wed-btn wed-btn-dark large">
+            <a
+              href={`tel:+91${BUSINESS.phone1}`}
+              className="wed-btn wed-btn-dark large"
+            >
               Call Now
               <ArrowIcon />
             </a>
@@ -369,10 +495,15 @@ const WedStage = ({ car, onClose, onOpenBooking }) => {
 };
 
 /* =========================================================
-   MULTI-STEP BOOKING POPUP MODAL (Compact Size)
+   BOOKING MODAL
    ========================================================= */
-const BookingModal = ({ car, onClose }) => {
+
+const BookingModal = ({
+  car,
+  onClose,
+}) => {
   const [modalStep, setModalStep] = useState(1);
+
   const [formData, setFormData] = useState({
     pickupLocation: "",
     dropLocation: "",
@@ -386,113 +517,203 @@ const BookingModal = ({ car, onClose }) => {
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const {
+      name,
+      value,
+      type,
+      checked,
+    } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : value,
     }));
   };
 
   const handleNextStep = (e) => {
     e.preventDefault();
-    if (!formData.pickupLocation || !formData.dropLocation || !formData.pickupDateTime) {
-      alert("Please fill in required pickup and drop details.");
+
+    if (
+      !formData.pickupLocation ||
+      !formData.dropLocation ||
+      !formData.pickupDateTime
+    ) {
+      alert(
+        "Please fill in required pickup and drop details."
+      );
       return;
     }
+
     setModalStep(2);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.mobileNumber) {
-      alert("Please enter your Full Name and Mobile Number.");
-      return;
-    }
-    if (!formData.agreedToTerms) {
-      alert("You must agree to the Terms & Conditions.");
+
+    if (
+      !formData.fullName ||
+      !formData.mobileNumber
+    ) {
+      alert(
+        "Please enter your Full Name and Mobile Number."
+      );
       return;
     }
 
-    alert(`Booking successfully requested for ${car.name}! We will contact you soon.`);
+    if (!formData.agreedToTerms) {
+      alert(
+        "You must agree to the Terms & Conditions."
+      );
+      return;
+    }
+
+    alert(
+      `Booking successfully requested for ${car.name}! We will contact you soon.`
+    );
+
     onClose();
   };
 
   return (
-    <div className="wed-booking-overlay" onClick={onClose}>
-      <div className="wed-booking-content" onClick={(e) => e.stopPropagation()}>
-        <button className="wed-booking-close" onClick={onClose} aria-label="Close">
+    <div
+      className="wed-booking-overlay"
+      onClick={onClose}
+    >
+      <div
+        className="wed-booking-content"
+        onClick={(e) =>
+          e.stopPropagation()
+        }
+      >
+        <button
+          className="wed-booking-close"
+          onClick={onClose}
+          aria-label="Close booking form"
+        >
           ✕
         </button>
 
         {modalStep === 1 ? (
           <form onSubmit={handleNextStep}>
-            <h2 className="wed-booking-title">Start Your Booking</h2>
+            <h2 className="wed-booking-title">
+              Book Your Wedding Car
+            </h2>
+
+            <p className="wed-booking-intro">
+              Share your travel details and our
+              team will help arrange your
+              {` ${car.name}`} for your special
+              occasion.
+            </p>
 
             <div className="wed-selected-car-banner">
-              <img src={car.image} alt={car.name} />
+              <img
+                src={car.image}
+                alt={car.name}
+              />
+
               <span>{car.name}</span>
             </div>
 
             <div className="wed-form-grid">
               <div className="wed-form-group">
-                <label>Pick Up Location</label>
+                <label>
+                  Pick Up Location
+                </label>
+
                 <input
                   type="text"
                   name="pickupLocation"
                   placeholder="Pick Up Location"
-                  value={formData.pickupLocation}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="wed-form-group">
-                <label>Drop Off Location</label>
-                <input
-                  type="text"
-                  name="dropLocation"
-                  placeholder="Drop Off Location"
-                  value={formData.dropLocation}
-                  onChange={handleInputChange}
+                  value={
+                    formData.pickupLocation
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                   required
                 />
               </div>
 
               <div className="wed-form-group">
-                <label>Pick Up Date &amp; Time</label>
+                <label>
+                  Drop Off Location
+                </label>
+
                 <input
-                  type="datetime-local"
-                  name="pickupDateTime"
-                  value={formData.pickupDateTime}
-                  onChange={handleInputChange}
+                  type="text"
+                  name="dropLocation"
+                  placeholder="Drop Off Location"
+                  value={
+                    formData.dropLocation
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                   required
                 />
               </div>
+
               <div className="wed-form-group">
-                <label>Drop Date &amp; Time</label>
+                <label>
+                  Pick Up Date &amp; Time
+                </label>
+
+                <input
+                  type="datetime-local"
+                  name="pickupDateTime"
+                  value={
+                    formData.pickupDateTime
+                  }
+                  onChange={
+                    handleInputChange
+                  }
+                  required
+                />
+              </div>
+
+              <div className="wed-form-group">
+                <label>
+                  Drop Date &amp; Time
+                </label>
+
                 <input
                   type="datetime-local"
                   name="dropDateTime"
-                  value={formData.dropDateTime}
-                  onChange={handleInputChange}
+                  value={
+                    formData.dropDateTime
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                 />
               </div>
             </div>
 
             <div className="wed-booking-actions">
-              <button type="submit" className="wed-booking-next-btn">
+              <button
+                type="submit"
+                className="wed-booking-next-btn"
+              >
                 Next →
               </button>
             </div>
           </form>
         ) : (
           <form onSubmit={handleFormSubmit}>
-            <h2 className="wed-booking-title">Confirm Your Booking Details</h2>
+            <h2 className="wed-booking-title">
+              Confirm Your Booking Details
+            </h2>
 
             <div className="wed-form-group">
               <div className="wed-input-icon-box">
@@ -500,11 +721,18 @@ const BookingModal = ({ car, onClose }) => {
                   type="text"
                   name="fullName"
                   placeholder="* Enter Your Full Name"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
+                  value={
+                    formData.fullName
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                   required
                 />
-                <span className="wed-field-icon">👤</span>
+
+                <span className="wed-field-icon">
+                  👤
+                </span>
               </div>
             </div>
 
@@ -515,11 +743,19 @@ const BookingModal = ({ car, onClose }) => {
                   name="mobileNumber"
                   placeholder="* Enter 10 Digit Mobile Number"
                   maxLength="10"
-                  value={formData.mobileNumber}
-                  onChange={handleInputChange}
+                  pattern="[0-9]{10}"
+                  value={
+                    formData.mobileNumber
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                   required
                 />
-                <span className="wed-field-icon">📞</span>
+
+                <span className="wed-field-icon">
+                  📞
+                </span>
               </div>
             </div>
 
@@ -530,8 +766,10 @@ const BookingModal = ({ car, onClose }) => {
                 maxLength="150"
                 placeholder="Your Message (max 150 characters)"
                 value={formData.message}
-                onChange={handleInputChange}
-              ></textarea>
+                onChange={
+                  handleInputChange
+                }
+              />
             </div>
 
             <div className="wed-checkbox-row">
@@ -539,11 +777,26 @@ const BookingModal = ({ car, onClose }) => {
                 <input
                   type="checkbox"
                   name="agreedToTerms"
-                  checked={formData.agreedToTerms}
-                  onChange={handleInputChange}
+                  checked={
+                    formData.agreedToTerms
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                   required
                 />
-                I agree to the <span className="wed-link-text">Terms &amp; Conditions</span> from <strong>Jagannath Tours &amp; Travels</strong>.
+
+                <span>
+                  I agree to the{" "}
+                  <span className="wed-link-text">
+                    Terms &amp; Conditions
+                  </span>{" "}
+                  from{" "}
+                  <strong>
+                    {BUSINESS.name}
+                  </strong>
+                  .
+                </span>
               </label>
             </div>
 
@@ -551,11 +804,17 @@ const BookingModal = ({ car, onClose }) => {
               <button
                 type="button"
                 className="wed-booking-prev-btn"
-                onClick={() => setModalStep(1)}
+                onClick={() =>
+                  setModalStep(1)
+                }
               >
                 ← Previous
               </button>
-              <button type="submit" className="wed-booking-submit-btn">
+
+              <button
+                type="submit"
+                className="wed-booking-submit-btn"
+              >
                 Submit →
               </button>
             </div>
@@ -567,54 +826,120 @@ const BookingModal = ({ car, onClose }) => {
 };
 
 /* =========================================================
-   MAIN COMPONENT (WedCars)
+   MAIN COMPONENT
    ========================================================= */
+
 const WedCars = () => {
-  const [stageCarId, setStageCarId] = useState(null);
-  const [bookingCar, setBookingCar] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isMobile, setIsMobile] = useState(false);
+  const [stageCarId, setStageCarId] =
+    useState(null);
+
+  const [bookingCar, setBookingCar] =
+    useState(null);
+
+  const [currentPage, setCurrentPage] =
+    useState(1);
+
+  const [isMobile, setIsMobile] =
+    useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(
+        window.innerWidth <= 768
+      );
     };
+
     checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+
+    window.addEventListener(
+      "resize",
+      checkMobile
+    );
+
+    return () =>
+      window.removeEventListener(
+        "resize",
+        checkMobile
+      );
   }, []);
 
-  const handleOpenStage = useCallback((id) => setStageCarId(id), []);
-  const handleCloseStage = useCallback(() => setStageCarId(null), []);
+  const handleOpenStage =
+    useCallback((id) => {
+      setStageCarId(id);
+    }, []);
 
-  const handleOpenBooking = useCallback((car) => {
-    setStageCarId(null); // Close 3D stage if open
-    setBookingCar(car);
-  }, []);
-  const handleCloseBooking = useCallback(() => setBookingCar(null), []);
+  const handleCloseStage =
+    useCallback(() => {
+      setStageCarId(null);
+    }, []);
 
-  const itemsPerPage = isMobile ? 1 : 3;
-  const totalPages = Math.ceil(WEDDING_CARS.length / itemsPerPage);
+  const handleOpenBooking =
+    useCallback((car) => {
+      setStageCarId(null);
+      setBookingCar(car);
+    }, []);
+
+  const handleCloseBooking =
+    useCallback(() => {
+      setBookingCar(null);
+    }, []);
+
+  const itemsPerPage =
+    isMobile ? 1 : 3;
+
+  const totalPages = Math.ceil(
+    WEDDING_CARS.length /
+      itemsPerPage
+  );
 
   const displayedCars = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    return WEDDING_CARS.slice(start, start + itemsPerPage);
-  }, [currentPage, itemsPerPage]);
+    const start =
+      (currentPage - 1) *
+      itemsPerPage;
+
+    return WEDDING_CARS.slice(
+      start,
+      start + itemsPerPage
+    );
+  }, [
+    currentPage,
+    itemsPerPage,
+  ]);
 
   const activeStageCar =
-    WEDDING_CARS.find((car) => car.id === stageCarId) || null;
+    WEDDING_CARS.find(
+      (car) =>
+        car.id === stageCarId
+    ) || null;
 
   return (
-    <section className="wed-catalog">
-      <div className="catalog-glow glow-one" />
-      <div className="catalog-glow glow-two" />
+    <section
+      className="wed-catalog"
+      aria-labelledby="wedding-car-title"
+    >
+      <div
+        className="catalog-glow glow-one"
+        aria-hidden="true"
+      />
+
+      <div
+        className="catalog-glow glow-two"
+        aria-hidden="true"
+      />
+
+      {/* =====================================================
+          SEO FRIENDLY HEADER
+          ===================================================== */}
 
       <header className="wed-header">
-        <span className="header-small">✦ PREMIUM WEDDING COLLECTION ✦</span>
-        <h1>
-          Decorated Luxury
+        <span className="header-small">
+          ✦ PREMIUM WEDDING CAR COLLECTION ✦
+        </span>
+
+        <h1 id="wedding-car-title">
+          Best tour and travel agency in bhubaneswar
           <br />
-          <span>Wedding Cars</span>
+          <span>Luxury Wedding Cars</span>
         </h1>
 
         <div className="header-divider">
@@ -624,59 +949,181 @@ const WedCars = () => {
         </div>
 
         <p>
-          Make your wedding day special with{" "}
-          <strong>Wedding Car Rental Service in Bhubaneswar</strong> for a grand
-          and stylish entry. Premium vehicles with pristine interiors, expert chauffeurs,
-          and exceptional service for weddings and special occasions.
+          Make your special day memorable with
+          premium wedding car rental services
+          from{" "}
+          <strong>
+            {BUSINESS.name}
+          </strong>
+          . We arrange elegant cars for
+          wedding entries, bride and groom
+          transfers, family functions and other
+          special occasions in Bhubaneswar.
+          Whether you need a stylish Audi, BMW,
+          Jaguar or Mercedes, our team focuses
+          on comfortable vehicles, timely
+          service and a smooth travel experience.
+        </p>
+
+        <p className="wed-header-location">
+          Looking for a{" "}
+          <strong>
+            Tour &amp; Travel Agency in
+            Bhubaneswar, Odisha
+          </strong>
+          ? Jagannath Explorer Travels provides
+          dependable travel and vehicle
+          arrangements for local and special
+          occasion requirements.
         </p>
       </header>
 
-      <div className="wed-grid">
-        {displayedCars.map((car, index) => (
-          <WedCard
-            key={car.id}
-            car={car}
-            index={index}
-            onOpenStage={handleOpenStage}
-            onOpenBooking={handleOpenBooking}
-          />
-        ))}
+      {/* =====================================================
+          BUSINESS INFORMATION
+          ===================================================== */}
+
+      <div className="wed-business-info">
+        <div className="wed-business-card">
+          <span className="wed-business-icon">
+            📍
+          </span>
+
+          <div>
+            <small>OUR OFFICE</small>
+            <strong>
+              {BUSINESS.name}
+            </strong>
+            <p>
+              {BUSINESS.address}
+            </p>
+          </div>
+        </div>
+
+        <div className="wed-business-card">
+          <span className="wed-business-icon">
+            📞
+          </span>
+
+          <div>
+            <small>
+              BOOKING &amp; ENQUIRIES
+            </small>
+
+            <strong>
+              Wedding Car Booking
+            </strong>
+
+            <p>
+              {BUSINESS.phone1}
+              {" | "}
+              {BUSINESS.phone2}
+            </p>
+          </div>
+        </div>
       </div>
+
+      {/* =====================================================
+          WEDDING CARS
+          ===================================================== */}
+
+      <div className="wed-grid">
+        {displayedCars.map(
+          (car, index) => (
+            <WedCard
+              key={car.id}
+              car={car}
+              index={index}
+              onOpenStage={
+                handleOpenStage
+              }
+              onOpenBooking={
+                handleOpenBooking
+              }
+            />
+          )
+        )}
+      </div>
+
+      {/* =====================================================
+          PAGINATION
+          ===================================================== */}
 
       {totalPages > 1 && (
         <div className="wed-pagination">
           <button
-            disabled={currentPage === 1}
+            type="button"
+            disabled={
+              currentPage === 1
+            }
             onClick={() => {
-              setCurrentPage((prev) => Math.max(prev - 1, 1));
-              window.scrollTo({ top: 300, behavior: "smooth" });
+              setCurrentPage(
+                (prev) =>
+                  Math.max(
+                    prev - 1,
+                    1
+                  )
+              );
+
+              window.scrollTo({
+                top: 300,
+                behavior: "smooth",
+              });
             }}
           >
             ← Previous
           </button>
 
           <div className="page-numbers">
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-              (page) => (
-                <button
-                  key={page}
-                  className={currentPage === page ? "active" : ""}
-                  onClick={() => {
-                    setCurrentPage(page);
-                    window.scrollTo({ top: 300, behavior: "smooth" });
-                  }}
-                >
-                  {page}
-                </button>
-              )
-            )}
+            {Array.from(
+              {
+                length: totalPages,
+              },
+              (_, index) =>
+                index + 1
+            ).map((page) => (
+              <button
+                type="button"
+                key={page}
+                className={
+                  currentPage === page
+                    ? "active"
+                    : ""
+                }
+                onClick={() => {
+                  setCurrentPage(
+                    page
+                  );
+
+                  window.scrollTo({
+                    top: 300,
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                {page}
+              </button>
+            ))}
           </div>
 
           <button
-            disabled={currentPage === totalPages}
+            type="button"
+            disabled={
+              currentPage ===
+              totalPages
+            }
             onClick={() => {
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-              window.scrollTo({ top: 300, behavior: "smooth" });
+              setCurrentPage(
+                (prev) =>
+                  Math.min(
+                    prev + 1,
+                    totalPages
+                  )
+              );
+
+              window.scrollTo({
+                top: 300,
+                behavior: "smooth",
+              });
             }}
           >
             Next →
@@ -684,16 +1131,31 @@ const WedCars = () => {
         </div>
       )}
 
+      {/* =====================================================
+          3D SHOWCASE
+          ===================================================== */}
+
       {activeStageCar && (
         <WedStage
           car={activeStageCar}
           onClose={handleCloseStage}
-          onOpenBooking={handleOpenBooking}
+          onOpenBooking={
+            handleOpenBooking
+          }
         />
       )}
 
+      {/* =====================================================
+          BOOKING MODAL
+          ===================================================== */}
+
       {bookingCar && (
-        <BookingModal car={bookingCar} onClose={handleCloseBooking} />
+        <BookingModal
+          car={bookingCar}
+          onClose={
+            handleCloseBooking
+          }
+        />
       )}
     </section>
   );
