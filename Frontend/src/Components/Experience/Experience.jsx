@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Experience.css';
 
 // ==========================================
@@ -33,9 +33,20 @@ import transport6 from '../../assets/destination-card-img3.webp';
 
 const Experience = () => {
   const [activeTab, setActiveTab] = useState('tour');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // मोबाइल व्यू डिटेक्शन (650px से नीचे)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 650);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const experienceData = {
-    // 6 Tour Packages (3 Main + 3 Extra Below)
     tour: [
       {
         id: 1,
@@ -98,8 +109,6 @@ const Experience = () => {
         oldPrice: '₹2,35,000'
       }
     ],
-
-    // 6 Hotels (3 Main + 3 Extra Below)
     hotel: [
       {
         id: 1,
@@ -198,8 +207,6 @@ const Experience = () => {
         oldPrice: '₹24,500'
       }
     ],
-
-    // 6 Transports (3 Main + 3 Extra Below)
     transports: [
       {
         id: 1,
@@ -246,6 +253,39 @@ const Experience = () => {
     ]
   };
 
+  const currentItems = experienceData[activeTab] || [];
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setCurrentIndex(0);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : currentItems.length - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev < currentItems.length - 1 ? prev + 1 : 0));
+  };
+
+  // ==========================================
+  // Button Click Actions (Working Functions)
+  // ==========================================
+  const handleBookTrip = (item) => {
+    alert(`Booking initialized for:\n"${item.title}"\nPrice: ${item.price}`);
+  };
+
+  const handleCheckAvailability = (item) => {
+    alert(`Checking availability for:\n"${item.title}"\nRoom: ${item.roomType}\nPrice: ${item.price}`);
+  };
+
+  const handleViewTransportDetails = (item) => {
+    alert(`Transport Details:\n"${item.title}"\nDistance: ${item.distance}\nTotal Reviews: ${item.reviews}`);
+  };
+
+  // मोबाइल पर केवल वर्तमान 1 कार्ड दिखेगा, डेस्कटॉप पर सभी कार्ड्स
+  const displayedItems = isMobile ? [currentItems[currentIndex]].filter(Boolean) : currentItems;
+
   return (
     <section className="exp-section">
       <div className="exp-header">
@@ -256,30 +296,30 @@ const Experience = () => {
         <div className="exp-nav">
           <button
             className={`exp-nav-btn ${activeTab === 'tour' ? 'active' : ''}`}
-            onClick={() => setActiveTab('tour')}
+            onClick={() => handleTabChange('tour')}
           >
             <span className="icon">🗺️</span> Tour Package
           </button>
           <button
             className={`exp-nav-btn ${activeTab === 'hotel' ? 'active' : ''}`}
-            onClick={() => setActiveTab('hotel')}
+            onClick={() => handleTabChange('hotel')}
           >
             <span className="icon">🏨</span> Hotel
           </button>
           <button
             className={`exp-nav-btn ${activeTab === 'transports' ? 'active' : ''}`}
-            onClick={() => setActiveTab('transports')}
+            onClick={() => handleTabChange('transports')}
           >
             <span className="icon">🚐</span> Transports
           </button>
         </div>
       </div>
 
-      {/* Grid Display (3 cards top row, 3 cards extra bottom row) */}
+      {/* Cards Display */}
       <div className="exp-cards-grid">
         {/* TOUR PACKAGE CARDS */}
         {activeTab === 'tour' &&
-          experienceData.tour.map((item) => (
+          displayedItems.map((item) => (
             <div className="card" key={item.id}>
               <div className="card-img-container">
                 <img src={item.image} alt={item.title} className="card-img" />
@@ -301,7 +341,12 @@ const Experience = () => {
                     </div>
                     <span className="price-sub">TAXES INCL/PERS</span>
                   </div>
-                  <button className="green-btn">Book A Trip ✈</button>
+                  <button 
+                    className="green-btn" 
+                    onClick={() => handleBookTrip(item)}
+                  >
+                    Book A Trip ✈
+                  </button>
                 </div>
               </div>
             </div>
@@ -309,7 +354,7 @@ const Experience = () => {
 
         {/* HOTEL CARDS */}
         {activeTab === 'hotel' &&
-          experienceData.hotel.map((item) => (
+          displayedItems.map((item) => (
             <div className="card hotel-card" key={item.id}>
               <div className="card-img-container">
                 <img src={item.image} alt={item.title} className="card-img" />
@@ -356,14 +401,19 @@ const Experience = () => {
                   </div>
                 </div>
 
-                <button className="green-btn full-btn">Check Availability ➔</button>
+                <button 
+                  className="green-btn full-btn" 
+                  onClick={() => handleCheckAvailability(item)}
+                >
+                  Check Availability ➔
+                </button>
               </div>
             </div>
           ))}
 
         {/* TRANSPORTS CARDS */}
         {activeTab === 'transports' &&
-          experienceData.transports.map((item) => (
+          displayedItems.map((item) => (
             <div className="card transport-card" key={item.id}>
               <div className="card-img-container">
                 <img src={item.image} alt={item.title} className="card-img" />
@@ -383,7 +433,12 @@ const Experience = () => {
                 </div>
 
                 <div className="transport-footer">
-                  <button className="green-btn">View Details</button>
+                  <button 
+                    className="green-btn" 
+                    onClick={() => handleViewTransportDetails(item)}
+                  >
+                    View Details
+                  </button>
                   <div className="t-reviews">
                     <span className="stars">★★★★★</span>
                     <span className="review-num">{item.reviews}</span>
@@ -393,6 +448,37 @@ const Experience = () => {
             </div>
           ))}
       </div>
+
+      {/* Mobile Arrow Navigation & Indicators */}
+      {isMobile && currentItems.length > 1 && (
+        <div className="mobile-slider-controls">
+          <button 
+            className="slider-arrow-btn" 
+            onClick={handlePrev} 
+            aria-label="Previous card"
+          >
+            ←
+          </button>
+
+          <div className="slider-indicator-dots">
+            {currentItems.map((_, idx) => (
+              <span
+                key={idx}
+                className={`slider-dot ${currentIndex === idx ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(idx)}
+              />
+            ))}
+          </div>
+
+          <button 
+            className="slider-arrow-btn" 
+            onClick={handleNext} 
+            aria-label="Next card"
+          >
+            →
+          </button>
+        </div>
+      )}
     </section>
   );
 };

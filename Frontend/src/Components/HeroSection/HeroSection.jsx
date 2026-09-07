@@ -45,11 +45,9 @@ const sliderImages = [
     tag: 'Puri Beach, Odisha',
     title: 'Experience The Serene\nGolden Shores.',
     subtitle: 'Breathe in tranquility along pristine waters and scenic vistas with our hand-crafted holiday packages.'
-  },
- 
+  }
 ];
 
-// Custom Dropdown Component
 const CustomDropdown = ({ label, value, options, onChange, icon: Icon }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -169,8 +167,8 @@ const HeroSection = () => {
           <ChevronRight size={22} />
         </button>
 
-        {/* Hero Center Text */}
-        <div className="hero-section__content">
+        {/* Hero Center Text (With smooth transition animation per slide change) */}
+        <div className="hero-section__content" key={currentSlide}>
           <div className="hero-section__tag">
             <MapPin size={15} />
             <span>{sliderImages[currentSlide].tag}</span>

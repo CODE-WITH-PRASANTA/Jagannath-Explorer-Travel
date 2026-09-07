@@ -86,14 +86,25 @@ const Testimonial = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // मोबाइल स्क्रीन डिटेक्शन (<= 650px)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 650);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // फ़िल्टर किए गए रिव्यू
   const filteredReviews = activeTab === 'all'
     ? allReviewsData
     : allReviewsData.filter((item) => item.platform === activeTab);
 
-  // 3 कार्ड्स एक साथ दिखाने के लिए पेजिनेशन लिमिट
-  const cardsPerPage = 3;
+  // डेस्कटॉप पर 3 कार्ड्स, मोबाइल पर 1 कार्ड
+  const cardsPerPage = isMobile ? 1 : 3;
   const maxStartIndex = Math.max(0, filteredReviews.length - cardsPerPage);
 
   // टैब बदलते ही इंडेक्स 0 पर रीसेट
@@ -102,16 +113,24 @@ const Testimonial = () => {
     setCurrentIndex(0);
   };
 
-  // नेक्स्ट और प्रीवियस 3x3 नेविगेशन
+  // नेक्स्ट और प्रीवियस नेविगेशन (मोबाइल पर 1-दर-1, डेस्कटॉप पर 3-दर-3)
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxStartIndex : Math.max(0, prev - cardsPerPage)));
+    if (isMobile) {
+      setCurrentIndex((prev) => (prev > 0 ? prev - 1 : filteredReviews.length - 1));
+    } else {
+      setCurrentIndex((prev) => (prev <= 0 ? maxStartIndex : Math.max(0, prev - cardsPerPage)));
+    }
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev >= maxStartIndex ? 0 : Math.min(maxStartIndex, prev + cardsPerPage)));
+    if (isMobile) {
+      setCurrentIndex((prev) => (prev < filteredReviews.length - 1 ? prev + 1 : 0));
+    } else {
+      setCurrentIndex((prev) => (prev >= maxStartIndex ? 0 : Math.min(maxStartIndex, prev + cardsPerPage)));
+    }
   };
 
-  // 3x3 ऑटोमैटिक स्लाइडर (हर 5 सेकंड में स्लाइड)
+  // ऑटो स्लाइडर (हर 5 सेकंड में स्लाइड)
   useEffect(() => {
     if (isPaused || filteredReviews.length <= cardsPerPage) return;
 
@@ -120,15 +139,12 @@ const Testimonial = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isPaused, filteredReviews.length, maxStartIndex]);
+  }, [currentIndex, isPaused, filteredReviews.length, maxStartIndex, isMobile]);
 
-  // वर्तमान में दिखाए जा रहे 3 कार्ड्स
-  const visibleCards = filteredReviews.slice(currentIndex, currentIndex + cardsPerPage);
-
-  // यदि फ़िल्टर में 3 से कम हैं तो बाकी ग्रिड बैलेंस करने के लिए
-  const displayedReviews = visibleCards.length < cardsPerPage && filteredReviews.length > cardsPerPage
-    ? filteredReviews.slice(0, cardsPerPage)
-    : visibleCards;
+  // वर्तमान में दिखाए जा रहे कार्ड्स
+  const displayedReviews = isMobile
+    ? [filteredReviews[currentIndex]].filter(Boolean)
+    : filteredReviews.slice(currentIndex, currentIndex + cardsPerPage);
 
   return (
     <section className="testimonial-section">
@@ -194,7 +210,7 @@ const Testimonial = () => {
             <FaChevronLeft />
           </button>
 
-          {/* 3x3 Review Cards Grid */}
+          {/* Cards Grid */}
           <div className="reviews-3x3-grid">
             {displayedReviews.map((review) => (
               <div key={review.id} className="review-unit">
@@ -252,6 +268,19 @@ const Testimonial = () => {
             <FaChevronRight />
           </button>
         </div>
+
+        {/* Mobile Indicator Dots */}
+        {isMobile && filteredReviews.length > 1 && (
+          <div className="mobile-dots-container">
+            {filteredReviews.map((_, idx) => (
+              <span
+                key={idx}
+                className={`mobile-dot ${currentIndex === idx ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(idx)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

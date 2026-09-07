@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   FaArrowRight,
   FaArrowLeft,
@@ -63,6 +63,8 @@ const TravellerJourney = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [bookingStep, setBookingStep] = useState(1);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
 
   const [formData, setFormData] = useState({
     pickupLocation: "",
@@ -75,25 +77,42 @@ const TravellerJourney = () => {
     agreeTerms: false,
   });
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const itemsPerPage = isMobile ? 1 : 3;
+  const totalPages = Math.ceil(vehicles.length / itemsPerPage);
+
+  const displayedVehicles = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return vehicles.slice(start, start + itemsPerPage);
+  }, [currentPage, itemsPerPage, vehicles]);
+
   // ===================================================
   // OPEN BOOKING POPUP
   // ===================================================
-  const handleBookNow = (vehicle) => {
+  const handleBookNow = useCallback((vehicle) => {
     setSelectedVehicle(vehicle);
     setBookingStep(1);
     setIsBookingOpen(true);
     document.body.style.overflow = "hidden";
-  };
+  }, []);
 
   // ===================================================
   // CLOSE BOOKING POPUP
   // ===================================================
-  const handleCloseBooking = () => {
+  const handleCloseBooking = useCallback(() => {
     setIsBookingOpen(false);
     setSelectedVehicle(null);
     setBookingStep(1);
     document.body.style.overflow = "auto";
-  };
+  }, []);
 
   // ===================================================
   // FORM CHANGE
@@ -153,7 +172,7 @@ const TravellerJourney = () => {
 
         {/* VEHICLE GRID */}
         <div className="TravellerJourney__grid">
-          {vehicles.map((vehicle) => (
+          {displayedVehicles.map((vehicle) => (
             <article className="TravellerJourney__card" key={vehicle.id}>
               <div className="TravellerJourney__imageWrapper">
                 <img
@@ -204,6 +223,48 @@ const TravellerJourney = () => {
             </article>
           ))}
         </div>
+
+        {/* PAGINATION */}
+        {totalPages > 1 && (
+          <div className="TravellerJourney__pagination">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => {
+                setCurrentPage((prev) => Math.max(prev - 1, 1));
+                window.scrollTo({ top: 300, behavior: "smooth" });
+              }}
+            >
+              ← Previous
+            </button>
+
+            <div className="TravellerJourney__pageNumbers">
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    className={currentPage === page ? "active" : ""}
+                    onClick={() => {
+                      setCurrentPage(page);
+                      window.scrollTo({ top: 300, behavior: "smooth" });
+                    }}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+            </div>
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => {
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+                window.scrollTo({ top: 300, behavior: "smooth" });
+              }}
+            >
+              Next →
+            </button>
+          </div>
+        )}
       </div>
 
       {/* SUPPORT FLOATING BUTTON */}

@@ -266,6 +266,58 @@
 }
 
 /* =========================================================
+   PAGINATION STYLES
+========================================================= */
+
+.TravellerJourney__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 45px;
+}
+
+.TravellerJourney__pagination > button,
+.TravellerJourney__pageNumbers button {
+  min-width: 42px;
+  height: 42px;
+  border: 1px solid #d9c9ad;
+  background: #fff;
+  color: #6e5936;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+  font-family: inherit;
+}
+
+.TravellerJourney__pagination > button {
+  padding: 0 18px;
+}
+
+.TravellerJourney__pagination button:hover:not(:disabled) {
+  background: #20a6df;
+  color: #fff;
+  border-color: #20a6df;
+}
+
+.TravellerJourney__pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.TravellerJourney__pageNumbers {
+  display: flex;
+  gap: 7px;
+}
+
+.TravellerJourney__pageNumbers button.active {
+  background: #20a6df;
+  border-color: #20a6df;
+  color: #fff;
+}
+
+/* =========================================================
    FLOATING SUPPORT BUTTON
 ========================================================= */
 

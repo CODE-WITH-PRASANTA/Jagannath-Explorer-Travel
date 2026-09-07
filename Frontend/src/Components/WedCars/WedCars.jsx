@@ -86,12 +86,12 @@ const WEDDING_CARS = [
 ];
 
 /* =========================================================
-   ARROW COMPONENT
+   ARROW ICON
    ========================================================= */
 const ArrowIcon = () => (
   <svg
-    width="17"
-    height="17"
+    width="16"
+    height="16"
     viewBox="0 0 18 18"
     fill="none"
     aria-hidden="true"
@@ -103,6 +103,23 @@ const ArrowIcon = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
+  </svg>
+);
+
+/* =========================================================
+   CHAT / ENQUIRE ICON
+   ========================================================= */
+const ChatIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
   </svg>
 );
 
@@ -209,7 +226,7 @@ const WedCard = ({ car, index, onOpenStage, onOpenBooking }) => {
 };
 
 /* =========================================================
-   3D SHOWROOM STAGE MODAL
+   3D SHOWROOM STAGE MODAL (Compact Scale)
    ========================================================= */
 const WedStage = ({ car, onClose, onOpenBooking }) => {
   const [angle, setAngle] = useState(0);
@@ -306,7 +323,7 @@ const WedStage = ({ car, onClose, onOpenBooking }) => {
         </div>
 
         <div className="wed-stage-info">
-          <span className="stage-label">✦ Luxury Wedding Collection ✦</span>
+          <span className="stage-label">Luxury Wedding Collection</span>
           <h2>{car.name}</h2>
           <p className="stage-description">
             Make your special day unforgettable with our immaculately maintained,
@@ -336,13 +353,23 @@ const WedStage = ({ car, onClose, onOpenBooking }) => {
             </button>
           </div>
         </div>
+
+        <button
+          type="button"
+          className="wed-enquire-fab"
+          onClick={() => onOpenBooking(car)}
+          aria-label={`Enquire about ${car.name}`}
+        >
+          <ChatIcon />
+          Enquire Now
+        </button>
       </div>
     </div>
   );
 };
 
 /* =========================================================
-   MULTI-STEP BOOKING POPUP MODAL
+   MULTI-STEP BOOKING POPUP MODAL (Compact Size)
    ========================================================= */
 const BookingModal = ({ car, onClose }) => {
   const [modalStep, setModalStep] = useState(1);
@@ -499,7 +526,7 @@ const BookingModal = ({ car, onClose }) => {
             <div className="wed-form-group">
               <textarea
                 name="message"
-                rows="4"
+                rows="3"
                 maxLength="150"
                 placeholder="Your Message (max 150 characters)"
                 value={formData.message}

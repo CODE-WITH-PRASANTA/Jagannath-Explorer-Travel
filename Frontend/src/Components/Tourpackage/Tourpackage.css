@@ -94,24 +94,23 @@
 .shine-sweep-overlay {
   position: absolute;
   top: 0;
-  left: -150%; /* स्क्रीन से बाहर शुरू करें */
+  left: -150%;
   width: 100%;
   height: 100%;
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.6) 50%, /* बीच में चमकदार */
+    rgba(255, 255, 255, 0.6) 50%,
     rgba(255, 255, 255, 0) 100%
   );
-  transform: skewX(-20deg); /* थोड़ा टेढ़ा */
+  transform: skewX(-20deg);
   z-index: 1;
-  pointer-events: none; /* क्लिक्स को रोके नहीं */
+  pointer-events: none;
   transition: none;
 }
 
-/* होवर पर चमकती हुई लाइन गुज़रना */
 .tourpackage-card:hover .shine-sweep-overlay {
-  left: 150%; /* स्क्रीन के दूसरी तरफ गुज़ारें */
+  left: 150%;
   transition: left 0.8s ease-in-out;
 }
 
@@ -277,12 +276,12 @@
 
 .btn-view-all-golden {
   background-color: transparent;
-  border: 2px solid #b7914e; /* गहरे सुनहरे रंग का बॉर्डर */
-  color: #b7914e; /* गहरा सुनहरा टेक्स्ट रंग */
+  border: 2px solid #b7914e;
+  color: #b7914e;
   padding: 13px 30px;
   font-size: 15px;
   font-weight: 800;
-  border-radius: 50px; /* कैप्सूल आकार */
+  border-radius: 50px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -292,11 +291,10 @@
   transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* होवर पर: ब्लैक बैकग्राउंड और व्हाइट टेक्स्ट */
 .btn-view-all-golden:hover {
-  background-color: #111417; /* ब्लैक बैकग्राउंड */
+  background-color: #111417;
   border-color: #111417;
-  color: #ffffff; /* व्हाइट टेक्स्ट रंग */
+  color: #ffffff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transform: translateY(-3px);
 }
@@ -308,6 +306,11 @@
 
 .btn-view-all-golden:hover .view-all-arrow {
   transform: translateX(4px);
+}
+
+/* ================= MOBILE SLIDER CONTROLS ================= */
+.mobile-slider-controls {
+  display: none;
 }
 
 /* ================= RESPONSIVE DESIGN ================= */
@@ -329,6 +332,10 @@
 }
 
 @media (max-width: 650px) {
+  .tourpackage-section {
+    padding: 50px 16px 70px 16px;
+  }
+
   .tourpackage-badge {
     font-size: 20px;
   }
@@ -338,17 +345,72 @@
     letter-spacing: -0.5px;
   }
 
+  /* मोबाइल पर सिंगल कार्ड और सीमित चौड़ाई */
   .tourpackage-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    max-width: 400px;
+    margin: 0 auto 24px auto;
   }
 
   .card-img-wrap {
-    height: 200px;
+    height: 210px;
   }
 
   .active-price {
     font-size: 20px;
+  }
+
+  /* मोबाइल एरो और डॉट्स नेविगेशन */
+  .mobile-slider-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 35px;
+  }
+
+  .slider-arrow-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    color: #111417;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+    transition: all 0.2s ease;
+  }
+
+  .slider-arrow-btn:active {
+    background-color: #5cb82b;
+    color: #ffffff;
+    border-color: #5cb82b;
+    transform: scale(0.94);
+  }
+
+  .slider-indicator-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #d1d5db;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .slider-dot.active {
+    background-color: #5cb82b;
+    width: 22px;
+    border-radius: 12px;
   }
 
   .btn-view-all-golden {
