@@ -2,98 +2,71 @@ import React, { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight, FaFacebookF, FaGoogle } from 'react-icons/fa';
 import { SiTripadvisor } from 'react-icons/si';
 import './Testimonial.css';
-
-// =========================================================================
-// 👉 अपनी लोकल अवतार इमेजेस इम्पोर्ट करने के लिए नीचे अनकमेंट करें:
-// =========================================================================
-// import userImg1 from './assets/liam.jpg';
-// import userImg2 from './assets/jack.jpg';
-// import userImg3 from './assets/mateo.jpg';
-// import userImg4 from './assets/sophia.jpg';
-// import userImg5 from './assets/arjun.jpg';
-// import userImg6 from './assets/elena.jpg';
-
-const allReviewsData = [
-  {
-    id: 1,
-    platform: 'tripadvisor',
-    name: 'Liam Nohkan',
-    location: 'Istanbul',
-    date: 'May 9, 2023',
-    time: '10.30 PM',
-    rating: 5,
-    text: '“I love Tour! This is an amazing service and it has saved me and my small business so much time. I plan to use it for a long time to come. And i travel with TripRex again ”',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80'
-  },
-  {
-    id: 2,
-    platform: 'facebook',
-    name: 'Jack Michael',
-    location: 'Bangladesh',
-    date: 'May 9, 2023',
-    time: '10.30 PM',
-    rating: 5,
-    text: '“Duis ac est tincidunt, bibendum eros attendato, dignissim purus. Nunc posuere ornare velitbon, bibendum venenatis metus bibendum admora. Aliquam at vestibulum.”',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80'
-  },
-  {
-    id: 3,
-    platform: 'google',
-    name: 'Mateo Daniel',
-    location: 'Indonesia',
-    date: 'May 9, 2023',
-    time: '10.30 PM',
-    rating: 5,
-    text: '“I cannot express enough how satisfied I am with the web development services provided by Egens Lab. From the initial consultation to the final delivery, they have exceeded.”',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80'
-  },
-  {
-    id: 4,
-    platform: 'tripadvisor',
-    name: 'Sophia Reynolds',
-    location: 'London, UK',
-    date: 'Jun 14, 2023',
-    time: '04.15 PM',
-    rating: 5,
-    text: '“Booking our Himalayan trek through TripRex was effortless. The local guides were attentive, food was outstanding, and every hotel stop exceeded our expectations.”',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80'
-  },
-  {
-    id: 5,
-    platform: 'facebook',
-    name: 'Arjun Verma',
-    location: 'New Delhi, India',
-    date: 'Jul 21, 2023',
-    time: '08.45 PM',
-    rating: 5,
-    text: '“Super responsive 24/7 customer support! When our internal flight got delayed in Cairo, their travel desk rescheduled our entire itinerary within thirty minutes.”',
-    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=120&auto=format&fit=crop&q=80'
-  },
-  {
-    id: 6,
-    platform: 'google',
-    name: 'Elena Rostova',
-    location: 'Prague, Czech',
-    date: 'Aug 03, 2023',
-    time: '11.00 AM',
-    rating: 5,
-    text: '“Transparent pricing with zero hidden charges. Best travel packages hands down. The private gondola ride booked through TripRex in Venice was pure magic.”',
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=120&auto=format&fit=crop&q=80'
-  }
-];
+import API, { IMG_URL } from "../../api/axios";
 
 const Testimonial = () => {
+  const [allReviewsData, setAllReviewsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [activeTab, setActiveTab] = useState('all');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Fetch Testimonials from Backend API
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        setLoading(true);
+        const response = await API.get('/testimonials');
+        // Assuming your backend returns { success: true, data: [...] }
+        if (response.data && response.data.success) {
+          // Map backend schema keys to match your frontend template variables if needed
+          const formattedReviews = response.data.data.map((item) => ({
+            id: item._id,
+            platform: item.platform ? item.platform.toLowerCase() : 'all',
+            name: item.reviewer,
+            location: item.location,
+            date: item.formattedDate || item.date,
+            time: item.formattedTime || item.time,
+            rating: item.rating,
+            text: item.reviewText,
+            // Handle absolute vs relative image URLs if uploaded via multer
+            avatar: item.avatar && item.avatar.startsWith('http') 
+              ? item.avatar 
+              : `${IMG_URL || 'http://localhost:5000'}${item.avatar}`
+          }));
+          setAllReviewsData(formattedReviews);
+        }
+      } catch (err) {
+        console.error('Error fetching testimonials:', err);
+        setError('Failed to load testimonials. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
+  // मोबाइल स्क्रीन डिटेक्शन (<= 650px)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 650);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // फ़िल्टर किए गए रिव्यू
   const filteredReviews = activeTab === 'all'
     ? allReviewsData
-    : allReviewsData.filter((item) => item.platform === activeTab);
+    : allReviewsData.filter((item) => item.platform === activeTab || item.platform === activeTab.toLowerCase());
 
-  // 3 कार्ड्स एक साथ दिखाने के लिए पेजिनेशन लिमिट
-  const cardsPerPage = 3;
+  // डेस्कटॉप पर 3 कार्ड्स, मोबाइल पर 1 कार्ड
+  const cardsPerPage = isMobile ? 1 : 3;
   const maxStartIndex = Math.max(0, filteredReviews.length - cardsPerPage);
 
   // टैब बदलते ही इंडेक्स 0 पर रीसेट
@@ -102,16 +75,24 @@ const Testimonial = () => {
     setCurrentIndex(0);
   };
 
-  // नेक्स्ट और प्रीवियस 3x3 नेविगेशन
+  // नेक्स्ट और प्रीवियस नेविगेशन
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxStartIndex : Math.max(0, prev - cardsPerPage)));
+    if (isMobile) {
+      setCurrentIndex((prev) => (prev > 0 ? prev - 1 : filteredReviews.length - 1));
+    } else {
+      setCurrentIndex((prev) => (prev <= 0 ? maxStartIndex : Math.max(0, prev - cardsPerPage)));
+    }
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev >= maxStartIndex ? 0 : Math.min(maxStartIndex, prev + cardsPerPage)));
+    if (isMobile) {
+      setCurrentIndex((prev) => (prev < filteredReviews.length - 1 ? prev + 1 : 0));
+    } else {
+      setCurrentIndex((prev) => (prev >= maxStartIndex ? 0 : Math.min(maxStartIndex, prev + cardsPerPage)));
+    }
   };
 
-  // 3x3 ऑटोमैटिक स्लाइडर (हर 5 सेकंड में स्लाइड)
+  // ऑटो स्लाइडर (हर 5 सेकंड में स्लाइड)
   useEffect(() => {
     if (isPaused || filteredReviews.length <= cardsPerPage) return;
 
@@ -120,15 +101,24 @@ const Testimonial = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isPaused, filteredReviews.length, maxStartIndex]);
+  }, [currentIndex, isPaused, filteredReviews.length, maxStartIndex, isMobile]);
 
-  // वर्तमान में दिखाए जा रहे 3 कार्ड्स
-  const visibleCards = filteredReviews.slice(currentIndex, currentIndex + cardsPerPage);
+  // वर्तमान में दिखाए जा रहे कार्ड्स
+  const displayedReviews = isMobile
+    ? [filteredReviews[currentIndex]].filter(Boolean)
+    : filteredReviews.slice(currentIndex, currentIndex + cardsPerPage);
 
-  // यदि फ़िल्टर में 3 से कम हैं तो बाकी ग्रिड बैलेंस करने के लिए
-  const displayedReviews = visibleCards.length < cardsPerPage && filteredReviews.length > cardsPerPage
-    ? filteredReviews.slice(0, cardsPerPage)
-    : visibleCards;
+  if (loading) {
+    return <div className="testimonial-section"><p style={{ textAlign: 'center' }}>Loading reviews...</p></div>;
+  }
+
+  if (error) {
+    return <div className="testimonial-section"><p style={{ textAlign: 'center', color: 'red' }}>{error}</p></div>;
+  }
+
+  if (allReviewsData.length === 0) {
+    return null; // Don't render section if there are no reviews
+  }
 
   return (
     <section className="testimonial-section">
@@ -194,7 +184,7 @@ const Testimonial = () => {
             <FaChevronLeft />
           </button>
 
-          {/* 3x3 Review Cards Grid */}
+          {/* Cards Grid */}
           <div className="reviews-3x3-grid">
             {displayedReviews.map((review) => (
               <div key={review.id} className="review-unit">
@@ -252,6 +242,19 @@ const Testimonial = () => {
             <FaChevronRight />
           </button>
         </div>
+
+        {/* Mobile Indicator Dots */}
+        {isMobile && filteredReviews.length > 1 && (
+          <div className="mobile-dots-container">
+            {filteredReviews.map((_, idx) => (
+              <span
+                key={idx}
+                className={`mobile-dot ${currentIndex === idx ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(idx)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

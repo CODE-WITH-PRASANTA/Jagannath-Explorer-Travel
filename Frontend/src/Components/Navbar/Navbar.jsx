@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
@@ -127,7 +126,7 @@ const Navbar = () => {
                   <path
                     d="M6 9L12 15L18 9"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
@@ -256,14 +255,14 @@ const Navbar = () => {
                 <path
                   d="M5 12H19"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                 />
 
                 <path
                   d="M13 6L19 12L13 18"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
@@ -293,14 +292,14 @@ const Navbar = () => {
               <path
                 d="M5 12H19"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
               />
 
               <path
                 d="M13 6L19 12L13 18"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -331,4 +330,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

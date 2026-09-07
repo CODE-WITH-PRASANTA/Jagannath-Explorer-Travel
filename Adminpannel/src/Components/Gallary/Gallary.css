@@ -1,0 +1,601 @@
+/* =========================================
+   GALLARY MAIN
+========================================= */
+
+.Gallary {
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px;
+  background: #f5f7fb;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.GallaryHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.GallaryHeader h2 {
+  margin: 0 0 6px;
+  font-size: 27px;
+  font-weight: 700;
+  color: #172033;
+}
+
+.GallaryHeader p {
+  margin: 0;
+  font-size: 14px;
+  color: #7b8497;
+}
+
+.GallaryHeaderBadge {
+  min-width: 100px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e7eaf0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.GallaryHeaderBadge span {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.GallaryHeaderBadge small {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #8a92a3;
+}
+
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.GallaryContent {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.75fr) minmax(500px, 1.5fr);
+  gap: 24px;
+  align-items: start;
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.GallaryFormCard,
+.GallaryTableCard {
+  background: #ffffff;
+  border: 1px solid #e7eaf0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(25, 35, 55, 0.04);
+}
+
+.GallaryCardHeader {
+  padding: 21px 22px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.GallaryCardHeader h3 {
+  margin: 0 0 5px;
+  color: #172033;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.GallaryCardHeader p {
+  margin: 0;
+  color: #8a92a3;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.GallaryForm {
+  padding: 22px;
+}
+
+.GallaryFormGroup {
+  margin-bottom: 20px;
+}
+
+.GallaryFormGroup label {
+  display: block;
+  margin-bottom: 8px;
+  color: #30394b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.GallaryFormGroup label span {
+  color: #ef4444;
+}
+
+.GallaryFormGroup input[type="text"] {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #dfe3ea;
+  border-radius: 9px;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #172033;
+  background: #ffffff;
+  transition: 0.2s ease;
+}
+
+.GallaryFormGroup input[type="text"]:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.GallaryFormGroup input[type="text"]::placeholder {
+  color: #a2a9b6;
+}
+
+
+/* =========================================
+   UPLOAD BOX
+========================================= */
+
+.GallaryUploadBox {
+  width: 100%;
+  min-height: 155px;
+  position: relative;
+  border: 1.5px dashed #cdd4df;
+  border-radius: 11px;
+  background: #fafbfc;
+  overflow: hidden;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.GallaryUploadBox:hover {
+  border-color: #2563eb;
+  background: #f8faff;
+}
+
+.GallaryUploadBox input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.GallaryUploadContent {
+  width: 100%;
+  min-height: 155px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.GallaryUploadIcon {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 9px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaf1ff;
+  color: #2563eb;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.GallaryUploadContent h4 {
+  margin: 0 0 5px;
+  font-size: 14px;
+  color: #30394b;
+}
+
+.GallaryUploadContent p {
+  margin: 0;
+  font-size: 11px;
+  color: #929aaa;
+}
+
+
+/* =========================================
+   PREVIEW
+========================================= */
+
+.GallaryPreview {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #e7eaf0;
+  border-radius: 10px;
+  background: #fafbfc;
+}
+
+.GallaryPreviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.GallaryPreviewHeader span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #394255;
+}
+
+.GallaryPreviewHeader button {
+  border: none;
+  background: transparent;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.GallaryPreviewImage {
+  width: 100%;
+  height: 170px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #eef1f5;
+}
+
+.GallaryPreviewImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* =========================================
+   FORM BUTTONS
+========================================= */
+
+.GallaryFormActions {
+  display: flex;
+  gap: 10px;
+}
+
+.GallaryCancelButton,
+.GallarySubmitButton {
+  height: 44px;
+  border-radius: 8px;
+  padding: 0 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.GallaryCancelButton {
+  flex: 0.6;
+  background: #f0f2f5;
+  color: #4c5566;
+}
+
+.GallaryCancelButton:hover {
+  background: #e5e8ed;
+}
+
+.GallarySubmitButton {
+  flex: 1;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.GallarySubmitButton:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.GallaryTableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.GallaryTable {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+.GallaryTable thead {
+  background: #f8f9fb;
+}
+
+.GallaryTable th {
+  padding: 14px 18px;
+  text-align: left;
+  color: #70798b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid #e9ecf1;
+}
+
+.GallaryTable td {
+  padding: 13px 18px;
+  border-bottom: 1px solid #edf0f4;
+  color: #3a4354;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.GallaryTable tbody tr {
+  transition: 0.15s ease;
+}
+
+.GallaryTable tbody tr:hover {
+  background: #fafbfe;
+}
+
+.GallaryTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* =========================================
+   SERIAL NUMBER
+========================================= */
+
+.GallarySerial {
+  color: #6d7585;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+
+/* =========================================
+   TABLE IMAGE
+========================================= */
+
+.GallaryTableImage {
+  width: 58px;
+  height: 48px;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #edf0f4;
+}
+
+.GallaryTableImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* =========================================
+   IMAGE NAME
+========================================= */
+
+.GallaryImageName {
+  font-weight: 600;
+  color: #252e40;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.GallaryActions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.GallaryEditButton,
+.GallaryDeleteButton {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+.GallaryEditButton {
+  background: #edf4ff;
+  color: #2563eb;
+}
+
+.GallaryEditButton:hover {
+  background: #dbeafe;
+}
+
+.GallaryDeleteButton {
+  background: #fff0f0;
+  color: #ef4444;
+}
+
+.GallaryDeleteButton:hover {
+  background: #fee2e2;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.GallaryEmpty {
+  padding: 50px 20px !important;
+  text-align: center !important;
+}
+
+.GallaryEmptyIcon {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.GallaryEmpty h4 {
+  margin: 0 0 5px;
+  color: #3b4455;
+  font-size: 14px;
+}
+
+.GallaryEmpty p {
+  margin: 0;
+  color: #929aaa;
+  font-size: 12px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+  .Gallary {
+    padding: 24px;
+  }
+
+  .GallaryContent {
+    grid-template-columns: 1fr;
+  }
+
+  .GallaryFormCard {
+    width: 100%;
+  }
+
+  .GallaryTableCard {
+    width: 100%;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .Gallary {
+    padding: 16px;
+  }
+
+  .GallaryHeader {
+    align-items: flex-start;
+  }
+
+  .GallaryHeader h2 {
+    font-size: 21px;
+  }
+
+  .GallaryHeader p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .GallaryHeaderBadge {
+    min-width: 70px;
+    padding: 9px 10px;
+  }
+
+  .GallaryHeaderBadge span {
+    font-size: 18px;
+  }
+
+  .GallaryHeaderBadge small {
+    font-size: 9px;
+  }
+
+  .GallaryCardHeader {
+    padding: 17px;
+  }
+
+  .GallaryForm {
+    padding: 17px;
+  }
+
+  .GallaryTable th,
+  .GallaryTable td {
+    padding: 12px;
+  }
+
+  .GallaryTable {
+    min-width: 560px;
+  }
+
+  .GallaryFormActions {
+    flex-direction: column-reverse;
+  }
+
+  .GallaryCancelButton,
+  .GallarySubmitButton {
+    width: 100%;
+    flex: none;
+  }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+  .Gallary {
+    padding: 12px;
+  }
+
+  .GallaryHeader {
+    gap: 10px;
+  }
+
+  .GallaryHeader h2 {
+    font-size: 19px;
+  }
+
+  .GallaryHeaderBadge {
+    min-width: 58px;
+    padding: 8px;
+  }
+
+  .GallaryHeaderBadge small {
+    display: none;
+  }
+
+  .GallaryUploadBox,
+  .GallaryUploadContent {
+    min-height: 135px;
+  }
+
+  .GallaryPreviewImage {
+    height: 145px;
+  }
+}

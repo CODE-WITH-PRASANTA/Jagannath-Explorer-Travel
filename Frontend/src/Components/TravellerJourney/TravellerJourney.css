@@ -1,21 +1,42 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
 
 /* =========================================================
+   JAGANNATH EXPLORER TRAVELS
    TRAVELLER JOURNEY
+   PREMIUM RESPONSIVE DESIGN
 ========================================================= */
 
 .TravellerJourney {
+  --tj-black: #111827;
+  --tj-dark: #1f2937;
+  --tj-text: #374151;
+  --tj-muted: #6b7280;
+  --tj-border: #e5e7eb;
+  --tj-border-light: #f1f5f9;
+  --tj-white: #ffffff;
+  --tj-background: #f8fafc;
+  --tj-blue: #20a6df;
+  --tj-blue-dark: #138fc5;
+  --tj-blue-soft: rgba(32, 166, 223, 0.1);
+
   width: 100%;
   min-height: 100vh;
-  padding: 40px 0 60px;
-  background: #fcfcfd;
-  color: #080808;
-  font-family: "Poppins", Arial, Helvetica, sans-serif;
-  overflow: hidden;
+  padding: 65px 0 80px;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(32, 166, 223, 0.055),
+      transparent 35%
+    ),
+    var(--tj-background);
+  color: var(--tj-black);
+  font-family:
+    "Poppins",
+    Arial,
+    Helvetica,
+    sans-serif;
 }
 
 .TravellerJourney,
@@ -26,15 +47,12 @@
 }
 
 /* =========================================================
-   MAIN CONTAINER (Centered & Streamlined)
+   CONTAINER
 ========================================================= */
 
 .TravellerJourney__container {
   width: min(100% - 40px, 1200px);
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 /* =========================================================
@@ -43,47 +61,195 @@
 
 .TravellerJourney__header {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 1080px;
+  margin: 0 auto 35px;
   text-align: center;
-  margin-bottom: 35px;
+  animation: tjFadeUp 0.7s ease both;
 }
 
 .TravellerJourney__eyebrow {
-  margin: 0 0 4px;
-  color: #20a6df;
-  font-family: "Poppins", sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+  color: var(--tj-blue);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  line-height: 1.4;
   text-transform: uppercase;
 }
 
 .TravellerJourney__heading {
-  width: min(100%, 1050px);
-  margin: 0 auto 12px;
-  color: #111827;
-  text-align: center;
-  font-size: clamp(26px, 2.5vw, 36px);
+  max-width: 1050px;
+  margin: 0 auto 16px;
+  color: var(--tj-black);
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -1.2px;
+  text-transform: none;
+}
+
+.TravellerJourney__description {
+  max-width: 1000px;
+  margin: 0 auto 10px;
+  color: var(--tj-muted);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+.TravellerJourney__description--secondary {
+  margin-bottom: 0;
+}
+
+.TravellerJourney__description strong {
+  color: var(--tj-dark);
+  font-weight: 700;
+}
+
+.TravellerJourney__titleLine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 23px;
+}
+
+.TravellerJourney__titleLine span {
+  width: 55px;
+  height: 2px;
+  border-radius: 20px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--tj-blue)
+  );
+}
+
+.TravellerJourney__titleLine span:last-child {
+  background: linear-gradient(
+    90deg,
+    var(--tj-blue),
+    transparent
+  );
+}
+
+.TravellerJourney__titleLine i {
+  color: var(--tj-blue);
+  font-size: 9px;
+  font-style: normal;
+}
+
+/* =========================================================
+   CONTACT STRIP
+========================================================= */
+
+.TravellerJourney__contactStrip {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 42px;
+  padding: 17px 20px;
+  border: 1px solid var(--tj-border);
+  border-radius: 12px;
+  background: var(--tj-white);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.035);
+}
+
+.TravellerJourney__contactInfo {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.TravellerJourney__contactLabel {
+  color: var(--tj-black);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.TravellerJourney__contactAddress {
+  color: var(--tj-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.TravellerJourney__contactPhones {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.TravellerJourney__contactPhones a {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 13px;
+  border: 1px solid var(--tj-border);
+  border-radius: 7px;
+  color: var(--tj-dark);
+  background: var(--tj-white);
+  text-decoration: none;
+  font-size: 12px;
   font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.TravellerJourney__contactPhones a svg {
+  color: var(--tj-blue);
+  font-size: 11px;
+}
+
+.TravellerJourney__contactPhones a:hover {
+  border-color: var(--tj-blue);
+  color: var(--tj-blue-dark);
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   SECTION INTRO
+========================================================= */
+
+.TravellerJourney__sectionIntro {
+  max-width: 750px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.TravellerJourney__sectionLabel {
+  display: inline-block;
+  margin-bottom: 7px;
+  color: var(--tj-blue);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.TravellerJourney__sectionIntro h2 {
+  margin: 0 0 8px;
+  color: var(--tj-black);
+  font-size: clamp(23px, 3vw, 32px);
+  font-weight: 750;
   line-height: 1.2;
   letter-spacing: -0.5px;
 }
 
-.TravellerJourney__description {
-  width: min(100%, 1100px);
-  margin: 0 auto;
-  color: #4b5563;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.TravellerJourney__description strong {
-  color: #1f2937;
-  font-weight: 600;
+.TravellerJourney__sectionIntro p {
+  margin: 0;
+  color: var(--tj-muted);
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 /* =========================================================
@@ -95,41 +261,50 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
 }
 
 /* =========================================================
-   VEHICLE CARD (More Compact & Premium)
+   VEHICLE CARD
 ========================================================= */
 
 .TravellerJourney__card {
-  position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 390px;
   margin: 0 auto;
+  position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid var(--tj-border);
+  border-radius: 15px;
+  background: var(--tj-white);
+  box-shadow:
+    0 5px 18px rgba(15, 23, 42, 0.04);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  animation: tjFadeUp 0.6s ease both;
 }
 
 .TravellerJourney__card:hover {
+  border-color: rgba(32, 166, 223, 0.65);
+  box-shadow:
+    0 18px 35px rgba(15, 23, 42, 0.09);
   transform: translateY(-5px);
-  border-color: #20a6df;
-  box-shadow: 0 12px 30px rgba(32, 166, 223, 0.12);
 }
+
+/* =========================================================
+   VEHICLE IMAGE
+========================================================= */
 
 .TravellerJourney__imageWrapper {
   width: 100%;
-  height: 200px;
+  height: 210px;
   flex-shrink: 0;
   overflow: hidden;
-  background: #f3f4f6;
+  background: #eef2f7;
 }
 
 .TravellerJourney__image {
@@ -138,29 +313,45 @@
   display: block;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    transform 0.65s
+    cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.TravellerJourney__card:hover .TravellerJourney__image {
-  transform: scale(1.06);
+.TravellerJourney__card:hover
+.TravellerJourney__image {
+  transform: scale(1.055);
 }
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
 
 .TravellerJourney__content {
   width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 18px 20px 20px;
+  padding: 19px 20px 20px;
 }
 
 .TravellerJourney__vehicleName {
   width: 100%;
-  margin: 0 0 14px;
-  color: #111827;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 12px;
+  color: var(--tj-black);
   text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
 }
+
+/* =========================================================
+   VEHICLE DETAILS
+========================================================= */
 
 .TravellerJourney__details {
   width: 100%;
@@ -174,11 +365,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid #f3f4f6;
-  color: #4b5563;
-  font-size: 14px;
-  font-weight: 400;
+  gap: 15px;
+  border-bottom: 1px solid var(--tj-border-light);
+  color: var(--tj-muted);
+  font-size: 13px;
 }
 
 .TravellerJourney__detailRow:last-child {
@@ -186,29 +376,34 @@
 }
 
 .TravellerJourney__detailRow > span:first-child {
+  flex-shrink: 0;
   color: #6b7280;
   font-weight: 500;
-  white-space: nowrap;
 }
 
 .TravellerJourney__detailValue {
-  color: #1f2937;
-  font-weight: 500;
-  text-align: right;
-  white-space: nowrap;
+  min-width: 0;
   overflow: hidden;
+  color: var(--tj-dark);
+  text-align: right;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
 }
+
+/* =========================================================
+   PRICE + BOOK
+========================================================= */
 
 .TravellerJourney__bottom {
   width: 100%;
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid #edf2f7;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #edf2f7;
 }
 
 .TravellerJourney__price {
@@ -218,46 +413,49 @@
 }
 
 .TravellerJourney__priceAmount {
-  color: #111827;
-  font-size: 21px;
-  font-weight: 700;
+  color: var(--tj-black);
+  font-size: 20px;
+  font-weight: 800;
   line-height: 1;
 }
 
 .TravellerJourney__priceHours {
-  color: #6b7280;
-  font-size: 13px;
-  font-weight: 400;
-  margin-left: 2px;
+  margin-left: 3px;
+  color: var(--tj-muted);
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .TravellerJourney__bookButton {
-  height: 42px;
-  padding: 0 16px;
-  border: none;
-  border-radius: 8px;
+  min-height: 41px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: #20a6df;
-  color: #ffffff;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--tj-blue);
+  color: var(--tj-white);
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .TravellerJourney__bookButton:hover {
-  background: #1494cb;
+  background: var(--tj-blue-dark);
+  box-shadow:
+    0 7px 17px rgba(32, 166, 223, 0.28);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(32, 166, 223, 0.3);
 }
 
 .TravellerJourney__bookButton svg {
-  font-size: 13px;
+  font-size: 11px;
   transition: transform 0.2s ease;
 }
 
@@ -266,82 +464,208 @@
 }
 
 /* =========================================================
-   FLOATING SUPPORT BUTTON
+   PAGINATION
+========================================================= */
+
+.TravellerJourney__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 40px;
+}
+
+.TravellerJourney__pagination > button,
+.TravellerJourney__pageNumbers button {
+  min-width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--tj-border);
+  border-radius: 8px;
+  background: var(--tj-white);
+  color: var(--tj-dark);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.TravellerJourney__pagination > button svg {
+  font-size: 10px;
+}
+
+.TravellerJourney__pagination
+  button:hover:not(:disabled) {
+  border-color: var(--tj-blue);
+  background: var(--tj-blue);
+  color: var(--tj-white);
+}
+
+.TravellerJourney__pagination
+  button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.TravellerJourney__pageNumbers {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.TravellerJourney__pageNumbers button {
+  width: 40px;
+  padding: 0;
+}
+
+.TravellerJourney__pageNumbers
+  button.active {
+  border-color: var(--tj-blue);
+  background: var(--tj-blue);
+  color: var(--tj-white);
+}
+
+/* =========================================================
+   SEO CONTENT
+========================================================= */
+
+.TravellerJourney__seoContent {
+  max-width: 1050px;
+  margin: 60px auto 0;
+  padding: 34px 38px;
+  border: 1px solid var(--tj-border);
+  border-radius: 16px;
+  background: var(--tj-white);
+  box-shadow:
+    0 6px 20px rgba(15, 23, 42, 0.035);
+}
+
+.TravellerJourney__seoContent h2 {
+  margin: 0 0 13px;
+  color: var(--tj-black);
+  font-size: clamp(23px, 3vw, 31px);
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.TravellerJourney__seoContent p {
+  margin: 0 0 13px;
+  color: var(--tj-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.TravellerJourney__seoContent p:last-child {
+  margin-bottom: 0;
+}
+
+.TravellerJourney__seoContent strong {
+  color: var(--tj-dark);
+  font-weight: 700;
+}
+
+/* =========================================================
+   FLOATING SUPPORT
 ========================================================= */
 
 .TravellerJourney__support {
   position: fixed;
-  right: 25px;
-  bottom: 25px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #20a6df;
-  color: #ffffff;
-  border: none;
+  right: 24px;
+  bottom: 24px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(32, 166, 223, 0.35);
   z-index: 99;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  border: none;
+  border-radius: 50%;
+  background: var(--tj-blue);
+  color: var(--tj-white);
+  text-decoration: none;
+  font-size: 20px;
+  box-shadow:
+    0 7px 22px rgba(32, 166, 223, 0.32);
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s ease;
 }
 
 .TravellerJourney__support:hover {
-  background: #1494cb;
+  background: var(--tj-blue-dark);
   transform: scale(1.08);
 }
 
 /* =========================================================
-   BOOKING MODAL OVERLAY & CARD
+   MODAL OVERLAY
 ========================================================= */
 
 .TravellerJourney__modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(17, 24, 39, 0.6);
-  backdrop-filter: blur(4px);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  z-index: 1000;
-  animation: fadeIn 0.25s ease-out;
+  background: rgba(15, 23, 42, 0.62);
+  backdrop-filter: blur(5px);
+  animation: tjFadeIn 0.22s ease both;
 }
 
+/* =========================================================
+   MODAL
+========================================================= */
+
 .TravellerJourney__modal {
-  position: relative;
   width: 100%;
-  max-width: 560px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  max-width: 570px;
+  max-height: calc(100vh - 40px);
+  position: relative;
+  overflow-y: auto;
+  padding: 31px;
+  border: 1px solid var(--tj-border);
   border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--tj-white);
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.2);
+  animation: tjScaleUp 0.25s
+    cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .TravellerJourney__modalClose {
   position: absolute;
-  top: 14px;
-  right: 16px;
-  background: transparent;
-  border: none;
-  color: #6b7280;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 6px;
+  top: 13px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease, transform 0.2s ease;
+  border: none;
+  border-radius: 50%;
+  background: #f8fafc;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 14px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .TravellerJourney__modalClose:hover {
-  color: #111827;
-  transform: scale(1.1);
+  background: #eef2f7;
+  color: var(--tj-black);
+  transform: rotate(5deg);
 }
 
 .TravellerJourney__modalInner {
@@ -349,51 +673,56 @@
 }
 
 .TravellerJourney__modalTitle {
-  margin: 0 0 20px;
+  margin: 0 0 21px;
+  padding-right: 25px;
+  color: var(--tj-black);
   text-align: center;
-  font-size: 22px;
-  font-weight: 600;
-  color: #111827;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-/* STEP 1: SELECTED VEHICLE */
+/* =========================================================
+   SELECTED VEHICLE
+========================================================= */
+
 .TravellerJourney__selectedVehicle {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 8px 12px;
+  gap: 13px;
   margin-bottom: 20px;
+  padding: 9px 12px;
+  border: 1px solid var(--tj-border);
+  border-radius: 10px;
+  background: #f8fafc;
 }
 
 .TravellerJourney__selectedImage {
-  width: 68px;
-  height: 44px;
+  width: 70px;
+  height: 45px;
   flex-shrink: 0;
-  border-radius: 6px;
   overflow: hidden;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--tj-border);
+  border-radius: 6px;
+  background: var(--tj-white);
 }
 
 .TravellerJourney__selectedImage img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
+  object-fit: cover;
 }
 
 .TravellerJourney__selectedName {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1f2937;
+  color: var(--tj-dark);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 /* =========================================================
-   FORM CONTROLS & INPUTS
+   FORM
 ========================================================= */
 
 .TravellerJourney__form {
@@ -410,47 +739,52 @@
 }
 
 .TravellerJourney__field {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
 .TravellerJourney__field label {
-  font-size: 13px;
-  font-weight: 500;
   color: #374151;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.TravellerJourney__inputWrapper {
-  position: relative;
-  width: 100%;
-}
-
-.TravellerJourney__inputWrapper input,
+.TravellerJourney__field input,
 .TravellerJourney__inputWrapperWithIcon input,
 .TravellerJourney__textarea {
   width: 100%;
-  height: 44px;
-  padding: 0 14px;
+  min-height: 44px;
+  padding: 0 13px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  background: #ffffff;
-  font-size: 14px;
-  color: #1f2937;
   outline: none;
+  background: var(--tj-white);
+  color: var(--tj-dark);
   font-family: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-size: 13px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.TravellerJourney__inputWrapper input:focus,
+.TravellerJourney__field input::placeholder,
+.TravellerJourney__textarea::placeholder {
+  color: #9ca3af;
+}
+
+.TravellerJourney__field input:focus,
 .TravellerJourney__inputWrapperWithIcon input:focus,
 .TravellerJourney__textarea:focus {
-  border-color: #20a6df;
-  box-shadow: 0 0 0 3px rgba(32, 166, 223, 0.15);
+  border-color: var(--tj-blue);
+  box-shadow:
+    0 0 0 3px var(--tj-blue-soft);
 }
 
 .TravellerJourney__inputWrapperWithIcon {
   position: relative;
+  width: 100%;
   display: flex;
   align-items: center;
 }
@@ -461,104 +795,117 @@
 
 .TravellerJourney__inputIcon {
   position: absolute;
-  right: 15px;
+  right: 14px;
   color: #9ca3af;
-  font-size: 15px;
+  font-size: 14px;
   pointer-events: none;
 }
 
 .TravellerJourney__textarea {
   height: auto;
-  padding: 12px 14px;
-  resize: vertical;
   min-height: 90px;
+  padding: 12px 13px;
+  resize: vertical;
+  line-height: 1.5;
 }
 
-.TravellerJourney__dateWrapper input[type="datetime-local"] {
+.TravellerJourney__field input[type="datetime-local"] {
   color: #4b5563;
   cursor: pointer;
 }
 
-/* Terms Checkbox */
+/* =========================================================
+   TERMS
+========================================================= */
+
 .TravellerJourney__termsWrapper {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 4px 0;
-  font-size: 13px;
-  color: #4b5563;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 2px 0;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .TravellerJourney__termsWrapper input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #20a6df;
+  flex-shrink: 0;
+  margin-top: 1px;
+  accent-color: var(--tj-blue);
   cursor: pointer;
 }
 
 .TravellerJourney__termsWrapper label {
   cursor: pointer;
-  line-height: 1.4;
 }
 
 .TravellerJourney__termsLink {
-  color: #20a6df;
+  color: var(--tj-blue);
+  font-weight: 600;
   text-decoration: none;
-  font-weight: 500;
 }
 
 .TravellerJourney__termsLink:hover {
   text-decoration: underline;
 }
 
-/* Modal Bottom Buttons */
+/* =========================================================
+   MODAL BUTTONS
+========================================================= */
+
 .TravellerJourney__nextWrapper {
   display: flex;
   justify-content: center;
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
 .TravellerJourney__nextButton,
 .TravellerJourney__prevButton,
 .TravellerJourney__submitButton {
-  border: none;
-  border-radius: 8px;
-  height: 42px;
-  padding: 0 28px;
+  min-height: 43px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 0 25px;
+  border: none;
+  border-radius: 8px;
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .TravellerJourney__nextButton,
 .TravellerJourney__submitButton {
-  background: #20a6df;
-  color: #ffffff;
+  background: var(--tj-blue);
+  color: var(--tj-white);
 }
 
 .TravellerJourney__nextButton:hover,
 .TravellerJourney__submitButton:hover {
-  background: #1494cb;
+  background: var(--tj-blue-dark);
+  box-shadow:
+    0 6px 15px rgba(32, 166, 223, 0.25);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(32, 166, 223, 0.25);
 }
 
 .TravellerJourney__actionsRow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-top: 5px;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .TravellerJourney__prevButton {
-  background: #f3f4f6;
+  background: #f1f5f9;
   color: #374151;
 }
 
@@ -566,17 +913,38 @@
   background: #e5e7eb;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+/* =========================================================
+   ANIMATIONS
+========================================================= */
 
-@keyframes scaleUp {
+@keyframes tjFadeUp {
   from {
     opacity: 0;
-    transform: scale(0.96);
+    transform: translateY(16px);
   }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tjFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tjScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -584,20 +952,288 @@
 }
 
 /* =========================================================
-   RESPONSIVE DESIGN
+   TABLET
 ========================================================= */
 
 @media (max-width: 1024px) {
-  .TravellerJourney__container { width: min(100% - 30px, 900px); }
-  .TravellerJourney__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .TravellerJourney__container {
+    width: min(100% - 30px, 900px);
+  }
+
+  .TravellerJourney__grid {
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+  }
+
+  .TravellerJourney__card {
+    max-width: 430px;
+  }
 }
 
+/* =========================================================
+   MOBILE
+========================================================= */
+
 @media (max-width: 768px) {
-  .TravellerJourney__container { width: min(100% - 24px, 100%); }
-  .TravellerJourney__grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-  .TravellerJourney__formGrid { grid-template-columns: 1fr; }
-  .TravellerJourney__modal { padding: 22px 18px; }
-  .TravellerJourney__actionsRow { flex-direction: column-reverse; width: 100%; }
+  .TravellerJourney {
+    padding: 45px 0 60px;
+  }
+
+  .TravellerJourney__container {
+    width: min(100% - 24px, 100%);
+  }
+
+  .TravellerJourney__header {
+    margin-bottom: 27px;
+  }
+
+  .TravellerJourney__eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.2px;
+  }
+
+  .TravellerJourney__heading {
+    font-size: clamp(28px, 8vw, 38px);
+    letter-spacing: -0.8px;
+  }
+
+  .TravellerJourney__description {
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  .TravellerJourney__titleLine {
+    margin-top: 18px;
+  }
+
+  .TravellerJourney__titleLine span {
+    width: 40px;
+  }
+
+  /* Contact */
+
+  .TravellerJourney__contactStrip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 35px;
+    padding: 16px;
+  }
+
+  .TravellerJourney__contactAddress {
+    font-size: 11px;
+  }
+
+  .TravellerJourney__contactPhones {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .TravellerJourney__contactPhones a {
+    width: 100%;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  /* Section */
+
+  .TravellerJourney__sectionIntro {
+    margin-bottom: 22px;
+  }
+
+  .TravellerJourney__sectionIntro h2 {
+    font-size: 23px;
+  }
+
+  .TravellerJourney__sectionIntro p {
+    font-size: 13px;
+  }
+
+  /* Grid */
+
+  .TravellerJourney__grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .TravellerJourney__card {
+    max-width: 100%;
+  }
+
+  .TravellerJourney__imageWrapper {
+    height: 220px;
+  }
+
+  /* Pagination */
+
+  .TravellerJourney__pagination {
+    margin-top: 30px;
+  }
+
+  .TravellerJourney__pagination > button {
+    min-width: 40px;
+    padding: 0 10px;
+  }
+
+  /* SEO */
+
+  .TravellerJourney__seoContent {
+    margin-top: 45px;
+    padding: 27px 20px;
+    border-radius: 13px;
+  }
+
+  .TravellerJourney__seoContent h2 {
+    font-size: 23px;
+  }
+
+  .TravellerJourney__seoContent p {
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  /* Support */
+
+  .TravellerJourney__support {
+    right: 17px;
+    bottom: 17px;
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+
+  /* Modal */
+
+  .TravellerJourney__modalOverlay {
+    align-items: center;
+    padding: 12px;
+  }
+
+  .TravellerJourney__modal {
+    max-height: calc(100vh - 24px);
+    padding: 24px 18px;
+    border-radius: 14px;
+  }
+
+  .TravellerJourney__modalTitle {
+    font-size: 19px;
+  }
+
+  .TravellerJourney__formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .TravellerJourney__actionsRow {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
   .TravellerJourney__prevButton,
-  .TravellerJourney__submitButton { width: 100%; }
+  .TravellerJourney__submitButton {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .TravellerJourney {
+    padding-top: 38px;
+  }
+
+  .TravellerJourney__container {
+    width: calc(100% - 20px);
+  }
+
+  .TravellerJourney__heading {
+    font-size: 28px;
+  }
+
+  .TravellerJourney__description {
+    font-size: 13px;
+  }
+
+  .TravellerJourney__contactPhones {
+    grid-template-columns: 1fr;
+  }
+
+  .TravellerJourney__contactPhones a {
+    min-height: 40px;
+  }
+
+  .TravellerJourney__imageWrapper {
+    height: 200px;
+  }
+
+  .TravellerJourney__content {
+    padding: 17px;
+  }
+
+  .TravellerJourney__vehicleName {
+    font-size: 18px;
+  }
+
+  .TravellerJourney__bottom {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .TravellerJourney__price {
+    justify-content: center;
+  }
+
+  .TravellerJourney__bookButton {
+    width: 100%;
+  }
+
+  .TravellerJourney__pagination {
+    gap: 5px;
+  }
+
+  .TravellerJourney__pagination > button {
+    font-size: 11px;
+    padding: 0 8px;
+  }
+
+  .TravellerJourney__pageNumbers {
+    gap: 4px;
+  }
+
+  .TravellerJourney__pageNumbers button {
+    min-width: 35px;
+    width: 35px;
+  }
+
+  .TravellerJourney__modal {
+    padding: 23px 15px;
+  }
+
+  .TravellerJourney__selectedVehicle {
+    padding: 8px;
+  }
+
+  .TravellerJourney__selectedName {
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .TravellerJourney *,
+  .TravellerJourney *::before,
+  .TravellerJourney *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

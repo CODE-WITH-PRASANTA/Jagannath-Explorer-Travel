@@ -19,6 +19,7 @@ import RoleandPermission from "./Components/RoleandPermission/RoleandPermission"
 import Enquiries from "./Components/Enquiries/Enquiries";
 import Coupons from "./Components/Coupons/Coupons";
 import Customers from "./Components/Customers/Customers";
+import Gallary from "./Components/Gallary/Gallary";
 
 // Authentication
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
@@ -28,21 +29,16 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* =====================================================
             PUBLIC ROUTES
         ===================================================== */}
-
         <Route path="/login" element={<Login />} />
-
 
         {/* =====================================================
             PROTECTED ADMIN ROUTES
         ===================================================== */}
-
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
-
             {/* Dashboard */}
             <Route path="/" element={<DashBoard />} />
 
@@ -56,30 +52,21 @@ const App = () => {
             {/* Content Management */}
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/testimonials" element={<Testimonial />} />
+            <Route path="/gallary" element={<Gallary />} />
 
             {/* User Management */}
             <Route path="/users" element={<AllUsers />} />
-            <Route
-              path="/users/roles"
-              element={<RoleandPermission />}
-            />
+            <Route path="/users/roles" element={<RoleandPermission />} />
 
             {/* System */}
             <Route path="/settings" element={<Settings />} />
-
           </Route>
         </Route>
 
-
         {/* =====================================================
-            UNKNOWN ROUTES
+            FALLBACK ROUTE
         ===================================================== */}
-
-        <Route
-          path="*"
-          element={<Navigate to="/login" replace />}
-        />
-
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );

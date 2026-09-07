@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaMapMarkerAlt, FaPlane, FaChevronRight } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaMapMarkerAlt, FaPlane, FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import './Tourpackage.css';
 
 // 👉 यदि आपकी इमेजेस लोकल फोल्डर में हैं, तो यहाँ अनकमेंट करके पाथ दें:
@@ -13,7 +13,7 @@ const packagesData = [
     tag: 'NEPAL + INDONESIA TOUR',
     title: "The Allure Italy's Rich Culture, History, And Cuisine.",
     route: 'ALEXANDRIA → SHARM EL SHEIKH → MANSOURA → K.',
-    price: '₹2,39,999', // कनवर्टेड प्राइस
+    price: '₹2,39,999',
     oldPrice: '₹2,49,999',
     image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=800&auto=format&fit=crop'
   },
@@ -70,6 +70,27 @@ const packagesData = [
 ];
 
 const Tourpackage = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // स्क्रीन साइज चेक करने के लिए listener
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 650);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : packagesData.length - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev < packagesData.length - 1 ? prev + 1 : 0));
+  };
+
   const handleBooking = (tourTitle) => {
     alert(`Redirecting to booking for: ${tourTitle}`);
   };
@@ -77,6 +98,9 @@ const Tourpackage = () => {
   const handleViewAll = () => {
     alert('Redirecting to full packages listing page...');
   };
+
+  // मोबाइल पर केवल 1 कार्ड दिखेगा, डेस्कटॉप पर सभी कार्ड्स
+  const displayedPackages = isMobile ? [packagesData[currentIndex]] : packagesData;
 
   return (
     <section className="tourpackage-section">
@@ -92,9 +116,9 @@ const Tourpackage = () => {
           <h2 className="tourpackage-main-title">Affordable Vacation Bundles</h2>
         </div>
 
-        {/* ================= 6 CARDS GRID ================= */}
+        {/* ================= CARDS CONTAINER ================= */}
         <div className="tourpackage-grid">
-          {packagesData.map((pkg) => (
+          {displayedPackages.map((pkg) => (
             <div key={pkg.id} className="tourpackage-card">
               
               {/* Card Image Wrap */}
@@ -146,6 +170,39 @@ const Tourpackage = () => {
             </div>
           ))}
         </div>
+
+        {/* ================= MOBILE SLIDER CONTROLS (ARROWS & DOTS) ================= */}
+        {isMobile && (
+          <div className="mobile-slider-controls">
+            <button 
+              type="button" 
+              className="slider-arrow-btn" 
+              onClick={handlePrev} 
+              aria-label="Previous Package"
+            >
+              <FaChevronLeft />
+            </button>
+
+            <div className="slider-indicator-dots">
+              {packagesData.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`slider-dot ${currentIndex === idx ? 'active' : ''}`}
+                  onClick={() => setCurrentIndex(idx)}
+                />
+              ))}
+            </div>
+
+            <button 
+              type="button" 
+              className="slider-arrow-btn" 
+              onClick={handleNext} 
+              aria-label="Next Package"
+            >
+              <FaChevronRight />
+            </button>
+          </div>
+        )}
 
         {/* ================= 🌟 VIEW ALL PACKAGES BUTTON ================= */}
         <div className="view-all-packages-wrapper">

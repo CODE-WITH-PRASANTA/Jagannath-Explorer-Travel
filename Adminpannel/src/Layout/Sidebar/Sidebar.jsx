@@ -75,6 +75,7 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
     { type: 'link', icon: <Car size={20} />, text: 'Vehicles', path: '/vehicles' },
     { type: 'link', icon: <MapPin size={20} />, text: 'Destinations', path: '/destinations' },
     { type: 'link', icon: <Users size={20} />, text: 'Customers', path: '/customers' },
+    { type: 'link', icon: <Users size={20} />, text: 'Gallary', path: '/gallary' },
 
     {
       type: 'dropdown',
