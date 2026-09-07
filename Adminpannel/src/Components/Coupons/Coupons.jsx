@@ -268,15 +268,6 @@ const Coupons = () => {
 
       {/* Main Content Area */}
       <div className="coupons-main">
-        {/* Top Navbar */}
-        <header className="coupons-topbar">
-          <div className="coupons-page-title-area">
-            <h1 className="coupons-page-heading">Coupons</h1>
-            <div className="coupons-breadcrumb">
-              <span>Home</span> / <span className="coupons-breadcrumb-active">Coupons</span>
-            </div>
-          </div>
-        </header>
 
         {/* Workspace Body */}
         <main className="coupons-content-container">
