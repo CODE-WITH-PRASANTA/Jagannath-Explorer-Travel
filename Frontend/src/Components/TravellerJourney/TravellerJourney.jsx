@@ -372,7 +372,7 @@ const TravellerJourney = () => {
                       <textarea
                         name="message"
                         maxLength={150}
-                        rows={4}
+                        rows={3}
                         placeholder="Your Message (max 150 characters)"
                         value={formData.message}
                         onChange={handleInputChange}
