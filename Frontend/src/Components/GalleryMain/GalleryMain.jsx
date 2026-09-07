@@ -1,34 +1,46 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './GalleryMain.css';
-
-import img1 from '../../assets/gallery-01.webp';
-import img2 from '../../assets/gallery-02.webp';
-import img3 from '../../assets/gallery-03.webp';
-import img4 from '../../assets/gallery-04.webp';
-import img5 from '../../assets/gallery-05.webp';
-import img6 from '../../assets/gallery-06.webp';
-import img7 from '../../assets/gallery-07.webp';
-import img8 from '../../assets/gallery-08.webp';
-import img9 from '../../assets/gallery-09.webp';
-
-const initialGalleryData = [
-  { id: 1, title: 'Discover Island', src: img1, alt: 'Colosseum Rome' },
-  { id: 2, title: 'Tropical Emerald', src: img2, alt: 'Khao Sok Lake Thailand' },
-  { id: 3, title: 'Venice Canal', src: img3, alt: 'Rialto Bridge Venice' },
-  { id: 4, title: 'Ocean Fortress', src: img4, alt: 'Fortress Bridge Path' },
-  { id: 5, title: 'Village Retreat', src: img5, alt: 'Couple Vacation Village' },
-  { id: 6, title: 'Alpine Peak', src: img6, alt: 'Mountain Hiker' },
-  { id: 7, title: 'Seaside Breakfast', src: img7, alt: 'Balcony Breakfast Ocean View' },
-  { id: 8, title: 'Mediterranean Street', src: img8, alt: 'Decorated Mediterranean Alley' },
-  { id: 9, title: 'Jungle River', src: img9, alt: 'Boat on Palm River' }
-];
+import API, { IMG_URL } from "../../api/axios";
 
 const ITEMS_PER_PAGE = 6;
 
 const GalleryMain = () => {
-  const [items, setItems] = useState(initialGalleryData);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [activeIndex, setActiveIndex] = useState(null);
+
+  // Fetch Gallery Data from Backend API
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        setLoading(true);
+        const response = await API.get('/gallery');
+        if (response.data && response.data.success) {
+          // Map backend schema keys to match frontend expected structure
+          const formattedGallery = response.data.data.map((item) => ({
+            id: item._id,
+            title: item.imageName,
+            // Handle image path correctly, falling back to uploads path if not an absolute URL
+            src: item.image && item.image.startsWith('http')
+              ? item.image
+              : `${IMG_URL || 'http://localhost:5000'}/uploads/gallery/${item.image}`,
+            alt: item.imageName
+          }));
+          setItems(formattedGallery);
+        }
+      } catch (err) {
+        console.error('Error fetching gallery:', err);
+        setError('Failed to load gallery images. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGallery();
+  }, []);
 
   const displayedItems = items.slice(0, visibleCount);
   const hasMore = visibleCount < items.length;
@@ -67,6 +79,18 @@ const GalleryMain = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [activeIndex, showNext, showPrev]);
+
+  if (loading) {
+    return <div className="gallery-main"><p style={{ textAlign: 'center', padding: '40px' }}>Loading gallery...</p></div>;
+  }
+
+  if (error) {
+    return <div className="gallery-main"><p style={{ textAlign: 'center', color: 'red', padding: '40px' }}>{error}</p></div>;
+  }
+
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <section className="gallery-main">
