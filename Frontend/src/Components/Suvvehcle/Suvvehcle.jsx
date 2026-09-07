@@ -1,214 +1,430 @@
-import React, { useState } from 'react';
-import './Suvvehcle.css';
-import { FaArrowRight, FaArrowLeft, FaTimes, FaUser, FaPhoneAlt } from 'react-icons/fa';
+import React, { useState } from "react";
+import "./Suvvehcle.css";
 
-// Assets import matching your path requirement
-import ertigaImg from '../../assets/Suv1.webp';
-import innovaImg from '../../assets/Suv2.webp';
-import crystaImg from '../../assets/Suv3.webp';
+import {
+  FaArrowRight,
+  FaArrowLeft,
+  FaTimes,
+  FaUser,
+  FaPhoneAlt,
+  FaShieldAlt,
+  FaCheckCircle,
+} from "react-icons/fa";
+
+// SUV Images
+import ertigaImg from "../../assets/Suv1.webp";
+import innovaImg from "../../assets/Suv2.webp";
+import crystaImg from "../../assets/Suv3.webp";
+
+/* ==========================================================================
+   SUV DATA
+   ========================================================================== */
 
 const carsData = [
   {
     id: 1,
-    name: 'Maruti Suzuki Ertiga',
+    name: "Maruti Suzuki Ertiga",
+    accent: "#0ea5e9",
     image: ertigaImg,
-    seating: '7 Seater',
-    ac: 'Automatic + Rear AC Vents',
-    bootSpace: '209 Litres',
-    fuelType: 'Petrol',
-    price: '₹3000',
-    unit: '/8 Hours'
+    seating: "7 Seater",
+    ac: "Automatic + Rear AC Vents",
+    bootSpace: "209 Litres",
+    fuelType: "Petrol",
+    price: "₹3000",
+    unit: "/ 8 Hours",
   },
   {
     id: 2,
-    name: 'Toyota Innova',
+    name: "Toyota Innova",
+    accent: "#2563eb",
     image: innovaImg,
-    seating: '7 Seater',
-    ac: 'Automatic + Rear AC Vents',
-    bootSpace: '300 Litres (Approx.)',
-    fuelType: 'Diesel',
-    price: '₹3000',
-    unit: '/8 Hours'
+    seating: "7 Seater",
+    ac: "Automatic + Rear AC Vents",
+    bootSpace: "300 Litres (Approx.)",
+    fuelType: "Diesel",
+    price: "₹3000",
+    unit: "/ 8 Hours",
   },
   {
     id: 3,
-    name: 'Toyota Innova Crysta',
+    name: "Toyota Innova Crysta",
+    accent: "#7c3aed",
     image: crystaImg,
-    seating: '7 Seater',
-    ac: 'Automatic + Rear AC Vents',
-    bootSpace: '300 Litres (Approx.)',
-    fuelType: 'Diesel',
-    price: '₹4000',
-    unit: '/8 Hours'
-  }
+    seating: "7 Seater",
+    ac: "Automatic + Rear AC Vents",
+    bootSpace: "300 Litres (Approx.)",
+    fuelType: "Diesel",
+    price: "₹4000",
+    unit: "/ 8 Hours",
+  },
 ];
+
+/* ==========================================================================
+   SUV VEHICLE COMPONENT
+   ========================================================================== */
 
 const Suvvehcle = () => {
   const [selectedCar, setSelectedCar] = useState(null);
-  const [step, setStep] = useState(0); // 0: Closed, 1: Step 1 (Pickup/Drop), 2: Step 2 (Details)
+  const [step, setStep] = useState(0);
 
-  // Form State
+  /* ------------------------------------------------------------------------
+      Booking Form
+  ------------------------------------------------------------------------ */
+
   const [formData, setFormData] = useState({
-    pickUpLocation: '',
-    dropOffLocation: '',
-    pickUpDateTime: '',
-    dropDateTime: '',
-    fullName: '',
-    mobileNumber: '',
-    message: '',
-    agreedTerms: false
+    pickUpLocation: "",
+    dropOffLocation: "",
+    pickUpDateTime: "",
+    dropDateTime: "",
+    fullName: "",
+    mobileNumber: "",
+    message: "",
+    agreedTerms: false,
   });
+
+  /* ------------------------------------------------------------------------
+      Open Booking
+  ------------------------------------------------------------------------ */
 
   const handleOpenBooking = (car) => {
     setSelectedCar(car);
     setStep(1);
   };
 
+  /* ------------------------------------------------------------------------
+      Close Booking
+  ------------------------------------------------------------------------ */
+
   const handleCloseModal = () => {
     setStep(0);
     setSelectedCar(null);
   };
 
+  /* ------------------------------------------------------------------------
+      Form Input
+  ------------------------------------------------------------------------ */
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
+
+    setFormData((previous) => ({
+      ...previous,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
+
+  /* ------------------------------------------------------------------------
+      Next Step
+  ------------------------------------------------------------------------ */
 
   const handleNext = (e) => {
     e.preventDefault();
     setStep(2);
   };
 
+  /* ------------------------------------------------------------------------
+      Previous Step
+  ------------------------------------------------------------------------ */
+
   const handlePrevious = () => {
     setStep(1);
   };
 
+  /* ------------------------------------------------------------------------
+      Submit Booking
+  ------------------------------------------------------------------------ */
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!formData.agreedTerms) {
-      alert('Please agree to the Terms & Conditions.');
+      alert("Please agree to the Terms & Conditions.");
       return;
     }
-    alert('Booking submitted successfully!');
+
+    alert("Booking submitted successfully!");
+
     handleCloseModal();
   };
 
   return (
     <section className="Suvvehcle">
-      {/* Header Section */}
-      <div className="Suvvehcle-header">
-        <span className="Suvvehcle-subheading">SUV CARS</span>
-        <h1 className="Suvvehcle-title">
-          Premium SUV Car On Rent in<br />Bhubaneswar for Every Journey
-        </h1>
-        <p className="Suvvehcle-description">
-          Enjoy comfortable and reliable SUV <strong>Taxi and Cab Service in Bhubaneswar</strong> with compact 5-seaters to
-          spacious 7-seaters and multi-row family Outstation Cab Booking with professional drivers, perfect for
-          both city travel and long-distance journeys.
-        </p>
-      </div>
 
-      {/* Car Cards Grid */}
+      {/* ==================================================================
+          SEO / INTRO HEADER
+      ================================================================== */}
+
+      <header className="Suvvehcle-header">
+
+        <div className="Suvvehcle-badge-pill">
+          <span>✨ Jagannath Explorer Travels</span>
+        </div>
+
+        <h1 className="Suvvehcle-title">
+          Best Tour and Travel Agency in Bhubaneswar
+        </h1>
+
+        <p className="Suvvehcle-description">
+          Looking for a comfortable SUV for your next journey?{" "}
+          <strong>Jagannath Explorer Travels</strong> is a trusted{" "}
+          <strong>
+            Tour &amp; Travel Agency in Bhubaneswar, Odisha
+          </strong>{" "}
+          offering well-maintained SUVs for local sightseeing, family trips,
+          airport transfers, and outstation journeys. Choose from popular
+          vehicles like the Maruti Suzuki Ertiga, Toyota Innova, and Toyota
+          Innova Crysta and enjoy a smooth journey with experienced drivers
+          and dependable service.
+        </p>
+
+        <div className="Suvvehcle-business-info">
+          <div className="info-item">
+            <span className="info-icon">📍</span>
+            <span>Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur, Bhubaneswar, Odisha - 751002</span>
+          </div>
+          <div className="info-item">
+            <span className="info-icon">📞</span>
+            <span className="phone-highlight">9668892441 &nbsp;|&nbsp; 9556355446</span>
+          </div>
+        </div>
+
+      </header>
+
+
+      {/* ==================================================================
+          SUV CAR GRID
+      ================================================================== */}
+
       <div className="Suvvehcle-grid">
-        {carsData.map((car) => (
-          <div className="Suvvehcle-card" key={car.id}>
+
+        {carsData.map((car, index) => (
+          <article
+            className="Suvvehcle-card"
+            key={car.id}
+            style={{ '--accent': car.accent, '--stagger': index }}
+          >
+            <div className="Suvvehcle-card-badge">Available Today</div>
+
+            {/* Vehicle Image */}
+
             <div className="Suvvehcle-card-image-wrapper">
-              <img src={car.image} alt={car.name} className="Suvvehcle-card-image" />
+              <div className="Suvvehcle-card-glow" aria-hidden="true" />
+              <img
+                src={car.image}
+                alt={`${car.name} SUV rental in Bhubaneswar`}
+                className="Suvvehcle-card-image"
+                loading="lazy"
+              />
             </div>
 
-            <h3 className="Suvvehcle-card-title">{car.name}</h3>
+
+            {/* Vehicle Name */}
+
+            <h2 className="Suvvehcle-card-title">
+              {car.name}
+            </h2>
+
+
+            {/* Vehicle Details */}
 
             <div className="Suvvehcle-card-details">
+
               <div className="Suvvehcle-detail-row">
-                <span className="Suvvehcle-detail-label">Seating Capacity</span>
-                <span className="Suvvehcle-detail-value">{car.seating}</span>
+                <span className="Suvvehcle-detail-label">
+                  Seating Capacity
+                </span>
+
+                <span className="Suvvehcle-detail-value">
+                  {car.seating}
+                </span>
               </div>
+
+
               <div className="Suvvehcle-detail-row">
-                <span className="Suvvehcle-detail-label">A/C</span>
-                <span className="Suvvehcle-detail-value">{car.ac}</span>
+                <span className="Suvvehcle-detail-label">
+                  A/C
+                </span>
+
+                <span className="Suvvehcle-detail-value">
+                  {car.ac}
+                </span>
               </div>
+
+
               <div className="Suvvehcle-detail-row">
-                <span className="Suvvehcle-detail-label">Boot Space</span>
-                <span className="Suvvehcle-detail-value">{car.bootSpace}</span>
+                <span className="Suvvehcle-detail-label">
+                  Boot Space
+                </span>
+
+                <span className="Suvvehcle-detail-value">
+                  {car.bootSpace}
+                </span>
               </div>
+
+
               <div className="Suvvehcle-detail-row">
-                <span className="Suvvehcle-detail-label">Fuel Type</span>
-                <span className="Suvvehcle-detail-value">{car.fuelType}</span>
+                <span className="Suvvehcle-detail-label">
+                  Fuel Type
+                </span>
+
+                <span className="Suvvehcle-detail-value">
+                  {car.fuelType}
+                </span>
               </div>
+
             </div>
 
+
+            {/* Price + Booking */}
+
             <div className="Suvvehcle-card-footer">
+
               <div className="Suvvehcle-card-price">
-                <strong>{car.price}</strong><span>{car.unit}</span>
+                <strong>{car.price}</strong>
+                <span>{car.unit}</span>
               </div>
+
               <button
+                type="button"
                 className="Suvvehcle-book-btn"
                 onClick={() => handleOpenBooking(car)}
               >
-                Book Now <FaArrowRight />
+                <span>Book Now</span>
+                <FaArrowRight />
               </button>
+
             </div>
-          </div>
+
+          </article>
         ))}
+
       </div>
 
-      {/* Modal / Popup Container */}
+
+      {/* ==================================================================
+          BOOKING MODAL
+      ================================================================== */}
+
       {step > 0 && selectedCar && (
-        <div className="Suvvehcle-modal-overlay">
+
+        <div
+          className="Suvvehcle-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="Suvvehcle-modal-title"
+        >
+          <div className="Suvvehcle-modal-backdrop" onClick={handleCloseModal} />
+
           <div className="Suvvehcle-modal-content">
-            <button className="Suvvehcle-modal-close" onClick={handleCloseModal}>
+
+            {/* Close */}
+
+            <button
+              type="button"
+              className="Suvvehcle-modal-close"
+              onClick={handleCloseModal}
+              aria-label="Close booking form"
+            >
               <FaTimes />
             </button>
 
-            {/* STEP 1: RESERVE YOUR RIDE */}
-            {step === 1 && (
-              <form onSubmit={handleNext} className="Suvvehcle-form">
-                <span className="Suvvehcle-modal-subtitle">RESERVE YOUR RIDE</span>
-                <h2 className="Suvvehcle-modal-title">Start Your Booking</h2>
 
-                {/* Selected Car Info Banner */}
+            {/* ============================================================
+                STEP 1
+            ============================================================ */}
+
+            {step === 1 && (
+
+              <form
+                onSubmit={handleNext}
+                className="Suvvehcle-form"
+              >
+
+                <span className="Suvvehcle-modal-subtitle">
+                  RESERVE YOUR RIDE
+                </span>
+
+                <h2
+                  id="Suvvehcle-modal-title"
+                  className="Suvvehcle-modal-title"
+                >
+                  Start Your Booking
+                </h2>
+
+
+                {/* Selected Vehicle */}
+
                 <div className="Suvvehcle-selected-car">
+
                   <div className="Suvvehcle-selected-car-img">
-                    <img src={selectedCar.image} alt={selectedCar.name} />
+                    <img
+                      src={selectedCar.image}
+                      alt={selectedCar.name}
+                    />
                   </div>
+
                   <div className="Suvvehcle-selected-car-info">
-                    <h3>{selectedCar.name}</h3>
-                    <p><strong>{selectedCar.price}</strong>{selectedCar.unit}</p>
+                    <h3>
+                      {selectedCar.name}
+                    </h3>
+
+                    <p>
+                      <strong>
+                        {selectedCar.price}
+                      </strong>
+
+                      {selectedCar.unit}
+                    </p>
                   </div>
+
                 </div>
 
-                {/* Input Grid */}
+
+                {/* Booking Inputs */}
+
                 <div className="Suvvehcle-form-grid">
+
                   <div className="Suvvehcle-form-group">
-                    <label>Pick Up Location</label>
+                    <label htmlFor="pickUpLocation">
+                      Pick Up Location
+                    </label>
+
                     <input
+                      id="pickUpLocation"
                       type="text"
                       name="pickUpLocation"
-                      placeholder="Pick Up Location"
+                      placeholder="Enter pickup location"
                       value={formData.pickUpLocation}
                       onChange={handleInputChange}
                       required
                     />
                   </div>
 
+
                   <div className="Suvvehcle-form-group">
-                    <label>Drop Off Location</label>
+                    <label htmlFor="dropOffLocation">
+                      Drop Off Location
+                    </label>
+
                     <input
+                      id="dropOffLocation"
                       type="text"
                       name="dropOffLocation"
-                      placeholder="Drop Off Location"
+                      placeholder="Enter drop-off location"
                       value={formData.dropOffLocation}
                       onChange={handleInputChange}
                       required
                     />
                   </div>
 
+
                   <div className="Suvvehcle-form-group">
-                    <label>Pick Up Date & Time</label>
+                    <label htmlFor="pickUpDateTime">
+                      Pick Up Date &amp; Time
+                    </label>
+
                     <input
+                      id="pickUpDateTime"
                       type="datetime-local"
                       name="pickUpDateTime"
                       value={formData.pickUpDateTime}
@@ -217,9 +433,14 @@ const Suvvehcle = () => {
                     />
                   </div>
 
+
                   <div className="Suvvehcle-form-group">
-                    <label>Drop Date & Time</label>
+                    <label htmlFor="dropDateTime">
+                      Drop Date &amp; Time
+                    </label>
+
                     <input
+                      id="dropDateTime"
                       type="datetime-local"
                       name="dropDateTime"
                       value={formData.dropDateTime}
@@ -227,20 +448,41 @@ const Suvvehcle = () => {
                       required
                     />
                   </div>
+
                 </div>
 
+
                 <div className="Suvvehcle-modal-footer center">
-                  <button type="submit" className="Suvvehcle-next-btn">
-                    Next <FaArrowRight />
+                  <button
+                    type="submit"
+                    className="Suvvehcle-next-btn"
+                  >
+                    <span>Next</span>
+                    <FaArrowRight />
                   </button>
                 </div>
+
               </form>
             )}
 
-            {/* STEP 2: CONFIRM BOOKING DETAILS */}
+
+            {/* ============================================================
+                STEP 2
+            ============================================================ */}
+
             {step === 2 && (
-              <form onSubmit={handleSubmit} className="Suvvehcle-form">
-                <h2 className="Suvvehcle-modal-title large-margin">Confirm Your Booking Details</h2>
+
+              <form
+                onSubmit={handleSubmit}
+                className="Suvvehcle-form"
+              >
+
+                <h2 className="Suvvehcle-modal-title large-margin">
+                  Confirm Your Booking Details
+                </h2>
+
+
+                {/* Full Name */}
 
                 <div className="Suvvehcle-form-group icon-input">
                   <input
@@ -249,23 +491,41 @@ const Suvvehcle = () => {
                     placeholder="* Enter Your Full Name"
                     value={formData.fullName}
                     onChange={handleInputChange}
+                    autoComplete="name"
                     required
                   />
-                  <FaUser className="Suvvehcle-input-icon" />
+
+                  <FaUser
+                    className="Suvvehcle-input-icon"
+                    aria-hidden="true"
+                  />
                 </div>
+
+
+                {/* Mobile Number */}
 
                 <div className="Suvvehcle-form-group icon-input">
                   <input
                     type="tel"
                     name="mobileNumber"
                     pattern="[0-9]{10}"
+                    maxLength="10"
+                    inputMode="numeric"
                     placeholder="* Enter 10 Digit Mobile Number"
                     value={formData.mobileNumber}
                     onChange={handleInputChange}
+                    autoComplete="tel"
                     required
                   />
-                  <FaPhoneAlt className="Suvvehcle-input-icon" />
+
+                  <FaPhoneAlt
+                    className="Suvvehcle-input-icon"
+                    aria-hidden="true"
+                  />
                 </div>
+
+
+                {/* Message */}
 
                 <div className="Suvvehcle-form-group">
                   <textarea
@@ -277,6 +537,9 @@ const Suvvehcle = () => {
                   />
                 </div>
 
+
+                {/* Terms */}
+
                 <div className="Suvvehcle-checkbox-group">
                   <input
                     type="checkbox"
@@ -286,24 +549,56 @@ const Suvvehcle = () => {
                     onChange={handleInputChange}
                     required
                   />
+
                   <label htmlFor="agreedTerms">
-                    I agree to the <a href="#terms" onClick={(e) => e.preventDefault()}>Terms & Conditions</a> from <strong>Jagannath Tours & Travels</strong>.
+                    I agree to the{" "}
+
+                    <a
+                      href="#terms"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      Terms &amp; Conditions
+                    </a>{" "}
+
+                    from{" "}
+
+                    <strong>
+                      Jagannath Explorer Travels
+                    </strong>.
                   </label>
                 </div>
 
+
+                {/* Buttons */}
+
                 <div className="Suvvehcle-modal-footer space-between">
-                  <button type="button" className="Suvvehcle-prev-btn" onClick={handlePrevious}>
-                    <FaArrowLeft /> Previous
+                  <button
+                    type="button"
+                    className="Suvvehcle-prev-btn"
+                    onClick={handlePrevious}
+                  >
+                    <FaArrowLeft />
+                    <span>Previous</span>
                   </button>
-                  <button type="submit" className="Suvvehcle-submit-btn">
-                    Submit <FaArrowRight />
+
+
+                  <button
+                    type="submit"
+                    className="Suvvehcle-submit-btn"
+                  >
+                    <span>Submit</span>
+                    <FaArrowRight />
                   </button>
                 </div>
+
               </form>
             )}
+
           </div>
+
         </div>
       )}
+
     </section>
   );
 };

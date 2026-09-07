@@ -15,6 +15,7 @@ import RoleandPermission from "./Components/RoleandPermission/RoleandPermission"
 import Enquiries from "./Components/Enquiries/Enquiries";
 import Coupons from "./Components/Coupons/Coupons";
 import Customers from "./Components/Customers/Customers";
+import Gallary from "./Components/Gallary/Gallary";
 
 const App = () => {
   return (
@@ -33,6 +34,8 @@ const App = () => {
           <Route path="/settings" element={<Settings/>}/>
           <Route path="/users" element={<AllUsers/>}/>
           <Route path="/users/roles" element={<RoleandPermission/>}/>
+
+          <Route path="/gallary" element={<Gallary />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
