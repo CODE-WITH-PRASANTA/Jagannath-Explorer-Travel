@@ -1,32 +1,42 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './About.css';
 
-// आप अपनी इमेज फ़ाइलों को यहाँ अपने पाथ के अनुसार इम्पोर्ट कर सकते हैं:
-// import imgLarge from './assets/group-hike.jpg';
-// import imgTopRight from './assets/resort-night.jpg';
-// import imgBottomLeft from './assets/van-desert.jpg';
-// import imgBottomRight from './assets/couple-night.jpg';
+import aboutImg1 from '../../assets/“Odisha Tourism Place” Most Favo.webp';
+import aboutImg2 from '../../assets/Dhauligiri Shanti Stupa (1) (1).webp';
+import aboutImg3 from '../../assets/Bhubaneswar (1).webp';
+import aboutImg4 from '../../assets/Sun Temple, Konark (1).webp';
 
 const About = () => {
   const [activeTab, setActiveTab] = useState('mission');
+  const navigate = useNavigate();
 
-  // टैब के अनुसार टेक्स्ट कंटेंट
   const tabContent = {
-    mission: `Etiam ac tortor id purus commodo vulputate. Vestibulum porttitor erat felis and sed vehicula tortor malesuada gravida. Mauris volutpat enim quis pulv gont congue. Suspendisse ullamcorper, enim vitae tristique blandit, eratot augue torel tempo libero, non porta lectus tortor et elit. Quisque finibusot enim et eratourgt gravida, eu elementum turpis lacinia. Integer female go tellus ligula, attendora and condimentum.`,
-    customer: `Focusing on our customers is at the heart of TripRex. We listen to your travel aspirations and curate experiences that cater directly to your comfort, safety, and wanderlust. Dedicated 24/7 support ensures every step of your journey is memorable, seamless, and uniquely tailored to create lifelong travel memories.`
+    mission: `We believe every journey should be comfortable, well planned, and worth remembering. As a trusted travel company in Bhubaneswar, we create thoughtfully planned tours that bring together beautiful destinations, reliable travel services, comfortable stays, and memorable experiences. From exploring Odisha to discovering popular destinations across India, our goal is to make every trip simple, enjoyable, and stress-free.`,
+
+    customer: `Our customers are at the centre of everything we do. We take the time to understand your travel plans, budget, preferences, and expectations before creating your trip. Whether you are planning a family holiday, a couple's getaway, a group tour, or a spiritual journey, our team is here to help with practical guidance and friendly support from the first conversation until you return home.`
+  };
+
+  const handleContactNavigation = () => {
+    navigate('/contact');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <section className="about-section">
       <div className="about-container">
-        {/* Left Column: Text & Controls */}
+
+        {/* Left Column */}
         <div className="about-left">
+
           <div className="sub-badge">
-            <span className="arrow-dash">➔</span> About Us <span className="sparkle">✦</span>
+            <span className="arrow-dash">➔</span>
+            About Us
+            <span className="sparkle">✦</span>
           </div>
 
           <h1 className="about-heading">
-            Let’s know About Our<br />Journey For TripRex.
+            Best Tour and Travel Agency in Bhubaneswar for Memorable Journeys
           </h1>
 
           {/* Interactive Tabs */}
@@ -55,35 +65,42 @@ const About = () => {
 
           {/* Bottom Actions */}
           <div className="about-bottom">
-            <button className="cta-btn">More About</button>
-
-            <div className="social-proof">
-              <div className="avatar-group">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=60" alt="Customer 1" />
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=60" alt="Customer 2" />
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=60" alt="Customer 3" />
-              </div>
-              <div className="proof-text">
-                <strong>500+</strong>
-                <span>Customer</span>
-              </div>
-            </div>
+            <button 
+              type="button" 
+              className="cta-btn primary-btn"
+              onClick={handleContactNavigation}
+            >
+              <span>Contact Us</span>
+              <svg 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
           </div>
+
         </div>
 
-        {/* Right Column: 2-Column Asymmetric Image Grid */}
+        {/* Right Column - Image Grid */}
         <div className="about-right">
           <div className="grid-col left-col">
             <div className="img-wrapper tall">
               <img
-                src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=700&auto=format&fit=crop&q=80"
-                alt="Hikers enjoying mountain view"
+                src={aboutImg1}
+                alt="Travellers enjoying a mountain destination"
               />
             </div>
             <div className="img-wrapper medium">
               <img
-                src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=700&auto=format&fit=crop&q=80"
-                alt="Van traveling through canyon"
+                src={aboutImg2}
+                alt="Road trip through a beautiful destination"
               />
             </div>
           </div>
@@ -91,18 +108,19 @@ const About = () => {
           <div className="grid-col right-col">
             <div className="img-wrapper medium">
               <img
-                src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=700&auto=format&fit=crop&q=80"
-                alt="Resort swimming pool at twilight"
+                src={aboutImg3}
+                alt="Comfortable resort for travellers"
               />
             </div>
             <div className="img-wrapper tall">
               <img
-                src="https://images.unsplash.com/photo-1510312305653-8ed496efae75?w=700&auto=format&fit=crop&q=80"
-                alt="Couple standing under night sky"
+                src={aboutImg4}
+                alt="Couple enjoying a peaceful travel experience"
               />
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );

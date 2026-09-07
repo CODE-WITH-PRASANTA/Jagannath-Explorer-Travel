@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaTimes, FaCheck, FaUser, FaPhoneAlt } from 'react-icons/fa';
 import './Carrental.css';
 
-// अपनी इमेज फ़ाइल्स को यहाँ इम्पोर्ट करें (पाथ और नाम अपने अनुसार सेट करें)
+// अपनी इमेज फ़ाइल्स को यहाँ इम्पोर्ट करें
 import swiftDzireImg from '../../assets/Swift-Dezire.webp';
 import ertigaImg from '../../assets/Maruti-Suzuki-Ertiga.webp';
 import audiA4Img from '../../assets/Wedding-car-Audi-A4-1.webp';
@@ -14,7 +14,7 @@ const carData = [
   {
     id: 1,
     name: 'Swift Dzire',
-    image: swiftDzireImg, // इम्पोर्ट किया गया वेरिएबल यहाँ असाइन करें
+    image: swiftDzireImg,
     specs: [
       { label: 'Seating Capacity', value: '5 Seater' },
       { label: 'A/C', value: 'Automatic Climate Control' },
@@ -49,8 +49,8 @@ const carData = [
       { label: 'Use', value: 'Luxury Wedding / Groom Entry' },
       { label: 'Advantage', value: 'Smooth Ride' },
     ],
-    price: '',
-    duration: '',
+    price: '₹9500',
+    duration: '/8 Hours',
     hasMoreCars: true,
   },
   {
@@ -91,8 +91,8 @@ const carData = [
       { label: 'Use', value: 'VIP & Corporate Delegate' },
       { label: 'Advantage', value: 'First-Class Comfort' },
     ],
-    price: '',
-    duration: '',
+    price: '₹5500',
+    duration: '/8 Hours',
     hasMoreCars: true,
   }
 ];
@@ -101,6 +101,23 @@ const Carrental = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
   const slideTimerRef = useRef(null);
+
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [step, setStep] = useState(1);
+  const [selectedCar, setSelectedCar] = useState(null);
+
+  // Form Fields
+  const [formData, setFormData] = useState({
+    pickupLocation: '',
+    dropLocation: '',
+    pickupDateTime: '',
+    dropDateTime: '',
+    fullName: '',
+    phone: '',
+    message: '',
+    agreeTerms: false,
+  });
 
   useEffect(() => {
     const updateVisibleCount = () => {
@@ -150,12 +167,49 @@ const Carrental = () => {
     startAutoSlide();
   };
 
-  const handleBooking = (carName) => {
-    alert(`Booking initiated for: ${carName}`);
+  // Open Modal Handler
+  const handleBooking = (car) => {
+    setSelectedCar(car);
+    setStep(1);
+    setIsModalOpen(true);
   };
 
-  const handleMoreCars = () => {
-    alert('Opening full vehicle catalog...');
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setStep(1);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  // Step 1 Validation
+  const handleStep1Submit = (e) => {
+    e.preventDefault();
+    if (!formData.pickupLocation || !formData.dropLocation || !formData.pickupDateTime || !formData.dropDateTime) {
+      alert('Please fill out pickup & drop locations and date/time.');
+      return;
+    }
+    setStep(2);
+  };
+
+  // Step 2 Submit
+  const handleStep2Submit = (e) => {
+    e.preventDefault();
+    if (!formData.fullName || !formData.phone) {
+      alert('Please enter your full name and 10 digit mobile number.');
+      return;
+    }
+    if (!formData.agreeTerms) {
+      alert('Please accept terms & conditions to proceed.');
+      return;
+    }
+    // Final Step 3 Screen
+    setStep(3);
   };
 
   return (
@@ -241,7 +295,7 @@ const Carrental = () => {
                           <button 
                             type="button" 
                             className="car-rental__btn car-rental__btn--outline"
-                            onClick={handleMoreCars}
+                            onClick={() => (window.location.href = '/car-rental/sedan-cars')}
                           >
                             More Cars &rarr;
                           </button>
@@ -250,7 +304,7 @@ const Carrental = () => {
                         <button 
                           type="button" 
                           className="car-rental__btn car-rental__btn--primary"
-                          onClick={() => handleBooking(car.name)}
+                          onClick={() => handleBooking(car)}
                         >
                           Book Now &rarr;
                         </button>
@@ -279,6 +333,175 @@ const Carrental = () => {
           />
         ))}
       </div>
+
+      {/* ================= 🌟 3-STEP INTERACTIVE BOOKING POPUP ================= */}
+      {isModalOpen && (
+        <div className="bk-overlay" onClick={closeModal}>
+          <div className="bk-card" onClick={(e) => e.stopPropagation()}>
+            <button className="bk-close-btn" onClick={closeModal} aria-label="Close modal">
+              <FaTimes />
+            </button>
+
+            {/* STEP 1: START YOUR BOOKING */}
+            {step === 1 && (
+              <form onSubmit={handleStep1Submit} className="bk-form">
+                <span className="bk-pill-subtitle">RESERVE YOUR RIDE</span>
+                <h3 className="bk-main-title">Start Your Booking</h3>
+
+                {/* Car Preview Badge */}
+                <div className="bk-car-preview">
+                  <img src={selectedCar?.image} alt={selectedCar?.name} className="bk-preview-thumb" />
+                  <div className="bk-preview-info">
+                    <h4 className="bk-preview-name">{selectedCar?.name}</h4>
+                    <span className="bk-preview-price">
+                      {selectedCar?.price || '₹2200'} <small>{selectedCar?.duration || '/8 Hours'}</small>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bk-inputs-grid">
+                  <div className="bk-field-group">
+                    <label>Pick Up Location</label>
+                    <input 
+                      type="text" 
+                      name="pickupLocation" 
+                      placeholder="Pick Up Location"
+                      value={formData.pickupLocation} 
+                      onChange={handleInputChange} 
+                      required 
+                    />
+                  </div>
+
+                  <div className="bk-field-group">
+                    <label>Drop Off Location</label>
+                    <input 
+                      type="text" 
+                      name="dropLocation" 
+                      placeholder="Drop Off Location"
+                      value={formData.dropLocation} 
+                      onChange={handleInputChange} 
+                      required 
+                    />
+                  </div>
+
+                  <div className="bk-field-group">
+                    <label>Pick Up Date & Time</label>
+                    <input 
+                      type="datetime-local" 
+                      name="pickupDateTime" 
+                      value={formData.pickupDateTime} 
+                      onChange={handleInputChange} 
+                      required 
+                    />
+                  </div>
+
+                  <div className="bk-field-group">
+                    <label>Drop Date & Time</label>
+                    <input 
+                      type="datetime-local" 
+                      name="dropDateTime" 
+                      value={formData.dropDateTime} 
+                      onChange={handleInputChange} 
+                      required 
+                    />
+                  </div>
+                </div>
+
+                <div className="bk-footer-single">
+                  <button type="submit" className="bk-btn-cyan">
+                    Next &rarr;
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {/* STEP 2: CONFIRM YOUR BOOKING DETAILS */}
+            {step === 2 && (
+              <form onSubmit={handleStep2Submit} className="bk-form">
+                <h3 className="bk-main-title mt-top">Confirm Your Booking Details</h3>
+
+                <div className="bk-single-fields">
+                  <div className="bk-icon-input">
+                    <input 
+                      type="text" 
+                      name="fullName" 
+                      placeholder="* Enter Your Full Name" 
+                      value={formData.fullName} 
+                      onChange={handleInputChange} 
+                      required 
+                    />
+                    <FaUser className="bk-field-icon" />
+                  </div>
+
+                  <div className="bk-icon-input">
+                    <input 
+                      type="tel" 
+                      name="phone" 
+                      maxLength="10"
+                      pattern="[0-9]{10}"
+                      placeholder="* Enter 10 Digit Mobile Number" 
+                      value={formData.phone} 
+                      onChange={handleInputChange} 
+                      required 
+                    />
+                    <FaPhoneAlt className="bk-field-icon" />
+                  </div>
+
+                  <div className="bk-textarea-box">
+                    <textarea 
+                      name="message" 
+                      maxLength="150"
+                      rows="3" 
+                      placeholder="Your Message (max 150 characters)"
+                      value={formData.message} 
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <label className="bk-checkbox-label">
+                    <input 
+                      type="checkbox" 
+                      name="agreeTerms" 
+                      checked={formData.agreeTerms} 
+                      onChange={handleInputChange} 
+                    />
+                    <span>
+                      I agree to the <a href="#terms">Terms & Conditions</a> from <strong>Jagannath Tours & Travels</strong>.
+                    </span>
+                  </label>
+                </div>
+
+                <div className="bk-dual-actions">
+                  <button type="button" className="bk-btn-dark" onClick={() => setStep(1)}>
+                    &larr; Previous
+                  </button>
+                  <button type="submit" className="bk-btn-cyan">
+                    Submit &rarr;
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {/* STEP 3: SUCCESS / DONE SCREEN */}
+            {step === 3 && (
+              <div className="bk-success-box">
+                <div className="bk-check-circle">
+                  <FaCheck />
+                </div>
+                <h3 className="bk-success-title">Booking Request Received!</h3>
+                <p className="bk-success-text">
+                  Your vehicle reservation request for <strong>{selectedCar?.name || 'Selected Car'}</strong> has been logged successfully. Our team will contact you shortly.
+                </p>
+
+                <button type="button" className="bk-btn-cyan btn-center" onClick={closeModal}>
+                  Done
+                </button>
+              </div>
+            )}
+
+          </div>
+        </div>
+      )}
     </section>
   );
 };
