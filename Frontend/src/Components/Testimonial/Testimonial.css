@@ -296,6 +296,30 @@
   color: #8c968f;
 }
 
+/* ================= MOBILE DOTS INDICATOR ================= */
+.mobile-dots-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 25px;
+}
+
+.mobile-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d8decb;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mobile-dot.active {
+  background-color: #5da943;
+  width: 22px;
+  border-radius: 12px;
+}
+
 /* ================= RESPONSIVE BREAKPOINTS ================= */
 @media (max-width: 1080px) {
   .reviews-3x3-grid {
@@ -326,28 +350,48 @@
     gap: 14px;
     padding: 10px;
   }
+}
+
+/* मोबाइल रिस्पॉन्सिव (<= 650px) - केवल 1 कार्ड और साइड ऐरो नेविगेशन */
+@media (max-width: 650px) {
+  .slider-wrapper {
+    padding: 0 10px;
+    max-width: 380px;
+    margin: 0 auto;
+  }
 
   .reviews-3x3-grid {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 
   .reviews-3x3-grid .review-unit:last-child {
     display: flex;
   }
 
-  .slider-wrapper {
-    padding: 0;
+  .speech-bubble-box {
+    padding: 24px 20px 20px 20px;
+    min-height: 230px;
   }
 
   .nav-arrow-btn {
-    top: 38%;
+    width: 38px;
+    height: 38px;
+    font-size: 12px;
+    top: 36%;
   }
 
   .left-arrow {
-    left: -12px;
+    left: -16px;
   }
 
   .right-arrow {
-    right: -12px;
+    right: -16px;
+  }
+
+  .nav-arrow-btn:active {
+    background-color: #5da943;
+    color: #ffffff;
+    transform: translateY(-50%) scale(0.92);
   }
 }
