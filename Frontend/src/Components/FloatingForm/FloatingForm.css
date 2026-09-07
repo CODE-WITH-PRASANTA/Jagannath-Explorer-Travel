@@ -6,13 +6,14 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(10, 16, 30, 0.72);
+  height: 100dvh;
+  background-color: rgba(10, 16, 30, 0.78);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
   z-index: 10000;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   box-sizing: border-box;
@@ -30,12 +31,16 @@
   position: relative;
   width: 100%;
   max-width: 950px;
+  max-height: 90vh;
+  max-height: 90dvh;
   border-radius: 16px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   background-color: #0c1524;
   box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08);
   animation: floatingFormPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Animations */
@@ -55,25 +60,29 @@
   }
 }
 
-/* Close Button */
+/* Close Button (Fixed positioning relative to viewport/card corner) */
 .floating-form-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 34px;
-  height: 34px;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
   border-radius: 50%;
   background-color: #f55513;
   color: #ffffff;
-  border: none;
-  font-size: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  font-size: 15px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 30;
+  z-index: 100;
   transition: transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  touch-action: manipulation;
 }
 
 .floating-form-close:hover {
@@ -97,9 +106,9 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(6, 11, 20, 0.88) 0%,
-    rgba(10, 18, 30, 0.75) 45%,
-    rgba(6, 11, 20, 0.92) 100%
+    rgba(6, 11, 20, 0.9) 0%,
+    rgba(10, 18, 30, 0.8) 45%,
+    rgba(6, 11, 20, 0.94) 100%
   );
 }
 
@@ -166,7 +175,7 @@
   gap: 8px;
   background-color: #f55513;
   color: #ffffff;
-  padding: 9px 20px;
+  padding: 10px 20px;
   border-radius: 999px;
   text-decoration: none;
   font-size: 0.82rem;
@@ -212,12 +221,12 @@
 .floating-form-field input,
 .floating-form-field select {
   width: 100%;
-  height: 42px;
-  padding: 0 38px 0 14px;
+  height: 44px;
+  padding: 0 40px 0 14px;
   background-color: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 8px;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: #ffffff;
   outline: none;
   font-family: inherit;
@@ -274,7 +283,7 @@
 .floating-form-captcha-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .floating-form-captcha-label {
@@ -285,13 +294,13 @@
 
 .floating-form-captcha-row {
   display: grid;
-  grid-template-columns: 85px 1fr 42px;
+  grid-template-columns: 85px 1fr 44px;
   gap: 8px;
   align-items: center;
 }
 
 .floating-form-captcha-box {
-  height: 40px;
+  height: 42px;
   border: 1.5px dashed rgba(255, 255, 255, 0.45);
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.25);
@@ -299,15 +308,15 @@
   align-items: center;
   justify-content: center;
   font-family: monospace;
-  font-size: 1.2rem;
-  letter-spacing: 4px;
+  font-size: 1.15rem;
+  letter-spacing: 3px;
   font-weight: 700;
   color: #ffffff;
   user-select: none;
 }
 
 .floating-form-captcha-input {
-  height: 40px;
+  height: 42px;
   background-color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -325,8 +334,8 @@
 }
 
 .floating-form-captcha-refresh {
-  height: 40px;
-  width: 42px;
+  height: 42px;
+  width: 44px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   background-color: rgba(255, 255, 255, 0.1);
@@ -350,7 +359,7 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.35;
 }
@@ -358,9 +367,10 @@
 .floating-form-terms input {
   margin-top: 2px;
   accent-color: #3b82f6;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .floating-form-terms a {
@@ -370,13 +380,13 @@
 
 /* Submit Button */
 .floating-form-submit {
-  height: 44px;
+  height: 46px;
   margin-top: 4px;
   background-color: #3b82f6;
   color: #ffffff;
   border: none;
   border-radius: 999px;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -393,42 +403,26 @@
   transform: translateY(-1px);
 }
 
-/* Reopen Launcher Button (When closed) */
-.floating-form-launcher {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 999;
-  background-color: #f55513;
-  color: #ffffff;
-  border: none;
-  border-radius: 999px;
-  padding: 12px 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(245, 85, 19, 0.4);
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.floating-form-launcher:hover {
-  background-color: #df4404;
-  transform: translateY(-2px);
-}
-
 /* Responsive Viewports */
-@media (max-width: 768px) {
+@media (max-width: 820px) {
   .floating-form-backdrop {
-    padding: 12px;
+    padding: 8px;
+    align-items: flex-end; /* Sheet appearance or centered modal */
   }
 
   .floating-form-card {
     flex-direction: column;
-    max-height: 92vh;
-    overflow-y: auto;
+    max-height: 94dvh;
+    border-radius: 14px;
+  }
+
+  /* Fixed close button pinned to upper right corner of modal viewport */
+  .floating-form-close {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 10001;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
 
   .floating-form-promo,
@@ -437,20 +431,33 @@
   }
 
   .floating-form-promo {
-    min-height: 240px;
+    min-height: auto;
   }
 
   .floating-form-promo-content {
-    padding: 24px 20px;
+    padding: 24px 18px 20px 18px;
+  }
+
+  .floating-form-promo-title {
+    font-size: 1.25rem;
+    padding-right: 36px; /* Avoid overlap if top title hits close button */
+  }
+
+  .floating-form-features {
+    display: none; /* Hide heavy feature bullets on mobile to keep form priority */
   }
 
   .floating-form-pane {
-    padding: 24px 20px;
+    padding: 24px 18px 28px 18px;
   }
 
-  .floating-form-launcher {
-    bottom: 16px;
-    right: 16px;
-    padding: 10px 16px;
+  .floating-form-title {
+    font-size: 1.25rem;
+    margin-bottom: 16px;
+  }
+
+  .floating-form-captcha-row {
+    grid-template-columns: 75px 1fr 40px;
+    gap: 6px;
   }
 }
