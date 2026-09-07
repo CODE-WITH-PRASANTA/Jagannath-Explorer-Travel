@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Journey.css';
 
-import brazilImg from '../../assets/destination-card-img1.webp';
-import italyImg from '../../assets/destination-card-img2.webp';
-import newYorkImg from '../../assets/destination-card-img3.webp';
-import saudiArabImg from '../../assets/destination-card-img4.webp';
-import europeImg from '../../assets/destination-card-img5.webp';
+import brazilImg from '../../assets/Lingaraja temple (1).webp';
+import italyImg from '../../assets/Silver City Boat club (1).webp';
+import newYorkImg from '../../assets/khandagiri (1).webp';
+import saudiArabImg from '../../assets/Maa Tarini Keounjhar (1).webp';
+import europeImg from '../../assets/Koraput.webp';
 
 const Journey = () => {
   // डिफ़ॉल्ट रूप से New York (id: 3) एक्टिव रहेगा
   const [activeId, setActiveId] = useState(3);
 
   const destinations = [
-    { id: 1, title: 'Brazil', image: brazilImg, tours: '25 Tour' },
-    { id: 2, title: 'Italy', image: italyImg, tours: '18 Tour' },
-    { id: 3, title: 'New York', image: newYorkImg, tours: '30 Tour' },
-    { id: 4, title: 'Saudi Arab', image: saudiArabImg, tours: '15 Tour' },
-    { id: 5, title: 'Europe', image: europeImg, tours: '42 Tour' },
+    { id: 1, title: 'Lingaraj temple', image: brazilImg, tours: '25 Tour' },
+    { id: 2, title: 'Silver city boat club,Kataka', image: italyImg, tours: '18 Tour' },
+    { id: 3, title: 'Khandagiri Caves', image: newYorkImg, tours: '30 Tour' },
+    { id: 4, title: 'Ghatagaon Maa Tarini Temple', image: saudiArabImg, tours: '15 Tour' },
+    { id: 5, title: 'Koraput', image: europeImg, tours: '42 Tour' },
   ];
 
   return (
@@ -90,9 +91,11 @@ const Journey = () => {
               <h3 className="promo-title">
                 Of Our All<br />Destination
               </h3>
-              <a href="#all-destinations" className="btn-view-destinations">
+              
+              {/* Tours पेज पर नेविगेट करने के लिए React Router Link */}
+              <Link to="/tours" className="btn-view-destinations">
                 View All Destination
-              </a>
+              </Link>
             </div>
           </div>
 

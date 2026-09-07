@@ -2,70 +2,74 @@ import React, { useState, useEffect } from 'react';
 import { FaMapMarkerAlt, FaPlane, FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import './Tourpackage.css';
 
-// 👉 यदि आपकी इमेजेस लोकल फोल्डर में हैं, तो यहाँ अनकमेंट करके पाथ दें:
-// import packageImg1 from '../../assets/package-1.jpg';
-// ... (अन्य 5 इमेजेस)
+// आवश्यकतानुसार अपनी स्थानीय इमेजेस यहाँ जोड़ें
+import packageImg1 from '../../assets/img2.webp';
+import packageImg2 from '../../assets/img3.webp';
+import packageImg3 from '../../assets/bed5.webp';
+import packageImg4 from '../../assets/img4.webp';
+import packageImg5 from '../../assets/bed6.webp';
+import packageImg6 from '../../assets/img7.webp';
 
 const packagesData = [
   {
     id: 1,
-    duration: '3 DAYS / 4 NIGHT',
-    tag: 'NEPAL + INDONESIA TOUR',
-    title: "The Allure Italy's Rich Culture, History, And Cuisine.",
-    route: 'ALEXANDRIA → SHARM EL SHEIKH → MANSOURA → K.',
-    price: '₹2,39,999',
-    oldPrice: '₹2,49,999',
-    image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=800&auto=format&fit=crop'
+    duration: '3 DAYS / 2 NIGHT',
+    tag: 'GOLDEN TRIANGLE ODISHA',
+    title: 'Puri Jagannath Dham, Konark Sun Temple & Bhubaneswar Heritage',
+    route: 'BHUBANESWAR → DHAULI → PIPILI → PURI → KONARK',
+    price: '₹7,499',
+    oldPrice: '₹9,200',
+    image: packageImg1
   },
   {
     id: 2,
-    duration: '7 DAYS / 8 NIGHT',
-    tag: 'EGYPT + TURKEY TOUR',
-    title: "Explore Travel NYC's Museums, Diversity, And Energy.",
-    route: 'MECCA → MEDINA → RIYADH → DOHA → AL WAKRA',
-    price: '₹2,69,999',
-    oldPrice: '',
-    image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=800&auto=format&fit=crop'
+    duration: '4 DAYS / 3 NIGHT',
+    tag: 'CHILIKA LAKE SPECIAL',
+    title: 'Chilika Dolphin Lagoon, Satapada & Mangalajodi Bird Sanctuary',
+    route: 'BHUBANESWAR → SATAPADA → BARKUL → MANGALAJODI',
+    price: '₹10,499',
+    oldPrice: '₹12,800',
+    image: packageImg2
   },
   {
     id: 3,
-    duration: '5 DAYS / 6 NIGHT',
-    tag: 'FRANCE + SPAIN TOUR',
-    title: 'Embark Tranquility, Adventure, And Spiritual.',
-    route: 'ALEXANDRIA → SHARM EL SHEIKH → MANSOURA → K.',
-    price: '₹1,64,999',
-    oldPrice: '₹2,09,999',
-    image: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=800&auto=format&fit=crop'
+    duration: '5 DAYS / 4 NIGHT',
+    tag: 'KASHMIR OF ODISHA',
+    title: 'Daringbadi Valley, Hill View Coffee Gardens & Pine Forests',
+    route: 'BHUBANESWAR → PHULBANI → DARINGBADI → MIDUBANDA',
+    price: '₹13,999',
+    oldPrice: '₹16,500',
+    image: packageImg3
   },
   {
     id: 4,
-    duration: '8 DAYS / 9 NIGHT',
-    tag: 'INDIA + JAPAN TOUR',
-    title: 'Embracing City Lights, Landm, And Iconic Culture.',
-    route: 'BANGALORE → CHENNAI → NEW DELHI → DHAKA →',
-    price: '₹3,15,000',
-    oldPrice: '',
-    image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=800&auto=format&fit=crop'
+    duration: '4 DAYS / 3 NIGHT',
+    tag: 'WILDLIFE & MANGROVES',
+    title: 'Bhitarkanika Crocodile Safari & Simlipal National Forest Trail',
+    route: 'BHUBANESWAR → CHANDBALI → BHITARKANIKA → JASHIPUR',
+    price: '₹11,800',
+    oldPrice: '₹14,200',
+    image: packageImg4
   },
   {
     id: 5,
-    duration: '6 DAYS / 7 NIGHT',
-    tag: 'BRAZIL + HUNGARY TOUR',
-    title: 'A Journey Of Tour Beauty And Inspiration.',
-    route: 'PARIS → MARSEILLE → BORDEAUX → MADRID → B',
-    price: '₹3,79,999',
-    oldPrice: '₹4,15,000',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop'
+    duration: '5 DAYS / 4 NIGHT',
+    tag: 'TRIBAL & HIGHLAND TRAIL',
+    title: 'Scenic Koraput Hills, Deomali Peak & Duduma Waterfalls',
+    route: 'BHUBANESWAR → RAYAGADA → JEYPORE → KORAPUT',
+    price: '₹15,499',
+    oldPrice: '₹18,000',
+    image: packageImg5
   },
   {
     id: 6,
-    duration: '4 DAYS / 5 NIGHT',
-    tag: 'NEPAL + INDONESIA TOUR',
-    title: 'Adventure Art, Architecture, And Mediterranean.',
-    route: 'KATHMANDU → POKHARA → LALITPUR → JAKARTA →',
-    price: '₹4,40,000',
-    oldPrice: '₹4,55,000',
-    image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?q=80&w=800&auto=format&fit=crop'
+    duration: '2 DAYS / 1 NIGHT',
+    tag: 'NORTH ODISHA PILGRIMAGE',
+    title: 'Ghatagaon Maa Tarini Darshan & Keonjhar Khandadhar Falls',
+    route: 'BHUBANESWAR → GHATAGAON → KEONJHAR → SANAGHAGARA',
+    price: '₹5,499',
+    oldPrice: '₹6,800',
+    image: packageImg6
   }
 ];
 
@@ -73,7 +77,6 @@ const Tourpackage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  // स्क्रीन साइज चेक करने के लिए listener
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 650);
@@ -92,40 +95,42 @@ const Tourpackage = () => {
   };
 
   const handleBooking = (tourTitle) => {
-    alert(`Redirecting to booking for: ${tourTitle}`);
+    window.location.href = 'tel:9668892441';
   };
 
   const handleViewAll = () => {
-    alert('Redirecting to full packages listing page...');
+    window.location.href = '/tours';
   };
 
-  // मोबाइल पर केवल 1 कार्ड दिखेगा, डेस्कटॉप पर सभी कार्ड्स
   const displayedPackages = isMobile ? [packagesData[currentIndex]] : packagesData;
 
   return (
     <section className="tourpackage-section">
       <div className="tourpackage-container">
         
-        {/* ================= HEADER ================= */}
+        {/* ================= HEADER WITH H1 SEO KEYWORD ================= */}
         <div className="tourpackage-header">
           <div className="tourpackage-badge">
             <span className="badge-arrow">→</span>
-            <span className="badge-text">Tour Package</span>
+            <span className="badge-text">Odisha Tour Packages</span>
             <span className="badge-wave">~</span>
           </div>
-          <h2 className="tourpackage-main-title">Affordable Vacation Bundles</h2>
+          <h1 className="tourpackage-main-title">Odisha Tourism Packages With Price</h1>
+          <p className="tourpackage-subtext">
+            Explore Lord Jagannath Dham Puri, Chilika Lake, scenic Daringbadi, and heritage temples with verified hotels, AC cabs, and transparent rates.
+          </p>
         </div>
 
-        {/* ================= CARDS CONTAINER ================= */}
+        {/* ================= 3-COLUMN CARDS GRID ================= */}
         <div className="tourpackage-grid">
           {displayedPackages.map((pkg) => (
-            <div key={pkg.id} className="tourpackage-card">
+            <article key={pkg.id} className="tourpackage-card">
               
               {/* Card Image Wrap */}
               <div className="card-img-wrap">
-                <img src={pkg.image} alt={pkg.title} className="card-image" />
+                <img src={pkg.image} alt={pkg.title} className="card-image" loading="lazy" />
                 
-                {/* 🌟 IMAGE SHINE EFFECT OVERLAY */}
+                {/* Image Shine Sweep Overlay */}
                 <div className="shine-sweep-overlay"></div>
                 
                 {/* Duration Badge */}
@@ -153,7 +158,7 @@ const Tourpackage = () => {
                       <span className="active-price">{pkg.price}</span>
                       {pkg.oldPrice && <span className="striked-price">{pkg.oldPrice}</span>}
                     </div>
-                    <span className="taxes-note">TAXES INCL/PERS</span>
+                    <span className="taxes-note">PER PERSON / NET PRICE</span>
                   </div>
 
                   <button 
@@ -161,17 +166,17 @@ const Tourpackage = () => {
                     className="btn-book-tour-pkg"
                     onClick={() => handleBooking(pkg.title)}
                   >
-                    <span>Book A Trip</span>
+                    <span>Book Trip</span>
                     <FaPlane className="plane-fly-icon" />
                   </button>
                 </div>
               </div>
 
-            </div>
+            </article>
           ))}
         </div>
 
-        {/* ================= MOBILE SLIDER CONTROLS (ARROWS & DOTS) ================= */}
+        {/* ================= MOBILE SLIDER CONTROLS ================= */}
         {isMobile && (
           <div className="mobile-slider-controls">
             <button 
@@ -204,14 +209,14 @@ const Tourpackage = () => {
           </div>
         )}
 
-        {/* ================= 🌟 VIEW ALL PACKAGES BUTTON ================= */}
+        {/* ================= VIEW ALL PACKAGES BUTTON ================= */}
         <div className="view-all-packages-wrapper">
           <button 
             type="button" 
             className="btn-view-all-golden" 
             onClick={handleViewAll}
           >
-            <span>View All Packages</span>
+            <span>View All Odisha Packages</span>
             <FaChevronRight className="view-all-arrow" />
           </button>
         </div>
