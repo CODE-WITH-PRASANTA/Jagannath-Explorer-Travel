@@ -132,46 +132,51 @@ const GalleryMain = () => {
           aria-modal="true"
           aria-label="Image Lightbox"
         >
-          <button
-            className="gallery-main__lightbox-close"
-            onClick={closeLightbox}
-            aria-label="Close modal"
-          >
-            &times;
-          </button>
-
-          <button
-            className="gallery-main__lightbox-nav gallery-main__lightbox-nav--prev"
-            onClick={showPrev}
-            aria-label="Previous image"
-          >
-            &#10094;
-          </button>
-
           <div
-            className="gallery-main__lightbox-body"
+            className="gallery-main__lightbox-card"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={displayedItems[activeIndex].src}
-              alt={displayedItems[activeIndex].alt}
-              className="gallery-main__lightbox-image"
-            />
-            <h4 className="gallery-main__lightbox-title">
-              {displayedItems[activeIndex].title}
-            </h4>
-            <span className="gallery-main__lightbox-counter">
-              {activeIndex + 1} / {displayedItems.length}
-            </span>
-          </div>
+            <button
+              className="gallery-main__lightbox-close"
+              onClick={closeLightbox}
+              aria-label="Close modal"
+            >
+              &times;
+            </button>
 
-          <button
-            className="gallery-main__lightbox-nav gallery-main__lightbox-nav--next"
-            onClick={showNext}
-            aria-label="Next image"
-          >
-            &#10095;
-          </button>
+            <button
+              className="gallery-main__lightbox-nav gallery-main__lightbox-nav--prev"
+              onClick={showPrev}
+              aria-label="Previous image"
+            >
+              &#10094;
+            </button>
+
+            <div className="gallery-main__lightbox-img-wrapper">
+              <img
+                src={displayedItems[activeIndex].src}
+                alt={displayedItems[activeIndex].alt}
+                className="gallery-main__lightbox-image"
+              />
+            </div>
+
+            <button
+              className="gallery-main__lightbox-nav gallery-main__lightbox-nav--next"
+              onClick={showNext}
+              aria-label="Next image"
+            >
+              &#10095;
+            </button>
+
+            <div className="gallery-main__lightbox-info">
+              <h4 className="gallery-main__lightbox-title">
+                {displayedItems[activeIndex].title}
+              </h4>
+              <span className="gallery-main__lightbox-counter">
+                {activeIndex + 1} / {displayedItems.length}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </section>

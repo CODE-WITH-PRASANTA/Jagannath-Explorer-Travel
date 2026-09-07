@@ -1,21 +1,32 @@
 /* =========================================================
-   TEMPO VEHICLE SECTION - CLEAN WHITE & BLACK PREMIUM THEME
-   ========================================================= */
+   TEMPO VEHICLE
+   JAGANNATH EXPLORER TRAVELS
+   PREMIUM WHITE + BLACK DESIGN
+========================================================= */
 
 .tempovehicle-section {
-  --tv-primary: #000000;
-  --tv-secondary: #ffffff;
-  --tv-gray-light: #f8f9fa;
-  --tv-gray-border: #e5e7eb;
-  --tv-text-main: #111827;
-  --tv-text-muted: #6b7280;
+  --tv-black: #050505;
+  --tv-black-soft: #111111;
+  --tv-white: #ffffff;
+  --tv-gray-50: #fafafa;
+  --tv-gray-100: #f5f5f5;
+  --tv-gray-200: #e5e5e5;
+  --tv-gray-300: #d4d4d4;
+  --tv-gray-500: #737373;
+  --tv-gray-600: #525252;
+  --tv-text: #171717;
 
   width: 100%;
-  padding: 70px 24px;
-  background: #ffffff;
-  color: var(--tv-text-main);
-  box-sizing: border-box;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 80px 24px;
+  background: var(--tv-white);
+  color: var(--tv-text);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   overflow-x: hidden;
 }
 
@@ -25,81 +36,166 @@
   box-sizing: border-box;
 }
 
-/* Header Area */
-.tempovehicle-header-area {
-  max-width: 900px;
-  margin: 0 auto 50px auto;
-  text-align: center;
+/* =========================================================
+   CONTAINER
+========================================================= */
 
+.tempovehicle-container {
+  width: 100%;
+  max-width: 1220px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.tempovehicle-header-area {
+  max-width: 940px;
+  margin: 0 auto 55px;
+  text-align: center;
   animation: tvHeaderReveal 0.8s ease both;
 }
 
 .tempovehicle-subtitle {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--tv-primary);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  display: inline-block;
+  margin-bottom: 15px;
+  color: var(--tv-black);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  font-family: 'Sora', sans-serif;
 }
 
 .tempovehicle-main-title {
   margin: 0;
-  color: var(--tv-text-main);
-  font-size: clamp(28px, 4vw, 42px);
-  line-height: 1.2;
+  color: var(--tv-text);
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.15;
   font-weight: 800;
-  letter-spacing: -0.8px;
-  font-family: 'Sora', sans-serif;
+  letter-spacing: -1.5px;
 }
 
 .tempovehicle-main-title span {
-  font-family: serif;
+  display: block;
+  margin-top: 10px;
+  color: #525252;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.58em;
   font-style: italic;
   font-weight: 500;
-  color: #374151;
+  letter-spacing: -0.3px;
 }
 
 .tempovehicle-title-divider {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin: 16px 0;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .tempovehicle-title-divider span {
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--tv-primary));
-  border-radius: 10px;
+  width: 55px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--tv-black)
+  );
 }
 
 .tempovehicle-title-divider span:last-child {
-  background: linear-gradient(90deg, var(--tv-primary), transparent);
+  background: linear-gradient(
+    90deg,
+    var(--tv-black),
+    transparent
+  );
 }
 
 .tempovehicle-title-divider i {
-  color: var(--tv-primary);
-  font-size: 14px;
+  color: var(--tv-black);
+  font-size: 16px;
+  font-style: normal;
 }
 
-.tempovehicle-description {
-  margin: 0;
-  color: var(--tv-text-muted);
-  font-size: 15px;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-/* Grid Layout */
-.tempovehicle-container {
-  width: 100%;
-  max-width: 1200px;
+.tempovehicle-description,
+.tempovehicle-seo-text {
+  max-width: 850px;
   margin: 0 auto;
+  color: var(--tv-gray-600);
+  font-size: 15px;
+  line-height: 1.8;
 }
+
+.tempovehicle-seo-text {
+  margin-top: 13px;
+}
+
+.tempovehicle-seo-text strong {
+  color: var(--tv-black);
+  font-weight: 700;
+}
+
+/* =========================================================
+   BUSINESS INFORMATION
+========================================================= */
+
+.tempovehicle-business-info {
+  max-width: 780px;
+  margin: 25px auto 0;
+  padding: 20px 24px;
+  border: 1px solid var(--tv-gray-200);
+  border-radius: 14px;
+  background: var(--tv-gray-50);
+}
+
+.tempovehicle-business-name {
+  margin-bottom: 7px;
+  color: var(--tv-black);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.tempovehicle-business-address {
+  color: var(--tv-gray-500);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.tempovehicle-business-contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.tempovehicle-business-contact span:first-child {
+  color: var(--tv-gray-600);
+  font-weight: 600;
+}
+
+.tempovehicle-business-contact a {
+  color: var(--tv-black);
+  font-weight: 800;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.tempovehicle-business-contact a:hover {
+  opacity: 0.55;
+}
+
+.tempovehicle-contact-divider {
+  color: var(--tv-gray-300);
+}
+
+/* =========================================================
+   DESKTOP GRID
+========================================================= */
 
 .tempovehicle-desktop-grid-wrapper {
   display: block;
@@ -113,232 +209,316 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px;
-  perspective: 1500px;
+  perspective: 1600px;
 }
 
-.tempovehicle-mobile-slider {
-  perspective: 1500px;
-  max-width: 420px;
-  margin: 0 auto;
-}
+/* =========================================================
+   CARD
+========================================================= */
 
-/* Card Wrapper & 3D Flip System */
 .tempovehicle-card-wrapper {
   width: 100%;
-  height: 490px;
-  background: transparent;
+  height: 500px;
 }
 
 .tempovehicle-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  border-radius: 18px;
   transform-style: preserve-3d;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1),
+    box-shadow 0.3s ease;
 }
 
 .tempovehicle-card-inner.is-flipped {
   transform: rotateY(180deg);
 }
 
-/* Card Faces */
+/* =========================================================
+   CARD FACES
+========================================================= */
+
 .tempovehicle-card-face {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  background: var(--tv-secondary);
-  border: 1px solid var(--tv-gray-border);
-  border-radius: 16px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  background: var(--tv-white);
+  border: 1px solid var(--tv-gray-200);
+  border-radius: 18px;
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.06);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .tempovehicle-card-face:hover {
-  border-color: var(--tv-primary);
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.12);
+  border-color: var(--tv-black);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.11);
 }
 
 .tempovehicle-card-back {
+  padding: 25px;
+  background: var(--tv-gray-50);
   transform: rotateY(180deg);
-  padding: 24px;
-  background: var(--tv-gray-light);
 }
 
-/* Front Image Area */
+/* =========================================================
+   IMAGE
+========================================================= */
+
 .tempovehicle-image-wrapper {
   position: relative;
   width: 100%;
-  height: 220px;
-  background: #f3f4f6;
+  height: 225px;
   overflow: hidden;
+  background: var(--tv-gray-100);
 }
 
 .tempovehicle-img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.55s ease;
 }
 
-.tempovehicle-card-wrapper:hover .tempovehicle-img {
-  transform: scale(1.05);
+.tempovehicle-card-wrapper:hover
+  .tempovehicle-img {
+  transform: scale(1.055);
 }
 
 .tempovehicle-badge-tag {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: var(--tv-primary);
-  color: var(--tv-secondary);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
+
+  padding: 6px 11px;
+
+  color: var(--tv-white);
+  background: var(--tv-black);
+
   border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Card Content Styling */
+/* =========================================================
+   FRONT CONTENT
+========================================================= */
+
 .tempovehicle-front-content {
-  padding: 20px;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  flex-grow: 1;
   justify-content: space-between;
+  padding: 22px;
 }
 
 .tempovehicle-card-title {
-  margin: 0 0 12px 0;
-  color: var(--tv-text-main);
+  margin: 0 0 14px;
+  color: var(--tv-text);
   font-size: 18px;
-  font-weight: 700;
-  font-family: 'Sora', sans-serif;
+  line-height: 1.3;
+  font-weight: 800;
 }
 
-.tempovehicle-back-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  border-bottom: 1px dashed var(--tv-gray-border);
-  padding-bottom: 10px;
-}
-
-.tempovehicle-close-btn {
-  background: var(--tv-secondary);
-  border: 1px solid var(--tv-gray-border);
-  color: var(--tv-text-muted);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tempovehicle-close-btn:hover {
-  background: var(--tv-primary);
-  color: var(--tv-secondary);
-  border-color: var(--tv-primary);
-}
-
-/* Specs Rows */
 .tempovehicle-specs-preview,
 .tempovehicle-specs-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .tempovehicle-spec-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 13.5px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--tv-gray-border);
+  gap: 15px;
+
+  padding-bottom: 9px;
+
+  border-bottom: 1px solid var(--tv-gray-200);
+
+  font-size: 13px;
 }
 
 .tempovehicle-spec-row span {
-  color: var(--tv-text-muted);
+  color: var(--tv-gray-500);
   font-weight: 500;
 }
 
 .tempovehicle-spec-row strong {
-  color: var(--tv-text-main);
-  font-weight: 600;
+  max-width: 65%;
+  color: var(--tv-text);
+  font-weight: 700;
   text-align: right;
+  line-height: 1.4;
 }
 
-/* Feature Chips on Back */
+/* =========================================================
+   BACK HEADER
+========================================================= */
+
+.tempovehicle-back-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-bottom: 18px;
+  padding-bottom: 13px;
+
+  border-bottom: 1px dashed var(--tv-gray-300);
+}
+
+.tempovehicle-back-header
+  .tempovehicle-card-title {
+  margin-bottom: 0;
+  font-size: 17px;
+}
+
+.tempovehicle-close-btn {
+  flex-shrink: 0;
+
+  padding: 6px 10px;
+
+  color: var(--tv-gray-600);
+  background: var(--tv-white);
+
+  border: 1px solid var(--tv-gray-200);
+  border-radius: 8px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tempovehicle-close-btn:hover {
+  color: var(--tv-white);
+  background: var(--tv-black);
+  border-color: var(--tv-black);
+}
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
 .tempovehicle-features-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 7px;
   margin-bottom: auto;
 }
 
 .tempovehicle-feat-chip {
-  background: var(--tv-secondary);
-  border: 1px solid var(--tv-gray-border);
-  color: var(--tv-text-muted);
-  font-size: 11.5px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 500;
+  padding: 6px 9px;
+
+  color: var(--tv-gray-600);
+  background: var(--tv-white);
+
+  border: 1px solid var(--tv-gray-200);
+  border-radius: 7px;
+
+  font-size: 11px;
+  font-weight: 600;
 }
 
-/* Card Footer & Buttons */
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
 .tempovehicle-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 12px;
-  border-top: 1px solid var(--tv-gray-border);
+  gap: 12px;
+
   margin-top: auto;
+  padding-top: 14px;
+
+  border-top: 1px solid var(--tv-gray-200);
 }
 
 .tempovehicle-price-box strong {
   display: block;
-  color: var(--tv-text-main);
-  font-size: 18px;
-  font-weight: 800;
-  font-family: 'Sora', sans-serif;
+  color: var(--tv-black);
+  font-size: 19px;
+  line-height: 1;
+  font-weight: 900;
 }
 
 .tempovehicle-price-box span {
-  color: var(--tv-text-muted);
-  font-size: 11px;
+  display: block;
+  margin-top: 5px;
+  color: var(--tv-gray-500);
+  font-size: 10px;
+  font-weight: 500;
 }
+
+/* =========================================================
+   BUTTONS
+========================================================= */
 
 .tempovehicle-action-btn,
 .tempovehicle-book-now-btn {
-  background: var(--tv-primary);
-  color: var(--tv-secondary);
-  border: none;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 10px 16px;
-  border-radius: 10px;
+  min-height: 40px;
+  padding: 10px 15px;
+
+  color: var(--tv-white);
+  background: var(--tv-black);
+
+  border: 1px solid var(--tv-black);
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 800;
+
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
 }
 
 .tempovehicle-action-btn:hover,
 .tempovehicle-book-now-btn:hover {
-  opacity: 0.85;
+  color: var(--tv-black);
+  background: var(--tv-white);
   transform: translateY(-2px);
 }
 
-/* Pagination Bar */
+/* =========================================================
+   PAGINATION
+========================================================= */
+
 .tempovehicle-pagination {
   display: flex;
   align-items: center;
@@ -348,143 +528,243 @@
 }
 
 .tempovehicle-page-btn {
-  background: var(--tv-secondary);
-  border: 1px solid var(--tv-gray-border);
-  color: var(--tv-text-main);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 8px 18px;
-  border-radius: 8px;
+  min-width: 85px;
+  padding: 9px 16px;
+
+  color: var(--tv-black);
+  background: var(--tv-white);
+
+  border: 1px solid var(--tv-gray-200);
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 700;
+
   cursor: pointer;
-  transition: all 0.2s ease;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .tempovehicle-page-btn:hover:not(:disabled) {
-  background: var(--tv-primary);
-  color: var(--tv-secondary);
-  border-color: var(--tv-primary);
+  color: var(--tv-white);
+  background: var(--tv-black);
+  border-color: var(--tv-black);
 }
 
-.tempovehicle-page-disabled {
-  opacity: 0.4;
+.tempovehicle-page-btn:disabled {
+  opacity: 0.35;
   cursor: not-allowed;
-  background: var(--tv-gray-light);
 }
 
 .tempovehicle-page-indicator {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--tv-text-muted);
+  min-width: 90px;
+  color: var(--tv-gray-500);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
 }
 
-/* Responsive Queries */
-@media (max-width: 1024px) {
-  .tempovehicle-desktop-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .tempovehicle-section {
-    padding: 40px 16px;
-  }
-
-  .tempovehicle-desktop-grid-wrapper {
-    display: none;
-  }
-
-  .tempovehicle-mobile-slider-wrapper {
-    display: block;
-  }
-
-  .tempovehicle-card-wrapper {
-    height: 480px;
-  }
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .tempovehicle-card-inner {
-    transition: none !important;
-  }
-}
 /* =========================================================
-   BOOKING POPUP MODAL STYLING
-   ========================================================= */
+   BOTTOM SEO CONTENT
+========================================================= */
+
+.tempovehicle-bottom-content {
+  max-width: 900px;
+  margin: 65px auto 0;
+  padding-top: 35px;
+  text-align: center;
+  border-top: 1px solid var(--tv-gray-200);
+}
+
+.tempovehicle-bottom-label {
+  display: block;
+  margin-bottom: 10px;
+
+  color: var(--tv-gray-500);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.tempovehicle-bottom-content h2 {
+  margin: 0 0 15px;
+
+  color: var(--tv-black);
+
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.tempovehicle-bottom-content p {
+  margin: 8px auto;
+
+  color: var(--tv-gray-600);
+
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.tempovehicle-bottom-content strong {
+  color: var(--tv-black);
+}
+
+/* =========================================================
+   BOOKING MODAL
+========================================================= */
 
 .tv-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   z-index: 9999;
-  padding: 16px;
-  animation: tvFadeIn 0.3s ease;
+
+  padding: 18px;
+
+  background: rgba(0, 0, 0, 0.72);
+
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+
+  animation: tvFadeIn 0.25s ease;
 }
 
 .tv-modal-content {
   position: relative;
+
   width: 100%;
-  max-width: 600px;
-  background: #ffffff;
-  border-radius: 20px;
+  max-width: 620px;
+  max-height: 92vh;
+
+  overflow-y: auto;
+
   padding: 32px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
+
+  background: var(--tv-white);
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.3);
+
   animation: tvScaleUp 0.3s ease;
 }
 
+/* =========================================================
+   MODAL CLOSE
+========================================================= */
+
 .tv-modal-x-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: transparent;
-  border: none;
-  font-size: 18px;
-  font-weight: 700;
-  color: #6b7280;
+  top: 15px;
+  right: 15px;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--tv-gray-600);
+  background: var(--tv-gray-100);
+
+  border: 1px solid var(--tv-gray-200);
+  border-radius: 50%;
+
+  font-size: 14px;
+  font-weight: 800;
+
   cursor: pointer;
-  transition: color 0.2s;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .tv-modal-x-close:hover {
-  color: #000000;
+  color: var(--tv-white);
+  background: var(--tv-black);
+  transform: rotate(90deg);
 }
 
+/* =========================================================
+   MODAL TITLE
+========================================================= */
+
 .tv-modal-title {
+  margin: 0 35px 24px;
+
+  color: var(--tv-black);
+
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 850;
+
   text-align: center;
-  font-size: 24px;
-  font-weight: 800;
-  color: #111827;
-  margin-bottom: 24px;
-  font-family: 'Sora', sans-serif;
 }
+
+/* =========================================================
+   SELECTED VEHICLE
+========================================================= */
 
 .tv-selected-vehicle-banner {
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: #f3f4f6;
+  gap: 14px;
+
+  margin-bottom: 23px;
+  padding: 11px 14px;
+
+  background: var(--tv-gray-50);
+
+  border: 1px solid var(--tv-gray-200);
   border-radius: 12px;
-  padding: 10px 16px;
-  margin-bottom: 20px;
 }
 
 .tv-selected-vehicle-banner img {
-  width: 60px;
-  height: 40px;
+  width: 72px;
+  height: 48px;
+
+  flex-shrink: 0;
+
   object-fit: cover;
-  border-radius: 6px;
+
+  border-radius: 7px;
 }
 
-.tv-selected-vehicle-banner span {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1f2937;
+.tv-selected-vehicle-banner div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
+
+.tv-selected-label {
+  color: var(--tv-gray-500);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.tv-selected-vehicle-banner strong {
+  color: var(--tv-black);
+  font-size: 14px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
 
 .tv-form-grid {
   display: grid;
@@ -498,72 +778,129 @@
 
 .tv-form-group label {
   display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 6px;
+  margin-bottom: 7px;
+
+  color: var(--tv-gray-600);
+
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .tv-form-group input,
 .tv-form-group textarea {
   width: 100%;
+
   padding: 12px 14px;
-  border: 1px solid #d1d5db;
+
+  color: var(--tv-black);
+  background: var(--tv-white);
+
+  border: 1px solid var(--tv-gray-300);
   border-radius: 10px;
-  font-size: 14px;
-  color: #111827;
+
   outline: none;
-  background: #ffffff;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tv-form-group input {
+  min-height: 45px;
+}
+
+.tv-form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.tv-form-group input::placeholder,
+.tv-form-group textarea::placeholder {
+  color: #a3a3a3;
 }
 
 .tv-form-group input:focus,
 .tv-form-group textarea:focus {
-  border-color: #000000;
+  border-color: var(--tv-black);
+
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, 0.06);
 }
+
+/* =========================================================
+   INPUT ICON
+========================================================= */
 
 .tv-input-icon-wrapper {
   position: relative;
 }
 
-.tv-field-icon {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #9ca3af;
+.tv-input-icon-wrapper input {
+  padding-right: 45px;
 }
 
+.tv-field-icon {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+
+  color: var(--tv-gray-500);
+
+  font-size: 15px;
+
+  transform: translateY(-50%);
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
 .tv-form-checkbox-group {
-  margin: 20px 0;
-  font-size: 13px;
-  color: #4b5563;
+  margin: 18px 0;
+
+  color: var(--tv-gray-600);
+
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .tv-form-checkbox-group label {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 9px;
+
   cursor: pointer;
 }
 
 .tv-form-checkbox-group input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #0ea5e9;
+
+  flex-shrink: 0;
+
+  margin-top: 2px;
+
+  accent-color: var(--tv-black);
+
   cursor: pointer;
 }
 
 .tv-highlight-link {
-  color: #0ea5e9;
-  font-weight: 600;
+  color: var(--tv-black);
+  font-weight: 800;
 }
+
+/* =========================================================
+   MODAL ACTIONS
+========================================================= */
 
 .tv-modal-footer-action {
   display: flex;
   justify-content: center;
+
   margin-top: 24px;
 }
 
@@ -572,58 +909,327 @@
   gap: 12px;
 }
 
-.tv-modal-primary-btn {
-  background: #0ea5e9;
-  color: #ffffff;
-  border: none;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 12px 32px;
+.tv-modal-primary-btn,
+.tv-modal-secondary-btn {
+  min-height: 44px;
+
   border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-  display: flex;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+
+.tv-modal-primary-btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+
+  padding: 11px 27px;
+
+  color: var(--tv-white);
+  background: var(--tv-black);
+
+  border: 1px solid var(--tv-black);
 }
 
 .tv-modal-primary-btn:hover {
-  background: #0284c7;
-  transform: translateY(-1px);
+  color: var(--tv-black);
+  background: var(--tv-white);
+  transform: translateY(-2px);
 }
 
 .tv-modal-secondary-btn {
-  background: #000000;
-  color: #ffffff;
-  border: none;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 12px 28px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: opacity 0.2s;
+  padding: 11px 22px;
+
+  color: var(--tv-black);
+  background: var(--tv-white);
+
+  border: 1px solid var(--tv-gray-300);
 }
 
 .tv-modal-secondary-btn:hover {
-  opacity: 0.85;
+  color: var(--tv-white);
+  background: var(--tv-black);
+  border-color: var(--tv-black);
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.tempovehicle-section button:focus-visible,
+.tempovehicle-section a:focus-visible,
+.tempovehicle-section input:focus-visible,
+.tempovehicle-section textarea:focus-visible {
+  outline: 3px solid rgba(0, 0, 0, 0.18);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes tvHeaderReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes tvFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes tvScaleUp {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-@media (max-width: 640px) {
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+  .tempovehicle-desktop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .tempovehicle-section {
+    padding: 55px 16px;
+  }
+
+  .tempovehicle-header-area {
+    margin-bottom: 38px;
+  }
+
+  .tempovehicle-main-title {
+    font-size: 31px;
+    letter-spacing: -0.8px;
+  }
+
+  .tempovehicle-main-title span {
+    font-size: 0.63em;
+    line-height: 1.35;
+  }
+
+  .tempovehicle-description,
+  .tempovehicle-seo-text {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .tempovehicle-business-info {
+    padding: 18px 15px;
+  }
+
+  .tempovehicle-business-address {
+    font-size: 12px;
+  }
+
+  .tempovehicle-business-contact {
+    font-size: 12px;
+  }
+
+  .tempovehicle-desktop-grid-wrapper {
+    display: none;
+  }
+
+  .tempovehicle-mobile-slider-wrapper {
+    display: block;
+  }
+
+  .tempovehicle-mobile-slider {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    perspective: 1500px;
+  }
+
+  .tempovehicle-card-wrapper {
+    height: 490px;
+  }
+
+  .tempovehicle-bottom-content {
+    margin-top: 50px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .tempovehicle-section {
+    padding: 45px 12px;
+  }
+
+  .tempovehicle-subtitle {
+    font-size: 9px;
+    letter-spacing: 1.7px;
+  }
+
+  .tempovehicle-main-title {
+    font-size: 27px;
+  }
+
+  .tempovehicle-main-title span {
+    font-size: 0.62em;
+  }
+
+  .tempovehicle-title-divider {
+    margin: 15px 0;
+  }
+
+  .tempovehicle-title-divider span {
+    width: 38px;
+  }
+
+  .tempovehicle-description,
+  .tempovehicle-seo-text {
+    font-size: 13px;
+  }
+
+  .tempovehicle-card-wrapper {
+    height: 485px;
+  }
+
+  .tempovehicle-image-wrapper {
+    height: 205px;
+  }
+
+  .tempovehicle-front-content {
+    padding: 18px;
+  }
+
+  .tempovehicle-card-back {
+    padding: 19px;
+  }
+
+  .tempovehicle-card-title {
+    font-size: 16px;
+  }
+
+  .tempovehicle-spec-row {
+    font-size: 12px;
+  }
+
+  .tempovehicle-spec-row strong {
+    max-width: 58%;
+  }
+
+  .tempovehicle-action-btn,
+  .tempovehicle-book-now-btn {
+    padding: 9px 11px;
+    font-size: 11px;
+  }
+
+  .tempovehicle-price-box strong {
+    font-size: 17px;
+  }
+
+  .tempovehicle-pagination {
+    gap: 8px;
+    margin-top: 25px;
+  }
+
+  .tempovehicle-page-btn {
+    min-width: 70px;
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .tempovehicle-page-indicator {
+    min-width: 65px;
+    font-size: 11px;
+  }
+
+  .tv-modal-overlay {
+    padding: 10px;
+  }
+
+  .tv-modal-content {
+    max-height: 94vh;
+    padding: 22px 16px;
+    border-radius: 16px;
+  }
+
+  .tv-modal-title {
+    margin: 5px 25px 20px;
+    font-size: 21px;
+  }
+
   .tv-form-grid {
     grid-template-columns: 1fr;
+    gap: 0;
   }
-  .tv-modal-content {
-    padding: 20px;
+
+  .tv-selected-vehicle-banner {
+    padding: 9px;
+  }
+
+  .tv-selected-vehicle-banner img {
+    width: 62px;
+    height: 43px;
+  }
+
+  .tv-step2-actions {
+    flex-direction: column-reverse;
+  }
+
+  .tv-modal-primary-btn,
+  .tv-modal-secondary-btn {
+    width: 100%;
+  }
+
+  .tempovehicle-bottom-content h2 {
+    font-size: 24px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .tempovehicle-section *,
+  .tempovehicle-section *::before,
+  .tempovehicle-section *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -2,7 +2,7 @@ import React from "react";
 import "./SmlTransport.css";
 
 /* =========================================================
-   SML TRANSPORT TARIFF DATA (Full Fleet Dataset)
+   SML TRANSPORT TARIFF DATA
 ========================================================= */
 
 const SML_TARIFFS = [
@@ -142,29 +142,47 @@ const SML_TARIFFS = [
 ========================================================= */
 
 const SML_TERMS = [
-  "Toll Tax, Interstate Tax and Parking charges on actual basis.",
-  "Kms and Hours will be calculated from the Garage to Garage.",
-  "Night Halt Charges from 10 PM - 6 AM (Light Vehicle- Rs.350, Traveller - Rs.500, Coach - Rs.1000).",
-  "Driver Allowance Applicable for Outstation Trip (Light Vehicle - Rs.350, Tempo - Rs.500, Coach - Rs.1000).",
-  "A vehicle covering below 300kms in a day shall be billed as per Local Tariff.",
-  "For Outstation Duty - Minimum 300 km's charged per Day.",
-  "Standing AC is Chargeable.",
-  "If a booking is canceled before 24 hrs of the scheduled time then 20% of the total billing will be charged.",
-  "While driving on Ghat roads, Air-Conditioning shall remain switched off.",
+  "Toll Tax, Interstate Tax and Parking charges will be charged on an actual basis.",
+  "Kilometres and hours will be calculated from garage to garage.",
+  "Night halt charges from 10 PM to 6 AM: Light Vehicle – ₹350, Traveller – ₹500 and Coach – ₹1,000.",
+  "Driver allowance is applicable for outstation trips: Light Vehicle – ₹350, Tempo/Traveller – ₹500 and Coach – ₹1,000.",
+  "A vehicle covering less than 300 km in a day will be billed according to the applicable local tariff.",
+  "For outstation duty, a minimum of 300 km will be charged per day.",
+  "Standing AC usage is chargeable.",
+  "For cancellations made less than 24 hours before the scheduled booking time, 20% of the total billing will be charged.",
+  "While travelling through Ghat roads, the air-conditioning may be switched off for safety and vehicle performance.",
   "All disputes are subject to Bhubaneswar legal jurisdiction only.",
 ];
 
 /* =========================================================
-   TABLE HEADER
+   TABLE HEADERS
 ========================================================= */
 
 const smlTableHeaders = [
-  { key: "vehicle", label: "Vehicle A/C" },
-  { key: "tenHrs", label: "10 Hrs./100 Km (Rs.)" },
-  { key: "eightHrs", label: "8 Hrs./80 Km (Rs.)" },
-  { key: "fourHrs", label: "4 Hrs./40 Km (Rs.)" },
-  { key: "extraHrs", label: "Extra Hrs. (Rs.)" },
-  { key: "extraKm", label: "Extra Km (Rs.)" },
+  {
+    key: "vehicle",
+    label: "Vehicle A/C",
+  },
+  {
+    key: "tenHrs",
+    label: "10 Hrs. / 100 Km (Rs.)",
+  },
+  {
+    key: "eightHrs",
+    label: "8 Hrs. / 80 Km (Rs.)",
+  },
+  {
+    key: "fourHrs",
+    label: "4 Hrs. / 40 Km (Rs.)",
+  },
+  {
+    key: "extraHrs",
+    label: "Extra Hrs. (Rs.)",
+  },
+  {
+    key: "extraKm",
+    label: "Extra Km (Rs.)",
+  },
 ];
 
 /* =========================================================
@@ -176,130 +194,496 @@ const SmlTransport = () => {
     <main className="smltransport-page">
 
       {/* =====================================================
-          HERO / TITLE SECTION
+          SEO HERO SECTION
       ===================================================== */}
+
       <section className="smltransport-header">
-        <span className="smltransport-subtitle">Rates &amp; Charges</span>
-        <h1 className="smltransport-title">Transport Tariff</h1>
+
+        <span className="smltransport-subtitle">
+          Odisha Travel, Tours &amp; Transport
+        </span>
+
+        <h1 className="smltransport-title">
+          Best Tour &amp; Travel Agency in Bhubaneswar
+        </h1>
+
         <div className="smltransport-title-line">
           <span></span>
           <i>◆</i>
           <span></span>
         </div>
+
+        <div className="smltransport-intro">
+          <p>
+            Looking for a reliable travel partner for your next journey?
+            We provide comfortable vehicles and flexible travel solutions
+            for local sightseeing, family trips, corporate travel,
+            weddings, airport transfers and outstation tours from
+            Bhubaneswar.
+          </p>
+
+        
+        </div>
+
+      </section>
+
+      {/* =====================================================
+          TRAVEL SERVICES SEO CONTENT
+      ===================================================== */}
+
+      <section className="smltransport-seo-section">
+
+        <div className="smltransport-seo-wrapper">
+
+          <div className="smltransport-seo-content">
+
+            <span className="smltransport-section-label">
+              Explore Odisha With Comfort
+            </span>
+
+       
+
+          </div>
+
+          <div className="smltransport-seo-highlights">
+
+            <div className="smltransport-highlight-card">
+              <span className="smltransport-highlight-number">01</span>
+              <h3>Local Sightseeing</h3>
+              <p>
+                Comfortable vehicles for sightseeing around Bhubaneswar
+                and nearby destinations.
+              </p>
+            </div>
+
+            <div className="smltransport-highlight-card">
+              <span className="smltransport-highlight-number">02</span>
+              <h3>Outstation Tours</h3>
+              <p>
+                Convenient transportation for multi-day Odisha and
+                outstation journeys.
+              </p>
+            </div>
+
+            <div className="smltransport-highlight-card">
+              <span className="smltransport-highlight-number">03</span>
+              <h3>Group Travel</h3>
+              <p>
+                Traveller, Urbania and coach options for families,
+                groups and corporate tours.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
       </section>
 
       {/* =====================================================
           TARIFF SECTION
       ===================================================== */}
+
       <section className="smltransport-tariff-section">
+
         <div className="smltransport-tariff-wrapper">
 
-          {/* Banner */}
-          <div className="smltransport-tariff-banner">
-            <span className="smltransport-banner-text">
-              FOR LOCAL &amp; OUTSTATION (300 Km Per Day)
+          <div className="smltransport-tariff-heading">
+
+            <span className="smltransport-section-label">
+              Rates &amp; Charges
             </span>
+
+            <h2>Transport Tariff</h2>
+
+            <p>
+              Choose the vehicle that best suits your travel requirements.
+              Our tariff covers local and outstation travel options with
+              different seating capacities.
+            </p>
+
+          </div>
+
+          {/* Banner */}
+
+          <div className="smltransport-tariff-banner">
+
+            <span className="smltransport-banner-text">
+              FOR LOCAL &amp; OUTSTATION — 300 KM PER DAY
+            </span>
+
           </div>
 
           {/* =================================================
               DESKTOP TABLE
           ================================================= */}
+
           <div className="smltransport-table-container">
+
             <table className="smltransport-table">
+
               <thead>
                 <tr>
                   {smlTableHeaders.map((header) => (
-                    <th key={header.key} className={`smltransport-th smltransport-th-${header.key}`}>
+                    <th
+                      key={header.key}
+                      className={`smltransport-th smltransport-th-${header.key}`}
+                    >
                       {header.label}
                     </th>
                   ))}
                 </tr>
               </thead>
+
               <tbody>
+
                 {SML_TARIFFS.map((item, index) => (
-                  <tr key={`${item.vehicle}-${index}`} className={item.featured ? "smltransport-featured-row" : ""}>
+
+                  <tr
+                    key={`${item.vehicle}-${index}`}
+                    className={
+                      item.featured
+                        ? "smltransport-featured-row"
+                        : ""
+                    }
+                  >
+
                     <td className="smltransport-vehicle-cell">
-                      <span className="smltransport-vehicle-name">{item.vehicle}</span>
-                      {item.featured && <span className="smltransport-popular-badge">Popular</span>}
+
+                      <span className="smltransport-vehicle-name">
+                        {item.vehicle}
+                      </span>
+
+                      {item.featured && (
+                        <span className="smltransport-popular-badge">
+                          Popular
+                        </span>
+                      )}
+
                     </td>
-                    <td>{item.tenHrs}</td>
-                    <td>{item.eightHrs}</td>
-                    <td className={item.fourHrs === "—" ? "smltransport-na" : ""}>{item.fourHrs}</td>
-                    <td>{item.extraHrs}</td>
-                    <td>{item.extraKm}</td>
+
+                    <td>₹{item.tenHrs}</td>
+
+                    <td>₹{item.eightHrs}</td>
+
+                    <td
+                      className={
+                        item.fourHrs === "—"
+                          ? "smltransport-na"
+                          : ""
+                      }
+                    >
+                      {item.fourHrs === "—"
+                        ? "—"
+                        : `₹${item.fourHrs}`}
+                    </td>
+
+                    <td>₹{item.extraHrs}</td>
+
+                    <td>₹{item.extraKm}</td>
+
                   </tr>
+
                 ))}
+
               </tbody>
+
             </table>
+
           </div>
 
           {/* =================================================
               MOBILE CARDS
           ================================================= */}
+
           <div className="smltransport-mobile-list">
+
             {SML_TARIFFS.map((item, index) => (
-              <article key={`mobile-${item.vehicle}-${index}`} className={`smltransport-mobile-card ${item.featured ? "smltransport-mobile-card-featured" : ""}`}>
+
+              <article
+                key={`mobile-${item.vehicle}-${index}`}
+                className={`smltransport-mobile-card ${
+                  item.featured
+                    ? "smltransport-mobile-card-featured"
+                    : ""
+                }`}
+              >
+
                 <div className="smltransport-mobile-card-head">
+
                   <div className="smltransport-mobile-vehicle">
-                    <span className="smltransport-mobile-vehicle-label">Vehicle A/C</span>
+
+                    <span className="smltransport-mobile-vehicle-label">
+                      Vehicle A/C
+                    </span>
+
                     <h3>{item.vehicle}</h3>
+
                   </div>
-                  {item.featured && <span className="smltransport-mobile-badge">Popular</span>}
+
+                  {item.featured && (
+                    <span className="smltransport-mobile-badge">
+                      Popular
+                    </span>
+                  )}
+
                 </div>
 
                 <div className="smltransport-mobile-price-grid">
+
                   <div className="smltransport-mobile-price">
                     <span>10 Hrs. / 100 Km</span>
                     <strong>₹{item.tenHrs}</strong>
                   </div>
+
                   <div className="smltransport-mobile-price">
                     <span>8 Hrs. / 80 Km</span>
                     <strong>₹{item.eightHrs}</strong>
                   </div>
+
                   <div className="smltransport-mobile-price">
                     <span>4 Hrs. / 40 Km</span>
-                    <strong>{item.fourHrs === "—" ? "—" : `₹${item.fourHrs}`}</strong>
+                    <strong>
+                      {item.fourHrs === "—"
+                        ? "—"
+                        : `₹${item.fourHrs}`}
+                    </strong>
                   </div>
+
                   <div className="smltransport-mobile-price">
                     <span>Extra Hours</span>
                     <strong>₹{item.extraHrs}</strong>
                   </div>
+
                   <div className="smltransport-mobile-price">
                     <span>Extra Km</span>
                     <strong>₹{item.extraKm}</strong>
                   </div>
+
                 </div>
+
               </article>
+
             ))}
+
           </div>
 
         </div>
+
+      </section>
+
+      {/* =====================================================
+          ODISHA TOURISM SEO CONTENT
+      ===================================================== */}
+
+      <section className="smltransport-tourism-section">
+
+        <div className="smltransport-tourism-wrapper">
+
+          <div className="smltransport-tourism-heading">
+
+            <span className="smltransport-section-label">
+              Discover Odisha
+            </span>
+
+            <h2>
+              Odisha Tourism Packages With Price
+            </h2>
+
+            <p>
+              Explore the cultural, spiritual and natural beauty of Odisha
+              with thoughtfully planned tour options from Bhubaneswar.
+            </p>
+
+          </div>
+
+          <div className="smltransport-tourism-grid">
+
+            <div className="smltransport-tourism-card">
+
+              <h3>Bhubaneswar – Puri – Konark Tour</h3>
+
+              <p>
+                A popular Odisha circuit covering the temples and
+                heritage attractions of Bhubaneswar, the spiritual city
+                of Puri and the famous Sun Temple at Konark.
+              </p>
+
+              <span>
+                Ideal for family and weekend trips
+              </span>
+
+            </div>
+
+            <div className="smltransport-tourism-card">
+
+              <h3>Chilika Lake Tour</h3>
+
+              <p>
+                Enjoy a relaxing journey towards Chilika and explore
+                one of Odisha's most popular natural attractions.
+                It is a great choice for families and groups.
+              </p>
+
+              <span>
+                Flexible vehicle options available
+              </span>
+
+            </div>
+
+            <div className="smltransport-tourism-card">
+
+              <h3>Odisha Temple Tour</h3>
+
+              <p>
+                Plan a comfortable temple journey covering important
+                religious destinations across Odisha with transportation
+                arranged according to your itinerary.
+              </p>
+
+              <span>
+                Suitable for families and groups
+              </span>
+
+            </div>
+
+          </div>
+
+          <div className="smltransport-price-note">
+
+            <h3>Planning Your Odisha Tour?</h3>
+
+            <p>
+              Tour prices can vary depending on the vehicle, number of
+              travellers, duration, destinations and itinerary. Contact
+              our travel team for a suitable vehicle and a customised
+              quotation for your Odisha tour.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* =====================================================
+          WHY CHOOSE US
+      ===================================================== */}
+
+      <section className="smltransport-why-section">
+
+        <div className="smltransport-why-wrapper">
+
+          <div className="smltransport-why-heading">
+
+            <span className="smltransport-section-label">
+              Travel With Confidence
+            </span>
+
+            <h2>
+              Why Choose Our Tour &amp; Travel Services?
+            </h2>
+
+          </div>
+
+          <div className="smltransport-why-grid">
+
+            <div className="smltransport-why-item">
+              <strong>Comfortable Vehicles</strong>
+              <p>
+                Choose from sedans, SUVs, Travellers, Urbania and
+                SML coaches according to your group size.
+              </p>
+            </div>
+
+            <div className="smltransport-why-item">
+              <strong>Experienced Drivers</strong>
+              <p>
+                Experienced drivers help make your local and outstation
+                journey comfortable and convenient.
+              </p>
+            </div>
+
+            <div className="smltransport-why-item">
+              <strong>Flexible Travel Plans</strong>
+              <p>
+                Plan sightseeing, family trips, group tours and
+                outstation journeys around your preferred itinerary.
+              </p>
+            </div>
+
+            <div className="smltransport-why-item">
+              <strong>Transparent Tariff</strong>
+              <p>
+                View the applicable vehicle rates before planning your
+                journey and select an option that fits your requirements.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
       </section>
 
       {/* =====================================================
           TERMS & CONDITIONS
       ===================================================== */}
+
       <section className="smltransport-terms-section">
+
         <div className="smltransport-terms-wrapper">
+
           <div className="smltransport-terms-heading-area">
-            <h2 className="smltransport-terms-title">Terms &amp; Conditions</h2>
+
+            <span className="smltransport-section-label">
+              Important Information
+            </span>
+
+            <h2 className="smltransport-terms-title">
+              Terms &amp; Conditions
+            </h2>
+
             <div className="smltransport-terms-line"></div>
+
           </div>
 
           <div className="smltransport-terms-list">
+
             {SML_TERMS.map((term, index) => (
-              <div className="smltransport-term-item" key={index}>
+
+              <div
+                className="smltransport-term-item"
+                key={index}
+              >
+
                 <div className="smltransport-check-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+
                     <path d="M7 12.5l3.2 3L17 8.5" />
                   </svg>
+
                 </div>
+
                 <p>{term}</p>
+
               </div>
+
             ))}
+
           </div>
+
         </div>
+
       </section>
 
     </main>

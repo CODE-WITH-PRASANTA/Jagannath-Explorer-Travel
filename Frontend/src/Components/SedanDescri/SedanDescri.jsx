@@ -332,7 +332,7 @@ const BookingModal = ({ car, open, onRequestClose }) => {
                         onChange={handleChange}
                       />
                       <span>
-                        I agree to the <span className="booking-modal__terms-link">Terms & Conditions</span> from <strong>Jagannath Tours & Travels</strong>.
+                        I agree to the <span className="booking-modal__terms-link">Terms & Conditions</span> from <strong>Jagannath Explorer Travels</strong>.
                       </span>
                     </label>
                   </div>
@@ -574,7 +574,7 @@ const CarStage = ({ car, open, onRequestClose, onBook }) => {
 };
 
 /* ---------------------------------------------------------------------------
-   SedanDescri — Premium light-theme section, symmetric open/close everywhere
+   SedanDescri — Premium Modern Light Theme & Agency Header
 --------------------------------------------------------------------------- */
 
 const SedanDescri = () => {
@@ -622,6 +622,7 @@ const SedanDescri = () => {
   }, []);
 
   const handleCloseBooking = useCallback(() => {
+    clearTimeout(bookingTimeoutRef.current);
     setBookingOpen(false);
     bookingTimeoutRef.current = setTimeout(() => setBookingCar(null), BOOKING_TRANSITION_MS);
   }, []);
@@ -638,16 +639,28 @@ const SedanDescri = () => {
   return (
     <section className="sedan-catalog">
       <header className="sedan-catalog__header">
-        <p className="sedan-catalog__eyebrow">Sedan Cars</p>
-        <h2 className="sedan-catalog__title">
-          Travel in Style with Our Sedan Car Rental Agencies in Bhubaneswar
-        </h2>
+        <div className="sedan-catalog__badge-pill">
+          <span>✨ Welcome to Jagannath Explorer Travels</span>
+        </div>
+
+        <h1 className="sedan-catalog__title">
+          Best tour and travel agency in bhubaneswar
+        </h1>
+
         <p className="sedan-catalog__desc">
-          Sedan provides 5-seater <strong>Cab Taxi Service in Bhubaneswar</strong> with clean
-          vehicles, skilled drivers, airport pickup, local sightseeing, and outstation trips at
-          fair prices with smooth, safe travel. <strong>Best Cab Rental in Bhubaneswar</strong>{' '}
-          for local travel, airport pickup, outstation trips, and daily booking.
+          Experience world-class comfort with <strong>Jagannath Explorer Travels</strong>. We offer pristine vehicles, professional chauffeurs, airport pickups, scenic local sightseeing, and outstation trips tailored for your ultimate safety and luxury.
         </p>
+
+        <div className="sedan-catalog__business-info">
+          <div className="info-item">
+            <span className="info-icon">📍</span>
+            <span>Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur, Bhubaneswar, Odisha - 751002</span>
+          </div>
+          <div className="info-item">
+            <span className="info-icon">📞</span>
+            <span className="phone-highlight">9668892441 &nbsp;|&nbsp; 9556355446</span>
+          </div>
+        </div>
       </header>
 
       <div className="car-grid">

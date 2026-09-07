@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import "./Tempovehicle.css";
+
 import image1 from "../../assets/TempoTraveller1 - Copy.webp";
 import image2 from "../../assets/tempotraveller2.webp";
 import image3 from "../../assets/TempoTraveller3.webp";
+
+const BUSINESS = {
+  name: "Jagannath Explorer Travels",
+  address:
+    "Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur, Bhubaneswar, Odisha, Pin - 751002",
+  phone1: "9668892441",
+  phone2: "9556355446",
+};
 
 const VEHICLE_LIST = [
   {
@@ -14,7 +23,11 @@ const VEHICLE_LIST = [
     bestFor: "Family Trips / Small Groups",
     price: "4500",
     image: image1,
-    features: ["Luxury Interiors", "Music System", "Charging Ports"]
+    features: [
+      "Luxury Interiors",
+      "Music System",
+      "Charging Ports",
+    ],
   },
   {
     id: 2,
@@ -25,7 +38,11 @@ const VEHICLE_LIST = [
     bestFor: "Corporate / Group Travel",
     price: "5000",
     image: image2,
-    features: ["Ample Luggage Space", "LED TV", "Reading Lights"]
+    features: [
+      "Ample Luggage Space",
+      "LED TV",
+      "Reading Lights",
+    ],
   },
   {
     id: 3,
@@ -36,7 +53,11 @@ const VEHICLE_LIST = [
     bestFor: "Events / Weddings",
     price: "7000",
     image: image3,
-    features: ["Grand Coach Build", "Microphone System", "Recliner Sofas"]
+    features: [
+      "Grand Coach Build",
+      "Microphone System",
+      "Recliner Sofas",
+    ],
   },
   {
     id: 4,
@@ -47,7 +68,11 @@ const VEHICLE_LIST = [
     bestFor: "VIP Travel / Luxury Tours",
     price: "11000",
     image: image1,
-    features: ["Italian Leather", "Individual Screens", "Premium Sound"]
+    features: [
+      "Italian Leather",
+      "Individual Screens",
+      "Premium Sound",
+    ],
   },
   {
     id: 5,
@@ -58,7 +83,11 @@ const VEHICLE_LIST = [
     bestFor: "Corporate Retreats / Weddings",
     price: "12000",
     image: image2,
-    features: ["Ambient Lighting", "Panoramic Windows", "Wi-Fi Connectivity"]
+    features: [
+      "Ambient Lighting",
+      "Panoramic Windows",
+      "Wi-Fi Connectivity",
+    ],
   },
   {
     id: 6,
@@ -69,8 +98,12 @@ const VEHICLE_LIST = [
     bestFor: "Long Distance & Tours",
     price: "13000",
     image: image3,
-    features: ["Extra Legroom", "Personal Charging", "Mini Fridge"]
-  }
+    features: [
+      "Extra Legroom",
+      "Personal Charging",
+      "Mini Fridge",
+    ],
+  },
 ];
 
 const ITEMS_PER_DESKTOP_PAGE = 3;
@@ -80,12 +113,16 @@ const Tempovehicle = () => {
   const [desktopPage, setDesktopPage] = useState(0);
   const [mobileIndex, setMobileIndex] = useState(0);
 
-  // Modal State
+  /* =========================
+     MODAL STATE
+  ========================= */
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalStep, setModalStep] = useState(1); // 1: Trip Details, 2: Personal Details
+  const [modalStep, setModalStep] = useState(1);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
-  // Form Field States
+  /* =========================
+     FORM STATE
+  ========================= */
   const [formData, setFormData] = useState({
     pickupLocation: "",
     dropLocation: "",
@@ -94,58 +131,95 @@ const Tempovehicle = () => {
     fullName: "",
     mobileNumber: "",
     message: "",
-    agreedToTerms: false
+    agreedToTerms: false,
   });
 
+  /* =========================
+     CARD FLIP
+  ========================= */
   const handleFlip = (id) => {
     setFlippedCards((prev) => ({
       ...prev,
-      [id]: !prev[id]
+      [id]: !prev[id],
     }));
   };
 
+  /* =========================
+     OPEN BOOKING MODAL
+  ========================= */
   const handleOpenModal = (vehicle) => {
     setSelectedVehicle(vehicle);
     setModalStep(1);
     setIsModalOpen(true);
   };
 
+  /* =========================
+     CLOSE MODAL
+  ========================= */
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedVehicle(null);
+    setModalStep(1);
   };
 
+  /* =========================
+     FORM INPUT
+  ========================= */
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
+  /* =========================
+     STEP 1
+  ========================= */
   const handleNextStep = (e) => {
     e.preventDefault();
-    if (!formData.pickupLocation || !formData.dropLocation || !formData.pickupDateTime) {
+
+    if (
+      !formData.pickupLocation ||
+      !formData.dropLocation ||
+      !formData.pickupDateTime
+    ) {
       alert("Please fill in the required trip details.");
       return;
     }
+
     setModalStep(2);
   };
 
+  /* =========================
+     STEP 2
+  ========================= */
   const handleFormSubmit = (e) => {
     e.preventDefault();
+
     if (!formData.fullName || !formData.mobileNumber) {
       alert("Please provide your Name and Mobile Number.");
       return;
     }
+
+    if (!/^[6-9]\d{9}$/.test(formData.mobileNumber)) {
+      alert("Please enter a valid 10 digit mobile number.");
+      return;
+    }
+
     if (!formData.agreedToTerms) {
       alert("You must agree to the Terms & Conditions.");
       return;
     }
 
-    alert(`Booking successful for ${selectedVehicle?.title}! We will contact you shortly.`);
+    alert(
+      `Booking request received for ${selectedVehicle?.title}. We will contact you shortly.`
+    );
+
     setIsModalOpen(false);
-    // Reset form
+    setSelectedVehicle(null);
+
     setFormData({
       pickupLocation: "",
       dropLocation: "",
@@ -154,303 +228,430 @@ const Tempovehicle = () => {
       fullName: "",
       mobileNumber: "",
       message: "",
-      agreedToTerms: false
+      agreedToTerms: false,
     });
   };
 
-  const totalDesktopPages = Math.ceil(VEHICLE_LIST.length / ITEMS_PER_DESKTOP_PAGE);
+  const totalDesktopPages = Math.ceil(
+    VEHICLE_LIST.length / ITEMS_PER_DESKTOP_PAGE
+  );
+
   const currentDesktopVehicles = VEHICLE_LIST.slice(
     desktopPage * ITEMS_PER_DESKTOP_PAGE,
     (desktopPage + 1) * ITEMS_PER_DESKTOP_PAGE
   );
 
+  const renderVehicleCard = (vehicle) => {
+    const isFlipped = !!flippedCards[vehicle.id];
+
+    return (
+      <div
+        key={vehicle.id}
+        className="tempovehicle-card-wrapper"
+      >
+        <div
+          className={`tempovehicle-card-inner ${
+            isFlipped ? "is-flipped" : ""
+          }`}
+        >
+          {/* ================= FRONT ================= */}
+          <div className="tempovehicle-card-face tempovehicle-card-front">
+            <div className="tempovehicle-image-wrapper">
+              <img
+                src={vehicle.image}
+                alt={`${vehicle.title} rental in Bhubaneswar`}
+                className="tempovehicle-img"
+                loading="lazy"
+              />
+
+              <div className="tempovehicle-badge-tag">
+                Featured
+              </div>
+            </div>
+
+            <div className="tempovehicle-front-content">
+              <div>
+                <h3 className="tempovehicle-card-title">
+                  {vehicle.title}
+                </h3>
+
+                <div className="tempovehicle-specs-preview">
+                  <div className="tempovehicle-spec-row">
+                    <span>Seats</span>
+                    <strong>{vehicle.seats}</strong>
+                  </div>
+
+                  <div className="tempovehicle-spec-row">
+                    <span>Best For</span>
+                    <strong>{vehicle.bestFor}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="tempovehicle-card-footer">
+                <div className="tempovehicle-price-box">
+                  <strong>₹{vehicle.price}</strong>
+                  <span>/ 8 Hours</span>
+                </div>
+
+                <button
+                  type="button"
+                  className="tempovehicle-action-btn"
+                  onClick={() => handleFlip(vehicle.id)}
+                >
+                  View Specs ↺
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ================= BACK ================= */}
+          <div className="tempovehicle-card-face tempovehicle-card-back">
+            <div className="tempovehicle-back-header">
+              <h3 className="tempovehicle-card-title">
+                {vehicle.title}
+              </h3>
+
+              <button
+                type="button"
+                className="tempovehicle-close-btn"
+                onClick={() => handleFlip(vehicle.id)}
+              >
+                ✕ Back
+              </button>
+            </div>
+
+            <div className="tempovehicle-specs-list">
+              <div className="tempovehicle-spec-row">
+                <span>Seats</span>
+                <strong>{vehicle.seats}</strong>
+              </div>
+
+              <div className="tempovehicle-spec-row">
+                <span>A/C</span>
+                <strong>{vehicle.ac}</strong>
+              </div>
+
+              <div className="tempovehicle-spec-row">
+                <span>Comfort</span>
+                <strong>{vehicle.comfort}</strong>
+              </div>
+
+              <div className="tempovehicle-spec-row">
+                <span>Best For</span>
+                <strong>{vehicle.bestFor}</strong>
+              </div>
+            </div>
+
+            <div className="tempovehicle-features-tags">
+              {vehicle.features.map((feature, index) => (
+                <span
+                  key={index}
+                  className="tempovehicle-feat-chip"
+                >
+                  ✓ {feature}
+                </span>
+              ))}
+            </div>
+
+            <div className="tempovehicle-card-footer">
+              <div className="tempovehicle-price-box">
+                <strong>₹{vehicle.price}</strong>
+                <span>/ 8 Hours</span>
+              </div>
+
+              <button
+                type="button"
+                className="tempovehicle-book-now-btn"
+                onClick={() => handleOpenModal(vehicle)}
+              >
+                Book Now →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <section className="tempovehicle-section">
+    <section
+      className="tempovehicle-section"
+      aria-labelledby="tempo-traveller-title"
+    >
       <div className="tempovehicle-container">
-        
-        {/* Header Area */}
-        <div className="tempovehicle-header-area">
-          <span className="tempovehicle-subtitle">✦ TEMPO TRAVELLER &amp; VAN FLEET ✦</span>
-          <h2 className="tempovehicle-main-title">
-            Book Tempo Traveller in <span>Bhubaneswar Odisha</span> for Group Journeys
-          </h2>
+
+        {/* =====================================================
+            SEO / CONTENT HEADER
+        ===================================================== */}
+        <header className="tempovehicle-header-area">
+          <span className="tempovehicle-subtitle">
+            ✦ TEMPO TRAVELLER &amp; URBANIA FLEET ✦
+          </span>
+
+          <h1
+            id="tempo-traveller-title"
+            className="tempovehicle-main-title"
+          >
+            Best tour and travel agency in bhubaneswar
+            <span>
+              Comfortable Tempo Travellers &amp; Urbania for Group Travel
+            </span>
+          </h1>
+
           <div className="tempovehicle-title-divider">
             <span></span>
             <i>❦</i>
             <span></span>
           </div>
-          <p className="tempovehicle-description">
-            Explore our pristine white-and-black fleet of 13, 17, 25-seater tempo travellers and luxury urbanias. Perfect for local excursions, airport transfers, weddings, and grand outstation journeys across Bhubaneswar.
-          </p>
-        </div>
 
-        {/* Desktop View: 3 Cards per Page Grid */}
+          <p className="tempovehicle-description">
+            Planning a family trip, wedding, corporate outing or
+            group journey from Bhubaneswar? Jagannath Explorer Travels
+            offers comfortable Tempo Travellers and Urbania vehicles
+            for local sightseeing, airport transfers, events and
+            outstation journeys across Odisha. Choose the right
+            vehicle for your group and travel with experienced
+            drivers, practical booking options and dependable
+            service.
+          </p>
+
+          <p className="tempovehicle-seo-text">
+            As a trusted <strong>Tour &amp; Travel Agency in Bhubaneswar</strong>,
+            we provide flexible vehicle options for families, groups,
+            corporate travellers and wedding functions. Whether you
+            need a 13-seater Tempo Traveller for a small group or a
+            larger Urbania for a long-distance trip, our fleet is
+            designed to make group travel more comfortable.
+          </p>
+
+          {/* BUSINESS DETAILS */}
+          <div className="tempovehicle-business-info">
+            <div className="tempovehicle-business-name">
+              {BUSINESS.name}
+            </div>
+
+            <div className="tempovehicle-business-address">
+              {BUSINESS.address}
+            </div>
+
+            <div className="tempovehicle-business-contact">
+              <span>Call for Booking:</span>
+
+              <a href={`tel:+91${BUSINESS.phone1}`}>
+                {BUSINESS.phone1}
+              </a>
+
+              <span className="tempovehicle-contact-divider">
+                |
+              </span>
+
+              <a href={`tel:+91${BUSINESS.phone2}`}>
+                {BUSINESS.phone2}
+              </a>
+            </div>
+          </div>
+        </header>
+
+        {/* =====================================================
+            DESKTOP
+        ===================================================== */}
         <div className="tempovehicle-desktop-grid-wrapper">
           <div className="tempovehicle-grid tempovehicle-desktop-grid">
-            {currentDesktopVehicles.map((vehicle) => {
-              const isFlipped = !!flippedCards[vehicle.id];
-              return (
-                <div key={vehicle.id} className="tempovehicle-card-wrapper">
-                  <div className={`tempovehicle-card-inner ${isFlipped ? "is-flipped" : ""}`}>
-                    
-                    {/* FRONT SIDE */}
-                    <div className="tempovehicle-card-face tempovehicle-card-front">
-                      <div className="tempovehicle-image-wrapper">
-                        <img src={vehicle.image} alt={vehicle.title} className="tempovehicle-img" />
-                        <div className="tempovehicle-badge-tag">Featured</div>
-                      </div>
-
-                      <div className="tempovehicle-front-content">
-                        <h3 className="tempovehicle-card-title">{vehicle.title}</h3>
-                        
-                        <div className="tempovehicle-specs-preview">
-                          <div className="tempovehicle-spec-row">
-                            <span>Seats</span>
-                            <strong>{vehicle.seats}</strong>
-                          </div>
-                          <div className="tempovehicle-spec-row">
-                            <span>Best For</span>
-                            <strong>{vehicle.bestFor}</strong>
-                          </div>
-                        </div>
-
-                        <div className="tempovehicle-card-footer">
-                          <div className="tempovehicle-price-box">
-                            <strong>₹{vehicle.price}</strong>
-                            <span>/ 8 Hours</span>
-                          </div>
-                          <button className="tempovehicle-action-btn" onClick={() => handleFlip(vehicle.id)}>
-                            View Specs ↺
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* BACK SIDE */}
-                    <div className="tempovehicle-card-face tempovehicle-card-back">
-                      <div className="tempovehicle-back-header">
-                        <h3 className="tempovehicle-card-title">{vehicle.title}</h3>
-                        <button className="tempovehicle-close-btn" onClick={() => handleFlip(vehicle.id)}>
-                          ✕ Back
-                        </button>
-                      </div>
-
-                      <div className="tempovehicle-specs-list">
-                        <div className="tempovehicle-spec-row">
-                          <span>Seats</span>
-                          <strong>{vehicle.seats}</strong>
-                        </div>
-                        <div className="tempovehicle-spec-row">
-                          <span>A/C</span>
-                          <strong>{vehicle.ac}</strong>
-                        </div>
-                        <div className="tempovehicle-spec-row">
-                          <span>Comfort</span>
-                          <strong>{vehicle.comfort}</strong>
-                        </div>
-                        <div className="tempovehicle-spec-row">
-                          <span>Best For</span>
-                          <strong>{vehicle.bestFor}</strong>
-                        </div>
-                      </div>
-
-                      <div className="tempovehicle-features-tags">
-                        {vehicle.features.map((feat, idx) => (
-                          <span key={idx} className="tempovehicle-feat-chip">✓ {feat}</span>
-                        ))}
-                      </div>
-
-                      <div className="tempovehicle-card-footer">
-                        <div className="tempovehicle-price-box">
-                          <strong>₹{vehicle.price}</strong>
-                          <span>/ 8 Hours</span>
-                        </div>
-                        <button className="tempovehicle-book-now-btn" onClick={() => handleOpenModal(vehicle)}>
-                          Book Now →
-                        </button>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              );
-            })}
+            {currentDesktopVehicles.map(renderVehicleCard)}
           </div>
 
-          {/* Desktop Pagination */}
           <div className="tempovehicle-pagination tempovehicle-desktop-pagination">
-            <button 
-              className={`tempovehicle-page-btn ${desktopPage === 0 ? "tempovehicle-page-disabled" : ""}`}
-              onClick={() => setDesktopPage((prev) => Math.max(prev - 1, 0))}
+            <button
+              type="button"
+              className="tempovehicle-page-btn"
+              onClick={() =>
+                setDesktopPage((prev) =>
+                  Math.max(prev - 1, 0)
+                )
+              }
               disabled={desktopPage === 0}
             >
-              Prev
+              ← Prev
             </button>
+
             <span className="tempovehicle-page-indicator">
               Page {desktopPage + 1} of {totalDesktopPages}
             </span>
-            <button 
-              className={`tempovehicle-page-btn ${desktopPage === totalDesktopPages - 1 ? "tempovehicle-page-disabled" : ""}`}
-              onClick={() => setDesktopPage((prev) => Math.min(prev + 1, totalDesktopPages - 1))}
-              disabled={desktopPage === totalDesktopPages - 1}
+
+            <button
+              type="button"
+              className="tempovehicle-page-btn"
+              onClick={() =>
+                setDesktopPage((prev) =>
+                  Math.min(
+                    prev + 1,
+                    totalDesktopPages - 1
+                  )
+                )
+              }
+              disabled={
+                desktopPage === totalDesktopPages - 1
+              }
             >
-              Next
+              Next →
             </button>
           </div>
         </div>
 
-        {/* Mobile View: 1 by 1 Card with Pagination */}
+        {/* =====================================================
+            MOBILE
+        ===================================================== */}
         <div className="tempovehicle-mobile-slider-wrapper">
           <div className="tempovehicle-mobile-slider">
-            {(() => {
-              const vehicle = VEHICLE_LIST[mobileIndex];
-              const isFlipped = !!flippedCards[vehicle.id];
-              return (
-                <div key={vehicle.id} className="tempovehicle-card-wrapper">
-                  <div className={`tempovehicle-card-inner ${isFlipped ? "is-flipped" : ""}`}>
-                    
-                    {/* FRONT SIDE */}
-                    <div className="tempovehicle-card-face tempovehicle-card-front">
-                      <div className="tempovehicle-image-wrapper">
-                        <img src={vehicle.image} alt={vehicle.title} className="tempovehicle-img" />
-                        <div className="tempovehicle-badge-tag">Featured</div>
-                      </div>
-
-                      <div className="tempovehicle-front-content">
-                        <h3 className="tempovehicle-card-title">{vehicle.title}</h3>
-                        
-                        <div className="tempovehicle-specs-preview">
-                          <div className="tempovehicle-spec-row">
-                            <span>Seats</span>
-                            <strong>{vehicle.seats}</strong>
-                          </div>
-                          <div className="tempovehicle-spec-row">
-                            <span>Best For</span>
-                            <strong>{vehicle.bestFor}</strong>
-                          </div>
-                        </div>
-
-                        <div className="tempovehicle-card-footer">
-                          <div className="tempovehicle-price-box">
-                            <strong>₹{vehicle.price}</strong>
-                            <span>/ 8 Hours</span>
-                          </div>
-                          <button className="tempovehicle-action-btn" onClick={() => handleFlip(vehicle.id)}>
-                            View Specs ↺
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* BACK SIDE */}
-                    <div className="tempovehicle-card-face tempovehicle-card-back">
-                      <div className="tempovehicle-back-header">
-                        <h3 className="tempovehicle-card-title">{vehicle.title}</h3>
-                        <button className="tempovehicle-close-btn" onClick={() => handleFlip(vehicle.id)}>
-                          ✕ Back
-                        </button>
-                      </div>
-
-                      <div className="tempovehicle-specs-list">
-                        <div className="tempovehicle-spec-row">
-                          <span>Seats</span>
-                          <strong>{vehicle.seats}</strong>
-                        </div>
-                        <div className="tempovehicle-spec-row">
-                          <span>A/C</span>
-                          <strong>{vehicle.ac}</strong>
-                        </div>
-                        <div className="tempovehicle-spec-row">
-                          <span>Comfort</span>
-                          <strong>{vehicle.comfort}</strong>
-                        </div>
-                        <div className="tempovehicle-spec-row">
-                          <span>Best For</span>
-                          <strong>{vehicle.bestFor}</strong>
-                        </div>
-                      </div>
-
-                      <div className="tempovehicle-features-tags">
-                        {vehicle.features.map((feat, idx) => (
-                          <span key={idx} className="tempovehicle-feat-chip">✓ {feat}</span>
-                        ))}
-                      </div>
-
-                      <div className="tempovehicle-card-footer">
-                        <div className="tempovehicle-price-box">
-                          <strong>₹{vehicle.price}</strong>
-                          <span>/ 8 Hours</span>
-                        </div>
-                        <button className="tempovehicle-book-now-btn" onClick={() => handleOpenModal(vehicle)}>
-                          Book Now →
-                        </button>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              );
-            })()}
+            {renderVehicleCard(VEHICLE_LIST[mobileIndex])}
           </div>
 
-          {/* Mobile Pagination */}
           <div className="tempovehicle-pagination tempovehicle-mobile-pagination">
-            <button 
-              className={`tempovehicle-page-btn ${mobileIndex === 0 ? "tempovehicle-page-disabled" : ""}`}
-              onClick={() => setMobileIndex((prev) => Math.max(prev - 1, 0))}
+            <button
+              type="button"
+              className="tempovehicle-page-btn"
+              onClick={() =>
+                setMobileIndex((prev) =>
+                  Math.max(prev - 1, 0)
+                )
+              }
               disabled={mobileIndex === 0}
             >
-              Prev
+              ← Prev
             </button>
+
             <span className="tempovehicle-page-indicator">
-              Page {mobileIndex + 1} of {VEHICLE_LIST.length}
+              {mobileIndex + 1} / {VEHICLE_LIST.length}
             </span>
-            <button 
-              className={`tempovehicle-page-btn ${mobileIndex === VEHICLE_LIST.length - 1 ? "tempovehicle-page-disabled" : ""}`}
-              onClick={() => setMobileIndex((prev) => Math.min(prev + 1, VEHICLE_LIST.length - 1))}
-              disabled={mobileIndex === VEHICLE_LIST.length - 1}
+
+            <button
+              type="button"
+              className="tempovehicle-page-btn"
+              onClick={() =>
+                setMobileIndex((prev) =>
+                  Math.min(
+                    prev + 1,
+                    VEHICLE_LIST.length - 1
+                  )
+                )
+              }
+              disabled={
+                mobileIndex === VEHICLE_LIST.length - 1
+              }
             >
-              Next
+              Next →
             </button>
           </div>
         </div>
 
+        {/* =====================================================
+            SEO CONTENT
+        ===================================================== */}
+        <div className="tempovehicle-bottom-content">
+          <span className="tempovehicle-bottom-label">
+            GROUP TRAVEL MADE COMFORTABLE
+          </span>
+
+          <h2>
+            Tempo Traveller &amp; Urbania Rental in Bhubaneswar
+          </h2>
+
+          <p>
+            From short city trips to multi-day Odisha tours,
+            Jagannath Explorer Travels makes group transportation
+            simple and comfortable. Our Tempo Traveller and Urbania
+            options are suitable for family holidays, pilgrimage
+            trips, wedding transportation, corporate travel,
+            sightseeing and outstation journeys.
+          </p>
+
+          <p>
+            Looking for reliable <strong>travel agency in
+            Bhubaneswar</strong> services for your next group trip?
+            Speak with our team about your route, travel dates,
+            passenger count and preferred vehicle.
+          </p>
+        </div>
       </div>
 
-      {/* BOOKING POPUP MODAL */}
+      {/* =====================================================
+          BOOKING MODAL
+      ===================================================== */}
       {isModalOpen && selectedVehicle && (
-        <div className="tv-modal-overlay" onClick={handleCloseModal}>
-          <div className="tv-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="tv-modal-x-close" onClick={handleCloseModal}>✕</button>
+        <div
+          className="tv-modal-overlay"
+          onClick={handleCloseModal}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="booking-modal-title"
+        >
+          <div
+            className="tv-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="tv-modal-x-close"
+              onClick={handleCloseModal}
+              aria-label="Close booking form"
+            >
+              ✕
+            </button>
 
             {modalStep === 1 ? (
-              /* STEP 1: TRIP DETAILS FORM */
               <form onSubmit={handleNextStep}>
-                <h2 className="tv-modal-title">Start Your Booking</h2>
+                <h2
+                  id="booking-modal-title"
+                  className="tv-modal-title"
+                >
+                  Start Your Booking
+                </h2>
 
                 <div className="tv-selected-vehicle-banner">
-                  <img src={selectedVehicle.image} alt={selectedVehicle.title} />
-                  <span>{selectedVehicle.title}</span>
+                  <img
+                    src={selectedVehicle.image}
+                    alt={selectedVehicle.title}
+                  />
+
+                  <div>
+                    <span className="tv-selected-label">
+                      Selected Vehicle
+                    </span>
+
+                    <strong>
+                      {selectedVehicle.title}
+                    </strong>
+                  </div>
                 </div>
 
                 <div className="tv-form-grid">
                   <div className="tv-form-group">
-                    <label>Pick Up Location</label>
-                    <input 
-                      type="text" 
+                    <label htmlFor="pickupLocation">
+                      Pick Up Location *
+                    </label>
+
+                    <input
+                      id="pickupLocation"
+                      type="text"
                       name="pickupLocation"
-                      placeholder="Pick Up Location" 
+                      placeholder="Enter pickup location"
                       value={formData.pickupLocation}
                       onChange={handleInputChange}
                       required
                     />
                   </div>
+
                   <div className="tv-form-group">
-                    <label>Drop Off Location</label>
-                    <input 
-                      type="text" 
+                    <label htmlFor="dropLocation">
+                      Drop Off Location *
+                    </label>
+
+                    <input
+                      id="dropLocation"
+                      type="text"
                       name="dropLocation"
-                      placeholder="Drop Off Location" 
+                      placeholder="Enter drop location"
                       value={formData.dropLocation}
                       onChange={handleInputChange}
                       required
@@ -458,100 +659,150 @@ const Tempovehicle = () => {
                   </div>
 
                   <div className="tv-form-group">
-                    <label>Pick Up Date &amp; Time</label>
-                    <div className="tv-input-with-icon">
-                      <input 
-                        type="datetime-local" 
-                        name="pickupDateTime"
-                        value={formData.pickupDateTime}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
+                    <label htmlFor="pickupDateTime">
+                      Pick Up Date &amp; Time *
+                    </label>
+
+                    <input
+                      id="pickupDateTime"
+                      type="datetime-local"
+                      name="pickupDateTime"
+                      value={formData.pickupDateTime}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
+
                   <div className="tv-form-group">
-                    <label>Drop Date &amp; Time</label>
-                    <div className="tv-input-with-icon">
-                      <input 
-                        type="datetime-local" 
-                        name="dropDateTime"
-                        value={formData.dropDateTime}
-                        onChange={handleInputChange}
-                      />
-                    </div>
+                    <label htmlFor="dropDateTime">
+                      Drop Date &amp; Time
+                    </label>
+
+                    <input
+                      id="dropDateTime"
+                      type="datetime-local"
+                      name="dropDateTime"
+                      value={formData.dropDateTime}
+                      onChange={handleInputChange}
+                    />
                   </div>
                 </div>
 
                 <div className="tv-modal-footer-action">
-                  <button type="submit" className="tv-modal-primary-btn">
-                    Next <span className="tv-arrow-icon">→</span>
+                  <button
+                    type="submit"
+                    className="tv-modal-primary-btn"
+                  >
+                    Continue
+                    <span>→</span>
                   </button>
                 </div>
               </form>
             ) : (
-              /* STEP 2: CONFIRM BOOKING DETAILS FORM */
               <form onSubmit={handleFormSubmit}>
-                <h2 className="tv-modal-title">Confirm Your Booking Details</h2>
+                <h2
+                  id="booking-modal-title"
+                  className="tv-modal-title"
+                >
+                  Confirm Your Booking
+                </h2>
 
                 <div className="tv-form-group">
+                  <label htmlFor="fullName">
+                    Full Name *
+                  </label>
+
                   <div className="tv-input-icon-wrapper">
-                    <input 
-                      type="text" 
+                    <input
+                      id="fullName"
+                      type="text"
                       name="fullName"
-                      placeholder="* Enter Your Full Name" 
+                      placeholder="Enter your full name"
                       value={formData.fullName}
                       onChange={handleInputChange}
                       required
                     />
-                    <span className="tv-field-icon">👤</span>
+
+                    <span className="tv-field-icon">
+                      👤
+                    </span>
                   </div>
                 </div>
 
                 <div className="tv-form-group">
+                  <label htmlFor="mobileNumber">
+                    Mobile Number *
+                  </label>
+
                   <div className="tv-input-icon-wrapper">
-                    <input 
-                      type="tel" 
+                    <input
+                      id="mobileNumber"
+                      type="tel"
                       name="mobileNumber"
-                      placeholder="* Enter 10 Digit Mobile Number" 
+                      placeholder="Enter 10 digit mobile number"
                       maxLength="10"
+                      inputMode="numeric"
                       value={formData.mobileNumber}
                       onChange={handleInputChange}
                       required
                     />
-                    <span className="tv-field-icon">📞</span>
+
+                    <span className="tv-field-icon">
+                      📞
+                    </span>
                   </div>
                 </div>
 
                 <div className="tv-form-group">
-                  <textarea 
+                  <label htmlFor="message">
+                    Message
+                  </label>
+
+                  <textarea
+                    id="message"
                     name="message"
-                    rows="4" 
+                    rows="4"
                     maxLength="150"
-                    placeholder="Your Message (max 150 characters)"
+                    placeholder="Tell us about your trip"
                     value={formData.message}
                     onChange={handleInputChange}
-                  ></textarea>
+                  />
                 </div>
 
                 <div className="tv-form-checkbox-group">
                   <label>
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       name="agreedToTerms"
                       checked={formData.agreedToTerms}
                       onChange={handleInputChange}
                       required
                     />
-                    I agree to the <span className="tv-highlight-link">Terms &amp; Conditions</span> from <strong>Jagannath Tours &amp; Travels</strong>.
+
+                    <span>
+                      I agree to the{" "}
+                      <span className="tv-highlight-link">
+                        Terms &amp; Conditions
+                      </span>{" "}
+                      of {BUSINESS.name}.
+                    </span>
                   </label>
                 </div>
 
                 <div className="tv-modal-footer-action tv-step2-actions">
-                  <button type="button" className="tv-modal-secondary-btn" onClick={() => setModalStep(1)}>
+                  <button
+                    type="button"
+                    className="tv-modal-secondary-btn"
+                    onClick={() => setModalStep(1)}
+                  >
                     ← Previous
                   </button>
-                  <button type="submit" className="tv-modal-primary-btn">
-                    Submit →
+
+                  <button
+                    type="submit"
+                    className="tv-modal-primary-btn"
+                  >
+                    Submit Booking →
                   </button>
                 </div>
               </form>
