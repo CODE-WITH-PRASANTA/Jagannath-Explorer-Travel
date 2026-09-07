@@ -207,15 +207,6 @@ const Customers = () => {
 
   return (
     <div className="customers-wrapper">
-      {/* Top Header */}
-      <header className="customers-header">
-        <div className="customers-header-left">
-          <h1 className="customers-title">Customers</h1>
-          <div className="customers-breadcrumbs">
-            <span>Home</span> / <span className="customers-active-crumb">Customers</span>
-          </div>
-        </div>
-      </header>
 
       {/* Add Customer Card */}
       <section className="customers-card">
