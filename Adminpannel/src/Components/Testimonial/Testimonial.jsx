@@ -101,7 +101,7 @@ const Testimonial = () => {
 
   const fileInputRef = useRef(null);
 
-  // Formatting date and time helper
+  // Helper function to format date & time
   const formatDateTime = (dateStr, timeStr) => {
     if (!dateStr) return { formattedDate: '', formattedTime: '' };
     const dateObj = new Date(`${dateStr}T${timeStr || '12:00'}`);
@@ -118,7 +118,7 @@ const Testimonial = () => {
     return { formattedDate, formattedTime };
   };
 
-  // Profile Image Upload
+  // Image Upload Handler
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -130,7 +130,7 @@ const Testimonial = () => {
     }
   };
 
-  // Reset / Clear Form
+  // Reset Form
   const handleCancel = () => {
     setEditingId(null);
     setReviewerName('');
@@ -143,7 +143,7 @@ const Testimonial = () => {
     setProfileImage('https://via.placeholder.com/100');
   };
 
-  // Save / Add Review
+  // Save / Update Review
   const handleSaveReview = (e) => {
     e.preventDefault();
     if (!reviewerName || !location || !reviewText || !reviewDate) {
@@ -237,7 +237,7 @@ const Testimonial = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedReviews = filteredReviews.slice(startIndex, startIndex + itemsPerPage);
 
-  // Live preview current item
+  // Live preview current item selector
   const previewItems = filteredReviews.length > 0 ? filteredReviews : reviews;
   const currentPreview = previewItems[activePreviewIndex % previewItems.length] || reviews[0];
 
@@ -249,7 +249,7 @@ const Testimonial = () => {
     setActivePreviewIndex((prev) => (prev - 1 + previewItems.length) % previewItems.length);
   };
 
-  // Export functionality
+  // JSON Export functionality
   const handleExport = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reviews, null, 2));
     const downloadAnchor = document.createElement('a');
@@ -275,29 +275,34 @@ const Testimonial = () => {
 
   return (
     <div className="Testimonial">
-      {/* Top Section */}
+      {/* Top Header */}
       <div className="Testimonial-top-bar">
         <div className="Testimonial-header">
           <h1>Regards From Travelers</h1>
           <p>Manage and showcase traveler reviews.</p>
         </div>
 
-        <button className="Testimonial-add-btn" onClick={() => handleEdit({
-          id: null,
-          reviewer: '',
-          location: '',
-          reviewText: '',
-          rating: 5,
-          date: new Date().toISOString().split('T')[0],
-          time: '12:00',
-          platform: 'All Reviews',
-          avatar: 'https://via.placeholder.com/100'
-        })}>
+        <button
+          className="Testimonial-add-btn"
+          onClick={() =>
+            handleEdit({
+              id: null,
+              reviewer: '',
+              location: '',
+              reviewText: '',
+              rating: 5,
+              date: new Date().toISOString().split('T')[0],
+              time: '12:00',
+              platform: 'All Reviews',
+              avatar: 'https://via.placeholder.com/100'
+            })
+          }
+        >
           <FaPlus /> Add New Review
         </button>
       </div>
 
-      {/* Tabs Filter */}
+      {/* Primary Category Filter Tabs */}
       <div className="Testimonial-tabs">
         <button
           className={`Testimonial-tab ${activeTab === 'All Reviews' ? 'active' : ''}`}
@@ -325,9 +330,9 @@ const Testimonial = () => {
         </button>
       </div>
 
-      {/* Grid Layout: Form and Live Preview */}
+      {/* Grid: Form and Live Preview */}
       <div className="Testimonial-grid">
-        {/* Left: Add / Edit Form */}
+        {/* Left Form Card */}
         <div className="Testimonial-card Testimonial-form-card">
           <h2 className="Testimonial-card-title">
             {editingId ? 'Edit Review' : 'Add New Review'}
@@ -358,7 +363,7 @@ const Testimonial = () => {
               </div>
             </div>
 
-            {/* Profile Image Uploader */}
+            {/* Profile Avatar Uploader */}
             <div className="Testimonial-form-group">
               <label>Profile Image *</label>
               <div className="Testimonial-image-uploader">
@@ -392,7 +397,7 @@ const Testimonial = () => {
               </span>
             </div>
 
-            {/* Review Text */}
+            {/* Review Content */}
             <div className="Testimonial-form-group">
               <label>Review Text *</label>
               <textarea
@@ -404,7 +409,7 @@ const Testimonial = () => {
               />
             </div>
 
-            {/* Rating Stars */}
+            {/* Rating Stars Input */}
             <div className="Testimonial-form-group">
               <label>Rating *</label>
               <div className="Testimonial-rating-stars">
@@ -418,7 +423,7 @@ const Testimonial = () => {
               </div>
             </div>
 
-            {/* Date, Time & Platform */}
+            {/* Date, Time & Platform Controls */}
             <div className="Testimonial-form-row three-col">
               <div className="Testimonial-form-group">
                 <label>Review Date *</label>
@@ -469,7 +474,7 @@ const Testimonial = () => {
           </form>
         </div>
 
-        {/* Right: Live Preview */}
+        {/* Right Live Preview Card */}
         <div className="Testimonial-card Testimonial-preview-card">
           <h2 className="Testimonial-card-title">Live Preview</h2>
 
@@ -480,16 +485,32 @@ const Testimonial = () => {
 
             <div className="Testimonial-preview-box">
               <div className="Testimonial-preview-tabs">
-                <span className={`pv-tab ${currentPreview?.platform === 'All Reviews' ? 'active' : ''}`}>
+                <span
+                  className={`pv-tab ${
+                    currentPreview?.platform === 'All Reviews' ? 'active' : ''
+                  }`}
+                >
                   All Reviews
                 </span>
-                <span className={`pv-tab ${currentPreview?.platform === 'Tripadvisor' ? 'active' : ''}`}>
+                <span
+                  className={`pv-tab ${
+                    currentPreview?.platform === 'Tripadvisor' ? 'active' : ''
+                  }`}
+                >
                   <FaTripadvisor className="tab-icon tripadvisor" /> Tripadvisor
                 </span>
-                <span className={`pv-tab ${currentPreview?.platform === 'Facebook' ? 'active' : ''}`}>
+                <span
+                  className={`pv-tab ${
+                    currentPreview?.platform === 'Facebook' ? 'active' : ''
+                  }`}
+                >
                   <FaFacebook className="tab-icon facebook" /> Facebook
                 </span>
-                <span className={`pv-tab ${currentPreview?.platform === 'Google' ? 'active' : ''}`}>
+                <span
+                  className={`pv-tab ${
+                    currentPreview?.platform === 'Google' ? 'active' : ''
+                  }`}
+                >
                   <FaGoogle className="tab-icon google" /> Google
                 </span>
               </div>
@@ -536,7 +557,9 @@ const Testimonial = () => {
                     className="Testimonial-preview-avatar"
                   />
                   <div className="Testimonial-preview-user-info">
-                    <h4>{currentPreview ? currentPreview.reviewer : reviewerName || 'Sophia Reynolds'}</h4>
+                    <h4>
+                      {currentPreview ? currentPreview.reviewer : reviewerName || 'Sophia Reynolds'}
+                    </h4>
                     <p>{currentPreview ? currentPreview.location : location || 'London, UK'}</p>
                   </div>
                 </div>
@@ -550,7 +573,7 @@ const Testimonial = () => {
         </div>
       </div>
 
-      {/* Table Section */}
+      {/* Reviews Data Table Section */}
       <div className="Testimonial-card Testimonial-table-card">
         <div className="Testimonial-table-header">
           <h2>All Reviews</h2>
@@ -572,7 +595,7 @@ const Testimonial = () => {
                 value={filterPlatform}
                 onChange={(e) => setFilterPlatform(e.target.value)}
               >
-                <option value="All">Filter</option>
+                <option value="All">Filter Platform</option>
                 <option value="All Reviews">All Reviews</option>
                 <option value="Tripadvisor">Tripadvisor</option>
                 <option value="Facebook">Facebook</option>
@@ -623,7 +646,11 @@ const Testimonial = () => {
                       </div>
                     </td>
                     <td>
-                      <span className={`platform-badge ${item.platform.toLowerCase().replace(/\s+/g, '')}`}>
+                      <span
+                        className={`platform-badge ${item.platform
+                          .toLowerCase()
+                          .replace(/\s+/g, '')}`}
+                      >
                         {getPlatformIcon(item.platform)}
                         {item.platform}
                       </span>
@@ -635,9 +662,7 @@ const Testimonial = () => {
                       </div>
                     </td>
                     <td>
-                      <span className="status-badge published">
-                        • {item.status}
-                      </span>
+                      <span className="status-badge published">• {item.status}</span>
                     </td>
                     <td>
                       <div className="table-actions">
@@ -677,7 +702,7 @@ const Testimonial = () => {
           </table>
         </div>
 
-        {/* Table Pagination */}
+        {/* Table Pagination Controls */}
         <div className="Testimonial-pagination">
           <span className="pagination-info">
             Showing {filteredReviews.length === 0 ? 0 : startIndex + 1} to{' '}
@@ -713,7 +738,7 @@ const Testimonial = () => {
         </div>
       </div>
 
-      {/* View Review Modal */}
+      {/* Review Modal View Overlay */}
       {viewingReview && (
         <div className="Testimonial-modal-overlay" onClick={() => setViewingReview(null)}>
           <div className="Testimonial-modal" onClick={(e) => e.stopPropagation()}>
@@ -740,7 +765,9 @@ const Testimonial = () => {
               </div>
               <p className="modal-text">“{viewingReview.reviewText}”</p>
               <div className="modal-meta">
-                <span><strong>Platform:</strong> {viewingReview.platform}</span>
+                <span>
+                  <strong>Platform:</strong> {viewingReview.platform}
+                </span>
                 <span>
                   <strong>Date:</strong> {viewingReview.formattedDate} ({viewingReview.formattedTime})
                 </span>

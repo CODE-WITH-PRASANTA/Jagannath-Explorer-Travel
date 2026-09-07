@@ -1,3 +1,4 @@
+
 /* =========================================================
    WHO WE ARE SECTION
 ========================================================= */
@@ -14,7 +15,6 @@
   --WhoWeAre-description: #747c84;
 
   position: relative;
-
   width: 100%;
 
   padding: 55px 0 65px;
@@ -46,11 +46,9 @@
   width: 100%;
 
   display: flex;
-
   flex-direction: column;
 
   align-items: center;
-
   justify-content: center;
 
   text-align: center;
@@ -67,15 +65,13 @@
   position: relative;
 
   width: 175px;
-
   height: 45px;
 
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
   background: rgba(97, 179, 65, 0.2);
@@ -153,9 +149,6 @@
     Helvetica,
     sans-serif;
 
-  /*
-   * Smaller and less bold as requested
-   */
   font-size: clamp(32px, 3vw, 46px);
 
   font-weight: 600;
@@ -163,6 +156,32 @@
   line-height: 1.12;
 
   letter-spacing: -0.7px;
+}
+
+
+/* =========================================================
+   SEO INTRO CONTENT
+========================================================= */
+
+.WhoWeAre__intro {
+  max-width: 900px;
+
+  margin: 17px auto 0;
+
+  color: var(--WhoWeAre-description);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  line-height: 1.75;
+
+  text-align: center;
 }
 
 
@@ -175,10 +194,6 @@
 
   display: grid;
 
-  /*
-   * Exactly 3 cards in one row
-   * and 6 cards = 2 rows
-   */
   grid-template-columns:
     repeat(3, minmax(0, 1fr));
 
@@ -199,9 +214,6 @@
 
   min-width: 0;
 
-  /*
-   * Compact card size
-   */
   height: 155px;
 
   padding: 20px 28px;
@@ -227,9 +239,6 @@
 
   opacity: 0;
 
-  /*
-   * Initial animation position
-   */
   transform:
     translateY(25px)
     scale(0.98);
@@ -245,7 +254,7 @@
 
 
 /* =========================================================
-   REMOVE ALL CIRCLE HOVER EFFECTS
+   REMOVE PSEUDO ELEMENTS
 ========================================================= */
 
 .WhoWeAre__card::before,
@@ -260,46 +269,25 @@
    STAGGER CONFIGURATION
 ========================================================= */
 
-/*
-   First row:
-
-   Card 1 = DOWN
-   Card 2 = UP
-   Card 3 = DOWN
-*/
-
 .WhoWeAre__card:nth-child(1) {
   --WhoWeAre-offset: 8px;
 }
-
 
 .WhoWeAre__card:nth-child(2) {
   --WhoWeAre-offset: -8px;
 }
 
-
 .WhoWeAre__card:nth-child(3) {
   --WhoWeAre-offset: 8px;
 }
-
-
-/*
-   Second row:
-
-   Card 4 = UP
-   Card 5 = DOWN
-   Card 6 = UP
-*/
 
 .WhoWeAre__card:nth-child(4) {
   --WhoWeAre-offset: -8px;
 }
 
-
 .WhoWeAre__card:nth-child(5) {
   --WhoWeAre-offset: 8px;
 }
-
 
 .WhoWeAre__card:nth-child(6) {
   --WhoWeAre-offset: -8px;
@@ -310,8 +298,7 @@
    CARD ENTRANCE ANIMATION
 ========================================================= */
 
-.WhoWeAre--visible
-.WhoWeAre__card {
+.WhoWeAre--visible .WhoWeAre__card {
   animation:
     WhoWeAreCardAppear 0.65s
     cubic-bezier(0.2, 0.7, 0.2, 1)
@@ -322,7 +309,6 @@
 
 
 @keyframes WhoWeAreCardAppear {
-
   0% {
     opacity: 0;
 
@@ -371,13 +357,11 @@
   flex: 0 0 72px;
 
   width: 72px;
-
   height: 72px;
 
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 }
 
@@ -388,13 +372,11 @@
 
 .WhoWeAre__icon {
   width: 64px;
-
   height: 64px;
 
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
   font-size: 53px;
@@ -474,14 +456,12 @@
 
 
 /* =========================================================
-   01 - GREEN
+   GREEN CARD
 ========================================================= */
 
-.WhoWeAre__card--green
-.WhoWeAre__icon {
+.WhoWeAre__card--green .WhoWeAre__icon {
   color: var(--WhoWeAre-green);
 }
-
 
 .WhoWeAre__card--green:hover {
   background: var(--WhoWeAre-green);
@@ -492,9 +472,7 @@
     0 18px 35px rgba(97, 179, 65, 0.28);
 }
 
-
-.WhoWeAre__card--green:hover
-.WhoWeAre__icon {
+.WhoWeAre__card--green:hover .WhoWeAre__icon {
   color: #ffffff;
 
   transform:
@@ -504,14 +482,12 @@
 
 
 /* =========================================================
-   02 - ORANGE
+   ORANGE CARD
 ========================================================= */
 
-.WhoWeAre__card--orange
-.WhoWeAre__icon {
+.WhoWeAre__card--orange .WhoWeAre__icon {
   color: var(--WhoWeAre-orange);
 }
-
 
 .WhoWeAre__card--orange:hover {
   background: var(--WhoWeAre-orange);
@@ -522,9 +498,7 @@
     0 18px 35px rgba(255, 157, 32, 0.28);
 }
 
-
-.WhoWeAre__card--orange:hover
-.WhoWeAre__icon {
+.WhoWeAre__card--orange:hover .WhoWeAre__icon {
   color: #ffffff;
 
   transform:
@@ -534,14 +508,12 @@
 
 
 /* =========================================================
-   03 - BLUE
+   BLUE CARD
 ========================================================= */
 
-.WhoWeAre__card--blue
-.WhoWeAre__icon {
+.WhoWeAre__card--blue .WhoWeAre__icon {
   color: var(--WhoWeAre-blue);
 }
-
 
 .WhoWeAre__card--blue:hover {
   background: var(--WhoWeAre-blue);
@@ -552,9 +524,7 @@
     0 18px 35px rgba(59, 155, 214, 0.28);
 }
 
-
-.WhoWeAre__card--blue:hover
-.WhoWeAre__icon {
+.WhoWeAre__card--blue:hover .WhoWeAre__icon {
   color: #ffffff;
 
   transform:
@@ -564,14 +534,12 @@
 
 
 /* =========================================================
-   04 - PURPLE
+   PURPLE CARD
 ========================================================= */
 
-.WhoWeAre__card--purple
-.WhoWeAre__icon {
+.WhoWeAre__card--purple .WhoWeAre__icon {
   color: var(--WhoWeAre-purple);
 }
-
 
 .WhoWeAre__card--purple:hover {
   background: var(--WhoWeAre-purple);
@@ -582,9 +550,7 @@
     0 18px 35px rgba(155, 99, 211, 0.28);
 }
 
-
-.WhoWeAre__card--purple:hover
-.WhoWeAre__icon {
+.WhoWeAre__card--purple:hover .WhoWeAre__icon {
   color: #ffffff;
 
   transform:
@@ -594,14 +560,12 @@
 
 
 /* =========================================================
-   05 - RED
+   RED CARD
 ========================================================= */
 
-.WhoWeAre__card--red
-.WhoWeAre__icon {
+.WhoWeAre__card--red .WhoWeAre__icon {
   color: var(--WhoWeAre-red);
 }
-
 
 .WhoWeAre__card--red:hover {
   background: var(--WhoWeAre-red);
@@ -612,9 +576,7 @@
     0 18px 35px rgba(232, 91, 91, 0.28);
 }
 
-
-.WhoWeAre__card--red:hover
-.WhoWeAre__icon {
+.WhoWeAre__card--red:hover .WhoWeAre__icon {
   color: #ffffff;
 
   transform:
@@ -624,14 +586,12 @@
 
 
 /* =========================================================
-   06 - YELLOW
+   YELLOW CARD
 ========================================================= */
 
-.WhoWeAre__card--yellow
-.WhoWeAre__icon {
+.WhoWeAre__card--yellow .WhoWeAre__icon {
   color: var(--WhoWeAre-yellow);
 }
-
 
 .WhoWeAre__card--yellow:hover {
   background: var(--WhoWeAre-yellow);
@@ -642,9 +602,7 @@
     0 18px 35px rgba(231, 181, 46, 0.28);
 }
 
-
-.WhoWeAre__card--yellow:hover
-.WhoWeAre__icon {
+.WhoWeAre__card--yellow:hover .WhoWeAre__icon {
   color: #ffffff;
 
   transform:
@@ -657,18 +615,96 @@
    HOVER TEXT
 ========================================================= */
 
-.WhoWeAre__card:hover
-.WhoWeAre__card-title,
-
-.WhoWeAre__card:hover
-.WhoWeAre__card-description {
+.WhoWeAre__card:hover .WhoWeAre__card-title,
+.WhoWeAre__card:hover .WhoWeAre__card-description {
   color: #ffffff;
 }
 
 
-.WhoWeAre__card:hover
-.WhoWeAre__card-title {
+.WhoWeAre__card:hover .WhoWeAre__card-title {
   transform: translateX(2px);
+}
+
+
+/* =========================================================
+   BUSINESS INFORMATION
+========================================================= */
+
+.WhoWeAre__business-info {
+  max-width: 1050px;
+
+  margin: 50px auto 0;
+
+  padding: 30px;
+
+  background: #f8fbf7;
+
+  border: 1px solid rgba(97, 179, 65, 0.12);
+
+  border-radius: 14px;
+
+  text-align: center;
+}
+
+
+.WhoWeAre__business-info h3 {
+  margin: 0 0 14px;
+
+  color: var(--WhoWeAre-text);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 23px;
+
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+
+.WhoWeAre__business-info p {
+  margin: 8px 0;
+
+  color: var(--WhoWeAre-description);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 14px;
+
+  font-weight: 400;
+
+  line-height: 1.7;
+}
+
+
+.WhoWeAre__business-info strong {
+  color: #222222;
+
+  font-weight: 700;
+}
+
+
+.WhoWeAre__business-info a {
+  color: var(--WhoWeAre-green);
+
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition: color 0.25s ease;
+}
+
+
+.WhoWeAre__business-info a:hover {
+  color: #438b2d;
+
+  text-decoration: underline;
 }
 
 
@@ -682,13 +718,11 @@
     width: min(100% - 45px, 1300px);
   }
 
-
   .WhoWeAre__grid {
     column-gap: 24px;
 
     row-gap: 32px;
   }
-
 
   .WhoWeAre__card {
     height: 145px;
@@ -698,31 +732,25 @@
     gap: 16px;
   }
 
-
   .WhoWeAre__icon-wrapper {
     flex-basis: 65px;
 
     width: 65px;
-
     height: 65px;
   }
 
-
   .WhoWeAre__icon {
     width: 58px;
-
     height: 58px;
 
     font-size: 47px;
   }
-
 
   .WhoWeAre__card-title {
     font-size: 17px;
 
     margin-bottom: 8px;
   }
-
 
   .WhoWeAre__card-description {
     font-size: 12px;
@@ -742,28 +770,29 @@
     padding: 50px 0 60px;
   }
 
-
   .WhoWeAre__container {
     width: calc(100% - 40px);
   }
-
 
   .WhoWeAre__heading-area {
     margin-bottom: 38px;
   }
 
-
   .WhoWeAre__title {
     font-size: 40px;
   }
 
+  .WhoWeAre__intro {
+    max-width: 800px;
+
+    font-size: 14px;
+  }
 
   .WhoWeAre__grid {
     column-gap: 18px;
 
     row-gap: 30px;
   }
-
 
   .WhoWeAre__card {
     height: 140px;
@@ -773,24 +802,19 @@
     gap: 13px;
   }
 
-
   .WhoWeAre__icon-wrapper {
     flex-basis: 60px;
 
     width: 60px;
-
     height: 60px;
   }
 
-
   .WhoWeAre__icon {
     width: 54px;
-
     height: 54px;
 
     font-size: 43px;
   }
-
 
   .WhoWeAre__card-title {
     font-size: 16px;
@@ -798,24 +822,17 @@
     margin-bottom: 8px;
   }
 
-
   .WhoWeAre__card-description {
     font-size: 11.5px;
 
     line-height: 1.65;
   }
 
-
-  /*
-   * Keep stagger subtle on laptop.
-   */
-
   .WhoWeAre__card:nth-child(1),
   .WhoWeAre__card:nth-child(3),
   .WhoWeAre__card:nth-child(5) {
     --WhoWeAre-offset: 6px;
   }
-
 
   .WhoWeAre__card:nth-child(2),
   .WhoWeAre__card:nth-child(4),
@@ -835,16 +852,13 @@
     padding: 45px 0 55px;
   }
 
-
   .WhoWeAre__container {
     width: calc(100% - 32px);
   }
 
-
   .WhoWeAre__heading-area {
     margin-bottom: 35px;
   }
-
 
   .WhoWeAre__title {
     font-size: 37px;
@@ -852,6 +866,13 @@
     font-weight: 600;
   }
 
+  .WhoWeAre__intro {
+    max-width: 700px;
+
+    font-size: 13.5px;
+
+    line-height: 1.7;
+  }
 
   .WhoWeAre__grid {
     grid-template-columns:
@@ -862,7 +883,6 @@
     row-gap: 25px;
   }
 
-
   .WhoWeAre__card {
     height: 140px;
 
@@ -871,18 +891,11 @@
     gap: 13px;
   }
 
-
-  /*
-   * Tablet uses two columns,
-   * therefore use a smaller stagger.
-   */
-
   .WhoWeAre__card:nth-child(1),
   .WhoWeAre__card:nth-child(4),
   .WhoWeAre__card:nth-child(5) {
     --WhoWeAre-offset: 5px;
   }
-
 
   .WhoWeAre__card:nth-child(2),
   .WhoWeAre__card:nth-child(3),
@@ -890,34 +903,34 @@
     --WhoWeAre-offset: -5px;
   }
 
-
   .WhoWeAre__icon-wrapper {
     flex-basis: 55px;
 
     width: 55px;
-
     height: 55px;
   }
 
-
   .WhoWeAre__icon {
     width: 50px;
-
     height: 50px;
 
     font-size: 40px;
   }
 
-
   .WhoWeAre__card-title {
     font-size: 15px;
   }
-
 
   .WhoWeAre__card-description {
     font-size: 11px;
 
     line-height: 1.6;
+  }
+
+  .WhoWeAre__business-info {
+    margin-top: 40px;
+
+    padding: 26px;
   }
 }
 
@@ -932,16 +945,13 @@
     padding: 40px 0 48px;
   }
 
-
   .WhoWeAre__container {
     width: calc(100% - 24px);
   }
 
-
   .WhoWeAre__heading-area {
     margin-bottom: 30px;
   }
-
 
   .WhoWeAre__label {
     width: 145px;
@@ -949,11 +959,9 @@
     height: 43px;
   }
 
-
   .WhoWeAre__label span {
     font-size: 18px;
   }
-
 
   .WhoWeAre__title {
     font-size: 32px;
@@ -961,22 +969,21 @@
     letter-spacing: -0.5px;
   }
 
+  .WhoWeAre__intro {
+    max-width: 100%;
 
-  /*
-   * One card per row on mobile.
-   */
+    margin-top: 14px;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+  }
 
   .WhoWeAre__grid {
     grid-template-columns: 1fr;
 
     gap: 14px;
   }
-
-
-  /*
-   * Remove stagger on mobile
-   * for clean responsive layout.
-   */
 
   .WhoWeAre__card:nth-child(1),
   .WhoWeAre__card:nth-child(2),
@@ -986,7 +993,6 @@
   .WhoWeAre__card:nth-child(6) {
     --WhoWeAre-offset: 0px;
   }
-
 
   .WhoWeAre__card {
     width: 100%;
@@ -1000,24 +1006,19 @@
     gap: 15px;
   }
 
-
   .WhoWeAre__icon-wrapper {
     flex-basis: 53px;
 
     width: 53px;
-
     height: 53px;
   }
 
-
   .WhoWeAre__icon {
     width: 48px;
-
     height: 48px;
 
     font-size: 39px;
   }
-
 
   .WhoWeAre__card-title {
     font-size: 16px;
@@ -1025,18 +1026,34 @@
     margin-bottom: 7px;
   }
 
-
   .WhoWeAre__card-description {
     font-size: 11.5px;
 
     line-height: 1.6;
   }
 
-
   .WhoWeAre__card:hover {
     transform:
       translateY(-5px)
       scale(1.01);
+  }
+
+  .WhoWeAre__business-info {
+    margin-top: 35px;
+
+    padding: 22px 17px;
+  }
+
+  .WhoWeAre__business-info h3 {
+    font-size: 19px;
+
+    line-height: 1.35;
+  }
+
+  .WhoWeAre__business-info p {
+    font-size: 12.5px;
+
+    line-height: 1.65;
   }
 }
 
@@ -1051,16 +1068,13 @@
     padding: 34px 0 42px;
   }
 
-
   .WhoWeAre__container {
     width: calc(100% - 18px);
   }
 
-
   .WhoWeAre__heading-area {
     margin-bottom: 27px;
   }
-
 
   .WhoWeAre__label {
     width: 135px;
@@ -1068,11 +1082,9 @@
     height: 41px;
   }
 
-
   .WhoWeAre__label span {
     font-size: 17px;
   }
-
 
   .WhoWeAre__title {
     font-size: 29px;
@@ -1080,11 +1092,15 @@
     letter-spacing: -0.4px;
   }
 
+  .WhoWeAre__intro {
+    font-size: 12px;
+
+    line-height: 1.65;
+  }
 
   .WhoWeAre__grid {
     gap: 12px;
   }
-
 
   .WhoWeAre__card {
     height: 112px;
@@ -1098,24 +1114,19 @@
     border-radius: 10px;
   }
 
-
   .WhoWeAre__icon-wrapper {
     flex-basis: 48px;
 
     width: 48px;
-
     height: 48px;
   }
 
-
   .WhoWeAre__icon {
     width: 44px;
-
     height: 44px;
 
     font-size: 35px;
   }
-
 
   .WhoWeAre__card-title {
     font-size: 14px;
@@ -1123,11 +1134,22 @@
     margin-bottom: 6px;
   }
 
-
   .WhoWeAre__card-description {
     font-size: 10.5px;
 
     line-height: 1.55;
+  }
+
+  .WhoWeAre__business-info {
+    padding: 18px 13px;
+  }
+
+  .WhoWeAre__business-info h3 {
+    font-size: 17px;
+  }
+
+  .WhoWeAre__business-info p {
+    font-size: 11.5px;
   }
 }
 
@@ -1146,3 +1168,4 @@
     transition: none !important;
   }
 }
+
