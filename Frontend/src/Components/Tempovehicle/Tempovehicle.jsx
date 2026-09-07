@@ -80,11 +80,82 @@ const Tempovehicle = () => {
   const [desktopPage, setDesktopPage] = useState(0);
   const [mobileIndex, setMobileIndex] = useState(0);
 
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState(1); // 1: Trip Details, 2: Personal Details
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+
+  // Form Field States
+  const [formData, setFormData] = useState({
+    pickupLocation: "",
+    dropLocation: "",
+    pickupDateTime: "",
+    dropDateTime: "",
+    fullName: "",
+    mobileNumber: "",
+    message: "",
+    agreedToTerms: false
+  });
+
   const handleFlip = (id) => {
     setFlippedCards((prev) => ({
       ...prev,
       [id]: !prev[id]
     }));
+  };
+
+  const handleOpenModal = (vehicle) => {
+    setSelectedVehicle(vehicle);
+    setModalStep(1);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedVehicle(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
+    }));
+  };
+
+  const handleNextStep = (e) => {
+    e.preventDefault();
+    if (!formData.pickupLocation || !formData.dropLocation || !formData.pickupDateTime) {
+      alert("Please fill in the required trip details.");
+      return;
+    }
+    setModalStep(2);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.fullName || !formData.mobileNumber) {
+      alert("Please provide your Name and Mobile Number.");
+      return;
+    }
+    if (!formData.agreedToTerms) {
+      alert("You must agree to the Terms & Conditions.");
+      return;
+    }
+
+    alert(`Booking successful for ${selectedVehicle?.title}! We will contact you shortly.`);
+    setIsModalOpen(false);
+    // Reset form
+    setFormData({
+      pickupLocation: "",
+      dropLocation: "",
+      pickupDateTime: "",
+      dropDateTime: "",
+      fullName: "",
+      mobileNumber: "",
+      message: "",
+      agreedToTerms: false
+    });
   };
 
   const totalDesktopPages = Math.ceil(VEHICLE_LIST.length / ITEMS_PER_DESKTOP_PAGE);
@@ -194,7 +265,7 @@ const Tempovehicle = () => {
                           <strong>₹{vehicle.price}</strong>
                           <span>/ 8 Hours</span>
                         </div>
-                        <button className="tempovehicle-book-now-btn">
+                        <button className="tempovehicle-book-now-btn" onClick={() => handleOpenModal(vehicle)}>
                           Book Now →
                         </button>
                       </div>
@@ -310,7 +381,7 @@ const Tempovehicle = () => {
                           <strong>₹{vehicle.price}</strong>
                           <span>/ 8 Hours</span>
                         </div>
-                        <button className="tempovehicle-book-now-btn">
+                        <button className="tempovehicle-book-now-btn" onClick={() => handleOpenModal(vehicle)}>
                           Book Now →
                         </button>
                       </div>
@@ -345,6 +416,149 @@ const Tempovehicle = () => {
         </div>
 
       </div>
+
+      {/* BOOKING POPUP MODAL */}
+      {isModalOpen && selectedVehicle && (
+        <div className="tv-modal-overlay" onClick={handleCloseModal}>
+          <div className="tv-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="tv-modal-x-close" onClick={handleCloseModal}>✕</button>
+
+            {modalStep === 1 ? (
+              /* STEP 1: TRIP DETAILS FORM */
+              <form onSubmit={handleNextStep}>
+                <h2 className="tv-modal-title">Start Your Booking</h2>
+
+                <div className="tv-selected-vehicle-banner">
+                  <img src={selectedVehicle.image} alt={selectedVehicle.title} />
+                  <span>{selectedVehicle.title}</span>
+                </div>
+
+                <div className="tv-form-grid">
+                  <div className="tv-form-group">
+                    <label>Pick Up Location</label>
+                    <input 
+                      type="text" 
+                      name="pickupLocation"
+                      placeholder="Pick Up Location" 
+                      value={formData.pickupLocation}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="tv-form-group">
+                    <label>Drop Off Location</label>
+                    <input 
+                      type="text" 
+                      name="dropLocation"
+                      placeholder="Drop Off Location" 
+                      value={formData.dropLocation}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="tv-form-group">
+                    <label>Pick Up Date &amp; Time</label>
+                    <div className="tv-input-with-icon">
+                      <input 
+                        type="datetime-local" 
+                        name="pickupDateTime"
+                        value={formData.pickupDateTime}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="tv-form-group">
+                    <label>Drop Date &amp; Time</label>
+                    <div className="tv-input-with-icon">
+                      <input 
+                        type="datetime-local" 
+                        name="dropDateTime"
+                        value={formData.dropDateTime}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="tv-modal-footer-action">
+                  <button type="submit" className="tv-modal-primary-btn">
+                    Next <span className="tv-arrow-icon">→</span>
+                  </button>
+                </div>
+              </form>
+            ) : (
+              /* STEP 2: CONFIRM BOOKING DETAILS FORM */
+              <form onSubmit={handleFormSubmit}>
+                <h2 className="tv-modal-title">Confirm Your Booking Details</h2>
+
+                <div className="tv-form-group">
+                  <div className="tv-input-icon-wrapper">
+                    <input 
+                      type="text" 
+                      name="fullName"
+                      placeholder="* Enter Your Full Name" 
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <span className="tv-field-icon">👤</span>
+                  </div>
+                </div>
+
+                <div className="tv-form-group">
+                  <div className="tv-input-icon-wrapper">
+                    <input 
+                      type="tel" 
+                      name="mobileNumber"
+                      placeholder="* Enter 10 Digit Mobile Number" 
+                      maxLength="10"
+                      value={formData.mobileNumber}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <span className="tv-field-icon">📞</span>
+                  </div>
+                </div>
+
+                <div className="tv-form-group">
+                  <textarea 
+                    name="message"
+                    rows="4" 
+                    maxLength="150"
+                    placeholder="Your Message (max 150 characters)"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                  ></textarea>
+                </div>
+
+                <div className="tv-form-checkbox-group">
+                  <label>
+                    <input 
+                      type="checkbox" 
+                      name="agreedToTerms"
+                      checked={formData.agreedToTerms}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    I agree to the <span className="tv-highlight-link">Terms &amp; Conditions</span> from <strong>Jagannath Tours &amp; Travels</strong>.
+                  </label>
+                </div>
+
+                <div className="tv-modal-footer-action tv-step2-actions">
+                  <button type="button" className="tv-modal-secondary-btn" onClick={() => setModalStep(1)}>
+                    ← Previous
+                  </button>
+                  <button type="submit" className="tv-modal-primary-btn">
+                    Submit →
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 };
