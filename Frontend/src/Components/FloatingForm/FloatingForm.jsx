@@ -22,10 +22,14 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       generateCaptcha();
+      // Prevent background scrolling while modal is active
+      document.body.style.overflow = 'hidden';
     }
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen, generateCaptcha]);
 
-  // Handle ESC key press
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isOpen && onClose) {
@@ -47,7 +51,6 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Verify Captcha
     if (formData.captchaInput.trim() !== captchaRaw) {
       alert('Invalid Captcha code. Please try again.');
       generateCaptcha();
@@ -56,24 +59,24 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
 
     console.log('Form Submitted successfully:', formData);
     alert('Thank you! Your travel inquiry has been received.');
-    
+
     if (onClose) onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div 
-      className="floating-form-backdrop" 
+    <div
+      className="floating-form-backdrop"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
     >
-      <div 
-        className="floating-form-card" 
+      <div
+        className="floating-form-card"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
+        {/* Sticky/Fixed Close Button */}
         <button
           type="button"
           className="floating-form-close"
