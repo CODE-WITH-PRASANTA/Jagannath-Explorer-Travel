@@ -24,6 +24,7 @@ import Gallary from "./Components/Gallary/Gallary";
 // Authentication
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Login from "./Components/Login/Login";
+import Blogmanagement from "./Pages/Blogmanagement/Blogmanagement";
 
 const App = () => {
   return (
@@ -50,7 +51,8 @@ const App = () => {
             <Route path="/coupons" element={<Coupons />} />
 
             {/* Content Management */}
-            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blog/new" element={<Blogs />} />
+            <Route path="/Blog"element={<Blogmanagement/>}/>
             <Route path="/testimonials" element={<Testimonial />} />
             <Route path="/gallary" element={<Gallary />} />
 

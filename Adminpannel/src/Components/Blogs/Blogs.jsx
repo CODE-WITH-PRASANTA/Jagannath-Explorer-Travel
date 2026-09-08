@@ -1,75 +1,25 @@
-import React, { useState } from 'react';
-import { 
-  FiPlus, 
-  FiEdit2, 
-  FiTrash2, 
-  FiBold, 
-  FiItalic, 
-  FiUnderline, 
-  FiSquare, 
-  FiList, 
-  FiAlignLeft, 
-  FiAlignCenter, 
-  FiAlignRight, 
-  FiLink, 
-  FiImage, 
-  FiRotateCcw, 
-  FiRotateCw 
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  FiEdit2,
+  FiTrash2,
+  FiBold,
+  FiItalic,
+  FiUnderline,
+  FiSquare,
+  FiList,
+  FiAlignLeft,
+  FiAlignCenter,
+  FiAlignRight,
+  FiLink,
+  FiImage,
+  FiRotateCcw,
+  FiRotateCw,
+  FiUploadCloud,
+  FiX
 } from 'react-icons/fi';
 import './Blogs.css';
-
-const initialBlogs = [
-  {
-    id: 1,
-    title: 'Semper Nulla Vestibul Umdot Vitae Morbi Semper.',
-    category: 'Adventure',
-    author: 'Zakai Math',
-    date: '2023-08-20',
-    displayDate: '20 Aug 2023',
-    status: 'Published',
-    content: ''
-  },
-  {
-    id: 2,
-    title: 'Nisi Laoreet Etiam Fringilland Mauris Vitae Arcu.',
-    category: 'Local Story',
-    author: 'Tourism',
-    date: '2023-08-20',
-    displayDate: '20 Aug 2023',
-    status: 'Published',
-    content: ''
-  },
-  {
-    id: 3,
-    title: 'The Nomadic Explorer Discovi Hidden Gems..',
-    category: 'Wildlife',
-    author: 'Kaiser Bocio',
-    date: '2023-08-20',
-    displayDate: '20 Aug 2023',
-    status: 'Published',
-    content: ''
-  },
-  {
-    id: 4,
-    title: 'Passport Diariesoni Journeys And Experiences',
-    category: 'Wildlife',
-    author: 'Kaiser Bocio',
-    date: '2023-08-20',
-    displayDate: '20 Aug 2023',
-    status: 'Draft',
-    content: ''
-  },
-  {
-    id: 5,
-    title: 'Roaming Free Adventures Off The Beaten Path.',
-    category: 'Wildlife',
-    author: 'Kaiser Bocio',
-    date: '2023-08-20',
-    displayDate: '20 Aug 2023',
-    status: 'Published',
-    content: ''
-  }
-];
+import API, { IMG_URL } from "../../api/axios";
 
 const categories = ['Adventure', 'Local Story', 'Wildlife', 'Travel', 'Food'];
 
@@ -81,7 +31,7 @@ const defaultFormData = {
   date: new Date().toISOString().split('T')[0],
   status: 'Published',
   featuredImage: null,
-  fileName: '',
+  imagePreview: '',
   content: ''
 };
 
@@ -96,40 +46,101 @@ const formatDate = (dateStr) => {
 };
 
 const Blogs = () => {
-  const [blogs, setBlogs] = useState(initialBlogs);
+  const [blogs, setBlogs] = useState([]);
   const [formData, setFormData] = useState(defaultFormData);
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const editBlogId = queryParams.get('id');
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [editBlogId]);
+
+  const fetchBlogs = async () => {
+    try {
+      setLoading(true);
+      const response = await API.get('/blogs');
+      const rawData = Array.isArray(response.data) 
+        ? response.data 
+        : (response.data.data || response.data.blogs || []);
+
+      const formattedBlogs = rawData.map(blog => ({
+        ...blog,
+        id: blog._id || blog.id,
+        image: blog.image ? (blog.image.startsWith('http') ? blog.image : `${IMG_URL}${blog.image}`) : ''
+      }));
+      
+      setBlogs(formattedBlogs);
+
+      // If an ID is passed in the URL, prepopulate the form for editing
+      if (editBlogId) {
+        const targetBlog = formattedBlogs.find(b => b.id === editBlogId);
+        if (targetBlog) {
+          setFormData({
+            id: targetBlog.id,
+            title: targetBlog.title,
+            category: targetBlog.category,
+            author: targetBlog.author || '',
+            date: targetBlog.date ? targetBlog.date.split('T')[0] : new Date().toISOString().split('T')[0],
+            status: targetBlog.status || 'Published',
+            featuredImage: null,
+            imagePreview: targetBlog.image || '',
+            content: targetBlog.content || ''
+          });
+          setIsEditing(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+      alert('Failed to load blogs from server.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleResetForm = () => {
     setFormData(defaultFormData);
     setIsEditing(false);
+    if (editBlogId) {
+      navigate('/blog/new'); // Clear query param on cancel/reset
+    }
   };
 
   const handleSelectBlogForEdit = (blog) => {
+    navigate(`/blog/new?id=${blog.id}`);
     setFormData({
       id: blog.id,
       title: blog.title,
       category: blog.category,
       author: blog.author || '',
-      date: blog.date || new Date().toISOString().split('T')[0],
+      date: blog.date ? blog.date.split('T')[0] : new Date().toISOString().split('T')[0],
       status: blog.status || 'Published',
       featuredImage: null,
-      fileName: '',
+      imagePreview: blog.image || '',
       content: blog.content || ''
     });
     setIsEditing(true);
 
-    // Smooth scroll to form on mobile devices
     if (window.innerWidth <= 1024) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this blog?')) {
-      setBlogs((prev) => prev.filter((item) => item.id !== id));
-      if (formData.id === id) {
-        handleResetForm();
+      try {
+        await API.delete(`/blogs/${id}`);
+        setBlogs((prev) => prev.filter((item) => item.id !== id));
+        if (formData.id === id) {
+          handleResetForm();
+        }
+      } catch (error) {
+        console.error('Error deleting blog:', error);
+        alert('Failed to delete blog.');
       }
     }
   };
@@ -145,12 +156,20 @@ const Blogs = () => {
       setFormData((prev) => ({
         ...prev,
         featuredImage: file,
-        fileName: file.name
+        imagePreview: URL.createObjectURL(file)
       }));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleRemoveImage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      featuredImage: null,
+      imagePreview: ''
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.title || !formData.category) {
@@ -158,48 +177,56 @@ const Blogs = () => {
       return;
     }
 
-    if (isEditing) {
-      setBlogs((prev) =>
-        prev.map((blog) =>
-          blog.id === formData.id
-            ? {
-                ...blog,
-                title: formData.title,
-                category: formData.category,
-                author: formData.author || 'Anonymous',
-                date: formData.date,
-                displayDate: formatDate(formData.date),
-                status: formData.status,
-                content: formData.content
-              }
-            : blog
-        )
-      );
-    } else {
-      const newBlog = {
-        id: blogs.length ? Math.max(...blogs.map((b) => b.id)) + 1 : 1,
-        title: formData.title,
-        category: formData.category,
-        author: formData.author || 'Anonymous',
-        date: formData.date,
-        displayDate: formatDate(formData.date),
-        status: formData.status,
-        content: formData.content
-      };
-      setBlogs((prev) => [newBlog, ...prev]);
-    }
+    try {
+      const data = new FormData();
+      data.append('title', formData.title);
+      data.append('category', formData.category);
+      data.append('author', formData.author || 'Anonymous');
+      data.append('date', formData.date);
+      data.append('status', formData.status);
+      data.append('content', formData.content);
+      
+      if (formData.featuredImage) {
+        data.append('image', formData.featuredImage);
+      }
 
-    handleResetForm();
+      if (isEditing) {
+        const response = await API.put(`/blogs/${formData.id}`, data, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        const updated = response.data.data;
+        const formattedUpdated = {
+          ...updated,
+          id: updated._id || updated.id,
+          image: updated.image ? (updated.image.startsWith('http') ? updated.image : `${IMG_URL}${updated.image}`) : ''
+        };
+
+        setBlogs((prev) =>
+          prev.map((blog) => (blog.id === formData.id ? formattedUpdated : blog))
+        );
+      } else {
+        const response = await API.post('/blogs', data, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        const created = response.data.data;
+        const formattedCreated = {
+          ...created,
+          id: created._id || created.id,
+          image: created.image ? (created.image.startsWith('http') ? created.image : `${IMG_URL}${created.image}`) : ''
+        };
+
+        setBlogs((prev) => [formattedCreated, ...prev]);
+      }
+
+      handleResetForm();
+    } catch (error) {
+      console.error('Error saving blog:', error);
+      alert(error.response?.data?.message || 'Failed to save blog post.');
+    }
   };
 
   return (
     <div className="blogs-wrapper">
-      {/* Top Header */}
-      <div className="blogs-header">
-
-      </div>
-
-      {/* Main Two-Column Layout */}
       <div className="blogs-grid-container">
         {/* Left Side: Form Panel */}
         <aside className="blogs-form-card">
@@ -213,7 +240,6 @@ const Blogs = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="blogs-form">
-            {/* Title */}
             <div className="blogs-form-group">
               <label className="blogs-form-label">
                 Title <span className="blogs-required-mark">*</span>
@@ -229,7 +255,6 @@ const Blogs = () => {
               />
             </div>
 
-            {/* Category & Status */}
             <div className="blogs-form-row">
               <div className="blogs-form-group blogs-flex-1">
                 <label className="blogs-form-label">
@@ -278,7 +303,6 @@ const Blogs = () => {
               </div>
             </div>
 
-            {/* Author & Date */}
             <div className="blogs-form-row">
               <div className="blogs-form-group blogs-flex-1">
                 <label className="blogs-form-label">Author</label>
@@ -304,27 +328,52 @@ const Blogs = () => {
               </div>
             </div>
 
-            {/* Featured Image */}
             <div className="blogs-form-group">
               <label className="blogs-form-label">Featured Image</label>
-              <div className="blogs-file-wrapper">
-                <label htmlFor="blogs-featured-upload" className="blogs-file-custom-btn">
-                  Choose File
+              {formData.imagePreview ? (
+                <div className="blogs-image-preview">
+                  <img
+                    src={formData.imagePreview}
+                    alt="Featured preview"
+                    className="blogs-image-preview-img"
+                  />
+                  <div className="blogs-image-preview-overlay">
+                    <label htmlFor="blogs-featured-upload" className="blogs-image-replace-btn">
+                      Replace
+                    </label>
+                    <button
+                      type="button"
+                      className="blogs-image-remove-btn"
+                      onClick={handleRemoveImage}
+                      title="Remove image"
+                    >
+                      <FiX />
+                    </button>
+                  </div>
+                  <input
+                    id="blogs-featured-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="blogs-file-input-hidden"
+                  />
+                </div>
+              ) : (
+                <label htmlFor="blogs-featured-upload" className="blogs-file-dropzone">
+                  <FiUploadCloud className="blogs-file-dropzone-icon" />
+                  <span className="blogs-file-dropzone-title">Click to upload an image</span>
+                  <span className="blogs-file-dropzone-sub">PNG, JPG up to 10MB</span>
+                  <input
+                    id="blogs-featured-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="blogs-file-input-hidden"
+                  />
                 </label>
-                <span className="blogs-file-name-text">
-                  {formData.fileName || 'No file chosen'}
-                </span>
-                <input
-                  id="blogs-featured-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="blogs-file-input-hidden"
-                />
-              </div>
+              )}
             </div>
 
-            {/* Content Textarea with Toolbar */}
             <div className="blogs-form-group">
               <label className="blogs-form-label">Content</label>
               <div className="blogs-editor-container">
@@ -357,12 +406,11 @@ const Blogs = () => {
               </div>
             </div>
 
-            {/* Form Actions */}
             <div className="blogs-form-actions">
               {isEditing && (
-                <button 
-                  type="button" 
-                  className="blogs-btn-cancel" 
+                <button
+                  type="button"
+                  className="blogs-btn-cancel"
                   onClick={handleResetForm}
                 >
                   Cancel Edit
@@ -378,14 +426,16 @@ const Blogs = () => {
         {/* Right Side: Data Table */}
         <section className="blogs-table-card">
           <div className="blogs-table-header">
-            <h2 className="blogs-table-title">All Blogs ({blogs.length})</h2>
+            <h2 className="blogs-table-title">All Blogs</h2>
+            <span className="blogs-table-count">{blogs.length} articles</span>
           </div>
 
           <div className="blogs-table-responsive">
             <table className="blogs-table">
               <thead>
                 <tr className="blogs-table-head-row">
-                  <th className="blogs-th-id">ID</th>
+                  <th className="blogs-th-id">#</th>
+                  <th className="blogs-th-image">Image</th>
                   <th className="blogs-th-title">Title</th>
                   <th className="blogs-th-category">Category</th>
                   <th className="blogs-th-author">Author</th>
@@ -395,36 +445,52 @@ const Blogs = () => {
                 </tr>
               </thead>
               <tbody>
-                {blogs.map((blog) => (
-                  <tr 
-                    key={blog.id} 
+                {blogs.map((blog, index) => (
+                  <tr
+                    key={blog.id}
                     className={`blogs-table-body-row ${formData.id === blog.id ? 'blogs-row-active' : ''}`}
                   >
-                    <td className="blogs-td-id">#{blog.id}</td>
+                    <td className="blogs-td-id">{index + 1}</td>
+                    <td className="blogs-td-image">
+                      {blog.image ? (
+                        <img
+                          src={blog.image}
+                          alt={blog.title}
+                          className="blogs-thumb"
+                        />
+                      ) : (
+                        <div className="blogs-thumb blogs-thumb-placeholder">
+                          <FiImage />
+                        </div>
+                      )}
+                    </td>
                     <td className="blogs-td-title">
                       <span className="blogs-cell-title" title={blog.title}>
                         {blog.title}
                       </span>
                     </td>
-                    <td className="blogs-td-category">{blog.category}</td>
+                    <td className="blogs-td-category">
+                      <span className="blogs-category-chip">{blog.category}</span>
+                    </td>
                     <td className="blogs-td-author">{blog.author}</td>
                     <td className="blogs-td-date">{blog.displayDate || formatDate(blog.date)}</td>
                     <td className="blogs-td-status">
                       <span className={`blogs-status-badge blogs-status-${blog.status.toLowerCase()}`}>
+                        <span className="blogs-status-dot" />
                         {blog.status}
                       </span>
                     </td>
                     <td className="blogs-td-actions">
                       <div className="blogs-actions-group">
-                        <button 
-                          className="blogs-action-btn blogs-action-btn-edit" 
+                        <button
+                          className="blogs-action-btn blogs-action-btn-edit"
                           onClick={() => handleSelectBlogForEdit(blog)}
                           title="Edit Blog"
                         >
                           <FiEdit2 />
                         </button>
-                        <button 
-                          className="blogs-action-btn blogs-action-btn-delete" 
+                        <button
+                          className="blogs-action-btn blogs-action-btn-delete"
                           onClick={() => handleDelete(blog.id)}
                           title="Delete Blog"
                         >
@@ -434,9 +500,9 @@ const Blogs = () => {
                     </td>
                   </tr>
                 ))}
-                {blogs.length === 0 && (
+                {blogs.length === 0 && !loading && (
                   <tr>
-                    <td colSpan="7" className="blogs-empty-row">
+                    <td colSpan="8" className="blogs-empty-row">
                       No blogs found. Use the form on the left to add one.
                     </td>
                   </tr>

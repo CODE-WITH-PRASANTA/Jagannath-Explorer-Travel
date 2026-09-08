@@ -6,6 +6,7 @@ const connectDB = require("./src/config/db");
 
 const galleryRoutes = require("./src/routes/galleryRoutes");
 const testimonialRoutes = require("./src/routes/testimonialRoutes");
+const blogRoutes = require("./src/routes/blogRoutes");
 
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(
   galleryRoutes
 );
 app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/blogs", blogRoutes);
 
 // Test route
 app.get("/", (req, res) => {

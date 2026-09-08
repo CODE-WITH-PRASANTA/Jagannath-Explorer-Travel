@@ -56,14 +56,14 @@ const multerUpload = multer({
   fileFilter: fileFilter,
 
   limits: {
-    // Maximum original upload size: 10 MB
+    // Maximum original upload size: 10 MB per file
     fileSize: 10 * 1024 * 1024,
   },
 });
 
 
 // =========================================
-// WEBP CONVERSION MIDDLEWARE
+// SINGLE WEBP CONVERSION MIDDLEWARE
 // =========================================
 
 const convertToWebp = async (req, res, next) => {
@@ -147,6 +147,70 @@ const convertToWebp = async (req, res, next) => {
 
 
 // =========================================
+// MULTIPLE WEBP CONVERSION MIDDLEWARE
+// =========================================
+
+const convertMultipleToWebp = async (req, res, next) => {
+  try {
+    let filesArray = [];
+
+    if (Array.isArray(req.files)) {
+      filesArray = req.files;
+    } else if (req.files && typeof req.files === "object") {
+      filesArray = Object.values(req.files).flat();
+    }
+
+    if (!filesArray.length) {
+      return next();
+    }
+
+    await Promise.all(
+      filesArray.map(async (file) => {
+        const originalName = path
+          .parse(file.originalname)
+          .name
+          .replace(/[^a-zA-Z0-9]/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "")
+          .toLowerCase();
+
+        const fileName = `${originalName || "image"}-${Date.now()}-${Math.round(
+          Math.random() * 1e9
+        )}.webp`;
+
+        const outputPath = path.join(galleryUploadPath, fileName);
+
+        await sharp(file.buffer)
+          .webp({
+            quality: 85,
+            effort: 4,
+          })
+          .toFile(outputPath);
+
+        file.filename = fileName;
+        file.path = outputPath;
+        file.destination = galleryUploadPath;
+        file.mimetype = "image/webp";
+        file.originalname = fileName;
+        file.size = fs.statSync(outputPath).size;
+        file.url = `/uploads/gallery/${fileName}`;
+      })
+    );
+
+    next();
+  } catch (error) {
+    console.error("MULTIPLE IMAGE CONVERSION ERROR:", error);
+
+    return res.status(400).json({
+      success: false,
+      message: "Failed to convert images to WebP",
+      error: error.message,
+    });
+  }
+};
+
+
+// =========================================
 // EXPORT
 // =========================================
 
@@ -154,6 +218,18 @@ const upload = {
   single: (fieldName) => [
     multerUpload.single(fieldName),
     convertToWebp,
+  ],
+  array: (fieldName, maxCount) => [
+    multerUpload.array(fieldName, maxCount),
+    convertMultipleToWebp,
+  ],
+  fields: (fieldsArray) => [
+    multerUpload.fields(fieldsArray),
+    convertMultipleToWebp,
+  ],
+  any: () => [
+    multerUpload.any(),
+    convertMultipleToWebp,
   ],
 };
 
