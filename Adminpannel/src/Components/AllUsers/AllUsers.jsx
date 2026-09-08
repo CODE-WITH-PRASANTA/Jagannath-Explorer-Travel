@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './AllUsers.css';
 import {
   FaUser,
@@ -19,134 +19,15 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaPlusCircle,
-  FaQuoteLeft
+  FaQuoteLeft,
+  FaTimes
 } from 'react-icons/fa';
 
-const initialUsers = [
-  {
-    id: 1,
-    name: 'Admin User',
-    title: 'Super Admin',
-    email: 'admin@jagannathtours.com',
-    role: 'Super Admin',
-    status: 'Active',
-    joinedOn: '12 Jan 2024',
-    avatar: 'https://i.pravatar.cc/150?img=11'
-  },
-  {
-    id: 2,
-    name: 'Priya Sahu',
-    title: 'Content Manager',
-    email: 'priya@jagannathtours.com',
-    role: 'Admin',
-    status: 'Active',
-    joinedOn: '20 Jan 2024',
-    avatar: 'https://i.pravatar.cc/150?img=5'
-  },
-  {
-    id: 3,
-    name: 'Rakesh Das',
-    title: 'Booking Manager',
-    email: 'rakesh@jagannathtours.com',
-    role: 'Staff',
-    status: 'Active',
-    joinedOn: '05 Feb 2024',
-    avatar: 'https://i.pravatar.cc/150?img=12'
-  },
-  {
-    id: 4,
-    name: 'Anita Patra',
-    title: 'Customer Support',
-    email: 'anita@jagannathtours.com',
-    role: 'Staff',
-    status: 'Active',
-    joinedOn: '18 Feb 2024',
-    avatar: 'https://i.pravatar.cc/150?img=9'
-  },
-  {
-    id: 5,
-    name: 'Suresh Behera',
-    title: 'Operations',
-    email: 'suresh@jagannathtours.com',
-    role: 'Staff',
-    status: 'Inactive',
-    joinedOn: '02 Mar 2024',
-    avatar: 'https://i.pravatar.cc/150?img=13'
-  },
-  {
-    id: 6,
-    name: 'Neha Mohanty',
-    title: 'Marketing',
-    email: 'neha@jagannathtours.com',
-    role: 'Staff',
-    status: 'Active',
-    joinedOn: '15 Mar 2024',
-    avatar: 'https://i.pravatar.cc/150?img=20'
-  },
-  {
-    id: 7,
-    name: 'Amit Kumar',
-    title: 'Tour Executive',
-    email: 'amit@jagannathtours.com',
-    role: 'Staff',
-    status: 'Active',
-    joinedOn: '28 Mar 2024',
-    avatar: 'https://i.pravatar.cc/150?img=15'
-  },
-  {
-    id: 8,
-    name: 'Sneha Raut',
-    title: 'Enquiry Manager',
-    email: 'sneha@jagannathtours.com',
-    role: 'Staff',
-    status: 'Inactive',
-    joinedOn: '10 Apr 2024',
-    avatar: 'https://i.pravatar.cc/150?img=23'
-  },
-  {
-    id: 9,
-    name: 'Manish Swain',
-    title: 'Accounts Exec',
-    email: 'manish@jagannathtours.com',
-    role: 'Staff',
-    status: 'Active',
-    joinedOn: '15 Apr 2024',
-    avatar: 'https://i.pravatar.cc/150?img=33'
-  },
-  {
-    id: 10,
-    name: 'Subhashree Nayak',
-    title: 'Travel Advisor',
-    email: 'subha@jagannathtours.com',
-    role: 'Staff',
-    status: 'Active',
-    joinedOn: '02 May 2024',
-    avatar: 'https://i.pravatar.cc/150?img=47'
-  },
-  {
-    id: 11,
-    name: 'Deepak Mishra',
-    title: 'Logistics Lead',
-    email: 'deepak@jagannathtours.com',
-    role: 'Admin',
-    status: 'Active',
-    joinedOn: '12 May 2024',
-    avatar: 'https://i.pravatar.cc/150?img=60'
-  },
-  {
-    id: 12,
-    name: 'Pooja Jena',
-    title: 'Client Specialist',
-    email: 'pooja@jagannathtours.com',
-    role: 'Staff',
-    status: 'Inactive',
-    joinedOn: '01 Jun 2024',
-    avatar: 'https://i.pravatar.cc/150?img=25'
-  }
-];
+const API_BASE_URL = 'http://localhost:5000';
 
 const AllUsers = () => {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('All');
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
@@ -157,27 +38,59 @@ const AllUsers = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [fullName, setFullName] = useState('');
+  const [title, setTitle] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState('Staff');
   const [status, setStatus] = useState(true);
-  const [profilePic, setProfilePic] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewPic, setPreviewPic] = useState(null);
   const [fileName, setFileName] = useState('');
 
   const fileInputRef = useRef(null);
 
+  // Fetch Users
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/users`);
+      const data = await res.json();
+      if (data.success) {
+        setUsers(data.users);
+      }
+    } catch (err) {
+      console.error('Error fetching users:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // Format Display Date
+  const formatDate = (dateStr) => {
+    if (!dateStr) return 'N/A';
+    return new Date(dateStr).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+  };
+
   // Search & Filter Logic
   const filteredUsers = users.filter((u) => {
-    const matchesSearch =
-      u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRole = roleFilter === 'All' || u.role === roleFilter;
-    return matchesSearch && matchesRole;
+    const term = searchTerm.toLowerCase();
+    const nameMatch = u.name?.toLowerCase().includes(term);
+    const emailMatch = u.email?.toLowerCase().includes(term);
+    const titleMatch = u.title?.toLowerCase().includes(term);
+    const roleMatch = roleFilter === 'All' || u.role === roleFilter;
+    return (nameMatch || emailMatch || titleMatch) && roleMatch;
   });
 
-  // Pagination Logic
+  // Pagination Calculations
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage) || 1;
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -195,79 +108,109 @@ const AllUsers = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setSelectedFile(file);
       setFileName(file.name);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePic(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setPreviewPic(URL.createObjectURL(file));
     }
   };
 
-  // Form Submit (Create / Edit)
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isEditing) {
-      setUsers(
-        users.map((u) =>
-          u.id === editingId
-            ? {
-                ...u,
-                name: fullName,
-                email: email,
-                role: role,
-                status: status ? 'Active' : 'Inactive',
-                avatar: profilePic || u.avatar
-              }
-            : u
-        )
-      );
-      setIsEditing(false);
-      setEditingId(null);
-    } else {
-      const newUser = {
-        id: Date.now(),
-        name: fullName,
-        title: 'New Member',
-        email: email,
-        role: role,
-        status: status ? 'Active' : 'Inactive',
-        joinedOn: new Date().toLocaleDateString('en-GB', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric'
-        }),
-        avatar: profilePic || 'https://i.pravatar.cc/150?img=33'
-      };
-      setUsers([newUser, ...users]);
-    }
-
-    // Reset Form
+  const resetForm = () => {
+    setIsEditing(false);
+    setEditingId(null);
     setFullName('');
+    setTitle('');
     setEmail('');
     setPassword('');
     setRole('Staff');
     setStatus(true);
-    setProfilePic(null);
+    setSelectedFile(null);
+    setPreviewPic(null);
     setFileName('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  // Edit Action
+  // Form Submit (POST / PUT)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('name', fullName);
+    formData.append('title', title || 'Team Member');
+    formData.append('email', email);
+    formData.append('role', role);
+    formData.append('status', status ? 'Active' : 'Inactive');
+    if (password) formData.append('password', password);
+    if (selectedFile) formData.append('avatar', selectedFile);
+
+    try {
+      const url = isEditing
+        ? `${API_BASE_URL}/api/users/${editingId}`
+        : `${API_BASE_URL}/api/users`;
+      const method = isEditing ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        body: formData
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || 'Operation failed');
+        return;
+      }
+
+      if (isEditing) {
+        setUsers(users.map((u) => (u._id === editingId ? data.user : u)));
+      } else {
+        setUsers([data.user, ...users]);
+      }
+
+      resetForm();
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      alert('An error occurred while saving.');
+    }
+  };
+
+  // Populate Form for Edit
   const handleEdit = (user) => {
     setIsEditing(true);
-    setEditingId(user.id);
+    setEditingId(user._id);
     setFullName(user.name);
+    setTitle(user.title || '');
     setEmail(user.email);
     setPassword('******');
     setRole(user.role);
     setStatus(user.status === 'Active');
-    setProfilePic(user.avatar);
+    setFileName('');
+    setSelectedFile(null);
+    setPreviewPic(
+      user.avatar
+        ? user.avatar.startsWith('http')
+          ? user.avatar
+          : `${API_BASE_URL}${user.avatar}`
+        : null
+    );
   };
 
-  // Delete Action
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      setUsers(users.filter((u) => u.id !== id));
+  // Delete User
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this user?')) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/users/${id}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setUsers(users.filter((u) => u._id !== id));
+        if (editingId === id) resetForm();
+      } else {
+        alert(data.message || 'Failed to delete user');
+      }
+    } catch (err) {
+      console.error('Error deleting user:', err);
     }
   };
 
@@ -275,21 +218,21 @@ const AllUsers = () => {
   const handleExport = () => {
     const headers = ['ID,Name,Title,Email,Role,Status,Joined On\n'];
     const rows = filteredUsers.map(
-      (u) =>
-        `${u.id},"${u.name}","${u.title}",${u.email},${u.role},${u.status},"${u.joinedOn}"\n`
+      (u, idx) =>
+        `${idx + 1},"${u.name}","${u.title || ''}",${u.email},${u.role},${u.status},"${formatDate(u.joinedOn || u.createdAt)}"\n`
     );
-    const blob = new Blob([...headers, ...rows], { type: 'text/csv' });
+    const blob = new Blob([...headers, ...rows], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Users_List.csv';
+    a.download = `Users_List_${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
 
   return (
     <div className="AllUsers">
-      {/* Top Banner Header matching background */}
+      {/* Top Banner Header */}
       <div className="AllUsers-header-banner">
         <div className="AllUsers-title-area">
           <h1>User Management</h1>
@@ -359,7 +302,7 @@ const AllUsers = () => {
 
         {/* Main 2-Column Section */}
         <div className="AllUsers-main-layout">
-          {/* Left Column: Users Table & Controls */}
+          {/* Left Column: Users Table */}
           <div className="AllUsers-table-container">
             <div className="AllUsers-table-header">
               <div>
@@ -383,59 +326,33 @@ const AllUsers = () => {
 
                 <div className="filter-dropdown-wrapper">
                   <button
+                    type="button"
                     className="control-btn"
                     onClick={() => setShowFilterDropdown(!showFilterDropdown)}
                   >
-                    <FaFilter /> Filter
+                    <FaFilter /> {roleFilter === 'All' ? 'Filter' : roleFilter}
                   </button>
 
                   {showFilterDropdown && (
                     <div className="filter-menu">
-                      <div
-                        className={`filter-item ${roleFilter === 'All' ? 'active' : ''}`}
-                        onClick={() => {
-                          setRoleFilter('All');
-                          setShowFilterDropdown(false);
-                          setCurrentPage(1);
-                        }}
-                      >
-                        All Roles
-                      </div>
-                      <div
-                        className={`filter-item ${roleFilter === 'Super Admin' ? 'active' : ''}`}
-                        onClick={() => {
-                          setRoleFilter('Super Admin');
-                          setShowFilterDropdown(false);
-                          setCurrentPage(1);
-                        }}
-                      >
-                        Super Admin
-                      </div>
-                      <div
-                        className={`filter-item ${roleFilter === 'Admin' ? 'active' : ''}`}
-                        onClick={() => {
-                          setRoleFilter('Admin');
-                          setShowFilterDropdown(false);
-                          setCurrentPage(1);
-                        }}
-                      >
-                        Admin
-                      </div>
-                      <div
-                        className={`filter-item ${roleFilter === 'Staff' ? 'active' : ''}`}
-                        onClick={() => {
-                          setRoleFilter('Staff');
-                          setShowFilterDropdown(false);
-                          setCurrentPage(1);
-                        }}
-                      >
-                        Staff
-                      </div>
+                      {['All', 'Super Admin', 'Admin', 'Staff'].map((r) => (
+                        <div
+                          key={r}
+                          className={`filter-item ${roleFilter === r ? 'active' : ''}`}
+                          onClick={() => {
+                            setRoleFilter(r);
+                            setShowFilterDropdown(false);
+                            setCurrentPage(1);
+                          }}
+                        >
+                          {r === 'All' ? 'All Roles' : r}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
 
-                <button className="control-btn" onClick={handleExport}>
+                <button type="button" className="control-btn" onClick={handleExport}>
                   <FaDownload /> Export
                 </button>
               </div>
@@ -456,61 +373,82 @@ const AllUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentUsers.length > 0 ? (
-                    currentUsers.map((user, idx) => (
-                      <tr key={user.id}>
-                        <td>{indexOfFirstUser + idx + 1}</td>
-                        <td>
-                          <div className="user-profile-cell">
-                            <img
-                              src={user.avatar}
-                              alt={user.name}
-                              className="user-avatar"
-                            />
-                            <div>
-                              <div className="user-name">{user.name}</div>
-                              <div className="user-title">{user.title}</div>
+                  {loading ? (
+                    <tr>
+                      <td colSpan="7" className="no-data">
+                        Loading users...
+                      </td>
+                    </tr>
+                  ) : currentUsers.length > 0 ? (
+                    currentUsers.map((user, idx) => {
+                      const avatarSrc = user.avatar
+                        ? user.avatar.startsWith('http')
+                          ? user.avatar
+                          : `${API_BASE_URL}${user.avatar}`
+                        : 'https://i.pravatar.cc/150?img=33';
+
+                      return (
+                        <tr key={user._id}>
+                          <td>{indexOfFirstUser + idx + 1}</td>
+                          <td>
+                            <div className="user-profile-cell">
+                              <img
+                                src={avatarSrc}
+                                alt={user.name}
+                                className="user-avatar"
+                                onError={(e) => {
+                                  e.target.src = 'https://i.pravatar.cc/150?img=33';
+                                }}
+                              />
+                              <div>
+                                <div className="user-name">{user.name}</div>
+                                <div className="user-title">{user.title || 'Member'}</div>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="email-text">{user.email}</td>
-                        <td>
-                          <span
-                            className={`role-badge ${user.role
-                              .toLowerCase()
-                              .replace(' ', '-')}`}
-                          >
-                            {user.role}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className={`status-badge ${user.status.toLowerCase()}`}
-                          >
-                            {user.status}
-                          </span>
-                        </td>
-                        <td className="date-text">{user.joinedOn}</td>
-                        <td>
-                          <div className="action-buttons">
-                            <button
-                              className="action-btn edit"
-                              onClick={() => handleEdit(user)}
-                              title="Edit User"
+                          </td>
+                          <td className="email-text">{user.email}</td>
+                          <td>
+                            <span
+                              className={`role-badge ${user.role
+                                .toLowerCase()
+                                .replace(' ', '-')}`}
                             >
-                              <FaPencilAlt />
-                            </button>
-                            <button
-                              className="action-btn delete"
-                              onClick={() => handleDelete(user.id)}
-                              title="Delete User"
+                              {user.role}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              className={`status-badge ${user.status.toLowerCase()}`}
                             >
-                              <FaTrashAlt />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+                              {user.status}
+                            </span>
+                          </td>
+                          <td className="date-text">
+                            {formatDate(user.joinedOn || user.createdAt)}
+                          </td>
+                          <td>
+                            <div className="action-buttons">
+                              <button
+                                type="button"
+                                className="action-btn edit"
+                                onClick={() => handleEdit(user)}
+                                title="Edit User"
+                              >
+                                <FaPencilAlt />
+                              </button>
+                              <button
+                                type="button"
+                                className="action-btn delete"
+                                onClick={() => handleDelete(user._id)}
+                                title="Delete User"
+                              >
+                                <FaTrashAlt />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
                   ) : (
                     <tr>
                       <td colSpan="7" className="no-data">
@@ -522,7 +460,7 @@ const AllUsers = () => {
               </table>
             </div>
 
-            {/* Table Pagination Footer */}
+            {/* Pagination Footer */}
             <div className="AllUsers-table-footer">
               <span className="showing-text">
                 Showing{' '}
@@ -533,6 +471,7 @@ const AllUsers = () => {
 
               <div className="pagination">
                 <button
+                  type="button"
                   className="page-nav-btn"
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(currentPage - 1)}
@@ -543,6 +482,7 @@ const AllUsers = () => {
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (pageNum) => (
                     <button
+                      type="button"
                       key={pageNum}
                       className={`page-num-btn ${
                         currentPage === pageNum ? 'active' : ''
@@ -555,6 +495,7 @@ const AllUsers = () => {
                 )}
 
                 <button
+                  type="button"
                   className="page-nav-btn"
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage(currentPage + 1)}
@@ -571,7 +512,7 @@ const AllUsers = () => {
               <div className="form-icon-box">
                 <FaUserPlus />
               </div>
-              <div>
+              <div style={{ flex: 1 }}>
                 <h2>{isEditing ? 'Edit User' : 'Add New User'}</h2>
                 <p>
                   {isEditing
@@ -579,6 +520,21 @@ const AllUsers = () => {
                     : 'Create a new admin or staff user'}
                 </p>
               </div>
+              {isEditing && (
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#64748b'
+                  }}
+                  title="Cancel Edit"
+                >
+                  <FaTimes />
+                </button>
+              )}
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -594,6 +550,19 @@ const AllUsers = () => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     required
+                  />
+                </div>
+              </div>
+
+              <div className="AllUsers-form-group">
+                <label>Job Title / Designation</label>
+                <div className="input-with-icon">
+                  <FaUserTie className="input-icon" />
+                  <input
+                    type="text"
+                    placeholder="e.g. Tour Manager"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
               </div>
@@ -616,16 +585,16 @@ const AllUsers = () => {
 
               <div className="AllUsers-form-group">
                 <label>
-                  Password <span className="req">*</span>
+                  Password {isEditing ? '(leave blank to keep current)' : <span className="req">*</span>}
                 </label>
                 <div className="input-with-icon">
                   <FaLock className="input-icon" />
                   <input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter password"
+                    placeholder={isEditing ? 'Leave blank or enter new' : 'Enter password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+                    required={!isEditing}
                   />
                   <span
                     className="password-toggle"
@@ -647,9 +616,6 @@ const AllUsers = () => {
                     onChange={(e) => setRole(e.target.value)}
                     required
                   >
-                    <option value="Select role" disabled>
-                      Select role
-                    </option>
                     <option value="Super Admin">Super Admin</option>
                     <option value="Admin">Admin</option>
                     <option value="Staff">Staff</option>
@@ -690,14 +656,29 @@ const AllUsers = () => {
                   onClick={() => fileInputRef.current?.click()}
                 >
                   <FaCloudUploadAlt className="upload-icon" />
-                  {fileName ? (
-                    <p className="upload-text file-selected">{fileName}</p>
+                  {previewPic ? (
+                    <div style={{ textAlign: 'center' }}>
+                      <img
+                        src={previewPic}
+                        alt="Preview"
+                        style={{
+                          width: '48px',
+                          height: '48px',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          marginBottom: '6px'
+                        }}
+                      />
+                      <p className="upload-text file-selected">
+                        {fileName || 'Current Avatar'}
+                      </p>
+                    </div>
                   ) : (
                     <>
                       <p className="upload-text">
                         <span>Click to upload</span> or drag and drop
                       </p>
-                      <p className="upload-subtext">PNG, JPG (Max 2MB)</p>
+                      <p className="upload-subtext">PNG, JPG (Converts to WebP)</p>
                     </>
                   )}
                 </div>
@@ -708,7 +689,6 @@ const AllUsers = () => {
               </button>
             </form>
 
-            {/* Travel Quote Section */}
             <div className="AllUsers-quote-box">
               <FaQuoteLeft className="quote-icon" />
               <p>A great team creates greater travel experiences.</p>
