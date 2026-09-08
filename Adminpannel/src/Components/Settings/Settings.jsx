@@ -85,7 +85,7 @@ const Settings = () => {
 
   return (
     <div className="Settings">
-      {/* Top Banner Header matching the reference photo background */}
+      {/* Top Banner Header */}
       <div className="Settings-header-banner">
         <div className="Settings-title-area">
           <h1>Settings</h1>
@@ -154,7 +154,9 @@ const Settings = () => {
 
               <div className="Settings-company-fields">
                 <div className="Settings-field">
-                  <label className="Settings-label">Company Name <span className="req">*</span></label>
+                  <label className="Settings-label">
+                    Company Name <span className="req">*</span>
+                  </label>
                   <input
                     type="text"
                     className="Settings-input"
@@ -200,7 +202,9 @@ const Settings = () => {
             </div>
 
             <div className="Settings-field">
-              <label className="Settings-label">Phone Number <span className="req">*</span></label>
+              <label className="Settings-label">
+                Phone Number <span className="req">*</span>
+              </label>
               <div className="Settings-input-icon-group">
                 <FaPhoneAlt className="icon" />
                 <input
@@ -214,7 +218,9 @@ const Settings = () => {
             </div>
 
             <div className="Settings-field">
-              <label className="Settings-label">Email Address <span className="req">*</span></label>
+              <label className="Settings-label">
+                Email Address <span className="req">*</span>
+              </label>
               <div className="Settings-input-icon-group">
                 <FaEnvelope className="icon" />
                 <input
@@ -320,7 +326,7 @@ const Settings = () => {
           </div>
 
           {/* Section 4: General Settings */}
-          <div className="Settings-card">
+          <div className="Settings-card dropdown-card">
             <div className="Settings-card-header">
               <div className="Settings-icon-box orange">
                 <FaCog />
@@ -384,42 +390,48 @@ const Settings = () => {
 
             <div className="Settings-inline-select">
               <label>Currency</label>
-              <select
-                className="Settings-select"
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-              >
-                <option value="INR (₹)">INR (₹)</option>
-                <option value="USD ($)">USD ($)</option>
-                <option value="EUR (€)">EUR (€)</option>
-              </select>
+              <div className="select-wrapper">
+                <select
+                  className="Settings-select"
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                >
+                  <option value="INR (₹)">INR (₹)</option>
+                  <option value="USD ($)">USD ($)</option>
+                  <option value="EUR (€)">EUR (€)</option>
+                </select>
+              </div>
             </div>
 
             <div className="Settings-inline-select">
               <label>Date Format</label>
-              <select
-                className="Settings-select"
-                value={dateFormat}
-                onChange={(e) => setDateFormat(e.target.value)}
-              >
-                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
-                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
-              </select>
+              <div className="select-wrapper">
+                <select
+                  className="Settings-select"
+                  value={dateFormat}
+                  onChange={(e) => setDateFormat(e.target.value)}
+                >
+                  <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                  <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                  <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                </select>
+              </div>
             </div>
 
             <div className="Settings-inline-select">
               <label>Time Zone</label>
-              <select
-                className="Settings-select"
-                value={timeZone}
-                onChange={(e) => setTimeZone(e.target.value)}
-              >
-                <option value="(GMT+05:30) Asia/Kolkata">
-                  (GMT+05:30) Asia/Kolkata
-                </option>
-                <option value="(GMT+00:00) UTC">(GMT+00:00) UTC</option>
-              </select>
+              <div className="select-wrapper">
+                <select
+                  className="Settings-select"
+                  value={timeZone}
+                  onChange={(e) => setTimeZone(e.target.value)}
+                >
+                  <option value="(GMT+05:30) Asia/Kolkata">
+                    (GMT+05:30) Asia/Kolkata
+                  </option>
+                  <option value="(GMT+00:00) UTC">(GMT+00:00) UTC</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -467,7 +479,7 @@ const Settings = () => {
           </div>
         </div>
 
-        {/* Footer Decorative Background Graphic */}
+        {/* Footer Decorative Graphic */}
         <div className="Settings-footer-graphic">
           <div className="footer-skyline-bg"></div>
           <div className="footer-tagline-wrapper">

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import {
   FaGlobeAmericas,
@@ -37,49 +38,49 @@ const WhoWeAre = () => {
   const cards = [
     {
       id: 1,
-      title: "Worldwide Coverage",
+      title: "Odisha & Beyond",
       description:
-        "Curabitur convallis enim atnora ullamcorper sagittis.",
+        "Explore Odisha and popular destinations across India with thoughtfully planned tour packages and travel services.",
       icon: <FaGlobeAmericas />,
       color: "green",
     },
     {
       id: 2,
-      title: "Competitive Pricing",
+      title: "Affordable Packages",
       description:
-        "Burabitur convallis enim atnora. Morbi nug scelerisque for thana.",
+        "Choose value-for-money travel packages with transparent pricing designed for families, couples and groups.",
       icon: <FaTags />,
       color: "orange",
     },
     {
       id: 3,
-      title: "Fast Booking",
+      title: "Easy & Fast Booking",
       description:
-        "Fermentum eitorx quis maximum Etiam urnan posuere convallis.",
+        "Book hotels, tours, sightseeing and travel services conveniently with our experienced travel team.",
       icon: <FaCalendarAlt />,
       color: "blue",
     },
     {
       id: 4,
-      title: "Guided Tours",
+      title: "Experienced Travel Team",
       description:
-        "Pellentesque venenatis egestasio diam Proin velgorat elit porttitor metus convallis.",
+        "Our local travel experts help you plan comfortable journeys, Odisha tourism packages and customized holidays.",
       icon: <FaUserTie />,
       color: "purple",
     },
     {
       id: 5,
-      title: "Best Support 24/7",
+      title: "Dedicated Support",
       description:
-        "Sed venenatis mauris nec nulla euismod, accounv varius lectus viverra oncen.",
+        "Get reliable assistance before and during your trip from our Bhubaneswar-based travel support team.",
       icon: <FaHeadset />,
       color: "red",
     },
     {
       id: 6,
-      title: "Ultimate Flexibility",
+      title: "Flexible Travel Plans",
       description:
-        "Duis leo sapien, lacinia utorrent efficitur utom suscipit quis nulla Sed auctor eu.",
+        "Customize your itinerary, destinations, hotels and activities according to your travel requirements.",
       icon: <FaClock />,
       color: "yellow",
     },
@@ -91,23 +92,35 @@ const WhoWeAre = () => {
       className={`WhoWeAre ${
         isVisible ? "WhoWeAre--visible" : ""
       }`}
+      aria-labelledby="why-jagannath-explorer-title"
     >
       <div className="WhoWeAre__container">
 
-        {/* Heading */}
+        {/* SEO Heading */}
         <div className="WhoWeAre__heading-area">
 
           <div className="WhoWeAre__label">
             <span>Who We Are</span>
           </div>
 
-          <h2 className="WhoWeAre__title">
-            Why TripRex Is Best
+          <h2
+            id="why-jagannath-explorer-title"
+            className="WhoWeAre__title"
+          >
+            Why Choose Jagannath Explorer Travels?
           </h2>
+
+          <p className="WhoWeAre__intro">
+            Jagannath Explorer Travels is a Bhubaneswar-based tour and
+            travel agency offering carefully planned tour packages,
+            travel services and customized holidays across Odisha and
+            India. We help travelers discover beautiful destinations
+            with comfortable, flexible and affordable travel solutions.
+          </p>
 
         </div>
 
-        {/* Cards */}
+        {/* Service Cards */}
         <div className="WhoWeAre__grid">
 
           {cards.map((card, index) => (
@@ -140,9 +153,38 @@ const WhoWeAre = () => {
 
         </div>
 
+        {/* Business Information */}
+        <div className="WhoWeAre__business-info">
+
+          <h3>Jagannath Explorer Travels – Bhubaneswar</h3>
+
+          <p>
+            Looking for a reliable{" "}
+            <strong>tour and travel agency in Bhubaneswar</strong>?
+            Jagannath Explorer Travels provides tour packages,
+            travel planning and customized holiday experiences from
+            Bhubaneswar, Odisha.
+          </p>
+
+          <p>
+            <strong>Address:</strong> Plot No - 001, Mahaveer Nagar,
+            Road No. - 18, Samantray Pur, Bhubaneswar, Odisha -
+            751002
+          </p>
+
+          <p>
+            <strong>Contact:</strong>{" "}
+            <a href="tel:9668892441">9668892441</a>
+            {" | "}
+            <a href="tel:9556355446">9556355446</a>
+          </p>
+
+        </div>
+
       </div>
     </section>
   );
 };
 
 export default WhoWeAre;
+

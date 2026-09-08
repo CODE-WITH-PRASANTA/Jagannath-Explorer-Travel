@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Experience.css';
 
-// ==========================================
-// 1. TOUR PACKAGE IMAGES (Total 6 Images)
-// ==========================================
+// 1. TOUR PACKAGE IMAGES
 import tour1 from '../../assets/img2.webp';
 import tour2 from '../../assets/img3.webp';
 import tour3 from '../../assets/bed5.webp';
@@ -11,9 +9,7 @@ import tour4 from '../../assets/img4.webp';
 import tour5 from '../../assets/bed6.webp';
 import tour6 from '../../assets/img7.webp';
 
-// ==========================================
-// 2. HOTEL IMAGES (Total 6 Images)
-// ==========================================
+// 2. HOTEL IMAGES
 import hotel1 from '../../assets/bed1.webp';
 import hotel2 from '../../assets/bed2.webp';
 import hotel3 from '../../assets/bed3.webp';
@@ -21,9 +17,7 @@ import hotel4 from '../../assets/bed5.webp';
 import hotel5 from '../../assets/bed6.webp';
 import hotel6 from '../../assets/bed5.webp';
 
-// ==========================================
-// 3. TRANSPORTS IMAGES (Total 6 Images)
-// ==========================================
+// 3. TRANSPORTS IMAGES
 import transport1 from '../../assets/destination-card-img1.webp';
 import transport2 from '../../assets/destination-card-img2.webp';
 import transport3 from '../../assets/destination-card-img3.webp';
@@ -36,7 +30,6 @@ const Experience = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  // मोबाइल व्यू डिटेक्शन (650px से नीचे)
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 650);
@@ -50,205 +43,205 @@ const Experience = () => {
     tour: [
       {
         id: 1,
-        badge: '3 DAYS / 4 NIGHT',
-        locationTag: 'NEPAL + INDONESIA TOUR',
+        badge: '3 DAYS / 2 NIGHT',
+        locationTag: 'GOLDEN TRIANGLE ODISHA',
         image: tour1,
-        title: "The Allure Italy's Rich Culture, History, And Cuisine.",
-        route: 'ALEXANDRIA ➔ SHARM EL SHEIKH ➔ MANSOURA ➔ K',
-        price: '₹2,39,999',
-        oldPrice: '₹2,49,999'
+        title: 'Bhubaneswar, Puri Jagannath Dham & Konark Sun Temple Heritage Tour',
+        route: 'BHUBANESWAR ➔ PURI ➔ KONARK ➔ PIPILI ➔ DHAULI',
+        price: '₹7,499',
+        oldPrice: '₹9,500'
       },
       {
         id: 2,
-        badge: '7 DAYS / 8 NIGHT',
-        locationTag: 'EGYPT + TURKEY TOUR',
+        badge: '4 DAYS / 3 NIGHT',
+        locationTag: 'CHILIKA LAKE SPECIAL',
         image: tour2,
-        title: "Explore Travel NYC's Museums, Diversity, And Energy.",
-        route: 'MECCA ➔ MEDINA ➔ RIYADH ➔ DOHA ➔ AL WAKRA',
-        price: '₹2,69,999',
-        oldPrice: ''
+        title: 'Chilika Dolphin Sanctuary, Satapada & Mangalajodi Bird Watching',
+        route: 'BHUBANESWAR ➔ SATAPADA ➔ BARKUL ➔ MANGALAJODI',
+        price: '₹10,999',
+        oldPrice: '₹13,500'
       },
       {
         id: 3,
-        badge: '5 DAYS / 6 NIGHT',
-        locationTag: 'FRANCE + SPAIN TOUR',
+        badge: '5 DAYS / 4 NIGHT',
+        locationTag: 'TRIBAL & HILL EXPEDITION',
         image: tour3,
-        title: 'Embark Tranquility, Adventure, And Spiritual.',
-        route: 'ALEXANDRIA ➔ SHARM EL SHEIKH ➔ MANSOURA ➔ K',
-        price: '₹1,64,999',
-        oldPrice: '₹2,09,999'
+        title: 'Scenic Koraput Hills, Daringbadi Valley & Deomali Peak Expedition',
+        route: 'BHUBANESWAR ➔ DARINGBADI ➔ RAYAGADA ➔ KORAPUT',
+        price: '₹14,499',
+        oldPrice: '₹17,000'
       },
       {
         id: 4,
-        badge: '6 DAYS / 7 NIGHT',
-        locationTag: 'SWISS ALPS TOUR',
+        badge: '3 DAYS / 2 NIGHT',
+        locationTag: 'WILDLIFE SAFARI',
         image: tour4,
-        title: 'Spectacular Scenic Train Journeys Across Switzerland.',
-        route: 'ZURICH ➔ INTERLAKEN ➔ ZERMATT ➔ GENEVA',
-        price: '₹2,89,999',
-        oldPrice: '₹3,15,000'
+        title: 'Bhitarkanika Mangrove Safari & Simlipal Tiger Reserve Tour',
+        route: 'BHUBANESWAR ➔ CHANDBALI ➔ BHITARKANIKA ➔ SIMLIPAL',
+        price: '₹8,999',
+        oldPrice: '₹11,000'
       },
       {
         id: 5,
-        badge: '4 DAYS / 5 NIGHT',
-        locationTag: 'BALI PARADISE TOUR',
+        badge: '2 DAYS / 1 NIGHT',
+        locationTag: 'NORTH ODISHA PILGRIMAGE',
         image: tour5,
-        title: 'Tropical Beaches, Temples, And Sacred Monkey Forests.',
-        route: 'UBUD ➔ KUTA ➔ SEMINYAK ➔ NUSA PENIDA',
-        price: '₹1,45,000',
-        oldPrice: '₹1,60,000'
+        title: 'Ghatagaon Maa Tarini Temple & Keonjhar Khandadhar Waterfalls',
+        route: 'BHUBANESWAR ➔ GHATAGAON ➔ KEONJHAR ➔ KHANADHAT',
+        price: '₹5,200',
+        oldPrice: '₹6,500'
       },
       {
         id: 6,
-        badge: '5 DAYS / 6 NIGHT',
-        locationTag: 'GREEK ISLAND TOUR',
+        badge: '2 DAYS / 1 NIGHT',
+        locationTag: 'TEMPLE CITY SPECIAL',
         image: tour6,
-        title: 'Iconic Sunsets And Whitewashed Villas In Santorini.',
-        route: 'ATHENS ➔ MYKONOS ➔ SANTORINI ➔ CRETE',
-        price: '₹2,10,000',
-        oldPrice: '₹2,35,000'
+        title: 'Ekamra Kshetra Divine Tour: Lingaraj, Rajarani & Mukteshwar',
+        route: 'LINGARAJ ➔ RAJARANI ➔ MUKTESHWAR ➔ KHANDAGIRI',
+        price: '₹3,499',
+        oldPrice: '₹4,500'
       }
     ],
     hotel: [
       {
         id: 1,
-        tag: 'Breakfast Included',
+        tag: 'Free Breakfast Included',
         image: hotel1,
-        rating: '4.5 reviews',
-        title: 'Golden Tulip The Grandmark Dhaka',
-        location: 'Dhaka, Bangladesh',
-        distance: '2 km to city center',
-        amenities: ['Locker', 'Gym', 'Spa', 'Parking', 'Restaurant'],
-        roomType: 'Deluxe King Room',
-        bed: '1 king bed',
-        cancellation: 'Free cancellation before 48 hours',
-        stayDuration: '1 night, 2 adults',
-        price: '₹23,999',
-        oldPrice: '₹25,000'
+        rating: '4.8 (184 reviews)',
+        title: 'Mayfair Lagoon Resort & Convention',
+        location: 'Jaydev Vihar, Bhubaneswar',
+        distance: '4.5 km from Railway Station',
+        amenities: ['Free WiFi', 'Swimming Pool', 'Multi-Cuisine Dine', 'Spa', 'Parking'],
+        roomType: 'Club Executive Room',
+        bed: '1 King Bed',
+        cancellation: 'Free cancellation up to 24 hrs',
+        stayDuration: '1 night, 2 guests',
+        price: '₹6,499',
+        oldPrice: '₹7,800'
       },
       {
         id: 2,
-        tag: 'Breakfast Included',
+        tag: 'Pilgrim Friendly',
         image: hotel2,
-        rating: '4.5 reviews',
-        title: "Castle Bay Touch Cox's Bazar",
-        location: "Cox's Bazar, Bangladesh",
-        distance: '2 km to city center',
-        amenities: ['Locker', 'Gym', 'Spa', 'Parking', 'Restaurant'],
-        roomType: 'Deluxe King Room',
-        bed: '1 king bed',
-        cancellation: 'Free cancellation before 48 hours',
-        stayDuration: '1 night, 2 adults',
-        price: '₹23,999',
-        oldPrice: '₹25,000'
+        rating: '4.6 (220 reviews)',
+        title: 'Swosti Premium Luxury Stay',
+        location: 'Nandankanan Road, Bhubaneswar',
+        distance: '2.5 km to City Center',
+        amenities: ['Gym & Spa', 'Airport Shuttle', 'Restaurant', 'Free Parking'],
+        roomType: 'Premium Deluxe Double',
+        bed: '1 King Bed / Twin',
+        cancellation: 'Free cancellation available',
+        stayDuration: '1 night, 2 guests',
+        price: '₹4,899',
+        oldPrice: '₹5,900'
       },
       {
         id: 3,
-        tag: 'Breakfast Included',
+        tag: 'Sea Facing Resort',
         image: hotel3,
-        rating: '4.5 reviews',
-        title: 'Hotel Windy Terrace',
-        location: 'Dhaka, Bangladesh',
-        distance: '2 km to city center',
-        amenities: ['Locker', 'Gym', 'Spa', 'Parking', 'Restaurant'],
-        roomType: 'Deluxe King Room',
-        bed: '1 king bed',
-        cancellation: 'Free cancellation before 48 hours',
-        stayDuration: '1 night, 2 adults',
-        price: '₹23,999',
-        oldPrice: '₹25,000'
+        rating: '4.7 (310 reviews)',
+        title: 'Mayfair Heritage Puri Beach Resort',
+        location: 'Chakratirtha Road, Puri',
+        distance: '1.2 km from Lord Jagannath Temple',
+        amenities: ['Beach Access', 'Free Breakfast', 'Pool', 'Kids Play Area'],
+        roomType: 'Deluxe Sea View Cottage',
+        bed: '1 Large Double Bed',
+        cancellation: 'Free cancellation up to 48 hrs',
+        stayDuration: '1 night, 2 guests',
+        price: '₹7,200',
+        oldPrice: '₹8,900'
       },
       {
         id: 4,
-        tag: 'Breakfast Included',
+        tag: 'Hill View Eco Stay',
         image: hotel4,
-        rating: '4.8 reviews',
-        title: 'Radisson Blu Water Garden',
-        location: 'Airport Road, Dhaka',
-        distance: '4 km to city center',
-        amenities: ['Pool', 'Gym', 'Spa', 'Valet Parking', 'Bar'],
-        roomType: 'Executive Suite',
-        bed: '1 super king bed',
-        cancellation: 'Free cancellation before 24 hours',
-        stayDuration: '1 night, 2 adults',
-        price: '₹28,500',
-        oldPrice: '₹32,000'
+        rating: '4.5 (95 reviews)',
+        title: 'Daringbadi Nature Valley Retreat',
+        location: 'Hill Top Road, Daringbadi',
+        distance: '0.8 km from Coffee Garden',
+        amenities: ['Campfire', 'Organic Meals', 'Guided Trek', 'Hot Water'],
+        roomType: 'Pine View Wooden Cottage',
+        bed: '1 Queen Bed',
+        cancellation: 'Free cancellation before 3 days',
+        stayDuration: '1 night, 2 guests',
+        price: '₹3,200',
+        oldPrice: '₹3,900'
       },
       {
         id: 5,
-        tag: 'Breakfast Included',
+        tag: 'Lake View Stay',
         image: hotel5,
-        rating: '4.7 reviews',
-        title: 'JW Marriott Luxury Resort',
-        location: 'Gulshan 2, Dhaka',
-        distance: '1.5 km to city center',
-        amenities: ['Infinity Pool', 'Gym', 'Sauna', 'Airport Pickup'],
-        roomType: 'Luxury Ocean View',
-        bed: '2 queen beds',
-        cancellation: 'Non-refundable discount applied',
-        stayDuration: '1 night, 2 adults',
-        price: '₹34,000',
-        oldPrice: '₹39,000'
+        rating: '4.5 (140 reviews)',
+        title: 'OTDC Panthanivas Rambha Chilika',
+        location: 'Rambha Bay, Chilika',
+        distance: 'Overlooking Lagoon',
+        amenities: ['Boating Desk', 'Odisha Thali Dining', 'Garden', 'WiFi'],
+        roomType: 'AC Deluxe Lagoon View',
+        bed: '1 Double Bed',
+        cancellation: 'Flexible booking policy',
+        stayDuration: '1 night, 2 guests',
+        price: '₹2,650',
+        oldPrice: '₹3,200'
       },
       {
         id: 6,
-        tag: 'Breakfast Included',
+        tag: 'Business & Transit',
         image: hotel6,
-        rating: '4.6 reviews',
-        title: 'Hilton Garden Inn Suites',
-        location: 'Banani Central, Dhaka',
-        distance: '3 km to city center',
-        amenities: ['Locker', 'Gym', 'Free WiFi', 'Restaurant'],
-        roomType: 'Deluxe Twin Room',
-        bed: '2 twin beds',
-        cancellation: 'Free cancellation before 48 hours',
-        stayDuration: '1 night, 2 adults',
-        price: '₹21,000',
-        oldPrice: '₹24,500'
+        rating: '4.4 (160 reviews)',
+        title: 'Ginger Hotel Inner City',
+        location: 'Opposite Nalco Square, Bhubaneswar',
+        distance: '6 km from BBI Airport',
+        amenities: ['Fitness Center', 'Conference Hall', 'Fast WiFi', 'Cafeteria'],
+        roomType: 'Standard Smart Room',
+        bed: '1 Queen Bed',
+        cancellation: 'Free cancellation before 24 hrs',
+        stayDuration: '1 night, 2 guests',
+        price: '₹2,999',
+        oldPrice: '₹3,600'
       }
     ],
     transports: [
       {
         id: 1,
-        distance: '250km',
+        distance: '68 km • 1.5 hrs',
         image: transport1,
-        title: 'Travel To Sajek From Dhaka.',
-        reviews: '(214 reviews)'
+        title: 'Bhubaneswar to Puri Jagannath Dham Car Rental',
+        reviews: '(380 verified reviews)'
       },
       {
         id: 2,
-        distance: '5.6km',
+        distance: '72 km • 2 hrs',
         image: transport2,
-        title: 'Travel To Eiffel Tower From Paris.',
-        reviews: '(214 reviews)'
+        title: 'Bhubaneswar to Konark Sun Temple & Marine Drive Cab',
+        reviews: '(295 verified reviews)'
       },
       {
         id: 3,
-        distance: '250km',
+        distance: '110 km • 2.5 hrs',
         image: transport3,
-        title: 'Travel To Kashmir From Delhi.',
-        reviews: '(214 reviews)'
+        title: 'Bhubaneswar to Chilika Lake (Satapada) Taxi Trip',
+        reviews: '(240 verified reviews)'
       },
       {
         id: 4,
-        distance: '540km',
+        distance: '250 km • 6 hrs',
         image: transport4,
-        title: 'Travel To Manali From Chandigarh.',
-        reviews: '(189 reviews)'
+        title: 'Bhubaneswar to Daringbadi Kashmir of Odisha SUV Hire',
+        reviews: '(190 verified reviews)'
       },
       {
         id: 5,
-        distance: '410km',
+        distance: '145 km • 3.5 hrs',
         image: transport5,
-        title: 'Travel To North Goa From Mumbai.',
-        reviews: '(340 reviews)'
+        title: 'Bhubaneswar to Ghatagaon Maa Tarini Temple AC Cab',
+        reviews: '(310 verified reviews)'
       },
       {
         id: 6,
-        distance: '480km',
+        distance: '160 km • 4 hrs',
         image: transport6,
-        title: 'Travel To Ladakh From Manali.',
-        reviews: '(512 reviews)'
+        title: 'Bhubaneswar to Bhitarkanika National Park Traveller Hire',
+        reviews: '(175 verified reviews)'
       }
     ]
   };
@@ -268,61 +261,64 @@ const Experience = () => {
     setCurrentIndex((prev) => (prev < currentItems.length - 1 ? prev + 1 : 0));
   };
 
-  // ==========================================
-  // Button Click Actions (Working Functions)
-  // ==========================================
   const handleBookTrip = (item) => {
-    alert(`Booking initialized for:\n"${item.title}"\nPrice: ${item.price}`);
+    window.location.href = `tel:9668892441`;
   };
 
   const handleCheckAvailability = (item) => {
-    alert(`Checking availability for:\n"${item.title}"\nRoom: ${item.roomType}\nPrice: ${item.price}`);
+    window.location.href = `tel:9556355446`;
   };
 
   const handleViewTransportDetails = (item) => {
-    alert(`Transport Details:\n"${item.title}"\nDistance: ${item.distance}\nTotal Reviews: ${item.reviews}`);
+    window.location.href = `tel:9668892441`;
   };
 
-  // मोबाइल पर केवल वर्तमान 1 कार्ड दिखेगा, डेस्कटॉप पर सभी कार्ड्स
   const displayedItems = isMobile ? [currentItems[currentIndex]].filter(Boolean) : currentItems;
 
   return (
     <section className="exp-section">
-      <div className="exp-header">
+      {/* Main Section Header with SEO H1 */}
+      <header className="exp-header">
         <span className="exp-subtitle">➔ Tour Experience ✦</span>
-        <h2 className="exp-title">Ultimate Travel Experience</h2>
+        <h1 className="exp-title">Bhubaneswar Travel Agency Tour Packages</h1>
+        <p className="exp-subtext">
+          Book reliable Odisha holiday packages, temple darshan cabs, and verified hotel stays with local tour guides from Bhubaneswar.
+        </p>
 
         {/* Tab Controls */}
         <div className="exp-nav">
           <button
+            type="button"
             className={`exp-nav-btn ${activeTab === 'tour' ? 'active' : ''}`}
             onClick={() => handleTabChange('tour')}
           >
-            <span className="icon">🗺️</span> Tour Package
+            <span className="icon">🗺️</span> Odisha Tour Packages
           </button>
           <button
+            type="button"
             className={`exp-nav-btn ${activeTab === 'hotel' ? 'active' : ''}`}
             onClick={() => handleTabChange('hotel')}
           >
-            <span className="icon">🏨</span> Hotel
+            <span className="icon">🏨</span> Verified Hotels
           </button>
           <button
+            type="button"
             className={`exp-nav-btn ${activeTab === 'transports' ? 'active' : ''}`}
             onClick={() => handleTabChange('transports')}
           >
-            <span className="icon">🚐</span> Transports
+            <span className="icon">🚖</span> Car & Taxi Rentals
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Cards Display */}
+      {/* Cards Grid */}
       <div className="exp-cards-grid">
-        {/* TOUR PACKAGE CARDS */}
+        {/* 1. TOUR PACKAGES */}
         {activeTab === 'tour' &&
           displayedItems.map((item) => (
-            <div className="card" key={item.id}>
+            <article className="card" key={item.id}>
               <div className="card-img-container">
-                <img src={item.image} alt={item.title} className="card-img" />
+                <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
                 <div className="shine-effect"></div>
                 <div className="badge-duration">{item.badge}</div>
                 <div className="badge-location">📍 {item.locationTag}</div>
@@ -334,30 +330,31 @@ const Experience = () => {
                 <hr className="divider" />
                 <div className="card-footer">
                   <div className="price-box">
-                    <span className="price-label">Starting From:</span>
+                    <span className="price-label">Package Starts From:</span>
                     <div className="price-values">
                       <span className="price-current">{item.price}</span>
                       {item.oldPrice && <span className="price-old">{item.oldPrice}</span>}
                     </div>
-                    <span className="price-sub">TAXES INCL/PERS</span>
+                    <span className="price-sub">PER PERSON / NET FARE</span>
                   </div>
                   <button 
+                    type="button"
                     className="green-btn" 
                     onClick={() => handleBookTrip(item)}
                   >
-                    Book A Trip ✈
+                    Call To Book ✈
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
 
-        {/* HOTEL CARDS */}
+        {/* 2. HOTELS */}
         {activeTab === 'hotel' &&
           displayedItems.map((item) => (
-            <div className="card hotel-card" key={item.id}>
+            <article className="card hotel-card" key={item.id}>
               <div className="card-img-container">
-                <img src={item.image} alt={item.title} className="card-img" />
+                <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
                 <div className="shine-effect"></div>
                 <div className="badge-breakfast">{item.tag}</div>
                 <div className="dots-indicator">
@@ -376,7 +373,6 @@ const Experience = () => {
                 <h3 className="card-title">{item.title}</h3>
                 <div className="hotel-location">
                   <span>📍 {item.location}</span>
-                  <a href="#map" className="map-link">Show on map</a>
                   <span className="distance">• {item.distance}</span>
                 </div>
 
@@ -402,42 +398,44 @@ const Experience = () => {
                 </div>
 
                 <button 
+                  type="button"
                   className="green-btn full-btn" 
                   onClick={() => handleCheckAvailability(item)}
                 >
-                  Check Availability ➔
+                  Enquire Hotel Rates ➔
                 </button>
               </div>
-            </div>
+            </article>
           ))}
 
-        {/* TRANSPORTS CARDS */}
+        {/* 3. TRANSPORTS */}
         {activeTab === 'transports' &&
           displayedItems.map((item) => (
-            <div className="card transport-card" key={item.id}>
+            <article className="card transport-card" key={item.id}>
               <div className="card-img-container">
-                <img src={item.image} alt={item.title} className="card-img" />
+                <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
                 <div className="shine-effect"></div>
                 <div className="badge-distance">{item.distance}</div>
               </div>
 
               <div className="card-content">
                 <h3 className="card-title">{item.title}</h3>
-                <span className="available-label">Available Transport:</span>
+                <span className="available-label">Available Vehicles with Driver:</span>
 
                 <div className="transport-icons-grid">
-                  <div className="t-icon-box">🚗 <span>Car</span></div>
-                  <div className="t-icon-box">🚆 <span>Train</span></div>
-                  <div className="t-icon-box">🛥️ <span>Boat</span></div>
-                  <div className="t-icon-box">🚌 <span>Bus</span></div>
+                  <div className="t-icon-box">🚗 <span>Sedan</span></div>
+                  <div className="t-icon-box">🚙 <span>Innova/SUV</span></div>
+                  <div className="t-icon-box">🚐 <span>Tempo</span></div>
+                  <div className="t-icon-box">🚌 <span>Coach</span></div>
                 </div>
 
                 <div className="transport-footer">
                   <button 
+                    type="button"
                     className="green-btn" 
                     onClick={() => handleViewTransportDetails(item)}
                   >
-                    View Details
+                    Get Cab Quote
                   </button>
                   <div className="t-reviews">
                     <span className="stars">★★★★★</span>
@@ -445,14 +443,15 @@ const Experience = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
       </div>
 
-      {/* Mobile Arrow Navigation & Indicators */}
+      {/* Mobile Slider Controls */}
       {isMobile && currentItems.length > 1 && (
         <div className="mobile-slider-controls">
           <button 
+            type="button"
             className="slider-arrow-btn" 
             onClick={handlePrev} 
             aria-label="Previous card"
@@ -471,6 +470,7 @@ const Experience = () => {
           </div>
 
           <button 
+            type="button"
             className="slider-arrow-btn" 
             onClick={handleNext} 
             aria-label="Next card"
