@@ -179,7 +179,7 @@ const Login = () => {
             </div>
 
             <p className="Login-signup-prompt">
-              Don't have an account? <a href="#create">Create Account</a>
+              
             </p>
           </form>
         </div>
