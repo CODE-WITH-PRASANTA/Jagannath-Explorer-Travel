@@ -10,6 +10,7 @@ const testimonialRoutes = require("./src/routes/testimonialRoutes");
 const blogRoutes = require("./src/routes/blogRoutes");
 
 const userRoutes = require("./src/routes/userRoutes");
+const teamRoutes = require("./src/routes/teamRoutes");
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use("/api/gallery", galleryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/users", userRoutes);
-
+app.use("/api/team", teamRoutes);
 // Root route
 app.get("/", (req, res) => {
   res.json({

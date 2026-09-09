@@ -41,7 +41,6 @@ const multerUpload = multer({
   limits: {
     // Maximum original upload size: 10 MB per file
     fileSize: 10 * 1024 * 1024,
-    fileSize: 10 * 1024 * 1024, // 10 MB limit
   },
 });
 
@@ -57,7 +56,7 @@ const convertToWebp = (subFolder = "gallery") => {
         return next();
       }
 
-      // Determine target directory (e.g. src/uploads/users or src/uploads/gallery)
+      // Determine target directory (e.g. src/uploads/users, src/uploads/team, or src/uploads/gallery)
       const targetUploadPath = path.join(baseUploadDir, subFolder);
       ensureDirExists(targetUploadPath);
 
@@ -112,94 +111,96 @@ const convertToWebp = (subFolder = "gallery") => {
 // =========================================
 // MULTIPLE WEBP CONVERSION MIDDLEWARE
 // =========================================
+const convertMultipleToWebp = (subFolder = "gallery") => {
+  return async (req, res, next) => {
+    try {
+      let filesArray = [];
 
-const convertMultipleToWebp = async (req, res, next) => {
-  try {
-    let filesArray = [];
+      if (Array.isArray(req.files)) {
+        filesArray = req.files;
+      } else if (req.files && typeof req.files === "object") {
+        filesArray = Object.values(req.files).flat();
+      }
 
-    if (Array.isArray(req.files)) {
-      filesArray = req.files;
-    } else if (req.files && typeof req.files === "object") {
-      filesArray = Object.values(req.files).flat();
+      if (!filesArray.length) {
+        return next();
+      }
+
+      const targetUploadPath = path.join(baseUploadDir, subFolder);
+      ensureDirExists(targetUploadPath);
+
+      await Promise.all(
+        filesArray.map(async (file) => {
+          const originalName = path
+            .parse(file.originalname)
+            .name
+            .replace(/[^a-zA-Z0-9]/g, "-")
+            .replace(/-+/g, "-")
+            .replace(/^-|-$/g, "")
+            .toLowerCase();
+
+          const fileName = `${originalName || "image"}-${Date.now()}-${Math.round(
+            Math.random() * 1e9
+          )}.webp`;
+
+          const outputPath = path.join(targetUploadPath, fileName);
+
+          await sharp(file.buffer)
+            .webp({
+              quality: 85,
+              effort: 4,
+            })
+            .toFile(outputPath);
+
+          file.filename = fileName;
+          file.path = outputPath;
+          file.destination = targetUploadPath;
+          file.mimetype = "image/webp";
+          file.originalname = fileName;
+          file.size = fs.statSync(outputPath).size;
+          file.url = `/uploads/${subFolder}/${fileName}`;
+        })
+      );
+
+      next();
+    } catch (error) {
+      console.error("MULTIPLE IMAGE CONVERSIONERROR:", error);
+
+      return res.status(400).json({
+        success: false,
+        message: "Failed to convert images to WebP",
+        error: error.message,
+      });
     }
-
-    if (!filesArray.length) {
-      return next();
-    }
-
-    await Promise.all(
-      filesArray.map(async (file) => {
-        const originalName = path
-          .parse(file.originalname)
-          .name
-          .replace(/[^a-zA-Z0-9]/g, "-")
-          .replace(/-+/g, "-")
-          .replace(/^-|-$/g, "")
-          .toLowerCase();
-
-        const fileName = `${originalName || "image"}-${Date.now()}-${Math.round(
-          Math.random() * 1e9
-        )}.webp`;
-
-        const outputPath = path.join(galleryUploadPath, fileName);
-
-        await sharp(file.buffer)
-          .webp({
-            quality: 85,
-            effort: 4,
-          })
-          .toFile(outputPath);
-
-        file.filename = fileName;
-        file.path = outputPath;
-        file.destination = galleryUploadPath;
-        file.mimetype = "image/webp";
-        file.originalname = fileName;
-        file.size = fs.statSync(outputPath).size;
-        file.url = `/uploads/gallery/${fileName}`;
-      })
-    );
-
-    next();
-  } catch (error) {
-    console.error("MULTIPLE IMAGE CONVERSION ERROR:", error);
-
-    return res.status(400).json({
-      success: false,
-      message: "Failed to convert images to WebP",
-      error: error.message,
-    });
-  }
+  };
 };
 
-
 // =========================================
-// EXPORT
-// EXPORT (Backwards Compatible)
+// EXPORT (Backwards Compatible & Team Supported)
 // =========================================
 const upload = {
-  single: (fieldName) => [
-    multerUpload.single(fieldName),
-    convertToWebp,
-  ],
-  array: (fieldName, maxCount) => [
-    multerUpload.array(fieldName, maxCount),
-    convertMultipleToWebp,
-  ],
-  fields: (fieldsArray) => [
-    multerUpload.fields(fieldsArray),
-    convertMultipleToWebp,
-  ],
-  any: () => [
-    multerUpload.any(),
-    convertMultipleToWebp,
-  ],
-  // Keeps existing syntax: upload.single('avatar', 'users') or upload.single('image')
   single: (fieldName, folder = "gallery") => {
-    // If uploading 'avatar', default to the 'users' subfolder
-    const targetFolder = fieldName === "avatar" ? "users" : folder;
+    // Automatically route 'avatar' to 'users' and 'image' (team member upload) to 'team'
+    let targetFolder = folder;
+    if (fieldName === "avatar") {
+      targetFolder = "users";
+    } else if (fieldName === "image") {
+      targetFolder = "team";
+    }
     return [multerUpload.single(fieldName), convertToWebp(targetFolder)];
   },
+  array: (fieldName, maxCount, folder = "gallery") => [
+    multerUpload.array(fieldName, maxCount),
+    convertMultipleToWebp(folder),
+  ],
+  fields: (fieldsArray, folder = "gallery") => [
+    multerUpload.fields(fieldsArray),
+    convertMultipleToWebp(folder),
+  ],
+  any: (folder = "gallery") => [
+    multerUpload.any(),
+    convertMultipleToWebp(folder),
+  ],
 };
 
 module.exports = upload;
