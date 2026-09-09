@@ -1,75 +1,131 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './BlogsDetailsCategories.css';
+import API, { IMG_URL } from "../../api/axios";
 
-import heroImg from '../../assets/blog-standard-img2.jpg';
+// Builds a full image URL from whatever the API gives back (relative path or full URL)
+const resolveImageUrl = (path) => {
+  if (!path) return '';
+  return path.startsWith('http') ? path : `${IMG_URL}${path}`;
+};
+
+// Turns "Siku Roy" into "SR" for the fallback avatar when no photo is available
+const getInitials = (name = '') => {
+  const parts = name.trim().split(' ').filter(Boolean);
+  if (parts.length === 0) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};
 
 const BlogsDetailsCategories = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentBlog, setCurrentBlog] = useState(null);
+  const [recentPosts, setRecentPosts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const postData = {
-    title: "Hidden Gems of the Northern Fjords: A Guide Beyond the Tourist Trails",
-    category: "Travel & Adventure",
-    date: "Aug 24, 2025",
-    readTime: "6 min read",
-    views: "2.4k",
-    author: {
-      name: "Elena Vance",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
-      role: "Solo Backpacker & Photographer"
-    },
-    heroImage: heroImg,
-    tags: ["Nature", "Hiking", "Scandinavia", "Photography", "Fjords", "Budget Travel"]
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const blogId = queryParams.get('id');
+
+  useEffect(() => {
+    fetchBlogData();
+  }, [blogId]);
+
+  const fetchBlogData = async () => {
+    try {
+      setLoading(true);
+      const response = await API.get('/blogs');
+      const rawData = Array.isArray(response.data)
+        ? response.data
+        : (response.data.data || response.data.blogs || []);
+
+      // Format all items for sidebar recent list and dynamically calculate categories count
+      const categoryCounts = {};
+
+      const formattedAll = rawData.map(b => {
+        const cat = b.category || 'Travel';
+        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+
+        return {
+          id: b._id || b.id,
+          title: b.title,
+          date: b.displayDate || b.date,
+          image: resolveImageUrl(b.image)
+        };
+      });
+
+      // Map dynamic categories array with counts
+      const dynamicCategories = Object.keys(categoryCounts).map(catName => ({
+        name: catName,
+        count: categoryCounts[catName]
+      }));
+
+      setCategories(dynamicCategories);
+      setRecentPosts(formattedAll.slice(0, 3)); // Top 3 recent posts
+
+      // Find current blog by ID, or default to the first one if no ID is passed
+      let selected = null;
+      if (blogId) {
+        selected = rawData.find(b => (b._id === blogId || b.id === blogId));
+      }
+      if (!selected && rawData.length > 0) {
+        selected = rawData[0]; // fallback
+      }
+
+      if (selected) {
+        const authorName = selected.author || 'Anonymous';
+
+        // Pull the author photo from whichever field the API actually sends,
+        // falling back to initials so the profile never shows a broken image.
+        const rawAuthorAvatar =
+          selected.authorAvatar ||
+          selected.authorImage ||
+          (selected.author && selected.author.avatar) ||
+          '';
+
+        setCurrentBlog({
+          id: selected._id || selected.id,
+          title: selected.title,
+          category: selected.category || 'Travel',
+          date: selected.displayDate || selected.date,
+          readTime: selected.readTime || '5 min read',
+          views: selected.views || '1.2k',
+          author: {
+            name: authorName,
+            avatar: resolveImageUrl(rawAuthorAvatar),
+            initials: getInitials(authorName),
+            role: selected.authorRole || 'Travel Contributor'
+          },
+          heroImage: resolveImageUrl(selected.image),
+          content: selected.content || 'No description available for this post yet.',
+          tags: [selected.category, 'Travel', 'Exploration', 'Adventure'].filter(Boolean)
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching blog details page data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const categories = [
-    { name: "Backpacking Guides", count: 14 },
-    { name: "Hidden Paradises", count: 9 },
-    { name: "Photography Tips", count: 6 },
-    { name: "Cultural Experiences", count: 11 },
-    { name: "Gear Reviews", count: 4 }
-  ];
-
-  const recentPosts = [
-    {
-      id: 1,
-      title: "10 Days Exploring the Ancient Trails of Kyoto",
-      date: "Sep 01, 2025",
-      image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=150&q=80"
-    },
-    {
-      id: 2,
-      title: "Navigating Italy's Amalfi Coast on a Backpacker Budget",
-      date: "Aug 18, 2025",
-      image: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=150&q=80"
-    },
-    {
-      id: 3,
-      title: "A Sunrise Above the Clouds in the Swiss Alps",
-      date: "Jul 29, 2025",
-      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=150&q=80"
-    }
-  ];
-
-  const comments = [
-    {
-      id: 1,
-      author: "Marcus Lind",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
-      date: "Aug 25, 2025",
-      text: "The ferry schedule tip alone saved my trip planning! Stunning photographs as always, Elena."
-    },
-    {
-      id: 2,
-      author: "Sofia Patel",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80",
-      date: "Aug 26, 2025",
-      text: "That overlook near the western ridge looks completely breathtaking. Adding this straight to my bucket list."
-    }
-  ];
+  const handleRecentClick = (id) => {
+    navigate(`/blogdetails?id=${id}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
   };
+
+  if (loading) {
+    return <div style={{ textAlign: 'center', padding: '80px' }}>Loading article details...</div>;
+  }
+
+  if (!currentBlog) {
+    return <div style={{ textAlign: 'center', padding: '80px' }}>No blog post found.</div>;
+  }
 
   return (
     <div className="blogs-details-categories">
@@ -77,96 +133,88 @@ const BlogsDetailsCategories = () => {
         {/* Main Article: 70% Layout */}
         <main className="blogs-details-categories__main">
           <header className="blogs-details-categories__header">
-            <span className="blogs-details-categories__category-badge">{postData.category}</span>
-            <h1 className="blogs-details-categories__title">{postData.title}</h1>
+            <span className="blogs-details-categories__category-badge">{currentBlog.category}</span>
+            <h1 className="blogs-details-categories__title">{currentBlog.title}</h1>
 
             <div className="blogs-details-categories__meta-bar">
               <div className="blogs-details-categories__author">
-                <img
-                  src={postData.author.avatar}
-                  alt={postData.author.name}
-                  className="blogs-details-categories__author-avatar"
-                />
+                <div className="blogs-details-categories__author-avatar-ring">
+                  {currentBlog.author.avatar ? (
+                    <img
+                      src={currentBlog.author.avatar}
+                      alt={currentBlog.author.name}
+                      className="blogs-details-categories__author-avatar"
+                    />
+                  ) : (
+                    <div className="blogs-details-categories__author-avatar blogs-details-categories__author-avatar--fallback">
+                      {currentBlog.author.initials}
+                    </div>
+                  )}
+                </div>
                 <div className="blogs-details-categories__author-details">
-                  <span className="blogs-details-categories__author-name">{postData.author.name}</span>
-                  <span className="blogs-details-categories__author-role">{postData.author.role}</span>
+                  <span className="blogs-details-categories__author-name">
+                    {currentBlog.author.name}
+                    <svg
+                      className="blogs-details-categories__verified-badge"
+                      viewBox="0 0 24 24"
+                      width="15"
+                      height="15"
+                      aria-label="Verified contributor"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M12 2l2.4 2.2 3.2-.6 1 3.1 3.1 1-.6 3.2L23 12l-2.2 2.4.6 3.2-3.1 1-1 3.1-3.2-.6L12 23l-2.4-2.2-3.2.6-1-3.1-3.1-1 .6-3.2L1 12l2.2-2.4-.6-3.2 3.1-1 1-3.1 3.2.6L12 2z"
+                      />
+                      <path
+                        fill="#ffffff"
+                        d="M9.8 12.6l1.8 1.8 3.6-4.4"
+                        stroke="#ffffff"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        fillOpacity="0"
+                      />
+                    </svg>
+                  </span>
+                  <span className="blogs-details-categories__author-role">{currentBlog.author.role}</span>
                 </div>
               </div>
 
               <div className="blogs-details-categories__stats">
-                <span>{postData.date}</span>
+                <span>{currentBlog.date}</span>
                 <span className="blogs-details-categories__dot">•</span>
-                <span>{postData.readTime}</span>
+                <span>{currentBlog.readTime}</span>
                 <span className="blogs-details-categories__dot">•</span>
-                <span>{postData.views} views</span>
+                <span>{currentBlog.views} views</span>
               </div>
             </div>
           </header>
 
-          <figure className="blogs-details-categories__hero-wrapper">
-            <img
-              src={postData.heroImage}
-              alt="Panoramic view of northern fjords"
-              className="blogs-details-categories__hero-image"
-            />
-          </figure>
+          {currentBlog.heroImage && (
+            <figure className="blogs-details-categories__hero-wrapper">
+              <img
+                src={currentBlog.heroImage}
+                alt={currentBlog.title}
+                className="blogs-details-categories__hero-image"
+              />
+            </figure>
+          )}
 
           <article className="blogs-details-categories__content">
-            <p>
-              Tucked beneath towering vertical cliffs and carved by millenniums of ice,
-              these northern fjords hold secrets that standard tour buses routinely bypass.
-              The whisper of glacial water rushing down sheer slate walls forms the soundtrack
-              to crisp mornings untouched by heavy tourism.
-            </p>
-
-            <blockquote className="blogs-details-categories__quote">
-              "The wilderness holds no promises of comfort, but in exchange, it offers clarity
-              that civilization rarely affords."
-            </blockquote>
-
-            <p>
-              Getting here demands patience: a sporadic local ferry followed by an unpaved
-              ascent. Yet standing atop the western crest as morning cloud-cover dissolves reveals
-              a labyrinth of deep emerald channels threading silently toward the open Arctic waters.
-            </p>
+            <p>{currentBlog.content}</p>
           </article>
 
           {/* Article Tags */}
           <footer className="blogs-details-categories__footer">
             <span className="blogs-details-categories__tags-label">Tags:</span>
             <div className="blogs-details-categories__tag-list">
-              {postData.tags.map((tag, idx) => (
+              {currentBlog.tags.map((tag, idx) => (
                 <span key={idx} className="blogs-details-categories__tag-pill">
                   {tag}
                 </span>
               ))}
             </div>
           </footer>
-
-          {/* Discussion Section */}
-          <section className="blogs-details-categories__comments-section">
-            <h2 className="blogs-details-categories__section-title">
-              Discussion ({comments.length})
-            </h2>
-            <div className="blogs-details-categories__comments-list">
-              {comments.map((comment) => (
-                <div key={comment.id} className="blogs-details-categories__comment-card">
-                  <img
-                    src={comment.avatar}
-                    alt={comment.author}
-                    className="blogs-details-categories__comment-avatar"
-                  />
-                  <div className="blogs-details-categories__comment-body">
-                    <div className="blogs-details-categories__comment-head">
-                      <span className="blogs-details-categories__comment-author">{comment.author}</span>
-                      <span className="blogs-details-categories__comment-date">{comment.date}</span>
-                    </div>
-                    <p className="blogs-details-categories__comment-message">{comment.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
         </main>
 
         {/* Sidebar: 30% Sticky Layout */}
@@ -210,12 +258,22 @@ const BlogsDetailsCategories = () => {
             <h3 className="blogs-details-categories__sidebar-heading">Recent Posts</h3>
             <div className="blogs-details-categories__recent-posts">
               {recentPosts.map((post) => (
-                <article key={post.id} className="blogs-details-categories__recent-item">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="blogs-details-categories__recent-thumb"
-                  />
+                <article
+                  key={post.id}
+                  className="blogs-details-categories__recent-item"
+                  onClick={() => handleRecentClick(post.id)}
+                >
+                  {post.image ? (
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="blogs-details-categories__recent-thumb"
+                    />
+                  ) : (
+                    <div className="blogs-details-categories__recent-thumb blogs-details-categories__recent-thumb--empty">
+                      No Img
+                    </div>
+                  )}
                   <div className="blogs-details-categories__recent-content">
                     <span className="blogs-details-categories__recent-date">{post.date}</span>
                     <h4 className="blogs-details-categories__recent-title">{post.title}</h4>
@@ -229,7 +287,7 @@ const BlogsDetailsCategories = () => {
           <div className="blogs-details-categories__card">
             <h3 className="blogs-details-categories__sidebar-heading">Popular Tags</h3>
             <div className="blogs-details-categories__tag-list">
-              {postData.tags.map((tag, idx) => (
+              {currentBlog.tags.map((tag, idx) => (
                 <span key={idx} className="blogs-details-categories__tag-pill">
                   {tag}
                 </span>
