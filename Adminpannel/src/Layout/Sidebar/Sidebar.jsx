@@ -15,6 +15,7 @@ import {
   Bus,
   X,
   ChevronDown,
+  BookOpen,
 } from "lucide-react";
 
 import "./Sidebar.css";
@@ -95,6 +96,12 @@ const Sidebar = ({
       type: "dropdown",
       text: "Blog",
       icon: <Edit3 size={20} />,
+    },
+
+    {
+      text: "Our Guide",
+      path: "/our-guide",
+      icon: <BookOpen size={20} />,
     },
 
     {

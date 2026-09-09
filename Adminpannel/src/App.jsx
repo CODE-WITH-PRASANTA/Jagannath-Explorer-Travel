@@ -25,6 +25,7 @@ import Gallary from "./Components/Gallary/Gallary";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Login from "./Components/Login/Login";
 import Blogmanagement from "./Pages/Blogmanagement/Blogmanagement";
+import OurGuide from "./Pages/OurGuide/OurGuide";
 
 const App = () => {
   return (
@@ -62,6 +63,7 @@ const App = () => {
 
             {/* System */}
             <Route path="/settings" element={<Settings />} />
+            <Route path="/our-guide"element={<OurGuide/>}/>
           </Route>
         </Route>
 
