@@ -3,7 +3,6 @@ import './Enquiries.css';
 import {
   FiFileText,
   FiSearch,
-  FiBell,
   FiChevronDown,
   FiCalendar,
   FiRotateCcw,
@@ -15,7 +14,8 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiX,
-  FiCheckCircle
+  FiCheckCircle,
+  FiPlus
 } from 'react-icons/fi';
 
 const initialForm = {
@@ -105,6 +105,7 @@ const Enquiries = () => {
   const itemsPerPage = 5;
 
   // Modal states
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [viewItem, setViewItem] = useState(null);
   const [editItem, setEditItem] = useState(null);
 
@@ -117,7 +118,7 @@ const Enquiries = () => {
     setFormData(initialForm);
   };
 
-  const handleSubmit = (e) => {
+  const handleAddSubmit = (e) => {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.phone || !formData.tourPackage) {
       alert('Please fill all mandatory fields (*)');
@@ -153,6 +154,7 @@ const Enquiries = () => {
 
     setEnquiries([newRecord, ...enquiries]);
     handleReset();
+    setIsAddModalOpen(false);
     setCurrentPage(1);
   };
 
@@ -241,213 +243,31 @@ const Enquiries = () => {
 
   return (
     <div className="enquiries-view-wrapper">
-      {/* Top Header Navbar */}
-      <header className="enquiries-top-navbar">
-        <div className="enquiries-navbar-left">
-          <h1 className="enquiries-page-heading">Enquiries</h1>
-          <nav className="enquiries-breadcrumb-trail">
-            <span>Home</span>
-            <span className="enquiries-breadcrumb-sep">/</span>
-            <span className="enquiries-breadcrumb-current">Enquiries</span>
-          </nav>
-        </div>
 
-      </header>
-
-      {/* Main Form & Table Content */}
+      {/* Main Table Content */}
       <main className="enquiries-main-body">
-        {/* Add New Enquiry Card */}
         <section className="enquiries-card-box">
-          <div className="enquiries-card-title-row">
-            <FiFileText className="enquiries-header-card-icon" />
-            <h2 className="enquiries-section-title">Add New Enquiry</h2>
-          </div>
-
-          <form onSubmit={handleSubmit} className="enquiries-input-form">
-            <div className="enquiries-form-three-grid">
-              {/* Full Name */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">
-                  Full Name <span className="enquiries-asterisk">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder="Enter full name"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className="enquiries-field-input"
-                  required
-                />
-              </div>
-
-              {/* Email Address */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">
-                  Email Address <span className="enquiries-asterisk">*</span>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter email address"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="enquiries-field-input"
-                  required
-                />
-              </div>
-
-              {/* Phone Number */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">
-                  Phone Number <span className="enquiries-asterisk">*</span>
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Enter phone number"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="enquiries-field-input"
-                  required
-                />
-              </div>
-
-              {/* Tour Interested In */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">
-                  Tour Interested In <span className="enquiries-asterisk">*</span>
-                </label>
-                <div className="enquiries-select-box">
-                  <select
-                    name="tourPackage"
-                    value={formData.tourPackage}
-                    onChange={handleInputChange}
-                    className="enquiries-field-select"
-                    required
-                  >
-                    <option value="">Select tour</option>
-                    <option value="Bali Tour">Bali Tour</option>
-                    <option value="Goa Trip">Goa Trip</option>
-                    <option value="Europe Tour">Europe Tour</option>
-                    <option value="Thailand Tour">Thailand Tour</option>
-                    <option value="Dubai Desert & City">Dubai Desert & City</option>
-                  </select>
-                  <FiChevronDown className="enquiries-select-dropdown-icon" />
-                </div>
-              </div>
-
-              {/* Travel Date */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">Travel Date</label>
-                <div className="enquiries-date-wrapper">
-                  <input
-                    type="date"
-                    name="travelDate"
-                    placeholder="dd/mm/yyyy"
-                    value={formData.travelDate}
-                    onChange={handleInputChange}
-                    className="enquiries-field-input enquiries-field-date-input"
-                  />
-                  <FiCalendar className="enquiries-field-date-icon" />
-                </div>
-              </div>
-
-              {/* No. of Travelers */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">No. of Travelers</label>
-                <input
-                  type="number"
-                  name="travelers"
-                  min="1"
-                  placeholder="Enter number of travelers"
-                  value={formData.travelers}
-                  onChange={handleInputChange}
-                  className="enquiries-field-input"
-                />
-              </div>
-
-              {/* Departure From */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">Departure From</label>
-                <input
-                  type="text"
-                  name="departure"
-                  placeholder="Enter departure city"
-                  value={formData.departure}
-                  onChange={handleInputChange}
-                  className="enquiries-field-input"
-                />
-              </div>
-
-              {/* Destination */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">Destination</label>
-                <input
-                  type="text"
-                  name="destination"
-                  placeholder="Enter destination"
-                  value={formData.destination}
-                  onChange={handleInputChange}
-                  className="enquiries-field-input"
-                />
-              </div>
-
-              {/* Budget Range */}
-              <div className="enquiries-field-cell">
-                <label className="enquiries-label-text">Budget Range</label>
-                <div className="enquiries-select-box">
-                  <select
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleInputChange}
-                    className="enquiries-field-select"
-                  >
-                    <option value="">Select budget range</option>
-                    <option value="Below $1,000">Below $1,000</option>
-                    <option value="$1,000 - $3,000">$1,000 - $3,000</option>
-                    <option value="$3,000 - $5,000">$3,000 - $5,000</option>
-                    <option value="$5,000+">$5,000+</option>
-                  </select>
-                  <FiChevronDown className="enquiries-select-dropdown-icon" />
-                </div>
-              </div>
-
-              {/* Message / Requirements */}
-              <div className="enquiries-field-cell enquiries-field-fullspan">
-                <label className="enquiries-label-text">Message / Requirements</label>
-                <textarea
-                  rows="3"
-                  name="message"
-                  placeholder="Write your message or requirements..."
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className="enquiries-field-textarea"
-                />
-              </div>
-            </div>
-
-            {/* Form Action Buttons */}
-            <div className="enquiries-form-action-bar">
+          <div className="enquiries-card-topbar">
+            <h2 className="enquiries-list-title">Enquiries List</h2>
+            <div className="enquiries-action-group">
               <button
                 type="button"
-                onClick={handleReset}
-                className="enquiries-reset-btn"
+                className="enquiries-btn enquiries-export-btn"
+                onClick={handleExportCSV}
               >
-                <FiRotateCcw className="enquiries-btn-svg" />
-                <span>Reset</span>
+                <FiDownload className="enquiries-btn-svg" />
+                <span>Export</span>
               </button>
-              <button type="submit" className="enquiries-submit-btn">
-                <FiSend className="enquiries-btn-svg" />
-                <span>Submit Enquiry</span>
+              <button
+                type="button"
+                className="enquiries-btn enquiries-add-btn"
+                onClick={() => setIsAddModalOpen(true)}
+              >
+                <FiPlus className="enquiries-btn-svg" />
+                <span>New Enquiry</span>
               </button>
             </div>
-          </form>
-        </section>
-
-        {/* Enquiries List Table Section */}
-        <section className="enquiries-card-box">
-          <h2 className="enquiries-list-title">Enquiries List</h2>
+          </div>
 
           <div className="enquiries-toolbar-flex">
             <div className="enquiries-filter-search-combo">
@@ -483,15 +303,6 @@ const Enquiries = () => {
                 <FiSearch className="enquiries-table-search-icon" />
               </div>
             </div>
-
-            <button
-              type="button"
-              className="enquiries-export-btn"
-              onClick={handleExportCSV}
-            >
-              <FiDownload className="enquiries-btn-svg" />
-              <span>Export</span>
-            </button>
           </div>
 
           {/* Table Container */}
@@ -616,6 +427,201 @@ const Enquiries = () => {
           </footer>
         </section>
       </main>
+
+      {/* Add New Enquiry Popup Modal */}
+      {isAddModalOpen && (
+        <div className="enquiries-modal-backdrop" onClick={() => setIsAddModalOpen(false)}>
+          <div
+            className="enquiries-modal-window enquiries-modal-large-window"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="enquiries-modal-header">
+              <div className="enquiries-modal-header-icon-wrap">
+                <FiFileText className="enquiries-header-card-icon" />
+                <h3 className="enquiries-modal-title">Add New Enquiry</h3>
+              </div>
+              <button
+                type="button"
+                className="enquiries-modal-close-btn"
+                onClick={() => setIsAddModalOpen(false)}
+              >
+                <FiX />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddSubmit}>
+              <div className="enquiries-modal-body">
+                <div className="enquiries-form-modal-grid">
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">
+                      Full Name <span className="enquiries-asterisk">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="Enter full name"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      className="enquiries-field-input"
+                      required
+                    />
+                  </div>
+
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">
+                      Email Address <span className="enquiries-asterisk">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter email address"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="enquiries-field-input"
+                      required
+                    />
+                  </div>
+
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">
+                      Phone Number <span className="enquiries-asterisk">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Enter phone number"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="enquiries-field-input"
+                      required
+                    />
+                  </div>
+
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">
+                      Tour Interested In <span className="enquiries-asterisk">*</span>
+                    </label>
+                    <div className="enquiries-select-box">
+                      <select
+                        name="tourPackage"
+                        value={formData.tourPackage}
+                        onChange={handleInputChange}
+                        className="enquiries-field-select"
+                        required
+                      >
+                        <option value="">Select tour</option>
+                        <option value="Bali Tour">Bali Tour</option>
+                        <option value="Goa Trip">Goa Trip</option>
+                        <option value="Europe Tour">Europe Tour</option>
+                        <option value="Thailand Tour">Thailand Tour</option>
+                        <option value="Dubai Desert & City">Dubai Desert & City</option>
+                      </select>
+                      <FiChevronDown className="enquiries-select-dropdown-icon" />
+                    </div>
+                  </div>
+
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">Travel Date</label>
+                    <div className="enquiries-date-wrapper">
+                      <input
+                        type="date"
+                        name="travelDate"
+                        value={formData.travelDate}
+                        onChange={handleInputChange}
+                        className="enquiries-field-input enquiries-field-date-input"
+                      />
+                      <FiCalendar className="enquiries-field-date-icon" />
+                    </div>
+                  </div>
+
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">No. of Travelers</label>
+                    <input
+                      type="number"
+                      name="travelers"
+                      min="1"
+                      placeholder="Enter number of travelers"
+                      value={formData.travelers}
+                      onChange={handleInputChange}
+                      className="enquiries-field-input"
+                    />
+                  </div>
+
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">Departure From</label>
+                    <input
+                      type="text"
+                      name="departure"
+                      placeholder="Enter departure city"
+                      value={formData.departure}
+                      onChange={handleInputChange}
+                      className="enquiries-field-input"
+                    />
+                  </div>
+
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">Destination</label>
+                    <input
+                      type="text"
+                      name="destination"
+                      placeholder="Enter destination"
+                      value={formData.destination}
+                      onChange={handleInputChange}
+                      className="enquiries-field-input"
+                    />
+                  </div>
+
+                  <div className="enquiries-field-cell">
+                    <label className="enquiries-label-text">Budget Range</label>
+                    <div className="enquiries-select-box">
+                      <select
+                        name="budget"
+                        value={formData.budget}
+                        onChange={handleInputChange}
+                        className="enquiries-field-select"
+                      >
+                        <option value="">Select budget range</option>
+                        <option value="Below $1,000">Below $1,000</option>
+                        <option value="$1,000 - $3,000">$1,000 - $3,000</option>
+                        <option value="$3,000 - $5,000">$3,000 - $5,000</option>
+                        <option value="$5,000+">$5,000+</option>
+                      </select>
+                      <FiChevronDown className="enquiries-select-dropdown-icon" />
+                    </div>
+                  </div>
+
+                  <div className="enquiries-field-cell enquiries-field-fullspan">
+                    <label className="enquiries-label-text">Message / Requirements</label>
+                    <textarea
+                      rows="3"
+                      name="message"
+                      placeholder="Write your message or requirements..."
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="enquiries-field-textarea"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="enquiries-modal-footer">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="enquiries-reset-btn"
+                >
+                  <FiRotateCcw className="enquiries-btn-svg" />
+                  <span>Reset</span>
+                </button>
+                <button type="submit" className="enquiries-submit-btn">
+                  <FiSend className="enquiries-btn-svg" />
+                  <span>Submit Enquiry</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* View Modal Popup */}
       {viewItem && (

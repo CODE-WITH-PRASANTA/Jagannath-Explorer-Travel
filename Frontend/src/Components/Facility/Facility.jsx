@@ -3,8 +3,15 @@ import { FaStar, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { SiTripadvisor } from 'react-icons/si';
 import './Facility.css';
 
-// Import your webp background image from assets
-import bgPattern from '../../assets/travel_background.webp'; // Adjust filename/path as needed
+// =====================================================
+// Local Assets
+// =====================================================
+import facilityImg1 from '../../assets/koraput coffee (1).webp';
+import facilityImg2 from '../../assets/eco retreat.webp';
+
+// If you have a separate background image, import it like:
+// import bgPattern from '../../assets/bg-pattern.webp';
+
 
 const facilitySlides = [
   {
@@ -18,9 +25,9 @@ const facilitySlides = [
       'Travel Documentation',
       'Money and Payment',
       'Transportation Security',
-      'Local Knowledge Guide'
+      'Local Knowledge Guide',
     ],
-    image: 'https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?q=80&w=1200&auto=format&fit=crop'
+    image: facilityImg1,
   },
   {
     id: 2,
@@ -33,10 +40,10 @@ const facilitySlides = [
       'Travel Documentation',
       'Money and Payment',
       'Transportation Security',
-      'Local Knowledge Guide'
+      'Local Knowledge Guide',
     ],
-    image: 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?q=80&w=1200&auto=format&fit=crop'
-  }
+    image: facilityImg2,
+  },
 ];
 
 const Facility = () => {
@@ -45,20 +52,30 @@ const Facility = () => {
 
   const handleSlideChange = (newIndex) => {
     if (newIndex === currentSlide || isAnimating) return;
+
     setIsAnimating(true);
     setCurrentSlide(newIndex);
+
     setTimeout(() => {
       setIsAnimating(false);
     }, 450);
   };
 
   const handlePrev = () => {
-    const prev = currentSlide === 0 ? facilitySlides.length - 1 : currentSlide - 1;
+    const prev =
+      currentSlide === 0
+        ? facilitySlides.length - 1
+        : currentSlide - 1;
+
     handleSlideChange(prev);
   };
 
   const handleNext = () => {
-    const next = currentSlide === facilitySlides.length - 1 ? 0 : currentSlide + 1;
+    const next =
+      currentSlide === facilitySlides.length - 1
+        ? 0
+        : currentSlide + 1;
+
     handleSlideChange(next);
   };
 
@@ -67,184 +84,364 @@ const Facility = () => {
   return (
     <section className="facility-section">
       <div className="facility-container">
-        
-        {/* ================= LEFT CONTENT COLUMN WITH WEBP BG ================= */}
-        <div 
-          className="facility-left-col" 
-          style={{ '--bg-image': `url(${bgPattern})` }}
+
+        {/* =====================================================
+            LEFT CONTENT COLUMN
+        ===================================================== */}
+        <div
+          className="facility-left-col"
+          style={{
+            // Temporary: using first facility image as background
+            '--bg-image': `url(${facilityImg1})`,
+          }}
         >
+          {/* Badge */}
           <div className="facility-badge">
             <span className="badge-arrow">➔</span>
             <span className="badge-text">Our Facility</span>
             <span className="badge-wave">✦</span>
           </div>
 
-          <div className={`slide-content-wrapper ${isAnimating ? 'slide-fade-out' : 'slide-fade-in'}`}>
-            <h2 className="facility-title">{current.title}</h2>
+          {/* Slide Content */}
+          <div
+            className={`slide-content-wrapper ${
+              isAnimating
+                ? 'slide-fade-out'
+                : 'slide-fade-in'
+            }`}
+          >
+            <h2 className="facility-title">
+              {current.title}
+            </h2>
 
-            <p className="facility-desc">{current.description}</p>
+            <p className="facility-desc">
+              {current.description}
+            </p>
 
+            {/* Features */}
             <div className="facility-features-grid">
               {current.features.map((feat, idx) => (
-                <div key={idx} className="feature-item">
+                <div
+                  key={idx}
+                  className="feature-item"
+                >
                   <span className="bullet-dot"></span>
-                  <span className="feature-name">{feat}</span>
+
+                  <span className="feature-name">
+                    {feat}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Pagination Controls */}
+          {/* =====================================================
+              PAGINATION CONTROLS
+          ===================================================== */}
           <div className="facility-pagination">
-            <button 
-              type="button" 
-              className="page-arrow" 
-              onClick={handlePrev} 
+
+            {/* Previous */}
+            <button
+              type="button"
+              className="page-arrow"
+              onClick={handlePrev}
               aria-label="Previous Page"
             >
               <FaArrowLeft />
             </button>
-            
+
+            {/* Page Numbers */}
             <div className="page-numbers">
-              <span 
-                className={`num-btn ${currentSlide === 0 ? 'active' : ''}`}
+
+              <button
+                type="button"
+                className={`num-btn ${
+                  currentSlide === 0 ? 'active' : ''
+                }`}
                 onClick={() => handleSlideChange(0)}
               >
                 1
-              </span>
+              </button>
+
               <span className="num-slash">/</span>
-              <span 
-                className={`num-btn ${currentSlide === 1 ? 'active' : ''}`}
+
+              <button
+                type="button"
+                className={`num-btn ${
+                  currentSlide === 1 ? 'active' : ''
+                }`}
                 onClick={() => handleSlideChange(1)}
               >
                 2
-              </span>
+              </button>
+
             </div>
 
-            <button 
-              type="button" 
-              className="page-arrow" 
-              onClick={handleNext} 
+            {/* Next */}
+            <button
+              type="button"
+              className="page-arrow"
+              onClick={handleNext}
               aria-label="Next Page"
             >
               <FaArrowRight />
             </button>
+
           </div>
         </div>
 
-        {/* ================= RIGHT IMAGE COLUMN ================= */}
+        {/* =====================================================
+            RIGHT IMAGE COLUMN
+        ===================================================== */}
         <div className="facility-right-col">
+
           <div className="facility-img-wrapper">
+
+            {/* Images */}
             {facilitySlides.map((slide, idx) => (
-              <img 
+              <img
                 key={slide.id}
-                src={slide.image} 
-                alt={slide.title} 
-                className={`facility-main-img ${idx === currentSlide ? 'active' : ''}`} 
+                src={slide.image}
+                alt={slide.title}
+                className={`facility-main-img ${
+                  idx === currentSlide ? 'active' : ''
+                }`}
               />
             ))}
-            
-            {/* Tripadvisor Badge */}
+
+            {/* =====================================================
+                Tripadvisor Badge
+            ===================================================== */}
             <div className="tripadvisor-badge">
               <div className="ta-inner">
-                <span className="ta-label-top">Travellers'</span>
-                <span className="ta-label-mid">Choice</span>
+
+                <span className="ta-label-top">
+                  Travellers'
+                </span>
+
+                <span className="ta-label-mid">
+                  Choice
+                </span>
+
                 <SiTripadvisor className="ta-icon" />
-                <span className="ta-label-bot">Tripadvisor</span>
+
+                <span className="ta-label-bot">
+                  Tripadvisor
+                </span>
+
               </div>
             </div>
+
           </div>
 
-          {/* ================= 2-IN-1 UNIFIED RATING CARD ================= */}
+          {/* =====================================================
+              UNIFIED RATING CARD
+          ===================================================== */}
           <div className="floating-rating-panel">
+
             <div className="unified-rating-card">
-              
-              {/* Part 1: Overall Rating */}
+
+              {/* =================================================
+                  PART 1 — OVERALL RATING
+              ================================================= */}
               <div className="rating-part">
-                <h4 className="card-box-title">Overall Rating</h4>
+
+                <h4 className="card-box-title">
+                  Overall Rating
+                </h4>
+
                 <div className="rating-score-block">
-                  <span className="big-score">4.5</span>
-                  <span className="out-of-text">out of 5</span>
+
+                  <span className="big-score">
+                    4.5
+                  </span>
+
+                  <span className="out-of-text">
+                    out of 5
+                  </span>
+
                 </div>
+
+                {/* Stars */}
                 <div className="stars-row">
+
                   {[...Array(5)].map((_, i) => (
-                    <FaStar key={i} className="yellow-star" />
+                    <FaStar
+                      key={i}
+                      className="yellow-star"
+                    />
                   ))}
-                  <span className="star-score-val">4.5</span>
+
+                  <span className="star-score-val">
+                    4.5
+                  </span>
+
                 </div>
+
+                {/* Review */}
                 <div className="review-meta">
-                  <span>Based on 15171 independent review</span>
+
+                  <span>
+                    Based on 15171 independent review
+                  </span>
+
                   <div className="mini-ta-dots">
+
                     <span className="ta-dot"></span>
                     <span className="ta-dot"></span>
                     <span className="ta-dot"></span>
                     <span className="ta-dot"></span>
                     <span className="ta-dot half"></span>
+
                   </div>
+
                 </div>
+
               </div>
 
-              {/* Seamless Divider Line */}
+              {/* Divider */}
               <div className="card-inner-divider"></div>
 
-              {/* Part 2: Customer Experience */}
+              {/* =================================================
+                  PART 2 — CUSTOMER EXPERIENCE
+              ================================================= */}
               <div className="rating-part">
-                <h4 className="card-box-title">Customer Experience</h4>
+
+                <h4 className="card-box-title">
+                  Customer Experience
+                </h4>
+
                 <p className="card-box-subtitle">
-                  Curabitur convallis enim at orci ullamcorper sagittis. Morbi nullalacu.
+                  Curabitur convallis enim at orci
+                  ullamcorper sagittis. Morbi nullalacu.
                 </p>
 
                 <div className="experience-breakdown">
+
+                  {/* Experience Score */}
                   <div className="exp-score-box">
-                    <span className="exp-big-score">4.5</span>
-                    <span className="exp-out-of">out of 5</span>
+
+                    <span className="exp-big-score">
+                      4.5
+                    </span>
+
+                    <span className="exp-out-of">
+                      out of 5
+                    </span>
+
                     <div className="exp-mini-stars">
+
                       {[...Array(5)].map((_, i) => (
                         <FaStar key={i} />
                       ))}
+
                     </div>
+
                   </div>
 
+                  {/* Progress Bars */}
                   <div className="progress-bars-list">
+
+                    {/* 5 Star */}
                     <div className="bar-row">
-                      <span className="star-num">5 ★</span>
+
+                      <span className="star-num">
+                        5 ★
+                      </span>
+
                       <div className="progress-track">
-                        <div className="progress-fill" style={{ width: '85%' }}></div>
+                        <div
+                          className="progress-fill"
+                          style={{ width: '85%' }}
+                        ></div>
                       </div>
-                      <span className="count-val">9655</span>
+
+                      <span className="count-val">
+                        9655
+                      </span>
+
                     </div>
 
+                    {/* 4 Star */}
                     <div className="bar-row">
-                      <span className="star-num">4 ★</span>
+
+                      <span className="star-num">
+                        4 ★
+                      </span>
+
                       <div className="progress-track">
-                        <div className="progress-fill" style={{ width: '45%' }}></div>
+                        <div
+                          className="progress-fill"
+                          style={{ width: '45%' }}
+                        ></div>
                       </div>
-                      <span className="count-val">3635</span>
+
+                      <span className="count-val">
+                        3635
+                      </span>
+
                     </div>
 
+                    {/* 3 Star */}
                     <div className="bar-row">
-                      <span className="star-num">3 ★</span>
+
+                      <span className="star-num">
+                        3 ★
+                      </span>
+
                       <div className="progress-track">
-                        <div className="progress-fill" style={{ width: '20%' }}></div>
+                        <div
+                          className="progress-fill"
+                          style={{ width: '20%' }}
+                        ></div>
                       </div>
-                      <span className="count-val">907</span>
+
+                      <span className="count-val">
+                        907
+                      </span>
+
                     </div>
 
+                    {/* 2 Star */}
                     <div className="bar-row">
-                      <span className="star-num">2 ★</span>
+
+                      <span className="star-num">
+                        2 ★
+                      </span>
+
                       <div className="progress-track">
-                        <div className="progress-fill" style={{ width: '12%' }}></div>
+                        <div
+                          className="progress-fill"
+                          style={{ width: '12%' }}
+                        ></div>
                       </div>
-                      <span className="count-val">373</span>
+
+                      <span className="count-val">
+                        373
+                      </span>
+
                     </div>
 
+                    {/* 1 Star */}
                     <div className="bar-row">
-                      <span className="star-num">1 ★</span>
+
+                      <span className="star-num">
+                        1 ★
+                      </span>
+
                       <div className="progress-track">
-                        <div className="progress-fill" style={{ width: '5%' }}></div>
+                        <div
+                          className="progress-fill"
+                          style={{ width: '5%' }}
+                        ></div>
                       </div>
-                      <span className="count-val">198</span>
+
+                      <span className="count-val">
+                        198
+                      </span>
+
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -253,7 +450,6 @@ const Facility = () => {
           </div>
 
         </div>
-
       </div>
     </section>
   );

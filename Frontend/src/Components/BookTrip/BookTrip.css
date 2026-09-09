@@ -12,13 +12,179 @@
   margin: 0 auto;
 }
 
+/* =========================================================
+   Top Search Filter Bar (Matches Reference Image)
+   ========================================================= */
+.BookTrip-searchCard {
+  background: #ffffff;
+  width: 100%;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 20;
+  margin-bottom: 40px;
+  border: 1px solid #f1f5f9;
+}
+
+.BookTrip-searchForm {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) 140px;
+  gap: 16px;
+  align-items: center;
+}
+
+/* Custom Dropdown Field Box */
+.BookTrip-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  background-color: #ffffff;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.25s ease;
+  min-height: 54px;
+  box-sizing: border-box;
+}
+
+.BookTrip-field:hover,
+.BookTrip-activeField {
+  border-color: #61b138;
+  box-shadow: 0 4px 14px rgba(97, 177, 56, 0.12);
+}
+
+.BookTrip-iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.BookTrip-greenIcon {
+  color: #61b138;
+  font-size: 1.35rem;
+}
+
+.BookTrip-inputGroup {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.BookTrip-label {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 500;
+  margin-bottom: 1px;
+}
+
+.BookTrip-selectedValue {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.BookTrip-arrowIcon {
+  color: #a0aec0;
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+  margin-left: 8px;
+}
+
+.BookTrip-rotate {
+  transform: rotate(180deg);
+  color: #61b138;
+}
+
+/* Dropdown Options Popup Menu */
+.BookTrip-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #edf2f7;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 100;
+  animation: dropdownFade 0.2s ease-out;
+}
+
+.BookTrip-option {
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.BookTrip-option:hover {
+  background-color: #f0fdf4;
+  color: #61b138;
+}
+
+.BookTrip-selected {
+  background-color: #e6f4ea;
+  color: #61b138;
+}
+
+.BookTrip-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.BookTrip-menu::-webkit-scrollbar-thumb {
+  background-color: #cbd5e0;
+  border-radius: 10px;
+}
+
+/* Search Submit Button */
+.BookTrip-searchBtn {
+  background-color: #61b138;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  height: 54px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(97, 177, 56, 0.3);
+}
+
+.BookTrip-searchBtn:hover {
+  background-color: #51982e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(97, 177, 56, 0.4);
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   Grid Layout & Card Styles
+   ========================================================= */
 .BookTrip-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
 }
 
-/* Card Styling */
 .BookTrip-card {
   background: #ffffff;
   border-radius: 18px;
@@ -35,7 +201,6 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Image Wrapper */
 .BookTrip-imageContainer {
   position: relative;
   width: 100%;
@@ -50,24 +215,16 @@
   transition: transform 0.5s ease-in-out;
 }
 
-/* Zoom In - Zoom Out Animation Loop on Hover */
 .BookTrip-card:hover .BookTrip-image {
   animation: pulseZoom 3s ease-in-out infinite alternate;
 }
 
 @keyframes pulseZoom {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1.05);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1.05); }
 }
 
-/* Badges */
 .BookTrip-durationBadge {
   position: absolute;
   top: 15px;
@@ -104,7 +261,6 @@
   font-size: 0.8rem;
 }
 
-/* Card Body */
 .BookTrip-content {
   padding: 22px 20px 18px 20px;
   display: flex;
@@ -121,7 +277,6 @@
   min-height: 44px;
 }
 
-/* Running Text Line (Right to Left Animation) */
 .BookTrip-routeTicker {
   width: 100%;
   overflow: hidden;
@@ -152,12 +307,8 @@
 }
 
 @keyframes scrollRoute {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .BookTrip-divider {
@@ -166,7 +317,6 @@
   margin-bottom: 16px;
 }
 
-/* Footer & Price */
 .BookTrip-footer {
   display: flex;
   align-items: flex-end;
@@ -212,7 +362,6 @@
   letter-spacing: 0.3px;
 }
 
-/* Green to Black Hover Button */
 .BookTrip-btn {
   background-color: #61b138;
   color: #ffffff;
@@ -265,7 +414,18 @@
   transform: translateX(3px) rotate(-10deg);
 }
 
-/* Media Queries */
+/* =========================================================
+   Responsive Breakpoints
+   ========================================================= */
+@media (max-width: 1200px) {
+  .BookTrip-searchForm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .BookTrip-searchBtn {
+    grid-column: span 2;
+  }
+}
+
 @media (max-width: 1024px) {
   .BookTrip-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -273,12 +433,23 @@
 }
 
 @media (max-width: 640px) {
+  .BookTrip-searchForm {
+    grid-template-columns: 1fr;
+  }
+
+  .BookTrip-searchBtn {
+    grid-column: span 1;
+  }
+
   .BookTrip-grid {
     grid-template-columns: 1fr;
   }
 
   .BookTrip-card {
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .BookTrip-searchCard {
+    padding: 12px;
   }
 }

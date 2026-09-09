@@ -1,14 +1,25 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './About.css';
+
+import aboutImg1 from '../../assets/“Odisha Tourism Place” Most Favo.webp';
+import aboutImg2 from '../../assets/Dhauligiri Shanti Stupa (1) (1).webp';
+import aboutImg3 from '../../assets/Bhubaneswar (1).webp';
+import aboutImg4 from '../../assets/Sun Temple, Konark (1).webp';
 
 const About = () => {
   const [activeTab, setActiveTab] = useState('mission');
+  const navigate = useNavigate();
 
   const tabContent = {
     mission: `We believe every journey should be comfortable, well planned, and worth remembering. As a trusted travel company in Bhubaneswar, we create thoughtfully planned tours that bring together beautiful destinations, reliable travel services, comfortable stays, and memorable experiences. From exploring Odisha to discovering popular destinations across India, our goal is to make every trip simple, enjoyable, and stress-free.`,
 
     customer: `Our customers are at the centre of everything we do. We take the time to understand your travel plans, budget, preferences, and expectations before creating your trip. Whether you are planning a family holiday, a couple's getaway, a group tour, or a spiritual journey, our team is here to help with practical guidance and friendly support from the first conversation until you return home.`
+  };
+
+  const handleContactNavigation = () => {
+    navigate('/contact');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -30,11 +41,8 @@ const About = () => {
 
           {/* Interactive Tabs */}
           <div className="tabs-container">
-
             <button
-              className={`tab-btn ${
-                activeTab === 'mission' ? 'active' : ''
-              }`}
+              className={`tab-btn ${activeTab === 'mission' ? 'active' : ''}`}
               onClick={() => setActiveTab('mission')}
             >
               <span className="tab-icon">🎯</span>
@@ -42,15 +50,12 @@ const About = () => {
             </button>
 
             <button
-              className={`tab-btn ${
-                activeTab === 'customer' ? 'active' : ''
-              }`}
+              className={`tab-btn ${activeTab === 'customer' ? 'active' : ''}`}
               onClick={() => setActiveTab('customer')}
             >
               <span className="tab-icon">👥</span>
               <span>Focus On Customer</span>
             </button>
-
           </div>
 
           {/* Dynamic Content */}
@@ -60,82 +65,60 @@ const About = () => {
 
           {/* Bottom Actions */}
           <div className="about-bottom">
-
-            <button className="cta-btn">
-              More About Us
+            <button 
+              type="button" 
+              className="cta-btn primary-btn"
+              onClick={handleContactNavigation}
+            >
+              <span>Contact Us</span>
+              <svg 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
             </button>
-
-            <div className="social-proof">
-
-              <div className="avatar-group">
-                <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=60"
-                  alt="Happy travel customer"
-                />
-
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=60"
-                  alt="Happy travel customer"
-                />
-
-                <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=60"
-                  alt="Happy travel customer"
-                />
-              </div>
-
-              <div className="proof-text">
-                <strong>500+</strong>
-                <span>Happy Customers</span>
-              </div>
-
-            </div>
-
           </div>
 
         </div>
 
         {/* Right Column - Image Grid */}
         <div className="about-right">
-
-          {/* Left Image Column */}
           <div className="grid-col left-col">
-
             <div className="img-wrapper tall">
               <img
-                src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=700&auto=format&fit=crop&q=80"
+                src={aboutImg1}
                 alt="Travellers enjoying a mountain destination"
               />
             </div>
-
             <div className="img-wrapper medium">
               <img
-                src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=700&auto=format&fit=crop&q=80"
+                src={aboutImg2}
                 alt="Road trip through a beautiful destination"
               />
             </div>
-
           </div>
 
-          {/* Right Image Column */}
           <div className="grid-col right-col">
-
             <div className="img-wrapper medium">
               <img
-                src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=700&auto=format&fit=crop&q=80"
+                src={aboutImg3}
                 alt="Comfortable resort for travellers"
               />
             </div>
-
             <div className="img-wrapper tall">
               <img
-                src="https://images.unsplash.com/photo-1510312305653-8ed496efae75?w=700&auto=format&fit=crop&q=80"
+                src={aboutImg4}
                 alt="Couple enjoying a peaceful travel experience"
               />
             </div>
-
           </div>
-
         </div>
 
       </div>
@@ -144,4 +127,3 @@ const About = () => {
 };
 
 export default About;
-
