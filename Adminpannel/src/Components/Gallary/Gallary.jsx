@@ -1,8 +1,9 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import "./Gallary.css";
 
-const API_URL = "http://localhost:5000/api/gallery";
-const IMAGE_URL = "http://localhost:5000/uploads/gallery";
+// API
+import API, { IMG_URL } from "../../api/axios";
 
 const Gallary = () => {
   const [imageName, setImageName] = useState("");
@@ -25,22 +26,16 @@ const Gallary = () => {
     try {
       setTableLoading(true);
 
-      const response = await fetch(API_URL);
+      const response = await API.get("/gallery");
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message || "Failed to fetch gallery"
-        );
-      }
-
-      setGalleryData(result.data || []);
+      setGalleryData(response.data?.data || []);
     } catch (error) {
       console.error("FETCH GALLERY ERROR:", error);
 
       alert(
-        error.message || "Unable to load gallery"
+        error.response?.data?.message ||
+          error.message ||
+          "Unable to load gallery"
       );
     } finally {
       setTableLoading(false);
@@ -95,8 +90,7 @@ const Gallary = () => {
     setImage(selectedImage);
 
     // Create preview
-    const previewUrl =
-      URL.createObjectURL(selectedImage);
+    const previewUrl = URL.createObjectURL(selectedImage);
 
     setPreview(previewUrl);
   };
@@ -126,10 +120,7 @@ const Gallary = () => {
       const formData = new FormData();
 
       // Add image name
-      formData.append(
-        "imageName",
-        imageName.trim()
-      );
+      formData.append("imageName", imageName.trim());
 
       // Add image if selected
       if (image) {
@@ -143,12 +134,9 @@ const Gallary = () => {
       // =======================================
 
       if (editId) {
-        response = await fetch(
-          `${API_URL}/${editId}`,
-          {
-            method: "PUT",
-            body: formData,
-          }
+        response = await API.put(
+          `/gallery/${editId}`,
+          formData
         );
       }
 
@@ -157,37 +145,28 @@ const Gallary = () => {
       // =======================================
 
       else {
-        response = await fetch(API_URL, {
-          method: "POST",
-          body: formData,
-        });
-      }
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message ||
-            "Failed to save gallery image"
+        response = await API.post(
+          "/gallery",
+          formData
         );
       }
 
-      alert(result.message);
+      alert(
+        response.data?.message ||
+          "Gallery image saved successfully"
+      );
 
       // Reload gallery from database
       await fetchGallery();
 
       // Reset form
       resetForm();
-
     } catch (error) {
-      console.error(
-        "SAVE GALLERY ERROR:",
-        error
-      );
+      console.error("SAVE GALLERY ERROR:", error);
 
       alert(
-        error.message ||
+        error.response?.data?.message ||
+          error.message ||
           "Failed to save gallery image"
       );
     } finally {
@@ -209,7 +188,7 @@ const Gallary = () => {
 
     // Show existing image
     setPreview(
-      `${IMAGE_URL}/${item.image}`
+      getImageUrl(item.image)
     );
 
     // Scroll page to form
@@ -235,36 +214,24 @@ const Gallary = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `${API_URL}/${id}`,
-        {
-          method: "DELETE",
-        }
+      const response = await API.delete(
+        `/gallery/${id}`
       );
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message ||
-            "Failed to delete gallery image"
-        );
-      }
-
-      alert(result.message);
+      alert(
+        response.data?.message ||
+          "Gallery image deleted successfully"
+      );
 
       // Remove from current table
       setGalleryData((prev) =>
-        prev.filter(
-          (item) => item._id !== id
-        )
+        prev.filter((item) => item._id !== id)
       );
 
       // If currently editing deleted image
       if (editId === id) {
         resetForm();
       }
-
     } catch (error) {
       console.error(
         "DELETE GALLERY ERROR:",
@@ -272,7 +239,8 @@ const Gallary = () => {
       );
 
       alert(
-        error.message ||
+        error.response?.data?.message ||
+          error.message ||
           "Failed to delete gallery image"
       );
     } finally {
@@ -317,7 +285,7 @@ const Gallary = () => {
       return "";
     }
 
-    // If backend somehow returns complete URL
+    // If backend returns complete URL
     if (
       image.startsWith("http://") ||
       image.startsWith("https://")
@@ -325,8 +293,12 @@ const Gallary = () => {
       return image;
     }
 
-    return `${IMAGE_URL}/${image}`;
+    return `${IMG_URL}/uploads/gallery/${image}`;
   };
+
+  // =========================================
+  // RETURN
+  // =========================================
 
   return (
     <div className="Gallary">
@@ -406,8 +378,11 @@ const Gallary = () => {
             <div className="GallaryFormGroup">
 
               <label htmlFor="GallaryName">
+
                 Image Name
+
                 <span>*</span>
+
               </label>
 
               <input
@@ -416,9 +391,7 @@ const Gallary = () => {
                 placeholder="Enter image name"
                 value={imageName}
                 onChange={(e) =>
-                  setImageName(
-                    e.target.value
-                  )
+                  setImageName(e.target.value)
                 }
               />
 
@@ -661,8 +634,8 @@ const Gallary = () => {
                                 item.imageName
                               }
                               onError={(e) => {
-                                e.currentTarget.src =
-                                  "";
+                                e.currentTarget.style.display =
+                                  "none";
                               }}
                             />
 
@@ -775,3 +748,4 @@ const Gallary = () => {
 };
 
 export default Gallary;
+

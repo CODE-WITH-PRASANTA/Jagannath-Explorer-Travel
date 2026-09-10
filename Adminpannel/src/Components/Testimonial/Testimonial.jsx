@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import "./Testimonial.css";
 import API, { IMG_URL } from "../../api/axios";
@@ -1501,4 +1500,3 @@ const Testimonial = () => {
 };
 
 export default Testimonial;
-

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import {
   FiEye,
-  FiSave,
   FiSend,
   FiChevronDown,
   FiChevronUp,
@@ -13,7 +12,7 @@ import {
   FiCalendar,
   FiGrid,
   FiActivity,
-  FiInfo, // Replaced non-existent FiLightbulb
+  FiInfo,
   FiEdit2,
 } from "react-icons/fi";
 import "./ToursAllSection.css";
@@ -29,6 +28,27 @@ const ToursAllSection = () => {
 
   const toggleSection = (key) => {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // Action Loading & Toast Feedback States
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (message) => {
+    setToastMessage(message);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
+  };
+
+  const handleSubmitAction = () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setStatus("Published");
+      showToast("Tour submitted and published successfully!");
+    }, 1000);
   };
 
   // Publish Status States
@@ -88,13 +108,31 @@ const ToursAllSection = () => {
 
   return (
     <div className="tours-all-section">
-      {/* Top Floating Actions */}
+      {/* Toast Notification Banner */}
+      {toastMessage && (
+        <div className="tours-all-section__toast">
+          <FiCheckCircle className="tours-all-section__toast-icon" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* Top Sticky/Floating Actions */}
       <div className="tours-all-section__top-actions">
-        <button type="button" className="tours-all-section__btn-secondary">
-          <FiEye className="tours-all-section__btn-icon" /> Preview Tour
+        <button
+          type="button"
+          className="tours-all-section__btn-secondary"
+          onClick={() => showToast("Opening live preview...")}
+        >
+          <FiEye className="tours-all-section__btn-icon" /> Preview
         </button>
-        <button type="button" className="tours-all-section__btn-primary">
-          <FiSave className="tours-all-section__btn-icon" /> Save Draft
+        <button
+          type="button"
+          className="tours-all-section__btn-submit"
+          onClick={handleSubmitAction}
+          disabled={isSubmitting}
+        >
+          <FiSend className="tours-all-section__btn-icon" />
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </div>
 
@@ -128,12 +166,7 @@ const ToursAllSection = () => {
                   <button
                     type="button"
                     className="tours-all-section__btn-action-light"
-                  >
-                    <FiSave /> Save Draft
-                  </button>
-                  <button
-                    type="button"
-                    className="tours-all-section__btn-action-light"
+                    onClick={() => showToast("Opening live preview...")}
                   >
                     <FiEye /> Preview
                   </button>
@@ -141,7 +174,7 @@ const ToursAllSection = () => {
 
                 <div className="tours-all-section__attr-list">
                   <div className="tours-all-section__attr-item">
-                    <span className="tours-all-section__dot"></span>
+                    <span className={`tours-all-section__dot ${status === "Published" ? "published" : ""}`}></span>
                     <span className="tours-all-section__attr-label">Status:</span>
                     <strong className="tours-all-section__attr-value">
                       {status}
@@ -211,8 +244,10 @@ const ToursAllSection = () => {
             <button
               type="button"
               className="tours-all-section__btn-full-primary"
+              onClick={handleSubmitAction}
+              disabled={isSubmitting}
             >
-              <FiSend /> Publish
+              <FiSend /> {isSubmitting ? "Submitting Tour..." : "Submit Tour"}
             </button>
           </div>
         )}
