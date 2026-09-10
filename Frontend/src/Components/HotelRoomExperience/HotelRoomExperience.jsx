@@ -21,15 +21,15 @@ import {
   FiBox
 } from 'react-icons/fi';
 import {
-  MdLocalLaundryService // Replaced missing TbShirtLaundry with stable Md icon
+  MdLocalLaundryService
 } from 'react-icons/md';
 
-const HotelRoomExperience = () => {
+const HotelRoomExperience = ({ hotel }) => {
   // State for Booking Widget Controls
   const [bookingType, setBookingType] = useState('online'); // 'online' or 'inquiry'
   const [selectedDatePlan, setSelectedDatePlan] = useState(1);
-  const [adultCount, setAdultCount] = useState(1);
-  const [childCount, setChildCount] = useState(1);
+  const [adultCount, setAdultCount] = useState(2);
+  const [childCount, setChildCount] = useState(0);
 
   // Extra Services State
   const [extraServices, setExtraServices] = useState({
@@ -45,24 +45,43 @@ const HotelRoomExperience = () => {
     }));
   };
 
+  const hotelName = hotel?.name || "Hotel Room & Suites";
+  const hotelLocation = hotel ? `${hotel.city}${hotel.address ? `, ${hotel.address}` : ''}` : "Puri, Odisha, India";
+  const hotelPriceNum = Number(hotel?.price || 2898);
+  const hotelPriceStr = hotelPriceNum.toLocaleString('en-IN');
+  const hotelRating = hotel?.starRating || 5;
+  const hotelDesc = hotel?.detailedDesc || hotel?.shortDesc || "Experience comfortable stays and world-class hospitality in Puri with clean rooms, essential amenities, and peaceful ambiance.";
+
+  // Calculate pricing based on hotel price
+  const adultPrice = hotelPriceNum;
+  const childPrice = Math.round(hotelPriceNum * 0.4);
+  const days = selectedDatePlan === 1 ? 4 : 5;
+  const adultTotal = adultCount * adultPrice;
+  const childTotal = childCount * childPrice;
+  const extrasTotal =
+    (extraServices.homePickup ? 500 : 0) +
+    (extraServices.nightFood ? 350 : 0) +
+    (extraServices.seaplaneFlying ? 1200 : 0);
+  const totalPrice = (adultTotal + childTotal + extrasTotal).toLocaleString('en-IN');
+
   // SEO Schema Markup for Jagannatha Tour and Travels
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "Hotel",
-    "name": "Golden Tulip The Grandmark Dhaka - Jagannatha Tour and Travels",
-    "description": "Welcome to the best five-star luxury hotel in New York.",
+    "name": `${hotelName} - Jagannatha Tour and Travels`,
+    "description": hotel?.shortDesc || hotelDesc,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "House 168/170, Road 02, Avenue 01, Mirpur DOHS",
-      "addressLocality": "Dhaka",
-      "addressCountry": "Bangladesh"
+      "streetAddress": hotel?.address || "Main Street",
+      "addressLocality": hotel?.city || "Puri",
+      "addressCountry": "India"
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "8.1",
+      "ratingValue": `${hotelRating}.0`,
       "reviewCount": "94"
     },
-    "priceRange": "₹280"
+    "priceRange": `₹${hotelPriceStr}`
   };
 
   return (
@@ -82,129 +101,124 @@ const HotelRoomExperience = () => {
           <div className="HotelRoomExperience-metaHeader">
             <div className="HotelRoomExperience-location">
               <FaMapMarkerAlt className="HotelRoomExperience-locIcon" />
-              <span>House 168/170, Road 02, Avenue 01, Mirpur DOHS, Dhaka, Bangladesh - </span>
-              <a href="#see-map" className="HotelRoomExperience-mapLink">See Map</a>
+              <span>{hotelLocation} - </span>
+              <a
+                href="#see-map"
+                className="HotelRoomExperience-mapLink"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const mapElem = document.getElementById('see-map');
+                  if (mapElem) {
+                    mapElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+              >
+                See Map
+              </a>
             </div>
             
             <div className="HotelRoomExperience-ratingScore">
               <div className="HotelRoomExperience-stars">
                 {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} className="HotelRoomExperience-starIcon" />
+                  <FaStar
+                    key={i}
+                    className="HotelRoomExperience-starIcon"
+                    style={{ color: i < hotelRating ? "#f59e0b" : "#cbd5e1" }}
+                  />
                 ))}
               </div>
               <span className="HotelRoomExperience-ratingText">
-                <strong>8.1 Excellent</strong> 94 reviews
+                <strong>{hotelRating}.0 Excellent</strong> 94 reviews
               </span>
             </div>
           </div>
 
           {/* Title & Price */}
           <h1 id="hotel-title" className="HotelRoomExperience-title">
-            Golden Tulip The Grandmark Dhaka
+            {hotelName}
           </h1>
           <div className="HotelRoomExperience-priceRow">
-            <span className="HotelRoomExperience-price">₹280</span>
+            <span className="HotelRoomExperience-price">₹{hotelPriceStr}</span>
             <span className="HotelRoomExperience-perNight">/per night</span>
           </div>
 
-          {/* Description Paragraph */}
-          <p className="HotelRoomExperience-description">
-            Welcome to the best five-star luxury hotel in New York. Hotel is veryes elementum sesue the aucan vestibulum aliquam justo in sapien on thi rutrum volutpat. Donec in quis the pellentesque velit. Donec id velitel ac arcu posuere blane. Hotel ut nisl quam nestibulum ac quam nec odio elementum sceisuen the aucan ligula. Orcive varius natoque penatibus et magnis discustent parturient monte nascete ridiculus mus nellentesque habitant forminy morbine.
-          </p>
+          {/* Description Paragraph / HTML */}
+          {hotel?.detailedDesc && hotel.detailedDesc.includes('<') ? (
+            <div 
+              className="HotelRoomExperience-description"
+              dangerouslySetInnerHTML={{ __html: hotel.detailedDesc }}
+            />
+          ) : (
+            <p className="HotelRoomExperience-description">
+              {hotelDesc}
+            </p>
+          )}
 
-          {/* Highlights Section */}
-          <div className="HotelRoomExperience-section">
-            <h2 className="HotelRoomExperience-sectionTitle">Highlights</h2>
-            <div className="HotelRoomExperience-highlightsGrid">
-              <div className="HotelRoomExperience-highlightCard">
-                <FaTv className="HotelRoomExperience-highlightIcon" />
-                <span>TV</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaFire className="HotelRoomExperience-highlightIcon" />
-                <span>Heater</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FiShield className="HotelRoomExperience-highlightIcon" />
-                <span>Saving Safe</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaWifi className="HotelRoomExperience-highlightIcon" />
-                <span>Free Wifi</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaPhoneAlt className="HotelRoomExperience-highlightIcon" />
-                <span>Phone</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FiBox className="HotelRoomExperience-highlightIcon" />
-                <span>Towels</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaWind className="HotelRoomExperience-highlightIcon" />
-                <span>Air Condition</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaWind className="HotelRoomExperience-highlightIcon" />
-                <span>Hair Dryer</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <MdLocalLaundryService className="HotelRoomExperience-highlightIcon" />
-                <span>Laundry</span>
-              </div>
-            </div>
-          </div>
+         
 
           {/* Pets Policy */}
           <div className="HotelRoomExperience-section">
-            <h2 className="HotelRoomExperience-sectionTitle">Pets.</h2>
-            <p className="HotelRoomExperience-subText">Pets not allowed</p>
+            <h2 className="HotelRoomExperience-sectionTitle">Check-In / Check-Out</h2>
+            <p className="HotelRoomExperience-subText">
+              Check-In: <strong>{hotel?.checkIn || "14:00"}</strong> | Check-Out: <strong>{hotel?.checkOut || "11:00"}</strong>
+            </p>
           </div>
 
           {/* Children and Extra Beds */}
           <div className="HotelRoomExperience-section">
             <h2 className="HotelRoomExperience-sectionTitle">Children and extra beds.</h2>
             <p className="HotelRoomExperience-subText">
-              Children are welcome Kids stay free! Children stay free when using existing bedding; children may not be eligible for complimentary breakfast Rollaway/extra beds are available for ₹ 10 per day.
+              Children are welcome! Kids stay free when using existing bedding. Extra rollaway beds are available upon request. Total available rooms: <strong>{hotel?.rooms || 50}</strong>.
             </p>
           </div>
 
           {/* Facilities List */}
           <div className="HotelRoomExperience-section">
-            <h2 className="HotelRoomExperience-sectionTitle">Facilities</h2>
+            <h2 className="HotelRoomExperience-sectionTitle">Facilities & Amenities</h2>
             <div className="HotelRoomExperience-facilitiesGrid">
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Airport transfer</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Free Wi-Fi in all rooms!</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Fitness center</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Luggage storage</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Car park</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Front desk [24-hour]</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Sauna</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Breakfast [free]</span>
-              </div>
+              {hotel?.amenities ? (
+                (typeof hotel.amenities === 'string' ? hotel.amenities.split(',') : hotel.amenities).map((amenity, idx) => (
+                  <div className="HotelRoomExperience-facilityItem" key={idx}>
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>{amenity.trim()}</span>
+                  </div>
+                ))
+              ) : (
+                <>
+                  <div className="HotelRoomExperience-facilityItem">
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>Airport transfer</span>
+                  </div>
+                  <div className="HotelRoomExperience-facilityItem">
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>Free Wi-Fi in all rooms!</span>
+                  </div>
+                  <div className="HotelRoomExperience-facilityItem">
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>Fitness center</span>
+                  </div>
+                  <div className="HotelRoomExperience-facilityItem">
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>Luggage storage</span>
+                  </div>
+                  <div className="HotelRoomExperience-facilityItem">
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>Car park</span>
+                  </div>
+                  <div className="HotelRoomExperience-facilityItem">
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>Front desk [24-hour]</span>
+                  </div>
+                  <div className="HotelRoomExperience-facilityItem">
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>Sauna & Spa</span>
+                  </div>
+                  <div className="HotelRoomExperience-facilityItem">
+                    <FaCheck className="HotelRoomExperience-checkIcon" />
+                    <span>Breakfast [free]</span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -216,7 +230,7 @@ const HotelRoomExperience = () => {
             
             <h3 className="HotelRoomExperience-cardTitle">Book Your Room</h3>
             <p className="HotelRoomExperience-cardSubtitle">
-              Reserve your ideal Room early for a hassle-free trip; secure comfort and convenience!
+              Reserve {hotelName} early for a hassle-free trip; secure comfort and convenience!
             </p>
 
             {/* Tab Buttons */}
@@ -250,12 +264,12 @@ const HotelRoomExperience = () => {
                 <div className="HotelRoomExperience-dateDetails">
                   <div className="HotelRoomExperience-dateBlock">
                     <span className="HotelRoomExperience-dateLabel">Check In</span>
-                    <span className="HotelRoomExperience-dateVal">Jan 1, 2024</span>
+                    <span className="HotelRoomExperience-dateVal">Today</span>
                   </div>
                   <FaLongArrowAltRight className="HotelRoomExperience-arrowRight" />
                   <div className="HotelRoomExperience-dateBlock">
                     <span className="HotelRoomExperience-dateLabel">Check Out</span>
-                    <span className="HotelRoomExperience-dateVal">Jan 5, 2024</span>
+                    <span className="HotelRoomExperience-dateVal">Next Day</span>
                   </div>
                 </div>
               </div>
@@ -271,12 +285,12 @@ const HotelRoomExperience = () => {
                 <div className="HotelRoomExperience-dateDetails">
                   <div className="HotelRoomExperience-dateBlock">
                     <span className="HotelRoomExperience-dateLabel">Check In</span>
-                    <span className="HotelRoomExperience-dateVal">Jan 10, 2024</span>
+                    <span className="HotelRoomExperience-dateVal">Weekend</span>
                   </div>
                   <FaLongArrowAltRight className="HotelRoomExperience-arrowRight" />
                   <div className="HotelRoomExperience-dateBlock">
                     <span className="HotelRoomExperience-dateLabel">Check Out</span>
-                    <span className="HotelRoomExperience-dateVal">Jan 15, 2024</span>
+                    <span className="HotelRoomExperience-dateVal">Sunday</span>
                   </div>
                 </div>
               </div>
@@ -285,7 +299,7 @@ const HotelRoomExperience = () => {
               <div className="HotelRoomExperience-dateOptionCustom">
                 <div className="HotelRoomExperience-checkboxSquare" />
                 <div className="HotelRoomExperience-customInputBox">
-                  <span className="HotelRoomExperience-customPlaceholder">Check In & Out Data</span>
+                  <span className="HotelRoomExperience-customPlaceholder">Custom Check In & Out</span>
                   <FaCalendarAlt className="HotelRoomExperience-calIcon" />
                 </div>
               </div>
@@ -299,8 +313,7 @@ const HotelRoomExperience = () => {
               <div className="HotelRoomExperience-guestRow">
                 <span className="HotelRoomExperience-guestType">Adult:</span>
                 <div className="HotelRoomExperience-guestPrice">
-                  <span className="HotelRoomExperience-currPrice">₹60</span>
-                  <span className="HotelRoomExperience-oldPrice">₹80</span>
+                  <span className="HotelRoomExperience-currPrice">₹{adultPrice.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="HotelRoomExperience-counterBox">
                   <button
@@ -323,7 +336,7 @@ const HotelRoomExperience = () => {
               <div className="HotelRoomExperience-guestRow">
                 <span className="HotelRoomExperience-guestType">Children:</span>
                 <div className="HotelRoomExperience-guestPrice">
-                  <span className="HotelRoomExperience-currPrice">₹15</span>
+                  <span className="HotelRoomExperience-currPrice">₹{childPrice.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="HotelRoomExperience-counterBox">
                   <button
@@ -355,9 +368,9 @@ const HotelRoomExperience = () => {
                     checked={extraServices.homePickup}
                     onChange={() => handleExtraServiceChange('homePickup')}
                   />
-                  <span>Home Pickup</span>
+                  <span>Airport / Station Pickup</span>
                 </div>
-                <span className="HotelRoomExperience-extraPrice">₹10</span>
+                <span className="HotelRoomExperience-extraPrice">₹500</span>
               </label>
 
               <label className="HotelRoomExperience-extraRow">
@@ -367,9 +380,9 @@ const HotelRoomExperience = () => {
                     checked={extraServices.nightFood}
                     onChange={() => handleExtraServiceChange('nightFood')}
                   />
-                  <span>Night Food</span>
+                  <span>Dinner Buffet</span>
                 </div>
-                <span className="HotelRoomExperience-extraPrice">₹15</span>
+                <span className="HotelRoomExperience-extraPrice">₹350</span>
               </label>
 
               <label className="HotelRoomExperience-extraRow">
@@ -379,9 +392,9 @@ const HotelRoomExperience = () => {
                     checked={extraServices.seaplaneFlying}
                     onChange={() => handleExtraServiceChange('seaplaneFlying')}
                   />
-                  <span>Seaplane Fyling</span>
+                  <span>City Sightseeing Tour</span>
                 </div>
-                <span className="HotelRoomExperience-extraPrice">₹20</span>
+                <span className="HotelRoomExperience-extraPrice">₹1,200</span>
               </label>
             </div>
 
@@ -390,40 +403,38 @@ const HotelRoomExperience = () => {
               
               <div className="HotelRoomExperience-breakdownRow">
                 <div className="HotelRoomExperience-breakdownCol">
-                  <span className="HotelRoomExperience-colLabel">Adult</span>
+                  <span className="HotelRoomExperience-colLabel">Adults Total</span>
                   <div className="HotelRoomExperience-calcFormula">
-                    <span>₹195</span> <span className="HotelRoomExperience-subLbl">PRICE</span>
+                    <span>₹{adultPrice.toLocaleString('en-IN')}</span> <span className="HotelRoomExperience-subLbl">PRICE</span>
                     <span>×</span>
-                    <span>02</span> <span className="HotelRoomExperience-subLbl">QTY</span>
-                    <span>×</span>
-                    <span>04</span> <span className="HotelRoomExperience-subLbl">DAYS</span>
+                    <span>{adultCount}</span> <span className="HotelRoomExperience-subLbl">QTY</span>
                   </div>
                 </div>
                 <FaLongArrowAltRight className="HotelRoomExperience-calcArrow" />
-                <span className="HotelRoomExperience-calcTotal">₹390</span>
+                <span className="HotelRoomExperience-calcTotal">₹{adultTotal.toLocaleString('en-IN')}</span>
               </div>
 
-              <div className="HotelRoomExperience-breakdownRow">
-                <div className="HotelRoomExperience-breakdownCol">
-                  <span className="HotelRoomExperience-colLabel">Children</span>
-                  <div className="HotelRoomExperience-calcFormula">
-                    <span>₹195</span> <span className="HotelRoomExperience-subLbl">PRICE</span>
-                    <span>×</span>
-                    <span>02</span> <span className="HotelRoomExperience-subLbl">QTY</span>
-                    <span>×</span>
-                    <span>04</span> <span className="HotelRoomExperience-subLbl">DAYS</span>
+              {childCount > 0 && (
+                <div className="HotelRoomExperience-breakdownRow">
+                  <div className="HotelRoomExperience-breakdownCol">
+                    <span className="HotelRoomExperience-colLabel">Children Total</span>
+                    <div className="HotelRoomExperience-calcFormula">
+                      <span>₹{childPrice.toLocaleString('en-IN')}</span> <span className="HotelRoomExperience-subLbl">PRICE</span>
+                      <span>×</span>
+                      <span>{childCount}</span> <span className="HotelRoomExperience-subLbl">QTY</span>
+                    </div>
                   </div>
+                  <FaLongArrowAltRight className="HotelRoomExperience-calcArrow" />
+                  <span className="HotelRoomExperience-calcTotal">₹{childTotal.toLocaleString('en-IN')}</span>
                 </div>
-                <FaLongArrowAltRight className="HotelRoomExperience-calcArrow" />
-                <span className="HotelRoomExperience-calcTotal">₹390</span>
-              </div>
+              )}
 
             </div>
 
             {/* Total Price & Action Button */}
             <div className="HotelRoomExperience-totalRow">
               <span className="HotelRoomExperience-totalLabel">Total Price:</span>
-              <span className="HotelRoomExperience-totalAmount">₹470</span>
+              <span className="HotelRoomExperience-totalAmount">₹{totalPrice}</span>
             </div>
 
             <button className="HotelRoomExperience-bookBtn">

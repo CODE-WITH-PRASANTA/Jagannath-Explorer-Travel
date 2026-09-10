@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import './ToursLocation.css';
 
-const ToursLocation = () => {
+const ToursLocation = ({
+  address: externalAddress,
+  setAddress: externalSetAddress,
+  coordinates: externalCoordinates,
+  setCoordinates: externalSetCoordinates,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [address, setAddress] = useState('New York, USA');
-  const [coordinates, setCoordinates] = useState('40.7128, -74.0060');
+  const [internalAddress, setInternalAddress] = useState('');
+  const [internalCoordinates, setInternalCoordinates] = useState('');
 
-  const encodedAddress = encodeURIComponent(address.trim() || 'New York, USA');
+  const address = externalAddress !== undefined ? externalAddress : internalAddress;
+  const setAddress = externalSetAddress || setInternalAddress;
+  const coordinates = externalCoordinates !== undefined ? externalCoordinates : internalCoordinates;
+  const setCoordinates = externalSetCoordinates || setInternalCoordinates;
+
+  const encodedAddress = encodeURIComponent((address || '').trim() || 'Odisha, India');
   const mapEmbedUrl = `https://maps.google.com/maps?q=${encodedAddress}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
 
   return (
@@ -60,10 +70,10 @@ const ToursLocation = () => {
               <div className="ToursLocation-map-badge-card">
                 <div className="ToursLocation-badge-details">
                   <span className="ToursLocation-badge-name">
-                    {address.split(',')[0] || 'New York'}
+                    {(address && address.split(',')[0]) || 'Destination Location'}
                   </span>
                   <span className="ToursLocation-badge-sub">
-                    {address || 'New York, NY, USA'}
+                    {address || 'Enter tour address above'}
                   </span>
                 </div>
                 <div className="ToursLocation-badge-icons">

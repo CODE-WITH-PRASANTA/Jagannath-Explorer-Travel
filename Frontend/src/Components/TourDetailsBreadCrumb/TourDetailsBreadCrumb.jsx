@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './TourDetailsBreadCrumb.css';
 
 // Background image import path
 import breadcrumbBg from '../../assets/background.webp';
 
-const TourDetailsBreadCrumb = () => {
+const TourDetailsBreadCrumb = ({ title, destination }) => {
   return (
     <div 
       className="TourDetailsBreadCrumb" 
@@ -12,11 +13,13 @@ const TourDetailsBreadCrumb = () => {
     >
       {/* Title & Navigation */}
       <div className="TourDetailsBreadCrumb-hero">
-        <h1 className="TourDetailsBreadCrumb-title">Package Details</h1>
+        <h1 className="TourDetailsBreadCrumb-title">{title || "Package Details"}</h1>
         <div className="TourDetailsBreadCrumb-nav">
-          <span className="TourDetailsBreadCrumb-home">Home</span>
+          <Link to="/" className="TourDetailsBreadCrumb-home" style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
           <span className="TourDetailsBreadCrumb-arrow">--&gt;</span>
-          <span className="TourDetailsBreadCrumb-current">Package Details</span>
+          <Link to="/tours" className="TourDetailsBreadCrumb-home" style={{ textDecoration: 'none', color: 'inherit' }}>Tours</Link>
+          <span className="TourDetailsBreadCrumb-arrow">--&gt;</span>
+          <span className="TourDetailsBreadCrumb-current">{title || (destination ? `${destination} Tour` : "Package Details")}</span>
         </div>
       </div>
     </div>

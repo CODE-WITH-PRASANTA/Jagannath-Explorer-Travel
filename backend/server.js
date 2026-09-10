@@ -8,7 +8,8 @@ const connectDB = require("./src/config/db");
 const galleryRoutes = require("./src/routes/galleryRoutes");
 const testimonialRoutes = require("./src/routes/testimonialRoutes");
 const blogRoutes = require("./src/routes/blogRoutes");
-
+const hotelRoutes = require("./src/routes/hotelRoutes");
+const tourRoutes = require("./src/routes/tourRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 
 const app = express();
@@ -25,6 +26,8 @@ app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/tours", tourRoutes);
 app.use("/api/users", userRoutes);
 
 // Root route
