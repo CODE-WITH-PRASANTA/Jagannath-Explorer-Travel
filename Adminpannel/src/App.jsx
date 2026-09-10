@@ -26,6 +26,7 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Login from "./Components/Login/Login";
 import Blogmanagement from "./Pages/Blogmanagement/Blogmanagement";
 import OurGuide from "./Pages/OurGuide/OurGuide";
+import Booklead from "./Pages/Booklead/Booklead";
 
 const App = () => {
   return (
@@ -60,6 +61,7 @@ const App = () => {
             {/* User Management */}
             <Route path="/users" element={<AllUsers />} />
             <Route path="/users/roles" element={<RoleandPermission />} />
+            <Route path="booklead"element={<Booklead/>}/>
 
             {/* System */}
             <Route path="/settings" element={<Settings />} />

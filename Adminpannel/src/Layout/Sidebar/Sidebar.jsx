@@ -103,6 +103,11 @@ const Sidebar = ({
       path: "/our-guide",
       icon: <BookOpen size={20} />,
     },
+    {
+      text: "Booking Leading",
+      path: "/booklead",
+      icon: <BookOpen size={20} />,
+    },
 
     {
       text: "Gallary",
