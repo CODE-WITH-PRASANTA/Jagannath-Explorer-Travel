@@ -71,6 +71,9 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
       ],
     },
 
+    /* Added Tour Booking link */
+    { type: 'link', icon: <CalendarCheck size={20} />, text: 'Tour Booking', path: '/tour-bookings' },
+
     { type: 'link', icon: <Map size={20} />, text: 'Tours', path: '/tours' },
     { type: 'link', icon: <Car size={20} />, text: 'Vehicles', path: '/vehicles' },
     { type: 'link', icon: <MapPin size={20} />, text: 'Destinations', path: '/destinations' },
