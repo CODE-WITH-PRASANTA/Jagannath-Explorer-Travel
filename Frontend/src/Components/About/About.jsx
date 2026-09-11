@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './About.css';
 
-import aboutImg1 from '../../assets/“Odisha Tourism Place” Most Favo.webp';
+import aboutImg1 from '../../assets/images.webp';
 import aboutImg2 from '../../assets/Dhauligiri Shanti Stupa (1) (1).webp';
-import aboutImg3 from '../../assets/Bhubaneswar (1).webp';
-import aboutImg4 from '../../assets/Sun Temple, Konark (1).webp';
+import aboutImg3 from '../../assets/khandagiri (1).webp';
+import aboutImg4 from '../../assets/Maa Tarini Keounjhar (1).webp';
 
 const About = () => {
   const [activeTab, setActiveTab] = useState('mission');

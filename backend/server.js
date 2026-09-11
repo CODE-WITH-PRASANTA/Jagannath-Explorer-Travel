@@ -7,6 +7,7 @@ const connectDB = require("./src/config/db");
 
 const galleryRoutes = require("./src/routes/galleryRoutes");
 const testimonialRoutes = require("./src/routes/testimonialRoutes");
+const couponRoutes = require("./src/routes/couponRoutes");
 const blogRoutes = require("./src/routes/blogRoutes");
 
 const userRoutes = require("./src/routes/userRoutes");
@@ -25,6 +26,9 @@ app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
 // Routes
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
+app.use('/api/coupons', couponRoutes);
+
+// Test route
 app.use("/api/blogs", blogRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/team", teamRoutes);
