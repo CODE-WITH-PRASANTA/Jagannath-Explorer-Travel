@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./SmlBus.css";
+import API from "../../api/axios";
 
 import busImg1 from "../../assets/Bus1.webp";
 import busImg2 from "../../assets/Bus2.webp";
@@ -136,7 +137,9 @@ const SmlBus = () => {
     setModalStep(2);
   };
 
-  const handleFormSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.fullName.trim() || !formData.mobileNumber.trim()) {
@@ -144,7 +147,8 @@ const SmlBus = () => {
       return;
     }
 
-    if (!/^\d{10}$/.test(formData.mobileNumber)) {
+    const cleanMobile = formData.mobileNumber.replace(/\D/g, "");
+    if (!/^\d{10}$/.test(cleanMobile)) {
       alert("Please enter a valid 10 digit mobile number.");
       return;
     }
@@ -154,11 +158,40 @@ const SmlBus = () => {
       return;
     }
 
-    alert(
-      `Booking request received for ${selectedBus?.title}. We will get in touch with you shortly.`
-    );
+    try {
+      setSubmitting(true);
+      const payload = {
+        vehicleName: selectedBus?.title || "SML Coach Bus",
+        vehicleType: "SML Coach",
+        vehiclePrice: selectedBus?.price || "",
+        vehicleImage: typeof selectedBus?.image === "string" ? selectedBus.image : "",
+        pickupLocation: formData.pickupLocation,
+        dropLocation: formData.dropLocation,
+        pickupDateTime: formData.pickupDateTime,
+        dropDateTime: formData.dropDateTime,
+        fullName: formData.fullName,
+        mobileNumber: cleanMobile,
+        message: formData.message,
+        agreedToTerms: formData.agreedToTerms,
+      };
 
-    handleCloseModal();
+      const res = await API.post("/car-bookings", payload);
+
+      alert(
+        res.data?.message ||
+          `Booking request received for ${selectedBus?.title}. We will get in touch with you shortly.`
+      );
+
+      handleCloseModal();
+    } catch (error) {
+      console.error("SML Bus booking error:", error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to submit booking. Please check your details or call us directly."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const totalDesktopPages = Math.ceil(

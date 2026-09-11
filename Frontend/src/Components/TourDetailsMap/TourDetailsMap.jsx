@@ -5,10 +5,15 @@ import './TourDetailsMap.css';
 import { FaDirections, FaExpand } from 'react-icons/fa';
 import { FiExternalLink } from 'react-icons/fi';
 
-const TourDetailsMap = () => {
-  // Direct Google Maps View URL for New York, NY
-  const mapsUrl = "https://www.google.com/maps/place/New+York,+NY,+USA";
-  const directionsUrl = "https://www.google.com/maps/dir//New+York,+NY,+USA";
+const TourDetailsMap = ({ location, destination }) => {
+  // Extract address or destination name
+  const locAddress = location?.address || (typeof location === 'string' ? location : '') || destination || "Odisha, India";
+  const mapSearchQuery = encodeURIComponent(locAddress);
+
+  // Dynamic Google Maps URLs
+  const mapsUrl = `https://www.google.com/maps/place/${mapSearchQuery}`;
+  const directionsUrl = `https://www.google.com/maps/dir//${mapSearchQuery}`;
+  const iframeSrc = location?.mapUrl || `https://maps.google.com/maps?q=${mapSearchQuery}&t=m&z=11&output=embed&iwloc=near`;
 
   return (
     <div className="TourDetailsMap">
@@ -24,7 +29,7 @@ const TourDetailsMap = () => {
           <iframe
             title="Location Map"
             className="TourDetailsMap-iframe"
-            src="https://maps.google.com/maps?q=New%20York%2C%20NY%2C%20USA&t=m&z=11&output=embed&iwloc=near"
+            src={iframeSrc}
             loading="lazy"
             allowFullScreen
           ></iframe>
@@ -32,8 +37,8 @@ const TourDetailsMap = () => {
           {/* Top Left Location Info Card Overlay */}
           <div className="TourDetailsMap-infoCard">
             <div className="TourDetailsMap-infoText">
-              <h3 className="TourDetailsMap-locationTitle">New York</h3>
-              <p className="TourDetailsMap-locationSub">New York, NY, USA</p>
+              <h3 className="TourDetailsMap-locationTitle">{destination || "Destination"}</h3>
+              <p className="TourDetailsMap-locationSub">{locAddress}</p>
             </div>
             <div className="TourDetailsMap-infoActions">
               <a

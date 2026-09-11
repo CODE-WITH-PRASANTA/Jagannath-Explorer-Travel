@@ -610,3 +610,48 @@
     padding: 24px 20px;
   }
 }
+
+/* ================= FORM VALIDATION STYLES ================= */
+
+.hotel-field-group.has-error input,
+.hotel-field-group.has-error select,
+.hotel-field-group.has-error textarea,
+.hotel-field-group.has-error .tinymce-editor-box {
+  border-color: #ef4444 !important;
+  background: #fef2f2 !important;
+}
+
+.hotel-field-group.has-error input:focus,
+.hotel-field-group.has-error select:focus,
+.hotel-field-group.has-error textarea:focus,
+.hotel-field-group.has-error .tinymce-editor-box:focus-within {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15) !important;
+}
+
+.hotel-field-error {
+  font-size: 12px;
+  font-weight: 600;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.hotel-upload-dropzone.has-error {
+  border-color: #ef4444 !important;
+  background: #fef2f2 !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

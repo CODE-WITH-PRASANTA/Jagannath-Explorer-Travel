@@ -15,7 +15,16 @@ import {
   FaCalendarAlt,
   FaLongArrowAltRight,
   FaFire,
-  FaTimes
+  FaTimes,
+  FaSwimmingPool,
+  FaSpa,
+  FaDumbbell,
+  FaUtensils,
+  FaCocktail,
+  FaParking,
+  FaShuttleVan,
+  FaCoffee,
+  FaConciergeBell
 } from 'react-icons/fa';
 import {
   FiShield,
@@ -25,12 +34,73 @@ import {
   MdLocalLaundryService
 } from 'react-icons/md';
 
-const HotelRoomExperience = () => {
+// Helper to match an amenity to a relevant icon
+const getAmenityIcon = (name = '') => {
+  const n = String(name).toLowerCase();
+  if (/wifi|internet|network/i.test(n)) return <FaWifi className="HotelRoomExperience-highlightIcon" />;
+  if (/tv|television|cable|screen/i.test(n)) return <FaTv className="HotelRoomExperience-highlightIcon" />;
+  if (/ac|air condition|cooling/i.test(n)) return <FaWind className="HotelRoomExperience-highlightIcon" />;
+  if (/pool|swimming/i.test(n)) return <FaSwimmingPool className="HotelRoomExperience-highlightIcon" />;
+  if (/spa|massage|wellness|steam|sauna/i.test(n)) return <FaSpa className="HotelRoomExperience-highlightIcon" />;
+  if (/gym|fitness|workout|exercise/i.test(n)) return <FaDumbbell className="HotelRoomExperience-highlightIcon" />;
+  if (/laundry|washing|dry clean/i.test(n)) return <MdLocalLaundryService className="HotelRoomExperience-highlightIcon" />;
+  if (/restaurant|food|dining|meal|breakfast|lunch|dinner|kitchen/i.test(n)) return <FaUtensils className="HotelRoomExperience-highlightIcon" />;
+  if (/bar|cocktail|drinks|lounge/i.test(n)) return <FaCocktail className="HotelRoomExperience-highlightIcon" />;
+  if (/parking|car|valet|garage/i.test(n)) return <FaParking className="HotelRoomExperience-highlightIcon" />;
+  if (/safe|security|lock|vault/i.test(n)) return <FiShield className="HotelRoomExperience-highlightIcon" />;
+  if (/transfer|airport|pickup|shuttle|cab|taxi/i.test(n)) return <FaShuttleVan className="HotelRoomExperience-highlightIcon" />;
+  if (/coffee|tea|cafe/i.test(n)) return <FaCoffee className="HotelRoomExperience-highlightIcon" />;
+  if (/service|room service|bell|reception|concierge|front desk/i.test(n)) return <FaConciergeBell className="HotelRoomExperience-highlightIcon" />;
+  if (/heat|heater|warm/i.test(n)) return <FaFire className="HotelRoomExperience-highlightIcon" />;
+  if (/towel|linen|bath|toiletries/i.test(n)) return <FiBox className="HotelRoomExperience-highlightIcon" />;
+  if (/phone|call|intercom/i.test(n)) return <FaPhoneAlt className="HotelRoomExperience-highlightIcon" />;
+  return <FaCheck className="HotelRoomExperience-highlightIcon" />;
+};
+
+const HotelRoomExperience = ({ hotel }) => {
+  // Derived hotel properties with safe fallbacks
+  const hotelName = hotel?.name || 'Grand Luxury Hotel & Resort';
+  const hotelRating = hotel?.starRating ? Number(hotel.starRating) : 5;
+  const hotelPrice = Number(hotel?.price) || 470;
+  const hotelPriceStr = hotelPrice.toLocaleString('en-IN');
+  const hotelCity = hotel?.city || 'Puri';
+  const hotelAddress = hotel?.address || 'Puri Beach Road, Puri';
+  const hotelLocation = [hotel?.address, hotel?.city, 'Odisha, India'].filter(Boolean).join(', ') || 'Puri, Odisha, India';
+  const hotelDesc = hotel?.shortDesc || 'Welcome to the best luxury hotel in Puri. Experience world-class comfort and authentic hospitality.';
+  const hotelDetailedDesc = hotel?.detailedDesc || hotel?.shortDesc || 'Welcome to the best luxury hotel in Puri. Hotel is beautifully appointed with modern comforts, exceptional service, and peaceful surroundings for an unforgettable stay.';
+
+  // Parse amenities from database (supports comma-separated string or array)
+  let hotelAmenities = [];
+  if (hotel?.amenities) {
+    if (Array.isArray(hotel.amenities)) {
+      hotelAmenities = hotel.amenities.map((a) => String(a).trim()).filter(Boolean);
+    } else if (typeof hotel.amenities === 'string') {
+      hotelAmenities = hotel.amenities
+        .split(/[,\n]/)
+        .map((a) => a.trim())
+        .filter(Boolean);
+    }
+  }
+
+  // Fallback defaults if no amenities are found in database
+  if (hotelAmenities.length === 0) {
+    hotelAmenities = [
+      'Free Wifi',
+      'Air Condition',
+      'TV',
+      'Airport transfer',
+      'Fitness center',
+      'Luggage storage',
+      'Room Service',
+      'Laundry'
+    ];
+  }
+
   // State for Booking Widget Controls
   const [bookingType, setBookingType] = useState('online'); // 'online' or 'inquiry'
   const [selectedDatePlan, setSelectedDatePlan] = useState(1);
-  const [adultCount, setAdultCount] = useState(1);
-  const [childCount, setChildCount] = useState(1);
+  const [adultCount, setAdultCount] = useState(2);
+  const [childCount, setChildCount] = useState(0);
 
   // Extra Services State
   const [extraServices, setExtraServices] = useState({
@@ -52,13 +122,25 @@ const HotelRoomExperience = () => {
   });
   const [isInlineSubmitted, setIsInlineSubmitted] = useState(false);
 
+  // Dynamic Prices Calculation
+  const adultPrice = hotelPrice;
+  const childPrice = Math.round(hotelPrice * 0.4);
+  const homePickupPrice = 500;
+  const nightFoodPrice = 350;
+
+  const adultTotal = adultCount * adultPrice;
+  const childTotal = childCount * childPrice;
+  const extrasTotal = (extraServices.homePickup ? homePickupPrice : 0) + (extraServices.nightFood ? nightFoodPrice : 0);
+  const totalPrice = adultTotal + childTotal + extrasTotal;
+  const totalPriceStr = totalPrice.toLocaleString('en-IN');
+
   // Modal Booking Form State
   const [bookingFormData, setBookingFormData] = useState({
     fullName: '',
-    packageName: 'Golden Tulip Luxury Package',
+    packageName: `${hotelName} Package`,
     phone: '',
-    destination: 'Dhaka, Bangladesh',
-    price: '₹470',
+    destination: hotelLocation,
+    price: `₹${hotelPriceStr}`,
     member: 2,
     category: 'standard'
   });
@@ -85,8 +167,10 @@ const HotelRoomExperience = () => {
   const handleOpenModal = () => {
     setBookingFormData((prev) => ({
       ...prev,
+      packageName: `${hotelName} Booking`,
+      destination: hotelLocation,
       member: adultCount + childCount,
-      price: '₹470'
+      price: `₹${totalPriceStr}`
     }));
     setIsModalSubmitted(false);
     setIsModalOpen(true);
@@ -113,20 +197,25 @@ const HotelRoomExperience = () => {
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "Hotel",
-    "name": "Golden Tulip The Grandmark Dhaka - Jagannatha Tour and Travels",
-    "description": "Welcome to the best five-star luxury hotel in New York.",
+    "name": `${hotelName} - Jagannatha Tour and Travels`,
+    "description": hotelDesc,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "House 168/170, Road 02, Avenue 01, Mirpur DOHS",
-      "addressLocality": "Dhaka",
-      "addressCountry": "Bangladesh"
+      "streetAddress": hotelAddress,
+      "addressLocality": hotelCity,
+      "addressCountry": "India"
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "8.1",
+      "ratingValue": `${hotelRating}.0`,
       "reviewCount": "94"
     },
-    "priceRange": "₹280"
+    "amenityFeature": hotelAmenities.map((amenity) => ({
+      "@type": "LocationFeatureSpecification",
+      "name": amenity,
+      "value": true
+    })),
+    "priceRange": `₹${hotelPriceStr}`
   };
 
   return (
@@ -142,97 +231,62 @@ const HotelRoomExperience = () => {
           <div className="HotelRoomExperience-metaHeader">
             <div className="HotelRoomExperience-location">
               <FaMapMarkerAlt className="HotelRoomExperience-locIcon" />
-              <span>House 168/170, Road 02, Avenue 01, Mirpur DOHS, Dhaka, Bangladesh - </span>
-              <a href="#see-map" className="HotelRoomExperience-mapLink">See Map</a>
+              <span>{hotelLocation} - </span>
+              <a
+                href="#see-map"
+                className="HotelRoomExperience-mapLink"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const mapElem = document.getElementById('see-map');
+                  if (mapElem) {
+                    mapElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+              >
+                See Map
+              </a>
             </div>
             
             <div className="HotelRoomExperience-ratingScore">
               <div className="HotelRoomExperience-stars">
                 {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} className="HotelRoomExperience-starIcon" />
+                  <FaStar
+                    key={i}
+                    className="HotelRoomExperience-starIcon"
+                    style={{ color: i < hotelRating ? "#f59e0b" : "#cbd5e1" }}
+                  />
                 ))}
               </div>
               <span className="HotelRoomExperience-ratingText">
-                <strong>8.1 Excellent</strong> 94 reviews
+                <strong>{hotelRating}.0 Excellent</strong> 94 reviews
               </span>
             </div>
           </div>
 
           <h1 id="hotel-title" className="HotelRoomExperience-title">
-            Golden Tulip The Grandmark Dhaka
+            {hotelName}
           </h1>
           <div className="HotelRoomExperience-priceRow">
-            <span className="HotelRoomExperience-price">₹280</span>
+            <span className="HotelRoomExperience-price">₹{hotelPriceStr}</span>
             <span className="HotelRoomExperience-perNight">/per night</span>
           </div>
 
           <p className="HotelRoomExperience-description">
-            Welcome to the best five-star luxury hotel in New York. Hotel is veryes elementum sesue the aucan vestibulum aliquam justo in sapien on thi rutrum volutpat.
+            {hotelDetailedDesc}
           </p>
 
-          {/* Highlights */}
-          <div className="HotelRoomExperience-section">
-            <h2 className="HotelRoomExperience-sectionTitle">Highlights</h2>
-            <div className="HotelRoomExperience-highlightsGrid">
-              <div className="HotelRoomExperience-highlightCard">
-                <FaTv className="HotelRoomExperience-highlightIcon" />
-                <span>TV</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaFire className="HotelRoomExperience-highlightIcon" />
-                <span>Heater</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FiShield className="HotelRoomExperience-highlightIcon" />
-                <span>Saving Safe</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaWifi className="HotelRoomExperience-highlightIcon" />
-                <span>Free Wifi</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaPhoneAlt className="HotelRoomExperience-highlightIcon" />
-                <span>Phone</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FiBox className="HotelRoomExperience-highlightIcon" />
-                <span>Towels</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaWind className="HotelRoomExperience-highlightIcon" />
-                <span>Air Condition</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <FaWind className="HotelRoomExperience-highlightIcon" />
-                <span>Hair Dryer</span>
-              </div>
-              <div className="HotelRoomExperience-highlightCard">
-                <MdLocalLaundryService className="HotelRoomExperience-highlightIcon" />
-                <span>Laundry</span>
-              </div>
-            </div>
-          </div>
+          
 
-          {/* Facilities */}
+          {/* Facilities & Amenities */}
           <div className="HotelRoomExperience-section">
-            <h2 className="HotelRoomExperience-sectionTitle">Facilities</h2>
+            <h2 className="HotelRoomExperience-sectionTitle">Facilities & Amenities</h2>
             <div className="HotelRoomExperience-facilitiesGrid">
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Airport transfer</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Free Wi-Fi in all rooms!</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Fitness center</span>
-              </div>
-              <div className="HotelRoomExperience-facilityItem">
-                <FaCheck className="HotelRoomExperience-checkIcon" />
-                <span>Luggage storage</span>
-              </div>
+              {hotelAmenities.map((facility, idx) => (
+                <div className="HotelRoomExperience-facilityItem" key={idx}>
+                  <FaCheck className="HotelRoomExperience-checkIcon" />
+                  <span>{facility}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -327,8 +381,8 @@ const HotelRoomExperience = () => {
                   <div className="HotelRoomExperience-guestRow">
                     <span className="HotelRoomExperience-guestType">Adult:</span>
                     <div className="HotelRoomExperience-guestPrice">
-                      <span className="HotelRoomExperience-currPrice">₹60</span>
-                      <span className="HotelRoomExperience-oldPrice">₹80</span>
+                      <span className="HotelRoomExperience-currPrice">₹{adultPrice.toLocaleString('en-IN')}</span>
+                      <span className="HotelRoomExperience-oldPrice">₹{Math.round(adultPrice * 1.3).toLocaleString('en-IN')}</span>
                     </div>
                     <div className="HotelRoomExperience-counterBox">
                       <button
@@ -350,7 +404,7 @@ const HotelRoomExperience = () => {
                   <div className="HotelRoomExperience-guestRow">
                     <span className="HotelRoomExperience-guestType">Children:</span>
                     <div className="HotelRoomExperience-guestPrice">
-                      <span className="HotelRoomExperience-currPrice">₹15</span>
+                      <span className="HotelRoomExperience-currPrice">₹{childPrice.toLocaleString('en-IN')}</span>
                     </div>
                     <div className="HotelRoomExperience-counterBox">
                       <button
@@ -368,6 +422,8 @@ const HotelRoomExperience = () => {
                       </button>
                     </div>
                   </div>
+                  <FaLongArrowAltRight className="HotelRoomExperience-calcArrow" />
+                  <span className="HotelRoomExperience-calcTotal">₹{childTotal.toLocaleString('en-IN')}</span>
                 </div>
 
                 {/* Extra Services */}
@@ -383,7 +439,7 @@ const HotelRoomExperience = () => {
                       />
                       <span>Home Pickup</span>
                     </div>
-                    <span className="HotelRoomExperience-extraPrice">₹10</span>
+                    <span className="HotelRoomExperience-extraPrice">₹{homePickupPrice.toLocaleString('en-IN')}</span>
                   </label>
 
                   <label className="HotelRoomExperience-extraRow">
@@ -395,14 +451,14 @@ const HotelRoomExperience = () => {
                       />
                       <span>Night Food</span>
                     </div>
-                    <span className="HotelRoomExperience-extraPrice">₹15</span>
+                    <span className="HotelRoomExperience-extraPrice">₹{nightFoodPrice.toLocaleString('en-IN')}</span>
                   </label>
                 </div>
 
                 {/* Total Price & Action Button */}
                 <div className="HotelRoomExperience-totalRow">
                   <span className="HotelRoomExperience-totalLabel">Total Price:</span>
-                  <span className="HotelRoomExperience-totalAmount">₹470</span>
+                  <span className="HotelRoomExperience-totalAmount">₹{totalPriceStr}</span>
                 </div>
 
                 <button 

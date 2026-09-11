@@ -4,47 +4,54 @@ import './TourDetailsFaq.css';
 // React Icons
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
-const TourDetailsFaq = () => {
-  // Array of FAQ questions matching the exact reference text
-  const faqData = [
-    {
-      id: 1,
-      number: "01.",
-      question: "How Do I Book A Trip On Your Website?",
-      answer:
-        "Aptent taciti sociosqu ad litora torquent per conubia nostra, per inci only Integer purus onthis felis non aliquam.Mauris nec just vitae ann auctor tol euismod sit amet non ipsul growing this.",
-    },
-    {
-      id: 2,
-      number: "02.",
-      question: "What Payment Methods Do You Accept?",
-      answer:
-        "We accept all major credit cards, debit cards, net banking, UPI, and online wallet payments through our secure checkout system provided by Jagannatha Tour and Travels.",
-    },
-    {
-      id: 3,
-      number: "03.",
-      question: "Can I Make Changes To My Reservation After Booking?",
-      answer:
-        "Yes, you can request changes to your reservation by contacting our customer support team or managing your booking through your account portal prior to the departure date.",
-    },
-    {
-      id: 4,
-      number: "04.",
-      question: "What Is Your Cancellation Policy?",
-      answer:
-        "Cancellations made 7 days prior to departure are eligible for a full refund. Please review our detailed terms and conditions for specific tour package guidelines.",
-    },
-    {
-      id: 5,
-      number: "05.",
-      question: "Do You Offer Group Booking Discounts?",
-      answer:
-        "Yes, Jagannatha Tour and Travels offers special discounted rates and custom itineraries for group bookings of 10 or more travelers.",
-    },
-  ];
+const TourDetailsFaq = ({ faqs }) => {
+  let parsedFaqs = [];
+  if (faqs) {
+    if (Array.isArray(faqs)) {
+      parsedFaqs = faqs;
+    } else if (typeof faqs === 'string') {
+      try {
+        const parsed = JSON.parse(faqs);
+        if (Array.isArray(parsed)) parsedFaqs = parsed;
+      } catch {
+        parsedFaqs = [];
+      }
+    }
+  }
 
-  // Set first item open by default as shown in reference image
+  if (parsedFaqs.length === 0) {
+    parsedFaqs = [
+      {
+        number: "01",
+        question: "How do I confirm my tour booking with Jagannath Explorer Travel?",
+        answer: "You can book directly by clicking 'Book Now' via WhatsApp, submitting the quick inquiry form, or calling our helpline at +91 96688 92441. Our team will send your booking confirmation immediately."
+      },
+      {
+        number: "02",
+        question: "Is temple VIP Darshan assistance included in the package?",
+        answer: "Yes, our experienced local tour guides assist you with seamless darshan, ritual understanding, and obtaining sacred temple Mahaprasad without hassles."
+      },
+      {
+        number: "03",
+        question: "Can the tour itinerary and pickup locations be customized?",
+        answer: "Absolutely! We customize pickups from Bhubaneswar Airport (BBI), Puri Railway Station, or your hotel according to your travel schedule and family requirements."
+      },
+      {
+        number: "04",
+        question: "What type of vehicles are provided for the tour?",
+        answer: "We offer well-maintained, clean, air-conditioned Sedans (Dzire/Etios), SUVs (Innova/Ertiga/Crysta), and Tempo Travellers with courteous professional drivers."
+      }
+    ];
+  }
+
+  const dynamicFaqList = parsedFaqs.map((f, idx) => ({
+    id: idx + 1,
+    number: f.number ? `${f.number}.` : `${String(idx + 1).padStart(2, '0')}.`,
+    question: f.question,
+    answer: f.answer,
+  }));
+
+  // Set first item open by default
   const [openId, setOpenId] = useState(1);
 
   const toggleFaq = (id) => {
@@ -55,7 +62,7 @@ const TourDetailsFaq = () => {
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faqData.map((item) => ({
+    "mainEntity": dynamicFaqList.map((item) => ({
       "@type": "Question",
       "name": item.question,
       "acceptedAnswer": {
@@ -76,12 +83,12 @@ const TourDetailsFaq = () => {
       <div className="TourDetailsFaq-container">
         {/* Header Title */}
         <h2 id="faq-title" className="TourDetailsFaq-heading">
-          Frequently Asked & Question
+          Frequently Asked Questions
         </h2>
 
         {/* Accordion Container */}
         <div className="TourDetailsFaq-list">
-          {faqData.map((item) => {
+          {dynamicFaqList.map((item) => {
             const isOpen = openId === item.id;
             return (
               <article

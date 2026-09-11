@@ -17,7 +17,45 @@ import {
 } from "react-icons/fi";
 import "./ToursAllSection.css";
 
-const ToursAllSection = () => {
+const ToursAllSection = ({
+  status: externalStatus,
+  setStatus: externalSetStatus,
+  visibility: externalVisibility,
+  setVisibility: externalSetVisibility,
+  publishDate: externalPublishDate,
+  setPublishDate: externalSetPublishDate,
+  metaTitle: externalMetaTitle,
+  setMetaTitle: externalSetMetaTitle,
+  metaDescription: externalMetaDescription,
+  setMetaDescription: externalSetMetaDescription,
+  focusKeyword: externalFocusKeyword,
+  setFocusKeyword: externalSetFocusKeyword,
+  seoImage: externalSeoImage,
+  setSeoImage: externalSetSeoImage,
+  onSeoFileChange,
+  price: externalPrice,
+  setPrice: externalSetPrice,
+  discountPrice: externalDiscountPrice,
+  setDiscountPrice: externalSetDiscountPrice,
+  maxPeople: externalMaxPeople,
+  setMaxPeople: externalSetMaxPeople,
+  difficulty: externalDifficulty,
+  setDifficulty: externalSetDifficulty,
+  bestTimeToVisit: externalBestTimeToVisit,
+  setBestTimeToVisit: externalSetBestTimeToVisit,
+  category: externalCategory,
+  setCategory: externalSetCategory,
+  includes: externalIncludes,
+  setIncludes: externalSetIncludes,
+  excludes: externalExcludes,
+  setExcludes: externalSetExcludes,
+  tags: externalTags,
+  setTags: externalSetTags,
+  onSubmit,
+  isSubmitting: externalIsSubmitting,
+  toastMessage: externalToastMessage,
+  showToast: externalShowToast,
+}) => {
   // Accordion toggle states
   const [openSections, setOpenSections] = useState({
     publish: true,
@@ -30,59 +68,95 @@ const ToursAllSection = () => {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Action Loading & Toast Feedback States
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
+  // Internal Fallback States
+  const [internalIsSubmitting, setInternalIsSubmitting] = useState(false);
+  const [internalToastMessage, setInternalToastMessage] = useState(null);
 
-  const showToast = (message) => {
-    setToastMessage(message);
+  const isSubmitting = externalIsSubmitting !== undefined ? externalIsSubmitting : internalIsSubmitting;
+  const toastMessage = externalToastMessage !== undefined ? externalToastMessage : internalToastMessage;
+
+  const showToast = externalShowToast || ((message) => {
+    setInternalToastMessage(message);
     setTimeout(() => {
-      setToastMessage(null);
+      setInternalToastMessage(null);
     }, 3000);
-  };
+  });
 
   const handleSubmitAction = () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setStatus("Published");
-      showToast("Tour submitted and published successfully!");
-    }, 1000);
+    if (onSubmit) {
+      onSubmit();
+    } else {
+      if (isSubmitting) return;
+      setInternalIsSubmitting(true);
+      setTimeout(() => {
+        setInternalIsSubmitting(false);
+        setStatus("Published");
+        showToast("Tour submitted and published successfully!");
+      }, 1000);
+    }
   };
 
   // Publish Status States
-  const [status, setStatus] = useState("Draft");
-  const [visibility, setVisibility] = useState("Public");
-  const [publishDate, setPublishDate] = useState("Immediately");
+  const [internalStatus, setInternalStatus] = useState("Draft");
+  const [internalVisibility, setInternalVisibility] = useState("Public");
+  const [internalPublishDate, setInternalPublishDate] = useState("Immediately");
+
+  const status = externalStatus !== undefined ? externalStatus : internalStatus;
+  const setStatus = externalSetStatus || setInternalStatus;
+  const visibility = externalVisibility !== undefined ? externalVisibility : internalVisibility;
+  const setVisibility = externalSetVisibility || setInternalVisibility;
+  const publishDate = externalPublishDate !== undefined ? externalPublishDate : internalPublishDate;
+  const setPublishDate = externalSetPublishDate || setInternalPublishDate;
 
   // SEO Form States
-  const [metaTitle, setMetaTitle] = useState("");
-  const [metaDescription, setMetaDescription] = useState("");
-  const [focusKeyword, setFocusKeyword] = useState("");
-  const [seoImage, setSeoImage] = useState(null);
+  const [internalMetaTitle, setInternalMetaTitle] = useState("");
+  const [internalMetaDescription, setInternalMetaDescription] = useState("");
+  const [internalFocusKeyword, setInternalFocusKeyword] = useState("");
+  const [internalSeoImage, setInternalSeoImage] = useState(null);
+
+  const metaTitle = externalMetaTitle !== undefined ? externalMetaTitle : internalMetaTitle;
+  const setMetaTitle = externalSetMetaTitle || setInternalMetaTitle;
+  const metaDescription = externalMetaDescription !== undefined ? externalMetaDescription : internalMetaDescription;
+  const setMetaDescription = externalSetMetaDescription || setInternalMetaDescription;
+  const focusKeyword = externalFocusKeyword !== undefined ? externalFocusKeyword : internalFocusKeyword;
+  const setFocusKeyword = externalSetFocusKeyword || setInternalFocusKeyword;
+  const seoImage = externalSeoImage !== undefined ? externalSeoImage : internalSeoImage;
+  const setSeoImage = externalSetSeoImage || setInternalSeoImage;
+
   const fileInputRef = useRef(null);
 
   // Tour Details States
-  const [price, setPrice] = useState("299");
-  const [discountPrice, setDiscountPrice] = useState("249");
-  const [maxPeople, setMaxPeople] = useState("20");
-  const [difficulty, setDifficulty] = useState("Easy");
-  const [bestTimeToVisit, setBestTimeToVisit] = useState("March to May");
-  const [category, setCategory] = useState("");
+  const [internalPrice, setInternalPrice] = useState("");
+  const [internalDiscountPrice, setInternalDiscountPrice] = useState("");
+  const [internalMaxPeople, setInternalMaxPeople] = useState("");
+  const [internalDifficulty, setInternalDifficulty] = useState("Easy");
+  const [internalBestTimeToVisit, setInternalBestTimeToVisit] = useState("");
+  const [internalCategory, setInternalCategory] = useState("");
+
+  const price = externalPrice !== undefined ? externalPrice : internalPrice;
+  const setPrice = externalSetPrice || setInternalPrice;
+  const discountPrice = externalDiscountPrice !== undefined ? externalDiscountPrice : internalDiscountPrice;
+  const setDiscountPrice = externalSetDiscountPrice || setInternalDiscountPrice;
+  const maxPeople = externalMaxPeople !== undefined ? externalMaxPeople : internalMaxPeople;
+  const setMaxPeople = externalSetMaxPeople || setInternalMaxPeople;
+  const difficulty = externalDifficulty !== undefined ? externalDifficulty : internalDifficulty;
+  const setDifficulty = externalSetDifficulty || setInternalDifficulty;
+  const bestTimeToVisit = externalBestTimeToVisit !== undefined ? externalBestTimeToVisit : internalBestTimeToVisit;
+  const setBestTimeToVisit = externalSetBestTimeToVisit || setInternalBestTimeToVisit;
+  const category = externalCategory !== undefined ? externalCategory : internalCategory;
+  const setCategory = externalSetCategory || setInternalCategory;
 
   // Tag Lists
-  const [includes, setIncludes] = useState([
-    "Hotel Accommodation",
-    "Meals",
-    "Transportation",
-    "Sightseeing",
-  ]);
-  const [excludes, setExcludes] = useState([
-    "Personal Expenses",
-    "Travel Insurance",
-  ]);
-  const [tags, setTags] = useState(["summer", "beach", "adventure"]);
+  const [internalIncludes, setInternalIncludes] = useState([]);
+  const [internalExcludes, setInternalExcludes] = useState([]);
+  const [internalTags, setInternalTags] = useState([]);
+
+  const includes = externalIncludes !== undefined ? externalIncludes : internalIncludes;
+  const setIncludes = externalSetIncludes || setInternalIncludes;
+  const excludes = externalExcludes !== undefined ? externalExcludes : internalExcludes;
+  const setExcludes = externalSetExcludes || setInternalExcludes;
+  const tags = externalTags !== undefined ? externalTags : internalTags;
+  const setTags = externalSetTags || setInternalTags;
 
   // Tag Input States
   const [newInclude, setNewInclude] = useState("");
@@ -102,7 +176,12 @@ const ToursAllSection = () => {
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setSeoImage(URL.createObjectURL(e.target.files[0]));
+      const file = e.target.files[0];
+      if (onSeoFileChange) {
+        onSeoFileChange(file);
+      } else {
+        setSeoImage(URL.createObjectURL(file));
+      }
     }
   };
 
