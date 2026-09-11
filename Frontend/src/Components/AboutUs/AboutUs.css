@@ -1,0 +1,1566 @@
+/* =========================================================
+   ABOUT US
+========================================================= */
+
+.AboutUs {
+  --AboutUs-green: #63b343;
+  --AboutUs-green-dark: #4d9b31;
+  --AboutUs-green-light: #edf7e9;
+
+  --AboutUs-orange: #e89a3b;
+  --AboutUs-orange-light: #fff4e4;
+
+  position: relative;
+
+  width: 100%;
+  height: 95vh;
+
+  min-height: 620px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.AboutUs__container {
+  position: relative;
+
+  z-index: 5;
+
+  width: min(100% - 60px, 1550px);
+
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(500px, 0.92fr);
+
+  gap: clamp(25px, 3vw, 65px);
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   BACKGROUND DECORATION
+========================================================= */
+
+.AboutUs__background-shape {
+  position: absolute;
+
+  pointer-events: none;
+
+  z-index: -1;
+
+  background: rgba(99, 179, 67, 0.045);
+}
+
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.AboutUs__content {
+  width: 100%;
+
+  max-width: 790px;
+
+  min-width: 0;
+
+  align-self: center;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.AboutUs__label {
+  position: relative;
+
+  width: 175px;
+  height: 48px;
+
+  margin-bottom: 12px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(99, 179, 67, 0.19);
+
+  clip-path: polygon(
+    4% 25%,
+    13% 13%,
+    29% 18%,
+    44% 7%,
+    61% 17%,
+    78% 11%,
+    94% 26%,
+    97% 53%,
+    91% 73%,
+    74% 70%,
+    59% 87%,
+    43% 76%,
+    28% 88%,
+    14% 73%,
+    4% 78%,
+    7% 53%
+  );
+}
+
+
+.AboutUs__label span {
+  position: relative;
+
+  z-index: 2;
+
+  color: var(--AboutUs-green);
+
+  font-family:
+    "Brush Script MT",
+    "Segoe Script",
+    cursive;
+
+  font-size: 21px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.AboutUs__heading {
+  margin: 0;
+
+  color: #080808;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: clamp(42px, 4vw, 61px);
+
+  font-weight: 800;
+
+  line-height: 1.02;
+
+  letter-spacing: -2px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.AboutUs__description {
+  max-width: 820px;
+
+  margin: clamp(25px, 3vh, 40px) 0 clamp(20px, 2.8vh, 32px);
+
+  color: #68727c;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: clamp(15px, 1.15vw, 18px);
+
+  line-height: 1.75;
+
+  letter-spacing: 0.1px;
+}
+
+
+/* =========================================================
+   FEATURE GRID
+========================================================= */
+
+.AboutUs__features {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: clamp(14px, 1.5vw, 24px);
+}
+
+
+/* =========================================================
+   FEATURE CARD
+========================================================= */
+
+.AboutUs__feature-card {
+  position: relative;
+
+  min-width: 0;
+
+  height: clamp(82px, 11vh, 100px);
+
+  padding: 12px clamp(14px, 1.6vw, 24px);
+
+  border: 1px solid transparent;
+
+  border-radius: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: clamp(12px, 1.4vw, 20px);
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.35s ease,
+    background-color 0.35s ease,
+    box-shadow 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
+}
+
+
+/* =========================================================
+   CARD SHINE / DECORATION
+========================================================= */
+
+.AboutUs__feature-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 120px;
+  height: 120px;
+
+  right: -65px;
+  bottom: -70px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.4);
+
+  transition:
+    transform 0.5s ease,
+    opacity 0.35s ease;
+}
+
+
+.AboutUs__feature-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 45px;
+  height: 45px;
+
+  left: -25px;
+  top: -25px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.3);
+
+  transition:
+    transform 0.5s ease;
+}
+
+
+.AboutUs__feature-card:hover::before {
+  transform: scale(2.5);
+
+  opacity: 0.2;
+}
+
+
+.AboutUs__feature-card:hover::after {
+  transform: scale(3);
+}
+
+
+/* =========================================================
+   GREEN CARD
+========================================================= */
+
+.AboutUs__feature-card--green {
+  background: var(--AboutUs-green-light);
+
+  color: #111111;
+}
+
+
+.AboutUs__feature-card--green:hover {
+  background: var(--AboutUs-green);
+
+  border-color: var(--AboutUs-green);
+
+  color: #ffffff;
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 14px 30px rgba(99, 179, 67, 0.24);
+}
+
+
+/* =========================================================
+   ORANGE CARD
+========================================================= */
+
+.AboutUs__feature-card--orange {
+  background: var(--AboutUs-orange-light);
+
+  color: #111111;
+}
+
+
+.AboutUs__feature-card--orange:hover {
+  background: var(--AboutUs-orange);
+
+  border-color: var(--AboutUs-orange);
+
+  color: #ffffff;
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 14px 30px rgba(232, 154, 59, 0.24);
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.AboutUs__feature-icon {
+  position: relative;
+
+  z-index: 3;
+
+  flex: 0 0 clamp(52px, 4vw, 65px);
+
+  width: clamp(52px, 4vw, 65px);
+  height: clamp(52px, 4vw, 65px);
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+
+  color: var(--AboutUs-green);
+
+  font-size: clamp(21px, 1.7vw, 28px);
+
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.035);
+
+  transition:
+    transform 0.35s ease,
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
+
+
+/* Green icon hover */
+
+.AboutUs__feature-card--green:hover
+.AboutUs__feature-icon {
+  background: rgba(255, 255, 255, 0.2);
+
+  color: #ffffff;
+
+  transform: scale(1.08) rotate(-8deg);
+}
+
+
+/* Orange icon hover */
+
+.AboutUs__feature-card--orange:hover
+.AboutUs__feature-icon {
+  background: rgba(255, 255, 255, 0.2);
+
+  color: #ffffff;
+
+  transform: scale(1.08) rotate(-8deg);
+}
+
+
+/* =========================================================
+   FEATURE TEXT
+========================================================= */
+
+.AboutUs__feature-text {
+  position: relative;
+
+  z-index: 3;
+
+  color: inherit;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: clamp(15px, 1.25vw, 19px);
+
+  font-weight: 700;
+
+  line-height: 1.28;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.AboutUs__actions {
+  margin-top: clamp(22px, 4vh, 42px);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: clamp(25px, 4vw, 55px);
+}
+
+
+/* =========================================================
+   FIND BUTTON
+========================================================= */
+
+.AboutUs__find-button {
+  position: relative;
+
+  width: 225px;
+
+  height: 58px;
+
+  padding: 0 24px;
+
+  border: none;
+
+  border-radius: 50px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  background: var(--AboutUs-green);
+
+  color: #ffffff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 17px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 20px rgba(99, 179, 67, 0.2);
+
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.AboutUs__find-button::before {
+  content: "";
+
+  position: absolute;
+
+  width: 0;
+  height: 0;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.13);
+
+  transition:
+    width 0.5s ease,
+    height 0.5s ease;
+}
+
+
+.AboutUs__find-button:hover {
+  background: var(--AboutUs-green-dark);
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 14px 27px rgba(99, 179, 67, 0.28);
+}
+
+
+.AboutUs__find-button:hover::before {
+  width: 360px;
+  height: 360px;
+}
+
+
+.AboutUs__find-button span,
+.AboutUs__find-arrow {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+.AboutUs__find-arrow {
+  opacity: 0;
+
+  transform: translateX(-8px);
+
+  font-size: 13px;
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.AboutUs__find-button:hover
+.AboutUs__find-arrow {
+  opacity: 1;
+
+  transform: translateX(0);
+}
+
+
+/* =========================================================
+   WATCH TOUR
+========================================================= */
+
+.AboutUs__watch-button {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  cursor: pointer;
+}
+
+
+.AboutUs__play-circle {
+  width: 58px;
+  height: 58px;
+
+  border: 1px solid #9b9b9b;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #111111;
+
+  font-size: 16px;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.AboutUs__play-circle svg {
+  margin-left: 3px;
+}
+
+
+.AboutUs__watch-button:hover
+.AboutUs__play-circle {
+  background: var(--AboutUs-green);
+
+  border-color: var(--AboutUs-green);
+
+  color: #ffffff;
+
+  transform: scale(1.08);
+}
+
+
+.AboutUs__watch-text {
+  color: #111111;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 17px;
+
+  font-weight: 700;
+
+  transition: color 0.3s ease;
+}
+
+
+.AboutUs__watch-button:hover
+.AboutUs__watch-text {
+  color: var(--AboutUs-green);
+}
+
+
+/* =========================================================
+   RIGHT VISUAL
+========================================================= */
+
+.AboutUs__visual {
+  position: relative;
+
+  width: 100%;
+
+  height: min(72vh, 650px);
+
+  min-height: 480px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   PLANE
+========================================================= */
+
+.AboutUs__plane {
+  position: absolute;
+
+  z-index: 20;
+  height: 50px;
+  width: 60px;
+
+  width: clamp(180px, 30vw, 1255px);
+
+  height: auto;
+
+  top: -30px;
+
+  right: -20px;
+
+  display: block;
+
+  
+
+  pointer-events: none;
+
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(71%)
+    sepia(24%)
+    saturate(620%)
+    hue-rotate(55deg)
+    brightness(94%)
+    contrast(88%);
+
+  transform: rotate(-5deg);
+
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+}
+
+
+.AboutUs__visual:hover
+.AboutUs__plane {
+  opacity: 1;
+
+  transform:
+    translate(8px, -6px)
+    rotate(-5deg);
+}
+
+
+/* =========================================================
+   IMAGE WRAPPER
+========================================================= */
+
+.AboutUs__image-wrapper {
+  position: relative;
+
+  width: min(100%, 650px);
+
+  /*
+    Keeps the exact ratio of the supplied
+    648 x 579 image.
+  */
+  aspect-ratio: 648 / 579;
+
+  flex-shrink: 1;
+}
+
+
+/* =========================================================
+   IMAGE MASK
+========================================================= */
+
+.AboutUs__image-mask {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 5;
+
+  overflow: hidden;
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-mode: alpha;
+  mask-mode: alpha;
+
+  /*
+    Stylish shadow around the image.
+  */
+  filter:
+    drop-shadow(0 25px 28px rgba(0, 0, 0, 0.14))
+    drop-shadow(0 8px 12px rgba(70, 120, 45, 0.08));
+}
+
+
+/* =========================================================
+   MAIN IMAGE
+========================================================= */
+
+.AboutUs__main-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position: center center;
+
+  transform: scale(1.01);
+
+  transition:
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.6s ease;
+}
+
+
+.AboutUs__visual:hover
+.AboutUs__main-image {
+  transform: scale(1.055);
+
+  filter:
+    saturate(1.08)
+    contrast(1.02);
+}
+
+
+/* =========================================================
+   IMAGE SHINE
+========================================================= */
+
+.AboutUs__image-shine {
+  position: absolute;
+
+  z-index: 10;
+
+  top: -20%;
+
+  left: -80%;
+
+  width: 45%;
+
+  height: 150%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+
+  transform: rotate(15deg);
+
+  pointer-events: none;
+
+  transition:
+    left 0.9s ease;
+}
+
+
+.AboutUs__visual:hover
+.AboutUs__image-shine {
+  left: 130%;
+}
+
+
+/* =========================================================
+   EXPERIENCE BADGE
+========================================================= */
+
+.AboutUs__experience {
+  position: absolute;
+
+  z-index: 30;
+
+  right: -5px;
+
+  bottom: 5%;
+
+  min-width: 205px;
+
+  height: 84px;
+
+  padding: 10px 16px;
+
+  border-radius: 13px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  background: var(--AboutUs-green);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 12px 28px rgba(80, 150, 45, 0.25);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+
+.AboutUs__experience:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 19px 35px rgba(80, 150, 45, 0.34);
+}
+
+
+/* =========================================================
+   EXPERIENCE NUMBER
+========================================================= */
+
+.AboutUs__experience-number {
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 42px;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: -1px;
+}
+
+
+/* =========================================================
+   EXPERIENCE TEXT
+========================================================= */
+
+.AboutUs__experience-content {
+  display: flex;
+
+  flex-direction: column;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 15px;
+
+  line-height: 1.2;
+}
+
+
+.AboutUs__experience-content span {
+  font-weight: 600;
+}
+
+
+.AboutUs__experience-content strong {
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   1366 / LAPTOP
+========================================================= */
+
+@media (max-width: 1366px) {
+
+  .AboutUs__container {
+    width: min(100% - 45px, 1200px);
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(450px, 0.85fr);
+
+    gap: 25px;
+  }
+
+
+  .AboutUs__heading {
+    font-size: 49px;
+  }
+
+
+  .AboutUs__description {
+    margin-top: 27px;
+
+    margin-bottom: 25px;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+  }
+
+
+  .AboutUs__feature-card {
+    height: 86px;
+
+    padding: 10px 14px;
+
+    gap: 12px;
+  }
+
+
+  .AboutUs__feature-icon {
+    width: 53px;
+    height: 53px;
+
+    flex-basis: 53px;
+
+    font-size: 22px;
+  }
+
+
+  .AboutUs__feature-text {
+    font-size: 16px;
+  }
+
+
+  .AboutUs__actions {
+    margin-top: 29px;
+  }
+
+
+  .AboutUs__find-button {
+    width: 200px;
+
+    height: 54px;
+  }
+
+
+  .AboutUs__play-circle {
+    width: 54px;
+    height: 54px;
+  }
+
+
+  .AboutUs__visual {
+    height: min(70vh, 560px);
+
+    min-height: 440px;
+  }
+
+
+  .AboutUs__experience {
+    min-width: 180px;
+
+    height: 76px;
+  }
+
+
+  .AboutUs__experience-number {
+    font-size: 36px;
+  }
+
+
+  .AboutUs__experience-content {
+    font-size: 13px;
+  }
+}
+
+
+/* =========================================================
+   1200
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .AboutUs {
+    min-height: 600px;
+  }
+
+
+  .AboutUs__container {
+    width: calc(100% - 40px);
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(410px, 0.85fr);
+
+    gap: 20px;
+  }
+
+
+  .AboutUs__heading {
+    font-size: 43px;
+  }
+
+
+  .AboutUs__description {
+    font-size: 15px;
+
+    line-height: 1.65;
+  }
+
+
+  .AboutUs__feature-card {
+    height: 80px;
+
+    border-radius: 10px;
+  }
+
+
+  .AboutUs__feature-icon {
+    width: 48px;
+    height: 48px;
+
+    flex-basis: 48px;
+
+    font-size: 20px;
+  }
+
+
+  .AboutUs__feature-text {
+    font-size: 14px;
+  }
+
+
+  .AboutUs__actions {
+    margin-top: 25px;
+
+    gap: 25px;
+  }
+
+
+  .AboutUs__visual {
+    height: 500px;
+
+    min-height: 400px;
+  }
+
+
+  .AboutUs__plane {
+    width: 95px;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px) {
+
+  .AboutUs {
+    height: auto;
+
+    min-height: auto;
+
+    padding: 70px 0;
+  }
+
+
+  .AboutUs__container {
+    width: min(100% - 40px, 760px);
+
+    height: auto;
+
+    grid-template-columns: 1fr;
+
+    gap: 55px;
+  }
+
+
+  .AboutUs__content {
+    max-width: 760px;
+  }
+
+
+  .AboutUs__heading {
+    font-size: 48px;
+  }
+
+
+  .AboutUs__description {
+    font-size: 17px;
+
+    line-height: 1.8;
+  }
+
+
+  .AboutUs__feature-card {
+    height: 92px;
+  }
+
+
+  .AboutUs__feature-icon {
+    width: 56px;
+    height: 56px;
+
+    flex-basis: 56px;
+
+    font-size: 23px;
+  }
+
+
+  .AboutUs__feature-text {
+    font-size: 16px;
+  }
+
+
+  .AboutUs__actions {
+    margin-top: 35px;
+  }
+
+
+  .AboutUs__visual {
+    width: min(100%, 650px);
+
+    height: auto;
+
+    min-height: 0;
+
+    margin: 0 auto;
+  }
+
+
+  .AboutUs__image-wrapper {
+    width: 100%;
+  }
+
+
+  .AboutUs__plane {
+    width: 115px;
+
+    top: -8px;
+  }
+}
+
+
+/* =========================================================
+   768
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .AboutUs {
+    padding: 55px 0 65px;
+  }
+
+
+  .AboutUs__container {
+    width: calc(100% - 30px);
+
+    gap: 45px;
+  }
+
+
+  .AboutUs__label {
+    width: 150px;
+
+    height: 45px;
+  }
+
+
+  .AboutUs__label span {
+    font-size: 19px;
+  }
+
+
+  .AboutUs__heading {
+    font-size: 40px;
+
+    letter-spacing: -1.2px;
+  }
+
+
+  .AboutUs__description {
+    margin: 24px 0 28px;
+
+    font-size: 16px;
+  }
+
+
+  .AboutUs__feature-card {
+    height: 86px;
+  }
+
+
+  .AboutUs__feature-icon {
+    width: 52px;
+    height: 52px;
+
+    flex-basis: 52px;
+  }
+
+
+  .AboutUs__feature-text {
+    font-size: 15px;
+  }
+
+
+  .AboutUs__actions {
+    gap: 30px;
+  }
+
+
+  .AboutUs__find-button {
+    width: 205px;
+
+    height: 55px;
+  }
+
+
+  .AboutUs__play-circle {
+    width: 55px;
+    height: 55px;
+  }
+
+
+  .AboutUs__experience {
+    right: 0;
+
+    bottom: 4%;
+
+    min-width: 175px;
+
+    height: 72px;
+  }
+
+
+  .AboutUs__experience-number {
+    font-size: 35px;
+  }
+
+
+  .AboutUs__experience-content {
+    font-size: 13px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+  .AboutUs {
+    padding: 42px 0 50px;
+  }
+
+
+  .AboutUs__container {
+    width: calc(100% - 28px);
+
+    gap: 38px;
+  }
+
+
+  .AboutUs__label {
+    width: 140px;
+
+    height: 44px;
+  }
+
+
+  .AboutUs__label span {
+    font-size: 18px;
+  }
+
+
+  .AboutUs__heading {
+    font-size: 34px;
+
+    line-height: 1.08;
+
+    letter-spacing: -0.7px;
+  }
+
+
+  .AboutUs__description {
+    margin: 21px 0 25px;
+
+    font-size: 14px;
+
+    line-height: 1.75;
+  }
+
+
+  /* Cards become one column */
+
+  .AboutUs__features {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+
+  .AboutUs__feature-card {
+    height: 80px;
+
+    min-height: 80px;
+  }
+
+
+  .AboutUs__feature-icon {
+    width: 50px;
+    height: 50px;
+
+    flex-basis: 50px;
+
+    font-size: 20px;
+  }
+
+
+  .AboutUs__feature-text {
+    font-size: 15px;
+  }
+
+
+  /* Buttons */
+
+  .AboutUs__actions {
+    width: 100%;
+
+    margin-top: 30px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 22px;
+  }
+
+
+  .AboutUs__find-button {
+    width: 100%;
+
+    height: 54px;
+  }
+
+
+  .AboutUs__watch-button {
+    margin-left: 5px;
+  }
+
+
+  /* Image */
+
+  .AboutUs__visual {
+    width: 100%;
+  }
+
+
+  .AboutUs__image-wrapper {
+    width: 100%;
+  }
+
+
+  .AboutUs__plane {
+    width: 75px;
+
+    right: 0;
+
+    top: -5px;
+  }
+
+
+  .AboutUs__experience {
+    right: 0;
+
+    bottom: 3%;
+
+    min-width: 160px;
+
+    height: 65px;
+
+    padding: 8px 11px;
+
+    border-radius: 10px;
+
+    gap: 8px;
+  }
+
+
+  .AboutUs__experience-number {
+    font-size: 30px;
+  }
+
+
+  .AboutUs__experience-content {
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .AboutUs {
+    padding: 35px 0 45px;
+  }
+
+
+  .AboutUs__container {
+    width: calc(100% - 22px);
+
+    gap: 34px;
+  }
+
+
+  .AboutUs__heading {
+    font-size: 30px;
+  }
+
+
+  .AboutUs__description {
+    font-size: 13px;
+  }
+
+
+  .AboutUs__feature-card {
+    height: 76px;
+
+    min-height: 76px;
+
+    padding: 9px 11px;
+  }
+
+
+  .AboutUs__feature-icon {
+    width: 46px;
+    height: 46px;
+
+    flex-basis: 46px;
+
+    font-size: 18px;
+  }
+
+
+  .AboutUs__feature-text {
+    font-size: 14px;
+  }
+
+
+  .AboutUs__plane {
+    width: 62px;
+  }
+
+
+  .AboutUs__experience {
+    min-width: 145px;
+
+    height: 60px;
+
+    padding: 7px 9px;
+  }
+
+
+  .AboutUs__experience-number {
+    font-size: 27px;
+  }
+
+
+  .AboutUs__experience-content {
+    font-size: 10px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .AboutUs *,
+  .AboutUs *::before,
+  .AboutUs *::after {
+    animation: none !important;
+
+    transition: none !important;
+  }
+}

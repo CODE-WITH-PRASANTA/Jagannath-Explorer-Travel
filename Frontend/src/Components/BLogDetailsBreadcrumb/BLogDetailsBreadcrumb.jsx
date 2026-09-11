@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./BLogDetailsBreadcrumb.css";
+import "./BlogDetailsBreadcrumb.css";
 
 import blogBreadcrumbImage from "../../assets/Breadcrumb.webp";
 
