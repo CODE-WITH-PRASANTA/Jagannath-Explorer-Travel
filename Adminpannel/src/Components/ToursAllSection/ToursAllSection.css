@@ -2,6 +2,8 @@
   --tas-primary: #2563eb;
   --tas-primary-hover: #1d4ed8;
   --tas-primary-light: #eff6ff;
+  --tas-success: #16a34a;
+  --tas-success-hover: #15803d;
   --tas-text: #0f172a;
   --tas-text-muted: #64748b;
   --tas-text-subtle: #94a3b8;
@@ -18,7 +20,7 @@
   --tas-transition: 0.2s ease-in-out;
 }
 
-/* Base Component Root - Sized cleanly for 40% panel width */
+/* Base Component Root */
 .tours-all-section {
   box-sizing: border-box;
   width: 100%;
@@ -31,10 +33,45 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  position: relative;
 }
 
 .tours-all-section * {
   box-sizing: border-box;
+}
+
+/* Floating Toast Notification */
+.tours-all-section__toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--tas-radius-md);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  z-index: 1000;
+  animation: tasSlideIn 0.3s ease-out forwards;
+}
+
+.tours-all-section__toast-icon {
+  color: #4ade80;
+  font-size: 16px;
+}
+
+@keyframes tasSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Header Top Actions */
@@ -46,13 +83,14 @@
 }
 
 .tours-all-section__btn-primary,
-.tours-all-section__btn-secondary {
+.tours-all-section__btn-secondary,
+.tours-all-section__btn-submit {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 13px;
   font-weight: 500;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: var(--tas-radius-md);
   cursor: pointer;
   transition: all var(--tas-transition);
@@ -64,8 +102,18 @@
   border: 1px solid var(--tas-primary);
 }
 
-.tours-all-section__btn-primary:hover {
+.tours-all-section__btn-primary:hover:not(:disabled) {
   background-color: var(--tas-primary-hover);
+}
+
+.tours-all-section__btn-submit {
+  background-color: var(--tas-success);
+  color: #ffffff;
+  border: 1px solid var(--tas-success);
+}
+
+.tours-all-section__btn-submit:hover:not(:disabled) {
+  background-color: var(--tas-success-hover);
 }
 
 .tours-all-section__btn-secondary {
@@ -77,6 +125,12 @@
 .tours-all-section__btn-secondary:hover {
   background-color: #f1f5f9;
   border-color: #cbd5e1;
+}
+
+.tours-all-section__btn-submit:disabled,
+.tours-all-section__btn-full-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .tours-all-section__btn-icon {
@@ -213,6 +267,10 @@
   margin-right: 4px;
 }
 
+.tours-all-section__dot.published {
+  background: var(--tas-success);
+}
+
 .tours-all-section__attr-icon {
   color: var(--tas-text-muted);
   font-size: 14px;
@@ -272,7 +330,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--tas-primary);
+  background-color: var(--tas-success);
   color: white;
   border: none;
   font-size: 14px;
@@ -283,8 +341,8 @@
   transition: background-color var(--tas-transition);
 }
 
-.tours-all-section__btn-full-primary:hover {
-  background-color: var(--tas-primary-hover);
+.tours-all-section__btn-full-primary:hover:not(:disabled) {
+  background-color: var(--tas-success-hover);
 }
 
 /* Forms & Inputs */

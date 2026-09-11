@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
 
+import React, { useEffect, useRef, useState } from "react";
 import {
   FaInstagram,
   FaFacebookF,
@@ -9,89 +9,18 @@ import {
 } from "react-icons/fa";
 
 import "./TourGuide.css";
+import API, { IMG_URL } from "../../api/axios";
 
 const TourGuide = () => {
-  /* =====================================================
-     TOUR GUIDE DATA
-  ====================================================== */
-
-  const guides = [
-    {
-      id: 1,
-      name: "Josiah Caleb",
-      designation: "Tour Guide",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=85",
-    },
-
-    {
-      id: 2,
-      name: "David Luis",
-      designation: "Tour Guide",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=85",
-    },
-
-    {
-      id: 3,
-      name: "Alison Bekkar",
-      designation: "Tour Guide",
-      image:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=85",
-    },
-
-    {
-      id: 4,
-      name: "Arthur Morgan",
-      designation: "Tour Guide",
-      image:
-        "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?auto=format&fit=crop&w=800&q=85",
-    },
-
-    {
-      id: 5,
-      name: "Daniel Cooper",
-      designation: "Senior Tour Guide",
-      image:
-        "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=85",
-    },
-
-    {
-      id: 6,
-      name: "Michael James",
-      designation: "Adventure Guide",
-      image:
-        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=800&q=85",
-    },
-
-    {
-      id: 7,
-      name: "Oliver Smith",
-      designation: "Travel Expert",
-      image:
-        "https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=800&q=85",
-    },
-
-    {
-      id: 8,
-      name: "Ryan Wilson",
-      designation: "Travel Guide",
-      image:
-        "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=800&q=85",
-    },
-  ];
-
-
   /* =====================================================
      STATES
   ====================================================== */
 
+  const [guides, setGuides] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-
   const [visibleCards, setVisibleCards] = useState(4);
-
   const [isPaused, setIsPaused] = useState(false);
-
+  const [loading, setLoading] = useState(true);
 
   /* =====================================================
      CAROUSEL REF
@@ -99,6 +28,152 @@ const TourGuide = () => {
 
   const carouselRef = useRef(null);
 
+  /* =====================================================
+     IMAGE URL HELPER
+  ====================================================== */
+
+  const getImageUrl = (image) => {
+    if (!image) {
+      return "/placeholder-guide.jpg";
+    }
+
+    // Already a complete URL
+    if (
+      image.startsWith("http://") ||
+      image.startsWith("https://")
+    ) {
+      return image;
+    }
+
+    const baseUrl =
+      IMG_URL || "http://localhost:5000";
+
+    // Prevent double slash
+    if (image.startsWith("/")) {
+      return `${baseUrl}${image}`;
+    }
+
+    return `${baseUrl}/${image}`;
+  };
+
+  /* =====================================================
+     SOCIAL URL HELPERS
+  ====================================================== */
+
+  const getInstagramUrl = (instagram) => {
+    if (!instagram) {
+      return "#";
+    }
+
+    const value = instagram.trim();
+
+    if (
+      value.startsWith("http://") ||
+      value.startsWith("https://")
+    ) {
+      return value;
+    }
+
+    return `https://instagram.com/${value.replace(/^@/, "")}`;
+  };
+
+  const getFacebookUrl = (facebook) => {
+    if (!facebook) {
+      return "#";
+    }
+
+    const value = facebook.trim();
+
+    if (
+      value.startsWith("http://") ||
+      value.startsWith("https://")
+    ) {
+      return value;
+    }
+
+    return `https://facebook.com/${value.replace(/^@/, "")}`;
+  };
+
+  const getWhatsappUrl = (whatsapp) => {
+    if (!whatsapp) {
+      return "#";
+    }
+
+    const phoneNumber = String(whatsapp).replace(
+      /[^0-9]/g,
+      ""
+    );
+
+    if (!phoneNumber) {
+      return "#";
+    }
+
+    return `https://wa.me/${phoneNumber}`;
+  };
+
+  /* =====================================================
+     FETCH TOUR GUIDES
+     
+     IMPORTANT:
+     axios.js already has /api in baseURL.
+     
+     Correct:
+     API.get("/team")
+     
+     This calls:
+     http://localhost:5000/api/team
+  ====================================================== */
+
+  useEffect(() => {
+    const fetchGuides = async () => {
+      try {
+        setLoading(true);
+
+        const response = await API.get("/team");
+
+        console.log(
+          "Tour Guide API Response:",
+          response.data
+        );
+
+        if (response.data?.success) {
+          setGuides(
+            Array.isArray(response.data.data)
+              ? response.data.data
+              : []
+          );
+        } else {
+          setGuides([]);
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching tour guides:",
+          error
+        );
+
+        console.error(
+          "Status:",
+          error.response?.status
+        );
+
+        console.error(
+          "Response:",
+          error.response?.data
+        );
+
+        console.error(
+          "Request URL:",
+          error.config?.url
+        );
+
+        setGuides([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGuides();
+  }, []);
 
   /* =====================================================
      RESPONSIVE VISIBLE CARDS
@@ -130,48 +205,48 @@ const TourGuide = () => {
     };
   }, []);
 
-
   /* =====================================================
-     TOTAL POSITIONS
-
-     IMPORTANT:
-     One position = one card movement.
-
-     Example:
-     4 visible cards
-
-     1 → 2 → 3 → 4 → 5 → 6...
+     TOTAL PAGES
+     
+     We move one card at a time.
   ====================================================== */
 
   const totalPages = guides.length;
-
 
   /* =====================================================
      KEEP CURRENT PAGE VALID
   ====================================================== */
 
   useEffect(() => {
-    if (currentPage >= totalPages) {
+    if (
+      totalPages > 0 &&
+      currentPage >= totalPages
+    ) {
       setCurrentPage(0);
     }
   }, [currentPage, totalPages]);
-
 
   /* =====================================================
      SCROLL ONE CARD AT A TIME
   ====================================================== */
 
   useEffect(() => {
-    if (!carouselRef.current) return;
+    if (
+      !carouselRef.current ||
+      totalPages === 0
+    ) {
+      return;
+    }
 
     const carousel = carouselRef.current;
 
-    const card =
-      carousel.querySelector(
-        ".TourGuide__card"
-      );
+    const card = carousel.querySelector(
+      ".TourGuide__card"
+    );
 
-    if (!card) return;
+    if (!card) {
+      return;
+    }
 
     const cardWidth =
       card.getBoundingClientRect().width;
@@ -184,26 +259,31 @@ const TourGuide = () => {
       parseFloat(carouselStyle.gap) ||
       0;
 
-    const moveAmount =
-      cardWidth + gap;
+    const moveAmount = cardWidth + gap;
 
     carousel.scrollTo({
-      left:
-        currentPage * moveAmount,
+      left: currentPage * moveAmount,
       behavior: "smooth",
     });
   }, [
     currentPage,
     visibleCards,
+    totalPages,
   ]);
 
-
   /* =====================================================
-     AUTOMATIC 1-BY-1 SLIDE
+     AUTOMATIC SLIDE
+     
+     Moves one card every 4.5 seconds.
   ====================================================== */
 
   useEffect(() => {
-    if (isPaused) return;
+    if (
+      isPaused ||
+      totalPages <= 1
+    ) {
+      return;
+    }
 
     const interval = setInterval(() => {
       setCurrentPage(
@@ -228,12 +308,15 @@ const TourGuide = () => {
     totalPages,
   ]);
 
-
   /* =====================================================
-     PREVIOUS CARD
+     PREVIOUS BUTTON
   ====================================================== */
 
   const handlePrevious = () => {
+    if (totalPages === 0) {
+      return;
+    }
+
     setCurrentPage(
       (previousPage) => {
         if (previousPage === 0) {
@@ -245,12 +328,15 @@ const TourGuide = () => {
     );
   };
 
-
   /* =====================================================
-     NEXT CARD
+     NEXT BUTTON
   ====================================================== */
 
   const handleNext = () => {
+    if (totalPages === 0) {
+      return;
+    }
+
     setCurrentPage(
       (previousPage) => {
         if (
@@ -265,15 +351,13 @@ const TourGuide = () => {
     );
   };
 
-
   /* =====================================================
-     GO TO SPECIFIC CARD
+     PAGINATION
   ====================================================== */
 
   const handlePagination = (index) => {
     setCurrentPage(index);
   };
-
 
   /* =====================================================
      JSX
@@ -284,14 +368,12 @@ const TourGuide = () => {
 
       {/* =================================================
           HEADER
-      ================================================= */}
+      ================================================== */}
 
       <div className="TourGuide__header">
 
         <div className="TourGuide__label">
-          <span>
-            Tour Guide
-          </span>
+          <span>Tour Guide</span>
         </div>
 
         <h2 className="TourGuide__heading">
@@ -300,269 +382,254 @@ const TourGuide = () => {
 
       </div>
 
-
       {/* =================================================
           CAROUSEL WRAPPER
-      ================================================= */}
+      ================================================== */}
 
       <div
         className="TourGuide__carousel-wrapper"
-
         onMouseEnter={() =>
           setIsPaused(true)
         }
-
         onMouseLeave={() =>
           setIsPaused(false)
         }
       >
 
-        {/* ===============================================
+        {/* =================================================
             LEFT ARROW
-        ================================================ */}
+        ================================================== */}
 
-        <button
-          type="button"
+        {guides.length > 0 && (
+          <button
+            type="button"
+            className="TourGuide__arrow TourGuide__arrow--left"
+            onClick={handlePrevious}
+            aria-label="Previous tour guide"
+          >
+            <FaChevronLeft />
+          </button>
+        )}
 
-          className="
-            TourGuide__arrow
-            TourGuide__arrow--left
-          "
-
-          onClick={
-            handlePrevious
-          }
-
-          aria-label="
-            Previous tour guide
-          "
-        >
-          <FaChevronLeft />
-        </button>
-
-
-        {/* ===============================================
+        {/* =================================================
             CAROUSEL
-        ================================================ */}
+        ================================================== */}
 
         <div
           className="TourGuide__carousel"
-
           ref={carouselRef}
         >
 
-          {guides.map(
-            (guide) => (
-              <article
-                className="TourGuide__card"
+          {/* LOADING */}
+          {loading ? (
+            <div className="TourGuide__empty">
+              Loading tour guides...
+            </div>
+          ) : guides.length > 0 ? (
 
-                key={guide.id}
-              >
+            guides.map((guide) => {
 
-                {/* =====================================
-                    IMAGE
-                ====================================== */}
+              const avatarUrl =
+                getImageUrl(
+                  guide.image
+                );
 
-                <div className="TourGuide__image-wrapper">
+              const instagramUrl =
+                getInstagramUrl(
+                  guide.instagram
+                );
 
-                  <img
-                    src={guide.image}
+              const facebookUrl =
+                getFacebookUrl(
+                  guide.facebook
+                );
 
-                    alt={
-                      guide.name
-                    }
+              const whatsappUrl =
+                getWhatsappUrl(
+                  guide.whatsapp
+                );
 
-                    className="
-                      TourGuide__image
-                    "
-
-                    loading="lazy"
-                  />
-
-                  <div
-                    className="
-                      TourGuide__image-overlay
-                    "
-                  />
-
-                </div>
-
-
-                {/* =====================================
-                    SOCIAL ICONS
-                ====================================== */}
-
-                <div
-                  className="
-                    TourGuide__socials
-                  "
+              return (
+                <article
+                  className="TourGuide__card"
+                  key={
+                    guide._id ||
+                    guide.id
+                  }
                 >
 
-                  {/* INSTAGRAM */}
+                  {/* =========================================
+                      IMAGE
+                  ========================================== */}
 
-                  <a
-                    href="#instagram"
+                  <div className="TourGuide__image-wrapper">
 
-                    className="
-                      TourGuide__social
-                      TourGuide__social--instagram
-                    "
+                    <img
+                      src={avatarUrl}
+                      alt={
+                        guide.name ||
+                        "Tour Guide"
+                      }
+                      className="TourGuide__image"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "/placeholder-guide.jpg";
+                      }}
+                    />
 
-                    aria-label={`
-                      ${guide.name}
-                      Instagram
-                    `}
-                  >
-                    <FaInstagram />
-                  </a>
+                    <div className="TourGuide__image-overlay" />
 
+                  </div>
 
-                  {/* FACEBOOK */}
+                  {/* =========================================
+                      SOCIAL ICONS
+                  ========================================== */}
 
-                  <a
-                    href="#facebook"
+                  <div className="TourGuide__socials">
 
-                    className="
-                      TourGuide__social
-                      TourGuide__social--facebook
-                    "
+                    {/* INSTAGRAM */}
 
-                    aria-label={`
-                      ${guide.name}
-                      Facebook
-                    `}
-                  >
-                    <FaFacebookF />
-                  </a>
+                    {guide.instagram && (
+                      <a
+                        href={
+                          instagramUrl
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="TourGuide__social TourGuide__social--instagram"
+                        aria-label={`${guide.name} Instagram`}
+                      >
+                        <FaInstagram />
+                      </a>
+                    )}
 
+                    {/* FACEBOOK */}
 
-                  {/* WHATSAPP */}
+                    {guide.facebook && (
+                      <a
+                        href={
+                          facebookUrl
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="TourGuide__social TourGuide__social--facebook"
+                        aria-label={`${guide.name} Facebook`}
+                      >
+                        <FaFacebookF />
+                      </a>
+                    )}
 
-                  <a
-                    href="#whatsapp"
+                    {/* WHATSAPP */}
 
-                    className="
-                      TourGuide__social
-                      TourGuide__social--whatsapp
-                    "
+                    {guide.whatsapp && (
+                      <a
+                        href={
+                          whatsappUrl
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="TourGuide__social TourGuide__social--whatsapp"
+                        aria-label={`${guide.name} WhatsApp`}
+                      >
+                        <FaWhatsapp />
+                      </a>
+                    )}
 
-                    aria-label={`
-                      ${guide.name}
-                      WhatsApp
-                    `}
-                  >
-                    <FaWhatsapp />
-                  </a>
+                  </div>
 
-                </div>
+                  {/* =========================================
+                      INFORMATION
+                  ========================================== */}
 
+                  <div className="TourGuide__info">
 
-                {/* =====================================
-                    INFORMATION
-                ====================================== */}
+                    <h3 className="TourGuide__name">
+                      {guide.name ||
+                        "Tour Guide"}
+                    </h3>
 
-                <div
-                  className="
-                    TourGuide__info
-                  "
-                >
+                    <p className="TourGuide__designation">
+                      {guide.designation ||
+                        "Travel Guide"}
+                    </p>
 
-                  <h3
-                    className="
-                      TourGuide__name
-                    "
-                  >
-                    {guide.name}
-                  </h3>
+                  </div>
 
-                  <p
-                    className="
-                      TourGuide__designation
-                    "
-                  >
-                    {
-                      guide.designation
-                    }
-                  </p>
+                </article>
+              );
+            })
 
-                </div>
+          ) : (
 
-              </article>
-            )
+            /* ===============================================
+               EMPTY STATE
+            ================================================ */
+
+            <div className="TourGuide__empty">
+              No tour guides available.
+            </div>
           )}
 
         </div>
 
-
-        {/* ===============================================
+        {/* =================================================
             RIGHT ARROW
-        ================================================ */}
+        ================================================== */}
 
-        <button
-          type="button"
-
-          className="
-            TourGuide__arrow
-            TourGuide__arrow--right
-          "
-
-          onClick={
-            handleNext
-          }
-
-          aria-label="
-            Next tour guide
-          "
-        >
-          <FaChevronRight />
-        </button>
-
-      </div>
-
-
-      {/* =================================================
-          PAGINATION
-      ================================================= */}
-
-      <div
-        className="
-          TourGuide__pagination
-        "
-      >
-
-        {guides.map(
-          (guide, index) => (
-            <button
-              type="button"
-
-              key={guide.id}
-
-              aria-label={`
-                Go to
-                ${guide.name}
-              `}
-
-              className={`
-                TourGuide__pagination-dot
-
-                ${
-                  currentPage === index
-                    ? "TourGuide__pagination-dot--active"
-                    : ""
-                }
-              `}
-
-              onClick={() =>
-                handlePagination(index)
-              }
-            />
-          )
+        {guides.length > 0 && (
+          <button
+            type="button"
+            className="TourGuide__arrow TourGuide__arrow--right"
+            onClick={handleNext}
+            aria-label="Next tour guide"
+          >
+            <FaChevronRight />
+          </button>
         )}
 
       </div>
+
+      {/* =================================================
+          PAGINATION
+      ================================================== */}
+
+      {guides.length > 0 && (
+        <div className="TourGuide__pagination">
+
+          {guides.map(
+            (guide, index) => (
+              <button
+                type="button"
+                key={
+                  guide._id ||
+                  guide.id ||
+                  index
+                }
+                aria-label={`Go to ${
+                  guide.name ||
+                  `guide ${index + 1}`
+                }`}
+                className={`TourGuide__pagination-dot ${
+                  currentPage === index
+                    ? "TourGuide__pagination-dot--active"
+                    : ""
+                }`}
+                onClick={() =>
+                  handlePagination(
+                    index
+                  )
+                }
+              />
+            )
+          )}
+
+        </div>
+      )}
 
     </section>
   );
 };
 
 export default TourGuide;
+

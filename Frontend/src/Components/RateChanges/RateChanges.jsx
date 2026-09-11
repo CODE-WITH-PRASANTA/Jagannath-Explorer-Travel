@@ -65,6 +65,7 @@ const useReveal = () => {
       },
       { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
     );
+
     return () => observerRef.current?.disconnect();
   }, []);
 
@@ -122,8 +123,11 @@ const TariffTable = () => {
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return undefined;
+
     const handleScroll = () => setScrolled(el.scrollLeft > 8);
+
     el.addEventListener('scroll', handleScroll, { passive: true });
+
     return () => el.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -146,6 +150,7 @@ const TariffTable = () => {
                 ))}
               </tr>
             </thead>
+
             <tbody>
               {ROWS.map((row, i) => (
                 <TariffRow row={row} index={i} key={row.vehicle} />
@@ -153,6 +158,7 @@ const TariffTable = () => {
             </tbody>
           </table>
         </div>
+
         <span className="tariff-table-wrap__hint" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path
@@ -176,7 +182,15 @@ const TariffTable = () => {
 
 const CheckIcon = () => (
   <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-    <circle cx="10" cy="10" r="9" fill="currentColor" fillOpacity="0.1" stroke="currentColor" strokeWidth="1.5" />
+    <circle
+      cx="10"
+      cy="10"
+      r="9"
+      fill="currentColor"
+      fillOpacity="0.1"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
     <path
       d="M6.2 10.3l2.4 2.4 5.2-5.4"
       stroke="currentColor"
@@ -189,8 +203,13 @@ const CheckIcon = () => (
 
 const TermItem = ({ text, index }) => {
   const reveal = useReveal();
+
   return (
-    <li ref={reveal} className="term-item reveal" style={{ '--stagger': index }}>
+    <li
+      ref={reveal}
+      className="term-item reveal"
+      style={{ '--stagger': index }}
+    >
       <span className="term-item__icon">
         <CheckIcon />
       </span>
@@ -205,6 +224,7 @@ const TermsPanel = () => (
       <div className="terms-card__badge-icon">📋</div>
       <h3 className="terms-card__title">Terms &amp; Conditions</h3>
     </div>
+
     <ul className="terms-card__list">
       {TERMS.map((text, i) => (
         <TermItem text={text} index={i} key={text} />
@@ -214,7 +234,7 @@ const TermsPanel = () => (
 );
 
 /* ---------------------------------------------------------------------------
-   RateChanges — Clean Luxury White Theme Section
+   RateChanges
 --------------------------------------------------------------------------- */
 
 const RateChanges = () => {
@@ -223,11 +243,46 @@ const RateChanges = () => {
       <div className="rate-section__bg" aria-hidden="true" />
 
       <header className="rate-section__header">
-        <span className="rate-section__eyebrow">Rates &amp; Charges</span>
-        <h2 className="rate-section__title">Transparent Transport Tariff</h2>
+        <span className="rate-section__eyebrow">
+          Jagannath Explorer Travels
+        </span>
+
+        <h1 className="rate-section__title">
+          Best tour and travel agency in bhubaneswar
+        </h1>
+
         <p className="rate-section__subtitle">
-          Explore our competitive rates for local and outstation rentals with zero hidden fees.
+          Jagannath Explorer Travels offers simple, reliable travel services
+          for local rides, sightseeing, airport transfers, family trips,
+          business travel, and outstation journeys. Choose a comfortable
+          vehicle, check the tariff clearly, and plan your trip without
+          worrying about complicated charges.
         </p>
+
+        <p className="rate-section__description">
+          Looking for <strong>bhubaneswar travel agency tour packages</strong>?
+          We help you plan comfortable trips from Bhubaneswar with suitable
+          cars, travellers, and coaches for short city visits as well as
+          longer journeys. Our focus is straightforward service, clean
+          vehicles, experienced drivers, and a smooth travel experience.
+        </p>
+
+        <div className="rate-section__business-info">
+          <div className="business-info__item">
+            <span className="business-info__icon" aria-hidden="true">📍</span>
+            <span>
+              Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur,
+              Bhubaneswar, Odisha, Pin - 751002
+            </span>
+          </div>
+
+          <div className="business-info__item">
+            <span className="business-info__icon" aria-hidden="true">📞</span>
+            <a href="tel:9668892441">9668892441</a>
+            <span aria-hidden="true">|</span>
+            <a href="tel:9556355446">9556355446</a>
+          </div>
+        </div>
       </header>
 
       <div className="rate-section__body">

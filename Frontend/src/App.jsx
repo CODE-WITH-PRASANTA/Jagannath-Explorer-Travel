@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 
 // Components
@@ -7,6 +7,7 @@ import Topbar from "./Components/Topbar/Topbar";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/footer/footer";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
+import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
 
 // Pages
 import Home from "./Page/Home/Home";
@@ -26,7 +27,21 @@ import Faqs from "./Page/Faqs/Faqs";
 import Gallery from "./Page/Gallery/Gallery";
 import Blogs from "./Page/Blogs/Blogs";
 import BLogDetails from "./Page/BLogDetails/BLogDetails";
-import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
+
+// पेज बदलते ही स्क्रीन को टॉप पर स्क्रॉल कराने के लिए हेल्पर कॉम्पोनेंट
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, [pathname]);
+
+  return null;
+};
 
 const App = () => {
   // Manage popup state at root
@@ -34,6 +49,9 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      {/* Route change पर टॉप पर स्क्रॉल करेगा */}
+      <ScrollToTop />
+
       {/* Topbar: scrolls away naturally */}
       <Topbar />
 
@@ -64,6 +82,7 @@ const App = () => {
       {/* Footer */}
       <Footer />
       <FloatingIcons />
+
       {/* Fixed Interactive Form Modal */}
       <FloatingForm 
         isOpen={isModalOpen} 

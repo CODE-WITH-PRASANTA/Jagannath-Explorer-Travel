@@ -1,27 +1,23 @@
-
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-// Logo
-import logo from "../../assets/Logo 006 (2).png";
+// Jagannath Explorer Travels Logo
+import logo from "../../assets/logooooo.jpeg";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCarRentalOpen, setIsCarRentalOpen] = useState(false);
 
-  // Close mobile menu
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
     setIsCarRentalOpen(false);
   };
 
-  // Toggle mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
   };
 
-  // Toggle car rental dropdown
   const toggleCarRental = () => {
     setIsCarRentalOpen((prev) => !prev);
   };
@@ -30,9 +26,7 @@ const Navbar = () => {
     <header className="navbar">
       <div className="navbar-container">
 
-        {/* =========================
-            LOGO
-        ========================= */}
+        {/* LOGO */}
         <NavLink
           to="/"
           className="navbar-logo-link"
@@ -41,15 +35,13 @@ const Navbar = () => {
           <div className="navbar-logo-wrapper">
             <img
               src={logo}
-              alt="Jagannath Explorer Travel"
+              alt="Jagannath Explorer Travels"
               className="navbar-logo"
             />
           </div>
         </NavLink>
 
-        {/* =========================
-            NAVIGATION
-        ========================= */}
+        {/* NAVIGATION */}
         <nav
           className={`navbar-navigation ${
             isMobileMenuOpen ? "navbar-navigation-open" : ""
@@ -102,9 +94,7 @@ const Navbar = () => {
               <span className="navbar-link-text">Hotel</span>
             </NavLink>
 
-            {/* =========================
-                CAR RENTAL DROPDOWN
-            ========================= */}
+            {/* CAR RENTAL DROPDOWN */}
             <div
               className={`navbar-dropdown ${
                 isCarRentalOpen ? "navbar-dropdown-open" : ""
@@ -117,7 +107,6 @@ const Navbar = () => {
                 aria-expanded={isCarRentalOpen}
               >
                 <span className="navbar-link-text">Car Rental</span>
-
                 <svg
                   className="navbar-dropdown-arrow"
                   viewBox="0 0 24 24"
@@ -127,7 +116,7 @@ const Navbar = () => {
                   <path
                     d="M6 9L12 15L18 9"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
@@ -135,15 +124,12 @@ const Navbar = () => {
               </button>
 
               <div className="navbar-dropdown-menu">
-
                 <NavLink
                   to="/car-rental/sedan-cars"
                   onClick={closeMobileMenu}
                   className="navbar-dropdown-link"
                 >
-                  <span className="navbar-dropdown-icon">
-                    <span></span>
-                  </span>
+                  <span className="navbar-dropdown-icon"><span></span></span>
                   <span>Sedan Cars</span>
                 </NavLink>
 
@@ -152,9 +138,7 @@ const Navbar = () => {
                   onClick={closeMobileMenu}
                   className="navbar-dropdown-link"
                 >
-                  <span className="navbar-dropdown-icon">
-                    <span></span>
-                  </span>
+                  <span className="navbar-dropdown-icon"><span></span></span>
                   <span>SUV Cars</span>
                 </NavLink>
 
@@ -163,9 +147,7 @@ const Navbar = () => {
                   onClick={closeMobileMenu}
                   className="navbar-dropdown-link"
                 >
-                  <span className="navbar-dropdown-icon">
-                    <span></span>
-                  </span>
+                  <span className="navbar-dropdown-icon"><span></span></span>
                   <span>Luxury Cars</span>
                 </NavLink>
 
@@ -174,9 +156,7 @@ const Navbar = () => {
                   onClick={closeMobileMenu}
                   className="navbar-dropdown-link"
                 >
-                  <span className="navbar-dropdown-icon">
-                    <span></span>
-                  </span>
+                  <span className="navbar-dropdown-icon"><span></span></span>
                   <span>Tempo Travellers</span>
                 </NavLink>
 
@@ -185,9 +165,7 @@ const Navbar = () => {
                   onClick={closeMobileMenu}
                   className="navbar-dropdown-link"
                 >
-                  <span className="navbar-dropdown-icon">
-                    <span></span>
-                  </span>
+                  <span className="navbar-dropdown-icon"><span></span></span>
                   <span>Urbania Travellers</span>
                 </NavLink>
 
@@ -196,12 +174,9 @@ const Navbar = () => {
                   onClick={closeMobileMenu}
                   className="navbar-dropdown-link"
                 >
-                  <span className="navbar-dropdown-icon">
-                    <span></span>
-                  </span>
+                  <span className="navbar-dropdown-icon"><span></span></span>
                   <span>Small Coach</span>
                 </NavLink>
-
               </div>
             </div>
 
@@ -238,16 +213,13 @@ const Navbar = () => {
               <span className="navbar-link-text">FAQ</span>
             </NavLink>
 
-            {/* =========================
-                MOBILE CONTACT
-            ========================= */}
+            {/* MOBILE CONTACT BUTTON */}
             <NavLink
               to="/contact"
               onClick={closeMobileMenu}
               className="navbar-mobile-contact"
             >
               <span>Contact Us</span>
-
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -256,14 +228,13 @@ const Navbar = () => {
                 <path
                   d="M5 12H19"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                 />
-
                 <path
                   d="M13 6L19 12L13 18"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
@@ -273,17 +244,9 @@ const Navbar = () => {
           </div>
         </nav>
 
-        {/* =========================
-            DESKTOP CONTACT BUTTON
-        ========================= */}
-        <NavLink
-          to="/contact"
-          className="navbar-contact-button"
-        >
-          <span className="navbar-contact-button-text">
-            Contact Us
-          </span>
-
+        {/* DESKTOP CONTACT BUTTON */}
+        <NavLink to="/contact" className="navbar-contact-button">
+          <span className="navbar-contact-button-text">Contact Us</span>
           <span className="navbar-contact-button-icon">
             <svg
               viewBox="0 0 24 24"
@@ -293,14 +256,13 @@ const Navbar = () => {
               <path
                 d="M5 12H19"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
               />
-
               <path
                 d="M13 6L19 12L13 18"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -308,9 +270,7 @@ const Navbar = () => {
           </span>
         </NavLink>
 
-        {/* =========================
-            MOBILE MENU BUTTON
-        ========================= */}
+        {/* MOBILE MENU BUTTON */}
         <button
           type="button"
           className={`navbar-menu-button ${
@@ -331,4 +291,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

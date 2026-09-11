@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
-
+  
 .AllUsers {
   background-color: #f1f5f9;
   min-height: 100vh;
+  margin: -23px;
   padding-bottom: 40px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #1e293b;

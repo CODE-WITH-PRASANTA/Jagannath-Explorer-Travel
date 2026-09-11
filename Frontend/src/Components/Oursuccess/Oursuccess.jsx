@@ -1,19 +1,11 @@
 import React from 'react';
 import './Oursuccess.css';
 
-// यदि आपके पास लोकल SVG/इमेज आइकन हैं, तो आप उन्हें यहाँ इम्पोर्ट कर सकते हैं:
-// import icon1 from './assets/worldwide.svg';
-// import icon2 from './assets/pricing.svg';
-// import icon3 from './assets/booking.svg';
-// import icon4 from './assets/guided.svg';
-// import icon5 from './assets/support.svg';
-// import icon6 from './assets/flexibility.svg';
-
 const featuresData = [
   {
     id: 1,
-    title: 'Worldwide Coverage',
-    description: 'Cras facilisis fermentum ex seda ullamcorper odio rutrum accoun Phasellus auctor',
+    title: 'Odisha & Worldwide Tours',
+    description: 'Bhubaneswar se lekar Puri, Konark aur international destinations tak seamless travel packages.',
     theme: 'green',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -26,8 +18,8 @@ const featuresData = [
   },
   {
     id: 2,
-    title: 'Competitive Pricing',
-    description: 'Burabitur convallis enim atnora ullamcorper sagittis. Morbi nug scelerisque for thana.',
+    title: 'Affordable & Transparent Pricing',
+    description: 'Bhubaneswar me sabse kifayati aur transparent rates, bina kisi hidden charges ke.',
     theme: 'orange',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -39,8 +31,8 @@ const featuresData = [
   },
   {
     id: 3,
-    title: 'Fast Booking',
-    description: 'Fermentum eitorx quis maximum Etiam luctus erat vulputate urnan posuere convallis.',
+    title: 'Instant Cab & Tour Booking',
+    description: 'Airport transfers, outstation cabs aur holiday packages ke liye fast online booking support.',
     theme: 'yellow',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -57,8 +49,8 @@ const featuresData = [
   },
   {
     id: 4,
-    title: 'Guided Tours',
-    description: 'Pellentesque venenatis egestasoi diam Proin velgorat elit porttitor metus convallis.',
+    title: 'Expert Local Guides',
+    description: 'Odisha ke historical temples aur tourist attractions ke liye anubhavi local tour guides.',
     theme: 'lime',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -70,8 +62,8 @@ const featuresData = [
   },
   {
     id: 5,
-    title: 'Best Support 24/7',
-    description: 'Sed venenatis mauris nec nulla euismod, accounv varius lectus viverra oncen.',
+    title: '24/7 Dedicated Support',
+    description: 'Aapki poori yatra ke dauraan 24 ghante customer support aur roadside assistance.',
     theme: 'mint',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -83,8 +75,8 @@ const featuresData = [
   },
   {
     id: 6,
-    title: 'Ultimate Flexibility',
-    description: 'Duis leo sapien, lacinia utorrent efficitur utom suscipit quis nulla Sed auctor eu',
+    title: 'Customizable Itineraries',
+    description: 'Family trips, corporate tours aur solo travels ke hisab se customized travel plans.',
     theme: 'peach',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -97,9 +89,41 @@ const featuresData = [
 ];
 
 const Oursuccess = () => {
+  // Local SEO Schema for Google Search
+  const travelAgencySchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TravelAgency',
+    name: 'TripRex - Best Travels and Tours Agency',
+    description: 'Top-rated travel and tour agency in Bhubaneswar, Odisha offering car rentals, customized holiday packages, and temple tours across Puri, Konark, and Chilika.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Bhubaneswar',
+      addressRegion: 'Odisha',
+      addressCountry: 'IN'
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Bhubaneswar' },
+      { '@type': 'City', name: 'Cuttack' },
+      { '@type': 'City', name: 'Puri' },
+      { '@type': 'AdministrativeArea', name: 'Odisha' }
+    ],
+    priceRange: '₹₹'
+  };
+
   return (
-    <section className="oursuccess-section">
-      {/* Background Animated Elements (Hot air balloon, Mountains, Trail) */}
+    <section 
+      className="oursuccess-section" 
+      itemScope 
+      itemType="https://schema.org/TravelAgency"
+      aria-labelledby="section-main-heading"
+    >
+      {/* Schema Markup for Local SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(travelAgencySchema) }}
+      />
+
+      {/* Decorative Background Graphics */}
       <div className="bg-anim-wrap" aria-hidden="true">
         <svg className="bg-trail-svg" viewBox="0 0 1440 600" fill="none">
           <path
@@ -110,7 +134,6 @@ const Oursuccess = () => {
           />
         </svg>
 
-        {/* Floating Hot Air Balloon */}
         <div className="float-balloon">
           <svg viewBox="0 0 100 130" fill="none" stroke="#d5dbd0" strokeWidth="1.8">
             <ellipse cx="50" cy="50" rx="36" ry="44" />
@@ -122,7 +145,6 @@ const Oursuccess = () => {
           </svg>
         </div>
 
-        {/* Soft Background Mountain Doodles */}
         <div className="float-mountain">
           <svg viewBox="0 0 200 120" fill="none" stroke="#dbe2d6" strokeWidth="1.5">
             <polygon points="20,110 80,25 130,110" />
@@ -134,28 +156,40 @@ const Oursuccess = () => {
       </div>
 
       <div className="oursuccess-container">
-        {/* Header */}
-        <div className="oursuccess-header">
+        {/* SEO-Optimized Header */}
+        <header className="oursuccess-header">
           <div className="oursuccess-badge">
             <span className="badge-arrow">➔</span>
-            <span className="badge-text">Our Success</span>
+            <span className="badge-text">Why We Are The Best</span>
             <span className="badge-sparkle">✦</span>
           </div>
-          <h2 className="oursuccess-title">Why Choose TripRex</h2>
-        </div>
+          
+          <h2 id="section-main-heading" className="oursuccess-title" itemProp="name">
+            Best Travels and Tours Agency in Bhubaneswar, Odisha
+          </h2>
+          
+          <p className="oursuccess-subtitle" itemProp="description">
+            Odisha Tourism ke trusted partner. Ham pradan karte hain affordable cab service, custom holiday packages, aur Puri-Konark temple tours.
+          </p>
+        </header>
 
-        {/* 3x2 Card Grid */}
+        {/* 3x2 Features Grid */}
         <div className="features-grid">
           {featuresData.map((item) => (
-            <div key={item.id} className={`feature-card theme-${item.theme}`}>
-              <div className="card-icon-bubble">
+            <article 
+              key={item.id} 
+              className={`feature-card theme-${item.theme}`}
+              itemScope 
+              itemType="https://schema.org/Offer"
+            >
+              <div className="card-icon-bubble" aria-hidden="true">
                 {item.icon}
               </div>
               <div className="card-text-content">
-                <h3 className="card-heading">{item.title}</h3>
-                <p className="card-desc">{item.description}</p>
+                <h3 className="card-heading" itemProp="itemOffered">{item.title}</h3>
+                <p className="card-desc" itemProp="description">{item.description}</p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

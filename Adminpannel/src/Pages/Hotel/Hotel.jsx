@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import "./Hotel.css";
-import { 
-  Plus, 
-  Search, 
-  Edit3, 
-  Trash2, 
-  Upload, 
-  X, 
-  Star, 
-  MapPin, 
-  Building2, 
-  Check, 
+import {
+  Plus,
+  Search,
+  Edit3,
+  Trash2,
+  Upload,
+  X,
+  Star,
   ArrowLeft,
   Bold,
   Italic,
@@ -104,7 +101,6 @@ const Hotel = () => {
     rooms: "",
     status: "Active",
   });
-
   const [images, setImages] = useState([]);
 
   const handleInputChange = (e) => {
@@ -202,7 +198,6 @@ const Hotel = () => {
 
   return (
     <div className="hotel-admin-wrapper">
-      
       {/* ================= LIST VIEW ================= */}
       {viewMode === "list" && (
         <div className="hotel-list-container">

@@ -12,7 +12,9 @@ import {
   FaDumbbell,
   FaSpa,
   FaParking,
-  FaUtensils
+  FaUtensils,
+  FaChevronLeft,
+  FaChevronRight
 } from 'react-icons/fa';
 
 // Import images from src/assets/
@@ -58,7 +60,7 @@ const initialHotels = [
   },
   {
     id: 2,
-    name: "Castle Bay Touch Cox's BazarOpens in new window",
+    name: "Castle Bay Touch Cox's Bazar",
     location: "Cox's Bazar, Bangladesh",
     distance: "2 km to city center",
     rating: 4.5,
@@ -119,7 +121,7 @@ const initialHotels = [
   {
     id: 6,
     name: "Tranquil Twilight Lodge",
-    location: "Berlin, germany",
+    location: "Berlin, Germany",
     distance: "2 km to city center",
     rating: 4.5,
     reviewsCount: "4.5 reviews",
@@ -138,20 +140,61 @@ const HotelRoom = () => {
     initialHotels.reduce((acc, hotel) => ({ ...acc, [hotel.id]: 0 }), {})
   );
 
-  // Smooth hover/mousemove transition handler for 3-dot pagination
+  // Touch Swipe States
+  const [touchStartX, setTouchStartX] = useState(null);
+
+  // Mouse hover behavior for Desktop
   const handleMouseMove = (e, hotelId) => {
+    if (window.innerWidth <= 992) return; // Disable hover logic on mobile/tablet
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const width = rect.width;
-    
+
     let index = 0;
     if (x > width * (2 / 3)) {
       index = 2;
     } else if (x > width * (1 / 3)) {
       index = 1;
     }
-    
+
     setActiveImageIndexes((prev) => ({ ...prev, [hotelId]: index }));
+  };
+
+  // Next / Previous controls for Mobile & Desktop click
+  const handlePrevImage = (e, hotelId, totalImages) => {
+    e.stopPropagation();
+    setActiveImageIndexes((prev) => {
+      const current = prev[hotelId] || 0;
+      return { ...prev, [hotelId]: current === 0 ? totalImages - 1 : current - 1 };
+    });
+  };
+
+  const handleNextImage = (e, hotelId, totalImages) => {
+    e.stopPropagation();
+    setActiveImageIndexes((prev) => {
+      const current = prev[hotelId] || 0;
+      return { ...prev, [hotelId]: (current + 1) % totalImages };
+    });
+  };
+
+  // Mobile Touch Swipe Handlers
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e, hotelId, totalImages) => {
+    if (touchStartX === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diffX = touchStartX - touchEndX;
+
+    if (Math.abs(diffX) > 40) { // Swipe threshold
+      if (diffX > 0) {
+        handleNextImage(e, hotelId, totalImages);
+      } else {
+        handlePrevImage(e, hotelId, totalImages);
+      }
+    }
+    setTouchStartX(null);
   };
 
   // Structured SEO Schema Markup
@@ -173,7 +216,6 @@ const HotelRoom = () => {
 
   return (
     <section className="HotelRoom" aria-labelledby="hotel-room-heading">
-      {/* Dynamic SEO JSON-LD Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
@@ -183,8 +225,6 @@ const HotelRoom = () => {
         
         {/* Left Sidebar Filters */}
         <aside className="HotelRoom-sidebar">
-          
-          {/* Search Box */}
           <div className="HotelRoom-filterCard">
             <h3 className="HotelRoom-filterTitle">Search Here</h3>
             <div className="HotelRoom-searchBox">
@@ -199,7 +239,6 @@ const HotelRoom = () => {
             </div>
           </div>
 
-          {/* Popular Filters */}
           <div className="HotelRoom-filterCard">
             <h3 className="HotelRoom-filterTitle">Popular Filters</h3>
             <ul className="HotelRoom-filterList">
@@ -224,170 +263,25 @@ const HotelRoom = () => {
                 </label>
                 <span className="HotelRoom-badge">35</span>
               </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>No prepayment</span>
-                </label>
-                <span className="HotelRoom-badge">28</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Romantic</span>
-                </label>
-                <span className="HotelRoom-badge">12</span>
-              </li>
             </ul>
           </div>
-
-          {/* Facilities Filter */}
-          <div className="HotelRoom-filterCard">
-            <h3 className="HotelRoom-filterTitle">Facilities</h3>
-            <ul className="HotelRoom-filterList">
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Airport shuttle</span>
-                </label>
-                <span className="HotelRoom-badge">30</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Locker</span>
-                </label>
-                <span className="HotelRoom-badge">90</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Gym</span>
-                </label>
-                <span className="HotelRoom-badge">35</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Spa</span>
-                </label>
-                <span className="HotelRoom-badge">28</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Parking</span>
-                </label>
-                <span className="HotelRoom-badge">70</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Restaurant</span>
-                </label>
-                <span className="HotelRoom-badge">120</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Swimming pool</span>
-                </label>
-                <span className="HotelRoom-badge">36</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Pet friendly</span>
-                </label>
-                <span className="HotelRoom-badge">10</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Star Rating Filter */}
-          <div className="HotelRoom-filterCard">
-            <h3 className="HotelRoom-filterTitle">Star Rating</h3>
-            <ul className="HotelRoom-filterList">
-              {[
-                { stars: 5, label: "(5)" },
-                { stars: 4.5, label: "(4.5)" },
-                { stars: 4, label: "(4.0)" },
-                { stars: 3.5, label: "(3.5)" },
-                { stars: 3, label: "(3.0)" },
-                { stars: 2.5, label: "(2.5)" },
-                { stars: 1, label: "(1.0)" }
-              ].map((rate, idx) => (
-                <li key={idx}>
-                  <label className="HotelRoom-checkboxLabel">
-                    <input type="checkbox" />
-                    <span className="HotelRoom-starsRow">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar key={i} className="HotelRoom-starYellow" />
-                      ))}
-                    </span>
-                    <span className="HotelRoom-starText">{rate.label}</span>
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Room Accessibility Filter */}
-          <div className="HotelRoom-filterCard">
-            <h3 className="HotelRoom-filterTitle">Room Accessibility</h3>
-            <ul className="HotelRoom-filterList">
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Adapted bath</span>
-                </label>
-                <span className="HotelRoom-badge">250</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Roll-in shower</span>
-                </label>
-                <span className="HotelRoom-badge">90</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Raised toilet</span>
-                </label>
-                <span className="HotelRoom-badge">35</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Emergency cord in bathroom</span>
-                </label>
-                <span className="HotelRoom-badge">28</span>
-              </li>
-              <li>
-                <label className="HotelRoom-checkboxLabel">
-                  <input type="checkbox" />
-                  <span>Shower chair</span>
-                </label>
-                <span className="HotelRoom-badge">12</span>
-              </li>
-            </ul>
-          </div>
-
         </aside>
 
         {/* Main Hotel Cards List */}
         <main className="HotelRoom-main">
           {initialHotels.map((hotel) => {
             const currentImgIndex = activeImageIndexes[hotel.id] || 0;
+            const totalImages = hotel.images.length;
 
             return (
               <article className="HotelRoom-card" key={hotel.id}>
                 
-                {/* Image & Slider Container */}
+                {/* Image & Mobile Touch/Swipe Container */}
                 <div
                   className="HotelRoom-imageWrapper"
                   onMouseMove={(e) => handleMouseMove(e, hotel.id)}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={(e) => handleTouchEnd(e, hotel.id, totalImages)}
                 >
                   {hotel.badge && (
                     <span className="HotelRoom-tagBadge">{hotel.badge}</span>
@@ -399,32 +293,53 @@ const HotelRoom = () => {
                     className="HotelRoom-img"
                   />
 
-                  {/* 3-Dot Pagination Overlay */}
+                  {/* Navigation Arrows for Mobile & Touch */}
+                  <button
+                    className="HotelRoom-navBtn HotelRoom-navBtnPrev"
+                    onClick={(e) => handlePrevImage(e, hotel.id, totalImages)}
+                    aria-label="Previous image"
+                  >
+                    <FaChevronLeft />
+                  </button>
+
+                  <button
+                    className="HotelRoom-navBtn HotelRoom-navBtnNext"
+                    onClick={(e) => handleNextImage(e, hotel.id, totalImages)}
+                    aria-label="Next image"
+                  >
+                    <FaChevronRight />
+                  </button>
+
+                  {/* Touch-Friendly Pagination Indicators */}
                   <div className="HotelRoom-dotsOverlay">
-                    {[0, 1, 2].map((dotIndex) => (
+                    {hotel.images.map((_, dotIndex) => (
                       <button
                         key={dotIndex}
                         className={`HotelRoom-dot ${
                           currentImgIndex === dotIndex ? 'HotelRoom-dotActive' : ''
                         }`}
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setActiveImageIndexes((prev) => ({
                             ...prev,
                             [hotel.id]: dotIndex
-                          }))
-                        }
+                          }));
+                        }}
                         aria-label={`Slide ${dotIndex + 1}`}
                       >
-                        {currentImgIndex === dotIndex && <span className="HotelRoom-dotInner" />}
+                        <span className="HotelRoom-dotInner" />
                       </button>
                     ))}
                   </div>
+
+                  {/* Mobile Image Counter Badge */}
+                  <span className="HotelRoom-imageCounter">
+                    {currentImgIndex + 1}/{totalImages}
+                  </span>
                 </div>
 
-                {/* Hotel Content Right Side */}
+                {/* Hotel Content */}
                 <div className="HotelRoom-content">
-                  
-                  {/* Rating Header */}
                   <div className="HotelRoom-ratingRow">
                     <div className="HotelRoom-stars">
                       <FaStar className="HotelRoom-starYellow" />
@@ -436,10 +351,8 @@ const HotelRoom = () => {
                     <span className="HotelRoom-reviewText">{hotel.reviewsCount}</span>
                   </div>
 
-                  {/* Title */}
                   <h2 className="HotelRoom-title">{hotel.name}</h2>
 
-                  {/* Location & Distance */}
                   <div className="HotelRoom-locationRow">
                     <FaMapMarkerAlt className="HotelRoom-locationIcon" />
                     <span className="HotelRoom-locationText">{hotel.location}</span>
@@ -447,7 +360,6 @@ const HotelRoom = () => {
                     <span className="HotelRoom-distanceText">{hotel.distance}</span>
                   </div>
 
-                  {/* Amenities Row */}
                   <div className="HotelRoom-amenitiesRow">
                     <span className="HotelRoom-amenity"><FaLock className="HotelRoom-amenityIcon" /> Locker</span>
                     <span className="HotelRoom-amenity"><FaDumbbell className="HotelRoom-amenityIcon" /> Gym</span>
@@ -456,7 +368,6 @@ const HotelRoom = () => {
                     <span className="HotelRoom-amenity"><FaUtensils className="HotelRoom-amenityIcon" /> Restaurant</span>
                   </div>
 
-                  {/* Room Details & Price Section */}
                   <div className="HotelRoom-footer">
                     <div className="HotelRoom-roomMeta">
                       <h4 className="HotelRoom-roomType">{hotel.roomType}</h4>

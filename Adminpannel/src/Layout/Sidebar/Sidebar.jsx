@@ -17,7 +17,7 @@ import {
   Bus,
   X,
   Hotel,
-  MessageSquareQuote, // Added icon for Testimonial
+  MessageSquareQuote,
 } from 'lucide-react';
 
 import './Sidebar.css';
@@ -51,8 +51,6 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
     }));
   };
 
-  // Tapping any nav link on mobile should close the sidebar, same as the
-  // cross button and the backdrop tap already do.
   const handleNavClick = () => {
     if (isMobileOpen && onClose) onClose();
   }; 
@@ -71,10 +69,14 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
       ],
     },
 
+    /* Tour Booking link */
+    { type: 'link', icon: <CalendarCheck size={20} />, text: 'Tour Booking', path: '/tour-bookings' },
+
     { type: 'link', icon: <Map size={20} />, text: 'Tours', path: '/tours' },
     { type: 'link', icon: <Car size={20} />, text: 'Vehicles', path: '/vehicles' },
     { type: 'link', icon: <MapPin size={20} />, text: 'Destinations', path: '/destinations' },
     { type: 'link', icon: <Users size={20} />, text: 'Customers', path: '/customers' },
+    { type: 'link', icon: <Users size={20} />, text: 'Gallary', path: '/gallary' },
 
     {
       type: 'dropdown',
@@ -100,8 +102,6 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
 
     { type: 'link', icon: <Mail size={20} />, text: 'Enquiries', path: '/enquiries' },
     { type: 'link', icon: <Tag size={20} />, text: 'Coupons', path: '/coupons' },
-    
-    /* Added Testimonial link here */
     { type: 'link', icon: <MessageSquareQuote size={20} />, text: 'Testimonial', path: '/testimonials' },
 
     {
@@ -116,7 +116,6 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
 
     { type: 'link', icon: <Settings size={20} />, text: 'Settings', path: '/settings' },
     { type: 'link', icon: <Hotel size={20} />, text: 'Hotel', path: '/hotels' },
-
   ];
 
   return (
@@ -134,7 +133,6 @@ const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
           </div>
         )}
 
-        {/* Mobile-only close button */}
         {isMobileOpen && (
           <button
             className="Sidebar-close-btn"

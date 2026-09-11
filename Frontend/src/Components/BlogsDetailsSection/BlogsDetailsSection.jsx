@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './BlogsDetailsSection.css';
-
-import heroBanner from '../../assets/blog-details-img1.webp'; 
+import API, { IMG_URL } from "../../api/axios";
 
 import { 
   FaFacebookF, 
@@ -12,8 +12,6 @@ import {
   FaChevronLeft,
   FaChevronRight 
 } from 'react-icons/fa6';
-
-const tags = ['Adventure', 'City Tour', 'Road Trip', 'Tourism'];
 
 const commentsData = [
   {
@@ -63,32 +61,105 @@ const commentsData = [
 ];
 
 const BlogsDetailsSection = () => {
+  const [currentBlog, setCurrentBlog] = useState(null);
+  const [adjacentPosts, setAdjacentPosts] = useState({ prev: null, next: null });
+  const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const blogId = queryParams.get('id');
+
+  useEffect(() => {
+    fetchBlogDetails();
+  }, [blogId]);
+
+  const fetchBlogDetails = async () => {
+    try {
+      setLoading(true);
+      const response = await API.get('/blogs');
+      const rawData = Array.isArray(response.data) 
+        ? response.data 
+        : (response.data.data || response.data.blogs || []);
+
+      if (rawData.length === 0) return;
+
+      // Find active blog index
+      let currentIndex = rawData.findIndex(b => (b._id === blogId || b.id === blogId));
+      if (currentIndex === -1) currentIndex = 0; // Fallback to first item
+
+      const active = rawData[currentIndex];
+      let imageUrl = '';
+      if (active.image) {
+        imageUrl = active.image.startsWith('http') ? active.image : `${IMG_URL}${active.image}`;
+      }
+
+      setCurrentBlog({
+        id: active._id || active.id,
+        title: active.title || '',
+        content: active.content || '',
+        category: active.category || 'Adventure',
+        image: imageUrl,
+        tags: [active.category, 'Adventure', 'Tourism']
+      });
+
+      // Calculate prev and next posts dynamically based on array layout
+      const prevItem = currentIndex > 0 ? rawData[currentIndex - 1] : null;
+      const nextItem = currentIndex < rawData.length - 1 ? rawData[currentIndex + 1] : null;
+
+      setAdjacentPosts({
+        prev: prevItem ? { id: prevItem._id || prevItem.id, title: prevItem.title } : null,
+        next: nextItem ? { id: nextItem._id || nextItem.id, title: nextItem.title } : null
+      });
+
+    } catch (error) {
+      console.error('Error fetching blog details section data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleNavClick = (id) => {
+    if (id) {
+      navigate(`/blogdetails?id=${id}`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  if (loading) {
+    return <div style={{ textAlign: 'center', padding: '60px' }}>Loading content...</div>;
+  }
+
+  if (!currentBlog) {
+    return <div style={{ textAlign: 'center', padding: '60px' }}>Blog post not found.</div>;
+  }
+
   return (
     <article className="BlogsDetailsSection">
-      {/* Hero Media with Imported Asset */}
-      <div className="BlogsDetailsSection-heroWrapper">
-        <img
-          src={heroBanner}
-          alt="Two backpackers traversing a scenic rocky canyon trail"
-          className="BlogsDetailsSection-heroImage"
-          loading="eager"
-        />
-      </div>
+      {/* Hero Media with Live Database Asset */}
+      {currentBlog.image && (
+        <div className="BlogsDetailsSection-heroWrapper">
+          <img
+            src={currentBlog.image}
+            alt={currentBlog.title}
+            className="BlogsDetailsSection-heroImage"
+            loading="eager"
+          />
+        </div>
+      )}
 
       {/* Article Content */}
       <div className="BlogsDetailsSection-content">
-        <h1 className="BlogsDetailsSection-title">Our Begin Now To Beingonl.</h1>
+        <h1 className="BlogsDetailsSection-title">{currentBlog.title}</h1>
         <p className="BlogsDetailsSection-paragraph">
-          Vestibulum quis odio ut dui malesuada ornare ut id tellus. Curabitur viverra at magna ac bibendum. 
-          Aliquam erat volutpat. Proin rhoncus est ac ipsum varius fermentum. Integer a odio ornare mauris 
-          pharetra suscipitot. Integer vulputate elit erat. Vestibulum quam velit, sagittis et ipsum id.
+          {currentBlog.content}
         </p>
       </div>
 
       {/* Meta Bar: Tags & Social Sharing */}
       <div className="BlogsDetailsSection-metaBar">
         <div className="BlogsDetailsSection-tags">
-          {tags.map((tag) => (
+          {currentBlog.tags.map((tag) => (
             <button key={tag} type="button" className="BlogsDetailsSection-tagPill">
               {tag}
             </button>
@@ -115,31 +186,45 @@ const BlogsDetailsSection = () => {
 
       {/* Post Navigation */}
       <div className="BlogsDetailsSection-navigation">
-        <a href="#prev-post" className="BlogsDetailsSection-navItem BlogsDetailsSection-navPrev">
-          <span className="BlogsDetailsSection-navIconBox">
-            <FaChevronLeft />
-          </span>
-          <div className="BlogsDetailsSection-navText">
-            <span className="BlogsDetailsSection-navDirection">Prev Post</span>
-            <span className="BlogsDetailsSection-navPostTitle">
-              Consulting vs. In-House Expertise: Finding the Right Balance
+        {adjacentPosts.prev ? (
+          <button 
+            type="button" 
+            onClick={() => handleNavClick(adjacentPosts.prev.id)} 
+            className="BlogsDetailsSection-navItem BlogsDetailsSection-navPrev"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%' }}
+          >
+            <span className="BlogsDetailsSection-navIconBox">
+              <FaChevronLeft />
             </span>
-          </div>
-        </a>
+            <div className="BlogsDetailsSection-navText">
+              <span className="BlogsDetailsSection-navDirection">Prev Post</span>
+              <span className="BlogsDetailsSection-navPostTitle">
+                {adjacentPosts.prev.title}
+              </span>
+            </div>
+          </button>
+        ) : <div />}
 
         <div className="BlogsDetailsSection-navDivider" />
 
-        <a href="#next-post" className="BlogsDetailsSection-navItem BlogsDetailsSection-navNext">
-          <div className="BlogsDetailsSection-navText BlogsDetailsSection-navTextRight">
-            <span className="BlogsDetailsSection-navDirection">Next Post</span>
-            <span className="BlogsDetailsSection-navPostTitle">
-              Consulting Industry Adapts to the Changing Business Landscape
+        {adjacentPosts.next ? (
+          <button 
+            type="button" 
+            onClick={() => handleNavClick(adjacentPosts.next.id)} 
+            className="BlogsDetailsSection-navItem BlogsDetailsSection-navNext"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'right', width: '100%' }}
+          >
+            <div className="BlogsDetailsSection-navText BlogsDetailsSection-navTextRight">
+              <span className="BlogsDetailsSection-navDirection">Next Post</span>
+              <span className="BlogsDetailsSection-navPostTitle">
+                {adjacentPosts.next.title}
+              </span>
+            </div>
+            <span className="BlogsDetailsSection-navIconBox">
+              <FaChevronRight />
             </span>
-          </div>
-          <span className="BlogsDetailsSection-navIconBox">
-            <FaChevronRight />
-          </span>
-        </a>
+          </button>
+        ) : <div />}
       </div>
 
       {/* Comments Section */}

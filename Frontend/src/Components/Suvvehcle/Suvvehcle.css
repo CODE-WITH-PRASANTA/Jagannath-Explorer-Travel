@@ -1,109 +1,297 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* ==========================================================================
+   Suvvehcle — Ultra-Premium Eye-Catching Light Theme & Smooth UI
+   ========================================================================== */
 
-/* Main Container */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
 .Suvvehcle {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  max-width: 1200px;
+  --bg-main: #f8fafc;
+  --panel-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --accent: #0ea5e9;
+  --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  --accent-soft: rgba(14, 165, 233, 0.08);
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+ 
   margin: 0 auto;
-  padding: 40px 20px;
-  color: #1a1a1a;
+  padding: 80px 20px 96px;
+  box-sizing: border-box;
+  color: var(--text-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(14, 165, 233, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 88% 20%, rgba(37, 99, 235, 0.04) 0%, transparent 40%),
+    var(--bg-main);
 }
 
-/* Header */
+/* ==========================================================================
+   HEADER & AGENCY PROFILE SHOWCASE
+   ========================================================================== */
+
 .Suvvehcle-header {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+  margin: 0 auto 56px;
   text-align: center;
-  margin-bottom: 40px;
 }
 
-.Suvvehcle-subheading {
-  color: #e67e22;
-  font-size: 14px;
+.Suvvehcle-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  margin-bottom: 18px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 99px;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-size: 0.82rem;
+  color: #0369a1;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.06);
 }
 
 .Suvvehcle-title {
-  font-size: 32px;
+  margin: 0 0 16px;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2rem, 3.5vw + 0.8rem, 3rem);
   font-weight: 800;
-  color: #0b132a;
-  margin: 10px 0 15px;
-  line-height: 1.25;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
 }
 
 .Suvvehcle-description {
-  max-width: 800px;
-  margin: 0 auto;
-  color: #666;
-  font-size: 14px;
-  line-height: 1.6;
+  max-width: 760px;
+  margin: 0 auto 24px;
+  color: var(--text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.75;
 }
 
 .Suvvehcle-description strong {
-  color: #0b132a;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
-/* Cards Grid */
-.Suvvehcle-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-}
-
-/* Card Item */
-.Suvvehcle-card {
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid #eef2f6;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+/* Eye-Catching Corporate Business Info Card */
+.Suvvehcle-business-info {
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  gap: 10px;
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
 }
 
-.Suvvehcle-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
-
-.Suvvehcle-card-image-wrapper {
-  background: #f4f6f9;
-  border-radius: 12px;
-  padding: 20px;
+.info-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 170px;
+  gap: 10px;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.info-item span {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.phone-highlight {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: #0369a1;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   VEHICLE GRID
+   ========================================================================== */
+
+.Suvvehcle-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   VEHICLE CARD
+   ========================================================================== */
+
+.Suvvehcle-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02), 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+  opacity: 0;
+  transform: translateY(24px);
+  animation: cardRise 0.65s var(--ease-premium) forwards;
+  animation-delay: calc(var(--stagger) * 0.08s);
+  transition: transform 0.4s var(--ease-premium), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.Suvvehcle-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, var(--accent), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.Suvvehcle-card:hover::before,
+.Suvvehcle-card:focus-visible::before {
+  opacity: 1;
+}
+
+.Suvvehcle-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 24px 50px -12px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(14, 165, 233, 0.06);
+}
+
+.Suvvehcle-card-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid #d1fae5;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+.Suvvehcle-card-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+/* ==========================================================================
+   VEHICLE IMAGE
+   ========================================================================== */
+
+.Suvvehcle-card-image-wrapper {
+  position: relative;
+  height: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+  border-radius: 14px;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
+.Suvvehcle-card-glow {
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%);
+  opacity: 0.5;
+  transition: opacity 0.4s ease, transform 0.6s ease;
+}
+
+.Suvvehcle-card:hover .Suvvehcle-card-glow {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .Suvvehcle-card-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 90%;
+  height: 100%;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.15);
+  transition: transform 0.5s var(--ease-premium);
 }
+
+.Suvvehcle-card:hover .Suvvehcle-card-image {
+  transform: scale(1.06) translateY(-2px);
+}
+
+/* ==========================================================================
+   VEHICLE TITLE
+   ========================================================================== */
 
 .Suvvehcle-card-title {
-  font-size: 18px;
+  margin: 0 0 16px;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: #0b132a;
-  margin: 20px 0 15px;
+  line-height: 1.35;
 }
 
-/* Table Details Inside Card */
+/* ==========================================================================
+   VEHICLE DETAILS
+   ========================================================================== */
+
 .Suvvehcle-card-details {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .Suvvehcle-detail-row {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  font-size: 13px;
-  border-bottom: 1px dashed #e2e8f0;
+  gap: 15px;
   padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 0.82rem;
 }
 
 .Suvvehcle-detail-row:last-child {
@@ -111,97 +299,201 @@
 }
 
 .Suvvehcle-detail-label {
-  color: #1a1a1a;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .Suvvehcle-detail-value {
-  color: #718096;
-  font-weight: 500;
+  max-width: 55%;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+  line-height: 1.4;
 }
 
-/* Card Footer */
+/* ==========================================================================
+   CARD FOOTER
+   ========================================================================== */
+
 .Suvvehcle-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color);
+}
+
+.Suvvehcle-card-price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
 }
 
 .Suvvehcle-card-price strong {
-  font-size: 20px;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
   font-weight: 800;
-  color: #0b132a;
 }
 
 .Suvvehcle-card-price span {
-  font-size: 12px;
-  color: #a0aec0;
-  margin-left: 2px;
+  margin-left: 3px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
+/* ==========================================================================
+   BOOK BUTTON
+   ========================================================================== */
+
 .Suvvehcle-book-btn {
-  background: #00a8e8;
-  color: #ffffff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 25px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  transition: background 0.2s ease;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 99px;
+  background: var(--accent-gradient);
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px -6px rgba(14, 165, 233, 0.5);
+  transition: transform 0.3s var(--ease-premium), box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.Suvvehcle-book-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-130%);
+  transition: transform 0.6s ease;
 }
 
 .Suvvehcle-book-btn:hover {
-  background: #008cc3;
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 12px 24px -6px rgba(14, 165, 233, 0.6);
 }
 
-/* ================= Modal Styling ================= */
+.Suvvehcle-book-btn:hover::after {
+  transform: translateX(130%);
+}
+
+.Suvvehcle-book-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   MODAL OVERLAY & CONTAINER
+   ========================================================================== */
+
 .Suvvehcle-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
+  inset: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.Suvvehcle-modal-overlay[role="dialog"] {
+  pointer-events: auto;
+}
+
+.Suvvehcle-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  opacity: 0;
+  backdrop-filter: blur(0px);
+  transition: opacity 0.35s ease, backdrop-filter 0.35s ease;
+}
+
+.Suvvehcle-modal-overlay .Suvvehcle-modal-backdrop {
+  opacity: 1;
+  backdrop-filter: blur(6px);
 }
 
 .Suvvehcle-modal-content {
-  background: #ffffff;
-  width: 100%;
-  max-width: 550px;
-  border-radius: 20px;
-  padding: 30px;
   position: relative;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  animation: slideUp 0.3s ease;
+  width: 100%;
+  max-width: 580px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 32px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.3);
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  transition: opacity 0.35s var(--ease-premium), transform 0.35s var(--ease-premium);
 }
+
+.Suvvehcle-modal-overlay .Suvvehcle-modal-content {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.Suvvehcle-modal-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.Suvvehcle-modal-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 20px;
+}
+
+/* ==========================================================================
+   CLOSE BUTTON
+   ========================================================================== */
 
 .Suvvehcle-modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #718096;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: var(--text-secondary);
+  font-size: 14px;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .Suvvehcle-modal-close:hover {
-  color: #0b132a;
+  background: #e2e8f0;
+  color: var(--text-primary);
+  transform: rotate(90deg);
 }
+
+/* ==========================================================================
+   FORM & MODAL HEADINGS
+   ========================================================================== */
 
 .Suvvehcle-form {
   display: flex;
@@ -209,83 +501,107 @@
 }
 
 .Suvvehcle-modal-subtitle {
-  text-align: center;
-  color: #00a8e8;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
   display: block;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .Suvvehcle-modal-title {
-  text-align: center;
-  font-size: 26px;
+  margin: 0 0 20px;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
   font-weight: 800;
-  color: #0b132a;
-  margin: 5px 0 20px;
+  line-height: 1.25;
+  text-align: center;
 }
 
 .Suvvehcle-modal-title.large-margin {
-  margin-top: 10px;
-  margin-bottom: 25px;
+  margin-top: 5px;
+  margin-bottom: 24px;
 }
 
-/* Selected Car Banner */
+/* ==========================================================================
+   SELECTED VEHICLE CARD PREVIEW
+   ========================================================================== */
+
 .Suvvehcle-selected-car {
-  background: #f2f6fa;
-  border-radius: 14px;
-  padding: 12px 20px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
 }
 
 .Suvvehcle-selected-car-img {
-  width: 90px;
-  height: 50px;
-  background: #ffffff;
-  border-radius: 8px;
+  flex-shrink: 0;
+  width: 70px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px;
+  padding: 4px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
 }
 
 .Suvvehcle-selected-car-img img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
+.Suvvehcle-selected-car-info {
+  min-width: 0;
+}
+
 .Suvvehcle-selected-car-info h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #0b132a;
+  margin: 0 0 2px;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .Suvvehcle-selected-car-info p {
-  margin: 2px 0 0;
-  font-size: 13px;
-  color: #718096;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 
 .Suvvehcle-selected-car-info p strong {
-  color: #00a8e8;
+  margin-right: 4px;
+  color: var(--accent);
+  font-weight: 700;
 }
 
-/* Inputs Layout */
+/* ==========================================================================
+   FORM GRID & GROUPS
+   ========================================================================== */
+
 .Suvvehcle-form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 25px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 8px;
 }
 
 .Suvvehcle-form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .Suvvehcle-form-grid .Suvvehcle-form-group {
@@ -293,79 +609,111 @@
 }
 
 .Suvvehcle-form-group label {
-  font-size: 14px;
-  font-weight: 700;
-  color: #0b132a;
   margin-bottom: 6px;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .Suvvehcle-form-group input,
 .Suvvehcle-form-group textarea {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  outline: none;
+  background: #ffffff;
+  color: var(--text-primary);
   font-family: inherit;
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+}
+
+.Suvvehcle-form-group input::placeholder,
+.Suvvehcle-form-group textarea::placeholder {
+  color: var(--text-muted);
 }
 
 .Suvvehcle-form-group input:focus,
 .Suvvehcle-form-group textarea:focus {
-  border-color: #00a8e8;
-  box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.15);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12);
 }
 
 .Suvvehcle-form-group textarea {
-  height: 100px;
-  resize: none;
+  min-height: 100px;
+  resize: vertical;
 }
 
-/* Inputs with Right Icon */
+/* ==========================================================================
+   ICON INPUT
+   ========================================================================== */
+
 .Suvvehcle-form-group.icon-input {
   position: relative;
 }
 
 .Suvvehcle-form-group.icon-input input {
-  padding-right: 40px;
+  padding-right: 48px;
 }
 
 .Suvvehcle-input-icon {
   position: absolute;
-  right: 15px;
   top: 50%;
+  right: 16px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
   transform: translateY(-50%);
-  color: #a0aec0;
-  font-size: 15px;
 }
 
-/* Terms Checkbox */
+/* ==========================================================================
+   TERMS & CONDITIONS CHECKBOX
+   ========================================================================== */
+
 .Suvvehcle-checkbox-group {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin: 5px 0 25px;
-  font-size: 13px;
-  color: #4a5568;
+  margin: 6px 0 24px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  user-select: none;
 }
 
 .Suvvehcle-checkbox-group input {
+  flex-shrink: 0;
   margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.Suvvehcle-checkbox-group label {
   cursor: pointer;
 }
 
 .Suvvehcle-checkbox-group a {
-  color: #00a8e8;
+  color: var(--accent);
   text-decoration: underline;
 }
 
-/* Modal Footer Buttons */
+.Suvvehcle-checkbox-group strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   MODAL FOOTER & BUTTONS
+   ========================================================================== */
+
 .Suvvehcle-modal-footer {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .Suvvehcle-modal-footer.center {
@@ -377,82 +725,113 @@
 }
 
 .Suvvehcle-next-btn,
-.Suvvehcle-submit-btn {
-  background: #00a8e8;
-  color: #fff;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 25px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
+.Suvvehcle-submit-btn,
+.Suvvehcle-prev-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  transition: background 0.2s ease, transform 0.1s ease;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.Suvvehcle-next-btn,
+.Suvvehcle-submit-btn {
+  padding: 12px 28px;
+  background: var(--accent-gradient);
+  color: #ffffff;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 20px -6px rgba(14, 165, 233, 0.5);
 }
 
 .Suvvehcle-prev-btn {
-  background: #0b132a;
-  color: #fff;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 25px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: background 0.2s ease;
+  padding: 12px 24px;
+  background: #f1f5f9;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-size: 0.9rem;
 }
 
 .Suvvehcle-next-btn:hover,
 .Suvvehcle-submit-btn:hover {
-  background: #008cc3;
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .Suvvehcle-prev-btn:hover {
-  background: #1a2647;
+  background: #e2e8f0;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.Suvvehcle-next-btn:focus-visible,
+.Suvvehcle-submit-btn:focus-visible,
+.Suvvehcle-prev-btn:focus-visible,
+.Suvvehcle-modal-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* ==========================================================================
+   ANIMATIONS & KEYFRAMES
+   ========================================================================== */
 
-/* Responsive Media Queries */
-@media (max-width: 992px) {
-  .Suvvehcle-grid {
-    grid-template-columns: repeat(2, 1fr);
+@keyframes cardRise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 600px) {
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .Suvvehcle-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .Suvvehcle {
+    padding: 60px 16px 72px;
+  }
+
   .Suvvehcle-grid {
     grid-template-columns: 1fr;
+    max-width: 420px;
   }
 
   .Suvvehcle-form-grid {
     grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .Suvvehcle-modal-footer.space-between {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 12px;
   }
 
-  .Suvvehcle-title {
-    font-size: 24px;
+  .Suvvehcle-prev-btn,
+  .Suvvehcle-submit-btn {
+    width: 100%;
   }
+}
 
-  .Suvvehcle-modal-content {
-    padding: 20px;
-    margin: 15px;
-  }
-
-  .Suvvehcle-modal-title {
-    font-size: 20px;
+@media (prefers-reduced-motion: reduce) {
+  .Suvvehcle-card,
+  .Suvvehcle-card-image,
+  .Suvvehcle-book-btn,
+  .Suvvehcle-next-btn,
+  .Suvvehcle-submit-btn,
+  .Suvvehcle-prev-btn {
+    transition: none !important;
+    animation: none !important;
   }
 }

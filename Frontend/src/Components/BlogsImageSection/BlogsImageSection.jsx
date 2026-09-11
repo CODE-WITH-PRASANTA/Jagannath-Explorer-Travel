@@ -1,135 +1,153 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './BlogsImageSection.css';
-
-import blogImg1 from '../../assets/blog-card1.webp';
-import blogImg2 from '../../assets/blog-card2.webp';
-import blogImg3 from '../../assets/blog-card3.webp';
-import blogImg4 from '../../assets/blog-card4.webp';
-import blogImg5 from '../../assets/blog-card5.webp';
-
-const blogPosts = [
-  {
-    id: 1,
-    image: blogImg1,
-    date: { day: '20', month: 'August' },
-    author: 'Zakai Math',
-    category: 'Adventure',
-    title: 'Semper Nulla Vestibul Umdot Vitae Morbi Semper.',
-    readTime: '5 Min Read',
-    slug: '#',
-  },
-  {
-    id: 2,
-    image: blogImg2,
-    date: { day: '20', month: 'August' },
-    author: 'Tourism',
-    category: 'Locan Stany',
-    title: 'Nisi Laoreet Etiam Fringilland Mauris Vitae Arcu.',
-    readTime: '5 Min Read',
-    slug: '#',
-  },
-  {
-    id: 3,
-    image: blogImg3,
-    date: { day: '20', month: 'August' },
-    author: 'Kaiser Becio',
-    category: 'Wildlife',
-    title: 'The Nomadic Explorer Discovi Hidden Gems..',
-    readTime: '5 Min Read',
-    slug: '#',
-  },
-  {
-    id: 4,
-    image: blogImg4,
-    date: { day: '20', month: 'August' },
-    author: 'Kaiser Becio',
-    category: 'Wildlife',
-    title: 'Passport Diariesoni Journeys And Experiences',
-    readTime: '5 Min Read',
-    slug: '#',
-  },
-  {
-    id: 5,
-    image: blogImg5,
-    date: { day: '20', month: 'August' },
-    author: 'Kaiser Becio',
-    category: 'Wildlife',
-    title: 'Roaming Free Adventures Off The Beaten Path.',
-    readTime: '5 Min Read',
-    slug: '#',
-  },
-];
+import { useNavigate } from 'react-router-dom';
+import API, { IMG_URL } from "../../api/axios";
 
 const BlogsImageSection = () => {
-  const [currentPage, setCurrentPage] = useState(2);
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchLiveBlogs();
+  }, []);
+
+  const fetchLiveBlogs = async () => {
+    try {
+      setLoading(true);
+      const response = await API.get('/blogs');
+      const rawData = Array.isArray(response.data) 
+        ? response.data 
+        : (response.data.data || response.data.blogs || []);
+
+      const publishedBlogs = rawData.filter(blog => !blog.status || blog.status === 'Published');
+
+      const formatted = publishedBlogs.map((blog) => {
+        const blogDate = blog.date ? new Date(blog.date) : new Date();
+        const day = blogDate.getDate().toString().padStart(2, '0');
+        const month = blogDate.toLocaleString('default', { month: 'long' });
+
+        let imageUrl = '';
+        if (blog.image) {
+          imageUrl = blog.image.startsWith('http') ? blog.image : `${IMG_URL}${blog.image}`;
+        }
+
+        return {
+          id: blog._id || blog.id,
+          image: imageUrl,
+          date: { day, month },
+          author: blog.author || 'Anonymous',
+          category: blog.category || 'Travel',
+          title: blog.title || '',
+          readTime: '5 Min Read',
+        };
+      });
+
+      setBlogPosts(formatted);
+    } catch (error) {
+      console.error('Failed to fetch blogs for image section:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePostClick = (id) => {
+    navigate(`/blogdetails?id=${id}`);
+  };
 
   return (
     <section className="blogs-image-section">
       <div className="blogs-image-section__container">
         {/* Card Grid */}
         <div className="blogs-image-section__grid">
-          {blogPosts.map((post) => (
-            <article key={post.id} className="blogs-image-section__card">
-              {/* Media Container & Date Badge */}
-              <div className="blogs-image-section__media">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="blogs-image-section__img"
-                  loading="lazy"
-                />
-                <div className="blogs-image-section__date-badge">
-                  <span className="blogs-image-section__date-day">{post.date.day}</span>
-                  <span className="blogs-image-section__date-month">{post.date.month}</span>
-                </div>
-              </div>
-
-              {/* Card Body */}
-              <div className="blogs-image-section__body">
-                <div className="blogs-image-section__meta">
-                  <span className="blogs-image-section__author">
-                    By <a href="#author">{post.author}</a>
-                  </span>
-                  <span className="blogs-image-section__dot">•</span>
-                  <span className="blogs-image-section__category">{post.category}</span>
-                </div>
-
-                <h3 className="blogs-image-section__title">
-                  <a href={post.slug}>{post.title}</a>
-                </h3>
-
-                {/* Footer with Link & Time */}
-                <div className="blogs-image-section__footer">
-                  <a href={post.slug} className="blogs-image-section__view-link">
-                    <span>View Post</span>
-                    <svg
-                      className="blogs-image-section__arrow-icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="7" y1="17" x2="17" y2="7" />
-                      <polyline points="7 7 17 7 17 17" />
-                    </svg>
-                  </a>
-
-                  <div className="blogs-image-section__read-time">
-                    <svg
-                      className="blogs-image-section__flame-icon"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M12 23c-4.97 0-9-4.03-9-9 0-4.02 2.65-7.42 6.35-8.52.41-.12.8.2.78.63-.08 1.49.2 3.03.88 4.29.18.34.6.48.94.33.34-.14.56-.47.54-.84-.1-1.89.5-3.8 1.74-5.26.27-.32.74-.39 1.09-.17 3.51 2.22 5.68 6.07 5.68 10.54 0 4.97-4.03 9-9 9z" />
-                    </svg>
-                    <span>{post.readTime}</span>
+          {loading ? (
+            <p style={{ textAlign: 'center', gridColumn: '1 / -1', padding: '40px' }}>Loading articles...</p>
+          ) : blogPosts.length === 0 ? (
+            <p style={{ textAlign: 'center', gridColumn: '1 / -1', padding: '40px' }}>No blog posts available.</p>
+          ) : (
+            blogPosts.map((post) => (
+              <article 
+                key={post.id} 
+                className="blogs-image-section__card"
+                onClick={() => handlePostClick(post.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                {/* Media Container & Date Badge */}
+                <div className="blogs-image-section__media">
+                  {post.image ? (
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="blogs-image-section__img"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="blogs-image-section__img" style={{ background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span>No Image</span>
+                    </div>
+                  )}
+                  <div className="blogs-image-section__date-badge">
+                    <span className="blogs-image-section__date-day">{post.date.day}</span>
+                    <span className="blogs-image-section__date-month">{post.date.month}</span>
                   </div>
                 </div>
-              </div>
-            </article>
-          ))}
+
+                {/* Card Body */}
+                <div className="blogs-image-section__body">
+                  <div className="blogs-image-section__meta">
+                    <span className="blogs-image-section__author">
+                      By <span onClick={(e) => e.stopPropagation()}>{post.author}</span>
+                    </span>
+                    <span className="blogs-image-section__dot">•</span>
+                    <span className="blogs-image-section__category">{post.category}</span>
+                  </div>
+
+                  <h3 className="blogs-image-section__title">
+                    <span>{post.title}</span>
+                  </h3>
+
+                  {/* Footer with Link & Time */}
+                  <div className="blogs-image-section__footer">
+                    <button 
+                      type="button" 
+                      className="blogs-image-section__view-link"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePostClick(post.id);
+                      }}
+                      style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                    >
+                      <span>View Post</span>
+                      <svg
+                        className="blogs-image-section__arrow-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                    </button>
+
+                    <div className="blogs-image-section__read-time">
+                      <svg
+                        className="blogs-image-section__flame-icon"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M12 23c-4.97 0-9-4.03-9-9 0-4.02 2.65-7.42 6.35-8.52.41-.12.8.2.78.63-.08 1.49.2 3.03.88 4.29.18.34.6.48.94.33.34-.14.56-.47.54-.84-.1-1.89.5-3.8 1.74-5.26.27-.32.74-.39 1.09-.17 3.51 2.22 5.68 6.07 5.68 10.54 0 4.97-4.03 9-9 9z" />
+                      </svg>
+                      <span>{post.readTime}</span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))
+          )}
         </div>
 
         {/* Pagination */}

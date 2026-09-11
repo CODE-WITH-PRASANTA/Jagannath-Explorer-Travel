@@ -1,55 +1,55 @@
-import React, { useState, useId } from 'react';
-import './SedanFaq.css';
+import React, { useId, useState } from "react";
+import "./SedanFaq.css";
 
 /* ---------------------------------------------------------------------------
-   Data
+   FAQ Data
 --------------------------------------------------------------------------- */
 
 const FAQS = [
   {
-    q: 'What types of cars are available for rent?',
-    a: 'We offer sedans (Swift Dzire, Aura, Xcent, Honda City, Verna), SUVs like the Ertiga and Toyota Innova Crysta, and Tempo Travellers and coaches for larger groups — all maintained and ready for local or outstation trips.',
+    q: "Why choose Jagannath Explorer Travels as the best tour and travel agency in Bhubaneswar?",
+    a: "Jagannath Explorer Travels provides comfortable cars, reliable drivers, local sightseeing, airport and railway transfers, and customized travel plans from Bhubaneswar. We focus on transparent service, comfortable journeys, and helping travelers explore Odisha with ease.",
   },
   {
-    q: 'Is hourly booking available?',
-    a: 'Yes. You can book in 4, 8, or 10-hour packages with a fixed kilometre allowance, and extend beyond that at the listed extra-hour and extra-km rates.',
+    q: "What bhubaneswar travel agency tour packages do you offer?",
+    a: "We offer flexible tour packages covering Bhubaneswar, Puri, Konark, Chilika, Cuttack, Dhenkanal and other popular destinations in Odisha. Packages can be customized according to your travel dates, group size, sightseeing plans, and vehicle requirements.",
   },
   {
-    q: 'How can booking be done?',
-    a: 'Book directly through our website, over a call, or via WhatsApp. Share your pickup point, date, and vehicle preference, and we’ll confirm your ride within minutes.',
+    q: "Do you provide Odisha tourism packages with price options?",
+    a: "Yes. We provide Odisha tourism packages with price options based on the destination, number of travelers, duration, vehicle type, accommodation requirements, and sightseeing plan. Contact our team with your travel details and we can suggest a suitable package.",
   },
   {
-    q: 'What payment options are available?',
-    a: 'We accept cash, UPI, debit and credit cards, and bank transfers. Payment can be made at the end of the trip or in advance, whichever suits you.',
+    q: "Are you a Best Tour & Travel Agency in Bhubaneswar Odisha for family trips?",
+    a: "Yes. Our travel services are suitable for families, couples, friends, corporate groups, and larger tour groups. We can arrange comfortable vehicles and customized sightseeing plans so you can enjoy your Odisha trip without unnecessary travel stress.",
   },
   {
-    q: 'Are drivers experienced and licensed?',
-    a: 'Every driver on our platform is background-verified, holds a valid commercial license, and has years of experience driving both city routes and long-distance highways.',
+    q: "What services does a Tour & Travel Agency in Bhubaneswar, Odisha provide?",
+    a: "Our services include local car rental, outstation cab booking, airport pickup and drop, railway station transfers, Odisha sightseeing, family tours, corporate travel, one-way journeys, round trips, and customized tour packages.",
   },
   {
-    q: 'Can a booking be cancelled or changed?',
-    a: 'Yes, bookings can be rescheduled or cancelled free of charge up to 24 hours before the trip. Cancellations within 24 hours attract a 20% charge on the total billing.',
+    q: "Can I book Tour packages & Travel operators in Bhubaneswar for an Odisha trip?",
+    a: "Absolutely. We help travelers plan complete Odisha journeys from Bhubaneswar. Depending on your itinerary, we can arrange transportation, sightseeing routes, suitable vehicles, and customized travel plans for short trips as well as multi-day tours.",
   },
   {
-    q: 'Do you provide airport and railway pickup?',
-    a: 'Yes, we offer dedicated airport and railway station pickup and drop with live flight/train tracking, so your driver arrives on time even if your schedule shifts.',
+    q: "What vehicles are available for Tour and Travels Bhubaneswar bookings?",
+    a: "Our vehicle options include comfortable sedans such as Swift Dzire, Hyundai Aura, Xcent, Honda City and Verna, along with SUVs and larger vehicles such as Ertiga, Toyota Innova Crysta and Tempo Travellers for group travel.",
   },
   {
-    q: 'Are AC and comfort features available?',
-    a: 'Every vehicle in our fleet comes with air-conditioning, clean upholstery, and phone charging points as standard, with rear AC vents on our premium sedans and SUVs.',
+    q: "Can I contact Tour & Travel Agents in Bhubaneswar for a customized package?",
+    a: "Yes. You can contact Jagannath Explorer Travels and share your destination, travel dates, number of passengers, pickup location, and preferred vehicle. Our team can help you create a practical travel plan based on your requirements.",
   },
   {
-    q: 'Can I rent outstation cab booking?',
-    a: 'Absolutely. We handle one-way and round-trip outstation journeys across Odisha and neighbouring states, billed per day with a minimum of 300 km.',
+    q: "How can I find a reliable travel agency in Bhubaneswar?",
+    a: "Look for a travel company that provides clear pricing, dependable vehicles, experienced drivers, flexible travel options, and responsive customer support. Jagannath Explorer Travels serves travelers from Bhubaneswar with local and outstation transportation and customized tour services.",
   },
   {
-    q: 'Is service available at all times, best travels in Bhubaneswar?',
-    a: 'Yes, our booking line and dispatch run 24/7, making us one of the most reliable cab and car rental services operating around the clock in Bhubaneswar.',
+    q: "Are you among the top 10 travel agency in Bhubaneswar?",
+    a: "We aim to be one of the trusted travel choices for customers looking for comfortable transportation and well-planned Odisha tours. Our focus is simple: dependable vehicles, experienced drivers, helpful service, and travel plans that suit each customer's needs.",
   },
 ];
 
 /* ---------------------------------------------------------------------------
-   ChevronIcon
+   Chevron Icon
 --------------------------------------------------------------------------- */
 
 const ChevronIcon = () => (
@@ -72,20 +72,21 @@ const ChevronIcon = () => (
 );
 
 /* ---------------------------------------------------------------------------
-   FaqItem
+   FAQ Item
 --------------------------------------------------------------------------- */
 
 const FaqItem = ({ item, index, isOpen, onToggle }) => {
   const uid = useId();
+
   const panelId = `faq-panel-${uid}`;
   const buttonId = `faq-button-${uid}`;
 
   return (
     <div
-      className={`faq-item${isOpen ? ' faq-item--open' : ''}`}
-      style={{ '--stagger': index }}
+      className={`faq-item${isOpen ? " faq-item--open" : ""}`}
+      style={{ "--stagger": index }}
     >
-      <h3 className="faq-item__heading">
+      <h2 className="faq-item__heading">
         <button
           type="button"
           id={buttonId}
@@ -95,11 +96,12 @@ const FaqItem = ({ item, index, isOpen, onToggle }) => {
           onClick={() => onToggle(index)}
         >
           <span className="faq-item__question">{item.q}</span>
+
           <span className="faq-item__icon">
             <ChevronIcon />
           </span>
         </button>
-      </h3>
+      </h2>
 
       <div
         className="faq-item__panel"
@@ -116,7 +118,7 @@ const FaqItem = ({ item, index, isOpen, onToggle }) => {
 };
 
 /* ---------------------------------------------------------------------------
-   SedanFaq — Compact White Showroom Section
+   SedanFaq
 --------------------------------------------------------------------------- */
 
 const SedanFaq = () => {
@@ -127,27 +129,66 @@ const SedanFaq = () => {
   };
 
   return (
-    <section className="sedan-faq">
+    <section
+      className="sedan-faq"
+      aria-labelledby="travel-faq-title"
+    >
       <div className="sedan-faq__bg" aria-hidden="true" />
 
       <header className="sedan-faq__header">
-        <span className="sedan-faq__eyebrow">FAQ&apos;s</span>
-        <h2 className="sedan-faq__title">Frequently Asked Questions</h2>
+        <span className="sedan-faq__eyebrow">Jagannath Explorer Travels</span>
+
+        <h1
+          id="travel-faq-title"
+          className="sedan-faq__title"
+        >
+          Best Tour and Travel Agency in Bhubaneswar
+        </h1>
+
         <p className="sedan-faq__subtitle">
-          Have questions about our services or bookings? Everything you need to know is right here.
+          Planning a trip from Bhubaneswar? Explore answers about our tour
+          packages, car rental, sightseeing, outstation travel, airport
+          transfers, and Odisha travel services.
         </p>
+
+        <div className="sedan-faq__business">
+          <strong>Jagannath Explorer Travels</strong>
+          <span>
+            Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur,
+            Bhubaneswar, Odisha - 751002
+          </span>
+
+          <div className="sedan-faq__phones">
+            <a href="tel:9668892441">9668892441</a>
+            <span>|</span>
+            <a href="tel:9556355446">9556355446</a>
+          </div>
+        </div>
       </header>
 
       <div className="faq-grid">
-        {FAQS.map((item, i) => (
+        {FAQS.map((item, index) => (
           <FaqItem
             key={item.q}
             item={item}
-            index={i}
-            isOpen={openIndex === i}
+            index={index}
+            isOpen={openIndex === index}
             onToggle={handleToggle}
           />
         ))}
+      </div>
+
+      <div className="sedan-faq__bottom">
+        <p>
+          Planning a Bhubaneswar or Odisha tour?
+        </p>
+
+        <a
+          href="tel:9668892441"
+          className="sedan-faq__cta"
+        >
+          Talk to Our Travel Team
+        </a>
       </div>
     </section>
   );

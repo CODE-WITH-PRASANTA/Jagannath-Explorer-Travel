@@ -17,14 +17,14 @@
   width: 100%;
   min-height: 650px;
   border-radius: 28px;
-  overflow: visible; /* Allows custom dropdown menu to float cleanly */
+  overflow: visible;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Background Slider with border-radius fix */
+/* Background Slider: Scale/Zoom हटा दिया गया है, सिर्फ स्मूथ क्रॉस-फेड */
 .hero-section__slide {
   position: absolute;
   top: 0;
@@ -35,14 +35,12 @@
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transform: scale(1.04);
-  transition: opacity 1.2s ease-in-out, transform 7s ease-out;
+  transition: opacity 1s ease-in-out;
   z-index: 1;
 }
 
 .hero-section__slide--active {
   opacity: 1;
-  transform: scale(1);
 }
 
 .hero-section__overlay {
@@ -94,7 +92,7 @@
   right: 28px;
 }
 
-/* Center Content */
+/* Center Content & Text Animations */
 .hero-section__content {
   position: relative;
   z-index: 5;
@@ -107,6 +105,7 @@
   align-items: center;
 }
 
+/* Smooth fade-in & slide-up on slide change */
 .hero-section__tag {
   display: inline-flex;
   align-items: center;
@@ -119,6 +118,7 @@
   border-radius: 6px;
   margin-bottom: 20px;
   clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+  animation: textSlideUp 0.6s ease-out forwards;
 }
 
 .hero-section__title {
@@ -129,6 +129,7 @@
   margin: 0 0 16px 0;
   white-space: pre-line;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  animation: textSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .hero-section__description {
@@ -137,6 +138,18 @@
   color: rgba(255, 255, 255, 0.9);
   max-width: 660px;
   margin: 0 0 30px 0;
+  animation: textSlideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes textSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-section__cta-group {
@@ -243,15 +256,16 @@
   margin: 40px auto 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center; /* Tabs ko center align karne ke liye */
 }
 
-/* Tabs */
+/* Tabs: Positioned in the Middle */
 .hero-section__tabs-header {
   display: flex;
   align-items: flex-end;
-  gap: 0;
-  margin: 0;
+  justify-content: center;
+  gap: 0px;
+  margin: 0 auto;
   padding: 0;
 }
 
@@ -262,14 +276,13 @@
   font-size: 15px;
   font-weight: 700;
   color: #1a202c;
-  padding: 12px 26px;
+  padding: 12px 28px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  margin-right: 2px;
   transition: all 0.2s ease;
 }
 
@@ -282,7 +295,7 @@
 .hero-section__form-card {
   width: 100%;
   background-color: #eef3e2;
-  border-radius: 0 16px 16px 16px;
+  border-radius: 16px; /* सेंटर टैब्स के साथ क्लीन राउंड कॉर्नर */
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.16);
   position: relative;
 }
@@ -375,7 +388,7 @@
   color: #55a83a;
 }
 
-/* ATTRACTIVE DROPDOWN POPUP MENU */
+/* Dropdown Popup Menu */
 .hero-section__dropdown-menu {
   position: absolute;
   bottom: calc(100% + 12px);
@@ -390,7 +403,6 @@
   animation: dropdownFadeIn 0.22s ease-out;
 }
 
-/* Soft arrow pointing downwards from dropdown popup */
 .hero-section__dropdown-menu::after {
   content: '';
   position: absolute;
@@ -422,7 +434,6 @@
   overflow-y: auto;
 }
 
-/* Modern thin scrollbar */
 .hero-section__dropdown-list::-webkit-scrollbar {
   width: 5px;
 }
@@ -543,6 +554,17 @@
 
   .hero-section__arrow {
     display: none;
+  }
+
+  .hero-section__tabs-header {
+    width: 100%;
+  }
+
+  .hero-section__tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 13px;
   }
 
   .hero-section__form-grid--tour,
