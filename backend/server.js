@@ -11,6 +11,7 @@ const blogRoutes = require("./src/routes/blogRoutes");
 const hotelRoutes = require("./src/routes/hotelRoutes");
 const tourRoutes = require("./src/routes/tourRoutes");
 const userRoutes = require("./src/routes/userRoutes");
+const teamRoutes = require("./src/routes/teamRoutes");
 
 const app = express();
 
@@ -29,7 +30,7 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/tours", tourRoutes);
 app.use("/api/users", userRoutes);
-
+app.use("/api/team", teamRoutes);
 // Root route
 app.get("/", (req, res) => {
   res.json({

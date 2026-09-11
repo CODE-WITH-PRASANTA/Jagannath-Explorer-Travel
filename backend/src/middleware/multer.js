@@ -41,7 +41,6 @@ const multerUpload = multer({
   limits: {
     // Maximum original upload size: 10 MB per file
     fileSize: 10 * 1024 * 1024,
-    fileSize: 10 * 1024 * 1024, // 10 MB limit
   },
 });
 
@@ -57,7 +56,7 @@ const convertToWebp = (subFolder = "gallery") => {
         return next();
       }
 
-      // Determine target directory (e.g. src/uploads/users or src/uploads/gallery)
+      // Determine target directory (e.g. src/uploads/users, src/uploads/team, or src/uploads/gallery)
       const targetUploadPath = path.join(baseUploadDir, subFolder);
       ensureDirExists(targetUploadPath);
 
@@ -112,7 +111,7 @@ const convertToWebp = (subFolder = "gallery") => {
 // =========================================
 // MULTIPLE WEBP CONVERSION MIDDLEWARE GENERATOR
 // =========================================
-const convertMultipleToWebp = (subFolder = "hotels") => {
+const convertMultipleToWebp = (subFolder = "gallery") => {
   return async (req, res, next) => {
     try {
       let filesArray = [];
@@ -165,7 +164,7 @@ const convertMultipleToWebp = (subFolder = "hotels") => {
 
       next();
     } catch (error) {
-      console.error("MULTIPLE IMAGE CONVERSION ERROR:", error);
+      console.error("MULTIPLE IMAGE CONVERSIONERROR:", error);
 
       return res.status(400).json({
         success: false,
@@ -177,22 +176,28 @@ const convertMultipleToWebp = (subFolder = "hotels") => {
 };
 
 // =========================================
-// EXPORT (Backwards Compatible)
+// EXPORT (Backwards Compatible & Team Supported)
 // =========================================
 const upload = {
   single: (fieldName, folder = "gallery") => {
-    const targetFolder = fieldName === "avatar" ? "users" : folder;
+    // Automatically route 'avatar' to 'users' and 'image' (team member upload) to 'team'
+    let targetFolder = folder;
+    if (fieldName === "avatar") {
+      targetFolder = "users";
+    } else if (fieldName === "image") {
+      targetFolder = "team";
+    }
     return [multerUpload.single(fieldName), convertToWebp(targetFolder)];
   },
-  array: (fieldName, maxCount = 10, folder = "hotels") => [
+  array: (fieldName, maxCount, folder = "gallery") => [
     multerUpload.array(fieldName, maxCount),
     convertMultipleToWebp(folder),
   ],
-  fields: (fieldsArray, folder = "hotels") => [
+  fields: (fieldsArray, folder = "gallery") => [
     multerUpload.fields(fieldsArray),
     convertMultipleToWebp(folder),
   ],
-  any: (folder = "hotels") => [
+  any: (folder = "gallery") => [
     multerUpload.any(),
     convertMultipleToWebp(folder),
   ],

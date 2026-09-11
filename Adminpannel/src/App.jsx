@@ -25,6 +25,9 @@ import Gallary from "./Components/Gallary/Gallary";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Login from "./Components/Login/Login";
 import Blogmanagement from "./Pages/Blogmanagement/Blogmanagement";
+import OurGuide from "./Pages/OurGuide/OurGuide";
+import Booklead from "./Pages/Booklead/Booklead";
+import BookingDetails from "./Components/BookingDetails/BookingDetails";
 
 const App = () => {
   return (
@@ -59,9 +62,12 @@ const App = () => {
             {/* User Management */}
             <Route path="/users" element={<AllUsers />} />
             <Route path="/users/roles" element={<RoleandPermission />} />
+            <Route path="booklead"element={<Booklead/>}/>
+            <Route path="/bookingdetails" element={<BookingDetails/>}/>
 
             {/* System */}
             <Route path="/settings" element={<Settings />} />
+            <Route path="/our-guide"element={<OurGuide/>}/>
           </Route>
         </Route>
 
