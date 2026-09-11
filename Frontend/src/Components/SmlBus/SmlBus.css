@@ -1,0 +1,1276 @@
+/* =========================================================
+   SML BUS SECTION
+   PREMIUM BLACK / WHITE / BLUE THEME
+========================================================= */
+
+.smlbus-section {
+  --sb-primary: #20a6df;
+  --sb-primary-dark: #1189bd;
+  --sb-primary-soft: #eef9fe;
+
+  --sb-black: #000000;
+  --sb-white: #ffffff;
+
+  --sb-gray-light: #f8f9fa;
+  --sb-gray-border: #e5e7eb;
+  --sb-gray-border-light: #eef1f4;
+
+  --sb-text-main: #111827;
+  --sb-text-dark: #1f2937;
+  --sb-text-muted: #6b7280;
+
+  width: 100%;
+  min-height: 100vh;
+  padding: 70px 24px 80px;
+  background: #ffffff;
+  color: var(--sb-text-main);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.smlbus-section,
+.smlbus-section *,
+.smlbus-section *::before,
+.smlbus-section *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.smlbus-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.smlbus-header-area {
+  max-width: 980px;
+  margin: 0 auto 34px;
+  text-align: center;
+  animation: sbHeaderReveal 0.8s ease both;
+}
+
+.smlbus-subtitle {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--sb-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.smlbus-main-title {
+  max-width: 950px;
+  margin: 0 auto;
+  color: var(--sb-text-main);
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: -1px;
+  font-family: "Sora", "Inter", sans-serif;
+}
+
+.smlbus-title-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 17px 0;
+}
+
+.smlbus-title-divider span {
+  width: 44px;
+  height: 1px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--sb-primary)
+  );
+}
+
+.smlbus-title-divider span:last-child {
+  background: linear-gradient(
+    90deg,
+    var(--sb-primary),
+    transparent
+  );
+}
+
+.smlbus-title-divider i {
+  color: var(--sb-primary);
+  font-size: 13px;
+  font-style: normal;
+}
+
+.smlbus-description {
+  max-width: 920px;
+  margin: 0 auto;
+  color: var(--sb-text-muted);
+  font-size: 14px;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+.smlbus-description strong {
+  color: var(--sb-text-main);
+  font-weight: 600;
+}
+
+/* =========================================================
+   SEO CONTENT
+========================================================= */
+
+.smlbus-seo-content {
+  max-width: 1080px;
+  margin: 0 auto 32px;
+  padding: 27px 30px;
+  background: #f8fcfe;
+  border: 1px solid #e0f0f6;
+  border-radius: 14px;
+}
+
+.smlbus-seo-label,
+.smlbus-bottom-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--sb-primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.smlbus-seo-content h2,
+.smlbus-bottom-content h2 {
+  margin: 0 0 10px;
+  color: var(--sb-text-main);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.smlbus-seo-content p,
+.smlbus-bottom-content p {
+  margin: 0 0 10px;
+  color: var(--sb-text-muted);
+  font-size: 13.5px;
+  line-height: 1.8;
+}
+
+.smlbus-seo-content p:last-child,
+.smlbus-bottom-content p:last-of-type {
+  margin-bottom: 0;
+}
+
+.smlbus-seo-content strong,
+.smlbus-bottom-content strong {
+  color: var(--sb-text-dark);
+  font-weight: 600;
+}
+
+/* =========================================================
+   DESKTOP GRID
+========================================================= */
+
+.smlbus-desktop-grid-wrapper {
+  display: block;
+}
+
+.smlbus-desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  perspective: 1500px;
+}
+
+.smlbus-mobile-slider-wrapper {
+  display: none;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.smlbus-card-wrapper {
+  width: 100%;
+  height: 500px;
+  background: transparent;
+}
+
+.smlbus-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+  transform-style: preserve-3d;
+  transition:
+    transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.smlbus-card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+/* =========================================================
+   CARD FACES
+========================================================= */
+
+.smlbus-card-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background: var(--sb-white);
+  border: 1px solid var(--sb-gray-border);
+  border-radius: 16px;
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.smlbus-card-face:hover {
+  border-color: var(--sb-primary);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.12);
+}
+
+.smlbus-card-back {
+  padding: 24px;
+  background: var(--sb-gray-light);
+  transform: rotateY(180deg);
+}
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.smlbus-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px;
+
+  background: #f3f4f6;
+  overflow: hidden;
+}
+
+.smlbus-img {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.smlbus-card-wrapper:hover .smlbus-img {
+  transform: scale(1.05);
+}
+
+.smlbus-badge-tag {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  padding: 5px 10px;
+
+  background: var(--sb-black);
+  color: var(--sb-white);
+
+  border-radius: 999px;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   FRONT CONTENT
+========================================================= */
+
+.smlbus-front-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.smlbus-card-title {
+  margin: 0 0 12px;
+  color: var(--sb-text-main);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+  font-family: "Sora", "Inter", sans-serif;
+}
+
+.smlbus-back-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  margin-bottom: 13px;
+  padding-bottom: 11px;
+
+  border-bottom: 1px dashed var(--sb-gray-border);
+}
+
+.smlbus-back-header .smlbus-card-title {
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   SPECS
+========================================================= */
+
+.smlbus-specs-preview,
+.smlbus-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.smlbus-spec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid var(--sb-gray-border);
+
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.smlbus-spec-row span {
+  flex: 0 0 auto;
+  color: var(--sb-text-muted);
+  font-weight: 500;
+}
+
+.smlbus-spec-row strong {
+  color: var(--sb-text-main);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.smlbus-features-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: auto;
+}
+
+.smlbus-feat-chip {
+  padding: 5px 8px;
+
+  background: var(--sb-white);
+  border: 1px solid var(--sb-gray-border);
+  border-radius: 6px;
+
+  color: var(--sb-text-muted);
+
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.smlbus-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-top: auto;
+  padding-top: 13px;
+
+  border-top: 1px solid var(--sb-gray-border);
+}
+
+.smlbus-price-box strong {
+  display: block;
+  color: var(--sb-text-main);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
+  font-family: "Sora", "Inter", sans-serif;
+}
+
+.smlbus-price-box span {
+  color: var(--sb-text-muted);
+  font-size: 10px;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.smlbus-action-btn,
+.smlbus-book-now-btn {
+  border: none;
+  border-radius: 9px;
+  padding: 10px 15px;
+
+  background: var(--sb-black);
+  color: var(--sb-white);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.smlbus-action-btn:hover,
+.smlbus-book-now-btn:hover {
+  background: var(--sb-primary);
+  box-shadow: 0 7px 18px rgba(32, 166, 223, 0.2);
+  transform: translateY(-2px);
+}
+
+.smlbus-close-btn {
+  flex-shrink: 0;
+
+  padding: 5px 10px;
+
+  background: var(--sb-white);
+  border: 1px solid var(--sb-gray-border);
+  border-radius: 8px;
+
+  color: var(--sb-text-muted);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.smlbus-close-btn:hover {
+  background: var(--sb-black);
+  border-color: var(--sb-black);
+  color: var(--sb-white);
+}
+
+/* =========================================================
+   DESKTOP PAGINATION
+========================================================= */
+
+.smlbus-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 38px;
+}
+
+.smlbus-page-btn {
+  padding: 9px 18px;
+
+  background: var(--sb-white);
+  border: 1px solid var(--sb-gray-border);
+  border-radius: 8px;
+
+  color: var(--sb-text-main);
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.smlbus-page-btn:hover:not(:disabled) {
+  background: var(--sb-primary);
+  border-color: var(--sb-primary);
+  color: var(--sb-white);
+}
+
+.smlbus-page-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: var(--sb-gray-light);
+}
+
+.smlbus-page-indicator {
+  color: var(--sb-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   BOTTOM SEO CONTENT
+========================================================= */
+
+.smlbus-bottom-content {
+  max-width: 1080px;
+  margin: 32px auto 0;
+  padding: 28px 30px;
+
+  background: var(--sb-white);
+  border: 1px solid var(--sb-gray-border);
+  border-radius: 14px;
+
+  box-shadow: 0 7px 24px rgba(15, 23, 42, 0.035);
+}
+
+.smlbus-contact-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.smlbus-contact-buttons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 41px;
+  padding: 0 17px;
+
+  background: var(--sb-primary);
+  border: 1px solid var(--sb-primary);
+  border-radius: 8px;
+
+  color: var(--sb-white);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.smlbus-contact-buttons a:hover {
+  background: var(--sb-primary-dark);
+  border-color: var(--sb-primary-dark);
+  box-shadow: 0 7px 18px rgba(32, 166, 223, 0.2);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   MOBILE SLIDER
+========================================================= */
+
+.smlbus-mobile-slider {
+  max-width: 420px;
+  margin: 0 auto;
+  perspective: 1500px;
+  touch-action: pan-y;
+}
+
+.smlbus-mobile-slider .smlbus-card-wrapper {
+  animation: sbCardSlideIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* =========================================================
+   MOBILE PAGINATION
+========================================================= */
+
+.smlbus-mobile-pagination-premium {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 27px;
+}
+
+.smlbus-arrow-btn {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--sb-gray-border);
+  border-radius: 50%;
+
+  background: var(--sb-white);
+  color: var(--sb-black);
+
+  font-size: 21px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.15);
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.smlbus-arrow-btn:hover:not(:disabled) {
+  background: var(--sb-primary);
+  color: var(--sb-white);
+  transform: translateY(-2px);
+}
+
+.smlbus-arrow-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.smlbus-dots-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.smlbus-dot {
+  width: 8px;
+  height: 8px;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+
+  background: var(--sb-gray-border);
+
+  cursor: pointer;
+
+  transition:
+    width 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.smlbus-dot-active {
+  width: 22px;
+  border-radius: 999px;
+  background: var(--sb-primary);
+}
+
+.smlbus-mobile-counter {
+  display: block;
+  margin-top: 11px;
+
+  color: var(--sb-text-muted);
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  text-align: center;
+}
+
+/* =========================================================
+   BOOKING MODAL
+========================================================= */
+
+.smlbus-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px;
+
+  background: rgba(15, 23, 42, 0.65);
+
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+
+  animation: sbOverlayFade 0.25s ease both;
+}
+
+.smlbus-modal-content {
+  position: relative;
+
+  width: 100%;
+  max-width: 580px;
+  max-height: calc(100vh - 32px);
+
+  overflow-y: auto;
+
+  padding: 32px;
+
+  background: var(--sb-white);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  border-radius: 20px;
+
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+
+  animation: sbModalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.smlbus-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+
+  width: 31px;
+  height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f3f4f6;
+  color: #6b7280;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.smlbus-modal-close:hover {
+  background: var(--sb-black);
+  color: var(--sb-white);
+  transform: rotate(90deg);
+}
+
+.smlbus-modal-heading {
+  margin: 0 0 22px;
+
+  color: var(--sb-text-main);
+
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.3;
+
+  text-align: center;
+
+  font-family: "Sora", "Inter", sans-serif;
+}
+
+.smlbus-selected-vehicle-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 20px;
+  padding: 10px 14px;
+
+  background: var(--sb-gray-light);
+  border: 1px solid var(--sb-gray-border);
+  border-radius: 11px;
+}
+
+.smlbus-selected-vehicle-banner img {
+  width: 70px;
+  height: 45px;
+
+  padding: 2px;
+
+  background: var(--sb-white);
+  border-radius: 6px;
+
+  object-fit: contain;
+}
+
+.smlbus-selected-vehicle-banner span {
+  color: var(--sb-text-dark);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.smlbus-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.smlbus-form-group {
+  margin-bottom: 15px;
+}
+
+.smlbus-form-group label {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #374151;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.smlbus-form-group input,
+.smlbus-form-group textarea {
+  width: 100%;
+
+  padding: 11px 13px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #111827;
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.smlbus-form-group input:focus,
+.smlbus-form-group textarea:focus {
+  border-color: var(--sb-primary);
+  box-shadow: 0 0 0 3px rgba(32, 166, 223, 0.1);
+}
+
+.smlbus-form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.smlbus-input-icon-box {
+  position: relative;
+}
+
+.smlbus-input-icon-box input {
+  padding-right: 42px;
+}
+
+.smlbus-field-icon {
+  position: absolute;
+  top: 50%;
+  right: 13px;
+
+  color: #9ca3af;
+
+  font-size: 15px;
+
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.smlbus-checkbox-row {
+  margin: 18px 0;
+
+  color: #4b5563;
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.smlbus-checkbox-row label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.smlbus-checkbox-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+
+  flex: 0 0 16px;
+
+  margin-top: 2px;
+
+  accent-color: var(--sb-primary);
+  cursor: pointer;
+}
+
+.smlbus-link-text {
+  color: var(--sb-primary);
+  font-weight: 600;
+}
+
+/* =========================================================
+   MODAL ACTIONS
+========================================================= */
+
+.smlbus-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.smlbus-step2-btns {
+  justify-content: space-between;
+}
+
+.smlbus-action-submit-btn,
+.smlbus-submit-btn,
+.smlbus-prev-btn {
+  min-height: 43px;
+
+  border: none;
+  border-radius: 999px;
+
+  padding: 0 24px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.smlbus-action-submit-btn,
+.smlbus-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background: var(--sb-primary);
+  color: var(--sb-white);
+}
+
+.smlbus-action-submit-btn:hover,
+.smlbus-submit-btn:hover {
+  background: var(--sb-primary-dark);
+  box-shadow: 0 7px 18px rgba(32, 166, 223, 0.2);
+  transform: translateY(-1px);
+}
+
+.smlbus-prev-btn {
+  background: var(--sb-black);
+  color: var(--sb-white);
+}
+
+.smlbus-prev-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes sbHeaderReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sbOverlayFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sbModalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes sbCardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+  .smlbus-desktop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .smlbus-section {
+    padding: 45px 16px 60px;
+  }
+
+  .smlbus-header-area {
+    margin-bottom: 27px;
+  }
+
+  .smlbus-subtitle {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .smlbus-main-title {
+    font-size: clamp(25px, 7vw, 34px);
+    letter-spacing: -0.6px;
+  }
+
+  .smlbus-description {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .smlbus-desktop-grid-wrapper {
+    display: none;
+  }
+
+  .smlbus-mobile-slider-wrapper {
+    display: block;
+  }
+
+  .smlbus-seo-content,
+  .smlbus-bottom-content {
+    padding: 21px 18px;
+  }
+
+  .smlbus-seo-content h2,
+  .smlbus-bottom-content h2 {
+    font-size: 19px;
+  }
+
+  .smlbus-seo-content p,
+  .smlbus-bottom-content p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .smlbus-card-wrapper {
+    height: 480px;
+  }
+
+  .smlbus-modal-content {
+    max-width: 390px;
+    padding: 25px 20px;
+    border-radius: 18px;
+  }
+
+  .smlbus-modal-heading {
+    font-size: 20px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .smlbus-form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .smlbus-contact-buttons {
+    flex-direction: column;
+  }
+
+  .smlbus-contact-buttons a {
+    width: 100%;
+  }
+
+  .smlbus-step2-btns {
+    flex-direction: column-reverse;
+  }
+
+  .smlbus-action-submit-btn,
+  .smlbus-submit-btn,
+  .smlbus-prev-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .smlbus-section {
+    padding: 35px 11px 50px;
+  }
+
+  .smlbus-main-title {
+    font-size: 25px;
+  }
+
+  .smlbus-description {
+    font-size: 12.5px;
+  }
+
+  .smlbus-seo-content,
+  .smlbus-bottom-content {
+    padding: 19px 15px;
+    border-radius: 11px;
+  }
+
+  .smlbus-seo-content h2,
+  .smlbus-bottom-content h2 {
+    font-size: 18px;
+  }
+
+  .smlbus-seo-content p,
+  .smlbus-bottom-content p {
+    font-size: 12.5px;
+  }
+
+  .smlbus-card-wrapper {
+    height: 470px;
+  }
+
+  .smlbus-front-content {
+    padding: 17px;
+  }
+
+  .smlbus-card-back {
+    padding: 18px;
+  }
+
+  .smlbus-card-title {
+    font-size: 16px;
+  }
+
+  .smlbus-spec-row {
+    font-size: 11.5px;
+  }
+
+  .smlbus-action-btn,
+  .smlbus-book-now-btn {
+    padding: 9px 11px;
+    font-size: 11px;
+  }
+
+  .smlbus-modal-overlay {
+    padding: 10px;
+  }
+
+  .smlbus-modal-content {
+    max-height: calc(100vh - 20px);
+    padding: 22px 16px;
+  }
+
+  .smlbus-modal-heading {
+    padding-right: 20px;
+    font-size: 18px;
+  }
+
+  .smlbus-selected-vehicle-banner span {
+    font-size: 13px;
+  }
+
+  .smlbus-mobile-pagination-premium {
+    gap: 12px;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY / REDUCED MOTION
+========================================================= */
+
+.smlbus-section button:focus-visible,
+.smlbus-section a:focus-visible,
+.smlbus-section input:focus-visible,
+.smlbus-section textarea:focus-visible {
+  outline: 3px solid rgba(32, 166, 223, 0.25);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smlbus-section *,
+  .smlbus-section *::before,
+  .smlbus-section *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

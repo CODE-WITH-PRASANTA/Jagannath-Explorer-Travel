@@ -1,0 +1,490 @@
+/* ==========================================================================
+   LuxuryHome — Immersive 4D Highway Showroom Hero (Gold & Platinum Theme)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+.luxury-hero {
+  --bg-0: #030406;
+  --bg-1: #080c12;
+  --bg-2: #101722;
+  --platinum-100: #f8fafc;
+  --platinum-300: #cbd5e1;
+  --platinum-500: #94a3b8;
+  --platinum-700: #475569;
+  --gold: #f59e0b;
+  --gold-soft: rgba(245, 158, 11, 0.4);
+  --platinum-glow: rgba(248, 250, 252, 0.35);
+  --hairline: rgba(255, 255, 255, 0.1);
+
+  --tiltX: 0;
+  --tiltY: 0;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 280px;
+  padding: 52px 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(140% 160% at 50% 10%, var(--bg-2) 0%, var(--bg-1) 50%, var(--bg-0) 100%);
+  perspective: 1200px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* -------------------------------------------------------------------------
+   4D Highway & Perspective Environment
+   ------------------------------------------------------------------------- */
+
+.luxury-road {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  perspective: 900px;
+}
+
+.luxury-road__horizon-glow {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 55vw;
+  height: 55vw;
+  max-width: 650px;
+  max-height: 650px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, var(--gold-soft) 0%, rgba(245, 158, 11, 0.08) 45%, transparent 75%);
+  filter: blur(8px);
+  animation: luxuryHorizonPulse 6s ease-in-out infinite;
+}
+
+.luxury-road__grid-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background-image: 
+    linear-gradient(to right, rgba(245, 158, 11, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 158, 11, 0.06) 1px, transparent 1px);
+  background-size: 40px 24px;
+  transform: rotateX(65deg);
+  transform-origin: bottom center;
+  animation: luxuryGridScroll 3.5s linear infinite;
+  mask-image: linear-gradient(to top, rgba(0,0,0.9) 15%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0.9) 15%, transparent 85%);
+}
+
+.luxury-road__lanes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.luxury-road__lane-line {
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  opacity: 0;
+  stroke-dasharray: 6 10;
+  animation: luxuryLaneDrift 2.4s linear infinite;
+  animation-fill-mode: forwards;
+  filter: drop-shadow(0 0 5px var(--gold));
+}
+
+/* Cruising Luxury Silhouette Cars */
+.luxury-road__car {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  width: 30px;
+  height: 13px;
+  transform-origin: center bottom;
+  opacity: 0;
+  animation-name: luxuryCarCruising;
+  animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+  z-index: 1;
+}
+
+.luxury-road__car--lane-0 { --lane-offset: -120px; }
+.luxury-road__car--lane-1 { --lane-offset: 15px; }
+.luxury-road__car--lane-2 { --lane-offset: 140px; }
+
+.luxury-car__body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--platinum-700), var(--platinum-300));
+  border-radius: 5px 5px 2px 2px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+
+.luxury-car__roof {
+  position: absolute;
+  top: -5px;
+  left: 7px;
+  right: 7px;
+  height: 6px;
+  background: var(--bg-2);
+  border-radius: 3px 3px 0 0;
+}
+
+.luxury-car__lights {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  width: 4px;
+  height: 2px;
+  background: var(--gold);
+  box-shadow: 0 0 6px var(--gold);
+  border-radius: 50%;
+}
+
+.luxury-car__lights::after {
+  content: '';
+  position: absolute;
+  right: -22px;
+  top: 0;
+  width: 4px;
+  height: 2px;
+  background: var(--gold);
+  box-shadow: 0 0 6px var(--gold);
+  border-radius: 50%;
+}
+
+.luxury-car__glow {
+  position: absolute;
+  inset: -3px;
+  background: radial-gradient(circle, var(--gold-soft) 0%, transparent 70%);
+  filter: blur(3px);
+  z-index: -1;
+}
+
+/* Speed Streaks */
+.luxury-road__streak {
+  position: absolute;
+  left: -15%;
+  width: 22%;
+  height: 2px;
+  border-radius: 2px;
+  opacity: 0;
+  animation-name: luxuryStreakTravel;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
+.luxury-road__streak--gold {
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  box-shadow: 0 0 10px 1px var(--gold-soft);
+}
+
+.luxury-road__streak--platinum {
+  background: linear-gradient(90deg, transparent, var(--platinum-100), transparent);
+  box-shadow: 0 0 10px 1px var(--platinum-glow);
+}
+
+.luxury-hero__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(3, 4, 6, 0.4) 0%, rgba(3, 4, 6, 0) 30%, rgba(3, 4, 6, 0.6) 100%),
+    radial-gradient(120% 90% at 50% 100%, rgba(3, 4, 6, 0.8) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.luxury-hero__floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 0%, var(--bg-0) 90%);
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------
+   Interactive 3D Stage & Typography
+   ------------------------------------------------------------------------- */
+
+.luxury-hero__stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 780px;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--tiltX) * 1deg)) rotateY(calc(var(--tiltY) * 1deg));
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luxury-hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateZ(40px);
+}
+
+.luxury-hero__title {
+  margin: 0;
+  font-family: 'Sora', 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4.5vw + 0.4rem, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.luxury-hero--loaded .luxury-hero__title {
+  animation: luxuryRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+.luxury-hero__title-shine {
+  display: inline-block;
+  background: linear-gradient(
+    100deg,
+    var(--platinum-500) 0%,
+    var(--platinum-100) 20%,
+    var(--gold) 35%,
+    var(--platinum-500) 50%,
+    var(--platinum-300) 65%,
+    var(--platinum-100) 82%,
+    var(--platinum-500) 100%
+  );
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: luxuryChromeSweep 5s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(245, 158, 11, 0.2);
+}
+
+.luxury-hero__subtitle {
+  margin: 8px 0 0;
+  font-size: clamp(0.88rem, 1vw + 0.5rem, 1.02rem);
+  font-weight: 400;
+  color: var(--platinum-500);
+  max-width: 52ch;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.luxury-hero--loaded .luxury-hero__subtitle {
+  animation: luxuryRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+/* -------------------------------------------------------------------------
+   Ultra-Slim Breadcrumb Capsule
+   ------------------------------------------------------------------------- */
+
+.luxury-hero__breadcrumb-wrap {
+  margin-top: 18px;
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.luxury-hero--loaded .luxury-hero__breadcrumb-wrap {
+  animation: luxuryRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+
+.luxury-breadcrumb {
+  display: inline-flex;
+}
+
+.luxury-breadcrumb__list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.luxury-breadcrumb__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.luxury-breadcrumb__link {
+  position: relative;
+  color: var(--platinum-500);
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+.luxury-breadcrumb__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luxury-breadcrumb__link:hover {
+  color: var(--platinum-100);
+}
+
+.luxury-breadcrumb__link:hover::after,
+.luxury-breadcrumb__link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.luxury-breadcrumb__link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.luxury-breadcrumb__current {
+  color: var(--platinum-100);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.luxury-breadcrumb__sep {
+  color: var(--platinum-700);
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------------------
+   Keyframes
+   ------------------------------------------------------------------------- */
+
+@keyframes luxuryRiseIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes luxuryChromeSweep {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes luxuryHorizonPulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+
+@keyframes luxuryGridScroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 40px; }
+}
+
+@keyframes luxuryLaneDrift {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 60;
+  }
+  15% { opacity: 0.4; }
+  85% { opacity: 0.4; }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes luxuryCarCruising {
+  0% {
+    opacity: 0;
+    transform: translate(var(--lane-offset), 90px) scale(0.12);
+  }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--lane-offset) * 3.2), -100px) scale(1.2);
+  }
+}
+
+@keyframes luxuryStreakTravel {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  10% { opacity: 1; }
+  85% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translateX(550%);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Responsive & Reduced Motion
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  .luxury-hero {
+    min-height: 220px;
+    padding: 38px 16px 28px;
+  }
+
+  .luxury-breadcrumb__list {
+    padding: 5px 14px;
+  }
+
+  .luxury-road__horizon-glow {
+    width: 80vw;
+    height: 80vw;
+  }
+}
+
+@media (max-width: 420px) {
+  .luxury-hero__subtitle {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luxury-hero__title,
+  .luxury-hero__subtitle,
+  .luxury-hero__breadcrumb-wrap {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .luxury-hero__title-shine,
+  .luxury-road__horizon-glow,
+  .luxury-road__lane-line,
+  .luxury-road__streak,
+  .luxury-road__car,
+  .luxury-road__grid-floor {
+    animation: none !important;
+  }
+
+  .luxury-road__lane-line {
+    opacity: 0.25;
+  }
+
+  .luxury-hero__stage {
+    transform: none !important;
+  }
+}

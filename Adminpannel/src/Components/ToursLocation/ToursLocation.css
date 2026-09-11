@@ -1,0 +1,352 @@
+/* Layout wrapper - strictly 60% on desktop aligned to the left */
+.ToursLocation-wrapper {
+  width: 60%;
+  padding: 10px 0 48px 32px;
+  margin-left: 0;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+ 
+/* Card Container */
+.ToursLocation-card {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Header */
+.ToursLocation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  background-color: #ffffff;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.ToursLocation-header:hover {
+  background-color: #f9fafb;
+}
+
+.ToursLocation-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ToursLocation-step-badge {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #0f172a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.ToursLocation-header-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+.ToursLocation-toggle-button {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ToursLocation-chevron {
+  width: 18px;
+  height: 18px;
+  color: #0f172a;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ToursLocation-chevron.ToursLocation-open {
+  transform: rotate(180deg);
+}
+
+/* Body Content */
+.ToursLocation-body {
+  padding: 0 20px 20px 20px;
+}
+
+.ToursLocation-section-label {
+  margin: 10px 0 12px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Map View */
+.ToursLocation-map-container {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #0b1118;
+}
+
+.ToursLocation-map-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  filter: invert(90%) hue-rotate(185deg) brightness(85%) contrast(115%);
+}
+
+/* Map Floating Badge */
+.ToursLocation-map-badge-card {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background-color: rgba(9, 14, 23, 0.94);
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  max-width: calc(100% - 28px);
+  box-sizing: border-box;
+}
+
+.ToursLocation-badge-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.ToursLocation-badge-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.ToursLocation-badge-sub {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ToursLocation-badge-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ToursLocation-badge-btn {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.ToursLocation-badge-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.ToursLocation-badge-btn:hover {
+  color: #ffffff;
+}
+
+/* Thumbnail Tile */
+.ToursLocation-map-tile-preview {
+  position: absolute;
+  bottom: 26px;
+  left: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 5px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.ToursLocation-tile-inner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e293b, #475569);
+}
+
+/* Map Controls */
+.ToursLocation-map-zoom-controls {
+  position: absolute;
+  bottom: 24px;
+  right: 14px;
+  background-color: rgba(9, 14, 23, 0.94);
+  border-radius: 20px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+  z-index: 10;
+}
+
+.ToursLocation-zoom-btn {
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  font-size: 16px;
+  width: 24px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.ToursLocation-zoom-btn:hover {
+  opacity: 0.75;
+}
+
+.ToursLocation-zoom-divider {
+  width: 12px;
+  height: 1px;
+  background-color: #334155;
+  margin: 1px 0;
+}
+
+/* Map Attribution Footer */
+.ToursLocation-map-attribution {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 3px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  font-size: 9px;
+  color: #cbd5e1;
+  z-index: 5;
+}
+
+/* Input Fields Grid */
+.ToursLocation-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.ToursLocation-field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.ToursLocation-field-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.ToursLocation-field-optional {
+  font-weight: 400;
+  color: #64748b;
+}
+
+.ToursLocation-input-control {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13.5px;
+  color: #0f172a;
+  background-color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ToursLocation-input-control:focus {
+  border-color: #0f172a;
+  box-shadow: 0 0 0 1px #0f172a;
+}
+
+.ToursLocation-input-control::placeholder {
+  color: #94a3b8;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .ToursLocation-wrapper {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .ToursLocation-wrapper {
+    width: 100%;
+  }
+
+  .ToursLocation-fields-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ToursLocation-map-container {
+    height: 280px;
+  }
+
+  .ToursLocation-map-attribution {
+    font-size: 8px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ToursLocation-header {
+    padding: 14px 16px;
+  }
+
+  .ToursLocation-body {
+    padding: 0 16px 16px 16px;
+  }
+
+  .ToursLocation-map-badge-card {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    max-width: none;
+  }
+}

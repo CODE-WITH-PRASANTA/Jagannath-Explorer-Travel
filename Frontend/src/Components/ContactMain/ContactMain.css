@@ -1,0 +1,322 @@
+/* =========================================================
+   CONTACT MAIN BASE & CONTAINER
+========================================================= */
+
+.ContactMain {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 60px 0 0 0;
+  box-sizing: border-box;
+}
+
+.ContactMain__wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px 80px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   LEFT SIDE INFO LIST & CARDS
+========================================================= */
+
+.ContactMain__infoList {
+  flex: 1;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.ContactMain__infoCard {
+  position: relative;
+  border: 1px solid #ededed;
+  border-radius: 12px;
+  padding: 24px 28px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  box-sizing: border-box;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 0.35s ease;
+}
+
+.ContactMain__infoCard:hover {
+  transform: translateY(-6px);
+  border-color: #5bb334;
+  box-shadow: 0 14px 28px rgba(91, 179, 52, 0.12);
+}
+
+.ContactMain__infoTag {
+  position: absolute;
+  top: -12px;
+  left: 36px;
+  background-color: #ffffff;
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #7a828a;
+  transition: color 0.3s ease;
+}
+
+.ContactMain__infoCard:hover .ContactMain__infoTag {
+  color: #5bb334;
+}
+
+.ContactMain__iconBox {
+  width: 54px;
+  height: 54px;
+  min-width: 54px;
+  background-color: #5bb334;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.35s ease;
+}
+
+.ContactMain__infoCard:hover .ContactMain__iconBox {
+  transform: scale(1.1) rotate(5deg);
+  background-color: #4da02a;
+}
+
+.ContactMain__svgIcon {
+  width: 24px;
+  height: 24px;
+  color: #ffffff;
+}
+
+.ContactMain__infoDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ContactMain__infoDetails p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #171b26;
+  line-height: 1.45;
+}
+
+.ContactMain__address {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+.ContactMain__time {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+/* =========================================================
+   RIGHT SIDE FORM CARD
+========================================================= */
+
+.ContactMain__formCard {
+  flex: 1.2;
+  background-color: #f6f8f0;
+  border-radius: 12px;
+  padding: 45px 50px;
+  box-sizing: border-box;
+}
+
+.ContactMain__formTitle {
+  font-size: 38px;
+  font-weight: 800;
+  color: #12151c;
+  margin: 0 0 28px 0;
+  letter-spacing: -0.5px;
+}
+
+.ContactMain__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ContactMain__inputRow {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.ContactMain__fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.ContactMain__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2b303a;
+}
+
+.ContactMain__input,
+.ContactMain__textarea {
+  width: 100%;
+  border: 1px solid transparent;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 13px 18px;
+  font-size: 14px;
+  color: #333333;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ContactMain__input::placeholder,
+.ContactMain__textarea::placeholder {
+  color: #9aa1a9;
+  font-size: 14px;
+}
+
+.ContactMain__input:focus,
+.ContactMain__textarea:focus {
+  border-color: #5bb334;
+  box-shadow: 0 0 0 3px rgba(91, 179, 52, 0.15);
+}
+
+.ContactMain__textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* =========================================================
+   SUBMIT BUTTON (EXPAND ANIMATION)
+========================================================= */
+
+.ContactMain__submitBtn {
+  position: relative;
+  align-self: flex-start;
+  margin-top: 10px;
+  padding: 14px 38px;
+  background-color: #5bb334;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.ContactMain__submitBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f59e0b;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ContactMain__submitBtn:hover::before {
+  transform: scaleX(1);
+}
+
+.ContactMain__submitBtn:hover {
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+}
+
+.ContactMain__submitBtn:active {
+  transform: scale(0.98);
+}
+
+.ContactMain__btnText {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   MAP SECTION
+========================================================= */
+
+.ContactMain__mapWrapper {
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  border-top: 1px solid #ededed;
+  background-color: #e5e3df;
+}
+
+.ContactMain__mapIframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* =========================================================
+   RESPONSIVE MEDIA QUERIES
+========================================================= */
+
+@media (max-width: 992px) {
+  .ContactMain__wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 50px;
+    padding-bottom: 60px;
+  }
+
+  .ContactMain__infoList {
+    max-width: 100%;
+  }
+
+  .ContactMain__formCard {
+    width: 100%;
+  }
+
+  .ContactMain__mapWrapper {
+    height: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ContactMain {
+    padding-top: 40px;
+  }
+
+  .ContactMain__formCard {
+    padding: 30px 20px;
+  }
+
+  .ContactMain__formTitle {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .ContactMain__inputRow {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .ContactMain__submitBtn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .ContactMain__mapWrapper {
+    height: 350px;
+  }
+}

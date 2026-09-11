@@ -1,0 +1,2079 @@
+/* =========================================================
+   TRANSPORT FEES PAGE
+   PREMIUM TRAVEL / LUXURY GOLD THEME
+========================================================= */
+
+.transport-fees-page {
+  --transport-gold: #c5a059;
+  --transport-gold-dark: #a3813e;
+  --transport-gold-light: #d9bd83;
+
+  --transport-text: #2c221e;
+  --transport-text-light: #615551;
+
+  --transport-border: #ebdcd0;
+  --transport-soft: #fdfbf7;
+  --transport-highlight: #fbf7f2;
+
+  width: 100%;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(197, 160, 89, 0.08),
+      transparent 35%
+    ),
+    #fdfbf7;
+
+  color: var(--transport-text);
+
+  overflow-x: hidden;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  box-sizing: border-box;
+}
+
+.transport-fees-page *,
+.transport-fees-page *::before,
+.transport-fees-page *::after {
+  box-sizing: border-box;
+}
+
+.transport-fees-page a {
+  text-decoration: none;
+}
+
+/* =========================================================
+   HERO HEADER
+========================================================= */
+
+.transport-fees-header {
+  position: relative;
+
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 42px 24px 30px;
+
+  text-align: center;
+
+  animation: transportHeaderReveal 0.8s ease both;
+}
+
+.transport-fees-header-glow {
+  position: absolute;
+
+  top: 15px;
+  left: 50%;
+
+  width: 280px;
+  height: 100px;
+
+  transform: translateX(-50%);
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(197, 160, 89, 0.16),
+      transparent 70%
+    );
+
+  filter: blur(22px);
+
+  pointer-events: none;
+
+  animation: transportGlowPulse 3.5s ease-in-out infinite;
+}
+
+.transport-fees-subtitle {
+  position: relative;
+
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  color: var(--transport-gold);
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 1.7px;
+
+  text-transform: uppercase;
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+
+  animation: transportSubtitleFloat 3s ease-in-out infinite;
+}
+
+.transport-fees-title {
+  position: relative;
+
+  max-width: 950px;
+
+  margin: 0 auto;
+
+  color: var(--transport-text);
+
+  font-size: clamp(32px, 4.5vw, 52px);
+
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  letter-spacing: -1.4px;
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+}
+
+.transport-fees-title span {
+  color: var(--transport-gold-dark);
+}
+
+.transport-fees-title-line {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 15px;
+}
+
+.transport-fees-title-line span {
+  width: 52px;
+  height: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--transport-gold)
+    );
+
+  border-radius: 10px;
+}
+
+.transport-fees-title-line span:last-child {
+  background:
+    linear-gradient(
+      90deg,
+      var(--transport-gold),
+      transparent
+    );
+}
+
+.transport-fees-title-line i {
+  width: 7px;
+  height: 7px;
+
+  display: block;
+
+  border-radius: 50%;
+
+  background: var(--transport-gold);
+
+  box-shadow:
+    0 0 0 4px rgba(197, 160, 89, 0.12),
+    0 0 14px rgba(197, 160, 89, 0.35);
+
+  animation: transportDotPulse 2s ease-in-out infinite;
+}
+
+/* =========================================================
+   HERO DESCRIPTION
+========================================================= */
+
+.transport-fees-header-description {
+  position: relative;
+
+  max-width: 880px;
+
+  margin: 22px auto 0;
+
+  color: var(--transport-text-light);
+
+  font-size: 16px;
+
+  line-height: 1.75;
+
+  font-weight: 400;
+}
+
+.transport-fees-header-description strong {
+  color: var(--transport-text);
+  font-weight: 700;
+}
+
+/* =========================================================
+   BUSINESS INFORMATION
+========================================================= */
+
+.transport-fees-business-info {
+  position: relative;
+
+  display: flex;
+
+  align-items: stretch;
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  max-width: 1000px;
+
+  margin: 22px auto 0;
+}
+
+.transport-fees-business-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  min-height: 48px;
+
+  padding: 9px 15px;
+
+  border: 1px solid var(--transport-border);
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  box-shadow:
+    0 7px 20px rgba(44, 34, 30, 0.035);
+}
+
+.transport-fees-business-item > span {
+  flex-shrink: 0;
+
+  font-size: 17px;
+}
+
+.transport-fees-business-item p {
+  margin: 0;
+
+  color: var(--transport-text-light);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  text-align: left;
+}
+
+.transport-fees-business-item a {
+  color: var(--transport-gold-dark);
+
+  font-weight: 700;
+
+  transition:
+    color 0.25s ease;
+}
+
+.transport-fees-business-item a:hover {
+  color: var(--transport-text);
+}
+
+.transport-fees-phone-separator {
+  margin: 0 8px;
+  color: #b9aa9d;
+}
+
+/* =========================================================
+   SEO INTRO SECTION
+========================================================= */
+
+.transport-fees-intro {
+  width: 100%;
+
+  padding: 0 24px 45px;
+}
+
+.transport-fees-intro-inner {
+  width: 100%;
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding: 28px 32px;
+
+  border: 1px solid var(--transport-border);
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #fdfbf7
+    );
+
+  box-shadow:
+    0 14px 35px rgba(44, 34, 30, 0.045);
+}
+
+.transport-fees-intro-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--transport-gold-dark);
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+
+  text-transform: uppercase;
+}
+
+.transport-fees-intro h2 {
+  margin: 0 0 14px;
+
+  color: var(--transport-text);
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+
+  font-size: clamp(24px, 3vw, 32px);
+
+  line-height: 1.25;
+
+  font-weight: 750;
+
+  letter-spacing: -0.7px;
+}
+
+.transport-fees-intro p {
+  margin: 0 0 12px;
+
+  color: var(--transport-text-light);
+
+  font-size: 15px;
+
+  line-height: 1.75;
+}
+
+.transport-fees-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.transport-fees-intro strong {
+  color: var(--transport-text);
+  font-weight: 700;
+}
+
+/* =========================================================
+   TARIFF SECTION
+========================================================= */
+
+.transport-fees-tariff-section {
+  width: 100%;
+
+  padding: 0 24px 60px;
+}
+
+.transport-fees-tariff-wrapper {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid var(--transport-border);
+
+  box-shadow:
+    0 20px 40px -15px rgba(44, 34, 30, 0.08),
+    0 0 0 1px rgba(44, 34, 30, 0.02);
+
+  animation:
+    transportSectionReveal
+    0.9s
+    0.1s
+    ease
+    both;
+}
+
+/* =========================================================
+   TARIFF BANNER
+========================================================= */
+
+.transport-fees-tariff-banner {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  min-height: 55px;
+
+  padding: 12px 20px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #c5a059,
+      #a3813e
+    );
+
+  color: #ffffff;
+
+  text-align: center;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.transport-fees-banner-shine {
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 55%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+    );
+
+  transform: skewX(-20deg);
+
+  animation:
+    transportBannerShine
+    5s
+    ease-in-out
+    infinite;
+}
+
+.transport-fees-banner-text,
+.transport-fees-banner-distance {
+  position: relative;
+
+  z-index: 1;
+
+  font-size: 15px;
+
+  line-height: 1.3;
+
+  font-weight: 700;
+
+  letter-spacing: -0.1px;
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+}
+
+.transport-fees-banner-distance {
+  font-weight: 600;
+}
+
+/* =========================================================
+   DESKTOP TABLE
+========================================================= */
+
+.transport-fees-table-container {
+  width: 100%;
+
+  overflow-x: auto;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgba(197, 160, 89, 0.4)
+    #fdfbf7;
+}
+
+.transport-fees-table {
+  width: 100%;
+
+  min-width: 900px;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+
+  background: #ffffff;
+}
+
+.transport-fees-table th,
+.transport-fees-table td {
+  border-right: 1px solid var(--transport-border);
+
+  border-bottom: 1px solid var(--transport-border);
+
+  text-align: left;
+}
+
+.transport-fees-table th:last-child,
+.transport-fees-table td:last-child {
+  border-right: none;
+}
+
+.transport-fees-table th {
+  height: 54px;
+
+  padding: 10px 18px;
+
+  color: var(--transport-text);
+
+  background: #fdfbf7;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+
+  border-bottom: 2px solid var(--transport-border);
+}
+
+.transport-fees-table td {
+  height: 53px;
+
+  padding: 10px 18px;
+
+  color: var(--transport-text-light);
+
+  font-size: 14px;
+
+  font-weight: 450;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+/* =========================================================
+   COLUMN WIDTHS
+========================================================= */
+
+.transport-fees-th-vehicle {
+  width: 26%;
+}
+
+.transport-fees-th-tenHrs {
+  width: 16%;
+}
+
+.transport-fees-th-eightHrs {
+  width: 15%;
+}
+
+.transport-fees-th-fourHrs {
+  width: 15%;
+}
+
+.transport-fees-th-extraHrs {
+  width: 14%;
+}
+
+.transport-fees-th-extraKm {
+  width: 14%;
+}
+
+/* =========================================================
+   TABLE ANIMATION
+========================================================= */
+
+.transport-fees-table tbody tr {
+  animation:
+    transportRowReveal
+    0.5s
+    ease
+    both;
+}
+
+.transport-fees-table tbody tr:nth-child(1) {
+  animation-delay: 0.03s;
+}
+
+.transport-fees-table tbody tr:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.transport-fees-table tbody tr:nth-child(3) {
+  animation-delay: 0.07s;
+}
+
+.transport-fees-table tbody tr:nth-child(4) {
+  animation-delay: 0.09s;
+}
+
+.transport-fees-table tbody tr:nth-child(5) {
+  animation-delay: 0.11s;
+}
+
+.transport-fees-table tbody tr:nth-child(6) {
+  animation-delay: 0.13s;
+}
+
+.transport-fees-table tbody tr:nth-child(7) {
+  animation-delay: 0.15s;
+}
+
+.transport-fees-table tbody tr:nth-child(8) {
+  animation-delay: 0.17s;
+}
+
+.transport-fees-table tbody tr:nth-child(9) {
+  animation-delay: 0.19s;
+}
+
+.transport-fees-table tbody tr:nth-child(10) {
+  animation-delay: 0.21s;
+}
+
+.transport-fees-table tbody tr:nth-child(11) {
+  animation-delay: 0.23s;
+}
+
+.transport-fees-table tbody tr:nth-child(12) {
+  animation-delay: 0.25s;
+}
+
+.transport-fees-table tbody tr:nth-child(13) {
+  animation-delay: 0.27s;
+}
+
+.transport-fees-table tbody tr:nth-child(14) {
+  animation-delay: 0.29s;
+}
+
+.transport-fees-table tbody tr:nth-child(15) {
+  animation-delay: 0.31s;
+}
+
+.transport-fees-table tbody tr:nth-child(16) {
+  animation-delay: 0.33s;
+}
+
+/* =========================================================
+   TABLE HOVER
+========================================================= */
+
+.transport-fees-table tbody tr:not(.transport-fees-featured-row):hover td {
+  background: var(--transport-highlight);
+
+  color: var(--transport-text);
+}
+
+.transport-fees-featured-row td {
+  position: relative;
+
+  background: #fbf7f2;
+
+  color: #483827;
+
+  font-weight: 600;
+
+  box-shadow:
+    inset 3px 0 0 var(--transport-gold);
+}
+
+.transport-fees-featured-row:hover td {
+  background: #f4ece1;
+}
+
+.transport-fees-vehicle-cell {
+  position: relative;
+}
+
+.transport-fees-vehicle-name {
+  display: inline-block;
+
+  color: var(--transport-text);
+
+  font-weight: 600;
+}
+
+.transport-fees-featured-row .transport-fees-vehicle-name {
+  color: #483827;
+}
+
+.transport-fees-popular-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  margin-left: 8px;
+
+  padding: 3px 8px;
+
+  border-radius: 999px;
+
+  background: var(--transport-gold);
+
+  color: #ffffff;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+  vertical-align: middle;
+
+  box-shadow:
+    0 2px 7px rgba(197, 160, 89, 0.3);
+}
+
+.transport-fees-na {
+  color: #b3a496 !important;
+}
+
+/* =========================================================
+   MOBILE LIST
+========================================================= */
+
+.transport-fees-mobile-list {
+  display: none;
+
+  padding: 12px;
+
+  background: #fdfbf7;
+}
+
+.transport-fees-mobile-card {
+  position: relative;
+
+  margin-bottom: 12px;
+
+  padding: 16px;
+
+  border: 1px solid var(--transport-border);
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 4px 12px rgba(44, 34, 30, 0.035);
+
+  overflow: hidden;
+
+  animation:
+    transportMobileCardReveal
+    0.5s
+    ease
+    both;
+}
+
+.transport-fees-mobile-card:last-child {
+  margin-bottom: 0;
+}
+
+.transport-fees-mobile-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--transport-gold),
+      var(--transport-gold-light)
+    );
+
+  transform: scaleX(0);
+
+  transform-origin: left;
+
+  transition:
+    transform 0.35s ease;
+}
+
+.transport-fees-mobile-card:hover::before {
+  transform: scaleX(1);
+}
+
+.transport-fees-mobile-card-featured {
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #fbf7f2
+    );
+
+  border-color:
+    rgba(197, 160, 89, 0.3);
+
+  box-shadow:
+    0 8px 20px rgba(197, 160, 89, 0.08);
+}
+
+.transport-fees-mobile-card-head {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding-bottom: 12px;
+
+  border-bottom: 1px solid var(--transport-border);
+}
+
+.transport-fees-mobile-vehicle-label {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--transport-text-light);
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+
+  text-transform: uppercase;
+}
+
+.transport-fees-mobile-vehicle h3 {
+  margin: 0;
+
+  color: var(--transport-text);
+
+  font-size: 16px;
+
+  line-height: 1.3;
+
+  font-weight: 700;
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+}
+
+.transport-fees-mobile-badge {
+  flex-shrink: 0;
+
+  padding: 4px 8px;
+
+  border-radius: 999px;
+
+  background: var(--transport-gold);
+
+  color: #ffffff;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+.transport-fees-mobile-price-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 8px;
+
+  padding-top: 12px;
+}
+
+.transport-fees-mobile-price {
+  padding: 10px 12px;
+
+  border-radius: 10px;
+
+  background: #fdfbf7;
+
+  border: 1px solid #f7f2eb;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.transport-fees-mobile-price:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(197, 160, 89, 0.3);
+}
+
+.transport-fees-mobile-price span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--transport-text-light);
+
+  font-size: 10px;
+
+  line-height: 1.3;
+
+  font-weight: 500;
+}
+
+.transport-fees-mobile-price strong {
+  color: var(--transport-text);
+
+  font-size: 15px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   SERVICE SECTION
+========================================================= */
+
+.transport-fees-service-section {
+  width: 100%;
+
+  padding: 0 24px 60px;
+}
+
+.transport-fees-service-wrapper {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+}
+
+.transport-fees-service-heading {
+  max-width: 750px;
+
+  margin: 0 auto 28px;
+
+  text-align: center;
+}
+
+.transport-fees-service-heading > span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--transport-gold-dark);
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.2px;
+}
+
+.transport-fees-service-heading h2 {
+  margin: 0 0 10px;
+
+  color: var(--transport-text);
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+
+  font-size: clamp(25px, 3vw, 34px);
+
+  line-height: 1.25;
+
+  letter-spacing: -0.7px;
+}
+
+.transport-fees-service-heading p {
+  margin: 0;
+
+  color: var(--transport-text-light);
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+.transport-fees-service-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.transport-fees-service-card {
+  position: relative;
+
+  padding: 25px;
+
+  border: 1px solid var(--transport-border);
+
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 10px 25px rgba(44, 34, 30, 0.035);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.transport-fees-service-card::after {
+  content: "";
+
+  position: absolute;
+
+  right: -30px;
+  bottom: -35px;
+
+  width: 110px;
+  height: 110px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(197, 160, 89, 0.09),
+      transparent 70%
+    );
+
+  pointer-events: none;
+}
+
+.transport-fees-service-card:hover {
+  transform: translateY(-5px);
+
+  border-color:
+    rgba(197, 160, 89, 0.3);
+
+  box-shadow:
+    0 16px 32px rgba(44, 34, 30, 0.07);
+}
+
+.transport-fees-service-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  margin-bottom: 16px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--transport-gold),
+      var(--transport-gold-dark)
+    );
+
+  color: #ffffff;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 5px 15px rgba(197, 160, 89, 0.2);
+}
+
+.transport-fees-service-card h3 {
+  margin: 0 0 8px;
+
+  color: var(--transport-text);
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+
+  font-size: 18px;
+}
+
+.transport-fees-service-card p {
+  margin: 0;
+
+  color: var(--transport-text-light);
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+/* =========================================================
+   TERMS SECTION
+========================================================= */
+
+.transport-fees-terms-section {
+  position: relative;
+
+  width: 100%;
+
+  padding: 0 24px 60px;
+
+  background: #ffffff;
+}
+
+.transport-fees-terms-wrapper {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 36px;
+
+  border: 1px solid var(--transport-border);
+
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 20px 40px -15px rgba(44, 34, 30, 0.07),
+    0 0 0 1px rgba(44, 34, 30, 0.02);
+}
+
+.transport-fees-terms-heading-area {
+  margin-bottom: 24px;
+}
+
+.transport-fees-terms-mini {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--transport-gold);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.2px;
+
+  text-transform: uppercase;
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+}
+
+.transport-fees-terms-title {
+  margin: 0;
+
+  color: var(--transport-text);
+
+  font-size: clamp(22px, 2.5vw, 28px);
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.5px;
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+}
+
+.transport-fees-terms-line {
+  width: 45px;
+  height: 2px;
+
+  margin-top: 10px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--transport-gold),
+      var(--transport-gold-light)
+    );
+}
+
+.transport-fees-terms-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.transport-fees-term-item {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 14px;
+
+  padding: 8px 0;
+
+  border-bottom: 1px solid #f7f2eb;
+
+  animation:
+    transportTermReveal
+    0.5s
+    ease
+    both;
+}
+
+.transport-fees-term-item:last-child {
+  border-bottom: none;
+}
+
+.transport-fees-term-item:nth-child(1) {
+  animation-delay: 0.03s;
+}
+
+.transport-fees-term-item:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.transport-fees-term-item:nth-child(3) {
+  animation-delay: 0.07s;
+}
+
+.transport-fees-term-item:nth-child(4) {
+  animation-delay: 0.09s;
+}
+
+.transport-fees-term-item:nth-child(5) {
+  animation-delay: 0.11s;
+}
+
+.transport-fees-term-item:nth-child(6) {
+  animation-delay: 0.13s;
+}
+
+.transport-fees-term-item:nth-child(7) {
+  animation-delay: 0.15s;
+}
+
+.transport-fees-term-item:nth-child(8) {
+  animation-delay: 0.17s;
+}
+
+.transport-fees-term-item:nth-child(9) {
+  animation-delay: 0.19s;
+}
+
+.transport-fees-term-item:nth-child(10) {
+  animation-delay: 0.21s;
+}
+
+.transport-fees-term-item p {
+  margin: 0;
+
+  color: var(--transport-text-light);
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  font-weight: 400;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.transport-fees-term-item:hover p {
+  color: var(--transport-text);
+
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   CHECK ICON
+========================================================= */
+
+.transport-fees-check-icon {
+  flex-shrink: 0;
+
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 2px;
+}
+
+.transport-fees-check-icon svg {
+  width: 24px;
+  height: 24px;
+
+  overflow: visible;
+
+  fill: none;
+
+  stroke: var(--transport-gold);
+
+  stroke-width: 2;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+.transport-fees-term-item:hover
+  .transport-fees-check-icon
+  svg {
+  transform:
+    scale(1.1)
+    rotate(-4deg);
+
+  filter:
+    drop-shadow(
+      0 0 5px
+      rgba(197, 160, 89, 0.3)
+    );
+}
+
+/* =========================================================
+   CONTACT CTA
+========================================================= */
+
+.transport-fees-contact-section {
+  width: 100%;
+
+  padding: 0 24px 50px;
+
+  background: #ffffff;
+}
+
+.transport-fees-contact-card {
+  position: relative;
+
+  width: 100%;
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding: 42px 30px;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2c221e,
+      #47372d
+    );
+
+  box-shadow:
+    0 20px 40px rgba(44, 34, 30, 0.12);
+}
+
+.transport-fees-contact-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: -100px;
+  right: -100px;
+
+  width: 260px;
+  height: 260px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(197, 160, 89, 0.18),
+      transparent 70%
+    );
+}
+
+.transport-fees-contact-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.transport-fees-contact-card > span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--transport-gold-light);
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+}
+
+.transport-fees-contact-card h2 {
+  margin: 0 0 10px;
+
+  color: #ffffff;
+
+  font-family:
+    "Sora",
+    Inter,
+    sans-serif;
+
+  font-size: clamp(25px, 3vw, 34px);
+}
+
+.transport-fees-contact-card p {
+  max-width: 650px;
+
+  margin: 0 auto;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+.transport-fees-contact-buttons {
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 22px;
+}
+
+.transport-fees-contact-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+
+  padding: 10px 20px;
+
+  border-radius: 999px;
+
+  background: var(--transport-gold);
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.transport-fees-contact-btn:hover {
+  transform: translateY(-2px);
+
+  background: #d4ad5c;
+
+  box-shadow:
+    0 8px 20px rgba(197, 160, 89, 0.25);
+}
+
+.transport-fees-contact-btn-outline {
+  background: transparent;
+
+  border: 1px solid rgba(255, 255, 255, 0.28);
+
+  color: #ffffff;
+}
+
+.transport-fees-contact-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+
+  border-color:
+    rgba(255, 255, 255, 0.45);
+}
+
+/* =========================================================
+   BOTTOM DECORATION
+========================================================= */
+
+.transport-fees-bottom-decoration {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 0 24px 40px;
+
+  background: #ffffff;
+}
+
+.transport-fees-bottom-decoration > span {
+  width: 80px;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #ebdcd0
+    );
+}
+
+.transport-fees-bottom-decoration > span:last-child {
+  background:
+    linear-gradient(
+      90deg,
+      #ebdcd0,
+      transparent
+    );
+}
+
+.transport-fees-bottom-decoration div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+.transport-fees-bottom-decoration i {
+  display: block;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background: var(--transport-gold);
+
+  opacity: 0.5;
+}
+
+.transport-fees-bottom-decoration i:nth-child(2) {
+  width: 6px;
+  height: 6px;
+
+  opacity: 1;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes transportHeaderReveal {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes transportSectionReveal {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes transportRowReveal {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(0);
+  }
+}
+
+@keyframes transportTermReveal {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(0);
+  }
+}
+
+@keyframes transportMobileCardReveal {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes transportBannerShine {
+  0% {
+    left: -100%;
+  }
+
+  25%,
+  100% {
+    left: 150%;
+  }
+}
+
+@keyframes transportGlowPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+
+    transform:
+      translateX(-50%)
+      scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+
+    transform:
+      translateX(-50%)
+      scale(1.1);
+  }
+}
+
+@keyframes transportSubtitleFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-2px);
+  }
+}
+
+@keyframes transportDotPulse {
+  0%,
+  100% {
+    transform:
+      scale(1);
+  }
+
+  50% {
+    transform:
+      scale(1.2);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+  .transport-fees-table th,
+  .transport-fees-table td {
+    font-size: 13px;
+
+    padding: 10px 14px;
+  }
+
+  .transport-fees-intro-inner {
+    padding: 25px;
+  }
+
+  .transport-fees-service-card {
+    padding: 21px;
+  }
+}
+
+/* =========================================================
+   MOBILE TABLE MODE
+========================================================= */
+
+@media (max-width: 900px) {
+  .transport-fees-title {
+    font-size: 42px;
+  }
+
+  .transport-fees-table-container {
+    display: none;
+  }
+
+  .transport-fees-mobile-list {
+    display: block;
+  }
+
+  .transport-fees-service-grid {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .transport-fees-page {
+    background: #fdfbf7;
+  }
+
+  .transport-fees-header {
+    padding: 32px 16px 25px;
+  }
+
+  .transport-fees-subtitle {
+    font-size: 11px;
+
+    letter-spacing: 1.2px;
+  }
+
+  .transport-fees-title {
+    font-size: 34px;
+
+    letter-spacing: -1px;
+  }
+
+  .transport-fees-header-description {
+    margin-top: 17px;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+
+  .transport-fees-business-info {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .transport-fees-business-item {
+    width: 100%;
+  }
+
+  .transport-fees-business-item p {
+    font-size: 12px;
+  }
+
+  .transport-fees-intro,
+  .transport-fees-tariff-section,
+  .transport-fees-terms-section,
+  .transport-fees-service-section,
+  .transport-fees-contact-section {
+    padding-left: 16px;
+
+    padding-right: 16px;
+  }
+
+  .transport-fees-intro {
+    padding-bottom: 35px;
+  }
+
+  .transport-fees-intro-inner {
+    padding: 23px 20px;
+
+    border-radius: 16px;
+  }
+
+  .transport-fees-intro h2 {
+    font-size: 24px;
+  }
+
+  .transport-fees-intro p {
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+
+  .transport-fees-tariff-section {
+    padding-bottom: 40px;
+  }
+
+  .transport-fees-tariff-wrapper {
+    border-radius: 16px;
+  }
+
+  .transport-fees-tariff-banner {
+    min-height: 58px;
+
+    padding: 11px 14px;
+  }
+
+  .transport-fees-banner-text,
+  .transport-fees-banner-distance {
+    font-size: 13px;
+  }
+
+  .transport-fees-mobile-list {
+    padding: 10px;
+  }
+
+  .transport-fees-mobile-card {
+    padding: 14px;
+  }
+
+  .transport-fees-mobile-vehicle h3 {
+    font-size: 15px;
+  }
+
+  .transport-fees-service-section {
+    padding-bottom: 40px;
+  }
+
+  .transport-fees-service-heading {
+    margin-bottom: 22px;
+  }
+
+  .transport-fees-service-card {
+    padding: 21px;
+  }
+
+  .transport-fees-terms-section {
+    padding-bottom: 40px;
+  }
+
+  .transport-fees-terms-wrapper {
+    padding: 24px 20px;
+
+    border-radius: 16px;
+  }
+
+  .transport-fees-terms-title {
+    font-size: 22px;
+  }
+
+  .transport-fees-term-item {
+    gap: 10px;
+  }
+
+  .transport-fees-term-item p {
+    font-size: 13px;
+
+    line-height: 1.55;
+  }
+
+  .transport-fees-contact-section {
+    padding-bottom: 35px;
+  }
+
+  .transport-fees-contact-card {
+    padding: 34px 20px;
+
+    border-radius: 17px;
+  }
+
+  .transport-fees-contact-buttons {
+    flex-direction: column;
+  }
+
+  .transport-fees-contact-btn {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .transport-fees-title {
+    font-size: 29px;
+
+    line-height: 1.13;
+  }
+
+  .transport-fees-title-line {
+    margin-top: 12px;
+  }
+
+  .transport-fees-title-line span {
+    width: 35px;
+  }
+
+  .transport-fees-header-description {
+    font-size: 13px;
+  }
+
+  .transport-fees-phone-separator {
+    margin: 0 5px;
+  }
+
+  .transport-fees-banner-text,
+  .transport-fees-banner-distance {
+    font-size: 12px;
+  }
+
+  .transport-fees-mobile-price-grid {
+    gap: 7px;
+  }
+
+  .transport-fees-mobile-price {
+    padding: 9px;
+  }
+
+  .transport-fees-mobile-price span {
+    font-size: 9px;
+  }
+
+  .transport-fees-mobile-price strong {
+    font-size: 14px;
+  }
+
+  .transport-fees-bottom-decoration > span {
+    width: 50px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 360px) {
+  .transport-fees-title {
+    font-size: 26px;
+  }
+
+  .transport-fees-business-item {
+    padding: 8px 11px;
+  }
+
+  .transport-fees-business-item p {
+    font-size: 11px;
+  }
+
+  .transport-fees-mobile-card-head {
+    gap: 7px;
+  }
+
+  .transport-fees-mobile-badge {
+    font-size: 8px;
+
+    padding: 3px 6px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .transport-fees-page *,
+  .transport-fees-page *::before,
+  .transport-fees-page *::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    scroll-behavior: auto !important;
+
+    transition-duration: 0.01ms !important;
+  }
+}

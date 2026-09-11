@@ -1,0 +1,371 @@
+/* ================= MAIN CONTAINER ================= */
+.general-faq {
+  --gf-green: #4fa62a;
+  --gf-green-dark: #3c8320;
+  --gf-orange: #f7a833;
+  --gf-ink: #14181c;
+  --gf-muted: #71787f;
+
+  width: 100%;
+  background:
+    radial-gradient(900px 460px at 100% 0%, rgba(79, 166, 42, 0.055), transparent 60%),
+    radial-gradient(700px 400px at 0% 100%, rgba(247, 168, 51, 0.05), transparent 60%),
+    #ffffff;
+  padding: 90px 24px 100px 24px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: var(--gf-ink);
+}
+
+.general-faq__container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ================= 2-COLUMN LAYOUT ================= */
+.general-faq__layout-grid {
+  display: grid;
+  grid-template-columns: 370px 1fr;
+  gap: 56px;
+  align-items: flex-start;
+}
+
+/* ================= STICKY LEFT SIDEBAR ================= */
+.general-faq__sidebar {
+  position: sticky;
+  top: 40px;
+}
+
+/* ================= LEFT PROMO CARD (50% OFF) ================= */
+.general-faq__promo-card {
+  position: relative;
+  width: 100%;
+  height: 490px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow:
+    0 24px 48px rgba(20, 24, 28, 0.16),
+    0 4px 12px rgba(20, 24, 28, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.general-faq__promo-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 30px 58px rgba(20, 24, 28, 0.2),
+    0 6px 16px rgba(20, 24, 28, 0.1);
+}
+
+.general-faq__promo-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  z-index: 1;
+  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.general-faq__promo-card:hover .general-faq__promo-bg {
+  transform: scale(1.06);
+}
+
+/* soft gradient so the badge box reads cleanly against the photo */
+.general-faq__promo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(20, 24, 28, 0.12) 0%, transparent 35%, transparent 100%);
+  pointer-events: none;
+}
+
+/* yellow top banner, wavy cutout */
+.general-faq__promo-badge-box {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(135deg, var(--gf-orange), #e4901c);
+  padding: 26px 24px 36px 24px;
+  color: #ffffff;
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 85% 95%, 70% 90%, 50% 98%, 30% 92%, 15% 97%, 0 90%);
+}
+
+.general-faq__promo-cursive {
+  font-family: 'Brush Script MT', 'Caveat', cursive, sans-serif;
+  font-size: 22px;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.general-faq__promo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.general-faq__promo-offer {
+  display: flex;
+  flex-direction: column;
+}
+
+.general-faq__promo-discount {
+  font-size: 36px;
+  font-weight: 900;
+  margin: 0;
+  line-height: 1.1;
+  color: var(--gf-ink);
+  letter-spacing: -1px;
+}
+
+.general-faq__promo-sub {
+  font-size: 11.5px;
+  font-weight: 700;
+  margin: 5px 0 0 0;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+.general-faq__promo-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(120deg, var(--gf-green), var(--gf-green-dark));
+  color: #ffffff;
+  border: none;
+  outline: none;
+  padding: 11px 22px;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 10px 22px rgba(79, 166, 42, 0.35);
+  white-space: nowrap;
+}
+
+.general-faq__promo-btn-arrow {
+  font-size: 11px;
+  transform: translateX(-4px);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.general-faq__promo-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(79, 166, 42, 0.45);
+}
+
+.general-faq__promo-btn:hover .general-faq__promo-btn-arrow {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* ================= RIGHT CONTENT AREA ================= */
+.general-faq__content {
+  display: flex;
+  flex-direction: column;
+  gap: 54px;
+}
+
+.general-faq__block {
+  width: 100%;
+}
+
+/* ================= HEADINGS ================= */
+.general-faq__title {
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--gf-ink);
+  margin: 0 0 26px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: -0.8px;
+}
+
+.general-faq__star-badge {
+  color: var(--gf-green);
+  opacity: 0.55;
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* ================= ACCORDION COMPONENT ================= */
+.general-faq__accordion-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1.5px solid #e6e9eb;
+}
+
+.general-faq__item {
+  border-bottom: 1.5px solid #e6e9eb;
+  transition: background-color 0.3s ease;
+}
+
+.general-faq__item--open {
+  background: linear-gradient(90deg, rgba(79, 166, 42, 0.04), transparent 60%);
+}
+
+.general-faq__question-bar {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 20px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.25s ease;
+}
+
+.general-faq__question-text {
+  font-size: 16.5px;
+  font-weight: 800;
+  color: var(--gf-ink);
+  line-height: 1.4;
+  padding-right: 18px;
+  transition: color 0.25s ease;
+}
+
+.general-faq__number {
+  font-weight: 800;
+  margin-right: 4px;
+  color: var(--gf-green);
+}
+
+.general-faq__icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--gf-ink);
+  background: #f2f4f2;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.general-faq__item--open .general-faq__icon {
+  background: linear-gradient(135deg, var(--gf-green), var(--gf-green-dark));
+  color: #ffffff;
+  transform: rotate(180deg);
+}
+
+.general-faq__question-bar:hover .general-faq__question-text {
+  color: var(--gf-green-dark);
+}
+
+.general-faq__question-bar:hover .general-faq__icon {
+  transform: scale(1.08);
+}
+
+.general-faq__item--open .general-faq__question-bar:hover .general-faq__icon {
+  transform: rotate(180deg) scale(1.08);
+}
+
+/* accordion open answer */
+.general-faq__answer-box {
+  padding: 2px 4px 26px 4px;
+  animation: faqFadeIn 0.3s ease-in-out;
+}
+
+.general-faq__answer-text {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--gf-muted);
+  margin: 0;
+  max-width: 880px;
+  padding-left: 22px;
+  border-left: 2px solid rgba(79, 166, 42, 0.25);
+}
+
+/* ================= ANIMATION ================= */
+@keyframes faqFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 1024px) {
+  .general-faq__layout-grid {
+    grid-template-columns: 320px 1fr;
+    gap: 40px;
+  }
+  .general-faq__promo-discount {
+    font-size: 29px;
+  }
+}
+
+@media (max-width: 860px) {
+  .general-faq__layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .general-faq__sidebar {
+    position: static;
+  }
+
+  .general-faq__promo-card {
+    height: 390px;
+    max-width: 480px;
+    margin: 0 auto 24px auto;
+  }
+
+  .general-faq__title {
+    font-size: 31px;
+  }
+
+  .general-faq__question-text {
+    font-size: 15.5px;
+  }
+}
+
+@media (max-width: 520px) {
+  .general-faq {
+    padding: 55px 16px 65px 16px;
+  }
+
+  .general-faq__promo-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .general-faq__promo-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .general-faq__title {
+    font-size: 27px;
+  }
+
+  .general-faq__question-text {
+    font-size: 14.5px;
+  }
+
+  .general-faq__answer-text {
+    padding-left: 16px;
+  }
+}

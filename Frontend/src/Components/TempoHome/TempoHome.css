@@ -1,0 +1,163 @@
+/* =========================================================
+   TEMPO HOME HERO - LUXURY WEDDING / RENTAL THEME
+   ========================================================= */
+
+.tempo-home-hero {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  height: 42vh;
+  max-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=2000');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  animation: tempoHeroReveal 0.8s ease both;
+}
+
+.tempo-home-hero *,
+.tempo-home-hero *::before,
+.tempo-home-hero *::after {
+  box-sizing: border-box;
+}
+
+/* Dark Contrast Overlay */
+.tempo-home-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.65) 0%,
+    rgba(15, 23, 42, 0.75) 100%
+  );
+  z-index: 1;
+}
+
+/* Container */
+.tempo-home-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+/* Content Box */
+.tempo-home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Title Styling matching reference */
+.tempo-home-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -1px;
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+  animation: tempoTitleFloat 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Breadcrumb Styling */
+.tempo-home-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  animation: tempoBreadcrumbFade 1s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.tempo-home-breadcrumb-link {
+  color: #cbd5e1;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.tempo-home-breadcrumb-link:hover {
+  color: #ffffff;
+}
+
+.tempo-home-arrow {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.tempo-home-breadcrumb-current {
+  color: #f8fafc;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes tempoHeroReveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tempoTitleFloat {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tempoBreadcrumbFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Queries */
+@media (max-width: 768px) {
+  .tempo-home-hero {
+    min-height: 300px;
+  }
+
+  .tempo-home-title {
+    font-size: clamp(32px, 7vw, 44px);
+  }
+
+  .tempo-home-breadcrumb-link,
+  .tempo-home-breadcrumb-current {
+    font-size: 14px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .tempo-home-hero,
+  .tempo-home-title,
+  .tempo-home-breadcrumb {
+    animation: none !important;
+  }
+}

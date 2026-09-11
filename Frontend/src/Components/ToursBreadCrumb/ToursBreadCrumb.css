@@ -1,0 +1,97 @@
+/* Container Base */
+.ToursBreadCrumb {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 40px 20px;
+  font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header Text Wrapper */
+.ToursBreadCrumb-hero {
+  text-align: center;
+  color: #ffffff;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Page Title */
+.ToursBreadCrumb-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin: 0 0 14px 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Breadcrumb Navigation Pill */
+.ToursBreadCrumb-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 8px 20px;
+  border-radius: 25px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.ToursBreadCrumb-home {
+  color: #61b138;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.ToursBreadCrumb-home:hover {
+  color: #5ea635;
+  text-decoration: underline;
+}
+
+.ToursBreadCrumb-arrow {
+  color: #ffffff;
+  font-size: 0.75rem;
+}
+
+.ToursBreadCrumb-current {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .ToursBreadCrumb {
+    min-height: 200px;
+    padding: 30px 15px;
+  }
+
+  .ToursBreadCrumb-title {
+    font-size: 1.85rem;
+  }
+
+  .ToursBreadCrumb-nav {
+    padding: 6px 14px;
+    gap: 8px;
+  }
+
+  .ToursBreadCrumb-home,
+  .ToursBreadCrumb-current {
+    font-size: 0.85rem;
+  }
+}

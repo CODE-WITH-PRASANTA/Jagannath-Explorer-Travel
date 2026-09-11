@@ -1,0 +1,438 @@
+:root {
+  --tours-green-bg: #44b649;
+  --tours-green-hover: #3ca341;
+  --tours-blue-border: #2563eb;
+  --tours-blue-bg-hover: #eff6ff;
+  --tours-border-color: #e4e7ec;
+  --tours-border-subtle: #edf0f2;
+  --tours-text-main: #1d2939;
+  --tours-text-muted: #667085;
+  --tours-danger-red: #ea4335;
+  --tours-danger-hover: #fee4e2;
+  --tours-toolbar-bg: #fafbfc;
+}
+
+/* Base Page Wrapper */
+.ToursItinerary {
+  width: 60%;
+  padding: 20px 20px;
+  background-color: #fbfcfd;
+  
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Main Box Container (60% Desktop Width, Left-aligned) */
+.ToursItinerary-container {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--tours-border-color);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  padding: 24px 24px 30px 24px;
+  box-sizing: border-box;
+}
+
+/* Header Section */
+.ToursItinerary-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ToursItinerary-header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.ToursItinerary-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ToursItinerary-step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--tours-text-main);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tours-text-main);
+}
+
+.ToursItinerary-heading {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--tours-text-main);
+}
+
+.ToursItinerary-subtitle {
+  margin: 5px 0 0 0;
+  font-size: 13.5px;
+  color: var(--tours-text-muted);
+}
+
+/* Top Section Chevron */
+.ToursItinerary-section-toggle-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--tours-text-muted);
+}
+
+.ToursItinerary-section-chevron {
+  width: 20px;
+  height: 20px;
+  color: #4b5563;
+  transition: transform 0.25s ease;
+  transform: rotate(180deg);
+}
+
+.ToursItinerary-section-chevron.open {
+  transform: rotate(0deg);
+}
+
+/* Body wrapper under Section Header */
+.ToursItinerary-content-wrap {
+  margin-top: 22px;
+}
+
+/* Accordion Group */
+.ToursItinerary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ToursItinerary-accordion-card {
+  background: #ffffff;
+  border: 1px solid var(--tours-border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.ToursItinerary-accordion-card-expanded {
+  border-color: #d0d5dd;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+}
+
+.ToursItinerary-accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  cursor: pointer;
+  background: #ffffff;
+  user-select: none;
+}
+
+.ToursItinerary-accordion-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ToursItinerary-day-tag {
+  background-color: var(--tours-green-bg);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  display: inline-block;
+  letter-spacing: 0.2px;
+}
+
+.ToursItinerary-day-title-preview {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--tours-text-main);
+}
+
+.ToursItinerary-row-toggle-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ToursItinerary-chevron-icon {
+  width: 20px;
+  height: 20px;
+  color: #64748b;
+  transition: transform 0.25s ease;
+  transform: rotate(0deg);
+}
+
+.ToursItinerary-chevron-icon-open {
+  transform: rotate(180deg);
+}
+
+/* Accordion Form Content */
+.ToursItinerary-accordion-body {
+  padding: 18px 20px 22px 20px;
+  background: #ffffff;
+  border-top: 1px solid var(--tours-border-subtle);
+}
+
+.ToursItinerary-form-group {
+  margin-bottom: 18px;
+}
+
+.ToursItinerary-label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--tours-text-main);
+  margin-bottom: 7px;
+}
+
+.ToursItinerary-required {
+  color: var(--tours-danger-red);
+}
+
+.ToursItinerary-input {
+  width: 100%;
+  height: 42px;
+  border: 1px solid var(--tours-border-color);
+  border-radius: 6px;
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--tours-text-main);
+  outline: none;
+  box-sizing: border-box;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ToursItinerary-input:focus {
+  border-color: var(--tours-blue-border);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Rich Text Editor */
+.ToursItinerary-editor-card {
+  border: 1px solid var(--tours-border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.ToursItinerary-editor-card:focus-within {
+  border-color: var(--tours-blue-border);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.ToursItinerary-editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: var(--tours-toolbar-bg);
+  border-bottom: 1px solid var(--tours-border-color);
+  flex-wrap: wrap;
+}
+
+.ToursItinerary-editor-select {
+  border: 1px solid var(--tours-border-color);
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 13px;
+  color: #4b5563;
+  outline: none;
+  cursor: pointer;
+}
+
+.ToursItinerary-editor-btn {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #4b5563;
+  cursor: pointer;
+  padding: 4px 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.ToursItinerary-editor-btn:hover {
+  background-color: #eaedf1;
+  color: var(--tours-text-main);
+}
+
+.ToursItinerary-editor-btn-bold {
+  font-weight: 700;
+}
+
+.ToursItinerary-editor-btn-italic {
+  font-style: italic;
+  font-weight: 600;
+}
+
+.ToursItinerary-editor-btn-underline {
+  text-decoration: underline;
+}
+
+.ToursItinerary-editor-btn-strikethrough {
+  text-decoration: line-through;
+}
+
+.ToursItinerary-editor-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+  resize: vertical;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+/* Highlights Rows */
+.ToursItinerary-highlights-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ToursItinerary-highlight-item {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--tours-border-color);
+  border-radius: 6px;
+  padding: 5px 14px;
+  background: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.ToursItinerary-highlight-item:focus-within {
+  border-color: var(--tours-blue-border);
+}
+
+.ToursItinerary-highlight-check {
+  color: #101828;
+  font-size: 13px;
+  font-weight: 700;
+  margin-right: 12px;
+  user-select: none;
+}
+
+.ToursItinerary-highlight-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13.5px;
+  color: var(--tours-text-main);
+  background: transparent;
+  padding: 6px 0;
+}
+
+.ToursItinerary-highlight-delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--tours-danger-red);
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+}
+
+.ToursItinerary-highlight-delete-btn:hover {
+  background-color: var(--tours-danger-hover);
+}
+
+/* Action Buttons */
+.ToursItinerary-btn-add-highlight,
+.ToursItinerary-btn-add-day {
+  display: inline-flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid var(--tours-blue-border);
+  color: var(--tours-blue-border);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 7px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.ToursItinerary-btn-add-highlight:hover,
+.ToursItinerary-btn-add-day:hover {
+  background-color: var(--tours-blue-bg-hover);
+}
+
+.ToursItinerary-footer {
+  margin-top: 18px;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1200px) {
+  .ToursItinerary-container {
+    width: 75%;
+  }
+}
+
+@media (max-width: 900px) {
+  .ToursItinerary-container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 600px) {
+  .ToursItinerary {
+    padding: 16px 8px;
+  }
+
+  .ToursItinerary-container {
+    width: 100%;
+    padding: 16px 12px;
+  }
+
+  .ToursItinerary-accordion-header {
+    padding: 10px 12px;
+  }
+
+  .ToursItinerary-accordion-left {
+    gap: 10px;
+  }
+
+  .ToursItinerary-day-tag {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  .ToursItinerary-day-title-preview {
+    font-size: 14px;
+  }
+
+  .ToursItinerary-accordion-body {
+    padding: 14px 12px;
+  }
+}

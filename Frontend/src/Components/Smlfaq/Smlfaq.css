@@ -1,0 +1,597 @@
+/* =========================================================
+   SML FAQ SECTION
+   PREMIUM BLACK & WHITE TRAVEL THEME
+========================================================= */
+
+.smlfaq-section {
+  --fq-black: #0f172a;
+  --fq-black-light: #1e293b;
+  --fq-white: #ffffff;
+  --fq-gray-bg: #f8fafc;
+  --fq-gray-soft: #f1f5f9;
+  --fq-gray-border: #e2e8f0;
+  --fq-text-main: #0f172a;
+  --fq-text-muted: #64748b;
+
+  width: 100%;
+  padding: 75px 24px;
+
+  background: var(--fq-white);
+  color: var(--fq-text-main);
+
+  box-sizing: border-box;
+  overflow: hidden;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+.smlfaq-section *,
+.smlfaq-section *::before,
+.smlfaq-section *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.smlfaq-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.smlfaq-header {
+  max-width: 850px;
+  margin: 0 auto 30px;
+
+  text-align: center;
+
+  animation: fqFadeInUp 0.8s ease both;
+}
+
+.smlfaq-subtitle {
+  display: inline-block;
+
+  margin-bottom: 11px;
+
+  color: var(--fq-black);
+
+  font-family: Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.smlfaq-title {
+  max-width: 850px;
+  margin: 0 auto;
+
+  color: var(--fq-black);
+
+  font-size: clamp(31px, 4.3vw, 48px);
+  line-height: 1.12;
+  font-weight: 800;
+
+  letter-spacing: -1.2px;
+}
+
+.smlfaq-title-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+.smlfaq-title-line span {
+  width: 60px;
+  height: 2px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--fq-black)
+  );
+}
+
+.smlfaq-title-line span:last-child {
+  background: linear-gradient(
+    90deg,
+    var(--fq-black),
+    transparent
+  );
+}
+
+.smlfaq-title-line i {
+  color: var(--fq-black);
+
+  font-size: 11px;
+  font-style: normal;
+}
+
+.smlfaq-description {
+  max-width: 680px;
+
+  margin: 20px auto 0;
+
+  color: var(--fq-text-muted);
+
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 450;
+}
+
+/* =========================================================
+   SEO INTRO
+========================================================= */
+
+.smlfaq-intro {
+  max-width: 920px;
+
+  margin: 0 auto 42px;
+  padding: 28px 32px;
+
+  border: 1px solid var(--fq-gray-border);
+  border-radius: 12px;
+
+  background: var(--fq-gray-bg);
+}
+
+.smlfaq-intro p {
+  margin: 0 0 12px;
+
+  color: var(--fq-text-muted);
+
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.smlfaq-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.smlfaq-intro strong {
+  color: var(--fq-black);
+  font-weight: 700;
+}
+
+/* =========================================================
+   FAQ GRID
+========================================================= */
+
+.smlfaq-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 18px 22px;
+}
+
+/* =========================================================
+   FAQ ITEM
+========================================================= */
+
+.smlfaq-item {
+  position: relative;
+
+  border: 1px solid var(--fq-gray-border);
+  border-radius: 13px;
+
+  background: var(--fq-white);
+
+  overflow: hidden;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.smlfaq-item:hover {
+  border-color: #94a3b8;
+}
+
+.smlfaq-item-active {
+  border-color: var(--fq-black);
+
+  box-shadow:
+    0 14px 32px rgba(15, 23, 42, 0.09);
+}
+
+.smlfaq-item-active:hover {
+  border-color: var(--fq-black);
+}
+
+/* =========================================================
+   QUESTION BUTTON
+========================================================= */
+
+.smlfaq-question-btn {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 21px 22px;
+
+  border: none;
+
+  background: transparent;
+
+  color: inherit;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  font-family: inherit;
+}
+
+.smlfaq-question-text {
+  color: var(--fq-black);
+
+  font-size: 16px;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.smlfaq-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid var(--fq-gray-border);
+  border-radius: 50%;
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.smlfaq-icon {
+  width: 16px;
+  height: 16px;
+
+  color: var(--fq-black);
+
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.smlfaq-item-active .smlfaq-icon-wrapper {
+  border-color: var(--fq-black);
+
+  background: var(--fq-black);
+}
+
+.smlfaq-item-active .smlfaq-icon {
+  color: var(--fq-white);
+
+  transform: rotate(180deg);
+}
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+.smlfaq-answer-wrapper {
+  display: grid;
+
+  grid-template-rows: 0fr;
+
+  transition:
+    grid-template-rows 0.4s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.smlfaq-item-active .smlfaq-answer-wrapper {
+  grid-template-rows: 1fr;
+}
+
+.smlfaq-answer-inner {
+  overflow: hidden;
+}
+
+.smlfaq-answer-text {
+  margin: 0;
+
+  padding: 0 22px 22px;
+
+  color: var(--fq-text-muted);
+
+  font-size: 14.5px;
+  line-height: 1.7;
+  font-weight: 450;
+}
+
+/* =========================================================
+   BOTTOM SEO CONTENT
+========================================================= */
+
+.smlfaq-bottom-content {
+  max-width: 1000px;
+
+  margin: 55px auto 0;
+  padding: 36px 40px;
+
+  border: 1px solid var(--fq-gray-border);
+  border-radius: 14px;
+
+  background: var(--fq-gray-bg);
+}
+
+.smlfaq-bottom-heading {
+  margin-bottom: 16px;
+}
+
+.smlfaq-bottom-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--fq-text-muted);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.smlfaq-bottom-heading h2 {
+  margin: 0;
+
+  color: var(--fq-black);
+
+  font-size: clamp(25px, 3vw, 34px);
+  line-height: 1.2;
+  font-weight: 800;
+
+  letter-spacing: -0.6px;
+}
+
+.smlfaq-bottom-content > p {
+  margin: 0 0 13px;
+
+  color: var(--fq-text-muted);
+
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.smlfaq-bottom-content > p:last-of-type {
+  margin-bottom: 24px;
+}
+
+.smlfaq-bottom-content strong {
+  color: var(--fq-black);
+  font-weight: 700;
+}
+
+/* =========================================================
+   DESTINATION TAGS
+========================================================= */
+
+.smlfaq-destination-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 9px;
+}
+
+.smlfaq-destination-list span {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 34px;
+
+  padding: 6px 13px;
+
+  border: 1px solid var(--fq-gray-border);
+  border-radius: 5px;
+
+  background: var(--fq-white);
+
+  color: var(--fq-black);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.smlfaq-destination-list span:hover {
+  border-color: var(--fq-black);
+
+  background: var(--fq-black);
+  color: var(--fq-white);
+
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes fqFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 860px) {
+
+  .smlfaq-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+  .smlfaq-section {
+    padding: 50px 16px;
+  }
+
+  .smlfaq-title {
+    font-size: 31px;
+    letter-spacing: -0.7px;
+  }
+
+  .smlfaq-description {
+    font-size: 14.5px;
+  }
+
+  .smlfaq-intro {
+    margin-bottom: 30px;
+    padding: 22px 19px;
+  }
+
+  .smlfaq-intro p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .smlfaq-grid {
+    gap: 13px;
+  }
+
+  .smlfaq-question-btn {
+    padding: 18px;
+  }
+
+  .smlfaq-question-text {
+    font-size: 14.5px;
+  }
+
+  .smlfaq-icon-wrapper {
+    width: 30px;
+    height: 30px;
+  }
+
+  .smlfaq-answer-text {
+    padding: 0 18px 18px;
+
+    font-size: 13.8px;
+    line-height: 1.7;
+  }
+
+  .smlfaq-bottom-content {
+    margin-top: 38px;
+    padding: 25px 20px;
+  }
+
+  .smlfaq-bottom-heading h2 {
+    font-size: 26px;
+  }
+
+  .smlfaq-bottom-content > p {
+    font-size: 14px;
+  }
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .smlfaq-section {
+    padding: 42px 13px;
+  }
+
+  .smlfaq-title {
+    font-size: 28px;
+  }
+
+  .smlfaq-title-line span {
+    width: 42px;
+  }
+
+  .smlfaq-question-btn {
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .smlfaq-question-text {
+    font-size: 14px;
+  }
+
+  .smlfaq-answer-text {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .smlfaq-destination-list {
+    gap: 7px;
+  }
+
+}
+
+/* =========================================================
+   ACCESSIBILITY / REDUCED MOTION
+========================================================= */
+
+.smlfaq-question-btn:focus-visible {
+  outline: 2px solid var(--fq-black);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .smlfaq-section *,
+  .smlfaq-section *::before,
+  .smlfaq-section *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+}

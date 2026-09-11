@@ -1,0 +1,284 @@
+.gallery-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Responsive Grid */
+.gallery-main__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Card Container */
+.gallery-main__item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #f1f5f9;
+  outline: none;
+}
+
+.gallery-main__item:focus-visible {
+  box-shadow: 0 0 0 3px #f59e0b;
+}
+
+.gallery-main__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Hover Overlay */
+.gallery-main__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.65);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 16px;
+  text-align: center;
+}
+
+.gallery-main__item:hover .gallery-main__overlay,
+.gallery-main__item:focus .gallery-main__overlay {
+  opacity: 1;
+}
+
+.gallery-main__item:hover .gallery-main__image,
+.gallery-main__item:focus .gallery-main__image {
+  transform: scale(1.06);
+}
+
+.gallery-main__overlay-icon {
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+.gallery-main__overlay-title {
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  font-family: inherit;
+}
+
+/* Load More Action Button */
+.gallery-main__action {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.gallery-main__load-btn {
+  background-color: #22c55e;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.gallery-main__load-btn:hover {
+  background-color: #16a34a;
+}
+
+.gallery-main__load-btn:active {
+  transform: scale(0.97);
+}
+
+/* Lightbox Backdrop */
+.gallery-main__lightbox {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+  animation: galleryMainFadeIn 0.2s ease;
+}
+
+@keyframes galleryMainFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Card */
+.gallery-main__lightbox-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: visible;
+  max-width: 580px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Corner Close Cross Button */
+.gallery-main__lightbox-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
+}
+
+.gallery-main__lightbox-close:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  transform: scale(1.08);
+}
+
+/* Image Container */
+.gallery-main__lightbox-img-wrapper {
+  width: 100%;
+  max-height: 380px;
+  overflow: hidden;
+  background-color: #0f172a;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-main__lightbox-image {
+  width: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+}
+
+/* Lightbox Footer Details */
+.gallery-main__lightbox-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background-color: #ffffff;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.gallery-main__lightbox-title {
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  font-family: inherit;
+}
+
+.gallery-main__lightbox-counter {
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Nav Buttons inside Image Area */
+.gallery-main__lightbox-nav {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #1e293b;
+  font-size: 1rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, background-color 0.2s ease;
+  z-index: 10;
+}
+
+.gallery-main__lightbox-nav:hover {
+  background-color: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.gallery-main__lightbox-nav--prev {
+  left: 12px;
+}
+
+.gallery-main__lightbox-nav--next {
+  right: 12px;
+}
+
+/* Responsive Layout */
+@media (max-width: 992px) {
+  .gallery-main__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-main {
+    padding: 24px 12px;
+  }
+
+  .gallery-main__grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .gallery-main__lightbox-card {
+    max-width: 92vw;
+  }
+
+  .gallery-main__lightbox-img-wrapper,
+  .gallery-main__lightbox-image {
+    max-height: 260px;
+  }
+
+  .gallery-main__lightbox-close {
+    top: 8px;
+    right: 8px;
+  }
+}

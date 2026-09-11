@@ -1,0 +1,1140 @@
+/* =========================================================
+   TEMPO TRANSPORT PAGE
+   JAGANNATH EXPLORER TRAVELS
+   PREMIUM BLACK & WHITE THEME
+========================================================= */
+
+.tempotransport-page {
+  --tp-black: #0f172a;
+  --tp-black-deep: #020617;
+  --tp-black-light: #1e293b;
+  --tp-white: #ffffff;
+  --tp-gray-bg: #f8fafc;
+  --tp-gray-soft: #f1f5f9;
+  --tp-gray-border: #e2e8f0;
+  --tp-text-main: #0f172a;
+  --tp-text-muted: #64748b;
+  --tp-text-light: #94a3b8;
+  --tp-accent: #0f172a;
+
+  width: 100%;
+  min-height: 100vh;
+  background: var(--tp-gray-bg);
+  color: var(--tp-text-main);
+  overflow-x: hidden;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  box-sizing: border-box;
+}
+
+.tempotransport-page *,
+.tempotransport-page *::before,
+.tempotransport-page *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.tempotransport-header {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 70px 24px 55px;
+  text-align: center;
+  animation: tpFadeInUp 0.8s ease both;
+}
+
+.tempotransport-subtitle {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: var(--tp-black);
+  font-family: Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.tempotransport-title {
+  max-width: 1000px;
+  margin: 0 auto;
+  color: var(--tp-black-deep);
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.08;
+  font-weight: 850;
+  letter-spacing: -1.8px;
+}
+
+.tempotransport-title-accent {
+  display: block;
+  margin-top: 12px;
+  color: #475569;
+  font-family: Georgia, serif;
+  font-size: clamp(22px, 3vw, 34px);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+.tempotransport-title-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.tempotransport-title-line span {
+  width: 65px;
+  height: 2px;
+  border-radius: 20px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--tp-black)
+  );
+}
+
+.tempotransport-title-line span:last-child {
+  background: linear-gradient(
+    90deg,
+    var(--tp-black),
+    transparent
+  );
+}
+
+.tempotransport-title-line i {
+  color: var(--tp-black);
+  font-size: 11px;
+  font-style: normal;
+}
+
+.tempotransport-intro,
+.tempotransport-intro-secondary {
+  max-width: 850px;
+  margin: 18px auto 0;
+  color: var(--tp-text-muted);
+  font-size: 16px;
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+.tempotransport-intro-secondary {
+  margin-top: 10px;
+}
+
+.tempotransport-intro-secondary strong {
+  color: var(--tp-black);
+  font-weight: 750;
+}
+
+/* =========================================================
+   BUSINESS INFORMATION
+========================================================= */
+
+.tempotransport-business-card {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  max-width: 950px;
+  margin: 30px auto 0;
+  padding: 20px 25px;
+  border: 1px solid var(--tp-gray-border);
+  border-radius: 14px;
+  background: var(--tp-white);
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+}
+
+.tempotransport-business-item {
+  flex: 1;
+  text-align: left;
+}
+
+.tempotransport-business-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--tp-text-light);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.tempotransport-business-item strong {
+  display: block;
+  color: var(--tp-black);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.tempotransport-business-item p {
+  max-width: 550px;
+  margin: 5px 0 0;
+  color: var(--tp-text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.tempotransport-business-divider {
+  width: 1px;
+  margin: 0 28px;
+  background: var(--tp-gray-border);
+}
+
+.tempotransport-phone-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tempotransport-phone-links a {
+  color: var(--tp-black);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.tempotransport-phone-links a:hover {
+  opacity: 0.55;
+}
+
+/* =========================================================
+   TARIFF SECTION
+========================================================= */
+
+.tempotransport-tariff-section {
+  width: 100%;
+  padding: 0 24px 65px;
+}
+
+.tempotransport-tariff-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--tp-gray-border);
+  border-radius: 16px;
+  background: var(--tp-white);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+  animation: tpFadeInUp 0.9s 0.1s ease both;
+}
+
+/* =========================================================
+   TARIFF BANNER
+========================================================= */
+
+.tempotransport-tariff-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 75px;
+  padding: 15px 20px;
+  background: var(--tp-black);
+  color: var(--tp-white);
+  text-align: center;
+}
+
+.tempotransport-banner-eyebrow {
+  display: block;
+  margin-bottom: 4px;
+  color: #cbd5e1;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.tempotransport-banner-text {
+  display: block;
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   DESKTOP TABLE
+========================================================= */
+
+.tempotransport-table-container {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tp-black) var(--tp-gray-soft);
+}
+
+.tempotransport-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: var(--tp-white);
+}
+
+.tempotransport-table th,
+.tempotransport-table td {
+  border-right: 1px solid var(--tp-gray-border);
+  border-bottom: 1px solid var(--tp-gray-border);
+}
+
+.tempotransport-table th:last-child,
+.tempotransport-table td:last-child {
+  border-right: none;
+}
+
+.tempotransport-table th {
+  height: 60px;
+  padding: 12px 18px;
+  color: var(--tp-black);
+  background: #f8fafc;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: left;
+  border-bottom: 2px solid var(--tp-black);
+}
+
+.tempotransport-table td {
+  height: 58px;
+  padding: 12px 18px;
+  color: var(--tp-text-main);
+  font-size: 14px;
+  font-weight: 550;
+  transition: background 0.2s ease;
+}
+
+.tempotransport-table tbody tr:hover td {
+  background: #f1f5f9;
+}
+
+.tempotransport-table tbody tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+.tempotransport-table tbody tr:nth-child(even):hover td {
+  background: #f1f5f9;
+}
+
+/* =========================================================
+   FEATURED ROW
+========================================================= */
+
+.tempotransport-featured-row td {
+  position: relative;
+  background: #f8fafc !important;
+  font-weight: 700;
+  box-shadow: inset 4px 0 0 var(--tp-black);
+}
+
+.tempotransport-featured-row:hover td {
+  background: #e2e8f0 !important;
+}
+
+/* =========================================================
+   COLUMN WIDTHS
+========================================================= */
+
+.tempotransport-th-vehicle {
+  width: 26%;
+}
+
+.tempotransport-th-tenHrs {
+  width: 16%;
+}
+
+.tempotransport-th-eightHrs {
+  width: 15%;
+}
+
+.tempotransport-th-fourHrs {
+  width: 15%;
+}
+
+.tempotransport-th-extraHrs {
+  width: 14%;
+}
+
+.tempotransport-th-extraKm {
+  width: 14%;
+}
+
+/* =========================================================
+   TABLE VEHICLE / PRICE
+========================================================= */
+
+.tempotransport-vehicle-name {
+  display: inline-block;
+  color: var(--tp-black);
+  line-height: 1.4;
+}
+
+.tempotransport-price {
+  font-weight: 700;
+}
+
+.tempotransport-popular-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--tp-black);
+  color: var(--tp-white);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.tempotransport-na {
+  color: #94a3b8 !important;
+}
+
+/* =========================================================
+   MOBILE LIST
+========================================================= */
+
+.tempotransport-mobile-list {
+  display: none;
+  padding: 16px;
+  background: var(--tp-gray-bg);
+}
+
+.tempotransport-mobile-card {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid var(--tp-gray-border);
+  border-radius: 14px;
+  background: var(--tp-white);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.tempotransport-mobile-card::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--tp-black);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.tempotransport-mobile-card:hover::before {
+  transform: scaleX(1);
+}
+
+.tempotransport-mobile-card-featured {
+  border-color: var(--tp-black);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.tempotransport-mobile-card-featured::before {
+  transform: scaleX(1);
+}
+
+.tempotransport-mobile-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--tp-gray-border);
+}
+
+.tempotransport-mobile-vehicle {
+  min-width: 0;
+}
+
+.tempotransport-mobile-vehicle-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--tp-text-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.tempotransport-mobile-vehicle h3 {
+  margin: 0;
+  color: var(--tp-black);
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+.tempotransport-mobile-badge {
+  flex-shrink: 0;
+  padding: 5px 9px;
+  border-radius: 5px;
+  background: var(--tp-black);
+  color: var(--tp-white);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.tempotransport-mobile-price-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.tempotransport-mobile-price {
+  padding: 12px;
+  border: 1px solid #eef2f7;
+  border-radius: 9px;
+  background: #f8fafc;
+}
+
+.tempotransport-mobile-price span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--tp-text-muted);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.tempotransport-mobile-price strong {
+  color: var(--tp-black);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   TOURISM SECTION
+========================================================= */
+
+.tempotransport-tourism-section {
+  width: 100%;
+  padding: 0 24px 70px;
+}
+
+.tempotransport-tourism-wrapper {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 55px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 55px;
+  border: 1px solid var(--tp-gray-border);
+  border-radius: 16px;
+  background: var(--tp-white);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.05);
+}
+
+.tempotransport-section-kicker {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--tp-text-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.tempotransport-tourism-content h2 {
+  margin: 0 0 18px;
+  color: var(--tp-black);
+  font-size: clamp(27px, 4vw, 40px);
+  line-height: 1.15;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.tempotransport-tourism-content p {
+  margin: 0 0 14px;
+  color: var(--tp-text-muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.tempotransport-tourism-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tempotransport-tourism-highlight {
+  position: relative;
+  padding: 20px;
+  border: 1px solid var(--tp-gray-border);
+  border-radius: 12px;
+  background: #fafafa;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.tempotransport-tourism-highlight:hover {
+  border-color: var(--tp-black);
+  transform: translateX(5px);
+}
+
+.tempotransport-tourism-highlight > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--tp-text-light);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.tempotransport-tourism-highlight strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--tp-black);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.tempotransport-tourism-highlight p {
+  margin: 0;
+  color: var(--tp-text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   SERVICES SECTION
+========================================================= */
+
+.tempotransport-services-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 75px;
+}
+
+.tempotransport-services-header {
+  margin-bottom: 28px;
+}
+
+.tempotransport-services-header > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--tp-text-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.tempotransport-services-header h2 {
+  max-width: 700px;
+  margin: 0;
+  color: var(--tp-black);
+  font-size: clamp(27px, 4vw, 40px);
+  line-height: 1.15;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.tempotransport-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.tempotransport-service-card {
+  min-height: 250px;
+  padding: 28px;
+  border: 1px solid var(--tp-gray-border);
+  border-radius: 14px;
+  background: var(--tp-white);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.tempotransport-service-card:hover {
+  border-color: var(--tp-black);
+  box-shadow: 0 15px 30px rgba(15, 23, 42, 0.08);
+  transform: translateY(-5px);
+}
+
+.tempotransport-service-number {
+  display: block;
+  margin-bottom: 25px;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.tempotransport-service-card h3 {
+  margin: 0 0 12px;
+  color: var(--tp-black);
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 800;
+}
+
+.tempotransport-service-card p {
+  margin: 0;
+  color: var(--tp-text-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   TERMS SECTION
+========================================================= */
+
+.tempotransport-terms-section {
+  position: relative;
+  width: 100%;
+  padding: 0 24px 75px;
+}
+
+.tempotransport-terms-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 45px;
+  border: 1px solid var(--tp-gray-border);
+  border-radius: 16px;
+  background: var(--tp-white);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+}
+
+.tempotransport-terms-heading-area {
+  margin-bottom: 30px;
+}
+
+.tempotransport-terms-title {
+  margin: 0;
+  color: var(--tp-black);
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 850;
+  letter-spacing: -0.8px;
+}
+
+.tempotransport-terms-line {
+  width: 65px;
+  height: 3px;
+  margin-top: 13px;
+  border-radius: 5px;
+  background: var(--tp-black);
+}
+
+.tempotransport-terms-heading-area > p {
+  max-width: 700px;
+  margin: 13px 0 0;
+  color: var(--tp-text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.tempotransport-terms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tempotransport-term-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.tempotransport-term-item:last-child {
+  border-bottom: none;
+}
+
+.tempotransport-term-item p {
+  margin: 0;
+  color: var(--tp-text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.tempotransport-term-item:hover p {
+  color: var(--tp-black);
+}
+
+/* =========================================================
+   CHECK ICON
+========================================================= */
+
+.tempotransport-check-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.tempotransport-check-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--tp-black);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s ease;
+}
+
+.tempotransport-term-item:hover
+  .tempotransport-check-icon
+  svg {
+  transform: scale(1.1);
+}
+
+/* =========================================================
+   CONTACT CTA
+========================================================= */
+
+.tempotransport-contact-section {
+  width: 100%;
+  padding: 0 24px 80px;
+}
+
+.tempotransport-contact-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 45px;
+  border-radius: 16px;
+  background: var(--tp-black);
+  color: var(--tp-white);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+}
+
+.tempotransport-contact-kicker {
+  display: block;
+  margin-bottom: 10px;
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.tempotransport-contact-card h2 {
+  max-width: 600px;
+  margin: 0 0 12px;
+  color: var(--tp-white);
+  font-size: clamp(27px, 4vw, 40px);
+  line-height: 1.15;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.tempotransport-contact-card p {
+  max-width: 650px;
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.tempotransport-contact-actions {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tempotransport-contact-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  padding: 13px 22px;
+  border: 1px solid var(--tp-white);
+  border-radius: 999px;
+  background: var(--tp-white);
+  color: var(--tp-black);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tempotransport-contact-btn:hover {
+  background: transparent;
+  color: var(--tp-white);
+  transform: translateY(-2px);
+}
+
+.tempotransport-contact-btn.secondary {
+  border-color: #475569;
+  background: transparent;
+  color: var(--tp-white);
+}
+
+.tempotransport-contact-btn.secondary:hover {
+  border-color: var(--tp-white);
+  background: var(--tp-white);
+  color: var(--tp-black);
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes tpFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+  .tempotransport-table th,
+  .tempotransport-table td {
+    padding: 12px 13px;
+    font-size: 13px;
+  }
+
+  .tempotransport-tourism-wrapper {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 40px;
+  }
+
+  .tempotransport-services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tempotransport-contact-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tempotransport-contact-actions {
+    flex-direction: row;
+  }
+}
+
+/* =========================================================
+   MOBILE TABLE SWITCH
+========================================================= */
+
+@media (max-width: 900px) {
+  .tempotransport-table-container {
+    display: none;
+  }
+
+  .tempotransport-mobile-list {
+    display: block;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .tempotransport-header {
+    padding: 48px 16px 38px;
+  }
+
+  .tempotransport-title {
+    font-size: clamp(31px, 9vw, 43px);
+    letter-spacing: -1px;
+  }
+
+  .tempotransport-title-accent {
+    font-size: 23px;
+  }
+
+  .tempotransport-intro,
+  .tempotransport-intro-secondary {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .tempotransport-business-card {
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px;
+    text-align: left;
+  }
+
+  .tempotransport-business-divider {
+    width: 100%;
+    height: 1px;
+    margin: 0;
+  }
+
+  .tempotransport-tariff-section {
+    padding: 0 16px 45px;
+  }
+
+  .tempotransport-banner-text {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .tempotransport-banner-eyebrow {
+    font-size: 8px;
+  }
+
+  .tempotransport-tourism-section {
+    padding: 0 16px 45px;
+  }
+
+  .tempotransport-tourism-wrapper {
+    padding: 28px 22px;
+    border-radius: 14px;
+  }
+
+  .tempotransport-services-section {
+    padding: 0 16px 50px;
+  }
+
+  .tempotransport-services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tempotransport-service-card {
+    min-height: auto;
+  }
+
+  .tempotransport-terms-section {
+    padding: 0 16px 50px;
+  }
+
+  .tempotransport-terms-wrapper {
+    padding: 28px 20px;
+  }
+
+  .tempotransport-term-item p {
+    font-size: 13px;
+  }
+
+  .tempotransport-contact-section {
+    padding: 0 16px 55px;
+  }
+
+  .tempotransport-contact-card {
+    padding: 30px 22px;
+  }
+
+  .tempotransport-contact-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .tempotransport-contact-btn {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .tempotransport-subtitle {
+    font-size: 11px;
+    letter-spacing: 1.2px;
+  }
+
+  .tempotransport-title {
+    font-size: 29px;
+  }
+
+  .tempotransport-title-accent {
+    font-size: 20px;
+  }
+
+  .tempotransport-title-line {
+    margin-top: 17px;
+  }
+
+  .tempotransport-title-line span {
+    width: 42px;
+  }
+
+  .tempotransport-mobile-list {
+    padding: 12px;
+  }
+
+  .tempotransport-mobile-card {
+    padding: 16px;
+  }
+
+  .tempotransport-mobile-vehicle h3 {
+    font-size: 16px;
+  }
+
+  .tempotransport-mobile-price-grid {
+    gap: 8px;
+  }
+
+  .tempotransport-mobile-price {
+    padding: 10px;
+  }
+
+  .tempotransport-mobile-price span {
+    font-size: 10px;
+  }
+
+  .tempotransport-mobile-price strong {
+    font-size: 14px;
+  }
+
+  .tempotransport-tourism-content h2,
+  .tempotransport-services-header h2,
+  .tempotransport-contact-card h2 {
+    font-size: 27px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .tempotransport-page *,
+  .tempotransport-page *::before,
+  .tempotransport-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

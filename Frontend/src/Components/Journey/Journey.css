@@ -1,0 +1,271 @@
+/* Container & Alignment */
+.journey-section {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 80px 20px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+.journey-container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Header */
+.journey-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.journey-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #5cb82b;
+  font-family: 'Caveat', cursive, 'Segoe UI', sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.badge-arrow, .badge-wave {
+  font-size: 18px;
+}
+
+.journey-main-title {
+  font-size: 40px;
+  font-weight: 900;
+  color: #14171a;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* 3-Column Grid */
+.journey-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Destination Card */
+.destination-card {
+  position: relative;
+  height: 310px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #2b333a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.destination-card:hover,
+.destination-card.active {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+}
+
+.card-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.destination-card:hover .card-bg-img,
+.destination-card.active .card-bg-img {
+  transform: scale(1.08);
+}
+
+.empty-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #374149;
+  color: #b5c2c7;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  padding: 15px;
+}
+
+/* Dark Backdrop Overlay */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.75) 100%);
+  transition: background 0.35s ease;
+}
+
+.destination-card:hover .card-overlay,
+.destination-card.active .card-overlay {
+  background: rgba(18, 25, 29, 0.62);
+}
+
+/* Content & Position Animation */
+.card-info-content {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 5;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.place-title {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+/* Tour Badge Wrapper & Animation */
+.tour-badge-wrapper {
+  opacity: 0;
+  transform: translateY(12px) scale(0.9);
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin-top: 10px;
+  pointer-events: none;
+}
+
+/* Move title to center and stay visible when active or hovered */
+.destination-card:hover .card-info-content,
+.destination-card.active .card-info-content {
+  bottom: 40%;
+  transform: translateY(20%);
+}
+
+.destination-card:hover .tour-badge-wrapper,
+.destination-card.active .tour-badge-wrapper {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Green Ribbon Tour Badge */
+.tour-ribbon {
+  position: relative;
+  background-color: #5cb82b;
+  color: #ffffff;
+  padding: 6px 20px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(92, 184, 43, 0.4);
+}
+
+/* 6th Promo Banner Card */
+.promo-banner-card {
+  position: relative;
+  height: 310px;
+  border-radius: 16px;
+  background: radial-gradient(circle at 100% 0%, #e2f6d6 0%, #fffbf2 50%, #fdeacc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f2edd9;
+}
+
+.plane-sketch {
+  position: absolute;
+  opacity: 0.6;
+}
+
+.sketch-top {
+  top: 24px;
+  left: 24px;
+  transform: rotate(-10deg);
+}
+
+.sketch-bottom {
+  bottom: 24px;
+  right: 24px;
+  transform: rotate(25deg);
+}
+
+.promo-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.discount-tag {
+  background-color: #f7a833;
+  color: #ffffff;
+  padding: 6px 18px;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+  box-shadow: 0 4px 10px rgba(247, 168, 51, 0.25);
+}
+
+.promo-title {
+  color: #151a1d;
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0 0 22px 0;
+}
+
+.btn-view-destinations {
+  background-color: #5cb82b;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 11px 24px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-view-destinations:hover {
+  background-color: #4ca022;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(92, 184, 43, 0.3);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .journey-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .journey-section {
+    padding: 50px 16px;
+  }
+
+  .journey-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .destination-card,
+  .promo-banner-card {
+    height: 270px;
+  }
+}

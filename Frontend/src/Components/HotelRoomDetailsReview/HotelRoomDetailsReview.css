@@ -1,0 +1,283 @@
+/* Layout Wrapper */
+.HotelRoomDetailsReview {
+  width: 100%;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.HotelRoomDetailsReview-container {
+  max-width: 1400px;
+  width: 100%;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Left Content Column */
+.HotelRoomDetailsReview-left {
+  flex: 1;
+}
+
+.HotelRoomDetailsReview-mainTitle {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #121827;
+  margin: 0 0 24px 0;
+}
+
+/* Rating Summary Box */
+.HotelRoomDetailsReview-ratingSummaryBox {
+  background-color: #f8fafc;
+  border-radius: 6px;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.HotelRoomDetailsReview-ratingLeft {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.HotelRoomDetailsReview-bigScore {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #121827;
+  line-height: 1;
+}
+
+.HotelRoomDetailsReview-summaryStars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.HotelRoomDetailsReview-reviewCount {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.HotelRoomDetailsReview-giveRatingBtn {
+  background-color: #51a536;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.HotelRoomDetailsReview-giveRatingBtn:hover {
+  background-color: #448f2c;
+}
+
+/* Review Item Styles */
+.HotelRoomDetailsReview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.HotelRoomDetailsReview-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.HotelRoomDetailsReview-authorHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.HotelRoomDetailsReview-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.HotelRoomDetailsReview-authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.HotelRoomDetailsReview-authorName {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #121827;
+}
+
+.HotelRoomDetailsReview-date {
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+/* Sub Ratings Grid */
+.HotelRoomDetailsReview-subRatings {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.HotelRoomDetailsReview-ratingMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.HotelRoomDetailsReview-metricLabel {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.HotelRoomDetailsReview-stars {
+  display: flex;
+  gap: 3px;
+  color: #eab308;
+  font-size: 0.8rem;
+}
+
+/* Review Text & Reply Button */
+.HotelRoomDetailsReview-comment {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 12px 0;
+}
+
+.HotelRoomDetailsReview-replyBtn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 0;
+  width: fit-content;
+  transition: color 0.2s ease;
+}
+
+.HotelRoomDetailsReview-replyBtn:hover {
+  color: #51a536;
+}
+
+.HotelRoomDetailsReview-replyIcon {
+  font-size: 0.75rem;
+}
+
+/* Nested Reply Box */
+.HotelRoomDetailsReview-nestedReply {
+  margin-top: 20px;
+  margin-left: 48px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* Right Column Banner Card */
+.HotelRoomDetailsReview-right {
+  width: 360px;
+  flex-shrink: 0;
+}
+
+.HotelRoomDetailsReview-inquiryCard {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-color: #f8fafc;
+}
+
+.HotelRoomDetailsReview-agentImg {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+.HotelRoomDetailsReview-inquiryBanner {
+  background-color: #51a536;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #ffffff;
+}
+
+.HotelRoomDetailsReview-phoneIconCircle {
+  width: 44px;
+  height: 44px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  color: #51a536;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.HotelRoomDetailsReview-inquiryTextGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.HotelRoomDetailsReview-inquiryTitle {
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.HotelRoomDetailsReview-phoneNumber {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .HotelRoomDetailsReview-container {
+    flex-direction: column;
+  }
+
+  .HotelRoomDetailsReview-right {
+    width: 100%;
+  }
+
+  .HotelRoomDetailsReview-agentImg {
+    height: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .HotelRoomDetailsReview-ratingSummaryBox {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .HotelRoomDetailsReview-subRatings {
+    gap: 16px;
+  }
+
+  .HotelRoomDetailsReview-nestedReply {
+    margin-left: 20px;
+  }
+}
