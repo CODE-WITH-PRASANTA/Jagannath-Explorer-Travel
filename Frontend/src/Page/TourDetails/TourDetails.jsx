@@ -5,7 +5,7 @@ import TourExperience from '../../Components/Tourexperience/Tourexperience'
 import TourDetailsMap from '../../Components/TourDetailsMap/TourDetailsMap'
 import TourDetailsFaq from '../../Components/TourDetailsFaq/TourDetailsFaq'
 import TourDetailsReview from '../../Components/TourDetailsReview/TourDetailsReview'
-
+ 
 const TourDetails = () => {
   return (
     <div>

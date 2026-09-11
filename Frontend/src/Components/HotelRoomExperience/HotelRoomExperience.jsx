@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import './HotelRoomExperience.css';
 
 // React Icons
@@ -17,26 +17,23 @@ import {
   FaFire,
   FaTimes
 } from 'react-icons/fa';
-import {
-  FiShield,
-  FiBox
-} from 'react-icons/fi';
-import {
-  MdLocalLaundryService
-} from 'react-icons/md';
+import { FiShield, FiBox } from 'react-icons/fi';
+import { MdLocalLaundryService } from 'react-icons/md';
 
 const HotelRoomExperience = () => {
-  // State for Booking Widget Controls
-  const [bookingType, setBookingType] = useState('online'); // 'online' or 'inquiry'
-  const [selectedDatePlan, setSelectedDatePlan] = useState(1);
+  const [bookingType, setBookingType] = useState('online'); // 'online' | 'inquiry'
+  const [selectedDatePlan, setSelectedDatePlan] = useState(1); // 1, 2, or 'custom'
+  const [customCheckIn, setCustomCheckIn] = useState('');
+  const [customCheckOut, setCustomCheckOut] = useState('');
+  const customDateInputRef = useRef(null);
+
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(1);
 
-  // Extra Services State
+  // Extra Services
   const [extraServices, setExtraServices] = useState({
     homePickup: false,
-    nightFood: false,
-    seaplaneFlying: false,
+    nightFood: false
   });
 
   // Modal State
@@ -70,7 +67,18 @@ const HotelRoomExperience = () => {
     }));
   };
 
-  // Inline Form Handler
+  // Pricing Calculation
+  const totalPrice = useMemo(() => {
+    const adultCost = adultCount * 60;
+    const childCost = childCount * 15;
+    const pickupCost = extraServices.homePickup ? 10 : 0;
+    const foodCost = extraServices.nightFood ? 15 : 0;
+    const baseRoom = 280; // room base rate
+
+    return baseRoom + adultCost + childCost + pickupCost + foodCost;
+  }, [adultCount, childCount, extraServices]);
+
+  // Inline Form Handlers
   const handleInlineChange = (e) => {
     const { name, value } = e.target;
     setInlineInquiry((prev) => ({ ...prev, [name]: value }));
@@ -86,7 +94,7 @@ const HotelRoomExperience = () => {
     setBookingFormData((prev) => ({
       ...prev,
       member: adultCount + childCount,
-      price: '₹470'
+      price: `₹${totalPrice}`
     }));
     setIsModalSubmitted(false);
     setIsModalOpen(true);
@@ -98,10 +106,7 @@ const HotelRoomExperience = () => {
 
   const handleModalInputChange = (e) => {
     const { name, value } = e.target;
-    setBookingFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setBookingFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleModalSubmit = (e) => {
@@ -109,35 +114,22 @@ const HotelRoomExperience = () => {
     setIsModalSubmitted(true);
   };
 
-  // SEO Schema Markup
-  const schemaMarkup = {
-    "@context": "https://schema.org",
-    "@type": "Hotel",
-    "name": "Golden Tulip The Grandmark Dhaka - Jagannatha Tour and Travels",
-    "description": "Welcome to the best five-star luxury hotel in New York.",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "House 168/170, Road 02, Avenue 01, Mirpur DOHS",
-      "addressLocality": "Dhaka",
-      "addressCountry": "Bangladesh"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "8.1",
-      "reviewCount": "94"
-    },
-    "priceRange": "₹280"
+  // Trigger browser date picker when clicking on the custom box
+  const handleTriggerDatePicker = () => {
+    setSelectedDatePlan('custom');
+    if (customDateInputRef.current) {
+      if (typeof customDateInputRef.current.showPicker === 'function') {
+        customDateInputRef.current.showPicker();
+      } else {
+        customDateInputRef.current.focus();
+      }
+    }
   };
 
   return (
     <section className="HotelRoomExperience" aria-labelledby="hotel-title">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
-      />
-
       <div className="HotelRoomExperience-container">
-        {/* Left Column: Hotel Info & Amenities */}
+        {/* Left Column: Hotel Info */}
         <div className="HotelRoomExperience-left">
           <div className="HotelRoomExperience-metaHeader">
             <div className="HotelRoomExperience-location">
@@ -145,7 +137,7 @@ const HotelRoomExperience = () => {
               <span>House 168/170, Road 02, Avenue 01, Mirpur DOHS, Dhaka, Bangladesh - </span>
               <a href="#see-map" className="HotelRoomExperience-mapLink">See Map</a>
             </div>
-            
+
             <div className="HotelRoomExperience-ratingScore">
               <div className="HotelRoomExperience-stars">
                 {[...Array(5)].map((_, i) => (
@@ -170,7 +162,6 @@ const HotelRoomExperience = () => {
             Welcome to the best five-star luxury hotel in New York. Hotel is veryes elementum sesue the aucan vestibulum aliquam justo in sapien on thi rutrum volutpat.
           </p>
 
-          {/* Highlights */}
           <div className="HotelRoomExperience-section">
             <h2 className="HotelRoomExperience-sectionTitle">Highlights</h2>
             <div className="HotelRoomExperience-highlightsGrid">
@@ -213,7 +204,6 @@ const HotelRoomExperience = () => {
             </div>
           </div>
 
-          {/* Facilities */}
           <div className="HotelRoomExperience-section">
             <h2 className="HotelRoomExperience-sectionTitle">Facilities</h2>
             <div className="HotelRoomExperience-facilitiesGrid">
@@ -237,87 +227,107 @@ const HotelRoomExperience = () => {
           </div>
         </div>
 
-        {/* Right Column: Booking Card */}
+        {/* Right Column: Booking Widget */}
         <div className="HotelRoomExperience-right">
           <div className="HotelRoomExperience-bookingCard">
-            
-            <h3 className="HotelRoomExperience-cardTitle">
-              {bookingType === 'online' ? 'Book Your Room' : 'Inquiry Form'}
-            </h3>
+            <h3 className="HotelRoomExperience-cardTitle">Book Your Room</h3>
             <p className="HotelRoomExperience-cardSubtitle">
-              {bookingType === 'online' 
-                ? 'Reserve your ideal Room early for a hassle-free trip; secure comfort and convenience!'
-                : 'Send us your details and questions. We will get back to you shortly.'}
+              Reserve your ideal Room early for a hassle-free trip; secure comfort and convenience!
             </p>
 
-            {/* Tab Buttons */}
+            {/* Switch Tabs */}
             <div className="HotelRoomExperience-tabs">
               <button
-                className={`HotelRoomExperience-tabBtn ${bookingType === 'online' ? 'HotelRoomExperience-tabActive' : ''}`}
+                type="button"
+                className={`HotelRoomExperience-tabBtn ${bookingType === 'online' ? 'active' : ''}`}
                 onClick={() => setBookingType('online')}
               >
                 Online Booking
               </button>
               <button
-                className={`HotelRoomExperience-tabBtn ${bookingType === 'inquiry' ? 'HotelRoomExperience-tabActive' : ''}`}
+                type="button"
+                className={`HotelRoomExperience-tabBtn ${bookingType === 'inquiry' ? 'active' : ''}`}
                 onClick={() => setBookingType('inquiry')}
               >
                 Inquiry Form
               </button>
             </div>
 
-            {/* TOGGLE CONTENT BASED ON TAB */}
             {bookingType === 'online' ? (
               <>
-                {/* Date Selection Options */}
+                {/* Date Selection */}
                 <div className="HotelRoomExperience-dateSection">
                   <span className="HotelRoomExperience-label">Select Your Booking Date:</span>
 
+                  {/* Option 1 */}
                   <div
-                    className={`HotelRoomExperience-dateOption ${selectedDatePlan === 1 ? 'HotelRoomExperience-dateSelected' : ''}`}
+                    className={`HotelRoomExperience-dateOption ${selectedDatePlan === 1 ? 'selected' : ''}`}
                     onClick={() => setSelectedDatePlan(1)}
                   >
-                    <div className="HotelRoomExperience-checkboxSquare">
-                      {selectedDatePlan === 1 && <div className="HotelRoomExperience-checkboxInner" />}
+                    <div className="HotelRoomExperience-squareCheck">
+                      {selectedDatePlan === 1 && <span className="HotelRoomExperience-squareTick" />}
                     </div>
                     <div className="HotelRoomExperience-dateDetails">
                       <div className="HotelRoomExperience-dateBlock">
-                        <span className="HotelRoomExperience-dateLabel">Check In</span>
-                        <span className="HotelRoomExperience-dateVal">Jan 1, 2024</span>
+                        <span className="HotelRoomExperience-dateHead">Check In</span>
+                        <span className="HotelRoomExperience-dateText">Jan 1, 2024</span>
                       </div>
                       <FaLongArrowAltRight className="HotelRoomExperience-arrowRight" />
                       <div className="HotelRoomExperience-dateBlock">
-                        <span className="HotelRoomExperience-dateLabel">Check Out</span>
-                        <span className="HotelRoomExperience-dateVal">Jan 5, 2024</span>
+                        <span className="HotelRoomExperience-dateHead">Check Out</span>
+                        <span className="HotelRoomExperience-dateText">Jan 5, 2024</span>
                       </div>
                     </div>
                   </div>
 
+                  {/* Option 2 */}
                   <div
-                    className={`HotelRoomExperience-dateOption ${selectedDatePlan === 2 ? 'HotelRoomExperience-dateSelected' : ''}`}
+                    className={`HotelRoomExperience-dateOption ${selectedDatePlan === 2 ? 'selected' : ''}`}
                     onClick={() => setSelectedDatePlan(2)}
                   >
-                    <div className="HotelRoomExperience-checkboxSquare">
-                      {selectedDatePlan === 2 && <div className="HotelRoomExperience-checkboxInner" />}
+                    <div className="HotelRoomExperience-squareCheck">
+                      {selectedDatePlan === 2 && <span className="HotelRoomExperience-squareTick" />}
                     </div>
                     <div className="HotelRoomExperience-dateDetails">
                       <div className="HotelRoomExperience-dateBlock">
-                        <span className="HotelRoomExperience-dateLabel">Check In</span>
-                        <span className="HotelRoomExperience-dateVal">Jan 10, 2024</span>
+                        <span className="HotelRoomExperience-dateHead">Check In</span>
+                        <span className="HotelRoomExperience-dateText">Jan 10, 2024</span>
                       </div>
                       <FaLongArrowAltRight className="HotelRoomExperience-arrowRight" />
                       <div className="HotelRoomExperience-dateBlock">
-                        <span className="HotelRoomExperience-dateLabel">Check Out</span>
-                        <span className="HotelRoomExperience-dateVal">Jan 15, 2024</span>
+                        <span className="HotelRoomExperience-dateHead">Check Out</span>
+                        <span className="HotelRoomExperience-dateText">Jan 15, 2024</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="HotelRoomExperience-dateOptionCustom">
-                    <div className="HotelRoomExperience-checkboxSquare" />
-                    <div className="HotelRoomExperience-customInputBox">
-                      <span className="HotelRoomExperience-customPlaceholder">Check In & Out Data</span>
+                  {/* Option 3: Custom Date Picker */}
+                  <div
+                    className={`HotelRoomExperience-dateOptionCustom ${selectedDatePlan === 'custom' ? 'selected' : ''}`}
+                    onClick={handleTriggerDatePicker}
+                  >
+                    <div className="HotelRoomExperience-squareCheck">
+                      {selectedDatePlan === 'custom' && <span className="HotelRoomExperience-squareTick" />}
+                    </div>
+                    <div className="HotelRoomExperience-customInputContainer">
+                      <span className="HotelRoomExperience-customText">
+                        {customCheckIn && customCheckOut
+                          ? `${customCheckIn} to ${customCheckOut}`
+                          : 'Check In & Out Data'}
+                      </span>
                       <FaCalendarAlt className="HotelRoomExperience-calIcon" />
+                      
+                      <input
+                        ref={customDateInputRef}
+                        type="date"
+                        className="HotelRoomExperience-hiddenDateInput"
+                        value={customCheckIn}
+                        onChange={(e) => {
+                          setCustomCheckIn(e.target.value);
+                          if (!customCheckOut) setCustomCheckOut(e.target.value);
+                          setSelectedDatePlan('custom');
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -330,17 +340,21 @@ const HotelRoomExperience = () => {
                       <span className="HotelRoomExperience-currPrice">₹60</span>
                       <span className="HotelRoomExperience-oldPrice">₹80</span>
                     </div>
-                    <div className="HotelRoomExperience-counterBox">
+                    <div className="HotelRoomExperience-counterPill">
                       <button
+                        type="button"
                         className="HotelRoomExperience-counterBtn"
                         onClick={() => setAdultCount(Math.max(1, adultCount - 1))}
+                        aria-label="Decrease adult"
                       >
                         <FaChevronDown />
                       </button>
                       <span className="HotelRoomExperience-counterVal">{adultCount}</span>
                       <button
+                        type="button"
                         className="HotelRoomExperience-counterBtn"
                         onClick={() => setAdultCount(adultCount + 1)}
+                        aria-label="Increase adult"
                       >
                         <FaChevronUp />
                       </button>
@@ -352,17 +366,21 @@ const HotelRoomExperience = () => {
                     <div className="HotelRoomExperience-guestPrice">
                       <span className="HotelRoomExperience-currPrice">₹15</span>
                     </div>
-                    <div className="HotelRoomExperience-counterBox">
+                    <div className="HotelRoomExperience-counterPill">
                       <button
+                        type="button"
                         className="HotelRoomExperience-counterBtn"
                         onClick={() => setChildCount(Math.max(0, childCount - 1))}
+                        aria-label="Decrease children"
                       >
                         <FaChevronDown />
                       </button>
                       <span className="HotelRoomExperience-counterVal">{childCount}</span>
                       <button
+                        type="button"
                         className="HotelRoomExperience-counterBtn"
                         onClick={() => setChildCount(childCount + 1)}
+                        aria-label="Increase children"
                       >
                         <FaChevronUp />
                       </button>
@@ -373,7 +391,7 @@ const HotelRoomExperience = () => {
                 {/* Extra Services */}
                 <div className="HotelRoomExperience-extrasSection">
                   <h4 className="HotelRoomExperience-extrasTitle">Other Extra Services</h4>
-                  
+
                   <label className="HotelRoomExperience-extraRow">
                     <div className="HotelRoomExperience-extraLeft">
                       <input
@@ -399,21 +417,22 @@ const HotelRoomExperience = () => {
                   </label>
                 </div>
 
-                {/* Total Price & Action Button */}
+                {/* Total Price */}
                 <div className="HotelRoomExperience-totalRow">
                   <span className="HotelRoomExperience-totalLabel">Total Price:</span>
-                  <span className="HotelRoomExperience-totalAmount">₹470</span>
+                  <span className="HotelRoomExperience-totalAmount">₹{totalPrice}</span>
                 </div>
 
-                <button 
-                  className="HotelRoomExperience-bookBtn"
+                <button
+                  type="button"
+                  className="HotelRoomExperience-bookNowMainBtn"
                   onClick={handleOpenModal}
                 >
                   Book Now
                 </button>
               </>
             ) : (
-              /* INLINE INQUIRY FORM VIEW */
+              /* Inline Inquiry Form */
               <div className="HotelRoomExperience-inquiryContainer">
                 {isInlineSubmitted ? (
                   <div className="HotelRoomExperience-successMsg">
@@ -467,25 +486,35 @@ const HotelRoomExperience = () => {
                         placeholder="Type your message..."
                         value={inlineInquiry.message}
                         onChange={handleInlineChange}
-                      ></textarea>
+                      />
                     </div>
 
-                    <button type="submit" className="HotelRoomExperience-bookBtn">
+                    <button type="submit" className="HotelRoomExperience-bookNowMainBtn">
                       Submit Inquiry
                     </button>
                   </form>
                 )}
               </div>
             )}
-
           </div>
         </div>
       </div>
 
-      {/* POPUP MODAL (Triggers when clicking "Book Now") */}
-      <div className={`HotelRoomExperience-modalOverlay ${isModalOpen ? 'active' : ''}`} onClick={handleCloseModal}>
-        <div className="HotelRoomExperience-modalContent" onClick={(e) => e.stopPropagation()}>
-          <button className="HotelRoomExperience-modalCloseBtn" onClick={handleCloseModal}>
+      {/* Booking Popup Modal */}
+      <div
+        className={`HotelRoomExperience-modalOverlay ${isModalOpen ? 'active' : ''}`}
+        onClick={handleCloseModal}
+      >
+        <div
+          className="HotelRoomExperience-modalContent"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            className="HotelRoomExperience-modalCloseBtn"
+            onClick={handleCloseModal}
+            aria-label="Close modal"
+          >
             <FaTimes />
           </button>
 
@@ -493,22 +522,26 @@ const HotelRoomExperience = () => {
             <div className="HotelRoomExperience-modalSuccess">
               <FaCheck className="HotelRoomExperience-successIcon" />
               <h3>Booking Request Sent!</h3>
-              <p>We have received your booking details. Our agent will contact you shortly.</p>
-              <button className="HotelRoomExperience-bookBtn" onClick={handleCloseModal}>
+              <p>We have received your booking details. Our team will contact you shortly.</p>
+              <button
+                type="button"
+                className="HotelRoomExperience-bookNowMainBtn"
+                onClick={handleCloseModal}
+              >
                 Close
               </button>
             </div>
           ) : (
             <form onSubmit={handleModalSubmit} className="HotelRoomExperience-modalForm">
-              <h3 className="HotelRoomExperience-modalTitle">Complete Booking Inquiry</h3>
-              
+              <h3 className="HotelRoomExperience-modalTitle">Complete Booking</h3>
+
               <div className="HotelRoomExperience-formGroup">
                 <label>Name</label>
                 <input
                   type="text"
                   name="fullName"
                   required
-                  placeholder="Enter your full name"
+                  placeholder="Enter full name"
                   value={bookingFormData.fullName}
                   onChange={handleModalInputChange}
                 />
@@ -581,13 +614,13 @@ const HotelRoomExperience = () => {
                   onChange={handleModalInputChange}
                   className="HotelRoomExperience-select"
                 >
-                  <option value="premium">Premium</option>
                   <option value="standard">Standard</option>
+                  <option value="premium">Premium</option>
                   <option value="business">Business</option>
                 </select>
               </div>
 
-              <button type="submit" className="HotelRoomExperience-bookBtn">
+              <button type="submit" className="HotelRoomExperience-bookNowMainBtn">
                 Submit Booking
               </button>
             </form>

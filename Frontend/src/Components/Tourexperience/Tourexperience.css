@@ -1,4 +1,6 @@
-/* Base Container & Reset */
+/* ==========================================================================
+   Base Container & Global Reset
+   ========================================================================== */
 .TourExperience {
   width: 100%;
   padding: 40px 20px;
@@ -9,29 +11,30 @@
 }
 
 .TourExperience-container {
-max-width: 1400px;
+  max-width: 1360px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 380px;
+  grid-template-columns: 1fr 390px;
   gap: 40px;
   align-items: start;
 }
 
-/* ================= LEFT MAIN CONTENT ================= */
+/* ==========================================================================
+   Left Main Content Section
+   ========================================================================== */
 .TourExperience-mainContent {
   display: flex;
   flex-direction: column;
 }
 
 .TourExperience-title {
-  font-size: 2.2rem;
+  font-size: 2.1rem;
   font-weight: 800;
-  color: #121827;
-  line-height: 1.3;
+  color: #0f172a;
+  line-height: 1.35;
   margin: 0 0 16px 0;
 }
 
-/* Price Block */
 .TourExperience-priceTag {
   display: flex;
   align-items: baseline;
@@ -42,7 +45,8 @@ max-width: 1400px;
 .TourExperience-priceAmount {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #61b138;
+  color: #39b500;
+  font-feature-settings: "tnum";
 }
 
 .TourExperience-priceUnit {
@@ -51,7 +55,6 @@ max-width: 1400px;
   font-weight: 500;
 }
 
-/* Meta Data Icons Row */
 .TourExperience-metaRow {
   display: flex;
   align-items: center;
@@ -69,11 +72,10 @@ max-width: 1400px;
 }
 
 .TourExperience-metaIcon {
-  color: #61b138;
+  color: #39b500;
   font-size: 1.05rem;
 }
 
-/* Description Text */
 .TourExperience-description {
   color: #64748b;
   font-size: 0.95rem;
@@ -85,19 +87,17 @@ max-width: 1400px;
   margin: 0 0 16px 0;
 }
 
-/* Section Headings */
 .TourExperience-section {
   margin-bottom: 35px;
 }
 
 .TourExperience-sectionTitle {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 700;
-  color: #121827;
+  color: #0f172a;
   margin: 0 0 20px 0;
 }
 
-/* Included / Excluded Section */
 .TourExperience-incExcGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -122,7 +122,7 @@ max-width: 1400px;
 }
 
 .TourExperience-checkIcon {
-  color: #61b138;
+  color: #39b500;
   font-size: 0.95rem;
   margin-top: 3px;
   flex-shrink: 0;
@@ -135,7 +135,6 @@ max-width: 1400px;
   flex-shrink: 0;
 }
 
-/* Highlights List */
 .TourExperience-highlightsList {
   display: flex;
   flex-direction: column;
@@ -153,14 +152,14 @@ max-width: 1400px;
 }
 
 .TourExperience-greenCircleIcon {
-  color: #61b138;
+  color: #39b500;
   font-size: 1.1rem;
   margin-top: 2px;
   flex-shrink: 0;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
-/* Itinerary Accordion */
+/* Accordion */
 .TourExperience-itineraryAccordion {
   display: flex;
   flex-direction: column;
@@ -184,7 +183,7 @@ max-width: 1400px;
 }
 
 .TourExperience-dayBadge {
-  background-color: #61b138;
+  background-color: #39b500;
   color: #ffffff;
   font-weight: 700;
   padding: 10px 18px;
@@ -196,13 +195,13 @@ max-width: 1400px;
 .TourExperience-dayTitle {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #121827;
+  color: #0f172a;
   margin: 0;
   flex-grow: 1;
 }
 
 .TourExperience-accordionIcon {
-  color: #61b138;
+  color: #39b500;
   font-size: 1rem;
 }
 
@@ -227,73 +226,75 @@ max-width: 1400px;
   color: #475569;
 }
 
-/* ================= RIGHT SIDEBAR ================= */
+/* ==========================================================================
+   Right Sidebar Card
+   ========================================================================== */
 .TourExperience-sidebar {
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
 
-/* Booking Card */
 .TourExperience-bookingCard {
-  background-color: #f7f9f4;
+  background-color: #f7faf3;
   border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  padding: 30px 24px;
+  border: 1px solid #f0f5e8;
 }
 
 .TourExperience-bookingTitle {
-  font-size: 1.25rem;
+  font-size: 1.45rem;
   font-weight: 800;
-  color: #121827;
+  color: #091a32;
   text-align: center;
   margin: 0 0 8px 0;
 }
 
 .TourExperience-bookingSubtitle {
-  font-size: 0.8rem;
-  color: #718096;
+  font-size: 0.83rem;
+  color: #64748b;
   text-align: center;
-  line-height: 1.4;
-  margin: 0 0 20px 0;
+  line-height: 1.45;
+  margin: 0 auto 20px auto;
+  max-width: 290px;
 }
 
 /* Tabs */
 .TourExperience-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 24px;
 }
 
 .TourExperience-tab {
-  background: transparent;
-  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #61b138;
+  color: #39b500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .TourExperience-activeTab {
-  background-color: #61b138;
+  background-color: #39b500;
   color: #ffffff;
-  border-color: #61b138;
+  border-color: #39b500;
 }
 
-/* Date Selection Box */
+/* Booking Date Selection */
 .TourExperience-fieldGroup {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .TourExperience-fieldLabel {
   display: block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #121827;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #091a32;
   margin-bottom: 12px;
 }
 
@@ -303,13 +304,13 @@ max-width: 1400px;
   gap: 12px;
   margin-bottom: 10px;
   cursor: pointer;
+  user-select: none;
 }
 
 .TourExperience-checkboxSquare {
   width: 14px;
   height: 14px;
-  border: 1px solid #cbd5e1;
-  background-color: #d1d5db;
+  background-color: #cbd5e1;
   border-radius: 2px;
   display: flex;
   align-items: center;
@@ -317,8 +318,12 @@ max-width: 1400px;
   flex-shrink: 0;
 }
 
+.TourExperience-activeSquare {
+  background-color: #39b500 !important;
+}
+
 .TourExperience-greenSquare {
-  background-color: #61b138 !important;
+  background-color: #39b500 !important;
 }
 
 .TourExperience-innerCheck {
@@ -330,14 +335,14 @@ max-width: 1400px;
 .TourExperience-dateTextGroup {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .TourExperience-dateLabel {
   display: block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #121827;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #091a32;
 }
 
 .TourExperience-dateValue {
@@ -347,41 +352,52 @@ max-width: 1400px;
 }
 
 .TourExperience-dateArrow {
-  color: #61b138;
-  font-size: 0.8rem;
+  color: #39b500;
+  font-size: 0.85rem;
 }
 
-/* Custom Date Box */
+/* Custom Interactive Date Input Box */
 .TourExperience-customDateBox {
+  position: relative;
   display: flex;
   align-items: center;
   background: #ffffff;
   border-radius: 6px;
-  padding: 8px 12px;
-  margin-top: 15px;
-  border: 1px solid #edf2f7;
+  padding: 10px 14px;
+  margin-top: 14px;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
 }
 
-.TourExperience-dateInput {
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 0.8rem;
-  color: #475569;
+.TourExperience-customDateText {
+  margin-left: 12px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #334155;
   flex-grow: 1;
-  margin-left: 8px;
 }
 
 .TourExperience-calendarIcon {
-  color: #61b138;
-  font-size: 0.9rem;
+  color: #39b500;
+  font-size: 0.95rem;
 }
 
-/* Quantity Counter Section */
+.TourExperience-hiddenDateInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+/* Quantity Section */
 .TourExperience-qtySection {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 24px;
 }
 
@@ -395,21 +411,25 @@ max-width: 1400px;
   display: flex;
   align-items: baseline;
   gap: 8px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #121827;
+}
+
+.TourExperience-personType {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #091a32;
 }
 
 .TourExperience-priceSale {
   font-size: 0.95rem;
-  font-weight: 700;
-  color: #121827;
+  font-weight: 800;
+  color: #091a32;
 }
 
 .TourExperience-priceOriginal {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: #94a3b8;
   text-decoration: line-through;
+  font-weight: 600;
 }
 
 .TourExperience-counter {
@@ -419,12 +439,12 @@ max-width: 1400px;
 }
 
 .TourExperience-counterBtn {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  border: 1px solid #61b138;
+  border: 1.5px solid #39b500;
   background: transparent;
-  color: #61b138;
+  color: #39b500;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -434,19 +454,19 @@ max-width: 1400px;
 }
 
 .TourExperience-counterBtn:hover {
-  background-color: #61b138;
+  background-color: #39b500;
   color: #ffffff;
 }
 
 .TourExperience-countValue {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #121827;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #091a32;
   width: 14px;
   text-align: center;
 }
 
-/* Extra Services Section */
+/* Other Extra Services */
 .TourExperience-extraServices {
   margin-bottom: 24px;
 }
@@ -454,7 +474,7 @@ max-width: 1400px;
 .TourExperience-extraTitle {
   font-size: 0.95rem;
   font-weight: 800;
-  color: #121827;
+  color: #091a32;
   margin: 0 0 14px 0;
 }
 
@@ -464,31 +484,32 @@ max-width: 1400px;
   gap: 10px;
   margin-bottom: 10px;
   cursor: pointer;
+  user-select: none;
 }
 
 .TourExperience-extraName {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #121827;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #091a32;
   flex-grow: 1;
 }
 
 .TourExperience-extraPrice {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #121827;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #091a32;
 }
 
-/* Breakdown Formula Box */
+/* Formula Breakdown Box */
 .TourExperience-breakdownBox {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .TourExperience-breakdownItem {
-  background-color: #f1f3ea;
+  background-color: #f1f4eb;
   border-radius: 6px;
   padding: 10px 14px;
   display: flex;
@@ -498,81 +519,143 @@ max-width: 1400px;
 
 .TourExperience-breakdownType {
   font-size: 0.8rem;
-  font-weight: 700;
-  color: #121827;
-  width: 55px;
+  font-weight: 800;
+  color: #091a32;
+  width: 50px;
 }
 
 .TourExperience-formula {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #121827;
 }
 
-.TourExperience-formula small {
+.TourExperience-calcVal {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #091a32;
+  text-align: center;
+}
+
+.TourExperience-calcVal small {
   display: block;
-  font-size: 0.55rem;
+  font-size: 0.52rem;
   color: #64748b;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: -2px;
 }
 
 .TourExperience-operator {
-  color: #64748b;
-  font-size: 0.7rem;
+  color: #94a3b8;
+  font-size: 0.72rem;
 }
 
 .TourExperience-breakdownArrow {
-  color: #cbd5e1;
+  color: #d1d5db;
   font-size: 0.85rem;
 }
 
 .TourExperience-breakdownTotal {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 800;
-  color: #121827;
+  color: #091a32;
 }
 
-/* Total Price & Book Now */
+/* Total Price & Book Now CTA */
 .TourExperience-totalRow {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .TourExperience-totalLabel {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #121827;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #091a32;
 }
 
 .TourExperience-totalValue {
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   font-weight: 800;
-  color: #121827;
+  color: #091a32;
 }
 
 .TourExperience-bookNowBtn {
   width: 100%;
-  background-color: #61b138;
+  background-color: #39b500;
+  color: #ffffff;
+  border: none;
+  padding: 13px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.TourExperience-bookNowBtn:hover {
+  background-color: #2e9400;
+}
+
+/* Inquiry View */
+.TourExperience-inquiryForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.TourExperience-inquiryGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.TourExperience-inquiryLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.TourExperience-inquiryInput,
+.TourExperience-inquiryTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #1e293b;
+  background-color: #ffffff;
+  outline: none;
+  font-family: inherit;
+}
+
+.TourExperience-inquiryInput:focus,
+.TourExperience-inquiryTextarea:focus {
+  border-color: #39b500;
+}
+
+.TourExperience-inquiryTextarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.TourExperience-submitInquiryBtn {
+  width: 100%;
+  background-color: #39b500;
   color: #ffffff;
   border: none;
   padding: 12px;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.TourExperience-bookNowBtn:hover {
-  background-color: #51962e;
-  transform: translateY(-2px);
+.TourExperience-submitInquiryBtn:hover {
+  background-color: #2e9400;
 }
 
 /* Support Agent Banner Card */
@@ -595,7 +678,7 @@ max-width: 1400px;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #61b138;
+  background-color: #39b500;
   padding: 14px 20px;
   display: flex;
   align-items: center;
@@ -613,7 +696,7 @@ max-width: 1400px;
 }
 
 .TourExperience-phoneIcon {
-  color: #61b138;
+  color: #39b500;
   font-size: 0.9rem;
 }
 
@@ -635,20 +718,194 @@ max-width: 1400px;
   letter-spacing: 0.3px;
 }
 
-/* ================= RESPONSIVE DESIGN ================= */
+/* ==========================================================================
+   Smooth Booking Popup Modal
+   ========================================================================== */
+.TourExperience-modalOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.TourExperience-modalBox {
+  background: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  max-height: min(88vh, 720px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  padding: 28px 24px 24px 24px;
+  position: relative;
+  box-sizing: border-box;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+  animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.TourExperience-modalCloseBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 1.05rem;
+  transition: all 0.25s ease;
+  z-index: 30;
+}
+
+.TourExperience-modalCloseBtn:hover {
+  background-color: #fee2e2;
+  color: #ef4444;
+  transform: rotate(90deg);
+}
+
+.TourExperience-modalTitle {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-align: center;
+  margin: 0 0 16px 0;
+  padding: 0 32px;
+  flex-shrink: 0;
+}
+
+.TourExperience-modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 6px 6px 2px;
+  margin-right: -4px;
+  flex: 1 1 auto;
+}
+
+.TourExperience-modalForm::-webkit-scrollbar {
+  width: 5px;
+}
+
+.TourExperience-modalForm::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+}
+
+.TourExperience-modalForm::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.TourExperience-modalGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.TourExperience-modalLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.TourExperience-modalInput,
+.TourExperience-modalSelect {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: #1e293b;
+  outline: none;
+  font-family: inherit;
+  background-color: #ffffff;
+}
+
+.TourExperience-modalInput:focus,
+.TourExperience-modalSelect:focus {
+  border-color: #39b500;
+  box-shadow: 0 0 0 3px rgba(57, 181, 0, 0.12);
+}
+
+.TourExperience-modalRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.TourExperience-modalSubmitBtn {
+  width: 100%;
+  background-color: #39b500;
+  color: #ffffff;
+  border: none;
+  padding: 13px;
+  border-radius: 8px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.TourExperience-modalSubmitBtn:hover {
+  background-color: #2e9400;
+}
+
+/* Keyframe Animations */
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive */
 @media (max-width: 992px) {
   .TourExperience-container {
     grid-template-columns: 1fr;
   }
-  
+
   .TourExperience-sidebar {
-    max-width: 500px;
+    max-width: 480px;
     width: 100%;
     margin: 0 auto;
   }
 }
 
 @media (max-width: 600px) {
+  .TourExperience {
+    padding: 24px 14px;
+  }
+
   .TourExperience-title {
     font-size: 1.6rem;
   }
@@ -663,8 +920,12 @@ max-width: 1400px;
     grid-template-columns: 1fr;
   }
 
-  .TourExperience-breakdownItem {
-    flex-wrap: wrap;
-    gap: 6px;
+  .TourExperience-modalBox {
+    padding: 20px 16px;
+  }
+
+  .TourExperience-modalRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }

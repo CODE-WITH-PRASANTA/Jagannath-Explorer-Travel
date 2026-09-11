@@ -8,7 +8,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/footer/footer";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
-
+ 
 // Pages
 import Home from "./Page/Home/Home";
 import Tours from "./Page/Tours/Tours";

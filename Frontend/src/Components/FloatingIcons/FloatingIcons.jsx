@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './FloatingIcons.css';
-
+ 
 const FloatingIcons = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -8,7 +8,7 @@ const FloatingIcons = () => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
     };
-
+ 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -21,8 +21,8 @@ const FloatingIcons = () => {
   };
 
   // Specific phone & WhatsApp numbers configured
-  const callNumber = '+919583244441';
-  const whatsappNumber = '916370438621'; // wa.me requires country code without '+' or special characters
+  const callNumber = '+919668892441';
+  const whatsappNumber = '919556355446'; // wa.me requires country code without '+' or special characters
   const whatsappMessage = encodeURIComponent('Hello! I would like to get more information.');
 
   return (

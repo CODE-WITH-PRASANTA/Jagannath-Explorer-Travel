@@ -12,11 +12,11 @@ const TourDetailsBreadCrumb = () => {
     >
       {/* Title & Navigation */}
       <div className="TourDetailsBreadCrumb-hero">
-        <h1 className="TourDetailsBreadCrumb-title">Package Details</h1>
+        <h1 className="TourDetailsBreadCrumb-title">Tours Details</h1>
         <div className="TourDetailsBreadCrumb-nav">
           <span className="TourDetailsBreadCrumb-home">Home</span>
           <span className="TourDetailsBreadCrumb-arrow">--&gt;</span>
-          <span className="TourDetailsBreadCrumb-current">Package Details</span>
+          <span className="TourDetailsBreadCrumb-current">Tours Details</span>
         </div>
       </div>
     </div>
