@@ -12,6 +12,7 @@ const hotelRoutes = require("./src/routes/hotelRoutes");
 const tourRoutes = require("./src/routes/tourRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 const teamRoutes = require("./src/routes/teamRoutes");
+const carBookingRoutes = require("./src/routes/carBookingRoutes");
 
 const app = express();
 
@@ -31,6 +32,8 @@ app.use("/api/hotels", hotelRoutes);
 app.use("/api/tours", tourRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/team", teamRoutes);
+app.use("/api/car-bookings", carBookingRoutes);
+app.use("/api/bookings", carBookingRoutes);
 // Root route
 app.get("/", (req, res) => {
   res.json({

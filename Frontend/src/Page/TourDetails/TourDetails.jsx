@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useSearchParams, useLocation } from 'react-router-dom';
 import { API } from '../../api/axios';
 
 import TourDetailsBreadCrumb from '../../Components/TourDetailsBreadCrumb/TourDetailsBreadCrumb';
@@ -10,8 +10,19 @@ import TourDetailsFaq from '../../Components/TourDetailsFaq/TourDetailsFaq';
 import TourDetailsReview from '../../Components/TourDetailsReview/TourDetailsReview';
 
 const TourDetails = () => {
-  const { slug } = useParams();
+  const params = useParams();
+  const [searchParams] = useSearchParams();
   const location = useLocation();
+
+  const tourIdentifier =
+    params.slug ||
+    params.id ||
+    searchParams.get('slug') ||
+    searchParams.get('id') ||
+    location.state?.slug ||
+    location.state?.tourId ||
+    location.state?.id;
+
   const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,19 +32,21 @@ const TourDetails = () => {
     const fetchTourDetails = async () => {
       try {
         setLoading(true);
-        // If slug exists in URL parameter
-        if (slug) {
-          const res = await API.get(`/tours/${slug}`);
-          if (res.data && res.data.success && isMounted) {
-            setTour(res.data.data);
+        // If specific identifier exists
+        if (tourIdentifier) {
+          const res = await API.get(`/tours/${encodeURIComponent(tourIdentifier)}`);
+          const data = res.data?.data || res.data;
+          if (data && isMounted) {
+            setTour(data);
             return;
           }
         }
         
-        // Fallback: fetch all tours and select first available if no slug provided
+        // Fallback: fetch all tours from database and select the first available
         const allRes = await API.get('/tours');
-        if (allRes.data && allRes.data.success && allRes.data.data.length > 0 && isMounted) {
-          setTour(allRes.data.data[0]);
+        const allTours = allRes.data?.data || allRes.data || [];
+        if (Array.isArray(allTours) && allTours.length > 0 && isMounted) {
+          setTour(allTours[0]);
         }
       } catch (err) {
         console.error('Failed to fetch tour details:', err);
@@ -47,7 +60,7 @@ const TourDetails = () => {
     return () => {
       isMounted = false;
     };
-  }, [slug, location]);
+  }, [tourIdentifier]);
 
   return (
     <div>

@@ -14,10 +14,9 @@ import photo5 from '../../assets/img3.webp';
 
 const TourDetailsPhoto = ({ mainImage, galleryImages = [], videoUrl, title = 'Tour Package' }) => {
   const getFullImg = (img) => {
-    if (!img) return null;
-    if (typeof img !== 'string') return null;
-    if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('data:')) return img;
-    return `${IMG_URL}${img}`;
+    if (!img || typeof img !== 'string') return null;
+    if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('blob:') || img.startsWith('data:')) return img;
+    return img.startsWith('/') ? `${IMG_URL}${img}` : `${IMG_URL}/${img}`;
   };
 
   const mainPhoto = getFullImg(mainImage) || (galleryImages.length > 0 ? getFullImg(galleryImages[0]) : photo1);

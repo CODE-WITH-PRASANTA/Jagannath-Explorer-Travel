@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaChevronLeft, FaChevronRight, FaTimes, FaCheck, FaUser, FaPhoneAlt } from 'react-icons/fa';
 import './Carrental.css';
+import API from '../../api/axios';
 
 // अपनी इमेज फ़ाइल्स को यहाँ इम्पोर्ट करें
 import swiftDzireImg from '../../assets/Swift-Dezire.webp';
@@ -198,18 +199,55 @@ const Carrental = () => {
   };
 
   // Step 2 Submit
-  const handleStep2Submit = (e) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleStep2Submit = async (e) => {
     e.preventDefault();
     if (!formData.fullName || !formData.phone) {
       alert('Please enter your full name and 10 digit mobile number.');
       return;
     }
+
+    const cleanMobile = formData.phone.replace(/\D/g, '');
+    if (!/^\d{10}$/.test(cleanMobile)) {
+      alert('Please enter a valid 10 digit mobile number.');
+      return;
+    }
+
     if (!formData.agreeTerms) {
       alert('Please accept terms & conditions to proceed.');
       return;
     }
-    // Final Step 3 Screen
-    setStep(3);
+
+    try {
+      setSubmitting(true);
+      const payload = {
+        vehicleName: selectedCar?.name || 'Rental Car',
+        vehicleType: 'Car Rental',
+        vehiclePrice: selectedCar?.price ? `${selectedCar.price} ${selectedCar.duration || ''}` : '',
+        vehicleImage: typeof selectedCar?.image === 'string' ? selectedCar.image : '',
+        pickupLocation: formData.pickupLocation,
+        dropLocation: formData.dropLocation,
+        pickupDateTime: formData.pickupDateTime,
+        dropDateTime: formData.dropDateTime,
+        fullName: formData.fullName,
+        mobileNumber: cleanMobile,
+        message: formData.message || '',
+        agreedToTerms: formData.agreeTerms,
+      };
+
+      await API.post('/car-bookings', payload);
+      // Final Step 3 Screen
+      setStep(3);
+    } catch (error) {
+      console.error('Car rental booking error:', error);
+      alert(
+        error.response?.data?.message ||
+          'Failed to submit booking. Please verify your details or call our team.'
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

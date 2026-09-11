@@ -22,10 +22,86 @@ import {
 import supportAgent from '../../assets/img 10.webp';
 
 const TourExperience = ({ tour }) => {
+  // Helper to parse lists from array or delimited strings
+  const parseList = (val) => {
+    if (!val) return [];
+    if (Array.isArray(val)) return val.map(String).map((s) => s.trim()).filter(Boolean);
+    if (typeof val === 'string') {
+      return val.split(/[,\n]/).map((s) => s.trim()).filter(Boolean);
+    }
+    return [];
+  };
+
+  // Real lists from database with graceful fallbacks
+  const dbIncludes = parseList(tour?.includes);
+  const dbExcludes = parseList(tour?.excludes);
+  const dbHighlights = parseList(tour?.tags);
+
+  const includedList = dbIncludes.length > 0 ? dbIncludes : [
+    'Private AC Cab for Sightseeing',
+    'Experienced Driver cum Tour Guide',
+    'Special Temple VIP Darshan Assistance',
+    'Hotel Pick-up & Drop Service',
+    'All Toll Taxes, Parking & Fuel Charges'
+  ];
+
+  const excludedList = dbExcludes.length > 0 ? dbExcludes : [
+    'Monument & Camera Entry Tickets',
+    'Personal Expenses & Shopping',
+    'Any Extra Meals or Refreshments',
+    'Anything not mentioned in Inclusions'
+  ];
+
+  const highlightsList = dbHighlights.length > 0 ? dbHighlights : [
+    'Sacred Jagannath Temple Darshan & Mahaprasad Experience',
+    'Witness Majestic Konark Sun Temple Architecture',
+    'Scenic Golden Beach Walk & Sunrise Moments in Puri',
+    'Enchanting Chilika Lake Dolphin & Bird Watching'
+  ];
+
+  // Itinerary parsing from database
+  let itineraryList = [];
+  if (tour?.itinerary) {
+    if (Array.isArray(tour.itinerary) && tour.itinerary.length > 0) {
+      itineraryList = tour.itinerary;
+    } else if (typeof tour.itinerary === 'string') {
+      try {
+        const parsed = JSON.parse(tour.itinerary);
+        if (Array.isArray(parsed) && parsed.length > 0) itineraryList = parsed;
+      } catch {
+        itineraryList = [];
+      }
+    }
+  }
+
+  if (itineraryList.length === 0) {
+    itineraryList = [
+      {
+        dayNumber: "Day 01",
+        title: `Arrival & ${tour?.destination || "Puri"} Temple Darshan`,
+        description: `Warm welcome upon arrival. Transfer to the hotel. Proceed for sacred darshan of Lord Jagannath and evening spiritual atmosphere around Grand Road.`,
+        highlights: ["Hotel Check-in & Refreshment", "Jagannath Temple Darshan", "Evening Beach Walk"]
+      },
+      {
+        dayNumber: "Day 02",
+        title: `Konark Sun Temple & Marine Drive Sightseeing`,
+        description: `After breakfast, explore the UNESCO World Heritage Sun Temple at Konark and the pristine Chandrabhaga Beach along the scenic Marine Drive.`,
+        highlights: ["Konark Sun Temple Visit", "Chandrabhaga Beach", "Local Craft & Handloom Village"]
+      },
+      {
+        dayNumber: "Day 03",
+        title: `Chilika Lake Excursion & Departure`,
+        description: `Drive to Chilika Lake (Satapada) for boating and Irrawaddy dolphin spotting. Evening drop-off at station/airport with blessed memories.`,
+        highlights: ["Chilika Lake Boating", "Dolphin Point", "Return Transfer"]
+      }
+    ];
+  }
+
   // Booking Form States
   const [bookingTab, setBookingTab] = useState('online');
   const [selectedDateIndex, setSelectedDateIndex] = useState(0);
-  const [adultQty, setAdultQty] = useState(1);
+  const [customDate, setCustomDate] = useState('');
+  const [adultQty, setAdultQty] = useState(2);
   const [childQty, setChildQty] = useState(0);
   
   // Extra Services State
@@ -34,6 +110,15 @@ const TourExperience = ({ tour }) => {
     nightFood: false,
     seaplane: false,
   });
+
+  // Inquiry Form State
+  const [inquiryData, setInquiryData] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    message: ''
+  });
+  const [isInquirySent, setIsInquirySent] = useState(false);
 
   // Accordion Itinerary State (Day 1 open by default)
   const [openDay, setOpenDay] = useState(1);
@@ -49,8 +134,19 @@ const TourExperience = ({ tour }) => {
     }));
   };
 
+  // Upcoming Slots calculation
+  const getFormattedDate = (daysAhead) => {
+    const d = new Date();
+    d.setDate(d.getDate() + daysAhead);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+  const slot1In = getFormattedDate(2);
+  const slot1Out = getFormattedDate(5);
+  const slot2In = getFormattedDate(7);
+  const slot2Out = getFormattedDate(10);
+
   // Pricing calculations
-  const adultPrice = Number(tour?.price) || 0;
+  const adultPrice = Number(tour?.price) || 2999;
   const childPrice = Number(tour?.discountPrice) > 0 ? Number(tour?.discountPrice) : Math.round(adultPrice * 0.5);
   const pickupCost = extraServices.homePickup ? 500 : 0;
   const foodCost = extraServices.nightFood ? 750 : 0;
@@ -58,14 +154,19 @@ const TourExperience = ({ tour }) => {
   const extrasTotal = pickupCost + foodCost + seaplaneCost;
   const totalPrice = (adultPrice * adultQty) + (childPrice * childQty) + extrasTotal;
 
-  // Real lists from database
-  const includedList = Array.isArray(tour?.includes) ? tour.includes.filter(Boolean) : [];
-  const excludedList = Array.isArray(tour?.excludes) ? tour.excludes.filter(Boolean) : [];
-  const highlightsList = Array.isArray(tour?.tags) ? tour.tags.filter(Boolean) : [];
-  const itineraryList = Array.isArray(tour?.itinerary) ? tour.itinerary : [];
-
   const handleBookNow = () => {
-    window.location.href = `tel:9668892441`;
+    const tourTitle = tour?.title || "Odisha Holiday Tour";
+    const selectedDate = customDate || (selectedDateIndex === 0 ? slot1In : slot2In);
+    const msg = `Jai Jagannath! I would like to book the tour: *${tourTitle}*\n- Destination: ${tour?.destination || 'Odisha'}\n- Date: ${selectedDate}\n- Adults: ${adultQty}, Children: ${childQty}\n- Total Price: ₹${totalPrice.toLocaleString('en-IN')}\nPlease share confirmation and itinerary details.`;
+    window.open(`https://wa.me/919668892441?text=${encodeURIComponent(msg)}`, '_blank');
+  };
+
+  const handleInquirySubmit = (e) => {
+    e.preventDefault();
+    const tourTitle = tour?.title || "Odisha Holiday Tour";
+    const msg = `Inquiry for Tour: *${tourTitle}*\nName: ${inquiryData.fullName}\nPhone: ${inquiryData.phone}\nEmail: ${inquiryData.email || 'N/A'}\nMessage: ${inquiryData.message || 'I want more details regarding this package.'}`;
+    window.open(`https://wa.me/919668892441?text=${encodeURIComponent(msg)}`, '_blank');
+    setIsInquirySent(true);
   };
 
   return (
@@ -77,17 +178,15 @@ const TourExperience = ({ tour }) => {
           
           {/* Main Title & Price */}
           <h1 className="TourExperience-title">
-            {tour?.title || "Tour Package Details"}
+            {tour?.title || "Jagannath Dham & Odisha Tour Package"}
           </h1>
 
-          {tour?.price !== undefined && (
-            <div className="TourExperience-priceTag">
-              <span className="TourExperience-priceAmount">
-                ₹{adultPrice.toLocaleString('en-IN')}
-              </span>
-              <span className="TourExperience-priceUnit">/per person</span>
-            </div>
-          )}
+          <div className="TourExperience-priceTag">
+            <span className="TourExperience-priceAmount">
+              ₹{adultPrice.toLocaleString('en-IN')}
+            </span>
+            <span className="TourExperience-priceUnit">/per person</span>
+          </div>
 
           {/* Quick Meta Info */}
           <div className="TourExperience-metaRow">
@@ -112,107 +211,100 @@ const TourExperience = ({ tour }) => {
           </div>
 
           {/* Intro Paragraphs */}
-          {(tour?.detailedDescription || tour?.shortDescription) && (
-            <div className="TourExperience-description">
-              {tour?.detailedDescription && <p>{tour.detailedDescription}</p>}
-              {tour?.shortDescription && tour?.shortDescription !== tour?.detailedDescription && (
-                <p>{tour.shortDescription}</p>
-              )}
-            </div>
-          )}
+          <div className="TourExperience-description">
+            {tour?.detailedDescription ? (
+              <p>{tour.detailedDescription}</p>
+            ) : tour?.shortDescription ? (
+              <p>{tour.shortDescription}</p>
+            ) : (
+              <p>
+                Experience the divine heritage of Odisha with our curated tour package. From the holy Puri Jagannath Temple to the architectural marvel of Konark Sun Temple and serene beaches, immerse yourself in an unforgettable journey of spiritual devotion, rich culture, and authentic Odia hospitality.
+              </p>
+            )}
+          </div>
 
           {/* Included and Excluded Section */}
-          {(includedList.length > 0 || excludedList.length > 0) && (
-            <div className="TourExperience-section">
-              <h2 className="TourExperience-sectionTitle">Included and Excluded</h2>
-              <div className="TourExperience-incExcGrid">
-                
-                {/* Included Items */}
-                {includedList.length > 0 && (
-                  <div className="TourExperience-incExcColumn">
-                    {includedList.map((item, idx) => (
-                      <div className="TourExperience-incItem" key={idx}>
-                        <FaCheck className="TourExperience-checkIcon" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Excluded Items */}
-                {excludedList.length > 0 && (
-                  <div className="TourExperience-incExcColumn">
-                    {excludedList.map((item, idx) => (
-                      <div className="TourExperience-excItem" key={idx}>
-                        <FaTimes className="TourExperience-timesIcon" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-              </div>
-            </div>
-          )}
-
-          {/* Highlights Section */}
-          {highlightsList.length > 0 && (
-            <div className="TourExperience-section">
-              <h2 className="TourExperience-sectionTitle">Highlights of the Tour</h2>
-              <div className="TourExperience-highlightsList">
-                {highlightsList.map((item, idx) => (
-                  <div className="TourExperience-highlightItem" key={idx}>
-                    <FaCheckCircle className="TourExperience-greenCircleIcon" />
+          <div className="TourExperience-section">
+            <h2 className="TourExperience-sectionTitle">Included and Excluded</h2>
+            <div className="TourExperience-incExcGrid">
+              
+              {/* Included Items */}
+              <div className="TourExperience-incExcColumn">
+                {includedList.map((item, idx) => (
+                  <div className="TourExperience-incItem" key={idx}>
+                    <FaCheck className="TourExperience-checkIcon" />
                     <span>{item}</span>
                   </div>
                 ))}
               </div>
+
+              {/* Excluded Items */}
+              <div className="TourExperience-incExcColumn">
+                {excludedList.map((item, idx) => (
+                  <div className="TourExperience-excItem" key={idx}>
+                    <FaTimes className="TourExperience-timesIcon" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+
             </div>
-          )}
+          </div>
+
+          {/* Highlights Section */}
+          <div className="TourExperience-section">
+            <h2 className="TourExperience-sectionTitle">Highlights of the Tour</h2>
+            <div className="TourExperience-highlightsList">
+              {highlightsList.map((item, idx) => (
+                <div className="TourExperience-highlightItem" key={idx}>
+                  <FaCheckCircle className="TourExperience-greenCircleIcon" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Itinerary Accordion Section */}
-          {itineraryList.length > 0 && (
-            <div className="TourExperience-section">
-              <h2 className="TourExperience-sectionTitle">Itinerary</h2>
-              <div className="TourExperience-itineraryAccordion">
-                {itineraryList.map((dayItem, idx) => {
-                  const dayBadgeText = dayItem.dayNumber || (dayItem.day ? `Day ${String(dayItem.day).padStart(2, '0')}` : `Day ${String(idx + 1).padStart(2, '0')}`);
-                  const isItemOpen = openDay === idx + 1;
-                  const dayActivities = dayItem.highlights || dayItem.activities || [];
-                  return (
+          <div className="TourExperience-section">
+            <h2 className="TourExperience-sectionTitle">Itinerary</h2>
+            <div className="TourExperience-itineraryAccordion">
+              {itineraryList.map((dayItem, idx) => {
+                const dayBadgeText = dayItem.dayNumber || `Day ${String(idx + 1).padStart(2, '0')}`;
+                const isItemOpen = openDay === idx + 1;
+                const dayActivities = dayItem.highlights || dayItem.activities || [];
+                return (
+                  <div 
+                    className={`TourExperience-accordionItem ${isItemOpen ? 'TourExperience-open' : ''}`}
+                    key={idx}
+                  >
                     <div 
-                      className={`TourExperience-accordionItem ${isItemOpen ? 'TourExperience-open' : ''}`}
-                      key={idx}
+                      className="TourExperience-accordionHeader" 
+                      onClick={() => toggleDay(idx + 1)}
                     >
-                      <div 
-                        className="TourExperience-accordionHeader" 
-                        onClick={() => toggleDay(idx + 1)}
-                      >
-                        <div className="TourExperience-dayBadge">{dayBadgeText} :</div>
-                        <h3 className="TourExperience-dayTitle">{dayItem.title || `Day ${idx + 1} Schedule`}</h3>
-                        {isItemOpen ? (
-                          <FaChevronUp className="TourExperience-accordionIcon" />
-                        ) : (
-                          <FaChevronDown className="TourExperience-accordionIcon" />
-                        )}
-                      </div>
-                      {isItemOpen && (
-                        <div className="TourExperience-accordionBody">
-                          {dayItem.description && <p>{dayItem.description}</p>}
-                          {Array.isArray(dayActivities) && dayActivities.map((act, aIdx) => (
-                            <div className="TourExperience-daySubItem" key={aIdx}>
-                              <FaCheck className="TourExperience-checkIcon" />
-                              <span>{act}</span>
-                            </div>
-                          ))}
-                        </div>
+                      <div className="TourExperience-dayBadge">{dayBadgeText} :</div>
+                      <h3 className="TourExperience-dayTitle">{dayItem.title || `Day ${idx + 1} Sightseeing`}</h3>
+                      {isItemOpen ? (
+                        <FaChevronUp className="TourExperience-accordionIcon" />
+                      ) : (
+                        <FaChevronDown className="TourExperience-accordionIcon" />
                       )}
                     </div>
-                  );
-                })}
-              </div>
+                    {isItemOpen && (
+                      <div className="TourExperience-accordionBody">
+                        {dayItem.description && <p>{dayItem.description}</p>}
+                        {Array.isArray(dayActivities) && dayActivities.map((act, aIdx) => (
+                          <div className="TourExperience-daySubItem" key={aIdx}>
+                            <FaCheck className="TourExperience-checkIcon" />
+                            <span>{act}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
-          )}
+          </div>
 
         </div>
 
@@ -244,195 +336,258 @@ const TourExperience = ({ tour }) => {
               </button>
             </div>
 
-            {/* Date Selection */}
-            <div className="TourExperience-fieldGroup">
-              <label className="TourExperience-fieldLabel">Select Your Booking Date:</label>
-              
-              {/* Check-in / Check-out Options */}
-              <div 
-                className={`TourExperience-dateOption ${selectedDateIndex === 0 ? 'TourExperience-selectedDate' : ''}`}
-                onClick={() => setSelectedDateIndex(0)}
-              >
-                <div className="TourExperience-checkboxSquare">
-                  {selectedDateIndex === 0 && <span className="TourExperience-innerCheck"></span>}
-                </div>
-                <div className="TourExperience-dateTextGroup">
-                  <div>
-                    <span className="TourExperience-dateLabel">Check In</span>
-                    <span className="TourExperience-dateValue">Upcoming Slot 1</span>
-                  </div>
-                  <FaLongArrowAltRight className="TourExperience-dateArrow" />
-                  <div>
-                    <span className="TourExperience-dateLabel">Check Out</span>
-                    <span className="TourExperience-dateValue">Flexible</span>
-                  </div>
-                </div>
-              </div>
-
-              <div 
-                className={`TourExperience-dateOption ${selectedDateIndex === 1 ? 'TourExperience-selectedDate' : ''}`}
-                onClick={() => setSelectedDateIndex(1)}
-              >
-                <div className="TourExperience-checkboxSquare">
-                  {selectedDateIndex === 1 && <span className="TourExperience-innerCheck"></span>}
-                </div>
-                <div className="TourExperience-dateTextGroup">
-                  <div>
-                    <span className="TourExperience-dateLabel">Check In</span>
-                    <span className="TourExperience-dateValue">Upcoming Slot 2</span>
-                  </div>
-                  <FaLongArrowAltRight className="TourExperience-dateArrow" />
-                  <div>
-                    <span className="TourExperience-dateLabel">Check Out</span>
-                    <span className="TourExperience-dateValue">Flexible</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Custom Date Input */}
-              <div className="TourExperience-customDateBox">
-                <div className="TourExperience-checkboxSquare TourExperience-greenSquare">
-                  <span className="TourExperience-innerCheck"></span>
-                </div>
-                <input 
-                  type="text" 
-                  defaultValue="Select Custom Date" 
-                  className="TourExperience-dateInput" 
-                />
-                <FaCalendarAlt className="TourExperience-calendarIcon" />
-              </div>
-
-            </div>
-
-            {/* Quantity Selectors */}
-            <div className="TourExperience-qtySection">
-              
-              {/* Adult */}
-              <div className="TourExperience-qtyRow">
-                <div className="TourExperience-qtyLabel">
-                  <span>Adult:</span>
-                  <span className="TourExperience-priceSale">₹{adultPrice.toLocaleString('en-IN')}</span>
-                </div>
-                <div className="TourExperience-counter">
-                  <button 
-                    type="button"
-                    className="TourExperience-counterBtn" 
-                    onClick={() => setAdultQty(Math.max(1, adultQty - 1))}
+            {bookingTab === 'online' ? (
+              <>
+                {/* Date Selection */}
+                <div className="TourExperience-fieldGroup">
+                  <label className="TourExperience-fieldLabel">Select Your Booking Date:</label>
+                  
+                  {/* Check-in / Check-out Options */}
+                  <div 
+                    className={`TourExperience-dateOption ${selectedDateIndex === 0 ? 'TourExperience-selectedDate' : ''}`}
+                    onClick={() => { setSelectedDateIndex(0); setCustomDate(''); }}
                   >
-                    <FaMinus />
-                  </button>
-                  <span className="TourExperience-countValue">{adultQty}</span>
-                  <button 
-                    type="button"
-                    className="TourExperience-counterBtn" 
-                    onClick={() => setAdultQty(adultQty + 1)}
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-              </div>
-
-              {/* Children */}
-              <div className="TourExperience-qtyRow">
-                <div className="TourExperience-qtyLabel">
-                  <span>Children:</span>
-                  <span className="TourExperience-priceSale">₹{childPrice.toLocaleString('en-IN')}</span>
-                </div>
-                <div className="TourExperience-counter">
-                  <button 
-                    type="button"
-                    className="TourExperience-counterBtn" 
-                    onClick={() => setChildQty(Math.max(0, childQty - 1))}
-                  >
-                    <FaMinus />
-                  </button>
-                  <span className="TourExperience-countValue">{childQty}</span>
-                  <button 
-                    type="button"
-                    className="TourExperience-counterBtn" 
-                    onClick={() => setChildQty(childQty + 1)}
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Other Extra Services */}
-            <div className="TourExperience-extraServices">
-              <h3 className="TourExperience-extraTitle">Other Extra Services</h3>
-
-              <div className="TourExperience-extraRow" onClick={() => handleServiceChange('homePickup')}>
-                <div className="TourExperience-checkboxSquare">
-                  {extraServices.homePickup && <span className="TourExperience-innerCheck"></span>}
-                </div>
-                <span className="TourExperience-extraName">Home / Airport Pickup</span>
-                <span className="TourExperience-extraPrice">₹500</span>
-              </div>
-
-              <div className="TourExperience-extraRow" onClick={() => handleServiceChange('nightFood')}>
-                <div className="TourExperience-checkboxSquare">
-                  {extraServices.nightFood && <span className="TourExperience-innerCheck"></span>}
-                </div>
-                <span className="TourExperience-extraName">Special Dinner & Food</span>
-                <span className="TourExperience-extraPrice">₹750</span>
-              </div>
-
-              <div className="TourExperience-extraRow" onClick={() => handleServiceChange('seaplane')}>
-                <div className="TourExperience-checkboxSquare">
-                  {extraServices.seaplane && <span className="TourExperience-innerCheck"></span>}
-                </div>
-                <span className="TourExperience-extraName">Local Sightseeing Boating/Pass</span>
-                <span className="TourExperience-extraPrice">₹1,200</span>
-              </div>
-            </div>
-
-            {/* Calculations Breakdown Box */}
-            <div className="TourExperience-breakdownBox">
-              
-              {/* Adult Row */}
-              <div className="TourExperience-breakdownItem">
-                <span className="TourExperience-breakdownType">Adult</span>
-                <div className="TourExperience-formula">
-                  <span>₹{adultPrice} <small>PRICE</small></span>
-                  <span className="TourExperience-operator">×</span>
-                  <span>{String(adultQty).padStart(2, '0')} <small>QTY</small></span>
-                </div>
-                <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
-                <span className="TourExperience-breakdownTotal">₹{(adultPrice * adultQty).toLocaleString('en-IN')}</span>
-              </div>
-
-              {/* Children Row */}
-              {childQty > 0 && (
-                <div className="TourExperience-breakdownItem">
-                  <span className="TourExperience-breakdownType">Children</span>
-                  <div className="TourExperience-formula">
-                    <span>₹{childPrice} <small>PRICE</small></span>
-                    <span className="TourExperience-operator">×</span>
-                    <span>{String(childQty).padStart(2, '0')} <small>QTY</small></span>
+                    <div className="TourExperience-checkboxSquare">
+                      {selectedDateIndex === 0 && <span className="TourExperience-innerCheck"></span>}
+                    </div>
+                    <div className="TourExperience-dateTextGroup">
+                      <div>
+                        <span className="TourExperience-dateLabel">Check In</span>
+                        <span className="TourExperience-dateValue">{slot1In}</span>
+                      </div>
+                      <FaLongArrowAltRight className="TourExperience-dateArrow" />
+                      <div>
+                        <span className="TourExperience-dateLabel">Check Out</span>
+                        <span className="TourExperience-dateValue">{slot1Out}</span>
+                      </div>
+                    </div>
                   </div>
-                  <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
-                  <span className="TourExperience-breakdownTotal">₹{(childPrice * childQty).toLocaleString('en-IN')}</span>
+
+                  <div 
+                    className={`TourExperience-dateOption ${selectedDateIndex === 1 ? 'TourExperience-selectedDate' : ''}`}
+                    onClick={() => { setSelectedDateIndex(1); setCustomDate(''); }}
+                  >
+                    <div className="TourExperience-checkboxSquare">
+                      {selectedDateIndex === 1 && <span className="TourExperience-innerCheck"></span>}
+                    </div>
+                    <div className="TourExperience-dateTextGroup">
+                      <div>
+                        <span className="TourExperience-dateLabel">Check In</span>
+                        <span className="TourExperience-dateValue">{slot2In}</span>
+                      </div>
+                      <FaLongArrowAltRight className="TourExperience-dateArrow" />
+                      <div>
+                        <span className="TourExperience-dateLabel">Check Out</span>
+                        <span className="TourExperience-dateValue">{slot2Out}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Custom Date Input */}
+                  <div className="TourExperience-customDateBox">
+                    <div className="TourExperience-checkboxSquare TourExperience-greenSquare">
+                      <span className="TourExperience-innerCheck"></span>
+                    </div>
+                    <input 
+                      type="date" 
+                      value={customDate}
+                      onChange={(e) => { setCustomDate(e.target.value); setSelectedDateIndex(null); }}
+                      className="TourExperience-dateInput" 
+                    />
+                    <FaCalendarAlt className="TourExperience-calendarIcon" />
+                  </div>
+
                 </div>
-              )}
 
-            </div>
+                {/* Quantity Selectors */}
+                <div className="TourExperience-qtySection">
+                  
+                  {/* Adult */}
+                  <div className="TourExperience-qtyRow">
+                    <div className="TourExperience-qtyLabel">
+                      <span>Adult:</span>
+                      <span className="TourExperience-priceSale">₹{adultPrice.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div className="TourExperience-counter">
+                      <button 
+                        type="button"
+                        className="TourExperience-counterBtn" 
+                        onClick={() => setAdultQty(Math.max(1, adultQty - 1))}
+                      >
+                        <FaMinus />
+                      </button>
+                      <span className="TourExperience-countValue">{adultQty}</span>
+                      <button 
+                        type="button"
+                        className="TourExperience-counterBtn" 
+                        onClick={() => setAdultQty(adultQty + 1)}
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
+                  </div>
 
-            {/* Total Price */}
-            <div className="TourExperience-totalRow">
-              <span className="TourExperience-totalLabel">Total Price:</span>
-              <span className="TourExperience-totalValue">₹{totalPrice.toLocaleString('en-IN')}</span>
-            </div>
+                  {/* Children */}
+                  <div className="TourExperience-qtyRow">
+                    <div className="TourExperience-qtyLabel">
+                      <span>Children:</span>
+                      <span className="TourExperience-priceSale">₹{childPrice.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div className="TourExperience-counter">
+                      <button 
+                        type="button"
+                        className="TourExperience-counterBtn" 
+                        onClick={() => setChildQty(Math.max(0, childQty - 1))}
+                      >
+                        <FaMinus />
+                      </button>
+                      <span className="TourExperience-countValue">{childQty}</span>
+                      <button 
+                        type="button"
+                        className="TourExperience-counterBtn" 
+                        onClick={() => setChildQty(childQty + 1)}
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
+                  </div>
 
-            {/* Book Now Button */}
-            <button 
-              type="button"
-              className="TourExperience-bookNowBtn"
-              onClick={handleBookNow}
-            >
-              Book Now
-            </button>
+                </div>
+
+                {/* Other Extra Services */}
+                <div className="TourExperience-extraServices">
+                  <h3 className="TourExperience-extraTitle">Other Extra Services</h3>
+
+                  <div className="TourExperience-extraRow" onClick={() => handleServiceChange('homePickup')}>
+                    <div className="TourExperience-checkboxSquare">
+                      {extraServices.homePickup && <span className="TourExperience-innerCheck"></span>}
+                    </div>
+                    <span className="TourExperience-extraName">Home / Airport Pickup</span>
+                    <span className="TourExperience-extraPrice">₹500</span>
+                  </div>
+
+                  <div className="TourExperience-extraRow" onClick={() => handleServiceChange('nightFood')}>
+                    <div className="TourExperience-checkboxSquare">
+                      {extraServices.nightFood && <span className="TourExperience-innerCheck"></span>}
+                    </div>
+                    <span className="TourExperience-extraName">Special Mahaprasad / Food</span>
+                    <span className="TourExperience-extraPrice">₹750</span>
+                  </div>
+
+                  <div className="TourExperience-extraRow" onClick={() => handleServiceChange('seaplane')}>
+                    <div className="TourExperience-checkboxSquare">
+                      {extraServices.seaplane && <span className="TourExperience-innerCheck"></span>}
+                    </div>
+                    <span className="TourExperience-extraName">Chilika Boating & Sightseeing</span>
+                    <span className="TourExperience-extraPrice">₹1,200</span>
+                  </div>
+                </div>
+
+                {/* Calculations Breakdown Box */}
+                <div className="TourExperience-breakdownBox">
+                  
+                  {/* Adult Row */}
+                  <div className="TourExperience-breakdownItem">
+                    <span className="TourExperience-breakdownType">Adult</span>
+                    <div className="TourExperience-formula">
+                      <span>₹{adultPrice} <small>PRICE</small></span>
+                      <span className="TourExperience-operator">×</span>
+                      <span>{String(adultQty).padStart(2, '0')} <small>QTY</small></span>
+                    </div>
+                    <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
+                    <span className="TourExperience-breakdownTotal">₹{(adultPrice * adultQty).toLocaleString('en-IN')}</span>
+                  </div>
+
+                  {/* Children Row */}
+                  {childQty > 0 && (
+                    <div className="TourExperience-breakdownItem">
+                      <span className="TourExperience-breakdownType">Children</span>
+                      <div className="TourExperience-formula">
+                        <span>₹{childPrice} <small>PRICE</small></span>
+                        <span className="TourExperience-operator">×</span>
+                        <span>{String(childQty).padStart(2, '0')} <small>QTY</small></span>
+                      </div>
+                      <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
+                      <span className="TourExperience-breakdownTotal">₹{(childPrice * childQty).toLocaleString('en-IN')}</span>
+                    </div>
+                  )}
+
+                </div>
+
+                {/* Total Price */}
+                <div className="TourExperience-totalRow">
+                  <span className="TourExperience-totalLabel">Total Price:</span>
+                  <span className="TourExperience-totalValue">₹{totalPrice.toLocaleString('en-IN')}</span>
+                </div>
+
+                {/* Book Now Button */}
+                <button 
+                  type="button"
+                  className="TourExperience-bookNowBtn"
+                  onClick={handleBookNow}
+                >
+                  Book Now
+                </button>
+              </>
+            ) : (
+              /* INQUIRY FORM VIEW */
+              <form onSubmit={handleInquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '10px' }}>
+                {isInquirySent && (
+                  <div style={{ padding: '10px', backgroundColor: '#e6f4ea', color: '#137333', borderRadius: '4px', fontSize: '0.85rem', textAlign: 'center' }}>
+                    Thank you! Redirecting you to WhatsApp for instant confirmation.
+                  </div>
+                )}
+                <div>
+                  <label className="TourExperience-fieldLabel" style={{ marginBottom: '4px' }}>Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your Name"
+                    value={inquiryData.fullName}
+                    onChange={(e) => setInquiryData({ ...inquiryData, fullName: e.target.value })}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '4px', border: '1px solid #e2e8f0', boxSizing: 'border-box' }}
+                  />
+                </div>
+                <div>
+                  <label className="TourExperience-fieldLabel" style={{ marginBottom: '4px' }}>Phone Number *</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="Your Mobile No"
+                    value={inquiryData.phone}
+                    onChange={(e) => setInquiryData({ ...inquiryData, phone: e.target.value })}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '4px', border: '1px solid #e2e8f0', boxSizing: 'border-box' }}
+                  />
+                </div>
+                <div>
+                  <label className="TourExperience-fieldLabel" style={{ marginBottom: '4px' }}>Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    value={inquiryData.email}
+                    onChange={(e) => setInquiryData({ ...inquiryData, email: e.target.value })}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '4px', border: '1px solid #e2e8f0', boxSizing: 'border-box' }}
+                  />
+                </div>
+                <div>
+                  <label className="TourExperience-fieldLabel" style={{ marginBottom: '4px' }}>Message / Requirements</label>
+                  <textarea
+                    rows="3"
+                    placeholder="Any specific requests or date..."
+                    value={inquiryData.message}
+                    onChange={(e) => setInquiryData({ ...inquiryData, message: e.target.value })}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '4px', border: '1px solid #e2e8f0', boxSizing: 'border-box', fontFamily: 'inherit' }}
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="TourExperience-bookNowBtn"
+                  style={{ marginTop: '8px' }}
+                >
+                  Send Inquiry
+                </button>
+              </form>
+            )}
 
           </div>
 
