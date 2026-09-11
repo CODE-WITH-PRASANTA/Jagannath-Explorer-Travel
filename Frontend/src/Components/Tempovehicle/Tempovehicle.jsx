@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Tempovehicle.css";
+import API from "../../api/axios";
 
 import image1 from "../../assets/TempoTraveller1 - Copy.webp";
 import image2 from "../../assets/tempotraveller2.webp";
@@ -195,7 +196,9 @@ const Tempovehicle = () => {
   /* =========================
      STEP 2
   ========================= */
-  const handleFormSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.fullName || !formData.mobileNumber) {
@@ -203,7 +206,8 @@ const Tempovehicle = () => {
       return;
     }
 
-    if (!/^[6-9]\d{9}$/.test(formData.mobileNumber)) {
+    const cleanMobile = formData.mobileNumber.replace(/\D/g, "");
+    if (!/^\d{10}$/.test(cleanMobile)) {
       alert("Please enter a valid 10 digit mobile number.");
       return;
     }
@@ -213,23 +217,51 @@ const Tempovehicle = () => {
       return;
     }
 
-    alert(
-      `Booking request received for ${selectedVehicle?.title}. We will contact you shortly.`
-    );
+    try {
+      setSubmitting(true);
+      const payload = {
+        vehicleName: selectedVehicle?.title || "Tempo Traveller",
+        vehicleType: "Tempo Traveller",
+        vehiclePrice: selectedVehicle?.price || "",
+        vehicleImage: typeof selectedVehicle?.image === "string" ? selectedVehicle.image : "",
+        pickupLocation: formData.pickupLocation,
+        dropLocation: formData.dropLocation,
+        pickupDateTime: formData.pickupDateTime,
+        dropDateTime: formData.dropDateTime,
+        fullName: formData.fullName,
+        mobileNumber: cleanMobile,
+        message: formData.message,
+        agreedToTerms: formData.agreedToTerms,
+      };
 
-    setIsModalOpen(false);
-    setSelectedVehicle(null);
+      const res = await API.post("/car-bookings", payload);
 
-    setFormData({
-      pickupLocation: "",
-      dropLocation: "",
-      pickupDateTime: "",
-      dropDateTime: "",
-      fullName: "",
-      mobileNumber: "",
-      message: "",
-      agreedToTerms: false,
-    });
+      alert(
+        res.data?.message ||
+          `Booking request received for ${selectedVehicle?.title}. We will contact you shortly.`
+      );
+
+      setIsModalOpen(false);
+      setSelectedVehicle(null);
+      setFormData({
+        pickupLocation: "",
+        dropLocation: "",
+        pickupDateTime: "",
+        dropDateTime: "",
+        fullName: "",
+        mobileNumber: "",
+        message: "",
+        agreedToTerms: false,
+      });
+    } catch (error) {
+      console.error("Car booking submission error:", error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to submit booking. Please check your details or contact us directly."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const totalDesktopPages = Math.ceil(

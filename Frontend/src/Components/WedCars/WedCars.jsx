@@ -6,6 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import "./WedCars.css";
+import API from "../../api/axios";
 
 import image1 from "../../assets/Weddingcar1.webp";
 import image2 from "../../assets/Weddingcar2.webp";
@@ -557,7 +558,9 @@ const BookingModal = ({
     setModalStep(2);
   };
 
-  const handleFormSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -570,6 +573,12 @@ const BookingModal = ({
       return;
     }
 
+    const cleanMobile = formData.mobileNumber.replace(/\D/g, "");
+    if (!/^\d{10}$/.test(cleanMobile)) {
+      alert("Please enter a valid 10 digit mobile number.");
+      return;
+    }
+
     if (!formData.agreedToTerms) {
       alert(
         "You must agree to the Terms & Conditions."
@@ -577,11 +586,40 @@ const BookingModal = ({
       return;
     }
 
-    alert(
-      `Booking successfully requested for ${car.name}! We will contact you soon.`
-    );
+    try {
+      setSubmitting(true);
+      const payload = {
+        vehicleName: car?.name || "Luxury / Wedding Car",
+        vehicleType: "Luxury Car",
+        vehiclePrice: car?.price || "",
+        vehicleImage: typeof car?.image === "string" ? car.image : "",
+        pickupLocation: formData.pickupLocation,
+        dropLocation: formData.dropLocation,
+        pickupDateTime: formData.pickupDateTime,
+        dropDateTime: formData.dropDateTime,
+        fullName: formData.fullName,
+        mobileNumber: cleanMobile,
+        message: formData.message,
+        agreedToTerms: formData.agreedToTerms,
+      };
 
-    onClose();
+      const res = await API.post("/car-bookings", payload);
+
+      alert(
+        res.data?.message ||
+          `Booking successfully requested for ${car.name}! We will contact you soon.`
+      );
+
+      onClose();
+    } catch (error) {
+      console.error("Luxury car booking error:", error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to submit booking. Please check your details or call our office."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
