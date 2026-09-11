@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './BookingDetails.css';
 import {
   FaCalendarAlt,
@@ -14,23 +14,33 @@ import {
   FaChevronRight,
   FaTimes,
   FaArrowUp,
-  FaFilter
+  FaFilter,
+  FaSyncAlt,
+  FaSpinner,
+  FaUser,
+  FaPhoneAlt,
+  FaHotel,
+  FaMapMarkerAlt,
+  FaMoneyBillWave,
+  FaDoorOpen,
+  FaInfoCircle
 } from 'react-icons/fa';
+import API from '../../api/axios';
 
-const initialBookings = [
-  { id: 1, bookingId: 'BK1001', name: 'Ankita Nayak', phone: '9827825440', package: 'Golden Tulip Luxury Package', roomNo: '101', roomType: 'Deluxe Room', checkIn: '10 Sep 2026', checkOut: '12 Sep 2026', status: 'Checked In', price: '₹4,500' },
-  { id: 2, bookingId: 'BK1002', name: 'Rahul Sharma', phone: '9876543210', package: 'Golden Tulip Luxury Package', roomNo: '203', roomType: 'Premium Room', checkIn: '11 Sep 2026', checkOut: '13 Sep 2026', status: 'Checked In', price: '₹7,200' },
-  { id: 3, bookingId: 'BK1003', name: 'Priya Das', phone: '9123456780', package: 'Golden Tulip Luxury Package', roomNo: '305', roomType: 'Suite Room', checkIn: '12 Sep 2026', checkOut: '14 Sep 2026', status: 'Booked', price: '₹11,000' },
-  { id: 4, bookingId: 'BK1004', name: 'Rohit Sahoo', phone: '8765432109', package: 'Golden Tulip Luxury Package', roomNo: '108', roomType: 'Deluxe Room', checkIn: '13 Sep 2026', checkOut: '15 Sep 2026', status: 'Checked Out', price: '₹5,800' },
-  { id: 5, bookingId: 'BK1005', name: 'Sneha Mishra', phone: '7987654321', package: 'Golden Tulip Luxury Package', roomNo: '204', roomType: 'Premium Room', checkIn: '14 Sep 2026', checkOut: '16 Sep 2026', status: 'Booked', price: '₹8,500' },
-  { id: 6, bookingId: 'BK1006', name: 'Sourav Patra', phone: '9432145678', package: 'Golden Tulip Luxury Package', roomNo: '302', roomType: 'Suite Room', checkIn: '15 Sep 2026', checkOut: '17 Sep 2026', status: 'Checked In', price: '₹12,000' },
-  { id: 7, bookingId: 'BK1007', name: 'Neha Singh', phone: '7734562180', package: 'Golden Tulip Luxury Package', roomNo: '109', roomType: 'Deluxe Room', checkIn: '16 Sep 2026', checkOut: '18 Sep 2026', status: 'Pending', price: '₹6,200' },
-  { id: 8, bookingId: 'BK1008', name: 'Amit Kumar', phone: '9056783210', package: 'Golden Tulip Luxury Package', roomNo: '207', roomType: 'Premium Room', checkIn: '17 Sep 2026', checkOut: '19 Sep 2026', status: 'Booked', price: '₹9,800' },
-  { id: 9, bookingId: 'BK1009', name: 'Pooja Verma', phone: '9812345678', package: 'Golden Tulip Luxury Package', roomNo: '102', roomType: 'Deluxe Room', checkIn: '18 Sep 2026', checkOut: '20 Sep 2026', status: 'Checked In', price: '₹4,500' }
-];
+const formatPrice = (priceVal) => {
+  if (!priceVal && priceVal !== 0) return '₹0';
+  const raw = String(priceVal).trim();
+  const digitsOnly = raw.replace(/[^0-9]/g, '');
+  if (digitsOnly) {
+    return `₹${Number(digitsOnly).toLocaleString('en-IN')}`;
+  }
+  return raw.startsWith('₹') ? raw : `₹${raw}`;
+};
 
 const BookingDetails = () => {
-  const [bookings, setBookings] = useState(initialBookings);
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Status');
   const [roomTypeFilter, setRoomTypeFilter] = useState('All Room Types');
@@ -38,37 +48,104 @@ const BookingDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewBooking, setViewBooking] = useState(null);
   const [editingBooking, setEditingBooking] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    package: 'Golden Tulip Luxury Package',
+    package: 'Grand Luxury Hotel & Resort Stay',
+    destination: 'Puri, Odisha, India',
     roomNo: '',
-    roomType: 'Deluxe Room',
+    roomType: 'Standard Room',
     checkIn: '',
     checkOut: '',
+    stayNights: '1 Night',
+    guests: 2,
     status: 'Booked',
     price: ''
   });
 
   const itemsPerPage = 8;
 
+  // Fetch real hotel bookings from backend API
+  const fetchBookings = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await API.get('/hotel-bookings');
+      if (res.data?.data && Array.isArray(res.data.data)) {
+        const mapped = res.data.data.map((b, idx) => ({
+          id: b._id || Date.now() + idx,
+          _id: b._id,
+          bookingId: b.bookingId && b.bookingId.startsWith('BK-')
+            ? b.bookingId
+            : (b._id ? `BK-${b._id.slice(-6).toUpperCase()}` : (b.bookingId || `BK-${1001 + idx}`)),
+          name: b.fullName || b.name || 'N/A',
+          phone: b.phone || b.mobileNumber || 'N/A',
+          package: b.hotelName || b.packageName || 'Grand Luxury Hotel & Resort Stay',
+          destination: b.destination || 'Puri, Odisha, India',
+          roomNo: b.roomNo || 'Unassigned',
+          roomType: b.roomType || b.category || 'Standard Room',
+          checkIn: b.checkIn || 'TBD',
+          checkOut: b.checkOut || 'TBD',
+          stayNights: b.stayNights || '1 Night',
+          guests: b.guests || b.member || 2,
+          adults: b.adults || 2,
+          children: b.children || 0,
+          status: b.status || 'Booked',
+          price: formatPrice(b.price),
+          rawPrice: b.price || '',
+          extraServices: b.extraServices || {},
+          notes: b.notes || '',
+          createdAt: b.createdAt || '',
+        }));
+        setBookings(mapped);
+      } else {
+        setBookings([]);
+      }
+    } catch (err) {
+      console.error('Failed to fetch hotel bookings:', err);
+      setError('Could not connect to the database. Please ensure backend is running.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  // Compute dynamic room types list from fetched bookings
+  const dynamicRoomTypes = useMemo(() => {
+    const list = new Set(['Standard Room', 'Deluxe Room', 'Premium Room', 'Premium Deluxe', 'Suite Room', 'Executive Suite']);
+    bookings.forEach((b) => {
+      if (b.roomType) list.add(b.roomType);
+    });
+    return Array.from(list);
+  }, [bookings]);
+
   // Filter Logic
-  const filteredBookings = bookings.filter((item) => {
-    const matchesSearch =
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.bookingId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.phone.includes(searchQuery) ||
-      item.roomNo.includes(searchQuery);
+  const filteredBookings = useMemo(() => {
+    return bookings.filter((item) => {
+      const term = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !term ||
+        item.name.toLowerCase().includes(term) ||
+        item.bookingId.toLowerCase().includes(term) ||
+        item.phone.includes(term) ||
+        item.package.toLowerCase().includes(term) ||
+        String(item.roomNo).toLowerCase().includes(term) ||
+        item.destination.toLowerCase().includes(term);
 
-    const matchesStatus =
-      statusFilter === 'All Status' || item.status === statusFilter;
+      const matchesStatus =
+        statusFilter === 'All Status' || item.status.toLowerCase() === statusFilter.toLowerCase();
 
-    const matchesRoomType =
-      roomTypeFilter === 'All Room Types' || item.roomType === roomTypeFilter;
+      const matchesRoomType =
+        roomTypeFilter === 'All Room Types' || item.roomType.toLowerCase() === roomTypeFilter.toLowerCase();
 
-    return matchesSearch && matchesStatus && matchesRoomType;
-  });
+      return matchesSearch && matchesStatus && matchesRoomType;
+    });
+  }, [bookings, searchQuery, statusFilter, roomTypeFilter]);
 
   // Pagination Logic
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage) || 1;
@@ -77,16 +154,42 @@ const BookingDetails = () => {
   const currentItems = filteredBookings.slice(indexOfFirstItem, indexOfLastItem);
 
   // Delete Action
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this booking?')) {
-      setBookings(bookings.filter((b) => b.id !== id));
+  const handleDelete = async (booking) => {
+    if (!booking) return;
+    if (window.confirm(`Are you sure you want to delete booking ${booking.bookingId} for ${booking.name}?`)) {
+      if (booking._id) {
+        try {
+          await API.delete(`/hotel-bookings/${booking._id}`);
+        } catch (err) {
+          console.error('Failed to delete booking from database:', err);
+          alert('Failed to delete booking from database.');
+          return;
+        }
+      }
+      setBookings((prev) => prev.filter((b) => b._id !== booking._id && b.id !== booking.id));
+      if (currentPage > 1 && currentItems.length === 1) {
+        setCurrentPage((prev) => prev - 1);
+      }
     }
   };
 
   // Open Edit Modal
   const handleEdit = (booking) => {
     setEditingBooking(booking);
-    setFormData(booking);
+    setFormData({
+      name: booking.name,
+      phone: booking.phone,
+      package: booking.package,
+      destination: booking.destination || 'Puri, Odisha, India',
+      roomNo: booking.roomNo === 'Unassigned' ? '' : booking.roomNo,
+      roomType: booking.roomType,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      stayNights: booking.stayNights || '1 Night',
+      guests: booking.guests || 2,
+      status: booking.status,
+      price: booking.price
+    });
     setIsModalOpen(true);
   };
 
@@ -96,21 +199,98 @@ const BookingDetails = () => {
   };
 
   // Submit Modal Form (Add / Edit)
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingBooking) {
-      setBookings(
-        bookings.map((b) => (b.id === editingBooking.id ? { ...formData, id: b.id } : b))
-      );
-    } else {
-      const newBooking = {
-        ...formData,
-        id: Date.now(),
-        bookingId: `BK10${bookings.length + 1}`
-      };
-      setBookings([newBooking, ...bookings]);
+    try {
+      setIsSaving(true);
+      if (editingBooking && editingBooking._id) {
+        const payload = {
+          fullName: formData.name,
+          phone: formData.phone,
+          hotelName: formData.package,
+          destination: formData.destination,
+          roomNo: formData.roomNo ? formData.roomNo.trim() : 'Unassigned',
+          roomType: formData.roomType,
+          checkIn: formData.checkIn,
+          checkOut: formData.checkOut,
+          stayNights: formData.stayNights,
+          guests: Number(formData.guests) || 2,
+          status: formData.status,
+          price: formData.price
+        };
+
+        const res = await API.put(`/hotel-bookings/${editingBooking._id}`, payload);
+        if (res.data?.success || res.status === 200) {
+          setBookings((prev) =>
+            prev.map((b) =>
+              b._id === editingBooking._id
+                ? {
+                    ...b,
+                    name: formData.name,
+                    phone: formData.phone,
+                    package: formData.package,
+                    destination: formData.destination,
+                    roomNo: formData.roomNo ? formData.roomNo.trim() : 'Unassigned',
+                    roomType: formData.roomType,
+                    checkIn: formData.checkIn,
+                    checkOut: formData.checkOut,
+                    stayNights: formData.stayNights,
+                    guests: Number(formData.guests) || 2,
+                    status: formData.status,
+                    price: formatPrice(formData.price),
+                  }
+                : b
+            )
+          );
+          closeModal();
+        }
+      } else {
+        const payload = {
+          fullName: formData.name,
+          phone: formData.phone,
+          hotelName: formData.package,
+          destination: formData.destination,
+          roomNo: formData.roomNo ? formData.roomNo.trim() : 'Unassigned',
+          roomType: formData.roomType,
+          checkIn: formData.checkIn,
+          checkOut: formData.checkOut,
+          stayNights: formData.stayNights,
+          guests: Number(formData.guests) || 2,
+          status: formData.status,
+          price: formData.price
+        };
+
+        const res = await API.post('/hotel-bookings', payload);
+        if (res.data?.success || res.status === 201) {
+          const created = res.data.data;
+          const newFormatted = {
+            id: created._id || Date.now(),
+            _id: created._id,
+            bookingId: created.bookingId || (created._id ? `BK-${created._id.slice(-6).toUpperCase()}` : `BK-${1001 + bookings.length}`),
+            name: created.fullName || formData.name,
+            phone: created.phone || formData.phone,
+            package: created.hotelName || formData.package,
+            destination: created.destination || formData.destination,
+            roomNo: created.roomNo || 'Unassigned',
+            roomType: created.roomType || formData.roomType,
+            checkIn: created.checkIn || formData.checkIn,
+            checkOut: created.checkOut || formData.checkOut,
+            stayNights: created.stayNights || formData.stayNights,
+            guests: created.guests || formData.guests,
+            status: created.status || formData.status,
+            price: formatPrice(created.price || formData.price),
+            createdAt: created.createdAt || new Date().toISOString(),
+          };
+          setBookings([newFormatted, ...bookings]);
+          closeModal();
+        }
+      }
+    } catch (err) {
+      console.error('Failed to save booking:', err);
+      alert('Failed to save booking. Please check database connection.');
+    } finally {
+      setIsSaving(false);
     }
-    closeModal();
   };
 
   const closeModal = () => {
@@ -119,11 +299,14 @@ const BookingDetails = () => {
     setFormData({
       name: '',
       phone: '',
-      package: 'Golden Tulip Luxury Package',
+      package: 'Grand Luxury Hotel & Resort Stay',
+      destination: 'Puri, Odisha, India',
       roomNo: '',
-      roomType: 'Deluxe Room',
+      roomType: 'Standard Room',
       checkIn: '',
       checkOut: '',
+      stayNights: '1 Night',
+      guests: 2,
       status: 'Booked',
       price: ''
     });
@@ -131,16 +314,17 @@ const BookingDetails = () => {
 
   // Export CSV
   const exportToCSV = () => {
-    const headers = ['Booking ID,Customer Name,Phone,Package Name,Room No,Room Type,Check In,Check Out,Status,Price\n'];
+    if (filteredBookings.length === 0) return;
+    const headers = ['Booking ID,Customer Name,Phone,Package Name,Destination,Room No,Room Type,Check In,Check Out,Nights,Guests,Status,Price\n'];
     const rows = filteredBookings.map((b) =>
-      `"${b.bookingId}","${b.name}","${b.phone}","${b.package}","${b.roomNo}","${b.roomType}","${b.checkIn}","${b.checkOut}","${b.status}","${b.price}"\n`
+      `"${b.bookingId}","${b.name}","${b.phone}","${b.package}","${b.destination}","${b.roomNo}","${b.roomType}","${b.checkIn}","${b.checkOut}","${b.stayNights}","${b.guests}","${b.status}","${b.price}"\n`
     );
 
-    const blob = new Blob([...headers, ...rows], { type: 'text/csv' });
+    const blob = new Blob(['\uFEFF' + headers + rows.join('')], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'Room_Bookings.csv';
+    a.download = `Hotel_Room_Bookings_${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -151,18 +335,25 @@ const BookingDetails = () => {
       case 'Booked': return 'BookingDetails-status-booked';
       case 'Checked Out': return 'BookingDetails-status-checkedout';
       case 'Pending': return 'BookingDetails-status-pending';
-      default: return '';
+      case 'Cancelled': return 'BookingDetails-status-cancelled';
+      default: return 'BookingDetails-status-booked';
     }
   };
 
-  const getRoomTypeClass = (roomType) => {
-    switch (roomType) {
-      case 'Deluxe Room': return 'BookingDetails-room-deluxe';
-      case 'Premium Room': return 'BookingDetails-room-premium';
-      case 'Suite Room': return 'BookingDetails-room-suite';
-      default: return '';
-    }
+  const getRoomTypeClass = (roomType = '') => {
+    const r = String(roomType).toLowerCase();
+    if (r.includes('standard')) return 'BookingDetails-room-standard';
+    if (r.includes('deluxe')) return 'BookingDetails-room-deluxe';
+    if (r.includes('premium')) return 'BookingDetails-room-premium';
+    if (r.includes('suite') || r.includes('executive')) return 'BookingDetails-room-suite';
+    return 'BookingDetails-room-standard';
   };
+
+  // Live real dynamic counts
+  const totalBookingsCount = bookings.length;
+  const checkedInCount = bookings.filter((b) => b.status === 'Checked In').length;
+  const checkedOutCount = bookings.filter((b) => b.status === 'Checked Out').length;
+  const totalGuestsCount = bookings.reduce((acc, b) => acc + (Number(b.guests) || 1), 0);
 
   return (
     <div className="BookingDetails-container">
@@ -173,13 +364,24 @@ const BookingDetails = () => {
             <FaCalendarAlt />
           </div>
           <div>
-            <h1>Room Bookings</h1>
-            <p>Manage and view all hotel room bookings, check-in and check-out details.</p>
+            <h1>Hotel Room Bookings</h1>
+            <p>Manage and view live customer hotel room bookings, check-in and check-out records.</p>
           </div>
         </div>
-        <button className="BookingDetails-btn-primary" onClick={() => setIsModalOpen(true)}>
-          <FaPlus /> Add New Booking
-        </button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button
+            type="button"
+            className="BookingDetails-btn-secondary"
+            onClick={fetchBookings}
+            disabled={loading}
+            title="Refresh bookings from database"
+          >
+            <FaSyncAlt className={loading ? 'BookingDetails-spin' : ''} /> {loading ? 'Fetching...' : 'Refresh'}
+          </button>
+          <button className="BookingDetails-btn-primary" onClick={() => setIsModalOpen(true)}>
+            <FaPlus /> Add New Booking
+          </button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -190,9 +392,9 @@ const BookingDetails = () => {
           </div>
           <div className="BookingDetails-stat-info">
             <span className="BookingDetails-stat-label">Total Bookings</span>
-            <h2 className="BookingDetails-stat-value">25</h2>
+            <h2 className="BookingDetails-stat-value">{totalBookingsCount}</h2>
             <span className="BookingDetails-stat-subtext BookingDetails-text-green">
-              <FaArrowUp /> +12% this month
+              <FaArrowUp /> {totalBookingsCount > 0 ? `${totalBookingsCount} in database` : 'Live records'}
             </span>
           </div>
         </div>
@@ -203,7 +405,7 @@ const BookingDetails = () => {
           </div>
           <div className="BookingDetails-stat-info">
             <span className="BookingDetails-stat-label">Checked In</span>
-            <h2 className="BookingDetails-stat-value">16</h2>
+            <h2 className="BookingDetails-stat-value">{checkedInCount}</h2>
             <span className="BookingDetails-stat-subtext">Currently staying</span>
           </div>
         </div>
@@ -214,7 +416,7 @@ const BookingDetails = () => {
           </div>
           <div className="BookingDetails-stat-info">
             <span className="BookingDetails-stat-label">Checked Out</span>
-            <h2 className="BookingDetails-stat-value">7</h2>
+            <h2 className="BookingDetails-stat-value">{checkedOutCount}</h2>
             <span className="BookingDetails-stat-subtext">Completed stays</span>
           </div>
         </div>
@@ -225,8 +427,8 @@ const BookingDetails = () => {
           </div>
           <div className="BookingDetails-stat-info">
             <span className="BookingDetails-stat-label">Total Guests</span>
-            <h2 className="BookingDetails-stat-value">48</h2>
-            <span className="BookingDetails-stat-subtext">Unique customers</span>
+            <h2 className="BookingDetails-stat-value">{totalGuestsCount}</h2>
+            <span className="BookingDetails-stat-subtext">Total guest heads</span>
           </div>
         </div>
       </div>
@@ -238,48 +440,70 @@ const BookingDetails = () => {
             <FaSearch className="BookingDetails-search-icon" />
             <input
               type="text"
-              placeholder="Search by name, package, phone, room no, or booking ID..."
+              placeholder="Search by name, package, phone, room no, destination, or booking ID..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
             />
           </div>
 
           <div className="BookingDetails-filters-group">
             <div className="BookingDetails-select-wrapper">
               <FaFilter className="BookingDetails-select-icon" />
-              <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+              <select
+                value={statusFilter}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
                 <option value="All Status">All Status</option>
-                <option value="Checked In">Checked In</option>
                 <option value="Booked">Booked</option>
+                <option value="Checked In">Checked In</option>
                 <option value="Checked Out">Checked Out</option>
                 <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
               </select>
             </div>
 
             <div className="BookingDetails-select-wrapper">
               <FaBed className="BookingDetails-select-icon" />
-              <select value={roomTypeFilter} onChange={(e) => setRoomTypeFilter(e.target.value)}>
+              <select
+                value={roomTypeFilter}
+                onChange={(e) => {
+                  setRoomTypeFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
                 <option value="All Room Types">All Room Types</option>
-                <option value="Deluxe Room">Deluxe Room</option>
-                <option value="Premium Room">Premium Room</option>
-                <option value="Suite Room">Suite Room</option>
+                {dynamicRoomTypes.map((rt) => (
+                  <option key={rt} value={rt}>
+                    {rt}
+                  </option>
+                ))}
               </select>
             </div>
 
-            <div className="BookingDetails-select-wrapper">
-              <FaCalendarAlt className="BookingDetails-select-icon" />
-              <select>
-                <option value="Select Date Range">Select Date Range</option>
-                <option value="This Week">This Week</option>
-                <option value="This Month">This Month</option>
-              </select>
-            </div>
-
-            <button className="BookingDetails-btn-export" onClick={exportToCSV}>
+            <button
+              className="BookingDetails-btn-export"
+              onClick={exportToCSV}
+              disabled={filteredBookings.length === 0}
+              title={filteredBookings.length === 0 ? 'No records to export' : 'Export current results to CSV'}
+            >
               <FaDownload /> Export CSV
             </button>
           </div>
         </div>
+
+        {/* Error notice */}
+        {error && (
+          <div style={{ padding: '12px', background: '#ffe6eb', color: '#ff3b30', borderRadius: '8px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>{error}</span>
+            <button type="button" onClick={fetchBookings} style={{ border: 'none', background: 'white', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>Retry</button>
+          </div>
+        )}
 
         {/* Data Table */}
         <div className="BookingDetails-table-responsive">
@@ -290,7 +514,7 @@ const BookingDetails = () => {
                 <th>Booking ID</th>
                 <th>Customer Name</th>
                 <th>Phone</th>
-                <th>Package Name</th>
+                <th>Hotel / Package</th>
                 <th>Room No.</th>
                 <th>Room Type</th>
                 <th>Check In</th>
@@ -301,14 +525,27 @@ const BookingDetails = () => {
               </tr>
             </thead>
             <tbody>
-              {currentItems.length > 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan="12" className="BookingDetails-no-data">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '20px' }}>
+                      <FaSpinner className="BookingDetails-spin" />
+                      <span>Loading hotel room bookings...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : currentItems.length > 0 ? (
                 currentItems.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={item._id || item.id}>
                     <td>{indexOfFirstItem + index + 1}</td>
                     <td className="BookingDetails-fw-bold">{item.bookingId}</td>
                     <td>{item.name}</td>
-                    <td>{item.phone}</td>
-                    <td className="BookingDetails-text-muted">{item.package}</td>
+                    <td>
+                      <a href={`tel:${item.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                        {item.phone}
+                      </a>
+                    </td>
+                    <td className="BookingDetails-text-muted" title={item.package}>{item.package}</td>
                     <td>{item.roomNo}</td>
                     <td>
                       <span className={`BookingDetails-badge ${getRoomTypeClass(item.roomType)}`}>
@@ -341,7 +578,7 @@ const BookingDetails = () => {
                         </button>
                         <button
                           className="BookingDetails-action-btn BookingDetails-action-delete"
-                          onClick={() => handleDelete(item.id)}
+                          onClick={() => handleDelete(item)}
                           title="Delete Booking"
                         >
                           <FaTrash />
@@ -353,7 +590,7 @@ const BookingDetails = () => {
               ) : (
                 <tr>
                   <td colSpan="12" className="BookingDetails-no-data">
-                    No bookings found.
+                    No hotel room bookings found in database.
                   </td>
                 </tr>
               )}
@@ -362,144 +599,192 @@ const BookingDetails = () => {
         </div>
 
         {/* Table Footer / Pagination */}
-        <div className="BookingDetails-pagination-container">
-          <p className="BookingDetails-showing-text">
-            Showing {filteredBookings.length > 0 ? indexOfFirstItem + 1 : 0} to{' '}
-            {Math.min(indexOfLastItem, filteredBookings.length)} of {filteredBookings.length} entries
-          </p>
-          <div className="BookingDetails-pagination">
-            <button
-              className="BookingDetails-page-btn"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prev) => prev - 1)}
-            >
-              <FaChevronLeft />
-            </button>
-            {Array.from({ length: totalPages }, (_, index) => (
+        {filteredBookings.length > 0 && (
+          <div className="BookingDetails-pagination-container">
+            <p className="BookingDetails-showing-text">
+              Showing {indexOfFirstItem + 1} to{' '}
+              {Math.min(indexOfLastItem, filteredBookings.length)} of {filteredBookings.length} entries
+            </p>
+            <div className="BookingDetails-pagination">
               <button
-                key={index + 1}
-                className={`BookingDetails-page-btn ${
-                  currentPage === index + 1 ? 'active' : ''
-                }`}
-                onClick={() => setCurrentPage(index + 1)}
+                className="BookingDetails-page-btn"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
               >
-                {index + 1}
+                <FaChevronLeft />
               </button>
-            ))}
-            <button
-              className="BookingDetails-page-btn"
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((prev) => prev + 1)}
-            >
-              <FaChevronRight />
-            </button>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`BookingDetails-page-btn ${
+                    currentPage === index + 1 ? 'active' : ''
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              <button
+                className="BookingDetails-page-btn"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+              >
+                <FaChevronRight />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Smooth Animated Modal Popup (Add/Edit) */}
+      {/* Spacious Premium Modal Popup (Add/Edit) */}
       {isModalOpen && (
-        <div className="BookingDetails-modal-overlay">
-          <div className="BookingDetails-modal">
+        <div className="BookingDetails-modal-overlay" onClick={closeModal}>
+          <div className="BookingDetails-modal" onClick={(e) => e.stopPropagation()}>
             <div className="BookingDetails-modal-header">
-              <h3>{editingBooking ? 'Edit Booking' : 'Add New Booking'}</h3>
-              <button className="BookingDetails-close-btn" onClick={closeModal}>
+              <h3>{editingBooking ? `Edit Booking Details — ${editingBooking.bookingId}` : 'Add New Hotel Booking'}</h3>
+              <button className="BookingDetails-close-btn" onClick={closeModal} aria-label="Close modal">
                 <FaTimes />
               </button>
             </div>
-            <form onSubmit={handleSubmit} className="BookingDetails-modal-body">
-              <div className="BookingDetails-form-group">
-                <label>Customer Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="BookingDetails-form-group">
-                <label>Phone Number</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="BookingDetails-form-row">
+            <form onSubmit={handleSubmit}>
+              <div className="BookingDetails-form-grid">
+                
                 <div className="BookingDetails-form-group">
-                  <label>Room No</label>
+                  <label><FaUser style={{ color: '#0066ff' }} /> Customer Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="e.g. Ramesh Kumar"
+                  />
+                </div>
+
+                <div className="BookingDetails-form-group">
+                  <label><FaPhoneAlt style={{ color: '#0066ff' }} /> Phone Number</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="e.g. 9876543210"
+                  />
+                </div>
+
+                <div className="BookingDetails-form-group">
+                  <label><FaHotel style={{ color: '#0066ff' }} /> Hotel / Package Name</label>
+                  <input
+                    type="text"
+                    name="package"
+                    value={formData.package}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="e.g. Grand Luxury Hotel & Resort Stay"
+                  />
+                </div>
+
+                <div className="BookingDetails-form-group">
+                  <label><FaMapMarkerAlt style={{ color: '#0066ff' }} /> Destination</label>
+                  <input
+                    type="text"
+                    name="destination"
+                    value={formData.destination}
+                    onChange={handleInputChange}
+                    placeholder="e.g. Puri Beach Road, Puri"
+                  />
+                </div>
+
+                <div className="BookingDetails-form-group">
+                  <label><FaDoorOpen style={{ color: '#0066ff' }} /> Assigned Room No.</label>
                   <input
                     type="text"
                     name="roomNo"
+                    placeholder="e.g. 204 or leave Unassigned"
                     value={formData.roomNo}
                     onChange={handleInputChange}
-                    required
                   />
                 </div>
+
                 <div className="BookingDetails-form-group">
-                  <label>Room Type</label>
+                  <label><FaBed style={{ color: '#0066ff' }} /> Room Category</label>
                   <select name="roomType" value={formData.roomType} onChange={handleInputChange}>
+                    <option value="Standard Room">Standard Room</option>
                     <option value="Deluxe Room">Deluxe Room</option>
                     <option value="Premium Room">Premium Room</option>
+                    <option value="Premium Deluxe">Premium Deluxe</option>
+                    <option value="Executive Suite">Executive Suite</option>
                     <option value="Suite Room">Suite Room</option>
                   </select>
                 </div>
-              </div>
-              <div className="BookingDetails-form-row">
+
                 <div className="BookingDetails-form-group">
-                  <label>Check In</label>
+                  <label><FaUsers style={{ color: '#0066ff' }} /> Total Guests</label>
+                  <input
+                    type="number"
+                    min="1"
+                    name="guests"
+                    value={formData.guests}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="BookingDetails-form-group">
+                  <label><FaCalendarAlt style={{ color: '#0066ff' }} /> Check-In Date</label>
                   <input
                     type="text"
                     name="checkIn"
-                    placeholder="10 Sep 2026"
+                    placeholder="e.g. 15 Oct 2026"
                     value={formData.checkIn}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
+
                 <div className="BookingDetails-form-group">
-                  <label>Check Out</label>
+                  <label><FaCalendarAlt style={{ color: '#0066ff' }} /> Check-Out Date</label>
                   <input
                     type="text"
                     name="checkOut"
-                    placeholder="12 Sep 2026"
+                    placeholder="e.g. 17 Oct 2026"
                     value={formData.checkOut}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
-              </div>
-              <div className="BookingDetails-form-row">
+
                 <div className="BookingDetails-form-group">
-                  <label>Status</label>
-                  <select name="status" value={formData.status} onChange={handleInputChange}>
-                    <option value="Booked">Booked</option>
-                    <option value="Checked In">Checked In</option>
-                    <option value="Checked Out">Checked Out</option>
-                    <option value="Pending">Pending</option>
-                  </select>
-                </div>
-                <div className="BookingDetails-form-group">
-                  <label>Price</label>
+                  <label><FaMoneyBillWave style={{ color: '#0066ff' }} /> Total Price</label>
                   <input
                     type="text"
                     name="price"
-                    placeholder="₹4,500"
+                    placeholder="e.g. ₹4,500"
                     value={formData.price}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
+
+                <div className="BookingDetails-form-group">
+                  <label><FaInfoCircle style={{ color: '#0066ff' }} /> Booking Status</label>
+                  <select name="status" value={formData.status} onChange={handleInputChange}>
+                    <option value="Booked">Booked</option>
+                    <option value="Checked In">Checked In</option>
+                    <option value="Checked Out">Checked Out</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </div>
+
               </div>
+
               <div className="BookingDetails-modal-footer">
                 <button type="button" className="BookingDetails-btn-secondary" onClick={closeModal}>
                   Cancel
                 </button>
-                <button type="submit" className="BookingDetails-btn-primary">
-                  {editingBooking ? 'Update Booking' : 'Save Booking'}
+                <button type="submit" className="BookingDetails-modal-submit-btn" disabled={isSaving}>
+                  {isSaving ? 'Saving Changes...' : editingBooking ? 'Update Booking' : 'Save Booking'}
                 </button>
               </div>
             </form>
@@ -507,30 +792,106 @@ const BookingDetails = () => {
         </div>
       )}
 
-      {/* View Details Modal */}
+      {/* Spacious Premium View Details Modal */}
       {viewBooking && (
-        <div className="BookingDetails-modal-overlay">
-          <div className="BookingDetails-modal BookingDetails-view-modal">
+        <div className="BookingDetails-modal-overlay" onClick={() => setViewBooking(null)}>
+          <div className="BookingDetails-modal" onClick={(e) => e.stopPropagation()}>
             <div className="BookingDetails-modal-header">
-              <h3>Booking Details ({viewBooking.bookingId})</h3>
-              <button className="BookingDetails-close-btn" onClick={() => setViewBooking(null)}>
+              <div>
+                <h3>Booking Details — {viewBooking.bookingId}</h3>
+                {viewBooking.createdAt && (
+                  <span style={{ fontSize: '12px', color: '#64748b' }}>
+                    Received on {new Date(viewBooking.createdAt).toLocaleString()}
+                  </span>
+                )}
+              </div>
+              <button className="BookingDetails-close-btn" onClick={() => setViewBooking(null)} aria-label="Close modal">
                 <FaTimes />
               </button>
             </div>
-            <div className="BookingDetails-view-body">
-              <p><strong>Customer Name:</strong> {viewBooking.name}</p>
-              <p><strong>Phone:</strong> {viewBooking.phone}</p>
-              <p><strong>Package:</strong> {viewBooking.package}</p>
-              <p><strong>Room No:</strong> {viewBooking.roomNo}</p>
-              <p><strong>Room Type:</strong> {viewBooking.roomType}</p>
-              <p><strong>Check In:</strong> {viewBooking.checkIn}</p>
-              <p><strong>Check Out:</strong> {viewBooking.checkOut}</p>
-              <p><strong>Status:</strong> {viewBooking.status}</p>
-              <p><strong>Price:</strong> {viewBooking.price}</p>
+            
+            <div className="BookingDetails-view-grid">
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Customer Name</span>
+                <span className="BookingDetails-view-val">{viewBooking.name}</span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Phone Number</span>
+                <span className="BookingDetails-view-val">
+                  <a href={`tel:${viewBooking.phone}`}>{viewBooking.phone}</a>
+                </span>
+              </div>
+
+              <div className="BookingDetails-view-item BookingDetails-view-full">
+                <span className="BookingDetails-view-label">Hotel / Package</span>
+                <span className="BookingDetails-view-val">{viewBooking.package}</span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Destination</span>
+                <span className="BookingDetails-view-val">{viewBooking.destination}</span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Assigned Room No.</span>
+                <span className="BookingDetails-view-val">{viewBooking.roomNo}</span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Room Category</span>
+                <span className="BookingDetails-view-val">
+                  <span className={`BookingDetails-badge ${getRoomTypeClass(viewBooking.roomType)}`}>
+                    {viewBooking.roomType}
+                  </span>
+                </span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Total Guests</span>
+                <span className="BookingDetails-view-val">{viewBooking.guests} Guest(s)</span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Check-In Date</span>
+                <span className="BookingDetails-view-val">{viewBooking.checkIn}</span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Check-Out Date</span>
+                <span className="BookingDetails-view-val">{viewBooking.checkOut}</span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Current Status</span>
+                <span className="BookingDetails-view-val">
+                  <span className={`BookingDetails-badge ${getStatusClass(viewBooking.status)}`}>
+                    {viewBooking.status}
+                  </span>
+                </span>
+              </div>
+
+              <div className="BookingDetails-view-item">
+                <span className="BookingDetails-view-label">Total Price</span>
+                <span className="BookingDetails-view-val" style={{ color: '#0066ff', fontSize: '16px' }}>
+                  {viewBooking.price}
+                </span>
+              </div>
             </div>
+
             <div className="BookingDetails-modal-footer">
               <button className="BookingDetails-btn-secondary" onClick={() => setViewBooking(null)}>
                 Close
+              </button>
+              <button
+                className="BookingDetails-modal-submit-btn"
+                onClick={() => {
+                  const b = viewBooking;
+                  setViewBooking(null);
+                  handleEdit(b);
+                }}
+              >
+                <FaEdit /> Edit Booking
               </button>
             </div>
           </div>

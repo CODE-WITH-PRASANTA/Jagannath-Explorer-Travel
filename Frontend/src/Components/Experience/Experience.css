@@ -570,3 +570,48 @@
     padding: 35px 16px;
   }
 }
+
+/* ================= LOADING & EMPTY STATES ================= */
+.exp-loading-box,
+.exp-empty-box {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  margin: 10px 0 20px;
+}
+
+.exp-spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #5da943;
+  border-radius: 50%;
+  animation: exp-spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes exp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.exp-loading-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.exp-empty-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+}
