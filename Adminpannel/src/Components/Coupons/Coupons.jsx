@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './Coupons.css';
+import API from '../../api/axios';
 import {
   FiTag,
   FiRotateCcw,
@@ -11,12 +12,6 @@ import {
   FiTrash2,
   FiChevronLeft,
   FiChevronRight,
-  FiBell,
-  FiGrid,
-  FiMapPin,
-  FiCalendar,
-  FiUsers,
-  FiSettings,
   FiX,
   FiCheck
 } from 'react-icons/fi';
@@ -37,71 +32,8 @@ const initialFormData = {
   description: ''
 };
 
-const initialCoupons = [
-  {
-    id: 1,
-    code: 'TRAVEL10',
-    name: 'Travel 10% Off',
-    discount: '10%',
-    minBooking: '₹5,000',
-    validFrom: '2025-05-01',
-    validTo: '2025-07-31',
-    usageLimit: 100,
-    used: 25,
-    status: 'Active',
-    applicableFor: 'All Users',
-    tours: 'All Tours',
-    description: 'Flat 10% discount on all spiritual and temple tour packages.'
-  },
-  {
-    id: 2,
-    code: 'EXPLORE15',
-    name: 'Explore 15% Off',
-    discount: '15%',
-    minBooking: '₹10,000',
-    validFrom: '2025-05-10',
-    validTo: '2025-08-10',
-    usageLimit: 200,
-    used: 40,
-    status: 'Active',
-    applicableFor: 'New Users',
-    tours: 'Puri Golden Beach Tour',
-    description: 'Special explorer summer discount.'
-  },
-  {
-    id: 3,
-    code: 'SUMMER20',
-    name: 'Summer Special 20%',
-    discount: '20%',
-    minBooking: '₹15,000',
-    validFrom: '2025-06-01',
-    validTo: '2025-08-31',
-    usageLimit: 150,
-    used: 60,
-    status: 'Inactive',
-    applicableFor: 'Registered Members',
-    tours: 'Konark Sun Temple & Marine Drive',
-    description: 'Seasonal peak holiday discount pass.'
-  },
-  {
-    id: 4,
-    code: 'WELCOME5',
-    name: 'Welcome 5% Off',
-    discount: '5%',
-    minBooking: '₹2,000',
-    validFrom: '2025-04-25',
-    validTo: '2025-06-25',
-    usageLimit: 300,
-    used: 120,
-    status: 'Active',
-    applicableFor: 'First Time Bookers',
-    tours: 'All Tours',
-    description: 'Welcome discount for new accounts.'
-  }
-];
-
 const Coupons = () => {
-  const [coupons, setCoupons] = useState(initialCoupons);
+  const [coupons, setCoupons] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
 
   // Edit Modal State
@@ -118,13 +50,27 @@ const Coupons = () => {
   // View Details Modal State
   const [activeModalCoupon, setActiveModalCoupon] = useState(null);
 
-  // Input change for "Add New Coupon" form
+  // 1. Get all coupons
+  const fetchCoupons = async () => {
+    try {
+      const res = await API.get('/coupons');
+      if (res.data.success) {
+        setCoupons(res.data.data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch coupons:', err.response?.data?.message || err.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchCoupons();
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Input change for "Edit Coupon" popup modal form
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
     setEditFormData((prev) => ({ ...prev, [name]: value }));
@@ -134,102 +80,84 @@ const Coupons = () => {
     setFormData(initialFormData);
   };
 
-  // Submit "Add New Coupon"
-  const handleFormSubmit = (e) => {
+  // 2. Submit "Add New Coupon"
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.couponCode || !formData.couponName || !formData.discountValue) {
-      alert('Please fill in required fields: Coupon Code, Name, and Discount Value.');
+    if (!formData.couponCode || !formData.couponName || !formData.discountValue || !formData.discountType) {
+      alert('Please fill in required fields: Coupon Code, Name, Discount Type, and Value.');
       return;
     }
 
-    const newCoupon = {
-      id: Date.now(),
-      code: formData.couponCode.toUpperCase(),
-      name: formData.couponName,
-      discount:
-        formData.discountType === 'Percentage'
-          ? `${formData.discountValue}%`
-          : `₹${formData.discountValue}`,
-      minBooking: formData.minBooking ? `₹${formData.minBooking}` : '₹0',
-      validFrom: formData.validFrom || '2026-01-01',
-      validTo: formData.validTo || '2026-12-31',
-      usageLimit: Number(formData.usageLimit) || 100,
-      used: 0,
-      status: formData.status,
-      applicableFor: formData.applicableFor || 'All Users',
-      tours: formData.applicableTours || 'All Tours',
-      description: formData.description
-    };
-
-    setCoupons((prev) => [newCoupon, ...prev]);
-    handleReset();
+    try {
+      const res = await API.post('/coupons', formData);
+      if (res.data.success) {
+        setCoupons((prev) => [res.data.data, ...prev]);
+        handleReset();
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error creating coupon');
+    }
   };
 
-  // Open Edit Popup Modal
+  // 3. Open Edit Modal & Populate Form
   const handleOpenEditModal = (coupon) => {
-    setEditingCouponId(coupon.id);
+    setEditingCouponId(coupon._id);
     setEditFormData({
       couponCode: coupon.code,
       couponName: coupon.name,
-      discountType: coupon.discount.includes('%') ? 'Percentage' : 'Fixed',
-      discountValue: coupon.discount.replace(/[^0-9]/g, ''),
-      minBooking: coupon.minBooking.replace(/[^0-9]/g, ''),
-      maxDiscount: '',
+      discountType: coupon.discountType,
+      discountValue: coupon.discountValue,
+      minBooking: coupon.minBooking || '',
+      maxDiscount: coupon.maxDiscount || '',
       validFrom: coupon.validFrom,
       validTo: coupon.validTo,
       usageLimit: coupon.usageLimit,
       applicableFor: coupon.applicableFor || 'All Users',
-      applicableTours: coupon.tours || 'All Tours',
+      applicableTours: coupon.applicableTours || 'All Tours',
       status: coupon.status,
       description: coupon.description || ''
     });
     setIsEditModalOpen(true);
   };
 
-  // Close Edit Popup Modal
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
     setEditingCouponId(null);
     setEditFormData(initialFormData);
   };
 
-  // Save changes from Edit Popup Modal
-  const handleEditFormSubmit = (e) => {
+  // 4. Update Coupon
+  const handleEditFormSubmit = async (e) => {
     e.preventDefault();
     if (!editFormData.couponCode || !editFormData.couponName || !editFormData.discountValue) {
-      alert('Please fill in required fields: Coupon Code, Name, and Discount Value.');
+      alert('Please fill in all required fields.');
       return;
     }
 
-    setCoupons((prev) =>
-      prev.map((item) =>
-        item.id === editingCouponId
-          ? {
-              ...item,
-              code: editFormData.couponCode.toUpperCase(),
-              name: editFormData.couponName,
-              discount:
-                editFormData.discountType === 'Percentage'
-                  ? `${editFormData.discountValue}%`
-                  : `₹${editFormData.discountValue}`,
-              minBooking: editFormData.minBooking ? `₹${editFormData.minBooking}` : '₹0',
-              validFrom: editFormData.validFrom || item.validFrom,
-              validTo: editFormData.validTo || item.validTo,
-              usageLimit: Number(editFormData.usageLimit) || item.usageLimit,
-              status: editFormData.status,
-              applicableFor: editFormData.applicableFor || item.applicableFor,
-              tours: editFormData.applicableTours || item.tours,
-              description: editFormData.description
-            }
-          : item
-      )
-    );
-    handleCloseEditModal();
+    try {
+      const res = await API.put(`/coupons/${editingCouponId}`, editFormData);
+      if (res.data.success) {
+        setCoupons((prev) =>
+          prev.map((item) => (item._id === editingCouponId ? res.data.data : item))
+        );
+        handleCloseEditModal();
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error updating coupon');
+    }
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this coupon?')) {
-      setCoupons((prev) => prev.filter((item) => item.id !== id));
+  // 5. Delete Coupon
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this coupon?')) return;
+
+    try {
+      const res = await API.delete(`/coupons/${id}`);
+      if (res.data.success) {
+        setCoupons((prev) => prev.filter((item) => item._id !== id));
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error deleting coupon');
     }
   };
 
@@ -237,8 +165,8 @@ const Coupons = () => {
     return coupons.filter((item) => {
       const matchesStatus = statusFilter === 'All' || item.status === statusFilter;
       const matchesSearch =
-        item.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.name.toLowerCase().includes(searchQuery.toLowerCase());
+        item.code?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.name?.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesStatus && matchesSearch;
     });
   }, [coupons, statusFilter, searchQuery]);
@@ -250,10 +178,11 @@ const Coupons = () => {
   }, [filteredCoupons, currentPage, itemsPerPage]);
 
   const handleExport = () => {
-    const headers = ['ID,Code,Name,Discount,Min Booking,Valid From,Valid To,Usage Limit,Used,Status'];
-    const rows = filteredCoupons.map((c) =>
-      [c.id, c.code, `"${c.name}"`, c.discount, `"${c.minBooking}"`, c.validFrom, c.validTo, c.usageLimit, c.used, c.status].join(',')
-    );
+    const headers = ['Code,Name,Discount,Min Booking,Valid From,Valid To,Usage Limit,Used,Status'];
+    const rows = filteredCoupons.map((c) => {
+      const discount = c.discountType === 'Percentage' ? `${c.discountValue}%` : `₹${c.discountValue}`;
+      return [c.code, `"${c.name}"`, discount, `₹${c.minBooking}`, c.validFrom, c.validTo, c.usageLimit, c.used, c.status].join(',');
+    });
     const blob = new Blob([[...headers, ...rows].join('\n')], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -265,11 +194,7 @@ const Coupons = () => {
 
   return (
     <div className="coupons-layout">
-
-      {/* Main Content Area */}
       <div className="coupons-main">
-
-        {/* Workspace Body */}
         <main className="coupons-content-container">
           {/* Add Coupon Form Card */}
           <section className="coupons-card-box">
@@ -382,7 +307,6 @@ const Coupons = () => {
                     value={formData.applicableFor}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select applicable for</option>
                     <option value="All Users">All Users</option>
                     <option value="New Users">New Users</option>
                     <option value="Registered Members">Registered Members</option>
@@ -395,7 +319,6 @@ const Coupons = () => {
                     value={formData.applicableTours}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select tours</option>
                     <option value="All Tours">All Tours</option>
                     <option value="Puri Jagannath Temple Tour">Puri Jagannath Temple Tour</option>
                     <option value="Konark Sun Temple & Marine Drive">Konark Sun Temple & Marine Drive</option>
@@ -490,16 +413,20 @@ const Coupons = () => {
                 <tbody>
                   {paginatedCoupons.length > 0 ? (
                     paginatedCoupons.map((coupon, index) => (
-                      <tr key={coupon.id}>
+                      <tr key={coupon._id}>
                         <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                         <td className="coupons-font-semibold">{coupon.code}</td>
                         <td>{coupon.name}</td>
-                        <td>{coupon.discount}</td>
-                        <td>{coupon.minBooking}</td>
+                        <td>
+                          {coupon.discountType === 'Percentage'
+                            ? `${coupon.discountValue}%`
+                            : `₹${coupon.discountValue}`}
+                        </td>
+                        <td>₹{coupon.minBooking || 0}</td>
                         <td>{coupon.validFrom}</td>
                         <td>{coupon.validTo}</td>
                         <td>{coupon.usageLimit}</td>
-                        <td>{coupon.used}</td>
+                        <td>{coupon.used || 0}</td>
                         <td>
                           <span className={`coupons-status-badge coupons-status-${coupon.status.toLowerCase()}`}>
                             {coupon.status}
@@ -524,7 +451,7 @@ const Coupons = () => {
                             <button
                               className="coupons-action-btn coupons-action-delete"
                               title="Delete Coupon"
-                              onClick={() => handleDelete(coupon.id)}
+                              onClick={() => handleDelete(coupon._id)}
                             >
                               <FiTrash2 />
                             </button>
@@ -591,12 +518,17 @@ const Coupons = () => {
             </div>
             <div className="coupons-modal-body">
               <p><strong>Name:</strong> {activeModalCoupon.name}</p>
-              <p><strong>Discount:</strong> {activeModalCoupon.discount}</p>
-              <p><strong>Minimum Booking:</strong> {activeModalCoupon.minBooking}</p>
+              <p>
+                <strong>Discount:</strong>{' '}
+                {activeModalCoupon.discountType === 'Percentage'
+                  ? `${activeModalCoupon.discountValue}%`
+                  : `₹${activeModalCoupon.discountValue}`}
+              </p>
+              <p><strong>Minimum Booking:</strong> ₹{activeModalCoupon.minBooking || 0}</p>
               <p><strong>Validity:</strong> {activeModalCoupon.validFrom} to {activeModalCoupon.validTo}</p>
-              <p><strong>Redemptions:</strong> {activeModalCoupon.used} / {activeModalCoupon.usageLimit}</p>
+              <p><strong>Redemptions:</strong> {activeModalCoupon.used || 0} / {activeModalCoupon.usageLimit}</p>
               <p><strong>Applicable Users:</strong> {activeModalCoupon.applicableFor}</p>
-              <p><strong>Applicable Tours:</strong> {activeModalCoupon.tours}</p>
+              <p><strong>Applicable Tours:</strong> {activeModalCoupon.applicableTours}</p>
               <p><strong>Description:</strong> {activeModalCoupon.description || 'None provided.'}</p>
             </div>
           </div>

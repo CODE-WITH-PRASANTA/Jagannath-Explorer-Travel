@@ -2,20 +2,17 @@
    NAVBAR (STICKY ON TOP) - ULTRA BOLD & PREMIUM LOOK
 ===================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap');
 
 .navbar {
   width: 100%;
   height: 84px;
   background: #ffffff;
-
-  /* Sticky Positioning */
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   left: 0;
   z-index: 99999;
-
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   font-family: 'Plus Jakarta Sans', sans-serif;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
@@ -30,42 +27,49 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 /* =====================================================
-   LOGO
+   LOGO (PROPORTIONED BADGE FOR SQUARE ARTWORK)
 ===================================================== */
 
 .navbar-logo-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   flex-shrink: 0;
   text-decoration: none;
   position: relative;
   z-index: 10;
+  padding: 4px 0;
 }
 
 .navbar-logo-wrapper {
-  width: 175px;
-  height: 62px;
+  width: 66px;
+  height: 66px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1117;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  overflow: hidden;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .navbar-logo {
   width: 100%;
-  max-width: 175px;
-  height: auto;
-  max-height: 62px;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   display: block;
-  transition: transform 0.4s ease;
 }
 
-.navbar-logo-link:hover .navbar-logo {
-  transform: scale(1.04);
+.navbar-logo-link:hover .navbar-logo-wrapper {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+  border-color: rgba(212, 175, 55, 0.8);
 }
 
 /* =====================================================
@@ -88,7 +92,7 @@
 }
 
 /* =====================================================
-   NORMAL NAV LINKS (BOLD)
+   NORMAL NAV LINKS
 ===================================================== */
 
 .navbar-link {
@@ -99,9 +103,10 @@
   color: #0f172a;
   text-decoration: none;
   font-family: 'Outfit', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-size: 15.5px;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
   position: relative;
   white-space: nowrap;
   transition: color 0.3s ease;
@@ -118,7 +123,7 @@
   left: 50%;
   bottom: 16px;
   width: 0;
-  height: 2.5px;
+  height: 3px;
   background: #00a8e8;
   border-radius: 99px;
   transform: translateX(-50%);
@@ -139,7 +144,7 @@
 }
 
 /* =====================================================
-   CAR RENTAL DROPDOWN (BOLD)
+   CAR RENTAL DROPDOWN
 ===================================================== */
 
 .navbar-dropdown {
@@ -160,9 +165,10 @@
   gap: 6px;
   color: #0f172a;
   font-family: 'Outfit', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-size: 15.5px;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
   cursor: pointer;
   position: relative;
   transition: color 0.3s ease;
@@ -174,7 +180,7 @@
   left: 50%;
   bottom: 16px;
   width: 0;
-  height: 2.5px;
+  height: 3px;
   background: #00a8e8;
   border-radius: 99px;
   transform: translateX(-50%);
@@ -192,8 +198,8 @@
 }
 
 .navbar-dropdown-arrow {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   transition: transform 0.35s ease;
 }
 
@@ -202,10 +208,7 @@
   transform: rotate(180deg);
 }
 
-/* =====================================================
-   DROPDOWN MENU
-===================================================== */
-
+/* Dropdown Menu Container */
 .navbar-dropdown-menu {
   position: absolute;
   top: calc(100% + 10px);
@@ -244,10 +247,7 @@
   }
 }
 
-/* =====================================================
-   DROPDOWN LINKS (EXTRA BOLD)
-===================================================== */
-
+/* Dropdown Links */
 .navbar-dropdown-link {
   min-height: 44px;
   padding: 10px 12px;
@@ -257,8 +257,10 @@
   color: #1e293b;
   text-decoration: none;
   font-family: 'Outfit', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 14.5px;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
   border-radius: 10px;
   position: relative;
   overflow: hidden;
@@ -301,11 +303,11 @@
 }
 
 /* =====================================================
-   CONTACT BUTTON (BOLD & PREMIUM)
+   CONTACT BUTTON
 ===================================================== */
 
 .navbar-contact-button {
-  min-width: 142px;
+  min-width: 146px;
   height: 46px;
   padding: 0 6px 0 20px;
   border-radius: 35px;
@@ -317,9 +319,11 @@
   color: #ffffff;
   text-decoration: none;
   font-family: 'Outfit', sans-serif;
-  font-size: 14.5px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
   overflow: hidden;
   position: relative;
   box-shadow: 0 8px 22px rgba(0, 168, 232, 0.25);
@@ -428,6 +432,7 @@
   transform: translateY(-7.5px) rotate(-45deg);
 }
 
+/* Breakpoints */
 @media (max-width: 1250px) {
   .navbar-container {
     padding: 0 25px;
@@ -442,13 +447,7 @@
   .navbar-dropdown-button {
     padding-left: 10px;
     padding-right: 10px;
-    font-size: 14px;
-  }
-  .navbar-logo-wrapper {
-    width: 155px;
-  }
-  .navbar-logo {
-    max-width: 155px;
+    font-size: 14.5px;
   }
 }
 
@@ -460,21 +459,20 @@
     padding: 0 20px;
   }
   .navbar-logo-wrapper {
-    width: 145px;
-  }
-  .navbar-logo {
-    max-width: 145px;
+    width: 58px;
+    height: 58px;
+    border-radius: 10px;
   }
   .navbar-link,
   .navbar-dropdown-button {
     padding-left: 8px;
     padding-right: 8px;
-    font-size: 13.5px;
+    font-size: 14px;
   }
   .navbar-contact-button {
-    min-width: 125px;
+    min-width: 130px;
     height: 42px;
-    font-size: 13px;
+    font-size: 13.5px;
     padding-left: 15px;
   }
   .navbar-contact-button-icon {
@@ -491,12 +489,8 @@
     padding: 0 18px;
   }
   .navbar-logo-wrapper {
-    width: 150px;
-    height: 58px;
-  }
-  .navbar-logo {
-    max-width: 150px;
-    max-height: 58px;
+    width: 54px;
+    height: 54px;
   }
   .navbar-navigation {
     position: fixed;
@@ -528,6 +522,7 @@
     flex-direction: column;
     align-items: stretch;
     gap: 4px;
+    box-sizing: border-box;
   }
   .navbar-link {
     width: 100%;
@@ -607,8 +602,10 @@
     text-decoration: none;
     font-family: 'Outfit', sans-serif;
     font-size: 16px;
-    font-weight: 800;
+    font-weight: 900;
+    letter-spacing: 0.02em;
     box-shadow: 0 8px 20px rgba(0, 168, 232, 0.25);
+    box-sizing: border-box;
   }
   .navbar-mobile-contact svg {
     width: 20px;
@@ -630,11 +627,9 @@
     padding: 0 14px;
   }
   .navbar-logo-wrapper {
-    width: 135px;
-    height: 52px;
-  }
-  .navbar-logo {
-    max-width: 135px;
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
   }
   .navbar-navigation {
     top: 68px;
@@ -647,9 +642,7 @@
     padding: 0 11px;
   }
   .navbar-logo-wrapper {
-    width: 120px;
-  }
-  .navbar-logo {
-    max-width: 120px;
+    width: 44px;
+    height: 44px;
   }
 }

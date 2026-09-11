@@ -1,218 +1,140 @@
-import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
+  CalendarCheck,
   Map,
-  Hotel,
+  Car,
+  MapPin,
+  Users,
+  FileText,
   Edit3,
-  Image,
-  MessageSquareQuote,
   Mail,
   Tag,
-  User,
+  UserCog,
   Settings,
+  ChevronDown,
   Bus,
   X,
-  ChevronDown,
-  BookOpen,
-} from "lucide-react";
+  Hotel,
+  MessageSquareQuote,
+} from 'lucide-react';
 
-import "./Sidebar.css";
+import './Sidebar.css';
 
-/* =========================================================
-   BRAND LOGO
-========================================================= */
-
-const BrandMark = ({ className = "" }) => (
+/* Brand Logo Mark — bus icon in a rounded dark tile with green glow */
+const BrandMark = ({ className = '' }) => (
   <div
     className={className}
     style={{
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: "11px",
-      background:
-        "linear-gradient(160deg, #1b2438 0%, #0d1320 100%)",
-      border: "1px solid rgba(255,255,255,0.08)",
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: '11px',
+      background: 'linear-gradient(160deg, #1b2438 0%, #0d1320 100%)',
+      border: '1px solid rgba(255,255,255,0.08)',
     }}
   >
-    <Bus
-      size={20}
-      color="#22c55e"
-      strokeWidth={2.2}
-    />
+    <Bus size={20} color="#22c55e" strokeWidth={2.2} />
   </div>
 );
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
+const Sidebar = ({ isCollapsed, isMobileOpen, onClose }) => {
+  const [openDropdowns, setOpenDropdowns] = useState({});
 
-const Sidebar = ({
-  isCollapsed,
-  isMobileOpen,
-  onClose,
-}) => {
-  const location = useLocation();
-
-  /* Blog dropdown automatically opens on Blog pages */
-  const isBlogPage =
-    location.pathname === "/blog" ||
-    location.pathname.startsWith("/blog/");
-
-  const [blogOpen, setBlogOpen] = useState(isBlogPage);
-
-  /* =======================================================
-     MENU ITEMS
-  ======================================================= */
-
-  const menuItems = [
-    {
-      text: "Dashboard",
-      path: "/",
-      icon: <LayoutDashboard size={20} />,
-    },
-
-    {
-      text: "Tour",
-      path: "/tours",
-      icon: <Map size={20} />,
-    },
-
-    {
-      text: "Hotel",
-      path: "/hotels",
-      icon: <Hotel size={20} />,
-    },
-
-    /* =====================================================
-       BLOG DROPDOWN
-    ===================================================== */
-
-    {
-      type: "dropdown",
-      text: "Blog",
-      icon: <Edit3 size={20} />,
-    },
-
-    {
-      text: "Our Guide",
-      path: "/our-guide",
-      icon: <BookOpen size={20} />,
-    },
-    {
-      text: "Booking Leading",
-      path: "/booklead",
-      icon: <BookOpen size={20} />,
-    },
-{
-      text: "Booking Details",
-      path: "/bookingdetails",
-      icon: <BookOpen size={20} />,
-    },
-    {
-      text: "Gallary",
-      path: "/gallary",
-      icon: <Image size={20} />,
-    },
-
-    {
-      text: "Testimonial",
-      path: "/testimonials",
-      icon: <MessageSquareQuote size={20} />,
-    },
-
-    {
-      text: "Enquiries",
-      path: "/enquiries",
-      icon: <Mail size={20} />,
-    },
-
-    {
-      text: "Coupons",
-      path: "/coupons",
-      icon: <Tag size={20} />,
-    },
-
-    {
-      text: "User",
-      path: "/users",
-      icon: <User size={20} />,
-    },
-
-    {
-      text: "Setting",
-      path: "/settings",
-      icon: <Settings size={20} />,
-    },
-  ];
-
-  /* =======================================================
-     MOBILE NAVIGATION
-  ======================================================= */
+  const toggleDropdown = (title) => {
+    setOpenDropdowns((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
+  };
 
   const handleNavClick = () => {
-    if (isMobileOpen && onClose) {
-      onClose();
-    }
-  };
+    if (isMobileOpen && onClose) onClose();
+  }; 
 
-  /* =======================================================
-     BLOG DROPDOWN TOGGLE
-  ======================================================= */
+  const menuItems = [
+    { type: 'link', icon: <LayoutDashboard size={20} />, text: 'Dashboard', path: '/' },
 
-  const handleBlogToggle = () => {
-    if (!isCollapsed || isMobileOpen) {
-      setBlogOpen((prev) => !prev);
-    }
-  };
+    { 
+      type: 'dropdown',
+      icon: <CalendarCheck size={20} />,
+      text: 'Bookings',
+      subItems: [
+        { text: 'All Bookings', path: '/bookings' },
+        { text: 'New Booking', path: '/bookings/new' },
+        { text: 'Booking Requests', path: '/bookings/requests' },
+      ],
+    },
+
+    /* Tour Booking link */
+    { type: 'link', icon: <CalendarCheck size={20} />, text: 'Tour Booking', path: '/tour-bookings' },
+
+    { type: 'link', icon: <Map size={20} />, text: 'Tours', path: '/tours' },
+    { type: 'link', icon: <Car size={20} />, text: 'Vehicles', path: '/vehicles' },
+    { type: 'link', icon: <MapPin size={20} />, text: 'Destinations', path: '/destinations' },
+    { type: 'link', icon: <Users size={20} />, text: 'Customers', path: '/customers' },
+    { type: 'link', icon: <Users size={20} />, text: 'Gallary', path: '/gallary' },
+
+    {
+      type: 'dropdown',
+      icon: <FileText size={20} />,
+      text: 'Pages',
+      subItems: [
+        { text: 'Home Page', path: '/pages/home' },
+        { text: 'About Us', path: '/pages/about' },
+        { text: 'Contact Us', path: '/pages/contact' },
+      ],
+    },
+
+    {
+      type: 'dropdown',
+      icon: <Edit3 size={20} />,
+      text: 'Blog',
+      subItems: [
+        { text: 'All Posts', path: '/blog' },
+        { text: 'Add New Post', path: '/blog/new' },
+        { text: 'Categories', path: '/blog/categories' },
+      ],
+    },
+
+    { type: 'link', icon: <Mail size={20} />, text: 'Enquiries', path: '/enquiries' },
+    { type: 'link', icon: <Tag size={20} />, text: 'Coupons', path: '/coupons' },
+    { type: 'link', icon: <MessageSquareQuote size={20} />, text: 'Testimonial', path: '/testimonials' },
+
+    {
+      type: 'dropdown',
+      icon: <UserCog size={20} />,
+      text: 'Users',
+      subItems: [
+        { text: 'All Users', path: '/users' },
+        { text: 'Roles & Permissions', path: '/users/roles' },
+      ],
+    },
+
+    { type: 'link', icon: <Settings size={20} />, text: 'Settings', path: '/settings' },
+    { type: 'link', icon: <Hotel size={20} />, text: 'Hotel', path: '/hotels' },
+  ];
 
   return (
-    <aside
-      className={`Sidebar ${
-        isCollapsed ? "collapsed" : ""
-      } ${
-        isMobileOpen ? "mobile-open" : ""
-      }`}
-    >
-      {/* ===================================================
-          SIDEBAR SHEEN
-      =================================================== */}
-
-      <div
-        className="Sidebar-sheen"
-        aria-hidden="true"
-      />
-
-      {/* ===================================================
-          LOGO
-      =================================================== */}
+    <aside className={`Sidebar ${isCollapsed ? 'collapsed' : ''} ${isMobileOpen ? 'mobile-open' : ''}`}>
+      <div className="Sidebar-sheen" aria-hidden="true" />
 
       <div className="Sidebar-logo">
         <div className="Sidebar-logo-iconWrap">
           <BrandMark className="Sidebar-logo-icon" />
         </div>
-
         {(!isCollapsed || isMobileOpen) && (
           <div className="Sidebar-logo-text-group">
-            <span className="Sidebar-logo-text">
-              Jagannath Explorer
-            </span>
-
-            <span className="Sidebar-logo-tagline">
-              Admin Panel
-            </span>
+            <span className="Sidebar-logo-text">Jagannath Explorer</span>
+            <span className="Sidebar-logo-tagline">Admin Panel</span>
           </div>
         )}
 
-        {/* Mobile close button */}
-
         {isMobileOpen && (
           <button
-            type="button"
             className="Sidebar-close-btn"
             onClick={onClose}
             aria-label="Close menu"
@@ -222,145 +144,56 @@ const Sidebar = ({
         )}
       </div>
 
-      {/* ===================================================
-          NAVIGATION
-      =================================================== */}
-
       <nav className="Sidebar-nav">
-        {menuItems.map((item) => {
-
-          /* =================================================
-             BLOG DROPDOWN
-          ================================================= */
-
-          if (item.type === "dropdown") {
+        {menuItems.map((item, index) => {
+          if (item.type === 'link') {
             return (
-              <div
-                key={item.text}
-                className={`Sidebar-dropdown-wrapper ${
-                  blogOpen || isBlogPage
-                    ? "is-open"
-                    : ""
-                }`}
+              <NavLink
+                key={index}
+                to={item.path}
+                end={item.path === '/'}
+                title={isCollapsed ? item.text : undefined}
+                onClick={handleNavClick}
+                className={({ isActive }) => `Sidebar-link ${isActive ? 'active' : ''}`}
               >
-                {/* Blog Main Button */}
-
-                <button
-                  type="button"
-                  className={`Sidebar-link Sidebar-dropdown-toggle ${
-                    isBlogPage ? "active" : ""
-                  }`}
-                  onClick={handleBlogToggle}
-                  title={
-                    isCollapsed
-                      ? item.text
-                      : undefined
-                  }
-                >
-                  <span className="Sidebar-icon">
-                    {item.icon}
-                  </span>
-
-                  {(!isCollapsed ||
-                    isMobileOpen) && (
-                    <>
-                      <span className="Sidebar-text">
-                        Blog
-                      </span>
-
-                      <ChevronDown
-                        size={16}
-                        className={`Sidebar-chevron ${
-                          blogOpen || isBlogPage
-                            ? "rotated"
-                            : ""
-                        }`}
-                      />
-                    </>
-                  )}
-                </button>
-
-                {/* =================================================
-                    BLOG SUBMENU
-                ================================================= */}
-
-                {(!isCollapsed ||
-                  isMobileOpen) &&
-                  (blogOpen || isBlogPage) && (
-                    <div className="Sidebar-submenu">
-
-                      {/* Blog Management */}
-
-                      <NavLink
-                        to="/blog"
-                        end
-                        onClick={handleNavClick}
-                        className={({ isActive }) =>
-                          `Sidebar-submenu-link ${
-                            isActive
-                              ? "active"
-                              : ""
-                          }`
-                        }
-                      >
-                        Blog Management
-                      </NavLink>
-
-                      {/* Blog Post */}
-
-                      <NavLink
-                        to="/blog/new"
-                        end
-                        onClick={handleNavClick}
-                        className={({ isActive }) =>
-                          `Sidebar-submenu-link ${
-                            isActive
-                              ? "active"
-                              : ""
-                          }`
-                        }
-                      >
-                        Blog Post
-                      </NavLink>
-
-                    </div>
-                  )}
-              </div>
+                <span className="Sidebar-icon">{item.icon}</span>
+                {(!isCollapsed || isMobileOpen) && <span className="Sidebar-text">{item.text}</span>}
+              </NavLink>
             );
           }
 
-          /* =================================================
-             NORMAL MENU LINK
-          ================================================= */
-
+          const isDropdownOpen = !!openDropdowns[item.text];
           return (
-            <NavLink
-              key={item.text}
-              to={item.path}
-              end={item.path === "/"}
-              title={
-                isCollapsed
-                  ? item.text
-                  : undefined
-              }
-              onClick={handleNavClick}
-              className={({ isActive }) =>
-                `Sidebar-link ${
-                  isActive ? "active" : ""
-                }`
-              }
-            >
-              <span className="Sidebar-icon">
-                {item.icon}
-              </span>
+            <div key={index} className={`Sidebar-dropdown-wrapper ${isDropdownOpen ? 'is-open' : ''}`}>
+              <button
+                onClick={() => (!isCollapsed || isMobileOpen) && toggleDropdown(item.text)}
+                title={isCollapsed ? item.text : undefined}
+                className="Sidebar-link Sidebar-dropdown-toggle"
+              >
+                <span className="Sidebar-icon">{item.icon}</span>
+                {(!isCollapsed || isMobileOpen) && (
+                  <>
+                    <span className="Sidebar-text">{item.text}</span>
+                    <ChevronDown size={16} className={`Sidebar-chevron ${isDropdownOpen ? 'rotated' : ''}`} />
+                  </>
+                )}
+              </button>
 
-              {(!isCollapsed ||
-                isMobileOpen) && (
-                <span className="Sidebar-text">
-                  {item.text}
-                </span>
+              {(!isCollapsed || isMobileOpen) && (
+                <div className="Sidebar-submenu">
+                  {item.subItems.map((subItem, subIndex) => (
+                    <NavLink
+                      key={subIndex}
+                      to={subItem.path}
+                      onClick={handleNavClick}
+                      className={({ isActive }) => `Sidebar-submenu-link ${isActive ? 'active' : ''}`}
+                    >
+                      {subItem.text}
+                    </NavLink>
+                  ))}
+                </div>
               )}
-            </NavLink>
+            </div>
           );
         })}
       </nav>

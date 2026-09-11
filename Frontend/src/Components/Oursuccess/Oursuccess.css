@@ -284,3 +284,21 @@
     display: none;
   }
 }
+
+/* Subtitle styling for SEO description */
+.oursuccess-subtitle {
+  font-size: 16px;
+  color: #64748b;
+  max-width: 720px;
+  margin: 12px auto 0;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+@media (max-width: 680px) {
+  .oursuccess-subtitle {
+    font-size: 14px;
+    margin-top: 8px;
+    padding: 0 8px;
+  }
+}
