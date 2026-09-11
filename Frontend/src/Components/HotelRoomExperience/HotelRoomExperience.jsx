@@ -29,7 +29,8 @@ import {
   FaUsers,
   FaBed,
   FaHotel,
-  FaPaperPlane
+  FaPaperPlane,
+  FaLongArrowAltRight
 } from 'react-icons/fa';
 import { FiShield, FiBox } from 'react-icons/fi';
 import { MdLocalLaundryService } from 'react-icons/md';
@@ -129,7 +130,6 @@ const HotelRoomExperience = ({ hotel }) => {
     ];
   }
 
-<<<<<<< HEAD
   // Booking Widget Controls
   const [bookingType, setBookingType] = useState('online'); // 'online' | 'inquiry'
   const [selectedDatePlan, setSelectedDatePlan] = useState(1);
@@ -137,27 +137,29 @@ const HotelRoomExperience = ({ hotel }) => {
   const [customCheckOut, setCustomCheckOut] = useState('');
   const customDateInputRef = useRef(null);
 
-=======
   // Dates state - initially blank until selected by user
   const todayISO = getISODate(0);
-
   const [checkInDate, setCheckInDate] = useState('');
   const [checkOutDate, setCheckOutDate] = useState('');
 
   // Guest Counts
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
   const [adultCount, setAdultCount] = useState(2);
   const [childCount, setChildCount] = useState(0);
 
   // Extra Services
   const [extraServices, setExtraServices] = useState({
     homePickup: false,
-<<<<<<< HEAD
-    nightFood: false
-=======
     nightFood: false,
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
   });
+
+  // Inline Inquiry State
+  const [inlineInquiry, setInlineInquiry] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [isInlineSubmitted, setIsInlineSubmitted] = useState(false);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -173,21 +175,14 @@ const HotelRoomExperience = ({ hotel }) => {
   const homePickupPrice = 500;
   const nightFoodPrice = 350;
 
-<<<<<<< HEAD
-  const childTotal = useMemo(() => childCount * childPrice, [childCount, childPrice]);
+  const childTotal = useMemo(() => childCount * childPrice * nights, [childCount, childPrice, nights]);
+  const adultTotal = useMemo(() => adultCount * adultPrice * nights, [adultCount, adultPrice, nights]);
+  const extrasTotal = useMemo(
+    () => (extraServices.homePickup ? homePickupPrice : 0) + (extraServices.nightFood ? nightFoodPrice : 0),
+    [extraServices.homePickup, extraServices.nightFood]
+  );
 
-  const totalPrice = useMemo(() => {
-    const adultTotal = adultCount * adultPrice;
-    const extrasTotal = (extraServices.homePickup ? homePickupPrice : 0) + (extraServices.nightFood ? nightFoodPrice : 0);
-    return adultTotal + childTotal + extrasTotal;
-  }, [adultCount, adultPrice, childTotal, extraServices]);
-
-=======
-  const adultTotal = adultCount * adultPrice * nights;
-  const childTotal = childCount * childPrice * nights;
-  const extrasTotal = (extraServices.homePickup ? homePickupPrice : 0) + (extraServices.nightFood ? nightFoodPrice : 0);
-  const totalPrice = adultTotal + childTotal + extrasTotal;
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
+  const totalPrice = useMemo(() => adultTotal + childTotal + extrasTotal, [adultTotal, childTotal, extrasTotal]);
   const totalPriceStr = totalPrice.toLocaleString('en-IN');
 
   // Modal Booking Form State
@@ -196,12 +191,9 @@ const HotelRoomExperience = ({ hotel }) => {
     packageName: `${hotelName} Booking`,
     phone: '',
     destination: hotelLocation,
-<<<<<<< HEAD
-=======
     checkIn: '',
     checkOut: '',
     stayNights: '1 Night',
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
     price: `₹${totalPriceStr}`,
     member: 2,
     category: 'standard'
@@ -212,7 +204,6 @@ const HotelRoomExperience = ({ hotel }) => {
     const newIn = e.target.value;
     setCheckInDate(newIn);
 
-    // If new check-in is on or after current check-out, bump check-out to newIn + 1 day
     if (newIn && (!checkOutDate || checkOutDate <= newIn)) {
       const parts = newIn.split('-');
       if (parts.length === 3) {
@@ -227,11 +218,9 @@ const HotelRoomExperience = ({ hotel }) => {
   };
 
   const handleCheckOutChange = (e) => {
-    const newOut = e.target.value;
-    setCheckOutDate(newOut);
+    setCheckOutDate(e.target.value);
   };
 
-  // Helper to get minimum check-out date based on current check-in date
   const getMinCheckOutDate = (inDate) => {
     if (!inDate) return todayISO;
     const parts = inDate.split('-');
@@ -253,7 +242,6 @@ const HotelRoomExperience = ({ hotel }) => {
     }));
   };
 
-<<<<<<< HEAD
   // Inline Form Handlers
   const handleInlineChange = (e) => {
     const { name, value } = e.target;
@@ -265,8 +253,6 @@ const HotelRoomExperience = ({ hotel }) => {
     setIsInlineSubmitted(true);
   };
 
-=======
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
   // Modal Handlers
   const handleOpenModal = () => {
     setBookingFormData({
@@ -279,7 +265,7 @@ const HotelRoomExperience = ({ hotel }) => {
       stayNights: hasDates ? `${nights} Night${nights > 1 ? 's' : ''}` : '1 Night (Est.)',
       member: adultCount + childCount,
       price: `₹${totalPriceStr}`,
-      category: 'standard'
+      category: 'Standard Room'
     });
     setIsModalSubmitted(false);
     setIsModalOpen(true);
@@ -420,7 +406,6 @@ const HotelRoomExperience = ({ hotel }) => {
             {hotelDetailedDesc}
           </p>
 
-<<<<<<< HEAD
           <div className="HotelRoomExperience-section">
             <h2 className="HotelRoomExperience-sectionTitle">Highlights</h2>
             <div className="HotelRoomExperience-highlightsGrid">
@@ -463,8 +448,6 @@ const HotelRoomExperience = ({ hotel }) => {
             </div>
           </div>
 
-=======
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
           {/* Facilities & Amenities */}
           <div className="HotelRoomExperience-section">
             <h2 className="HotelRoomExperience-sectionTitle">Facilities & Amenities</h2>
@@ -482,16 +465,12 @@ const HotelRoomExperience = ({ hotel }) => {
         {/* Right Column: Booking Widget */}
         <div className="HotelRoomExperience-right">
           <div className="HotelRoomExperience-bookingCard">
-<<<<<<< HEAD
-=======
             
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
             <h3 className="HotelRoomExperience-cardTitle">Book Your Room</h3>
             <p className="HotelRoomExperience-cardSubtitle">
               Reserve your ideal Room early for a hassle-free trip; secure comfort and convenience!
             </p>
 
-<<<<<<< HEAD
             {/* Switch Tabs */}
             <div className="HotelRoomExperience-tabs">
               <button
@@ -512,7 +491,7 @@ const HotelRoomExperience = ({ hotel }) => {
 
             {bookingType === 'online' ? (
               <>
-                {/* Date Selection */}
+                {/* Date Selection Options */}
                 <div className="HotelRoomExperience-dateSection">
                   <span className="HotelRoomExperience-label">Select Your Booking Date:</span>
 
@@ -582,6 +561,66 @@ const HotelRoomExperience = ({ hotel }) => {
                           setSelectedDatePlan('custom');
                         }}
                       />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Date Picker Range Inputs */}
+                <div className="HotelRoomExperience-dateSection">
+                  <div className="HotelRoomExperience-dateSectionHeader">
+                    <span className="HotelRoomExperience-label">Select Booking Dates:</span>
+                    <span className="HotelRoomExperience-stayBadge">
+                      {hasDates ? `${nights} Night${nights > 1 ? 's' : ''} Stay` : 'Select Dates'}
+                    </span>
+                  </div>
+
+                  <div className="HotelRoomExperience-datePickersContainer">
+                    <div 
+                      className="HotelRoomExperience-dateInputGroup"
+                      onClick={(e) => {
+                        const input = e.currentTarget.querySelector('input[type="date"]');
+                        if (input && typeof input.showPicker === 'function') {
+                          try { input.showPicker(); } catch (err) {}
+                        }
+                      }}
+                    >
+                      <label className="HotelRoomExperience-inputFieldLabel" htmlFor="hotel-checkin-date">
+                        <FaCalendarAlt className="HotelRoomExperience-inputIcon" /> Check-in
+                      </label>
+                      <div className="HotelRoomExperience-dateInputWrap">
+                        <input
+                          id="hotel-checkin-date"
+                          type="date"
+                          min={todayISO}
+                          value={checkInDate}
+                          onChange={handleCheckInChange}
+                          className="HotelRoomExperience-dateInputField"
+                        />
+                      </div>
+                    </div>
+
+                    <div 
+                      className="HotelRoomExperience-dateInputGroup"
+                      onClick={(e) => {
+                        const input = e.currentTarget.querySelector('input[type="date"]');
+                        if (input && typeof input.showPicker === 'function') {
+                          try { input.showPicker(); } catch (err) {}
+                        }
+                      }}
+                    >
+                      <label className="HotelRoomExperience-inputFieldLabel" htmlFor="hotel-checkout-date">
+                        <FaCalendarAlt className="HotelRoomExperience-inputIcon" /> Check-out
+                      </label>
+                      <div className="HotelRoomExperience-dateInputWrap">
+                        <input
+                          id="hotel-checkout-date"
+                          type="date"
+                          min={getMinCheckOutDate(checkInDate)}
+                          value={checkOutDate}
+                          onChange={handleCheckOutChange}
+                          className="HotelRoomExperience-dateInputField"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -755,167 +794,10 @@ const HotelRoomExperience = ({ hotel }) => {
                 )}
               </div>
             )}
-=======
-            {/* Check-in & Check-out Date Picker */}
-            <div className="HotelRoomExperience-dateSection">
-              <div className="HotelRoomExperience-dateSectionHeader">
-                <span className="HotelRoomExperience-label">Select Booking Dates:</span>
-                <span className="HotelRoomExperience-stayBadge">
-                  {hasDates ? `${nights} Night${nights > 1 ? 's' : ''} Stay` : 'Select Dates'}
-                </span>
-              </div>
-
-              <div className="HotelRoomExperience-datePickersContainer">
-                <div 
-                  className="HotelRoomExperience-dateInputGroup"
-                  onClick={(e) => {
-                    const input = e.currentTarget.querySelector('input[type="date"]');
-                    if (input && typeof input.showPicker === 'function') {
-                      try { input.showPicker(); } catch (err) {}
-                    }
-                  }}
-                >
-                  <label className="HotelRoomExperience-inputFieldLabel" htmlFor="hotel-checkin-date">
-                    <FaCalendarAlt className="HotelRoomExperience-inputIcon" /> Check-in
-                  </label>
-                  <div className="HotelRoomExperience-dateInputWrap">
-                    <input
-                      id="hotel-checkin-date"
-                      type="date"
-                      min={todayISO}
-                      value={checkInDate}
-                      onChange={handleCheckInChange}
-                      className="HotelRoomExperience-dateInputField"
-                    />
-                  </div>
-                </div>
-
-                <div 
-                  className="HotelRoomExperience-dateInputGroup"
-                  onClick={(e) => {
-                    const input = e.currentTarget.querySelector('input[type="date"]');
-                    if (input && typeof input.showPicker === 'function') {
-                      try { input.showPicker(); } catch (err) {}
-                    }
-                  }}
-                >
-                  <label className="HotelRoomExperience-inputFieldLabel" htmlFor="hotel-checkout-date">
-                    <FaCalendarAlt className="HotelRoomExperience-inputIcon" /> Check-out
-                  </label>
-                  <div className="HotelRoomExperience-dateInputWrap">
-                    <input
-                      id="hotel-checkout-date"
-                      type="date"
-                      min={getMinCheckOutDate(checkInDate)}
-                      value={checkOutDate}
-                      onChange={handleCheckOutChange}
-                      className="HotelRoomExperience-dateInputField"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Guest Counters */}
-            <div className="HotelRoomExperience-guestsSection">
-              <div className="HotelRoomExperience-guestRow">
-                <span className="HotelRoomExperience-guestType">Adult:</span>
-                <div className="HotelRoomExperience-guestPrice">
-                  <span className="HotelRoomExperience-currPrice">₹{adultPrice.toLocaleString('en-IN')}</span>
-                  <span className="HotelRoomExperience-oldPrice">₹{Math.round(adultPrice * 1.3).toLocaleString('en-IN')}</span>
-                </div>
-                <div className="HotelRoomExperience-counterBox">
-                  <button
-                    type="button"
-                    className="HotelRoomExperience-counterBtn"
-                    onClick={() => setAdultCount(Math.max(1, adultCount - 1))}
-                  >
-                    <FaChevronDown />
-                  </button>
-                  <span className="HotelRoomExperience-counterVal">{adultCount}</span>
-                  <button
-                    type="button"
-                    className="HotelRoomExperience-counterBtn"
-                    onClick={() => setAdultCount(adultCount + 1)}
-                  >
-                    <FaChevronUp />
-                  </button>
-                </div>
-              </div>
-
-              <div className="HotelRoomExperience-guestRow">
-                <span className="HotelRoomExperience-guestType">Children:</span>
-                <div className="HotelRoomExperience-guestPrice">
-                  <span className="HotelRoomExperience-currPrice">₹{childPrice.toLocaleString('en-IN')}</span>
-                </div>
-                <div className="HotelRoomExperience-counterBox">
-                  <button
-                    type="button"
-                    className="HotelRoomExperience-counterBtn"
-                    onClick={() => setChildCount(Math.max(0, childCount - 1))}
-                  >
-                    <FaChevronDown />
-                  </button>
-                  <span className="HotelRoomExperience-counterVal">{childCount}</span>
-                  <button
-                    type="button"
-                    className="HotelRoomExperience-counterBtn"
-                    onClick={() => setChildCount(childCount + 1)}
-                  >
-                    <FaChevronUp />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Extra Services */}
-            <div className="HotelRoomExperience-extrasSection">
-              <h4 className="HotelRoomExperience-extrasTitle">Other Extra Services</h4>
-              
-              <label className="HotelRoomExperience-extraRow">
-                <div className="HotelRoomExperience-extraLeft">
-                  <input
-                    type="checkbox"
-                    checked={extraServices.homePickup}
-                    onChange={() => handleExtraServiceChange('homePickup')}
-                  />
-                  <span>Home Pickup</span>
-                </div>
-                <span className="HotelRoomExperience-extraPrice">₹{homePickupPrice.toLocaleString('en-IN')}</span>
-              </label>
-
-              <label className="HotelRoomExperience-extraRow">
-                <div className="HotelRoomExperience-extraLeft">
-                  <input
-                    type="checkbox"
-                    checked={extraServices.nightFood}
-                    onChange={() => handleExtraServiceChange('nightFood')}
-                  />
-                  <span>Night Food</span>
-                </div>
-                <span className="HotelRoomExperience-extraPrice">₹{nightFoodPrice.toLocaleString('en-IN')}</span>
-              </label>
-            </div>
-
-            {/* Total Price & Action Button */}
-            <div className="HotelRoomExperience-totalRow">
-              <span className="HotelRoomExperience-totalLabel">Total Price:</span>
-              <span className="HotelRoomExperience-totalAmount">₹{totalPriceStr}</span>
-            </div>
-
-            <button 
-              className="HotelRoomExperience-bookBtn"
-              onClick={handleOpenModal}
-            >
-              Book Now
-            </button>
-
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
           </div>
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* Booking Popup Modal */}
       <div
         className={`HotelRoomExperience-modalOverlay ${isModalOpen ? 'active' : ''}`}
@@ -931,12 +813,6 @@ const HotelRoomExperience = ({ hotel }) => {
             onClick={handleCloseModal}
             aria-label="Close modal"
           >
-=======
-      {/* POPUP MODAL (Triggers when clicking "Book Now") */}
-      <div className={`HotelRoomExperience-modalOverlay ${isModalOpen ? 'active' : ''}`} onClick={handleCloseModal}>
-        <div className="HotelRoomExperience-modalContent" onClick={(e) => e.stopPropagation()}>
-          <button className="HotelRoomExperience-modalCloseBtn" onClick={handleCloseModal} aria-label="Close modal">
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
             <FaTimes />
           </button>
 
@@ -946,44 +822,24 @@ const HotelRoomExperience = ({ hotel }) => {
                 <FaCheck className="HotelRoomExperience-successIcon" />
               </div>
               <h3>Booking Request Sent!</h3>
-<<<<<<< HEAD
-              <p>We have received your booking details. Our team will contact you shortly.</p>
+              <p>We have received your booking details. Our tour executive will contact you shortly on WhatsApp / Call.</p>
               <button
                 type="button"
-                className="HotelRoomExperience-bookNowMainBtn"
+                className="HotelRoomExperience-bookBtn HotelRoomExperience-modalSuccessBtn"
                 onClick={handleCloseModal}
               >
-=======
-              <p>We have received your booking details. Our tour executive will contact you shortly on WhatsApp / Call.</p>
-              <button className="HotelRoomExperience-bookBtn HotelRoomExperience-modalSuccessBtn" onClick={handleCloseModal}>
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
                 Close
               </button>
             </div>
           ) : (
             <form onSubmit={handleModalSubmit} className="HotelRoomExperience-modalForm">
-<<<<<<< HEAD
-              <h3 className="HotelRoomExperience-modalTitle">Complete Booking</h3>
-
-              <div className="HotelRoomExperience-formGroup">
-                <label>Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  required
-                  placeholder="Enter full name"
-                  value={bookingFormData.fullName}
-                  onChange={handleModalInputChange}
-                />
-              </div>
-=======
               <div className="HotelRoomExperience-modalHeader">
                 <h3 className="HotelRoomExperience-modalTitle">Complete Booking Inquiry</h3>
                 <p className="HotelRoomExperience-modalSubtitle">
                   Review your reservation details. No advance payment required today!
                 </p>
               </div>
-              
+
               <div className="HotelRoomExperience-formBody">
                 <div className="HotelRoomExperience-formGrid">
                   <div className="HotelRoomExperience-formGroup">
@@ -999,7 +855,6 @@ const HotelRoomExperience = ({ hotel }) => {
                       onChange={handleModalInputChange}
                     />
                   </div>
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
 
                   <div className="HotelRoomExperience-formGroup">
                     <label>
@@ -1118,27 +973,8 @@ const HotelRoomExperience = ({ hotel }) => {
                 </div>
               </div>
 
-<<<<<<< HEAD
-              <div className="HotelRoomExperience-formGroup">
-                <label>Category</label>
-                <select
-                  name="category"
-                  value={bookingFormData.category}
-                  onChange={handleModalInputChange}
-                  className="HotelRoomExperience-select"
-                >
-                  <option value="standard">Standard</option>
-                  <option value="premium">Premium</option>
-                  <option value="business">Business</option>
-                </select>
-              </div>
-
-              <button type="submit" className="HotelRoomExperience-bookNowMainBtn">
-                Submit Booking
-=======
               <button type="submit" className="HotelRoomExperience-modalSubmitBtn">
                 <FaPaperPlane className="HotelRoomExperience-btnPaperIcon" /> Submit Booking Request
->>>>>>> 6aa05af3d4bcf3343dff69d5de175bb33e9e2663
               </button>
 
               <div className="HotelRoomExperience-modalFooterNote">
