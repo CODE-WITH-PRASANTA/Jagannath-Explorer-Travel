@@ -236,12 +236,15 @@
 
 /* Clean Date Pickers Container */
 .HotelRoomExperience-datePickersContainer {
-  display: flex;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
   background: #ffffff;
-  padding: 14px 12px;
+  padding: 12px 10px;
   border: 1.5px solid #e2e8f0;
   border-radius: 8px;
+  box-sizing: border-box;
+  width: 100%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
@@ -252,7 +255,9 @@
 }
 
 .HotelRoomExperience-dateInputGroup {
-  flex: 1;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -268,6 +273,7 @@
   gap: 5px;
   cursor: pointer;
   user-select: none;
+  white-space: nowrap;
 }
 
 .HotelRoomExperience-inputIcon {
@@ -279,15 +285,20 @@
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
 .HotelRoomExperience-dateInputField {
   width: 100%;
-  padding: 9px 10px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 8px 6px;
   border: 1.5px solid #cbd5e1;
   border-radius: 6px;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
   box-sizing: border-box;
   font-family: inherit;
@@ -606,11 +617,11 @@
 
 .HotelRoomExperience-modalContent {
   background-color: #ffffff;
-  padding: 30px 24px 24px;
-  border-radius: 16px;
+  padding: 32px 28px 26px;
+  border-radius: 18px;
   width: 100%;
-  max-width: 480px;
-  max-height: 90vh;
+  max-width: 680px;
+  max-height: 92vh;
   overflow-y: auto;
   position: relative;
   box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
@@ -709,6 +720,304 @@
   }
 }
 
+/* =========================================================
+   POPUP BOOKING MODAL
+   ========================================================= */
+.HotelRoomExperience-modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.HotelRoomExperience-modalOverlay.active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.HotelRoomExperience-modalContent {
+  position: relative;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 32px 36px;
+  width: 96%;
+  max-width: 780px;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  animation: hotelModalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.HotelRoomExperience-modalContent::-webkit-scrollbar {
+  display: none;
+}
+
+.HotelRoomExperience-modalCloseBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.HotelRoomExperience-modalCloseBtn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.HotelRoomExperience-modalHeader {
+  margin-bottom: 20px;
+  padding-right: 36px;
+}
+
+.HotelRoomExperience-modalTitle {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.HotelRoomExperience-modalSubtitle {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.HotelRoomExperience-modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.HotelRoomExperience-formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.HotelRoomExperience-formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.HotelRoomExperience-formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.HotelRoomExperience-formGroup label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.HotelRoomExperience-fieldIcon {
+  color: #39b500;
+  font-size: 0.85rem;
+}
+
+.HotelRoomExperience-formGroup input,
+.HotelRoomExperience-select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: #1e293b;
+  outline: none;
+  font-family: inherit;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.HotelRoomExperience-formGroup input:focus,
+.HotelRoomExperience-select:focus {
+  border-color: #39b500;
+  box-shadow: 0 0 0 3px rgba(57, 181, 0, 0.12);
+}
+
+.HotelRoomExperience-readonlyInput {
+  background-color: #f8fafc !important;
+  color: #64748b !important;
+  cursor: not-allowed;
+  border-color: #e2e8f0 !important;
+}
+
+/* Price Highlight Banner */
+.HotelRoomExperience-modalPriceBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1.5px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-top: 4px;
+}
+
+.HotelRoomExperience-priceBannerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.HotelRoomExperience-priceBannerLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #166534;
+}
+
+.HotelRoomExperience-priceBannerSub {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.HotelRoomExperience-priceBannerRight {
+  text-align: right;
+}
+
+.HotelRoomExperience-priceBannerAmount {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #15803d;
+}
+
+/* Modal Submit Button */
+.HotelRoomExperience-modalSubmitBtn {
+  width: 100%;
+  background-color: #39b500;
+  color: #ffffff;
+  border: none;
+  padding: 13px;
+  border-radius: 8px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  margin-top: 4px;
+}
+
+.HotelRoomExperience-modalSubmitBtn:hover {
+  background-color: #2e9400;
+  transform: translateY(-1px);
+}
+
+.HotelRoomExperience-btnPaperIcon {
+  font-size: 0.95rem;
+}
+
+.HotelRoomExperience-modalFooterNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.HotelRoomExperience-shieldIcon {
+  color: #10b981;
+}
+
+/* Modal Success State */
+.HotelRoomExperience-modalSuccess {
+  text-align: center;
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.HotelRoomExperience-successCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #ecfdf5;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+.HotelRoomExperience-modalSuccess h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.HotelRoomExperience-modalSuccess p {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+  max-width: 420px;
+  line-height: 1.5;
+}
+
+.HotelRoomExperience-modalSuccessBtn {
+  margin-top: 10px;
+  min-width: 140px;
+  padding: 10px 24px;
+  background-color: #39b500;
+  color: #ffffff;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@keyframes hotelModalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .HotelRoomExperience-facilitiesGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -721,11 +1030,11 @@
 
 @media (max-width: 580px) {
   .HotelRoomExperience-modalContent {
-    padding: 24px 18px;
+    padding: 22px 16px;
   }
 
   .HotelRoomExperience-formGrid {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 }

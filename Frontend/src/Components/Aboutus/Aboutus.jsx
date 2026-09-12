@@ -9,7 +9,7 @@ import {
   FaStar,
 } from "react-icons/fa";
 
-import "./AboutUs.css";
+import "./Aboutus.css";
 
 import mainImg from "../../assets/About.webp";
 import brushImg from "../../assets/img-1.webp";

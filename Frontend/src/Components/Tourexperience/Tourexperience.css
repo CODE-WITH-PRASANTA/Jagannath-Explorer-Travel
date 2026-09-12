@@ -9,7 +9,7 @@
   font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
   color: #333333;
 }
- 
+
 .TourExperience-container {
   max-width: 1360px;
   margin: 0 auto;
@@ -286,16 +286,52 @@
 }
 
 /* Booking Date Selection */
-.TourExperience-fieldGroup {
+.TourExperience-datePickersContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   margin-bottom: 22px;
 }
 
-.TourExperience-fieldLabel {
-  display: block;
-  font-size: 0.88rem;
+.TourExperience-dateInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.TourExperience-dateFieldLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
   font-weight: 800;
   color: #091a32;
-  margin-bottom: 12px;
+}
+
+.TourExperience-dateIcon {
+  color: #39b500;
+  font-size: 0.85rem;
+}
+
+.TourExperience-dateInputField {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1e293b;
+  background-color: #ffffff;
+  outline: none;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.TourExperience-dateInputField:focus {
+  border-color: #39b500;
+  box-shadow: 0 0 0 3px rgba(57, 181, 0, 0.15);
 }
 
 .TourExperience-dateOption {
@@ -740,23 +776,29 @@
 
 .TourExperience-modalBox {
   background: #ffffff;
-  width: 100%;
-  max-width: 480px;
-  max-height: min(88vh, 720px);
+  width: 96%;
+  max-width: 780px;
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
-  border-radius: 16px;
-  padding: 28px 24px 24px 24px;
+  border-radius: 18px;
+  padding: 32px 36px 28px 36px;
   position: relative;
   box-sizing: border-box;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
   animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.TourExperience-modalBox::-webkit-scrollbar {
+  display: none;
 }
 
 .TourExperience-modalCloseBtn {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 18px;
+  right: 18px;
   background-color: #f1f5f9;
   border: none;
   border-radius: 50%;
@@ -779,11 +821,11 @@
 }
 
 .TourExperience-modalTitle {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #0f172a;
   text-align: center;
-  margin: 0 0 16px 0;
+  margin: 0 0 20px 0;
   padding: 0 32px;
   flex-shrink: 0;
 }
@@ -791,26 +833,15 @@
 .TourExperience-modalForm {
   display: flex;
   flex-direction: column;
-  gap: 13px;
+  gap: 14px;
+  padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   overflow-y: auto;
-  overflow-x: hidden;
-  padding: 4px 6px 6px 2px;
-  margin-right: -4px;
-  flex: 1 1 auto;
 }
 
 .TourExperience-modalForm::-webkit-scrollbar {
-  width: 5px;
-}
-
-.TourExperience-modalForm::-webkit-scrollbar-track {
-  background: #f8fafc;
-  border-radius: 4px;
-}
-
-.TourExperience-modalForm::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  display: none;
 }
 
 .TourExperience-modalGroup {
@@ -831,13 +862,14 @@
   width: 100%;
   box-sizing: border-box;
   padding: 10px 14px;
-  border: 1px solid #e2e8f0;
+  border: 1.5px solid #e2e8f0;
   border-radius: 8px;
   font-size: 0.88rem;
   color: #1e293b;
   outline: none;
   font-family: inherit;
   background-color: #ffffff;
+  transition: all 0.2s ease;
 }
 
 .TourExperience-modalInput:focus,
@@ -849,7 +881,7 @@
 .TourExperience-modalRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 16px;
 }
 
 .TourExperience-modalSubmitBtn {
@@ -873,8 +905,13 @@
 
 /* Keyframe Animations */
 @keyframes modalFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes modalSlideUp {
@@ -882,6 +919,7 @@
     opacity: 0;
     transform: translateY(28px) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
