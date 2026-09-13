@@ -5,7 +5,7 @@ import './ToursBreadCrumb.css';
 import { FaChevronRight } from 'react-icons/fa';
 
 // Background image import path
-import breadcrumbBg from '../../assets/background.webp';
+import breadcrumbBg from '../../assets/mainbreadcrumb.webp';
 
 const ToursBreadCrumb = () => {
   return (

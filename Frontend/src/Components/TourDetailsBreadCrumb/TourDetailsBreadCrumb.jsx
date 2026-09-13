@@ -13,10 +13,12 @@ const TourDetailsBreadCrumb = ({ title, destination }) => {
     >
       {/* Title & Navigation */}
       <div className="TourDetailsBreadCrumb-hero">
+        <h1 className="TourDetailsBreadCrumb-title">Tours Details</h1>
         <h1 className="TourDetailsBreadCrumb-title">{title || "Package Details"}</h1>
         <div className="TourDetailsBreadCrumb-nav">
           <Link to="/" className="TourDetailsBreadCrumb-home" style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
           <span className="TourDetailsBreadCrumb-arrow">--&gt;</span>
+          <span className="TourDetailsBreadCrumb-current">Tours Details</span>
           <Link to="/tours" className="TourDetailsBreadCrumb-home" style={{ textDecoration: 'none', color: 'inherit' }}>Tours</Link>
           <span className="TourDetailsBreadCrumb-arrow">--&gt;</span>
           <span className="TourDetailsBreadCrumb-current">{title || (destination ? `${destination} Tour` : "Package Details")}</span>

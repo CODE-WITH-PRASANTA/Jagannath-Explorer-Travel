@@ -5,12 +5,14 @@ import './HotelRoomBreadCrumb.css';
 import breadcrumbBg from '../../assets/background.webp';
 
 const HotelRoomBreadCrumb = ({ hotel }) => {
-  const title = hotel?.name || "Room Details";
+  const title = hotel?.name || 'Room Details';
 
   return (
-    <div 
-      className="HotelRoomBreadCrumb" 
-      style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(${breadcrumbBg})` }}
+    <div
+      className="HotelRoomBreadCrumb"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(${breadcrumbBg})`
+      }}
     >
       {/* Title & Navigation */}
       <div className="HotelRoomBreadCrumb-hero">

@@ -5,6 +5,7 @@ import ToursItinerary from "../../Components/ToursItinerary/ToursItinerary";
 import ToursLocation from "../../Components/ToursLocation/ToursLocation";
 import ToursFAQSection from "../../Components/ToursFAQSection/ToursFAQSection";
 import ToursAllSection from "../../Components/ToursAllSection/ToursAllSection";
+  
 import API, { IMG_URL } from "../../api/axios";
 
 import {

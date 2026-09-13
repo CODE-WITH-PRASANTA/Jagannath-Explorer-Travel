@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-
+ 
 // =====================================================
 // Layout
 // =====================================================
@@ -26,7 +26,6 @@ import Hotel from "./Pages/Hotel/Hotel";
 import Customers from "./Components/Customers/Customers";
 import Enquiries from "./Components/Enquiries/Enquiries";
 import Coupons from "./Components/Coupons/Coupons";
-import Tourbooking from "./Components/Tourbooking/Tourbooking";
 import BookingDetails from "./Components/BookingDetails/BookingDetails";
 
 // =====================================================
@@ -54,6 +53,7 @@ import Settings from "./Components/Settings/Settings";
 // Other
 // =====================================================
 import Booklead from "./Pages/Booklead/Booklead";
+import TourBookings from "./Pages/TourBookings/TourBookings";
 
 const App = () => {
   return (
@@ -95,7 +95,7 @@ const App = () => {
 
             <Route path="/coupons" element={<Coupons />} />
 
-            <Route path="/tour-bookings" element={<Tourbooking />} />
+            <Route path="/tourbooking" element={<TourBookings />} />
 
             <Route
               path="/bookingdetails"
