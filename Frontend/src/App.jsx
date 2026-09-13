@@ -8,7 +8,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/footer/footer";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
-
+ 
 // Pages
 import Home from "./Page/Home/Home";
 import Tours from "./Page/Tours/Tours";
@@ -68,9 +68,13 @@ const App = () => {
         <Route path="/car-rental/small-coach" element={<SmlCoach />} />
         <Route path="/car-rental/urbania-travellers" element={<UrbaniaTraveller />} />
         <Route path="/tours" element={<Tours />} />
+        <Route path="/tours/:slug" element={<TourDetails />} />
         <Route path="/tourdetails" element={<TourDetails />} />
+        <Route path="/tourdetails/:slug" element={<TourDetails />} />
         <Route path="/hotel" element={<Hotel />} />
+        <Route path="/hotel/:slug" element={<HotelRoomDetails />} />
         <Route path="/hotelroomdetails" element={<HotelRoomDetails />} />
+        <Route path="/hotelroomdetails/:id" element={<HotelRoomDetails />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<Faqs />} />

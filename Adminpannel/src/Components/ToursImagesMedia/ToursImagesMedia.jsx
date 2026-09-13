@@ -10,17 +10,30 @@ import {
 } from 'react-icons/lu';
 import './ToursImagesMedia.css';
 
-const ToursImagesMedia = () => {
+const ToursImagesMedia = ({
+  mainImage: externalMainImage,
+  setMainImage: externalSetMainImage,
+  galleryImages: externalGalleryImages,
+  setGalleryImages: externalSetGalleryImages,
+  videoUrl: externalVideoUrl,
+  setVideoUrl: externalSetVideoUrl,
+  onMainFileChange,
+  onGalleryFilesChange,
+  onRemoveGalleryImage,
+  onSave,
+  isSubmitting = false,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [mainImage, setMainImage] = useState(null);
-  const [galleryImages, setGalleryImages] = useState([
-    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
-    'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80',
-    'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=600&q=80',
-    'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80',
-    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80'
-  ]);
-  const [videoUrl, setVideoUrl] = useState('');
+  const [internalMainImage, setInternalMainImage] = useState(null);
+  const [internalGalleryImages, setInternalGalleryImages] = useState([]);
+  const [internalVideoUrl, setInternalVideoUrl] = useState('');
+
+  const mainImage = externalMainImage !== undefined ? externalMainImage : internalMainImage;
+  const setMainImage = externalSetMainImage || setInternalMainImage;
+  const galleryImages = externalGalleryImages !== undefined ? externalGalleryImages : internalGalleryImages;
+  const setGalleryImages = externalSetGalleryImages || setInternalGalleryImages;
+  const videoUrl = externalVideoUrl !== undefined ? externalVideoUrl : internalVideoUrl;
+  const setVideoUrl = externalSetVideoUrl || setInternalVideoUrl;
 
   const mainInputRef = useRef(null);
   const galleryInputRef = useRef(null);
@@ -28,20 +41,32 @@ const ToursImagesMedia = () => {
   const handleMainImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setMainImage(URL.createObjectURL(file));
+      if (onMainFileChange) {
+        onMainFileChange(file);
+      } else {
+        setMainImage(URL.createObjectURL(file));
+      }
     }
   };
 
   const handleGalleryImageChange = (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length > 0) {
-      const newUrls = files.map((file) => URL.createObjectURL(file));
-      setGalleryImages((prev) => [...prev, ...newUrls]);
+      if (onGalleryFilesChange) {
+        onGalleryFilesChange(files);
+      } else {
+        const newUrls = files.map((file) => URL.createObjectURL(file));
+        setGalleryImages((prev) => [...prev, ...newUrls]);
+      }
     }
   };
 
   const removeGalleryImage = (indexToRemove) => {
-    setGalleryImages((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+    if (onRemoveGalleryImage) {
+      onRemoveGalleryImage(indexToRemove);
+    } else {
+      setGalleryImages((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+    }
   };
 
   return (
@@ -199,8 +224,13 @@ const ToursImagesMedia = () => {
             <button type="button" className="tours-images-media-btn-cancel">
               Cancel
             </button>
-            <button type="button" className="tours-images-media-btn-save">
-              Save Tour Package
+            <button
+              type="button"
+              className="tours-images-media-btn-save"
+              onClick={onSave}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Saving..." : "Save Tour Package"}
             </button>
           </div>
         </div>

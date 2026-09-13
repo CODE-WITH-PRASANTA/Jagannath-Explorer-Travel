@@ -5,13 +5,17 @@ import './HotelroomDetailsMap.css';
 import { FaDirections, FaExpand } from 'react-icons/fa';
 import { FiExternalLink } from 'react-icons/fi';
 
-const HotelroomDetailsMap = () => {
-  // Direct Google Maps View URL for New York, NY
-  const mapsUrl = "https://www.google.com/maps/place/New+York,+NY,+USA";
-  const directionsUrl = "https://www.google.com/maps/dir//New+York,+NY,+USA";
+const HotelroomDetailsMap = ({ hotel }) => {
+  const city = hotel?.city || "Puri";
+  const address = hotel?.address || (hotel ? `${hotel.city}, Odisha, India` : "Grand Road, Puri, Odisha, India");
+  const encodedQuery = encodeURIComponent(`${city}, ${address}`);
+
+  // Direct Google Maps View URL
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedQuery}`;
+  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedQuery}`;
 
   return (
-    <div className="HotelroomDetailsMap">
+    <div className="HotelroomDetailsMap" id="see-map">
       <div className="HotelroomDetailsMap-container">
         
         {/* Section Heading */}
@@ -24,7 +28,7 @@ const HotelroomDetailsMap = () => {
           <iframe
             title="Location Map"
             className="HotelroomDetailsMap-iframe"
-            src="https://maps.google.com/maps?q=New%20York%2C%20NY%2C%20USA&t=m&z=11&output=embed&iwloc=near"
+            src={`https://maps.google.com/maps?q=${encodedQuery}&t=m&z=12&output=embed&iwloc=near`}
             loading="lazy"
             allowFullScreen
           ></iframe>
@@ -32,8 +36,8 @@ const HotelroomDetailsMap = () => {
           {/* Top Left Location Info Card Overlay */}
           <div className="HotelroomDetailsMap-infoCard">
             <div className="HotelroomDetailsMap-infoText">
-              <h3 className="HotelroomDetailsMap-locationTitle">New York</h3>
-              <p className="HotelroomDetailsMap-locationSub">New York, NY, USA</p>
+              <h3 className="HotelroomDetailsMap-locationTitle">{city}</h3>
+              <p className="HotelroomDetailsMap-locationSub">{address}</p>
             </div>
             <div className="HotelroomDetailsMap-infoActions">
               <a

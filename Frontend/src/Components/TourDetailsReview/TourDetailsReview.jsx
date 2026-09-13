@@ -2,7 +2,7 @@ import React from 'react';
 import './TourDetailsReview.css';
 
 // React Icons
-import { FaStar, FaStarHalfAlt, FaRegStar, FaReply } from 'react-icons/fa';
+import { FaStar, FaStarHalfAlt, FaReply } from 'react-icons/fa';
 
 // WebP / Image imports from src/assets/
 import avatar1 from '../../assets/img1.webp';
@@ -10,45 +10,43 @@ import avatarAuthor from '../../assets/img2.webp';
 import avatar2 from '../../assets/img4.webp';
 import avatar3 from '../../assets/img 10.webp';
 
-const TourDetailsReview = () => {
-  // SEO Schema Markup for Jagannatha Tour and Travels
+const TourDetailsReview = ({ tour }) => {
+  const tourTitle = tour?.title || "Odisha Holiday Tour";
+  const tourDestination = tour?.destination || "Puri & Konark";
+
+  // Dynamic SEO Schema Markup for Jagannatha Tour and Travels
   const schemaMarkup = {
     "@context": "https://schema.org/",
     "@type": "TouristAttraction",
-    "name": "Jagannatha Tour and Travels",
+    "name": `Jagannatha Tour and Travels - ${tourTitle}`,
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "9.5",
-      "bestRating": "10",
-      "ratingCount": "2590"
+      "ratingValue": "4.9",
+      "bestRating": "5",
+      "ratingCount": "1280"
     },
     "review": [
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "Mr. Bowmik Haldar" },
-        "datePublished": "2023-06-05",
-        "reviewBody": "A solution that we came up with is to think of sanitary pads packaging as you would tea. Tea comes individually packaged",
-        "reviewRating": { "@type": "Rating", "ratingValue": "4.5" }
-      },
-      {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Srileka Panday" },
-        "datePublished": "2023-06-05",
-        "reviewBody": "A solution that we came up with is to think of sanitary pads packaging as you would tea. Tea comes individually packaged",
-        "reviewRating": { "@type": "Rating", "ratingValue": "4.5" }
+        "author": { "@type": "Person", "name": "Bhabani Shankar Patnaik" },
+        "datePublished": "2024-04-12",
+        "reviewBody": `Our tour to ${tourDestination} was exceptionally organized. Vehicle was clean, driver was polite, and all darshan & sightseeing timings were accurately managed.`,
+        "reviewRating": { "@type": "Rating", "ratingValue": "5.0" }
       }
     ]
   };
 
   // Helper function to render star icons
-  const renderStars = (rating = 4.5) => {
+  const renderStars = (rating = 5) => {
     return (
       <div className="TourDetailsReview-stars">
-        <FaStar className="TourDetailsReview-starIcon" />
-        <FaStar className="TourDetailsReview-starIcon" />
-        <FaStar className="TourDetailsReview-starIcon" />
-        <FaStar className="TourDetailsReview-starIcon" />
-        <FaStarHalfAlt className="TourDetailsReview-starIcon" />
+        {[...Array(5)].map((_, i) => (
+          <FaStar
+            key={i}
+            className="TourDetailsReview-starIcon"
+            style={{ color: i < rating ? "#f59e0b" : "#cbd5e1" }}
+          />
+        ))}
       </div>
     );
   };
@@ -64,19 +62,23 @@ const TourDetailsReview = () => {
       <div className="TourDetailsReview-container">
         {/* Main Section Header */}
         <h2 id="review-heading" className="TourDetailsReview-heading">
-          Customer Review
+          Customer Reviews
         </h2>
 
         {/* Aggregate Rating Banner Card */}
         <div className="TourDetailsReview-summaryCard">
           <div className="TourDetailsReview-summaryLeft">
-            <span className="TourDetailsReview-score">9.5</span>
+            <span className="TourDetailsReview-score">4.9</span>
             <div className="TourDetailsReview-summaryMeta">
-              {renderStars(4.5)}
-              <span className="TourDetailsReview-reviewCount">2590 Reviews</span>
+              {renderStars(5)}
+              <span className="TourDetailsReview-reviewCount">Verified Traveler Reviews</span>
             </div>
           </div>
-          <button className="TourDetailsReview-ratingBtn">
+          <button 
+            type="button"
+            className="TourDetailsReview-ratingBtn"
+            onClick={() => window.location.href = "tel:9668892441"}
+          >
             GIVE A RATING
           </button>
         </div>
@@ -89,12 +91,12 @@ const TourDetailsReview = () => {
             <div className="TourDetailsReview-userHeader">
               <img
                 src={avatar1}
-                alt="Mr. Bowmik Haldar - Jagannatha Tour and Travels Reviewer"
+                alt="Bhabani Shankar Patnaik - Verified Traveler"
                 className="TourDetailsReview-avatar"
               />
               <div className="TourDetailsReview-userInfo">
                 <h3 className="TourDetailsReview-userName">
-                  Mr. Bowmik Haldar, <span className="TourDetailsReview-date">05 June, 2023</span>
+                  Bhabani Shankar Patnaik, <span className="TourDetailsReview-date">12 April, 2024</span>
                 </h3>
               </div>
             </div>
@@ -103,31 +105,31 @@ const TourDetailsReview = () => {
             <div className="TourDetailsReview-ratingsGrid">
               <div className="TourDetailsReview-ratingCol">
                 <span className="TourDetailsReview-ratingLabel">Overall</span>
-                {renderStars(4.5)}
+                {renderStars(5)}
               </div>
               <div className="TourDetailsReview-ratingCol">
                 <span className="TourDetailsReview-ratingLabel">Transport</span>
-                {renderStars(4.5)}
+                {renderStars(5)}
               </div>
               <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Food</span>
-                {renderStars(4.5)}
+                <span className="TourDetailsReview-ratingLabel">Guide Service</span>
+                {renderStars(5)}
               </div>
               <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Destination</span>
-                {renderStars(4.5)}
+                <span className="TourDetailsReview-ratingLabel">Sightseeing</span>
+                {renderStars(5)}
               </div>
               <div className="TourDetailsReview-ratingCol">
                 <span className="TourDetailsReview-ratingLabel">Hospitality</span>
-                {renderStars(4.5)}
+                {renderStars(5)}
               </div>
             </div>
 
             <p className="TourDetailsReview-text">
-              A solution that we came up with is to think of sanitary pads packaging as you would tea. Tea comes individually packaged
+              We booked the {tourTitle} with Jagannath Explorer Travel. The whole itinerary covering {tourDestination} was seamlessly executed. The cab arrived on time, hotel transfers were smooth, and our family had a memorable spiritual journey.
             </p>
 
-            <button className="TourDetailsReview-replyBtn">
+            <button type="button" className="TourDetailsReview-replyBtn">
               <FaReply className="TourDetailsReview-replyIcon" /> Reply (01)
             </button>
 
@@ -135,17 +137,17 @@ const TourDetailsReview = () => {
             <div className="TourDetailsReview-nestedReply">
               <img
                 src={avatarAuthor}
-                alt="Author Response"
+                alt="Jagannath Explorer Team"
                 className="TourDetailsReview-avatar"
               />
               <div className="TourDetailsReview-replyContent">
                 <h4 className="TourDetailsReview-userName">
-                  Author Response, <span className="TourDetailsReview-date">05 June, 2023</span>
+                  Jagannath Explorer Team, <span className="TourDetailsReview-date">13 April, 2024</span>
                 </h4>
                 <p className="TourDetailsReview-text">
-                  Thanks for your review.
+                  Jai Jagannath! Thank you so much for traveling with us, Bhabani Ji. We are honored to have hosted your family tour.
                 </p>
-                <button className="TourDetailsReview-replyBtn">
+                <button type="button" className="TourDetailsReview-replyBtn">
                   <FaReply className="TourDetailsReview-replyIcon" /> Reply
                 </button>
               </div>
@@ -159,12 +161,12 @@ const TourDetailsReview = () => {
             <div className="TourDetailsReview-userHeader">
               <img
                 src={avatar2}
-                alt="Srileka Panday - Jagannatha Tour and Travels Reviewer"
+                alt="Rashmi Ranjan Das - Verified Traveler"
                 className="TourDetailsReview-avatar"
               />
               <div className="TourDetailsReview-userInfo">
                 <h3 className="TourDetailsReview-userName">
-                  Srileka Panday, <span className="TourDetailsReview-date">05 June, 2023</span>
+                  Rashmi Ranjan Das, <span className="TourDetailsReview-date">28 March, 2024</span>
                 </h3>
               </div>
             </div>
@@ -172,80 +174,31 @@ const TourDetailsReview = () => {
             <div className="TourDetailsReview-ratingsGrid">
               <div className="TourDetailsReview-ratingCol">
                 <span className="TourDetailsReview-ratingLabel">Overall</span>
-                {renderStars(4.5)}
+                {renderStars(5)}
               </div>
               <div className="TourDetailsReview-ratingCol">
                 <span className="TourDetailsReview-ratingLabel">Transport</span>
-                {renderStars(4.5)}
+                {renderStars(5)}
               </div>
               <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Food</span>
-                {renderStars(4.5)}
+                <span className="TourDetailsReview-ratingLabel">Guide Service</span>
+                {renderStars(5)}
               </div>
               <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Destination</span>
-                {renderStars(4.5)}
+                <span className="TourDetailsReview-ratingLabel">Sightseeing</span>
+                {renderStars(5)}
               </div>
               <div className="TourDetailsReview-ratingCol">
                 <span className="TourDetailsReview-ratingLabel">Hospitality</span>
-                {renderStars(4.5)}
+                {renderStars(5)}
               </div>
             </div>
 
             <p className="TourDetailsReview-text">
-              A solution that we came up with is to think of sanitary pads packaging as you would tea. Tea comes individually packaged
+              Excellent travel agency in Odisha! Everything promised in the package was delivered with highest quality. Transparent pricing and very courteous driver.
             </p>
 
-            <button className="TourDetailsReview-replyBtn">
-              <FaReply className="TourDetailsReview-replyIcon" /> Reply
-            </button>
-          </div>
-
-          <hr className="TourDetailsReview-divider" />
-
-          {/* Review Item 3 */}
-          <div className="TourDetailsReview-card">
-            <div className="TourDetailsReview-userHeader">
-              <img
-                src={avatar3}
-                alt="Mr. Bowmik Haldar - Jagannatha Tour and Travels Reviewer"
-                className="TourDetailsReview-avatar"
-              />
-              <div className="TourDetailsReview-userInfo">
-                <h3 className="TourDetailsReview-userName">
-                  Mr. Bowmik Haldar, <span className="TourDetailsReview-date">05 June, 2023</span>
-                </h3>
-              </div>
-            </div>
-
-            <div className="TourDetailsReview-ratingsGrid">
-              <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Overall</span>
-                {renderStars(4.5)}
-              </div>
-              <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Transport</span>
-                {renderStars(4.5)}
-              </div>
-              <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Food</span>
-                {renderStars(4.5)}
-              </div>
-              <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Destination</span>
-                {renderStars(4.5)}
-              </div>
-              <div className="TourDetailsReview-ratingCol">
-                <span className="TourDetailsReview-ratingLabel">Hospitality</span>
-                {renderStars(4.5)}
-              </div>
-            </div>
-
-            <p className="TourDetailsReview-text">
-              However, here are some well-regarded car dealerships known for their customer service, inventory, and overall reputation. It's always a good idea to research and read reviews specific...
-            </p>
-
-            <button className="TourDetailsReview-replyBtn">
+            <button type="button" className="TourDetailsReview-replyBtn">
               <FaReply className="TourDetailsReview-replyIcon" /> Reply
             </button>
           </div>

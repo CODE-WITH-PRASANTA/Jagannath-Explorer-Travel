@@ -5,51 +5,21 @@ const initialItinerary = [
   {
     id: 1,
     dayNumber: 'Day 01',
-    title: 'Departure',
-    description:
-      'Arrive Cairo airport, welcome greeting by our representative who will assist you and provide transfers to your Hotel in Cairo.',
-    highlights: [
-      'Admire Big Ben, Buckingham Palace And St Paul’s Cathedral',
-      'Chance To Spot Prominent Landmarks Of The City',
-    ],
+    title: '',
+    description: '',
+    highlights: [],
     isOpen: true,
-  },
-  {
-    id: 2,
-    dayNumber: 'Day 02',
-    title: 'Adventure Begins',
-    description: '',
-    highlights: [],
-    isOpen: false,
-  },
-  {
-    id: 3,
-    dayNumber: 'Day 03',
-    title: 'Historical Tour',
-    description: '',
-    highlights: [],
-    isOpen: false,
-  },
-  {
-    id: 4,
-    dayNumber: 'Day 04',
-    title: 'Rest & Tour',
-    description: '',
-    highlights: [],
-    isOpen: false,
-  },
-  {
-    id: 5,
-    dayNumber: 'Day 05',
-    title: 'Return',
-    description: '',
-    highlights: [],
-    isOpen: false,
   },
 ];
 
-const ToursItinerary = () => {
-  const [days, setDays] = useState(initialItinerary);
+const ToursItinerary = ({
+  days: externalDays,
+  setDays: externalSetDays,
+}) => {
+  const [internalDays, setInternalDays] = useState(initialItinerary);
+  const days = externalDays || internalDays;
+  const setDays = externalSetDays || setInternalDays;
+
   const [isSectionOpen, setIsSectionOpen] = useState(true);
 
   const toggleSection = () => {

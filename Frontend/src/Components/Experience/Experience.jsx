@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { API, IMG_URL } from '../../api/axios';
 import './Experience.css';
 
-// 1. TOUR PACKAGE IMAGES
+// Fallback image assets in case uploaded media is missing
 import tour1 from '../../assets/img2.webp';
 import tour2 from '../../assets/img3.webp';
 import tour3 from '../../assets/bed5.webp';
@@ -9,7 +11,6 @@ import tour4 from '../../assets/img4.webp';
 import tour5 from '../../assets/bed6.webp';
 import tour6 from '../../assets/img7.webp';
 
-// 2. HOTEL IMAGES
 import hotel1 from '../../assets/bed1.webp';
 import hotel2 from '../../assets/bed2.webp';
 import hotel3 from '../../assets/bed3.webp';
@@ -17,7 +18,7 @@ import hotel4 from '../../assets/bed5.webp';
 import hotel5 from '../../assets/bed6.webp';
 import hotel6 from '../../assets/bed5.webp';
 
-// 3. TRANSPORTS IMAGES
+// Transport images
 import transport1 from '../../assets/destination-card-img1.webp';
 import transport2 from '../../assets/destination-card-img2.webp';
 import transport3 from '../../assets/destination-card-img3.webp';
@@ -25,10 +26,225 @@ import transport4 from '../../assets/destination-card-img4.webp';
 import transport5 from '../../assets/destination-card-img5.webp';
 import transport6 from '../../assets/destination-card-img3.webp';
 
+const fallbackTourImages = [tour1, tour2, tour3, tour4, tour5, tour6];
+const fallbackHotelImages = [hotel1, hotel2, hotel3, hotel4, hotel5, hotel6];
+
+const transportItems = [
+  {
+    id: 'trans-1',
+    distance: '68 km • 1.5 hrs',
+    image: transport1,
+    title: 'Bhubaneswar to Puri Jagannath Dham Car Rental',
+    reviews: '(380 verified reviews)',
+    path: '/car-rental/sedan-cars'
+  },
+  {
+    id: 'trans-2',
+    distance: '72 km • 2 hrs',
+    image: transport2,
+    title: 'Bhubaneswar to Konark Sun Temple & Marine Drive Cab',
+    reviews: '(295 verified reviews)',
+    path: '/car-rental/sedan-cars'
+  },
+  {
+    id: 'trans-3',
+    distance: '110 km • 2.5 hrs',
+    image: transport3,
+    title: 'Bhubaneswar to Chilika Lake (Satapada) Taxi Trip',
+    reviews: '(240 verified reviews)',
+    path: '/car-rental/suv-cars'
+  },
+  {
+    id: 'trans-4',
+    distance: '250 km • 6 hrs',
+    image: transport4,
+    title: 'Bhubaneswar to Daringbadi Kashmir of Odisha SUV Hire',
+    reviews: '(190 verified reviews)',
+    path: '/car-rental/suv-cars'
+  },
+  {
+    id: 'trans-5',
+    distance: '145 km • 3.5 hrs',
+    image: transport5,
+    title: 'Bhubaneswar to Ghatagaon Maa Tarini Temple AC Cab',
+    reviews: '(310 verified reviews)',
+    path: '/car-rental/tempo-travellers'
+  },
+  {
+    id: 'trans-6',
+    distance: '160 km • 4 hrs',
+    image: transport6,
+    title: 'Bhubaneswar to Bhitarkanika National Park Traveller Hire',
+    reviews: '(175 verified reviews)',
+    path: '/car-rental/urbania-travellers'
+  }
+];
+
 const Experience = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('tour');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Real Database States
+  const [tours, setTours] = useState([]);
+  const [hotels, setHotels] = useState([]);
+  const [loadingTours, setLoadingTours] = useState(true);
+  const [loadingHotels, setLoadingHotels] = useState(true);
+
+  // Helper for Route Text
+  const formatRoute = (tour) => {
+    if (tour.route) return tour.route;
+    if (Array.isArray(tour.itinerary) && tour.itinerary.length > 0) {
+      const places = tour.itinerary
+        .map((item) => (item.title ? item.title.replace(/^Day \d+[:\s-]*/i, '').trim() : ''))
+        .filter(Boolean);
+      if (places.length > 0) return places.join(' ➔ ');
+    }
+    if (Array.isArray(tour.tags) && tour.tags.length > 0) {
+      return tour.tags.join(' ➔ ');
+    }
+    return tour.destination ? `${tour.destination.toUpperCase()} ➔ EXPLORE TOUR` : 'BHUBANESWAR ➔ PURI ➔ KONARK';
+  };
+
+  // Helper for Tour Image URL
+  const getTourImageUrl = (imagePath, idx) => {
+    if (!imagePath) return fallbackTourImages[idx % fallbackTourImages.length];
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('data:')) {
+      return imagePath;
+    }
+    return `${IMG_URL}${imagePath}`;
+  };
+
+  // Helper for Hotel Image URL
+  const getHotelImageUrl = (images, idx) => {
+    if (Array.isArray(images) && images.length > 0) {
+      const first = images[0];
+      if (first.startsWith('http://') || first.startsWith('https://') || first.startsWith('data:')) {
+        return first;
+      }
+      return `${IMG_URL}${first}`;
+    }
+    return fallbackHotelImages[idx % fallbackHotelImages.length];
+  };
+
+  // Fetch Tours & Hotels from Database API
+  useEffect(() => {
+    let isMounted = true;
+
+    // 1. Fetch Tours
+    const fetchTours = async () => {
+      try {
+        setLoadingTours(true);
+        const res = await API.get('/tours');
+        if (res.data && res.data.success && Array.isArray(res.data.data)) {
+          const transformed = res.data.data.map((tour, idx) => {
+            const price = typeof tour.price === 'number'
+              ? `₹${tour.price.toLocaleString('en-IN')}`
+              : (tour.price ? `₹${tour.price}` : '₹0');
+
+            const oldPrice = tour.discountPrice && Number(tour.discountPrice) > 0
+              ? `₹${Number(tour.discountPrice).toLocaleString('en-IN')}`
+              : null;
+
+            const locationTag = tour.category
+              ? tour.category.toUpperCase()
+              : (tour.destination ? `${tour.destination.toUpperCase()} SPECIAL` : 'ODISHA TOUR');
+
+            return {
+              id: tour._id || idx + 1,
+              slug: tour.slug || tour._id,
+              badge: tour.duration || '3 DAYS / 2 NIGHT',
+              locationTag: locationTag,
+              image: getTourImageUrl(tour.mainImage, idx),
+              title: tour.title,
+              route: formatRoute(tour),
+              price: price,
+              oldPrice: oldPrice,
+            };
+          });
+
+          if (isMounted) {
+            setTours(transformed);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching tours in Experience:', err);
+      } finally {
+        if (isMounted) setLoadingTours(false);
+      }
+    };
+
+    // 2. Fetch Hotels
+    const fetchHotels = async () => {
+      try {
+        setLoadingHotels(true);
+        const res = await API.get('/hotels');
+        const data = res.data.data || res.data || [];
+        if (Array.isArray(data)) {
+          const transformed = data.map((hotel, idx) => {
+            let parsedAmenities = [];
+            if (hotel.amenities) {
+              if (Array.isArray(hotel.amenities)) {
+                parsedAmenities = hotel.amenities.map((a) => String(a).trim()).filter(Boolean);
+              } else if (typeof hotel.amenities === 'string') {
+                parsedAmenities = hotel.amenities.split(',').map((a) => a.trim()).filter(Boolean);
+              }
+            }
+
+            const hasBreakfast = parsedAmenities.some((a) => /breakfast/i.test(a));
+            const ratingNum = Math.max(1, Math.min(5, Number(hotel.starRating) || 5));
+            const rawPrice = Number(hotel.price || 0);
+
+            const landmarkClean = (hotel.landmark || '').trim();
+            const distanceText = landmarkClean
+              ? (/^near/i.test(landmarkClean) ? landmarkClean : `Near ${landmarkClean}`)
+              : 'City Center';
+
+            const hotelSlug = (hotel.name || '')
+              .toLowerCase()
+              .trim()
+              .replace(/[^a-z0-9\s-]/g, '')
+              .replace(/\s+/g, '-')
+              .replace(/-+/g, '-');
+
+            return {
+              id: hotel._id || idx + 1,
+              slug: hotelSlug,
+              tag: hasBreakfast ? 'Free Breakfast Included' : `${ratingNum} Star Verified Stay`,
+              image: getHotelImageUrl(hotel.images, idx),
+              rating: `${ratingNum}.0 (${ratingNum} Star Hotel)`,
+              title: hotel.name,
+              location: `${hotel.city || ''}${hotel.address ? `, ${hotel.address}` : ''}`,
+              distance: distanceText,
+              amenities: parsedAmenities.slice(0, 4),
+              roomType: hotel.rooms ? `${hotel.rooms} Rooms Available` : 'Executive AC Deluxe Room',
+              bed: '1 King Bed / Double',
+              cancellation: 'Free cancellation available',
+              stayDuration: '1 night, 2 guests',
+              price: `₹${rawPrice.toLocaleString('en-IN')}`,
+              oldPrice: rawPrice > 0 ? `₹${Math.round(rawPrice * 1.15).toLocaleString('en-IN')}` : null,
+            };
+          });
+
+          if (isMounted) {
+            setHotels(transformed);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching hotels in Experience:', err);
+      } finally {
+        if (isMounted) setLoadingHotels(false);
+      }
+    };
+
+    fetchTours();
+    fetchHotels();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,212 +256,12 @@ const Experience = () => {
   }, []);
 
   const experienceData = {
-    tour: [
-      {
-        id: 1,
-        badge: '3 DAYS / 2 NIGHT',
-        locationTag: 'GOLDEN TRIANGLE ODISHA',
-        image: tour1,
-        title: 'Bhubaneswar, Puri Jagannath Dham & Konark Sun Temple Heritage Tour',
-        route: 'BHUBANESWAR ➔ PURI ➔ KONARK ➔ PIPILI ➔ DHAULI',
-        price: '₹7,499',
-        oldPrice: '₹9,500'
-      },
-      {
-        id: 2,
-        badge: '4 DAYS / 3 NIGHT',
-        locationTag: 'CHILIKA LAKE SPECIAL',
-        image: tour2,
-        title: 'Chilika Dolphin Sanctuary, Satapada & Mangalajodi Bird Watching',
-        route: 'BHUBANESWAR ➔ SATAPADA ➔ BARKUL ➔ MANGALAJODI',
-        price: '₹10,999',
-        oldPrice: '₹13,500'
-      },
-      {
-        id: 3,
-        badge: '5 DAYS / 4 NIGHT',
-        locationTag: 'TRIBAL & HILL EXPEDITION',
-        image: tour3,
-        title: 'Scenic Koraput Hills, Daringbadi Valley & Deomali Peak Expedition',
-        route: 'BHUBANESWAR ➔ DARINGBADI ➔ RAYAGADA ➔ KORAPUT',
-        price: '₹14,499',
-        oldPrice: '₹17,000'
-      },
-      {
-        id: 4,
-        badge: '3 DAYS / 2 NIGHT',
-        locationTag: 'WILDLIFE SAFARI',
-        image: tour4,
-        title: 'Bhitarkanika Mangrove Safari & Simlipal Tiger Reserve Tour',
-        route: 'BHUBANESWAR ➔ CHANDBALI ➔ BHITARKANIKA ➔ SIMLIPAL',
-        price: '₹8,999',
-        oldPrice: '₹11,000'
-      },
-      {
-        id: 5,
-        badge: '2 DAYS / 1 NIGHT',
-        locationTag: 'NORTH ODISHA PILGRIMAGE',
-        image: tour5,
-        title: 'Ghatagaon Maa Tarini Temple & Keonjhar Khandadhar Waterfalls',
-        route: 'BHUBANESWAR ➔ GHATAGAON ➔ KEONJHAR ➔ KHANADHAT',
-        price: '₹5,200',
-        oldPrice: '₹6,500'
-      },
-      {
-        id: 6,
-        badge: '2 DAYS / 1 NIGHT',
-        locationTag: 'TEMPLE CITY SPECIAL',
-        image: tour6,
-        title: 'Ekamra Kshetra Divine Tour: Lingaraj, Rajarani & Mukteshwar',
-        route: 'LINGARAJ ➔ RAJARANI ➔ MUKTESHWAR ➔ KHANDAGIRI',
-        price: '₹3,499',
-        oldPrice: '₹4,500'
-      }
-    ],
-    hotel: [
-      {
-        id: 1,
-        tag: 'Free Breakfast Included',
-        image: hotel1,
-        rating: '4.8 (184 reviews)',
-        title: 'Mayfair Lagoon Resort & Convention',
-        location: 'Jaydev Vihar, Bhubaneswar',
-        distance: '4.5 km from Railway Station',
-        amenities: ['Free WiFi', 'Swimming Pool', 'Multi-Cuisine Dine', 'Spa', 'Parking'],
-        roomType: 'Club Executive Room',
-        bed: '1 King Bed',
-        cancellation: 'Free cancellation up to 24 hrs',
-        stayDuration: '1 night, 2 guests',
-        price: '₹6,499',
-        oldPrice: '₹7,800'
-      },
-      {
-        id: 2,
-        tag: 'Pilgrim Friendly',
-        image: hotel2,
-        rating: '4.6 (220 reviews)',
-        title: 'Swosti Premium Luxury Stay',
-        location: 'Nandankanan Road, Bhubaneswar',
-        distance: '2.5 km to City Center',
-        amenities: ['Gym & Spa', 'Airport Shuttle', 'Restaurant', 'Free Parking'],
-        roomType: 'Premium Deluxe Double',
-        bed: '1 King Bed / Twin',
-        cancellation: 'Free cancellation available',
-        stayDuration: '1 night, 2 guests',
-        price: '₹4,899',
-        oldPrice: '₹5,900'
-      },
-      {
-        id: 3,
-        tag: 'Sea Facing Resort',
-        image: hotel3,
-        rating: '4.7 (310 reviews)',
-        title: 'Mayfair Heritage Puri Beach Resort',
-        location: 'Chakratirtha Road, Puri',
-        distance: '1.2 km from Lord Jagannath Temple',
-        amenities: ['Beach Access', 'Free Breakfast', 'Pool', 'Kids Play Area'],
-        roomType: 'Deluxe Sea View Cottage',
-        bed: '1 Large Double Bed',
-        cancellation: 'Free cancellation up to 48 hrs',
-        stayDuration: '1 night, 2 guests',
-        price: '₹7,200',
-        oldPrice: '₹8,900'
-      },
-      {
-        id: 4,
-        tag: 'Hill View Eco Stay',
-        image: hotel4,
-        rating: '4.5 (95 reviews)',
-        title: 'Daringbadi Nature Valley Retreat',
-        location: 'Hill Top Road, Daringbadi',
-        distance: '0.8 km from Coffee Garden',
-        amenities: ['Campfire', 'Organic Meals', 'Guided Trek', 'Hot Water'],
-        roomType: 'Pine View Wooden Cottage',
-        bed: '1 Queen Bed',
-        cancellation: 'Free cancellation before 3 days',
-        stayDuration: '1 night, 2 guests',
-        price: '₹3,200',
-        oldPrice: '₹3,900'
-      },
-      {
-        id: 5,
-        tag: 'Lake View Stay',
-        image: hotel5,
-        rating: '4.5 (140 reviews)',
-        title: 'OTDC Panthanivas Rambha Chilika',
-        location: 'Rambha Bay, Chilika',
-        distance: 'Overlooking Lagoon',
-        amenities: ['Boating Desk', 'Odisha Thali Dining', 'Garden', 'WiFi'],
-        roomType: 'AC Deluxe Lagoon View',
-        bed: '1 Double Bed',
-        cancellation: 'Flexible booking policy',
-        stayDuration: '1 night, 2 guests',
-        price: '₹2,650',
-        oldPrice: '₹3,200'
-      },
-      {
-        id: 6,
-        tag: 'Business & Transit',
-        image: hotel6,
-        rating: '4.4 (160 reviews)',
-        title: 'Ginger Hotel Inner City',
-        location: 'Opposite Nalco Square, Bhubaneswar',
-        distance: '6 km from BBI Airport',
-        amenities: ['Fitness Center', 'Conference Hall', 'Fast WiFi', 'Cafeteria'],
-        roomType: 'Standard Smart Room',
-        bed: '1 Queen Bed',
-        cancellation: 'Free cancellation before 24 hrs',
-        stayDuration: '1 night, 2 guests',
-        price: '₹2,999',
-        oldPrice: '₹3,600'
-      }
-    ],
-    transports: [
-      {
-        id: 1,
-        distance: '68 km • 1.5 hrs',
-        image: transport1,
-        title: 'Bhubaneswar to Puri Jagannath Dham Car Rental',
-        reviews: '(380 verified reviews)'
-      },
-      {
-        id: 2,
-        distance: '72 km • 2 hrs',
-        image: transport2,
-        title: 'Bhubaneswar to Konark Sun Temple & Marine Drive Cab',
-        reviews: '(295 verified reviews)'
-      },
-      {
-        id: 3,
-        distance: '110 km • 2.5 hrs',
-        image: transport3,
-        title: 'Bhubaneswar to Chilika Lake (Satapada) Taxi Trip',
-        reviews: '(240 verified reviews)'
-      },
-      {
-        id: 4,
-        distance: '250 km • 6 hrs',
-        image: transport4,
-        title: 'Bhubaneswar to Daringbadi Kashmir of Odisha SUV Hire',
-        reviews: '(190 verified reviews)'
-      },
-      {
-        id: 5,
-        distance: '145 km • 3.5 hrs',
-        image: transport5,
-        title: 'Bhubaneswar to Ghatagaon Maa Tarini Temple AC Cab',
-        reviews: '(310 verified reviews)'
-      },
-      {
-        id: 6,
-        distance: '160 km • 4 hrs',
-        image: transport6,
-        title: 'Bhubaneswar to Bhitarkanika National Park Traveller Hire',
-        reviews: '(175 verified reviews)'
-      }
-    ]
+    tour: tours,
+    hotel: hotels,
+    transports: transportItems
   };
 
+  const isLoading = activeTab === 'tour' ? loadingTours : (activeTab === 'hotel' ? loadingHotels : false);
   const currentItems = experienceData[activeTab] || [];
 
   const handleTabChange = (tab) => {
@@ -262,15 +278,27 @@ const Experience = () => {
   };
 
   const handleBookTrip = (item) => {
-    window.location.href = `tel:9668892441`;
+    if (item.slug || item.id) {
+      navigate(`/tours/${item.slug || item.id}`);
+    } else {
+      window.location.href = `tel:9668892441`;
+    }
   };
 
   const handleCheckAvailability = (item) => {
-    window.location.href = `tel:9556355446`;
+    if (item.slug || item.id) {
+      navigate(`/hotel/${item.slug}`, { state: { hotelId: item.id } });
+    } else {
+      window.location.href = `tel:9556355446`;
+    }
   };
 
   const handleViewTransportDetails = (item) => {
-    window.location.href = `tel:9668892441`;
+    if (item.path) {
+      navigate(item.path);
+    } else {
+      window.location.href = `tel:9668892441`;
+    }
   };
 
   const displayedItems = isMobile ? [currentItems[currentIndex]].filter(Boolean) : currentItems;
@@ -313,10 +341,31 @@ const Experience = () => {
 
       {/* Cards Grid */}
       <div className="exp-cards-grid">
-        {/* 1. TOUR PACKAGES */}
-        {activeTab === 'tour' &&
+        
+        {/* Loading Indicator */}
+        {isLoading && (
+          <div className="exp-loading-box">
+            <div className="exp-spinner"></div>
+            <p className="exp-loading-text">Loading {activeTab === 'tour' ? 'tour packages' : 'hotels'} from database...</p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && currentItems.length === 0 && (
+          <div className="exp-empty-box">
+            <p className="exp-empty-text">No {activeTab === 'tour' ? 'tours' : 'hotels'} available in the database right now.</p>
+          </div>
+        )}
+
+        {/* 1. TOUR PACKAGES (DATABASE DATA) */}
+        {!isLoading && activeTab === 'tour' &&
           displayedItems.map((item) => (
-            <article className="card" key={item.id}>
+            <article 
+              className="card" 
+              key={item.id}
+              onClick={() => handleBookTrip(item)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="card-img-container">
                 <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
                 <div className="shine-effect"></div>
@@ -325,8 +374,8 @@ const Experience = () => {
               </div>
 
               <div className="card-content">
-                <h3 className="card-title">{item.title}</h3>
-                <p className="card-route">{item.route}</p>
+                <h3 className="card-title" title={item.title}>{item.title}</h3>
+                <p className="card-route" title={item.route}>{item.route}</p>
                 <hr className="divider" />
                 <div className="card-footer">
                   <div className="price-box">
@@ -340,19 +389,27 @@ const Experience = () => {
                   <button 
                     type="button"
                     className="green-btn" 
-                    onClick={() => handleBookTrip(item)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBookTrip(item);
+                    }}
                   >
-                    Call To Book ✈
+                    Book Trip ✈
                   </button>
                 </div>
               </div>
             </article>
           ))}
 
-        {/* 2. HOTELS */}
-        {activeTab === 'hotel' &&
+        {/* 2. HOTELS (DATABASE DATA) */}
+        {!isLoading && activeTab === 'hotel' &&
           displayedItems.map((item) => (
-            <article className="card hotel-card" key={item.id}>
+            <article 
+              className="card hotel-card" 
+              key={item.id}
+              onClick={() => handleCheckAvailability(item)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="card-img-container">
                 <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
                 <div className="shine-effect"></div>
@@ -370,14 +427,14 @@ const Experience = () => {
                   <span className="rating-text">{item.rating}</span>
                 </div>
 
-                <h3 className="card-title">{item.title}</h3>
+                <h3 className="card-title" title={item.title}>{item.title}</h3>
                 <div className="hotel-location">
                   <span>📍 {item.location}</span>
                   <span className="distance">• {item.distance}</span>
                 </div>
 
                 <div className="amenities-row">
-                  {item.amenities.map((amenity, idx) => (
+                  {item.amenities && item.amenities.map((amenity, idx) => (
                     <span key={idx} className="amenity-item">✔ {amenity}</span>
                   ))}
                 </div>
@@ -400,18 +457,26 @@ const Experience = () => {
                 <button 
                   type="button"
                   className="green-btn full-btn" 
-                  onClick={() => handleCheckAvailability(item)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCheckAvailability(item);
+                  }}
                 >
-                  Enquire Hotel Rates ➔
+                  View Details & Book ➔
                 </button>
               </div>
             </article>
           ))}
 
         {/* 3. TRANSPORTS */}
-        {activeTab === 'transports' &&
+        {!isLoading && activeTab === 'transports' &&
           displayedItems.map((item) => (
-            <article className="card transport-card" key={item.id}>
+            <article 
+              className="card transport-card" 
+              key={item.id}
+              onClick={() => handleViewTransportDetails(item)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="card-img-container">
                 <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
                 <div className="shine-effect"></div>
@@ -433,7 +498,10 @@ const Experience = () => {
                   <button 
                     type="button"
                     className="green-btn" 
-                    onClick={() => handleViewTransportDetails(item)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleViewTransportDetails(item);
+                    }}
                   >
                     Get Cab Quote
                   </button>
@@ -448,7 +516,7 @@ const Experience = () => {
       </div>
 
       {/* Mobile Slider Controls */}
-      {isMobile && currentItems.length > 1 && (
+      {!isLoading && isMobile && currentItems.length > 1 && (
         <div className="mobile-slider-controls">
           <button 
             type="button"

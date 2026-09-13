@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Suvvehcle.css";
+import API from "../../api/axios";
 
 import {
   FaArrowRight,
@@ -134,17 +135,61 @@ const Suvvehcle = () => {
       Submit Booking
   ------------------------------------------------------------------------ */
 
-  const handleSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.fullName || !formData.mobileNumber) {
+      alert("Please provide your Name and Mobile Number.");
+      return;
+    }
+
+    const cleanMobile = formData.mobileNumber.replace(/\D/g, "");
+    if (!/^\d{10}$/.test(cleanMobile)) {
+      alert("Please enter a valid 10 digit mobile number.");
+      return;
+    }
 
     if (!formData.agreedTerms) {
       alert("Please agree to the Terms & Conditions.");
       return;
     }
 
-    alert("Booking submitted successfully!");
+    try {
+      setSubmitting(true);
+      const payload = {
+        vehicleName: selectedCar?.name || "SUV Car",
+        vehicleType: "SUV",
+        vehiclePrice: selectedCar?.price ? `${selectedCar.price} ${selectedCar.unit || ""}`.trim() : "",
+        vehicleImage: typeof selectedCar?.image === "string" ? selectedCar.image : "",
+        pickupLocation: formData.pickUpLocation || formData.pickupLocation,
+        dropLocation: formData.dropOffLocation || formData.dropLocation,
+        pickupDateTime: formData.pickUpDateTime || formData.pickupDateTime,
+        dropDateTime: formData.dropDateTime,
+        fullName: formData.fullName,
+        mobileNumber: cleanMobile,
+        message: formData.message,
+        agreedToTerms: formData.agreedTerms,
+      };
 
-    handleCloseModal();
+      const res = await API.post("/car-bookings", payload);
+
+      alert(
+        res.data?.message ||
+          `Booking request received for ${selectedCar?.name}! We will contact you shortly.`
+      );
+
+      handleCloseModal();
+    } catch (error) {
+      console.error("SUV booking error:", error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to submit booking. Please check your details or call our office."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

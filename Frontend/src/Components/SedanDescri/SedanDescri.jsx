@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import './SedanDescri.css';
+import API from '../../api/axios';
 
 /* ---------------------------------------------------------------------------
    Data — Exactly 5 curated sedan cars imported with the requested assets.
@@ -163,13 +164,42 @@ const BookingModal = ({ car, open, onRequestClose }) => {
     setStep(1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
+    const cleanMobile = formData.mobileNumber.replace(/\D/g, '');
+    if (!/^\d{10}$/.test(cleanMobile)) {
+      alert('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const payload = {
+        vehicleName: car?.name || 'Sedan Car',
+        vehicleType: 'Sedan',
+        vehiclePrice: car?.price ? `₹${car.price} / ${car.duration}` : '',
+        vehicleImage: typeof car?.image === 'string' ? car.image : '',
+        pickupLocation: formData.pickupLocation,
+        dropLocation: formData.dropOffLocation || formData.dropLocation,
+        pickupDateTime: formData.pickupDateTime,
+        dropDateTime: formData.dropDateTime,
+        fullName: formData.fullName,
+        mobileNumber: cleanMobile,
+        message: formData.message,
+        agreedToTerms: formData.termsAgreed,
+      };
+
+      await API.post('/car-bookings', payload);
       setSuccess(true);
-    }, 800);
+    } catch (error) {
+      console.error('Sedan booking error:', error);
+      alert(
+        error.response?.data?.message ||
+          'Failed to submit booking. Please verify your details or contact us directly.'
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

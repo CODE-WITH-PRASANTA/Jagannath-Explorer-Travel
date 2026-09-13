@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 
 import "./TravellerJourney.css";
+import API from "../../api/axios";
 
 // =====================================================
 // VEHICLE IMAGES
@@ -207,8 +208,21 @@ const TravellerJourney = () => {
   // STEP 2
   // ===================================================
 
-  const handleFinalSubmit = (event) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleFinalSubmit = async (event) => {
     event.preventDefault();
+
+    if (!formData.fullName || !formData.mobileNumber) {
+      alert("Please enter your Full Name and Mobile Number.");
+      return;
+    }
+
+    const cleanMobile = formData.mobileNumber.replace(/\D/g, "");
+    if (!/^\d{10}$/.test(cleanMobile)) {
+      alert("Please enter a valid 10 digit mobile number.");
+      return;
+    }
 
     if (!formData.agreeTerms) {
       alert(
@@ -217,17 +231,40 @@ const TravellerJourney = () => {
       return;
     }
 
-    console.log("Confirmed Booking:", {
-      business: BUSINESS.name,
-      vehicle: selectedVehicle,
-      bookingDetails: formData,
-    });
+    try {
+      setSubmitting(true);
+      const payload = {
+        vehicleName: selectedVehicle?.name || selectedVehicle?.title || "Urbania Traveller",
+        vehicleType: "Urbania Traveller",
+        vehiclePrice: selectedVehicle?.price ? `${selectedVehicle.price} / ${selectedVehicle.hours || "8 Hours"}` : "",
+        vehicleImage: typeof selectedVehicle?.image === "string" ? selectedVehicle.image : "",
+        pickupLocation: formData.pickupLocation || formData.pickUpLocation,
+        dropLocation: formData.dropoffLocation || formData.dropOffLocation || formData.dropLocation,
+        pickupDateTime: formData.pickupDateTime || formData.pickUpDateTime,
+        dropDateTime: formData.dropDateTime,
+        fullName: formData.fullName,
+        mobileNumber: cleanMobile,
+        message: formData.message,
+        agreedToTerms: formData.agreeTerms || formData.agreedTerms || formData.agreedToTerms,
+      };
 
-    alert(
-      "Your booking request has been submitted successfully!"
-    );
+      const res = await API.post("/car-bookings", payload);
 
-    handleCloseBooking();
+      alert(
+        res.data?.message ||
+          `Booking request for ${selectedVehicle?.name || selectedVehicle?.title || "Urbania"} received successfully!`
+      );
+
+      handleCloseBooking();
+    } catch (error) {
+      console.error("Urbania booking error:", error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to submit booking. Please verify your details or contact us."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // ===================================================

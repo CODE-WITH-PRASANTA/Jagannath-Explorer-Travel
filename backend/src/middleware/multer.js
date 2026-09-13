@@ -109,7 +109,7 @@ const convertToWebp = (subFolder = "gallery") => {
 };
 
 // =========================================
-// MULTIPLE WEBP CONVERSION MIDDLEWARE
+// MULTIPLE WEBP CONVERSION MIDDLEWARE GENERATOR
 // =========================================
 const convertMultipleToWebp = (subFolder = "gallery") => {
   return async (req, res, next) => {

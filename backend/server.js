@@ -9,9 +9,13 @@ const galleryRoutes = require("./src/routes/galleryRoutes");
 const testimonialRoutes = require("./src/routes/testimonialRoutes");
 const couponRoutes = require("./src/routes/couponRoutes");
 const blogRoutes = require("./src/routes/blogRoutes");
-
+const hotelRoutes = require("./src/routes/hotelRoutes");
+const tourRoutes = require("./src/routes/tourRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 const teamRoutes = require("./src/routes/teamRoutes");
+const carBookingRoutes = require("./src/routes/carBookingRoutes");
+const hotelBookingRoutes = require("./src/routes/hotelBookingRoutes");
+const tourBookingRoutes = require("./src/routes/tourBookingRoutes");
 
 const app = express();
 
@@ -30,8 +34,16 @@ app.use('/api/coupons', couponRoutes);
 
 // Test route
 app.use("/api/blogs", blogRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/tours", tourRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/team", teamRoutes);
+app.use("/api/car-bookings", carBookingRoutes);
+app.use("/api/bookings", carBookingRoutes);
+app.use("/api/hotel-bookings", hotelBookingRoutes);
+app.use("/api/hotelbookings", hotelBookingRoutes);
+app.use("/api/tour-bookings", tourBookingRoutes);
+app.use("/api/tourbookings", tourBookingRoutes);
 // Root route
 app.get("/", (req, res) => {
   res.json({

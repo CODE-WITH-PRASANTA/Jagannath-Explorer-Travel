@@ -16,16 +16,21 @@ import user3Img from '../../assets/img2.webp';
 import authorImg from '../../assets/img1.webp';
 import supportAgentImg from '../../assets/img 10.webp';
 
-const HotelRoomDetailsReview = () => {
+const HotelRoomDetailsReview = ({ hotel }) => {
+  const phone = hotel?.phone || "+91 9876543210";
+  const hotelName = hotel?.name || "the hotel";
+  const ratingVal = hotel?.starRating ? Number(hotel.starRating) : 4.8;
+
   // Star rating renderer helper
-  const renderStars = (rating = 4.5) => {
+  const renderStars = (rating = 5) => {
     return (
       <div className="HotelRoomDetailsReview-stars">
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStarHalfAlt />
+        {[...Array(5)].map((_, i) => (
+          <FaStar
+            key={i}
+            style={{ color: i < rating ? "#f59e0b" : "#cbd5e1" }}
+          />
+        ))}
       </div>
     );
   };
@@ -37,15 +42,15 @@ const HotelRoomDetailsReview = () => {
         {/* Left Column: Customer Reviews */}
         <div className="HotelRoomDetailsReview-left">
           
-          <h2 className="HotelRoomDetailsReview-mainTitle">Customer Review</h2>
+          <h2 className="HotelRoomDetailsReview-mainTitle">Guest Reviews</h2>
 
           {/* Rating Summary Box */}
           <div className="HotelRoomDetailsReview-ratingSummaryBox">
             <div className="HotelRoomDetailsReview-ratingLeft">
-              <span className="HotelRoomDetailsReview-bigScore">9.5</span>
+              <span className="HotelRoomDetailsReview-bigScore">{ratingVal}.0</span>
               <div className="HotelRoomDetailsReview-summaryStars">
-                {renderStars(4.5)}
-                <span className="HotelRoomDetailsReview-reviewCount">2590 Reviews</span>
+                {renderStars(ratingVal)}
+                <span className="HotelRoomDetailsReview-reviewCount">Verified Guest Rating</span>
               </div>
             </div>
             <button className="HotelRoomDetailsReview-giveRatingBtn">
@@ -61,12 +66,12 @@ const HotelRoomDetailsReview = () => {
               <div className="HotelRoomDetailsReview-authorHeader">
                 <img
                   src={user1Img}
-                  alt="Mr. Bowmik Haldar"
+                  alt="Amitav Mohanty"
                   className="HotelRoomDetailsReview-avatar"
                 />
                 <div className="HotelRoomDetailsReview-authorInfo">
-                  <span className="HotelRoomDetailsReview-authorName">Mr. Bowmik Haldar,</span>
-                  <span className="HotelRoomDetailsReview-date">05 June, 2023</span>
+                  <span className="HotelRoomDetailsReview-authorName">Amitav Mohanty,</span>
+                  <span className="HotelRoomDetailsReview-date">12 August, 2024</span>
                 </div>
               </div>
 
@@ -74,28 +79,28 @@ const HotelRoomDetailsReview = () => {
               <div className="HotelRoomDetailsReview-subRatings">
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Cleanliness</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Location</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Service</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Facilities</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Value for money</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
               </div>
 
               <p className="HotelRoomDetailsReview-comment">
-                A solution that we came up with is to think of sanitary pads packaging as you would tea. Tea comes individually packaged
+                Exceptional hospitality and pristine cleanliness throughout our stay at {hotelName}. The staff was welcoming, check-in was seamless, and the room amenities exceeded our expectations.
               </p>
 
               <button className="HotelRoomDetailsReview-replyBtn">
@@ -107,16 +112,16 @@ const HotelRoomDetailsReview = () => {
                 <div className="HotelRoomDetailsReview-authorHeader">
                   <img
                     src={authorImg}
-                    alt="Author Response"
+                    alt="Management Response"
                     className="HotelRoomDetailsReview-avatar"
                   />
                   <div className="HotelRoomDetailsReview-authorInfo">
-                    <span className="HotelRoomDetailsReview-authorName">Author Response,</span>
-                    <span className="HotelRoomDetailsReview-date">05 June, 2023</span>
+                    <span className="HotelRoomDetailsReview-authorName">Management Response,</span>
+                    <span className="HotelRoomDetailsReview-date">13 August, 2024</span>
                   </div>
                 </div>
                 <p className="HotelRoomDetailsReview-comment">
-                  Thanks for your review.
+                  Thank you for your wonderful feedback, Amitav! We are thrilled that you enjoyed your stay at {hotelName} and look forward to welcoming you back soon.
                 </p>
                 <button className="HotelRoomDetailsReview-replyBtn">
                   <FaReply className="HotelRoomDetailsReview-replyIcon" /> Reply
@@ -129,40 +134,40 @@ const HotelRoomDetailsReview = () => {
               <div className="HotelRoomDetailsReview-authorHeader">
                 <img
                   src={user2Img}
-                  alt="Srileka Panday"
+                  alt="Priya Sharma"
                   className="HotelRoomDetailsReview-avatar"
                 />
                 <div className="HotelRoomDetailsReview-authorInfo">
-                  <span className="HotelRoomDetailsReview-authorName">Srileka Panday,</span>
-                  <span className="HotelRoomDetailsReview-date">05 June, 2023</span>
+                  <span className="HotelRoomDetailsReview-authorName">Priya Sharma,</span>
+                  <span className="HotelRoomDetailsReview-date">28 July, 2024</span>
                 </div>
               </div>
 
               <div className="HotelRoomDetailsReview-subRatings">
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Cleanliness</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Location</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Service</span>
-                  {renderStars(4.5)}
+                  {renderStars(4)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Facilities</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Value for money</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
               </div>
 
               <p className="HotelRoomDetailsReview-comment">
-                A solution that we came up with is to think of sanitary pads packaging as you would tea. Tea comes individually packaged
+                The location was super convenient and peaceful. The room was well-appointed with comfortable bedding, high-speed WiFi, and excellent room service. Highly recommended for families and leisure travelers.
               </p>
 
               <button className="HotelRoomDetailsReview-replyBtn">
@@ -175,40 +180,40 @@ const HotelRoomDetailsReview = () => {
               <div className="HotelRoomDetailsReview-authorHeader">
                 <img
                   src={user3Img}
-                  alt="Mr. Bowmik Haldar"
+                  alt="Rajesh Kumar"
                   className="HotelRoomDetailsReview-avatar"
                 />
                 <div className="HotelRoomDetailsReview-authorInfo">
-                  <span className="HotelRoomDetailsReview-authorName">Mr. Bowmik Haldar,</span>
-                  <span className="HotelRoomDetailsReview-date">05 June, 2023</span>
+                  <span className="HotelRoomDetailsReview-authorName">Rajesh Kumar,</span>
+                  <span className="HotelRoomDetailsReview-date">15 June, 2024</span>
                 </div>
               </div>
 
               <div className="HotelRoomDetailsReview-subRatings">
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Cleanliness</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Location</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Service</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Facilities</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
                 <div className="HotelRoomDetailsReview-ratingMetric">
                   <span className="HotelRoomDetailsReview-metricLabel">Value for money</span>
-                  {renderStars(4.5)}
+                  {renderStars(5)}
                 </div>
               </div>
 
               <p className="HotelRoomDetailsReview-comment">
-                However, here are some well-regarded car dealerships known for their customer service, inventory, and overall reputation. It's always a good idea to research and read reviews specific...
+                Great value for money. The staff was extremely polite and attentive to all our requirements. The dining experience and breakfast spread were delightful.
               </p>
 
               <button className="HotelRoomDetailsReview-replyBtn">
@@ -233,8 +238,8 @@ const HotelRoomDetailsReview = () => {
                 <FaPhoneAlt />
               </div>
               <div className="HotelRoomDetailsReview-inquiryTextGroup">
-                <span className="HotelRoomDetailsReview-inquiryTitle">To More Inquiry</span>
-                <span className="HotelRoomDetailsReview-phoneNumber">+990-737 621 432</span>
+                <span className="HotelRoomDetailsReview-inquiryTitle">Direct Inquiry & Booking</span>
+                <span className="HotelRoomDetailsReview-phoneNumber">{phone}</span>
               </div>
             </div>
           </div>

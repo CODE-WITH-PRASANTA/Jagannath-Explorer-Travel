@@ -2,7 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './FloatingForm.css';
 import travelImage from '../../assets/images.webp';
 
-const FloatingForm = ({ isOpen = true, onClose }) => {
+const FloatingForm = ({ 
+  triggerOnLoad = true, 
+  loadDelay = 800, // delay in ms after page loads
+  onFormSubmitSuccess 
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     mobile: '',
@@ -11,34 +16,53 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
     agreeTerms: false,
   });
 
-  const [captchaRaw, setCaptchaRaw] = useState('502');
+  const [captchaRaw, setCaptchaRaw] = useState('');
 
+  // Generate 3-digit CAPTCHA
   const generateCaptcha = useCallback(() => {
     const randomNum = Math.floor(100 + Math.random() * 900).toString();
     setCaptchaRaw(randomNum);
     setFormData((prev) => ({ ...prev, captchaInput: '' }));
   }, []);
 
+  // Show form automatically on initial render or page refresh
+  useEffect(() => {
+    if (triggerOnLoad) {
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+        generateCaptcha();
+      }, loadDelay);
+
+      return () => clearTimeout(timer);
+    }
+  }, [triggerOnLoad, loadDelay, generateCaptcha]);
+
+  // Lock background scroll when modal is active
   useEffect(() => {
     if (isOpen) {
-      generateCaptcha();
-      // Prevent background scrolling while modal is active
+      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen, generateCaptcha]);
 
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
+
+  // Escape key handler
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isOpen && onClose) {
-        onClose();
+      if (e.key === 'Escape' && isOpen) {
+        handleClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen]);
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -52,15 +76,24 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
     e.preventDefault();
 
     if (formData.captchaInput.trim() !== captchaRaw) {
-      alert('Invalid Captcha code. Please try again.');
+      alert('Invalid CAPTCHA code. Please try again.');
       generateCaptcha();
       return;
     }
 
-    console.log('Form Submitted successfully:', formData);
+    if (!formData.agreeTerms) {
+      alert('Please agree to the Terms & Conditions to proceed.');
+      return;
+    }
+
+    console.log('Lead Captured:', formData);
     alert('Thank you! Your travel inquiry has been received.');
 
-    if (onClose) onClose();
+    if (onFormSubmitSuccess) {
+      onFormSubmitSuccess(formData);
+    }
+
+    handleClose();
   };
 
   if (!isOpen) return null;
@@ -68,7 +101,7 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
   return (
     <div
       className="floating-form-backdrop"
-      onClick={onClose}
+      onClick={handleClose}
       role="dialog"
       aria-modal="true"
     >
@@ -76,30 +109,31 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
         className="floating-form-card"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Sticky/Fixed Close Button */}
+        {/* Floating Close Button */}
         <button
           type="button"
           className="floating-form-close"
-          onClick={onClose}
+          onClick={handleClose}
           aria-label="Close modal"
         >
           ✕
         </button>
 
-        {/* Left Side: Destination Promo */}
+        {/* Left Pane: Destination Promo */}
         <div
           className="floating-form-promo"
           style={{ backgroundImage: `url(${travelImage})` }}
         >
-          <div className="floating-form-promo-overlay"></div>
+          <div className="floating-form-promo-overlay" />
           <div className="floating-form-promo-content">
             <h2 className="floating-form-promo-title">
               Your Journey Begins with <br />
-              <span>Jagannatha Travels</span>
+              <span>Jagannath Explorer Travels</span>
             </h2>
 
             <p className="floating-form-promo-desc">
-              Crafting unforgettable journeys with personalized travel planning, unbeatable deals, and seamless experiences.
+              Crafting unforgettable journeys with personalized travel planning,
+              unbeatable deals, and seamless experiences.
             </p>
 
             <ul className="floating-form-features">
@@ -133,12 +167,12 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                 <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
               </svg>
-              <span>Call Now: (+91) 9583244441</span>
+              <span>Call Now: (+91) 9556355446</span>
             </a>
           </div>
         </div>
 
-        {/* Right Side: Lead Capture Form */}
+        {/* Right Pane: Form */}
         <div className="floating-form-pane">
           <h3 className="floating-form-title">Get in Touch With Us</h3>
 
@@ -200,7 +234,7 @@ const FloatingForm = ({ isOpen = true, onClose }) => {
               <label className="floating-form-captcha-label">* Verify CAPTCHA</label>
               <div className="floating-form-captcha-row">
                 <div className="floating-form-captcha-box">
-                  {captchaRaw.split('').join(' ')}
+                  {captchaRaw ? captchaRaw.split('').join(' ') : '...'}
                 </div>
                 <input
                   type="text"

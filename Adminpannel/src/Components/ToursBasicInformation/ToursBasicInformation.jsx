@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import './ToursBasicInformation.css';
 
-const ToursBasicInformation = () => {
+const ToursBasicInformation = ({
+  formData: externalFormData,
+  setFormData: externalSetFormData,
+  onSave,
+  isSubmitting = false,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const [formData, setFormData] = useState({
+  const [internalFormData, setInternalFormData] = useState({
     title: '',
     slug: '',
     destination: '',
@@ -13,28 +18,43 @@ const ToursBasicInformation = () => {
     detailedDescription: '',
   });
 
+  const formData = externalFormData || internalFormData;
+  const setFormData = externalSetFormData || setInternalFormData;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => {
+      const updated = {
+        ...prev,
+        [name]: value,
+      };
+      // Auto-generate slug from title if slug not manually customized
+      if (name === 'title' && (!prev.slug || prev.slug === prev.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))) {
+        updated.slug = value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      }
+      return updated;
+    });
   };
 
   const handleCancel = () => {
-    setFormData({
+    setFormData((prev) => ({
+      ...prev,
       title: '',
       slug: '',
       destination: '',
       duration: '',
       shortDescription: '',
       detailedDescription: '',
-    });
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Saved Package Data:', formData);
+    if (onSave) {
+      onSave();
+    } else {
+      console.log('Saved Package Data:', formData);
+    }
   };
 
   return (

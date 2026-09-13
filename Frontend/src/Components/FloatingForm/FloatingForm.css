@@ -1,23 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-/* Fixed Fullscreen Modal Backdrop */
+/* Fullscreen Backdrop with Enhanced Frosted Glass Blur */
 .floating-form-backdrop {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  background-color: rgba(10, 16, 30, 0.78);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(5, 10, 20, 0.72);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  z-index: 10000;
+  padding: 20px;
+  z-index: 99999;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   box-sizing: border-box;
-  animation: floatingFormFadeIn 0.25s ease-out forwards;
+  animation: floatingFormFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .floating-form-backdrop *,
@@ -26,24 +26,22 @@
   box-sizing: border-box;
 }
 
-/* Modal Card */
+/* Modal Card Structure */
 .floating-form-card {
   position: relative;
   width: 100%;
-  max-width: 950px;
+  max-width: 960px;
   max-height: 90vh;
   max-height: 90dvh;
-  border-radius: 16px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  border-radius: 18px;
+  overflow: hidden;
   display: flex;
   background-color: #0c1524;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08);
-  animation: floatingFormPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  -webkit-overflow-scrolling: touch;
+  box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.8), 
+              0 0 0 1px rgba(255, 255, 255, 0.12);
+  animation: floatingFormPopIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Animations */
 @keyframes floatingFormFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -52,7 +50,7 @@
 @keyframes floatingFormPopIn {
   from {
     opacity: 0;
-    transform: scale(0.96) translateY(8px);
+    transform: scale(0.92) translateY(12px);
   }
   to {
     opacity: 1;
@@ -60,11 +58,11 @@
   }
 }
 
-/* Close Button (Fixed positioning relative to viewport/card corner) */
+/* Floating Close Button */
 .floating-form-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   width: 36px;
   height: 36px;
   min-width: 36px;
@@ -72,28 +70,28 @@
   border-radius: 50%;
   background-color: #f55513;
   color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  font-size: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  font-size: 14px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 100;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  touch-action: manipulation;
+  z-index: 50;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
 .floating-form-close:hover {
   transform: scale(1.1);
   background-color: #df4404;
+  box-shadow: 0 6px 18px rgba(245, 85, 19, 0.45);
 }
 
-/* Left Promo Pane */
+/* Left Promo Section */
 .floating-form-promo {
   position: relative;
-  width: 50%;
+  width: 48%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -106,9 +104,9 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(6, 11, 20, 0.9) 0%,
-    rgba(10, 18, 30, 0.8) 45%,
-    rgba(6, 11, 20, 0.94) 100%
+    rgba(6, 11, 20, 0.92) 0%,
+    rgba(10, 18, 30, 0.82) 50%,
+    rgba(6, 11, 20, 0.96) 100%
   );
 }
 
@@ -166,7 +164,7 @@
 .floating-form-tagline {
   font-size: 0.82rem;
   color: #e2e8f0;
-  margin: 0 0 16px 0;
+  margin: 0 0 18px 0;
 }
 
 .floating-form-call-btn {
@@ -175,7 +173,7 @@
   gap: 8px;
   background-color: #f55513;
   color: #ffffff;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: 999px;
   text-decoration: none;
   font-size: 0.82rem;
@@ -189,14 +187,15 @@
   transform: translateY(-1px);
 }
 
-/* Right Form Pane */
+/* Right Form Section */
 .floating-form-pane {
-  width: 50%;
-  background: linear-gradient(160deg, #378ded 0%, #1a5ab9 40%, #0d2757 85%, #051025 100%);
+  width: 52%;
+  background: linear-gradient(160deg, #2b7dd9 0%, #154c9e 40%, #0b1e42 85%, #050d1c 100%);
   padding: 40px 34px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow-y: auto;
 }
 
 .floating-form-title {
@@ -265,7 +264,7 @@
 }
 
 .floating-form-select select option {
-  background-color: #0d2757;
+  background-color: #0b1e42;
   color: #ffffff;
 }
 
@@ -279,7 +278,7 @@
   pointer-events: none;
 }
 
-/* Captcha Section */
+/* Captcha Layout */
 .floating-form-captcha-group {
   display: flex;
   flex-direction: column;
@@ -303,7 +302,7 @@
   height: 42px;
   border: 1.5px dashed rgba(255, 255, 255, 0.45);
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -338,7 +337,7 @@
   width: 44px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.12);
   color: #ffffff;
   font-size: 1.25rem;
   line-height: 1;
@@ -350,7 +349,7 @@
 }
 
 .floating-form-captcha-refresh:hover {
-  background-color: rgba(255, 255, 255, 0.22);
+  background-color: rgba(255, 255, 255, 0.24);
   transform: rotate(45deg);
 }
 
@@ -378,7 +377,7 @@
   text-decoration: underline;
 }
 
-/* Submit Button */
+/* Submit Action Button */
 .floating-form-submit {
   height: 46px;
   margin-top: 4px;
@@ -403,26 +402,25 @@
   transform: translateY(-1px);
 }
 
-/* Responsive Viewports */
+/* Mobile & Tablet Responsiveness */
 @media (max-width: 820px) {
   .floating-form-backdrop {
-    padding: 8px;
-    align-items: flex-end; /* Sheet appearance or centered modal */
+    padding: 12px;
+    align-items: center;
   }
 
   .floating-form-card {
     flex-direction: column;
-    max-height: 94dvh;
+    max-height: 92dvh;
+    overflow-y: auto;
     border-radius: 14px;
   }
 
-  /* Fixed close button pinned to upper right corner of modal viewport */
   .floating-form-close {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    z-index: 10001;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
   }
 
   .floating-form-promo,
@@ -430,21 +428,17 @@
     width: 100%;
   }
 
-  .floating-form-promo {
-    min-height: auto;
-  }
-
   .floating-form-promo-content {
     padding: 24px 18px 20px 18px;
   }
 
   .floating-form-promo-title {
-    font-size: 1.25rem;
-    padding-right: 36px; /* Avoid overlap if top title hits close button */
+    font-size: 1.2rem;
+    padding-right: 32px;
   }
 
   .floating-form-features {
-    display: none; /* Hide heavy feature bullets on mobile to keep form priority */
+    display: none; /* Keeps the form prioritized on small screens */
   }
 
   .floating-form-pane {

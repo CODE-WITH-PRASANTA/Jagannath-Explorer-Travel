@@ -22,6 +22,18 @@
   font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
+.HotelRoomImages-single {
+  grid-template-columns: 1fr !important;
+  max-width: 1200px;
+}
+
+.HotelRoomImages-single .HotelRoomImages-mainCard {
+  width: 100%;
+  height: 480px;
+  min-height: 360px;
+  max-height: 520px;
+}
+
 /* Base Card & Image Handling */
 .HotelRoomImages-mainCard,
 .HotelRoomImages-card {
@@ -29,6 +41,7 @@
   overflow: hidden;
   border-radius: 12px;
   cursor: pointer;
+  background-color: #f1f5f9;
 }
 
 .HotelRoomImages-mainCard {
@@ -39,15 +52,23 @@
 
 .HotelRoomImages-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 200px);
   gap: 16px;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+}
+
+.HotelRoomImages-card {
+  width: 100%;
+  height: 100%;
+  min-height: 190px;
 }
 
 .HotelRoomImages-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
+  object-position: center;
   display: block;
   transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -152,6 +173,11 @@
   .HotelRoomImages-mainCard {
     min-height: 350px;
   }
+
+  .HotelRoomImages-single .HotelRoomImages-mainCard {
+    height: 380px;
+    min-height: 300px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -166,5 +192,211 @@
   
   .HotelRoomImages-mainCard {
     min-height: 250px;
+  }
+
+  .HotelRoomImages-single .HotelRoomImages-mainCard {
+    height: 260px;
+    min-height: 220px;
+  }
+}
+
+/* =========================================================
+   Modal Slideshow Lightbox Styling
+   ========================================================= */
+.HotelRoomImages-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.HotelRoomImages-modalContent {
+  max-width: 1100px;
+  width: 100%;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.HotelRoomImages-modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  color: #ffffff;
+}
+
+.HotelRoomImages-modalTitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f8fafc;
+  letter-spacing: 0.2px;
+}
+
+.HotelRoomImages-modalCounter {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #eab308;
+  background: rgba(234, 179, 8, 0.15);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+.HotelRoomImages-modalCloseBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.HotelRoomImages-modalCloseBtn:hover {
+  background: #eab308;
+  color: #111827;
+  transform: rotate(90deg);
+}
+
+.HotelRoomImages-modalSlide {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 65vh;
+  max-height: 580px;
+  margin: 8px 0;
+}
+
+.HotelRoomImages-modalImgWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.HotelRoomImages-modalImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.HotelRoomImages-modalNavBtn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.HotelRoomImages-modalPrev {
+  left: 12px;
+}
+
+.HotelRoomImages-modalNext {
+  right: 12px;
+}
+
+.HotelRoomImages-modalNavBtn:hover {
+  background: #eab308;
+  color: #111827;
+  border-color: #eab308;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.HotelRoomImages-modalThumbs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  padding: 10px 0 4px;
+}
+
+.HotelRoomImages-thumbBtn {
+  width: 64px;
+  height: 46px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.HotelRoomImages-thumbActive,
+.HotelRoomImages-thumbBtn:hover {
+  border-color: #eab308;
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+.HotelRoomImages-thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .HotelRoomImages-modalSlide {
+    height: 52vh;
+  }
+  .HotelRoomImages-modalNavBtn {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+  .HotelRoomImages-thumbBtn {
+    width: 50px;
+    height: 36px;
   }
 }
