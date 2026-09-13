@@ -277,6 +277,11 @@ const HotelRoomExperience = ({ hotel }) => {
 
   const handleModalInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+      setBookingFormData((prev) => ({ ...prev, phone: digitsOnly }));
+      return;
+    }
     setBookingFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -305,7 +310,29 @@ const HotelRoomExperience = ({ hotel }) => {
         },
       };
 
-      await API.post('/hotel-bookings', payload);
+      const res = await API.post('/hotel-bookings', payload);
+      if (res.data?.success || res.status === 201 || res.status === 200) {
+        setBookingFormData({
+          fullName: '',
+          packageName: `${hotelName} Stay`,
+          phone: '',
+          destination: hotelLocation,
+          checkIn: '',
+          checkOut: '',
+          stayNights: '1 Night',
+          price: `₹${totalPriceStr}`,
+          member: 2,
+          category: 'standard'
+        });
+        setCheckInDate('');
+        setCheckOutDate('');
+        setAdultCount(2);
+        setChildCount(0);
+        setExtraServices({
+          homePickup: false,
+          nightFood: false,
+        });
+      }
     } catch (err) {
       console.error('Failed to submit hotel booking to server:', err);
     }
@@ -465,105 +492,17 @@ const HotelRoomExperience = ({ hotel }) => {
         {/* Right Column: Booking Widget */}
         <div className="HotelRoomExperience-right">
           <div className="HotelRoomExperience-bookingCard">
-            
+
             <h3 className="HotelRoomExperience-cardTitle">Book Your Room</h3>
             <p className="HotelRoomExperience-cardSubtitle">
               Reserve your ideal Room early for a hassle-free trip; secure comfort and convenience!
             </p>
 
-            {/* Switch Tabs */}
-            <div className="HotelRoomExperience-tabs">
-              <button
-                type="button"
-                className={`HotelRoomExperience-tabBtn ${bookingType === 'online' ? 'active' : ''}`}
-                onClick={() => setBookingType('online')}
-              >
-                Online Booking
-              </button>
-              <button
-                type="button"
-                className={`HotelRoomExperience-tabBtn ${bookingType === 'inquiry' ? 'active' : ''}`}
-                onClick={() => setBookingType('inquiry')}
-              >
-                Inquiry Form
-              </button>
-            </div>
+          
 
             {bookingType === 'online' ? (
               <>
-                {/* Date Selection Options */}
-                <div className="HotelRoomExperience-dateSection">
-                  <span className="HotelRoomExperience-label">Select Your Booking Date:</span>
-
-                  <div
-                    className={`HotelRoomExperience-dateOption ${selectedDatePlan === 1 ? 'selected' : ''}`}
-                    onClick={() => setSelectedDatePlan(1)}
-                  >
-                    <div className="HotelRoomExperience-squareCheck">
-                      {selectedDatePlan === 1 && <span className="HotelRoomExperience-squareTick" />}
-                    </div>
-                    <div className="HotelRoomExperience-dateDetails">
-                      <div className="HotelRoomExperience-dateBlock">
-                        <span className="HotelRoomExperience-dateHead">Check In</span>
-                        <span className="HotelRoomExperience-dateText">Jan 1, 2026</span>
-                      </div>
-                      <FaLongArrowAltRight className="HotelRoomExperience-arrowRight" />
-                      <div className="HotelRoomExperience-dateBlock">
-                        <span className="HotelRoomExperience-dateHead">Check Out</span>
-                        <span className="HotelRoomExperience-dateText">Jan 5, 2026</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`HotelRoomExperience-dateOption ${selectedDatePlan === 2 ? 'selected' : ''}`}
-                    onClick={() => setSelectedDatePlan(2)}
-                  >
-                    <div className="HotelRoomExperience-squareCheck">
-                      {selectedDatePlan === 2 && <span className="HotelRoomExperience-squareTick" />}
-                    </div>
-                    <div className="HotelRoomExperience-dateDetails">
-                      <div className="HotelRoomExperience-dateBlock">
-                        <span className="HotelRoomExperience-dateHead">Check In</span>
-                        <span className="HotelRoomExperience-dateText">Jan 10, 2026</span>
-                      </div>
-                      <FaLongArrowAltRight className="HotelRoomExperience-arrowRight" />
-                      <div className="HotelRoomExperience-dateBlock">
-                        <span className="HotelRoomExperience-dateHead">Check Out</span>
-                        <span className="HotelRoomExperience-dateText">Jan 15, 2026</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`HotelRoomExperience-dateOptionCustom ${selectedDatePlan === 'custom' ? 'selected' : ''}`}
-                    onClick={handleTriggerDatePicker}
-                  >
-                    <div className="HotelRoomExperience-squareCheck">
-                      {selectedDatePlan === 'custom' && <span className="HotelRoomExperience-squareTick" />}
-                    </div>
-                    <div className="HotelRoomExperience-customInputContainer">
-                      <span className="HotelRoomExperience-customText">
-                        {customCheckIn && customCheckOut
-                          ? `${customCheckIn} to ${customCheckOut}`
-                          : 'Check In & Out Dates'}
-                      </span>
-                      <FaCalendarAlt className="HotelRoomExperience-calIcon" />
-
-                      <input
-                        ref={customDateInputRef}
-                        type="date"
-                        className="HotelRoomExperience-hiddenDateInput"
-                        value={customCheckIn}
-                        onChange={(e) => {
-                          setCustomCheckIn(e.target.value);
-                          if (!customCheckOut) setCustomCheckOut(e.target.value);
-                          setSelectedDatePlan('custom');
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
+                
 
                 {/* Date Picker Range Inputs */}
                 <div className="HotelRoomExperience-dateSection">
@@ -575,12 +514,12 @@ const HotelRoomExperience = ({ hotel }) => {
                   </div>
 
                   <div className="HotelRoomExperience-datePickersContainer">
-                    <div 
+                    <div
                       className="HotelRoomExperience-dateInputGroup"
                       onClick={(e) => {
                         const input = e.currentTarget.querySelector('input[type="date"]');
                         if (input && typeof input.showPicker === 'function') {
-                          try { input.showPicker(); } catch (err) {}
+                          try { input.showPicker(); } catch (err) { }
                         }
                       }}
                     >
@@ -599,12 +538,12 @@ const HotelRoomExperience = ({ hotel }) => {
                       </div>
                     </div>
 
-                    <div 
+                    <div
                       className="HotelRoomExperience-dateInputGroup"
                       onClick={(e) => {
                         const input = e.currentTarget.querySelector('input[type="date"]');
                         if (input && typeof input.showPicker === 'function') {
-                          try { input.showPicker(); } catch (err) {}
+                          try { input.showPicker(); } catch (err) { }
                         }
                       }}
                     >
@@ -680,10 +619,7 @@ const HotelRoomExperience = ({ hotel }) => {
                     </div>
                   </div>
 
-                  <div className="HotelRoomExperience-guestCalcTotal">
-                    <FaLongArrowAltRight className="HotelRoomExperience-calcArrow" />
-                    <span className="HotelRoomExperience-calcTotal">₹{childTotal.toLocaleString('en-IN')}</span>
-                  </div>
+                 
                 </div>
 
                 {/* Extra Services */}
@@ -835,9 +771,7 @@ const HotelRoomExperience = ({ hotel }) => {
             <form onSubmit={handleModalSubmit} className="HotelRoomExperience-modalForm">
               <div className="HotelRoomExperience-modalHeader">
                 <h3 className="HotelRoomExperience-modalTitle">Complete Booking Inquiry</h3>
-                <p className="HotelRoomExperience-modalSubtitle">
-                  Review your reservation details. No advance payment required today!
-                </p>
+               
               </div>
 
               <div className="HotelRoomExperience-formBody">
@@ -864,7 +798,8 @@ const HotelRoomExperience = ({ hotel }) => {
                       type="tel"
                       name="phone"
                       required
-                      placeholder="Enter active phone number"
+                      placeholder="Enter 10-digit phone number"
+                      maxLength={10}
                       value={bookingFormData.phone}
                       onChange={handleModalInputChange}
                     />
@@ -977,10 +912,6 @@ const HotelRoomExperience = ({ hotel }) => {
                 <FaPaperPlane className="HotelRoomExperience-btnPaperIcon" /> Submit Booking Request
               </button>
 
-              <div className="HotelRoomExperience-modalFooterNote">
-                <FiShield className="HotelRoomExperience-shieldIcon" />
-                <span>100% Free Cancellation · Direct Assistance on WhatsApp</span>
-              </div>
             </form>
           )}
         </div>

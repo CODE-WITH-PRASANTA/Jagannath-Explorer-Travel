@@ -1,20 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TourExperience.css';
+import API from '../../api/axios';
 
 // React Icons Imports
-import { 
-  FaClock, 
-  FaUser, 
-  FaMapMarkerAlt, 
-  FaCheck, 
-  FaTimes, 
-  FaCheckCircle, 
-  FaChevronUp, 
-  FaChevronDown, 
-  FaCalendarAlt, 
-  FaMinus, 
-  FaPlus, 
+import {
+  FaClock,
+  FaUser,
+  FaMapMarkerAlt,
+  FaCheck,
+  FaTimes,
+  FaCheckCircle,
+  FaChevronUp,
+  FaChevronDown,
+  FaMinus,
+  FaPlus,
   FaPhoneAlt,
+  FaCalendarAlt,
   FaLongArrowAltRight
 } from 'react-icons/fa';
 
@@ -28,8 +29,6 @@ const SERVICE_PRICES = {
 };
 
 const TourExperience = ({ tour }) => {
-  const hiddenDateInputRef = useRef(null);
-
   // Helper to parse lists from array or delimited strings
   const parseList = (val) => {
     if (!val) return [];
@@ -105,24 +104,11 @@ const TourExperience = ({ tour }) => {
     ];
   }
 
-  // Dynamic slot dates
-  const getFormattedDate = (daysAhead) => {
-    const d = new Date();
-    d.setDate(d.getDate() + daysAhead);
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
-
-  const slot1In = getFormattedDate(2);
-  const slot1Out = getFormattedDate(5);
-  const slot2In = getFormattedDate(7);
-  const slot2Out = getFormattedDate(10);
-
   // Booking Form States
-  const [bookingTab, setBookingTab] = useState('online'); // 'online' or 'inquiry'
-  const [selectedDateIndex, setSelectedDateIndex] = useState(0); // 0 = slot 1, 1 = slot 2, null = custom
-  const [customDate, setCustomDate] = useState('');
   const [adultQty, setAdultQty] = useState(2);
   const [childQty, setChildQty] = useState(0);
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
 
   // Extra Services State
   const [extraServices, setExtraServices] = useState({
@@ -134,17 +120,9 @@ const TourExperience = ({ tour }) => {
   // Accordion Itinerary State (Day 1 open by default)
   const [openDay, setOpenDay] = useState(1);
 
-  // Inquiry Form State
-  const [inquiryData, setInquiryData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    message: ''
-  });
-  const [isInquirySent, setIsInquirySent] = useState(false);
-
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalForm, setModalForm] = useState({
     name: '',
     packageName: tour?.title || 'Odisha Heritage Tour Package',
@@ -152,7 +130,9 @@ const TourExperience = ({ tour }) => {
     destination: tour?.destination || 'Odisha',
     price: '',
     members: '',
-    category: 'Standard'
+    category: 'Standard',
+    checkIn: '',
+    checkOut: ''
   });
 
   // Prevent background scrolling when modal is open
@@ -182,58 +162,117 @@ const TourExperience = ({ tour }) => {
     setExtraServices((prev) => ({ ...prev, [serviceKey]: !prev[serviceKey] }));
   };
 
-  const handleTriggerDatePicker = () => {
-    setSelectedDateIndex(null);
-    if (hiddenDateInputRef.current) {
-      if (typeof hiddenDateInputRef.current.showPicker === 'function') {
-        hiddenDateInputRef.current.showPicker();
-      } else {
-        hiddenDateInputRef.current.focus();
-      }
-    }
-  };
-
   const handleOpenModal = () => {
     setModalForm((prev) => ({
       ...prev,
       packageName: tour?.title || prev.packageName,
       destination: tour?.destination || prev.destination,
       price: `₹${totalPrice.toLocaleString('en-IN')}`,
-      members: `${adultQty + childQty} (${adultQty} Adult, ${childQty} Child)`
+      members: `${adultQty + childQty} (${adultQty} Adult, ${childQty} Child)`,
+      checkIn: checkInDate,
+      checkOut: checkOutDate
     }));
     setIsModalOpen(true);
   };
 
   const handleModalChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      // Allow only digits and limit to max 10 digits
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+      setModalForm((prev) => ({ ...prev, phone: digitsOnly }));
+      return;
+    }
     setModalForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleModalSubmit = (e) => {
+  const handleModalSubmit = async (e) => {
     e.preventDefault();
-    alert('Booking Inquiry submitted successfully!');
-    setIsModalOpen(false);
+    if (!modalForm.name.trim()) {
+      alert('Please provide your full name.');
+      return;
+    }
+
+    const cleanPhone = modalForm.phone.replace(/\D/g, '');
+    if (!cleanPhone || cleanPhone.length !== 10) {
+      alert('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const payload = {
+        fullName: modalForm.name.trim(),
+        mobileNumber: modalForm.phone.trim(),
+        tourPackage: modalForm.packageName || tour?.title || 'Tour Package Booking',
+        destination: modalForm.destination || tour?.destination || 'Odisha',
+        startDate: modalForm.checkIn || checkInDate,
+        endDate: modalForm.checkOut || checkOutDate,
+        checkIn: modalForm.checkIn || checkInDate,
+        checkOut: modalForm.checkOut || checkOutDate,
+        adults: adultQty,
+        children: childQty,
+        guests: modalForm.members || `${adultQty} Adult(s)${childQty > 0 ? `, ${childQty} Child(ren)` : ''}`,
+        category: modalForm.category || 'Standard',
+        price: modalForm.price || `₹${totalPrice.toLocaleString('en-IN')}`,
+        extraServices,
+        agreedToTerms: true
+      };
+
+      const res = await API.post('/tour-bookings', payload);
+      if (res.data?.success || res.status === 201 || res.status === 200) {
+        alert('🎉 Booking inquiry submitted successfully! Our team will contact you shortly.');
+        
+        // Reset and clear modal form
+        setModalForm({
+          name: '',
+          packageName: tour?.title || 'Odisha Heritage Tour Package',
+          phone: '',
+          destination: tour?.destination || 'Odisha',
+          price: '',
+          members: '',
+          category: 'Standard',
+          checkIn: '',
+          checkOut: ''
+        });
+
+        // Reset sidebar date pickers & counters
+        setCheckInDate('');
+        setCheckOutDate('');
+        setAdultQty(1);
+        setChildQty(0);
+        setExtraServices({
+          homePickup: false,
+          nightFood: false,
+          seaplane: false
+        });
+
+        setIsModalOpen(false);
+      } else {
+        alert(res.data?.message || 'Failed to submit booking inquiry. Please try again.');
+      }
+    } catch (err) {
+      console.error('Failed to submit tour booking:', err);
+      const errorMsg = err.response?.data?.message || 'Server error. Please try again or contact us on WhatsApp.';
+      alert(`⚠️ ${errorMsg}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleBookNow = () => {
     const tourTitle = tour?.title || "Odisha Holiday Tour";
-    const selectedDate = customDate || (selectedDateIndex === 0 ? slot1In : slot2In);
-    const msg = `Jai Jagannath! I would like to book the tour: *${tourTitle}*\n- Destination: ${tour?.destination || 'Odisha'}\n- Date: ${selectedDate}\n- Adults: ${adultQty}, Children: ${childQty}\n- Total Price: ₹${totalPrice.toLocaleString('en-IN')}\nPlease share confirmation and itinerary details.`;
+    let msg = `Jai Jagannath! I would like to book the tour: *${tourTitle}*\n- Destination: ${tour?.destination || 'Odisha'}\n`;
+    if (checkInDate) msg += `- Check In: ${checkInDate}\n`;
+    if (checkOutDate) msg += `- Check Out: ${checkOutDate}\n`;
+    msg += `- Adults: ${adultQty}, Children: ${childQty}\n- Total Price: ₹${totalPrice.toLocaleString('en-IN')}\nPlease share confirmation and itinerary details.`;
     window.open(`https://wa.me/919668892441?text=${encodeURIComponent(msg)}`, '_blank');
-  };
-
-  const handleInquirySubmit = (e) => {
-    e.preventDefault();
-    const tourTitle = tour?.title || "Odisha Holiday Tour";
-    const msg = `Inquiry for Tour: *${tourTitle}*\nName: ${inquiryData.fullName}\nPhone: ${inquiryData.phone}\nEmail: ${inquiryData.email || 'N/A'}\nMessage: ${inquiryData.message || 'I want more details regarding this package.'}`;
-    window.open(`https://wa.me/919668892441?text=${encodeURIComponent(msg)}`, '_blank');
-    setIsInquirySent(true);
   };
 
   return (
     <section className="TourExperience">
       <div className="TourExperience-container">
-        
+
         {/* ================= LEFT MAIN CONTENT ================= */}
         <div className="TourExperience-mainContent">
           <h1 className="TourExperience-title">
@@ -326,12 +365,12 @@ const TourExperience = ({ tour }) => {
                 const dayActivities = dayItem.highlights || dayItem.activities || [];
 
                 return (
-                  <div 
+                  <div
                     className={`TourExperience-accordionItem ${isItemOpen ? 'TourExperience-open' : ''}`}
                     key={idx}
                   >
-                    <div 
-                      className="TourExperience-accordionHeader" 
+                    <div
+                      className="TourExperience-accordionHeader"
                       onClick={() => toggleDay(idx + 1)}
                     >
                       <div className="TourExperience-dayBadge">{dayBadgeText} :</div>
@@ -363,302 +402,187 @@ const TourExperience = ({ tour }) => {
 
         {/* ================= RIGHT SIDEBAR ================= */}
         <div className="TourExperience-sidebar">
-          
+
           <div className="TourExperience-bookingCard">
             <h2 className="TourExperience-bookingTitle">Book Your Tour</h2>
             <p className="TourExperience-bookingSubtitle">
               Reserve your ideal trip early for a hassle-free trip; secure comfort and convenience!
             </p>
 
-            {/* Online / Inquiry Tabs */}
-            <div className="TourExperience-tabs">
-              <button 
-                type="button" 
-                className={`TourExperience-tab ${bookingTab === 'online' ? 'TourExperience-activeTab' : ''}`} 
-                onClick={() => setBookingTab('online')}
-              >
-                Online Booking
-              </button>
-              <button 
-                type="button" 
-                className={`TourExperience-tab ${bookingTab === 'inquiry' ? 'TourExperience-activeTab' : ''}`} 
-                onClick={() => setBookingTab('inquiry')}
-              >
-                Inquiry Form
-              </button>
-            </div>
-
-            {/* TAB 1: ONLINE BOOKING */}
-            {bookingTab === 'online' ? (
-              <div className="TourExperience-onlineSection">
-                {/* Date Selection */}
-                <div className="TourExperience-fieldGroup">
-                  <label className="TourExperience-fieldLabel">Select Your Booking Date:</label>
-                  
-                  {/* Preset Slot 1 */}
-                  <div 
-                    className={`TourExperience-dateOption ${selectedDateIndex === 0 ? 'TourExperience-selectedDate' : ''}`}
-                    onClick={() => { setSelectedDateIndex(0); setCustomDate(''); }}
-                  >
-                    <div className="TourExperience-checkboxSquare">
-                      {selectedDateIndex === 0 && <span className="TourExperience-innerCheck"></span>}
-                    </div>
-                    <div className="TourExperience-dateTextGroup">
-                      <div>
-                        <span className="TourExperience-dateLabel">Check In</span>
-                        <span className="TourExperience-dateValue">{slot1In}</span>
-                      </div>
-                      <FaLongArrowAltRight className="TourExperience-dateArrow" />
-                      <div>
-                        <span className="TourExperience-dateLabel">Check Out</span>
-                        <span className="TourExperience-dateValue">{slot1Out}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Preset Slot 2 */}
-                  <div 
-                    className={`TourExperience-dateOption ${selectedDateIndex === 1 ? 'TourExperience-selectedDate' : ''}`}
-                    onClick={() => { setSelectedDateIndex(1); setCustomDate(''); }}
-                  >
-                    <div className="TourExperience-checkboxSquare">
-                      {selectedDateIndex === 1 && <span className="TourExperience-innerCheck"></span>}
-                    </div>
-                    <div className="TourExperience-dateTextGroup">
-                      <div>
-                        <span className="TourExperience-dateLabel">Check In</span>
-                        <span className="TourExperience-dateValue">{slot2In}</span>
-                      </div>
-                      <FaLongArrowAltRight className="TourExperience-dateArrow" />
-                      <div>
-                        <span className="TourExperience-dateLabel">Check Out</span>
-                        <span className="TourExperience-dateValue">{slot2Out}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Custom Date Input */}
-                  <div 
-                    className={`TourExperience-customDateBox ${selectedDateIndex === null && customDate ? 'TourExperience-customActive' : ''}`}
-                    onClick={handleTriggerDatePicker}
-                  >
-                    <div className="TourExperience-checkboxSquare TourExperience-greenSquare">
-                      {selectedDateIndex === null && customDate && <span className="TourExperience-innerCheck"></span>}
-                    </div>
-                    
-                    <span className="TourExperience-customDateText">
-                      {customDate || 'Pick Custom Date'}
-                    </span>
-                    
-                    <FaCalendarAlt className="TourExperience-calendarIcon" />
-                    
-                    <input 
-                      ref={hiddenDateInputRef}
-                      type="date" 
-                      value={customDate} 
-                      onChange={(e) => { 
-                        setCustomDate(e.target.value); 
-                        setSelectedDateIndex(null); 
-                      }}
-                      className="TourExperience-hiddenDateInput" 
-                    />
-                  </div>
+            <div className="TourExperience-onlineSection">
+              {/* Check In & Check Out Date Input Fields */}
+              <div className="TourExperience-datePickersContainer">
+                <div className="TourExperience-dateInputGroup">
+                  <label className="TourExperience-dateFieldLabel">
+                    <FaCalendarAlt className="TourExperience-dateIcon" /> Check In
+                  </label>
+                  <input
+                    type="date"
+                    min={new Date().toISOString().split('T')[0]}
+                    value={checkInDate}
+                    onChange={(e) => {
+                      setCheckInDate(e.target.value);
+                      if (!checkOutDate || checkOutDate < e.target.value) {
+                        setCheckOutDate(e.target.value);
+                      }
+                    }}
+                    className="TourExperience-dateInputField"
+                  />
                 </div>
 
-                {/* Quantity Selectors */}
-                <div className="TourExperience-qtySection">
-                  {/* Adult */}
-                  <div className="TourExperience-qtyRow">
-                    <div className="TourExperience-qtyLabel">
-                      <span className="TourExperience-personType">Adult:</span>
-                      <span className="TourExperience-priceSale">₹{adultPrice.toLocaleString('en-IN')}</span>
-                    </div>
-                    <div className="TourExperience-counter">
-                      <button 
-                        type="button" 
-                        className="TourExperience-counterBtn" 
-                        onClick={() => setAdultQty(Math.max(1, adultQty - 1))}
-                        aria-label="Decrease Adults"
-                      >
-                        <FaMinus />
-                      </button>
-                      <span className="TourExperience-countValue">{adultQty}</span>
-                      <button 
-                        type="button" 
-                        className="TourExperience-counterBtn" 
-                        onClick={() => setAdultQty(adultQty + 1)}
-                        aria-label="Increase Adults"
-                      >
-                        <FaPlus />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Children */}
-                  <div className="TourExperience-qtyRow">
-                    <div className="TourExperience-qtyLabel">
-                      <span className="TourExperience-personType">Children:</span>
-                      <span className="TourExperience-priceSale">₹{childPrice.toLocaleString('en-IN')}</span>
-                    </div>
-                    <div className="TourExperience-counter">
-                      <button 
-                        type="button" 
-                        className="TourExperience-counterBtn" 
-                        onClick={() => setChildQty(Math.max(0, childQty - 1))}
-                        aria-label="Decrease Children"
-                      >
-                        <FaMinus />
-                      </button>
-                      <span className="TourExperience-countValue">{childQty}</span>
-                      <button 
-                        type="button" 
-                        className="TourExperience-counterBtn" 
-                        onClick={() => setChildQty(childQty + 1)}
-                        aria-label="Increase Children"
-                      >
-                        <FaPlus />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Extra Services */}
-                <div className="TourExperience-extraServices">
-                  <h3 className="TourExperience-extraTitle">Other Extra Services</h3>
-
-                  <div className="TourExperience-extraRow" onClick={() => handleServiceChange('homePickup')}>
-                    <div className="TourExperience-checkboxSquare">
-                      {extraServices.homePickup && <span className="TourExperience-innerCheck"></span>}
-                    </div>
-                    <span className="TourExperience-extraName">Home / Airport Pickup</span>
-                    <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.homePickup}</span>
-                  </div>
-
-                  <div className="TourExperience-extraRow" onClick={() => handleServiceChange('nightFood')}>
-                    <div className="TourExperience-checkboxSquare">
-                      {extraServices.nightFood && <span className="TourExperience-innerCheck"></span>}
-                    </div>
-                    <span className="TourExperience-extraName">Special Mahaprasad / Food</span>
-                    <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.nightFood}</span>
-                  </div>
-
-                  <div className="TourExperience-extraRow" onClick={() => handleServiceChange('seaplane')}>
-                    <div className="TourExperience-checkboxSquare">
-                      {extraServices.seaplane && <span className="TourExperience-innerCheck"></span>}
-                    </div>
-                    <span className="TourExperience-extraName">Chilika Boating & Sightseeing</span>
-                    <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.seaplane}</span>
-                  </div>
-                </div>
-
-                {/* Breakdown Calculation Items */}
-                <div className="TourExperience-breakdownBox">
-                  <div className="TourExperience-breakdownItem">
-                    <span className="TourExperience-breakdownType">Adult</span>
-                    <div className="TourExperience-formula">
-                      <span>₹{adultPrice} <small>PRICE</small></span>
-                      <span className="TourExperience-operator">×</span>
-                      <span>{String(adultQty).padStart(2, '0')} <small>QTY</small></span>
-                    </div>
-                    <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
-                    <span className="TourExperience-breakdownTotal">₹{(adultPrice * adultQty).toLocaleString('en-IN')}</span>
-                  </div>
-
-                  {childQty > 0 && (
-                    <div className="TourExperience-breakdownItem">
-                      <span className="TourExperience-breakdownType">Children</span>
-                      <div className="TourExperience-formula">
-                        <span>₹{childPrice} <small>PRICE</small></span>
-                        <span className="TourExperience-operator">×</span>
-                        <span>{String(childQty).padStart(2, '0')} <small>QTY</small></span>
-                      </div>
-                      <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
-                      <span className="TourExperience-breakdownTotal">₹{(childPrice * childQty).toLocaleString('en-IN')}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Total Price */}
-                <div className="TourExperience-totalRow">
-                  <span className="TourExperience-totalLabel">Total Price:</span>
-                  <span className="TourExperience-totalValue">₹{totalPrice.toLocaleString('en-IN')}</span>
-                </div>
-
-                {/* Action Buttons */}
-                <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
-                  <button 
-                    type="button" 
-                    className="TourExperience-bookNowBtn" 
-                    onClick={handleBookNow}
-                    style={{ flex: 1 }}
-                  >
-                    WhatsApp Book
-                  </button>
-                  <button 
-                    type="button" 
-                    className="TourExperience-bookNowBtn" 
-                    onClick={handleOpenModal}
-                    style={{ flex: 1, backgroundColor: '#0f172a' }}
-                  >
-                    Quick Form
-                  </button>
+                <div className="TourExperience-dateInputGroup">
+                  <label className="TourExperience-dateFieldLabel">
+                    <FaCalendarAlt className="TourExperience-dateIcon" /> Check Out
+                  </label>
+                  <input
+                    type="date"
+                    min={checkInDate || new Date().toISOString().split('T')[0]}
+                    value={checkOutDate}
+                    onChange={(e) => setCheckOutDate(e.target.value)}
+                    className="TourExperience-dateInputField"
+                  />
                 </div>
               </div>
-            ) : (
-              /* TAB 2: INQUIRY FORM */
-              <form className="TourExperience-inquiryForm" onSubmit={handleInquirySubmit}>
-                {isInquirySent && (
-                  <div style={{ padding: '10px', backgroundColor: '#e6f4ea', color: '#137333', borderRadius: '4px', fontSize: '0.85rem', textAlign: 'center', marginBottom: '10px' }}>
-                    Inquiry submitted! Redirecting to WhatsApp...
+
+              {/* Quantity Selectors */}
+              <div className="TourExperience-qtySection">
+                {/* Adult */}
+                <div className="TourExperience-qtyRow">
+                  <div className="TourExperience-qtyLabel">
+                    <span className="TourExperience-personType">Adult:</span>
+                    <span className="TourExperience-priceSale">₹{adultPrice.toLocaleString('en-IN')}</span>
+                  </div>
+                  <div className="TourExperience-counter">
+                    <button
+                      type="button"
+                      className="TourExperience-counterBtn"
+                      onClick={() => setAdultQty(Math.max(1, adultQty - 1))}
+                      aria-label="Decrease Adults"
+                    >
+                      <FaMinus />
+                    </button>
+                    <span className="TourExperience-countValue">{adultQty}</span>
+                    <button
+                      type="button"
+                      className="TourExperience-counterBtn"
+                      onClick={() => setAdultQty(adultQty + 1)}
+                      aria-label="Increase Adults"
+                    >
+                      <FaPlus />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Children */}
+                <div className="TourExperience-qtyRow">
+                  <div className="TourExperience-qtyLabel">
+                    <span className="TourExperience-personType">Children:</span>
+                    <span className="TourExperience-priceSale">₹{childPrice.toLocaleString('en-IN')}</span>
+                  </div>
+                  <div className="TourExperience-counter">
+                    <button
+                      type="button"
+                      className="TourExperience-counterBtn"
+                      onClick={() => setChildQty(Math.max(0, childQty - 1))}
+                      aria-label="Decrease Children"
+                    >
+                      <FaMinus />
+                    </button>
+                    <span className="TourExperience-countValue">{childQty}</span>
+                    <button
+                      type="button"
+                      className="TourExperience-counterBtn"
+                      onClick={() => setChildQty(childQty + 1)}
+                      aria-label="Increase Children"
+                    >
+                      <FaPlus />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Extra Services */}
+              <div className="TourExperience-extraServices">
+                <h3 className="TourExperience-extraTitle">Other Extra Services</h3>
+
+                <div className="TourExperience-extraRow" onClick={() => handleServiceChange('homePickup')}>
+                  <div className="TourExperience-checkboxSquare">
+                    {extraServices.homePickup && <span className="TourExperience-innerCheck"></span>}
+                  </div>
+                  <span className="TourExperience-extraName">Home / Airport Pickup</span>
+                  <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.homePickup}</span>
+                </div>
+
+                <div className="TourExperience-extraRow" onClick={() => handleServiceChange('nightFood')}>
+                  <div className="TourExperience-checkboxSquare">
+                    {extraServices.nightFood && <span className="TourExperience-innerCheck"></span>}
+                  </div>
+                  <span className="TourExperience-extraName">Special Mahaprasad / Food</span>
+                  <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.nightFood}</span>
+                </div>
+
+                <div className="TourExperience-extraRow" onClick={() => handleServiceChange('seaplane')}>
+                  <div className="TourExperience-checkboxSquare">
+                    {extraServices.seaplane && <span className="TourExperience-innerCheck"></span>}
+                  </div>
+                  <span className="TourExperience-extraName">Chilika Boating & Sightseeing</span>
+                  <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.seaplane}</span>
+                </div>
+              </div>
+
+              {/* Breakdown Calculation Items */}
+              <div className="TourExperience-breakdownBox">
+                <div className="TourExperience-breakdownItem">
+                  <span className="TourExperience-breakdownType">Adult</span>
+                  <div className="TourExperience-formula">
+                    <span>₹{adultPrice} <small>PRICE</small></span>
+                    <span className="TourExperience-operator">×</span>
+                    <span>{String(adultQty).padStart(2, '0')} <small>QTY</small></span>
+                  </div>
+                  <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
+                  <span className="TourExperience-breakdownTotal">₹{(adultPrice * adultQty).toLocaleString('en-IN')}</span>
+                </div>
+
+                {childQty > 0 && (
+                  <div className="TourExperience-breakdownItem">
+                    <span className="TourExperience-breakdownType">Children</span>
+                    <div className="TourExperience-formula">
+                      <span>₹{childPrice} <small>PRICE</small></span>
+                      <span className="TourExperience-operator">×</span>
+                      <span>{String(childQty).padStart(2, '0')} <small>QTY</small></span>
+                    </div>
+                    <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
+                    <span className="TourExperience-breakdownTotal">₹{(childPrice * childQty).toLocaleString('en-IN')}</span>
                   </div>
                 )}
-                <div className="TourExperience-inquiryGroup">
-                  <label className="TourExperience-inquiryLabel">Full Name *</label>
-                  <input 
-                    type="text" 
-                    required 
-                    placeholder="Enter your name" 
-                    value={inquiryData.fullName} 
-                    onChange={(e) => setInquiryData({ ...inquiryData, fullName: e.target.value })} 
-                    className="TourExperience-inquiryInput" 
-                  />
-                </div>
-                <div className="TourExperience-inquiryGroup">
-                  <label className="TourExperience-inquiryLabel">Phone Number *</label>
-                  <input 
-                    type="tel" 
-                    required 
-                    placeholder="Enter mobile number" 
-                    value={inquiryData.phone} 
-                    onChange={(e) => setInquiryData({ ...inquiryData, phone: e.target.value })} 
-                    className="TourExperience-inquiryInput" 
-                  />
-                </div>
-                <div className="TourExperience-inquiryGroup">
-                  <label className="TourExperience-inquiryLabel">Email Address</label>
-                  <input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    value={inquiryData.email} 
-                    onChange={(e) => setInquiryData({ ...inquiryData, email: e.target.value })} 
-                    className="TourExperience-inquiryInput" 
-                  />
-                </div>
-                <div className="TourExperience-inquiryGroup">
-                  <label className="TourExperience-inquiryLabel">Message / Requirements</label>
-                  <textarea 
-                    rows="3" 
-                    placeholder="Any specific requests or date..." 
-                    value={inquiryData.message} 
-                    onChange={(e) => setInquiryData({ ...inquiryData, message: e.target.value })} 
-                    className="TourExperience-inquiryTextarea" 
-                  ></textarea>
-                </div>
-                <button type="submit" className="TourExperience-submitInquiryBtn">
-                  Submit Inquiry
+              </div>
+
+              {/* Total Price */}
+              <div className="TourExperience-totalRow">
+                <span className="TourExperience-totalLabel">Total Price:</span>
+                <span className="TourExperience-totalValue">₹{totalPrice.toLocaleString('en-IN')}</span>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
+                <button
+                  type="button"
+                  className="TourExperience-bookNowBtn"
+                  onClick={handleBookNow}
+                  style={{ flex: 1 }}
+                >
+                  WhatsApp Book
                 </button>
-              </form>
-            )}
+                <button
+                  type="button"
+                  className="TourExperience-bookNowBtn"
+                  onClick={handleOpenModal}
+                  style={{ flex: 1, backgroundColor: '#0f172a' }}
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
 
           </div>
 
@@ -684,10 +608,10 @@ const TourExperience = ({ tour }) => {
       {isModalOpen && (
         <div className="TourExperience-modalOverlay" onClick={() => setIsModalOpen(false)}>
           <div className="TourExperience-modalBox" onClick={(e) => e.stopPropagation()}>
-            <button 
-              type="button" 
-              className="TourExperience-modalCloseBtn" 
-              onClick={() => setIsModalOpen(false)} 
+            <button
+              type="button"
+              className="TourExperience-modalCloseBtn"
+              onClick={() => setIsModalOpen(false)}
               aria-label="Close modal"
             >
               <FaTimes />
@@ -696,85 +620,117 @@ const TourExperience = ({ tour }) => {
             <h2 className="TourExperience-modalTitle">Complete Booking Inquiry</h2>
 
             <form className="TourExperience-modalForm" onSubmit={handleModalSubmit}>
-              <div className="TourExperience-modalGroup">
-                <label className="TourExperience-modalLabel">Name</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  placeholder="Enter your full name" 
-                  value={modalForm.name} 
-                  onChange={handleModalChange} 
-                  required 
-                  className="TourExperience-modalInput" 
-                />
+              <div className="TourExperience-modalRow">
+                <div className="TourExperience-modalGroup">
+                  <label className="TourExperience-modalLabel">Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your full name"
+                    value={modalForm.name}
+                    onChange={handleModalChange}
+                    required
+                    className="TourExperience-modalInput"
+                  />
+                </div>
+
+                <div className="TourExperience-modalGroup">
+                  <label className="TourExperience-modalLabel">Phone No.</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter 10-digit phone number"
+                    maxLength={10}
+                    value={modalForm.phone}
+                    onChange={handleModalChange}
+                    required
+                    className="TourExperience-modalInput"
+                  />
+                </div>
               </div>
 
-              <div className="TourExperience-modalGroup">
-                <label className="TourExperience-modalLabel">Package Name</label>
-                <input 
-                  type="text" 
-                  name="packageName" 
-                  value={modalForm.packageName} 
-                  onChange={handleModalChange} 
-                  required 
-                  className="TourExperience-modalInput" 
-                />
+              <div className="TourExperience-modalRow">
+                <div className="TourExperience-modalGroup">
+                  <label className="TourExperience-modalLabel">Package Name</label>
+                  <input
+                    type="text"
+                    name="packageName"
+                    value={modalForm.packageName}
+                    onChange={handleModalChange}
+                    required
+                    className="TourExperience-modalInput"
+                  />
+                </div>
+
+                <div className="TourExperience-modalGroup">
+                  <label className="TourExperience-modalLabel">Destination</label>
+                  <input
+                    type="text"
+                    name="destination"
+                    value={modalForm.destination}
+                    onChange={handleModalChange}
+                    required
+                    className="TourExperience-modalInput"
+                  />
+                </div>
               </div>
 
-              <div className="TourExperience-modalGroup">
-                <label className="TourExperience-modalLabel">Phone No.</label>
-                <input 
-                  type="tel" 
-                  name="phone" 
-                  placeholder="Enter phone number" 
-                  value={modalForm.phone} 
-                  onChange={handleModalChange} 
-                  required 
-                  className="TourExperience-modalInput" 
-                />
+              <div className="TourExperience-modalRow">
+                <div className="TourExperience-modalGroup">
+                  <label className="TourExperience-modalLabel">Check In Date</label>
+                  <input
+                    type="date"
+                    name="checkIn"
+                    min={new Date().toISOString().split('T')[0]}
+                    value={modalForm.checkIn}
+                    onChange={handleModalChange}
+                    className="TourExperience-modalInput"
+                  />
+                </div>
+
+                <div className="TourExperience-modalGroup">
+                  <label className="TourExperience-modalLabel">Check Out Date</label>
+                  <input
+                    type="date"
+                    name="checkOut"
+                    min={modalForm.checkIn || new Date().toISOString().split('T')[0]}
+                    value={modalForm.checkOut}
+                    onChange={handleModalChange}
+                    className="TourExperience-modalInput"
+                  />
+                </div>
               </div>
 
-              <div className="TourExperience-modalGroup">
-                <label className="TourExperience-modalLabel">Destination</label>
-                <input 
-                  type="text" 
-                  name="destination" 
-                  value={modalForm.destination} 
-                  onChange={handleModalChange} 
-                  required 
-                  className="TourExperience-modalInput" 
-                />
-              </div>
-              
               <div className="TourExperience-modalRow">
                 <div className="TourExperience-modalGroup">
                   <label className="TourExperience-modalLabel">Price</label>
-                  <input 
-                    type="text" 
-                    name="price" 
-                    value={modalForm.price} 
-                    onChange={handleModalChange} 
-                    className="TourExperience-modalInput" 
+                  <input
+                    type="text"
+                    name="price"
+                    value={modalForm.price}
+                    onChange={handleModalChange}
+                    className="TourExperience-modalInput"
                   />
                 </div>
+
                 <div className="TourExperience-modalGroup">
                   <label className="TourExperience-modalLabel">Member(s)</label>
-                  <input 
-                    type="text" 
-                    name="members" 
-                    value={modalForm.members} 
-                    onChange={handleModalChange} 
-                    className="TourExperience-modalInput" 
+                  <input
+                    type="text"
+                    name="members"
+                    value={modalForm.members}
+                    onChange={handleModalChange}
+                    className="TourExperience-modalInput"
                   />
                 </div>
               </div>
 
               <div className="TourExperience-modalGroup">
                 <label className="TourExperience-modalLabel">Category</label>
-                <select 
-                  name="category" 
-                  value={modalForm.category} 
-                  onChange={handleModalChange} 
+                <select
+                  name="category"
+                  value={modalForm.category}
+                  onChange={handleModalChange}
                   className="TourExperience-modalSelect"
                 >
                   <option value="Standard">Standard</option>
@@ -784,8 +740,8 @@ const TourExperience = ({ tour }) => {
                 </select>
               </div>
 
-              <button type="submit" className="TourExperience-modalSubmitBtn">
-                Submit Booking
+              <button type="submit" className="TourExperience-modalSubmitBtn" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting Booking...' : 'Submit Booking'}
               </button>
             </form>
           </div>
