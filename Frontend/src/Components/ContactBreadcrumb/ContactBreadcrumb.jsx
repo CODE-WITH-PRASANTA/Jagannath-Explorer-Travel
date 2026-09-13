@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./ContactBreadcrumb.css";
 
 // Import your breadcrumb image
-import contactBreadcrumbImage from "../../assets/Breadcrumb.webp";
+import contactBreadcrumbImage from "../../assets/mainbreadcrumb.webp";
 
 const ContactBreadcrumb = () => {
   return (

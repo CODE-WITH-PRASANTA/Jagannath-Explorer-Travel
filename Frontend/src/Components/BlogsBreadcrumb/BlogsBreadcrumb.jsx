@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./BlogsBreadcrumb.css";
 
-import blogsBreadcrumbImage from "../../assets/Breadcrumb.webp";
+import blogsBreadcrumbImage from "../../assets/mainbreadcrumb.webp";
 
 const BlogsBreadcrumb = () => {
   return (

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./GalleryBreadcrumb.css";
 
-import galleryBreadcrumbImage from "../../assets/Breadcrumb.webp";
+import galleryBreadcrumbImage from "../../assets/mainbreadcrumb.webp";
 
 const GalleryBreadcrumb = () => {
   return (

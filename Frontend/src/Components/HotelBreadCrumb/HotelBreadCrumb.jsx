@@ -2,7 +2,7 @@ import React from 'react';
 import './HotelBreadCrumb.css';
 
 // Background image import path
-import breadcrumbBg from '../../assets/background.webp';
+import breadcrumbBg from '../../assets/mainbreadcrumb.webp';
 
 const HotelBreadCrumb = () => {
   return (
