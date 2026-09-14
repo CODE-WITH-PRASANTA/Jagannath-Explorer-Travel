@@ -1,76 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import API, { IMG_URL } from "../../api/axios";
 import './Latesttravel.css';
 
-// =========================================================================
-// 👉 अपनी लोकल इमेजेस लगाने के लिए नीचे दी गई लाइनों को अनकमेंट (Uncomment) करें:
-// =========================================================================
-// import featuredCampfireImg from './assets/campfire-night.jpg';
-// import cabinLakeImg from './assets/cabin-lake.jpg';
-// import mountainJumpImg from './assets/mountain-jump.jpg';
-// import hikerTrekImg from './assets/hiker-trek.jpg';
-
-const dummyImages = {
-  featured: 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?w=900&auto=format&fit=crop&q=80',
-  cabin: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&auto=format&fit=crop&q=80',
-  jump: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&auto=format&fit=crop&q=80',
-  trek: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=80'
-};
-
-const featuredPostData = {
-  id: 'featured-1',
-  isFeatured: true,
-  author: 'Rison Donec',
-  dateText: 'Nov 10, 2022',
-  comments: '5 Comment',
-  title: 'Our Begin Now What Your Will Bean Forest This Our Agency.',
-  image: dummyImages.featured
-};
-
-const rightPostsData = [
-  {
-    id: 1,
-    isFeatured: false,
-    dateDay: '20',
-    dateMonth: 'August',
-    author: 'Rison Donec',
-    category: 'City Tour',
-    title: 'Our Begin Now To Benign Onet What You Will Be.',
-    readTime: '5 Min Read',
-    image: dummyImages.cabin
-  },
-  {
-    id: 2,
-    isFeatured: false,
-    dateDay: '16',
-    dateMonth: 'July',
-    author: 'Goran Jack',
-    category: 'City Tour',
-    title: 'Our Begin Now To Benign Onet What You Will Be.',
-    readTime: '5 Min Read',
-    image: dummyImages.jump
-  },
-  {
-    id: 3,
-    isFeatured: false,
-    dateDay: '30',
-    dateMonth: 'June',
-    author: 'David Mitat',
-    category: 'City Tour',
-    title: 'Our Begin Now To Benign Onet What You Will Be.',
-    readTime: '5 Min Read',
-    image: dummyImages.trek
-  }
-];
-
-// मोबाइल व्यू पर स्लाइड करने के लिए सभी 4 पोस्ट्स की एक कंबाइन्ड लिस्ट
-const allMobilePosts = [featuredPostData, ...rightPostsData];
-
 const Latesttravel = () => {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const navigate = useNavigate();
 
-  // मोबाइल स्क्रीन डिटेक्शन (<= 650px)
+  // Fetch live blog posts from backend API
+  useEffect(() => {
+    fetchLatestBlogs();
+  }, []);
+
+  const fetchLatestBlogs = async () => {
+    try {
+      setLoading(true);
+      const response = await API.get('/blogs');
+      const rawData = Array.isArray(response.data) 
+        ? response.data 
+        : (response.data.data || response.data.blogs || []);
+
+      const publishedBlogs = rawData.filter(blog => !blog.status || blog.status === 'Published');
+
+      const formatted = publishedBlogs.map((blog, index) => {
+        const blogDate = blog.date ? new Date(blog.date) : new Date();
+        const day = blogDate.getDate().toString().padStart(2, '0');
+        const month = blogDate.toLocaleString('default', { month: 'long' });
+        const shortMonth = blogDate.toLocaleString('default', { month: 'short' });
+
+        let imageUrl = '';
+        if (blog.image) {
+          imageUrl = blog.image.startsWith('http') ? blog.image : `${IMG_URL}${blog.image}`;
+        }
+
+        return {
+          id: blog._id || blog.id,
+          image: imageUrl || 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?w=900&auto=format&fit=crop&q=80',
+          dateDay: day,
+          dateMonth: month,
+          dateText: `${shortMonth} ${day}, ${blogDate.getFullYear()}`,
+          author: blog.author || 'Anonymous',
+          category: blog.category || 'Travel',
+          title: blog.title || '',
+          comments: blog.commentsCount ? `${blog.commentsCount} Comment` : '0 Comment',
+          readTime: '5 Min Read',
+          isFeatured: index === 0, // First blog as featured
+        };
+      });
+
+      setBlogPosts(formatted);
+    } catch (error) {
+      console.error('Failed to fetch latest travel blogs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Mobile screen detection (<= 650px)
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 650);
@@ -81,36 +71,43 @@ const Latesttravel = () => {
   }, []);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : allMobilePosts.length - 1));
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : blogPosts.length - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev < allMobilePosts.length - 1 ? prev + 1 : 0));
+    setCurrentIndex((prev) => (prev < blogPosts.length - 1 ? prev + 1 : 0));
   };
 
-  const handleViewPost = (postTitle) => {
-    alert(`Opening article: "${postTitle}"`);
+  const handlePostClick = (id) => {
+    navigate(`/blogdetails?id=${id}`);
   };
 
-  const handleSocialShare = (platform) => {
-    alert(`Sharing post on ${platform}`);
+  const handleSocialShare = (e, platform, title) => {
+    e.stopPropagation();
+    alert(`Sharing "${title}" on ${platform}`);
   };
 
-  // फीचर्ड कार्ड रेंडर करने का हेल्पर फंक्शन
+  // Featured Card Component (Big Left Card)
   const renderFeaturedCard = (post) => (
-    <article className="featured-card" key={post.id}>
+    <article 
+      className="featured-card" 
+      key={post.id} 
+      onClick={() => handlePostClick(post.id)}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="featured-img-wrap">
         <img
           src={post.image}
           alt={post.title}
           className="blog-img"
+          loading="lazy"
         />
         <div className="shine-overlay"></div>
       </div>
 
       <div className="featured-content">
         <div className="featured-meta">
-          <span>By <button type="button" className="author-link">{post.author}</button></span>
+          <span>By <button type="button" className="author-link" onClick={(e) => e.stopPropagation()}>{post.author}</button></span>
           <span className="meta-dot">•</span>
           <span>{post.dateText}</span>
           <span className="meta-dot">•</span>
@@ -123,7 +120,10 @@ const Latesttravel = () => {
           <button
             type="button"
             className="view-post-btn"
-            onClick={() => handleViewPost(post.title)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePostClick(post.id);
+            }}
           >
             <span>View Post</span>
             <span className="arrow-circle">↗</span>
@@ -131,16 +131,16 @@ const Latesttravel = () => {
 
           {/* Social Share Icons */}
           <div className="social-links-row">
-            <button type="button" onClick={() => handleSocialShare('Facebook')} aria-label="Facebook">
+            <button type="button" onClick={(e) => handleSocialShare(e, 'Facebook', post.title)} aria-label="Facebook">
               f
             </button>
-            <button type="button" onClick={() => handleSocialShare('X (Twitter)')} aria-label="X">
+            <button type="button" onClick={(e) => handleSocialShare(e, 'X (Twitter)', post.title)} aria-label="X">
               𝕏
             </button>
-            <button type="button" onClick={() => handleSocialShare('Pinterest')} aria-label="Pinterest">
+            <button type="button" onClick={(e) => handleSocialShare(e, 'Pinterest', post.title)} aria-label="Pinterest">
               ρ
             </button>
-            <button type="button" onClick={() => handleSocialShare('Instagram')} aria-label="Instagram">
+            <button type="button" onClick={(e) => handleSocialShare(e, 'Instagram', post.title)} aria-label="Instagram">
               📷
             </button>
           </div>
@@ -149,14 +149,20 @@ const Latesttravel = () => {
     </article>
   );
 
-  // हॉरिजॉन्टल कार्ड रेंडर करने का हेल्पर फंक्शन
+  // Horizontal Card Component (Right Stacked Cards)
   const renderHorizontalCard = (post) => (
-    <article className="horizontal-post-card" key={post.id}>
+    <article 
+      className="horizontal-post-card" 
+      key={post.id}
+      onClick={() => handlePostClick(post.id)}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="horizontal-img-wrap">
         <img
           src={post.image}
           alt={post.title}
           className="blog-img"
+          loading="lazy"
         />
         <div className="shine-overlay"></div>
 
@@ -169,7 +175,7 @@ const Latesttravel = () => {
 
       <div className="horizontal-content">
         <div className="post-meta-top">
-          <span>By <button type="button" className="author-link">{post.author}</button></span>
+          <span>By <button type="button" className="author-link" onClick={(e) => e.stopPropagation()}>{post.author}</button></span>
           <span className="meta-dot">•</span>
           <span className="category-text">{post.category}</span>
         </div>
@@ -180,7 +186,10 @@ const Latesttravel = () => {
           <button
             type="button"
             className="view-post-btn"
-            onClick={() => handleViewPost(post.title)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePostClick(post.id);
+            }}
           >
             <span>View Post</span>
             <span className="arrow-circle">↗</span>
@@ -194,6 +203,29 @@ const Latesttravel = () => {
       </div>
     </article>
   );
+
+  if (loading) {
+    return (
+      <section className="latesttravel-section">
+        <div className="latesttravel-container" style={{ textAlign: 'center', padding: '60px' }}>
+          <p className="exp-loading-text">Loading latest travel blogs...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (blogPosts.length === 0) {
+    return (
+      <section className="latesttravel-section">
+        <div className="latesttravel-container" style={{ textAlign: 'center', padding: '60px' }}>
+          <p className="exp-empty-text">No blog posts available right now.</p>
+        </div>
+      </section>
+    );
+  }
+
+  const featuredPost = blogPosts[0];
+  const rightPosts = blogPosts.slice(1, 4); // Take up to 3 posts for the right stack
 
   return (
     <section className="latesttravel-section">
@@ -222,9 +254,9 @@ const Latesttravel = () => {
         {/* ================= DESKTOP & TABLET VIEW (> 650px) ================= */}
         {!isMobile && (
           <div className="latesttravel-grid">
-            {renderFeaturedCard(featuredPostData)}
+            {renderFeaturedCard(featuredPost)}
             <div className="stacked-cards-col">
-              {rightPostsData.map((post) => renderHorizontalCard(post))}
+              {rightPosts.map((post) => renderHorizontalCard(post))}
             </div>
           </div>
         )}
@@ -233,9 +265,9 @@ const Latesttravel = () => {
         {isMobile && (
           <div className="mobile-blog-slider-wrap">
             <div className="mobile-single-card-view">
-              {allMobilePosts[currentIndex].isFeatured
-                ? renderFeaturedCard(allMobilePosts[currentIndex])
-                : renderHorizontalCard(allMobilePosts[currentIndex])}
+              {blogPosts[currentIndex].isFeatured || currentIndex === 0
+                ? renderFeaturedCard(blogPosts[currentIndex])
+                : renderHorizontalCard(blogPosts[currentIndex])}
             </div>
 
             {/* Arrow Navigation & Indicator Dots */}
@@ -250,7 +282,7 @@ const Latesttravel = () => {
               </button>
 
               <div className="slider-indicator-dots">
-                {allMobilePosts.map((_, idx) => (
+                {blogPosts.map((_, idx) => (
                   <span
                     key={idx}
                     className={`slider-dot ${currentIndex === idx ? 'active' : ''}`}

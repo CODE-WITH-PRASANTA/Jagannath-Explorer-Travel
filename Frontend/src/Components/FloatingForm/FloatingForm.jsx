@@ -126,6 +126,10 @@ const FloatingForm = ({
         >
           <div className="floating-form-promo-overlay" />
           <div className="floating-form-promo-content">
+            <div className="floating-form-badge">
+              <span>✨ Odisha's Trusted Travel Partner</span>
+            </div>
+
             <h2 className="floating-form-promo-title">
               Your Journey Begins with <br />
               <span>Jagannath Explorer Travels</span>
@@ -167,14 +171,17 @@ const FloatingForm = ({
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                 <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
               </svg>
-              <span>Call Now: (+91) 9556355446</span>
+              <span>Call Now: (+91) 95832 44441</span>
             </a>
           </div>
         </div>
 
         {/* Right Pane: Form */}
         <div className="floating-form-pane">
-          <h3 className="floating-form-title">Get in Touch With Us</h3>
+          <div className="floating-form-header-wrap">
+            <h3 className="floating-form-title">Plan Your Trip Today</h3>
+            <p className="floating-form-subtitle">Fill out the form below &amp; our travel expert will get back to you instantly.</p>
+          </div>
 
           <form onSubmit={handleSubmit} className="floating-form-body">
             <div className="floating-form-field">
@@ -267,7 +274,7 @@ const FloatingForm = ({
               />
               <label htmlFor="floatingFormTerms">
                 I agree to the <a href="#terms">Terms &amp; Conditions</a> from{' '}
-                <strong>Jagannath Tours &amp; Travels</strong>.
+                <strong>Jagannath Explorer Travels</strong>.
               </label>
             </div>
 
