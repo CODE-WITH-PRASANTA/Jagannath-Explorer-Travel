@@ -1,69 +1,98 @@
 /* =========================================================
-   CONTACT MAIN BASE & CONTAINER
+   CONTACT MAIN BASE
 ========================================================= */
 
 .ContactMain {
   width: 100%;
-  background-color: #ffffff;
-  padding: 60px 0 0 0;
+  background: #ffffff;
+  padding: 60px 0 0;
   box-sizing: border-box;
 }
 
 .ContactMain__wrapper {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 0 20px 80px 20px;
+  padding: 0 20px 80px;
+
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+
   gap: 40px;
   box-sizing: border-box;
 }
 
 /* =========================================================
-   LEFT SIDE INFO LIST & CARDS
+   LEFT SIDE
 ========================================================= */
 
 .ContactMain__infoList {
   flex: 1;
-  max-width: 480px;
+  max-width: 600px;
+
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
 
+/* =========================================================
+   INFO CARD
+========================================================= */
+
 .ContactMain__infoCard {
   position: relative;
-  border: 1px solid #ededed;
-  border-radius: 12px;
+
+  border: 1px solid #e9e9e9;
+  border-radius: 13px;
+
   padding: 24px 28px;
-  background-color: #ffffff;
+
+  background: #ffffff;
+
   display: flex;
   align-items: center;
+
   gap: 20px;
-  cursor: pointer;
+
   box-sizing: border-box;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-    box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.025);
+
+  transition:
+    transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.35s ease,
     border-color 0.35s ease;
 }
 
 .ContactMain__infoCard:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
+
   border-color: #5bb334;
-  box-shadow: 0 14px 28px rgba(91, 179, 52, 0.12);
+
+  box-shadow:
+    0 14px 30px rgba(91, 179, 52, 0.12);
 }
+
+/* =========================================================
+   INFO TAG
+========================================================= */
 
 .ContactMain__infoTag {
   position: absolute;
+
   top: -12px;
   left: 36px;
-  background-color: #ffffff;
-  padding: 0 10px;
+
+  padding: 0 11px;
+
+  background: #ffffff;
+
+  color: #7a828a;
+
   font-size: 14px;
   font-weight: 500;
-  color: #7a828a;
+
   transition: color 0.3s ease;
 }
 
@@ -71,22 +100,31 @@
   color: #5bb334;
 }
 
+/* =========================================================
+   ICON
+========================================================= */
+
 .ContactMain__iconBox {
   width: 54px;
   height: 54px;
   min-width: 54px;
-  background-color: #5bb334;
+
   border-radius: 50%;
+
+  background: #5bb334;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background-color 0.35s ease;
+
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.3s ease;
 }
 
 .ContactMain__infoCard:hover .ContactMain__iconBox {
-  transform: scale(1.1) rotate(5deg);
-  background-color: #4da02a;
+  transform: scale(1.08) rotate(4deg);
+  background: #4da02a;
 }
 
 .ContactMain__svgIcon {
@@ -95,7 +133,13 @@
   color: #ffffff;
 }
 
+/* =========================================================
+   INFO DETAILS
+========================================================= */
+
 .ContactMain__infoDetails {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -103,17 +147,57 @@
 
 .ContactMain__infoDetails p {
   margin: 0;
+
+  color: #171b26;
+
   font-size: 16px;
   font-weight: 700;
-  color: #171b26;
+
   line-height: 1.45;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+.ContactMain__locationCard {
+  align-items: flex-start;
+}
+
+.ContactMain__locationCard .ContactMain__iconBox {
+  margin-top: 3px;
+}
+
+.ContactMain__locationDetails {
+  gap: 7px;
+  padding-right: 4px;
 }
 
 .ContactMain__address {
   font-size: 15px !important;
   font-weight: 600 !important;
-  line-height: 1.4 !important;
+  line-height: 1.55 !important;
+  color: #252a33 !important;
 }
+
+.ContactMain__locationSubText {
+  display: block;
+
+  max-width: 360px;
+
+  color: #8a9199;
+
+  font-size: 12.5px;
+  font-weight: 500;
+
+  line-height: 1.45;
+}
+
+/* =========================================================
+   OPENING TIME
+========================================================= */
 
 .ContactMain__time {
   font-size: 15px !important;
@@ -121,62 +205,212 @@
 }
 
 /* =========================================================
-   RIGHT SIDE FORM CARD
+   RIGHT FORM CARD
 ========================================================= */
 
 .ContactMain__formCard {
   flex: 1.2;
-  background-color: #f6f8f0;
-  border-radius: 12px;
-  padding: 45px 50px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f7f9f1 0%,
+      #f3f6eb 100%
+    );
+
+  border-radius: 14px;
+
+  padding: 42px 50px 46px;
+
   box-sizing: border-box;
+
+  position: relative;
+
+  overflow: hidden;
 }
+
+/* subtle premium glow */
+
+.ContactMain__formCard::before {
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  top: -90px;
+  right: -70px;
+
+  border-radius: 50%;
+
+  background: rgba(91, 179, 52, 0.07);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.ContactMain__formHeader {
+  position: relative;
+  z-index: 1;
+
+  margin-bottom: 28px;
+}
+
+/* =========================================================
+   BRAND LINE
+========================================================= */
+
+.ContactMain__brandLine {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 11px;
+}
+
+.ContactMain__brandDot {
+  width: 7px;
+  height: 7px;
+
+  flex: 0 0 7px;
+
+  border-radius: 50%;
+
+  background: #5bb334;
+}
+
+.ContactMain__brandName {
+  color: #5bb334;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  white-space: nowrap;
+}
+
+.ContactMain__brandLineAfter {
+  height: 1px;
+
+  flex: 1;
+
+  max-width: 55px;
+
+  background: rgba(91, 179, 52, 0.35);
+}
+
+/* =========================================================
+   FORM TITLE
+========================================================= */
 
 .ContactMain__formTitle {
+  margin: 0;
+
+  color: #10151d;
+
   font-size: 38px;
   font-weight: 800;
-  color: #12151c;
-  margin: 0 0 28px 0;
-  letter-spacing: -0.5px;
+
+  line-height: 1.12;
+
+  letter-spacing: -0.8px;
 }
 
+/* =========================================================
+   FORM SUBTITLE
+========================================================= */
+
+.ContactMain__formSubtitle {
+  max-width: 590px;
+
+  margin: 12px 0 0;
+
+  color: #747c84;
+
+  font-size: 13.5px;
+  font-weight: 500;
+
+  line-height: 1.6;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
 .ContactMain__form {
+  position: relative;
+  z-index: 1;
+
   display: flex;
   flex-direction: column;
+
   gap: 18px;
 }
 
 .ContactMain__inputRow {
-  display: flex;
-  gap: 20px;
   width: 100%;
+
+  display: flex;
+
+  gap: 20px;
 }
 
 .ContactMain__fieldGroup {
+  flex: 1;
+
   display: flex;
   flex-direction: column;
+
   gap: 8px;
-  flex: 1;
 }
 
 .ContactMain__label {
+  color: #242a32;
+
   font-size: 14px;
-  font-weight: 600;
-  color: #2b303a;
+  font-weight: 700;
 }
+
+/* =========================================================
+   INPUTS
+========================================================= */
 
 .ContactMain__input,
 .ContactMain__textarea {
   width: 100%;
+
   border: 1px solid transparent;
-  background-color: #ffffff;
-  border-radius: 4px;
+
+  background: #ffffff;
+
+  border-radius: 5px;
+
   padding: 13px 18px;
-  font-size: 14px;
+
   color: #333333;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
   outline: none;
+
   box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+.ContactMain__input {
+  height: 56px;
 }
 
 .ContactMain__input::placeholder,
@@ -188,98 +422,147 @@
 .ContactMain__input:focus,
 .ContactMain__textarea:focus {
   border-color: #5bb334;
-  box-shadow: 0 0 0 3px rgba(91, 179, 52, 0.15);
+
+  box-shadow:
+    0 0 0 3px rgba(91, 179, 52, 0.12);
 }
 
 .ContactMain__textarea {
+  min-height: 145px;
+
   resize: vertical;
-  min-height: 120px;
 }
 
 /* =========================================================
-   SUBMIT BUTTON (EXPAND ANIMATION)
+   SUBMIT BUTTON
 ========================================================= */
 
 .ContactMain__submitBtn {
   position: relative;
+
   align-self: flex-start;
-  margin-top: 10px;
-  padding: 14px 38px;
-  background-color: #5bb334;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 700;
+
+  min-width: 185px;
+
+  margin-top: 4px;
+
+  padding: 15px 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
   border: none;
   border-radius: 6px;
+
+  background: #5bb334;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 15px;
+  font-weight: 700;
+
   cursor: pointer;
+
   overflow: hidden;
-  z-index: 1;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.3s ease;
 }
 
 .ContactMain__submitBtn::before {
   content: "";
+
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #f59e0b;
-  z-index: -1;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  inset: 0;
+
+  background: #f59e0b;
+
+  transform: translateX(-101%);
+
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ContactMain__submitBtn:hover::before {
-  transform: scaleX(1);
+  transform: translateX(0);
 }
 
 .ContactMain__submitBtn:hover {
-  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+  box-shadow:
+    0 10px 24px rgba(91, 179, 52, 0.22);
+
+  transform: translateY(-2px);
+}
+
+.ContactMain__btnText,
+.ContactMain__btnArrow {
+  position: relative;
+  z-index: 2;
+}
+
+.ContactMain__btnArrow {
+  font-size: 20px;
+
+  line-height: 1;
+
+  transition:
+    transform 0.3s ease;
+}
+
+.ContactMain__submitBtn:hover .ContactMain__btnArrow {
+  transform: translateX(4px);
 }
 
 .ContactMain__submitBtn:active {
   transform: scale(0.98);
 }
 
-.ContactMain__btnText {
-  position: relative;
-  z-index: 2;
-}
-
 /* =========================================================
-   MAP SECTION
+   MAP
 ========================================================= */
 
 .ContactMain__mapWrapper {
   width: 100%;
   height: 480px;
+
   overflow: hidden;
+
   border-top: 1px solid #ededed;
-  background-color: #e5e3df;
+
+  background: #e5e3df;
 }
 
 .ContactMain__mapIframe {
   width: 100%;
   height: 100%;
+
   border: none;
+
   display: block;
 }
 
 /* =========================================================
-   RESPONSIVE MEDIA QUERIES
+   TABLET
 ========================================================= */
 
 @media (max-width: 992px) {
   .ContactMain__wrapper {
     flex-direction: column;
-    align-items: stretch;
+
     gap: 50px;
+
     padding-bottom: 60px;
   }
 
   .ContactMain__infoList {
+    width: 100%;
     max-width: 100%;
   }
 
@@ -292,18 +575,70 @@
   }
 }
 
+/* =========================================================
+   MOBILE
+========================================================= */
+
 @media (max-width: 640px) {
   .ContactMain {
     padding-top: 40px;
   }
 
+  .ContactMain__wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+
+    gap: 40px;
+  }
+
+  .ContactMain__infoList {
+    gap: 28px;
+  }
+
+  .ContactMain__infoCard {
+    padding: 23px 18px;
+    gap: 15px;
+  }
+
+  .ContactMain__iconBox {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+
+  .ContactMain__svgIcon {
+    width: 21px;
+    height: 21px;
+  }
+
+  .ContactMain__address {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  .ContactMain__locationSubText {
+    font-size: 11.5px;
+  }
+
+  /* FORM */
+
   .ContactMain__formCard {
-    padding: 30px 20px;
+    padding: 32px 20px 35px;
+  }
+
+  .ContactMain__brandName {
+    font-size: 10px;
+    letter-spacing: 1.5px;
   }
 
   .ContactMain__formTitle {
-    font-size: 28px;
-    margin-bottom: 20px;
+    font-size: 29px;
+    letter-spacing: -0.5px;
+  }
+
+  .ContactMain__formSubtitle {
+    font-size: 13px;
+    line-height: 1.55;
   }
 
   .ContactMain__inputRow {
@@ -311,12 +646,54 @@
     gap: 18px;
   }
 
+  .ContactMain__input {
+    height: 52px;
+  }
+
+  .ContactMain__textarea {
+    min-height: 125px;
+  }
+
   .ContactMain__submitBtn {
     width: 100%;
-    text-align: center;
   }
 
   .ContactMain__mapWrapper {
     height: 350px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+  .ContactMain__infoCard {
+    padding: 22px 15px;
+  }
+
+  .ContactMain__infoDetails p {
+    font-size: 14px;
+  }
+
+  .ContactMain__address {
+    font-size: 13.5px !important;
+  }
+
+  .ContactMain__locationSubText {
+    display: none;
+  }
+
+  .ContactMain__brandLineAfter {
+    display: none;
+  }
+
+  .ContactMain__brandName {
+    font-size: 9.5px;
+    letter-spacing: 1.2px;
+  }
+
+  .ContactMain__formTitle {
+    font-size: 27px;
   }
 }

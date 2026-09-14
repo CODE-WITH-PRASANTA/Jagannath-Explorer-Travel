@@ -1,4 +1,6 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
   FaFacebookF,
   FaInstagram,
@@ -11,248 +13,382 @@ import {
   FaClock,
   FaSuitcaseRolling,
   FaArrowRight,
+  FaExternalLinkAlt,
+  FaUmbrellaBeach,
+  FaPlaceOfWorship,
+  FaWater,
+  FaBuilding,
+  FaTree,
+  FaWhatsapp,
 } from "react-icons/fa";
 
-import logo from "../../assets/Logo 006 (2).png";
+import logo from "../../assets/logooooo.jpeg";
 import "./footer.css";
 
 const Footer = () => {
+  const navigate = useNavigate();
+
+  /* =========================================================
+     QUICK LINKS
+  ========================================================= */
+
+  const quickLinks = [
+    {
+      name: "Home",
+      path: "/",
+    },
+    {
+      name: "About Us",
+      path: "/about",
+    },
+    {
+      name: "Tours",
+      path: "/tours",
+    },
+    {
+      name: "Hotel",
+      path: "/hotel",
+    },
+    {
+      name: "Blog",
+      path: "/blog",
+    },
+    {
+      name: "Gallery",
+      path: "/gallery",
+    },
+    {
+      name: "FAQ",
+      path: "/faq",
+    },
+    {
+      name: "Contact",
+      path: "/contact",
+    },
+  ];
+
+  /* =========================================================
+     SMOOTH ROUTE + TOP SCROLL
+     
+     First navigate to the selected page.
+     Then smoothly move the page to the top.
+  ========================================================= */
+
+  const handleNavigation = (path) => {
+    navigate(path);
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    }, 80);
+  };
+
+  /* =========================================================
+     ODISHA LOCATIONS
+  ========================================================= */
+
+  const odishaLocations = [
+    {
+      name: "Puri",
+      icon: <FaUmbrellaBeach />,
+      url:
+        "https://www.google.com/maps/search/?api=1&query=Puri%2C%20Odisha%2C%20India",
+    },
+    {
+      name: "Konark",
+      icon: <FaPlaceOfWorship />,
+      url:
+        "https://www.google.com/maps/search/?api=1&query=Konark%2C%20Odisha%2C%20India",
+    },
+    {
+      name: "Chilika",
+      icon: <FaWater />,
+      url:
+        "https://www.google.com/maps/search/?api=1&query=Chilika%20Lake%2C%20Odisha%2C%20India",
+    },
+    {
+      name: "Bhubaneswar",
+      icon: <FaBuilding />,
+      url:
+        "https://www.google.com/maps/search/?api=1&query=Bhubaneswar%2C%20Odisha%2C%20India",
+    },
+    {
+      name: "Dhauli",
+      icon: <FaPlaceOfWorship />,
+      url:
+        "https://www.google.com/maps/search/?api=1&query=Dhauli%2C%20Bhubaneswar%2C%20Odisha%2C%20India",
+    },
+    {
+      name: "Similipal",
+      icon: <FaTree />,
+      url:
+        "https://www.google.com/maps/search/?api=1&query=Similipal%20National%20Park%2C%20Odisha%2C%20India",
+    },
+  ];
+
   return (
     <footer className="footer">
 
-      {/* ================= TOP WAVE ================= */}
-      <div className="footer-wave">
-        <div className="footer-wave-dark"></div>
+      {/* =====================================================
+          TOP WAVE
+      ====================================================== */}
+
+      <div className="footer-wave" aria-hidden="true">
         <div className="footer-wave-blue"></div>
         <div className="footer-wave-light"></div>
-        <div className="footer-wave-gold"></div>
+
+        <div className="footer-wave-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
 
-      {/* ================= MAIN FOOTER ================= */}
+      {/* =====================================================
+          MAIN FOOTER
+      ====================================================== */}
+
       <div className="footer-main">
 
         <div className="footer-container">
 
-          {/* BRAND */}
+          {/* =================================================
+              BRAND
+          ================================================== */}
+
           <div className="footer-brand">
 
             <div className="footer-logo-box">
               <img
                 src={logo}
-                alt="Travel Logo"
+                alt="Jagannath Explorer Travels"
                 className="footer-logo"
               />
             </div>
 
+            <h2 className="footer-brand-title">
+              Jagannath Explorer Travels
+            </h2>
+
             <p className="footer-description">
-              We craft unforgettable journeys that bring the world
-              closer to you. Explore more. Worry less.
+              Your trusted travel partner for memorable journeys
+              across Odisha and beyond. Travel with comfort,
+              care and confidence.
             </p>
 
             <div className="footer-social">
 
-              <a href="#" className="footer-social-link facebook">
+              <a
+                href="#"
+                className="facebook"
+                aria-label="Facebook"
+              >
                 <FaFacebookF />
               </a>
 
-              <a href="#" className="footer-social-link instagram">
+              <a
+                href="#"
+                className="instagram"
+                aria-label="Instagram"
+              >
                 <FaInstagram />
               </a>
 
-              <a href="#" className="footer-social-link twitter">
-                <FaTwitter />
+              <a
+                href="#"
+                className="whatsapp"
+                aria-label="whatsapp"
+              >
+                <FaWhatsapp />
               </a>
 
-              <a href="#" className="footer-social-link youtube">
+              <a
+                href="#"
+                className="youtube"
+                aria-label="YouTube"
+              >
                 <FaYoutube />
               </a>
 
-              <a href="#" className="footer-social-link linkedin">
-                <FaLinkedinIn />
-              </a>
-
+             
             </div>
 
           </div>
 
-          {/* QUICK LINKS */}
+          {/* =================================================
+              QUICK LINKS
+          ================================================== */}
+
           <div className="footer-column">
 
             <h3 className="footer-title">
               Quick Links
             </h3>
 
+            <span className="footer-title-line"></span>
+
             <ul className="footer-links">
 
-              <li>
-                <a href="#">
-                  <FaArrowRight />
-                  Home
-                </a>
-              </li>
+              {quickLinks.map((link) => (
+                <li key={link.name}>
 
-              <li>
-                <a href="#">
-                  <FaArrowRight />
-                  About Us
-                </a>
-              </li>
+                  <Link
+                    to={link.path}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavigation(link.path);
+                    }}
+                  >
+                    <span className="footer-arrow">
+                      <FaArrowRight />
+                    </span>
 
-              <li>
-                <a href="#">
-                  <FaArrowRight />
-                  Tour Packages
-                </a>
-              </li>
+                    <span>
+                      {link.name}
+                    </span>
+                  </Link>
 
-              <li>
-                <a href="#">
-                  <FaArrowRight />
-                  Destinations
-                </a>
-              </li>
-
-              <li>
-                <a href="#">
-                  <FaArrowRight />
-                  Blog
-                </a>
-              </li>
-
-              <li>
-                <a href="#">
-                  <FaArrowRight />
-                  Contact Us
-                </a>
-              </li>
+                </li>
+              ))}
 
             </ul>
 
           </div>
 
-          {/* DESTINATIONS */}
+          {/* =================================================
+              EXPLORE ODISHA
+          ================================================== */}
+
           <div className="footer-column">
 
             <h3 className="footer-title">
-              Top Destinations
+              Explore Odisha
             </h3>
 
-            <ul className="footer-links footer-destination-links">
+            <span className="footer-title-line"></span>
 
-              <li>
-                <a href="#">
-                  <span className="footer-location-dot">●</span>
-                  Maldives
-                </a>
-              </li>
+            <div className="footer-destinations">
 
-              <li>
-                <a href="#">
-                  <span className="footer-location-dot">●</span>
-                  Bali, Indonesia
-                </a>
-              </li>
+              {odishaLocations.map((location) => (
+                <a
+                  key={location.name}
+                  href={location.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-destination"
+                >
 
-              <li>
-                <a href="#">
-                  <span className="footer-location-dot">●</span>
-                  Dubai, UAE
-                </a>
-              </li>
- 
-              <li>
-                <a href="#">
-                  <span className="footer-location-dot">●</span>
-                  Switzerland
-                </a>
-              </li>
+                  <span className="destination-icon">
+                    {location.icon}
+                  </span>
 
-              <li>
-                <a href="#">
-                  <span className="footer-location-dot">●</span>
-                  Thailand
-                </a>
-              </li>
+                  <span className="destination-name">
+                    {location.name}
+                  </span>
 
-              <li>
-                <a href="#">
-                  <span className="footer-location-dot">●</span>
-                  Singapore
-                </a>
-              </li>
+                  <FaArrowRight className="destination-arrow" />
 
-            </ul>
+                </a>
+              ))}
+
+            </div>
 
           </div>
 
-          {/* CONTACT */}
+          {/* =================================================
+              CONTACT
+          ================================================== */}
+
           <div className="footer-column footer-contact">
 
             <h3 className="footer-title">
               Contact Us
             </h3>
 
-            <div className="footer-contact-item">
+            <span className="footer-title-line"></span>
 
-              <div className="footer-contact-icon phone">
+            {/* PHONE */}
+
+            <div className="contact-item">
+
+              <div className="contact-icon phone-icon">
                 <FaPhoneAlt />
               </div>
 
-              <div>
-                <a href="tel:+911234567890">
-                  +91 123 456 7890
+              <div className="contact-content">
+
+                <a href="tel:+919668892441">
+                  +91 96688 92441
                 </a>
 
-                <a href="tel:+911234567891">
-                  +91 123 456 7891
+                <a href="tel:+919556355446">
+                  +91 95563 55446
                 </a>
+
               </div>
 
             </div>
 
-            <div className="footer-contact-item">
+            {/* EMAIL */}
 
-              <div className="footer-contact-icon email">
+            <div className="contact-item">
+
+              <div className="contact-icon email-icon">
                 <FaEnvelope />
               </div>
 
-              <div>
-                <a href="mailto:info@example.com">
-                  info@example.com
+              <div className="contact-content">
+
+                <a href="mailto:Jagannathexplore99@gmail.com">
+                  Jagannathexplore99@gmail.com
                 </a>
 
-                <a href="mailto:support@example.com">
-                  support@example.com
-                </a>
               </div>
 
             </div>
 
-            <div className="footer-contact-item">
+            {/* ADDRESS */}
 
-              <div className="footer-contact-icon location">
+            <div className="contact-item">
+
+              <div className="contact-icon location-icon">
                 <FaMapMarkerAlt />
               </div>
 
-              <p>
-                Bhubaneswar, Odisha,
-                <br />
-                India
-              </p>
+              <div className="contact-content">
+
+                <p>
+                  Plot No - 001, Mahaveer Nagar,
+                  <br />
+                  Road No. - 18, Samantray Pur,
+                  <br />
+                  Bhubaneswar, Odisha - 751002
+                </p>
+
+              </div>
 
             </div>
 
-            <div className="footer-contact-item">
+            {/* WORKING HOURS */}
 
-              <div className="footer-contact-icon clock">
+            <div className="contact-item">
+
+              <div className="contact-icon clock-icon">
                 <FaClock />
               </div>
 
-              <p>
-                Mon - Sat: 9:00 AM - 6:00 PM
-                <br />
-                Sunday: Closed
-              </p>
+              <div className="contact-content">
+
+                <p>
+                  Mon - Sat: 9:00 AM - 6:00 PM
+                  <br />
+                  Sunday: Closed
+                </p>
+
+              </div>
 
             </div>
 
@@ -260,74 +396,73 @@ const Footer = () => {
 
         </div>
 
-        {/* ================= CTA ================= */}
+        {/* ===================================================
+            CTA
+        ==================================================== */}
 
         <div className="footer-cta">
 
-          <div className="footer-cta-content">
+          <div className="footer-cta-left">
 
             <div className="footer-cta-icon">
               <FaSuitcaseRolling />
             </div>
 
-            <div className="footer-cta-text">
+            <div className="footer-cta-content">
+
               <h4>
-                Let's Plan Your Next Adventure!
+                Plan Your Next Journey
               </h4>
 
               <p>
-                Find the best deals and exclusive offers
-                on amazing destinations.
+                Discover unforgettable Odisha tours with us.
               </p>
+
             </div>
 
           </div>
 
-          <a href="#" className="footer-cta-button">
-            Explore Packages
+          <Link
+            to="/tours"
+            className="footer-cta-button"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigation("/contact");
+            }}
+          >
+            <span>
+              Contact Us
+            </span>
+
             <FaArrowRight />
-          </a>
+          </Link>
 
         </div>
 
       </div>
 
-      {/* ================= BOTTOM ================= */}
+      {/* =====================================================
+          BOTTOM BAR
+      ====================================================== */}
 
       <div className="footer-bottom">
 
-        <div className="footer-bottom-container">
+        <a
+          href="https://prwebstock.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="powered-by"
+        >
+          <span>
+            Powered by
+          </span>
 
-          <p>
-            © {new Date().getFullYear()} Your Travel Company.
-            All Rights Reserved.
-          </p>
+          <strong>
+            PR WEBSTOCK
+          </strong>
 
-          <p className="footer-made">
-            ♥ Made with passion for travelers
-          </p>
-
-          <div className="footer-bottom-links">
-
-            <a href="#">
-              Privacy Policy
-            </a>
-
-            <span>•</span>
-
-            <a href="#">
-              Terms & Conditions
-            </a>
-
-            <span>•</span>
-
-            <a href="#">
-              Sitemap
-            </a>
-
-          </div>
-
-        </div>
+          <FaExternalLinkAlt />
+        </a>
 
       </div>
 
