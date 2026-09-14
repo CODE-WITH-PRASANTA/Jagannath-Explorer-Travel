@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './ToursLocation.css';
+import React, { useState } from "react";
+import "./ToursLocation.css";
 
 const ToursLocation = ({
   address: externalAddress,
@@ -8,42 +8,94 @@ const ToursLocation = ({
   setCoordinates: externalSetCoordinates,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [internalAddress, setInternalAddress] = useState('');
-  const [internalCoordinates, setInternalCoordinates] = useState('');
 
-  const address = externalAddress !== undefined ? externalAddress : internalAddress;
+  const [internalAddress, setInternalAddress] = useState("");
+  const [internalCoordinates, setInternalCoordinates] = useState("");
+
+  const address =
+    externalAddress !== undefined ? externalAddress : internalAddress;
+
   const setAddress = externalSetAddress || setInternalAddress;
-  const coordinates = externalCoordinates !== undefined ? externalCoordinates : internalCoordinates;
-  const setCoordinates = externalSetCoordinates || setInternalCoordinates;
 
-  const encodedAddress = encodeURIComponent((address || '').trim() || 'Odisha, India');
+  const coordinates =
+    externalCoordinates !== undefined
+      ? externalCoordinates
+      : internalCoordinates;
+
+  const setCoordinates =
+    externalSetCoordinates || setInternalCoordinates;
+
+  const encodedAddress = encodeURIComponent(
+    (address || "").trim() || "Odisha, India"
+  );
+
   const mapEmbedUrl = `https://maps.google.com/maps?q=${encodedAddress}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
 
   return (
     <div className="ToursLocation-wrapper">
       <div className="ToursLocation-card">
-        {/* Accordion Header */}
-        <div 
-          className="ToursLocation-header" 
+
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
+        <div
+          className="ToursLocation-header"
           onClick={() => setIsOpen((prev) => !prev)}
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setIsOpen((prev) => !prev)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setIsOpen((prev) => !prev);
+            }
+          }}
         >
           <div className="ToursLocation-header-left">
-            <h2 className="ToursLocation-header-title">4. Location</h2>
+
+            <div className="ToursLocation-icon-box">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+                <circle cx="12" cy="10" r="2.5" />
+              </svg>
+            </div>
+
+            <div className="ToursLocation-header-content">
+              <h2 className="ToursLocation-header-title">
+                4. Location
+              </h2>
+
+              <p className="ToursLocation-header-subtitle">
+                Add the destination and map location for this tour
+              </p>
+            </div>
           </div>
-          <button 
-            type="button" 
-            className="ToursLocation-toggle-button" 
-            aria-label={isOpen ? "Collapse section" : "Expand section"}
+
+          <button
+            type="button"
+            className="ToursLocation-toggle-button"
+            aria-label={
+              isOpen ? "Collapse section" : "Expand section"
+            }
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen((prev) => !prev);
+            }}
           >
             <svg
-              className={`ToursLocation-chevron ${isOpen ? 'ToursLocation-open' : ''}`}
+              className={`ToursLocation-chevron ${
+                isOpen ? "ToursLocation-open" : ""
+              }`}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.5"
+              strokeWidth="2.2"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
@@ -52,13 +104,35 @@ const ToursLocation = ({
           </button>
         </div>
 
-        {/* Collapsible Content */}
+        {/* =====================================================
+            BODY
+        ===================================================== */}
         {isOpen && (
           <div className="ToursLocation-body">
-            <h3 className="ToursLocation-section-label">Location Map</h3>
 
-            {/* Dark Map Canvas */}
+            {/* Section Heading */}
+            <div className="ToursLocation-section-heading">
+              <div className="ToursLocation-section-title-wrap">
+                <h3 className="ToursLocation-section-label">
+                  Location Map
+                </h3>
+
+                <p className="ToursLocation-section-description">
+                  Preview the geographical location of your tour.
+                </p>
+              </div>
+
+              <div className="ToursLocation-map-status">
+                <span className="ToursLocation-status-dot"></span>
+                Map Preview
+              </div>
+            </div>
+
+            {/* =================================================
+                GOOGLE MAP
+            ================================================= */}
             <div className="ToursLocation-map-container">
+
               <iframe
                 title="Location Preview Map"
                 className="ToursLocation-map-frame"
@@ -66,88 +140,125 @@ const ToursLocation = ({
                 loading="lazy"
               />
 
-              {/* Floating Location Card Overlay */}
-              <div className="ToursLocation-map-badge-card">
-                <div className="ToursLocation-badge-details">
-                  <span className="ToursLocation-badge-name">
-                    {(address && address.split(',')[0]) || 'Destination Location'}
-                  </span>
-                  <span className="ToursLocation-badge-sub">
-                    {address || 'Enter tour address above'}
-                  </span>
-                </div>
-                <div className="ToursLocation-badge-icons">
-                  <a
-                    href={`https://maps.google.com/?q=${encodedAddress}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ToursLocation-badge-btn"
-                    title="Open in Google Maps"
+              {/* Subtle top label */}
+              <div className="ToursLocation-map-label">
+                <span className="ToursLocation-map-label-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                  </a>
-                  <button type="button" className="ToursLocation-badge-btn" title="Navigation">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polygon points="3 11 22 2 13 21 11 13 3 11" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
+                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+                </span>
 
-              {/* Bottom-Left Thumbnail Tile */}
-              <div className="ToursLocation-map-tile-preview">
-                <div className="ToursLocation-tile-inner" />
-              </div>
-
-              {/* Bottom-Right Zoom Controls */}
-              <div className="ToursLocation-map-zoom-controls">
-                <button type="button" className="ToursLocation-zoom-btn" title="Zoom in">+</button>
-                <div className="ToursLocation-zoom-divider" />
-                <button type="button" className="ToursLocation-zoom-btn" title="Zoom out">−</button>
-              </div>
-
-              {/* Map Footer Bar */}
-              <div className="ToursLocation-map-attribution">
-                <span>Keyboard shortcuts</span>
-                <span>Map data ©2024 Google</span>
-                <span>Terms</span>
-                <span>Report a map error</span>
+                <span>
+                  {address
+                    ? address.split(",")[0]
+                    : "Tour Destination"}
+                </span>
               </div>
             </div>
 
-            {/* Input Form Fields */}
+            {/* =================================================
+                LOCATION FIELDS
+            ================================================= */}
             <div className="ToursLocation-fields-grid">
+
+              {/* Address */}
               <div className="ToursLocation-field-group">
-                <label htmlFor="address-input" className="ToursLocation-field-title">
+
+                <label
+                  htmlFor="address-input"
+                  className="ToursLocation-field-title"
+                >
                   Address
+                  <span className="ToursLocation-required">*</span>
                 </label>
-                <input
-                  id="address-input"
-                  type="text"
-                  className="ToursLocation-input-control"
-                  placeholder="e.g. New York, USA"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
+
+                <div className="ToursLocation-input-wrapper">
+
+                  <svg
+                    className="ToursLocation-input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+
+                  <input
+                    id="address-input"
+                    type="text"
+                    className="ToursLocation-input-control"
+                    placeholder="e.g. Puri, Odisha, India"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+
+                </div>
+
+                <span className="ToursLocation-field-hint">
+                  Enter the main destination or tour location.
+                </span>
               </div>
 
+              {/* Coordinates */}
               <div className="ToursLocation-field-group">
-                <label htmlFor="coordinates-input" className="ToursLocation-field-title">
-                  Coordinates <span className="ToursLocation-field-optional">(Optional)</span>
+
+                <label
+                  htmlFor="coordinates-input"
+                  className="ToursLocation-field-title"
+                >
+                  Coordinates
+                  <span className="ToursLocation-field-optional">
+                    Optional
+                  </span>
                 </label>
-                <input
-                  id="coordinates-input"
-                  type="text"
-                  className="ToursLocation-input-control"
-                  placeholder="40.7128, -74.0060"
-                  value={coordinates}
-                  onChange={(e) => setCoordinates(e.target.value)}
-                />
+
+                <div className="ToursLocation-input-wrapper">
+
+                  <svg
+                    className="ToursLocation-input-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M3 12h18" />
+                    <path d="M12 3c3 3.5 3 14.5 0 18" />
+                    <path d="M12 3c-3 3.5-3 14.5 0 18" />
+                  </svg>
+
+                  <input
+                    id="coordinates-input"
+                    type="text"
+                    className="ToursLocation-input-control"
+                    placeholder="20.2961, 85.8245"
+                    value={coordinates}
+                    onChange={(e) =>
+                      setCoordinates(e.target.value)
+                    }
+                  />
+
+                </div>
+
+                <span className="ToursLocation-field-hint">
+                  Add latitude and longitude if available.
+                </span>
               </div>
+
             </div>
           </div>
         )}

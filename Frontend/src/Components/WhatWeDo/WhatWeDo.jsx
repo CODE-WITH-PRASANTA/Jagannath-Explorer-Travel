@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -14,19 +13,43 @@ import {
 
 import "./WhatWeDo.css";
 
-import odishaImage from "../../assets/odisha.webp";
+/* =========================================================
+   ODISHA TRAVEL IMAGES
+   Make sure these files exist inside:
+   src/assets/
+========================================================= */
+
+import templeImage from "../../assets/odisha.png";
+import beachImage from "../../assets/beaches.png";
+import chilikaImage from "../../assets/chilika.png";
+import wildlifeImage from "../../assets/nature.png";
+import cultureImage from "../../assets/culture.png";
+
+
+/* =========================================================
+   YOUTUBE VIDEO
+   Replace this with your actual YouTube video/channel URL
+========================================================= */
+
+const YOUTUBE_URL =
+  "https://www.youtube.com/watch?v=aQGK2x-T0hs&list=RDaQGK2x-T0hs&start_radio=1";
+
 
 const WhatWeDo = () => {
-  // =========================================================
-  // ODISHA TRAVEL EXPERIENCES
-  // =========================================================
+
+  /* =========================================================
+     ACTIVITIES
+  ========================================================= */
 
   const activities = [
     {
       id: 1,
+
       name: "Temples & Pilgrimage",
+
       icon: <FaPrayingHands />,
-      image: odishaImage,
+
+      image: templeImage,
 
       title:
         "Discover Odisha's Famous Temples & Spiritual Heritage",
@@ -42,11 +65,15 @@ const WhatWeDo = () => {
       ],
     },
 
+
     {
       id: 2,
+
       name: "Beaches & Coastal Tours",
+
       icon: <FaUmbrellaBeach />,
-      image: odishaImage,
+
+      image: beachImage,
 
       title:
         "Experience the Beautiful Beaches of Odisha",
@@ -62,11 +89,15 @@ const WhatWeDo = () => {
       ],
     },
 
+
     {
       id: 3,
+
       name: "Chilika Lake",
+
       icon: <FaWater />,
-      image: odishaImage,
+
+      image: chilikaImage,
 
       title:
         "Explore Chilika Lake & Its Natural Beauty",
@@ -82,11 +113,15 @@ const WhatWeDo = () => {
       ],
     },
 
+
     {
       id: 4,
+
       name: "Nature & Wildlife",
+
       icon: <FaTree />,
-      image: odishaImage,
+
+      image: wildlifeImage,
 
       title:
         "Explore Odisha's Nature, Forests & Wildlife",
@@ -102,11 +137,15 @@ const WhatWeDo = () => {
       ],
     },
 
+
     {
       id: 5,
+
       name: "Culture & Festivals",
+
       icon: <FaTheaterMasks />,
-      image: odishaImage,
+
+      image: cultureImage,
 
       title:
         "Experience Odisha's Rich Culture & Festivals",
@@ -123,23 +162,29 @@ const WhatWeDo = () => {
     },
   ];
 
-  // =========================================================
-  // ACTIVE ACTIVITY
-  // =========================================================
+
+  /* =========================================================
+     ACTIVE ACTIVITY
+  ========================================================= */
 
   const [activeActivity, setActiveActivity] = useState(0);
 
-  const currentActivity = activities[activeActivity];
+  const currentActivity =
+    activities[activeActivity];
 
-  // =========================================================
-  // BUSINESS STRUCTURED DATA
-  // =========================================================
+
+  /* =========================================================
+     BUSINESS SCHEMA
+  ========================================================= */
 
   const businessSchema = {
+
     "@context": "https://schema.org",
+
     "@type": "TravelAgency",
 
-    name: "Jagannath Explorer Travels",
+    name:
+      "Jagannath Explorer Travels",
 
     description:
       "Jagannath Explorer Travels is a tour and travel agency in Bhubaneswar, Odisha offering Odisha tour packages, pilgrimage tours, sightseeing tours, cultural experiences and customized travel services.",
@@ -150,21 +195,27 @@ const WhatWeDo = () => {
     ],
 
     address: {
+
       "@type": "PostalAddress",
 
       streetAddress:
         "Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur",
 
-      addressLocality: "Bhubaneswar",
+      addressLocality:
+        "Bhubaneswar",
 
-      addressRegion: "Odisha",
+      addressRegion:
+        "Odisha",
 
-      postalCode: "751002",
+      postalCode:
+        "751002",
 
-      addressCountry: "IN",
+      addressCountry:
+        "IN",
     },
 
     areaServed: [
+
       {
         "@type": "City",
         name: "Bhubaneswar",
@@ -179,31 +230,48 @@ const WhatWeDo = () => {
         "@type": "State",
         name: "Odisha",
       },
+
     ],
 
     knowsAbout: [
+
       "Odisha Tourism",
+
       "Odisha Tour Packages",
+
       "Bhubaneswar Tours",
+
       "Puri Tours",
+
       "Konark Tours",
+
       "Chilika Lake Tours",
+
       "Pilgrimage Tours",
+
       "Beach Tours",
+
       "Wildlife Tours",
+
       "Cultural Tours",
+
       "Travel Planning",
+
     ],
   };
 
-  // =========================================================
-  // WEB PAGE STRUCTURED DATA
-  // =========================================================
+
+  /* =========================================================
+     WEB PAGE SCHEMA
+  ========================================================= */
 
   const webPageSchema = {
-    "@context": "https://schema.org",
 
-    "@type": "WebPage",
+    "@context":
+      "https://schema.org",
+
+    "@type":
+      "WebPage",
 
     name:
       "Odisha Travel Experiences & Tour Activities | Jagannath Explorer Travels",
@@ -212,135 +280,160 @@ const WhatWeDo = () => {
       "Explore temples, beaches, Chilika Lake, wildlife, culture and festivals with Jagannath Explorer Travels, a tour and travel agency in Bhubaneswar, Odisha.",
 
     about: {
-      "@type": "TouristDestination",
-      name: "Odisha",
+
+      "@type":
+        "TouristDestination",
+
+      name:
+        "Odisha",
     },
 
     publisher: {
-      "@type": "TravelAgency",
-      name: "Jagannath Explorer Travels",
+
+      "@type":
+        "TravelAgency",
+
+      name:
+        "Jagannath Explorer Travels",
     },
   };
 
-  // =========================================================
-  // FAQ STRUCTURED DATA
-  // =========================================================
+
+  /* =========================================================
+     FAQ SCHEMA
+  ========================================================= */
 
   const faqSchema = {
-    "@context": "https://schema.org",
 
-    "@type": "FAQPage",
+    "@context":
+      "https://schema.org",
+
+    "@type":
+      "FAQPage",
 
     mainEntity: [
+
       {
-        "@type": "Question",
-        name: "What are the best places to visit in Odisha?",
+        "@type":
+          "Question",
+
+        name:
+          "What are the best places to visit in Odisha?",
 
         acceptedAnswer: {
-          "@type": "Answer",
+
+          "@type":
+            "Answer",
 
           text:
             "Popular destinations in Odisha include Bhubaneswar, Puri, Konark, Chilika Lake, Bhitarkanika and Similipal. Travellers can enjoy temple visits, beaches, nature, wildlife and cultural experiences.",
         },
       },
 
+
       {
-        "@type": "Question",
-        name: "What types of Odisha tour packages are available?",
+        "@type":
+          "Question",
+
+        name:
+          "What types of Odisha tour packages are available?",
 
         acceptedAnswer: {
-          "@type": "Answer",
+
+          "@type":
+            "Answer",
 
           text:
             "Odisha travel experiences can include pilgrimage tours, temple tours, beach holidays, heritage tours, Chilika Lake trips, wildlife tours, cultural tours and customized travel itineraries.",
         },
       },
 
+
       {
-        "@type": "Question",
-        name: "Is Bhubaneswar a good starting point for an Odisha tour?",
+        "@type":
+          "Question",
+
+        name:
+          "Is Bhubaneswar a good starting point for an Odisha tour?",
 
         acceptedAnswer: {
-          "@type": "Answer",
+
+          "@type":
+            "Answer",
 
           text:
             "Yes. Bhubaneswar is an important starting point for exploring Odisha and provides convenient access to destinations such as Puri, Konark and other attractions across the state.",
         },
       },
+
     ],
   };
 
+
   return (
+
     <>
+
       {/* =====================================================
-          SEO / HELMET
+          SEO
       ===================================================== */}
 
       <Helmet>
-
-        {/* PAGE TITLE */}
 
         <title>
           Odisha Tour & Travel Experiences | Jagannath Explorer Travels
         </title>
 
-        {/* META DESCRIPTION */}
 
         <meta
           name="description"
           content="Explore Odisha with Jagannath Explorer Travels. Discover Puri Jagannath Temple, Konark, Chilika Lake, beaches, wildlife, culture and customized Odisha tour packages from Bhubaneswar."
         />
 
-        {/* META KEYWORDS */}
 
         <meta
           name="keywords"
-          content="Odisha tourism, Odisha tour packages, Odisha travel packages, Bhubaneswar travel agency, tour and travel agency in Bhubaneswar, travel agency in Bhubaneswar, Bhubaneswar tour packages, Puri tour packages, Konark tour packages, Chilika Lake tour, Odisha pilgrimage tour, Odisha beach tour, Odisha wildlife tour, Odisha cultural tour, Jagannath Temple tour, Odisha tourism packages with price"
+          content="Odisha tourism, Odisha tour packages, Odisha travel packages, Bhubaneswar travel agency, tour and travel agency in Bhubaneswar, travel agency in Bhubaneswar, Bhubaneswar tour packages, Puri tour packages, Konark tour packages, Chilika Lake tour, Odisha pilgrimage tour, Odisha beach tour, Odisha wildlife tour, Odisha cultural tour"
         />
 
-        {/* AUTHOR */}
 
         <meta
           name="author"
           content="Jagannath Explorer Travels"
         />
 
-        {/* ROBOTS */}
 
         <meta
           name="robots"
           content="index, follow, max-image-preview:large"
         />
 
+
         <meta
           name="googlebot"
           content="index, follow, max-image-preview:large"
         />
 
-        {/* LANGUAGE */}
 
         <meta
           httpEquiv="content-language"
           content="en-IN"
         />
 
-        {/* THEME COLOR */}
 
         <meta
           name="theme-color"
           content="#61b341"
         />
 
-        {/* CANONICAL */}
 
         <link
           rel="canonical"
           href="https://www.jagannathexplorertravels.com/what-we-do"
         />
 
-        {/* =====================================================
-            OPEN GRAPH
-        ===================================================== */}
+
+        {/* OPEN GRAPH */}
 
         <meta
           property="og:type"
@@ -382,9 +475,8 @@ const WhatWeDo = () => {
           content="Odisha tourism and travel experiences"
         />
 
-        {/* =====================================================
-            TWITTER / X
-        ===================================================== */}
+
+        {/* TWITTER */}
 
         <meta
           name="twitter:card"
@@ -411,25 +503,22 @@ const WhatWeDo = () => {
           content="Odisha travel experiences"
         />
 
-        {/* =====================================================
-            BUSINESS SCHEMA
-        ===================================================== */}
+
+        {/* BUSINESS SCHEMA */}
 
         <script type="application/ld+json">
           {JSON.stringify(businessSchema)}
         </script>
 
-        {/* =====================================================
-            WEB PAGE SCHEMA
-        ===================================================== */}
+
+        {/* WEB PAGE SCHEMA */}
 
         <script type="application/ld+json">
           {JSON.stringify(webPageSchema)}
         </script>
 
-        {/* =====================================================
-            FAQ SCHEMA
-        ===================================================== */}
+
+        {/* FAQ SCHEMA */}
 
         <script type="application/ld+json">
           {JSON.stringify(faqSchema)}
@@ -437,8 +526,9 @@ const WhatWeDo = () => {
 
       </Helmet>
 
+
       {/* =====================================================
-          WHAT WE DO SECTION
+          WHAT WE DO
       ===================================================== */}
 
       <section
@@ -448,8 +538,9 @@ const WhatWeDo = () => {
 
         <div className="WhatWeDo__container">
 
+
           {/* =================================================
-              LEFT IMAGE
+              IMAGE
           ================================================= */}
 
           <div className="WhatWeDo__image-side">
@@ -474,66 +565,70 @@ const WhatWeDo = () => {
 
           </div>
 
+
           {/* =================================================
-              RIGHT CONTENT
+              CONTENT
           ================================================= */}
 
           <div className="WhatWeDo__content">
 
             <div className="WhatWeDo__content-inner">
 
-              {/* =================================================
-                  LABEL
-              ================================================= */}
+
+              {/* LABEL */}
 
               <div className="WhatWeDo__label">
 
                 <span>
-                  Explore Odisha
+                  Tour Guide
                 </span>
 
               </div>
 
-              {/* =================================================
-                  HEADING
-              ================================================= */}
+
+              {/* HEADING */}
 
               <h2
                 id="what-we-do-heading"
                 className="WhatWeDo__heading"
               >
-                Discover the Best of Odisha with Jagannath Explorer Travels
+                Discover the Best of Odisha with Jagannath
+                Explorer Travels
               </h2>
 
-              {/* =================================================
-                  INTRO
-              ================================================= */}
+
+              {/* INTRO */}
 
               <p className="WhatWeDo__intro">
+
                 Odisha is a land of ancient temples, beautiful beaches,
                 spectacular lakes, forests, wildlife and vibrant cultural
                 traditions. From the spiritual atmosphere of Puri and
                 Bhubaneswar to the architectural beauty of Konark and the
                 natural beauty of Chilika Lake, there is something for every
                 traveller to discover.
+
               </p>
 
+
               <p className="WhatWeDo__intro">
+
                 Jagannath Explorer Travels, based in Bhubaneswar, helps
                 travellers explore Odisha through thoughtfully planned
                 sightseeing, pilgrimage, cultural, nature and holiday
                 experiences.
+
               </p>
 
+
               {/* =================================================
-                  ACTIVITIES
+                  ACTIVITY
               ================================================= */}
 
               <div className="WhatWeDo__activity-area">
 
-                {/* =================================================
-                    CATEGORY LIST
-                ================================================= */}
+
+                {/* CATEGORY LIST */}
 
                 <div
                   className="WhatWeDo__categories"
@@ -541,65 +636,79 @@ const WhatWeDo = () => {
                   aria-label="Odisha travel experiences"
                 >
 
-                  {activities.map((activity, index) => (
+                  {activities.map(
+                    (activity, index) => (
 
-                    <button
-                      key={activity.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={
-                        activeActivity === index
-                      }
-                      aria-controls={`odisha-activity-${activity.id}`}
-                      className={`WhatWeDo__category ${
-                        activeActivity === index
-                          ? "WhatWeDo__category--active"
-                          : ""
-                      }`}
-                      onClick={() =>
-                        setActiveActivity(index)
-                      }
-                    >
-
-                      <span
-                        className="WhatWeDo__category-icon"
-                        aria-hidden="true"
+                      <button
+                        key={activity.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={
+                          activeActivity === index
+                        }
+                        aria-controls={
+                          `odisha-activity-${activity.id}`
+                        }
+                        className={`
+                          WhatWeDo__category
+                          ${
+                            activeActivity === index
+                              ? "WhatWeDo__category--active"
+                              : ""
+                          }
+                        `}
+                        onClick={() =>
+                          setActiveActivity(index)
+                        }
                       >
-                        {activity.icon}
-                      </span>
 
-                      <span className="WhatWeDo__category-name">
-                        {activity.name}
-                      </span>
+                        <span
+                          className="WhatWeDo__category-icon"
+                          aria-hidden="true"
+                        >
+                          {activity.icon}
+                        </span>
 
-                    </button>
 
-                  ))}
+                        <span className="WhatWeDo__category-name">
+                          {activity.name}
+                        </span>
+
+                      </button>
+
+                    )
+                  )}
 
                 </div>
 
+
                 {/* =================================================
-                    ACTIVITY DETAILS
+                    DETAILS
                 ================================================= */}
 
                 <div
                   id={`odisha-activity-${currentActivity.id}`}
                   className="WhatWeDo__details"
                   role="tabpanel"
+                  aria-label={`${currentActivity.name} details`}
                   key={currentActivity.id}
                 >
 
                   <h3 className="WhatWeDo__details-title">
+
                     {currentActivity.title}
+
                   </h3>
 
+
                   <p className="WhatWeDo__details-description">
+
                     {currentActivity.description}
+
                   </p>
 
-                  {/* =================================================
-                      FEATURES
-                  ================================================= */}
+
+                  {/* FEATURES */}
 
                   <div className="WhatWeDo__features">
 
@@ -617,7 +726,9 @@ const WhatWeDo = () => {
                           />
 
                           <span className="WhatWeDo__feature-text">
+
                             {feature}
+
                           </span>
 
                         </div>
@@ -627,17 +738,22 @@ const WhatWeDo = () => {
 
                   </div>
 
-                  {/* =================================================
-                      ACTION BUTTONS
-                  ================================================= */}
+
+                  {/* ACTIONS */}
 
                   <div className="WhatWeDo__actions">
+
+
+                    {/* EXPLORE */}
 
                     <a
                       href="/tours"
                       className="WhatWeDo__availability-button"
                     >
-                      Explore Odisha Tours
+
+                      <span>
+                        Explore Odisha Tours
+                      </span>
 
                       <FaArrowRight
                         aria-hidden="true"
@@ -645,24 +761,34 @@ const WhatWeDo = () => {
 
                     </a>
 
-                    <button
-                      type="button"
+
+                    {/* YOUTUBE */}
+
+                    <a
+                      href={YOUTUBE_URL}
                       className="WhatWeDo__watch-button"
-                      aria-label="Watch Odisha travel video"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Watch Odisha travel video on YouTube"
                     >
 
                       <span
                         className="WhatWeDo__play-icon"
                         aria-hidden="true"
                       >
+
                         <FaPlay />
+
                       </span>
+
 
                       <span className="WhatWeDo__watch-text">
+
                         Watch Video
+
                       </span>
 
-                    </button>
+                    </a>
 
                   </div>
 
@@ -677,8 +803,11 @@ const WhatWeDo = () => {
         </div>
 
       </section>
+
     </>
+
   );
 };
+
 
 export default WhatWeDo;

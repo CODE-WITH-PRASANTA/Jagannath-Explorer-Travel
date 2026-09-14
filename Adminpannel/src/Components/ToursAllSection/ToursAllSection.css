@@ -1,658 +1,2907 @@
+/* =========================================================
+   TOURS ALL SECTION
+   PREMIUM ADMIN DASHBOARD UI
+   RESPONSIVE + CONTAINER AWARE
+   BACKEND / PROPS / STATE LOGIC UNTOUCHED
+   ========================================================= */
+
+
+/* =========================================================
+   ROOT VARIABLES
+   ========================================================= */
+
 :root {
-  --tas-primary: #2563eb;
-  --tas-primary-hover: #1d4ed8;
-  --tas-primary-light: #eff6ff;
+  --tas-primary: #5546e8;
+  --tas-primary-hover: #493bd4;
+  --tas-primary-soft: #f2f1ff;
+  --tas-primary-border: #dedbff;
+
   --tas-success: #16a34a;
   --tas-success-hover: #15803d;
-  --tas-text: #0f172a;
+  --tas-success-soft: #ecfdf3;
+
+  --tas-danger: #ef4444;
+  --tas-danger-soft: #fff1f2;
+  --tas-danger-border: #fecdd3;
+
+  --tas-warning: #ea580c;
+  --tas-warning-soft: #fff7ed;
+  --tas-warning-border: #fed7aa;
+
+  --tas-text: #14213d;
+  --tas-text-dark: #0f172a;
   --tas-text-muted: #64748b;
   --tas-text-subtle: #94a3b8;
+
   --tas-card-bg: #ffffff;
   --tas-bg: #f8fafc;
-  --tas-border: #e2e8f0;
-  --tas-border-focus: #3b82f6;
-  --tas-chip-bg: #eff6ff;
-  --tas-chip-text: #2563eb;
-  --tas-radius-lg: 14px;
-  --tas-radius-md: 8px;
-  --tas-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-  --tas-shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --tas-transition: 0.2s ease-in-out;
+
+  --tas-border: #e1e7ef;
+  --tas-border-light: #edf1f5;
+  --tas-border-input: #dce3ec;
+
+  --tas-focus: #5546e8;
+
+  --tas-radius-xl: 17px;
+  --tas-radius-lg: 13px;
+  --tas-radius-md: 9px;
+  --tas-radius-sm: 7px;
+
+  --tas-shadow:
+    0 15px 40px rgba(15, 23, 42, 0.045),
+    0 3px 10px rgba(15, 23, 42, 0.025);
+
+  --tas-shadow-hover:
+    0 18px 45px rgba(15, 23, 42, 0.055),
+    0 4px 12px rgba(15, 23, 42, 0.025);
+
+  --tas-transition: 0.2s ease;
 }
 
-/* Base Component Root */
+
+/* =========================================================
+   ROOT
+   ========================================================= */
+
 .tours-all-section {
-  box-sizing: border-box;
   width: 100%;
-  max-width: 580px;
-  margin: 0 auto;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: var(--tas-text);
-  background-color: var(--tas-bg);
-  padding: 16px;
+  max-width: none;
+
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
+
   gap: 18px;
+
   position: relative;
+
+  color: var(--tas-text);
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 }
 
-.tours-all-section * {
+
+.tours-all-section *,
+.tours-all-section *::before,
+.tours-all-section *::after {
   box-sizing: border-box;
 }
 
-/* Floating Toast Notification */
-.tours-all-section__toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #0f172a;
-  color: #ffffff;
-  padding: 12px 20px;
-  border-radius: var(--tas-radius-md);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+/* =========================================================
+   TOP ACTIONS
+   ========================================================= */
+
+.tours-all-section__top-actions {
+  width: 100%;
+
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+
   gap: 10px;
-  font-size: 13px;
-  z-index: 1000;
-  animation: tasSlideIn 0.3s ease-out forwards;
+
+  margin-bottom: 1px;
 }
 
-.tours-all-section__toast-icon {
-  color: #4ade80;
-  font-size: 16px;
+
+.tours-all-section__btn-primary,
+.tours-all-section__btn-secondary,
+.tours-all-section__btn-submit {
+  min-height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 9px 16px;
+
+  border-radius: 9px;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
+
+
+.tours-all-section__btn-primary {
+  background: var(--tas-primary);
+  color: #ffffff;
+  border: 1px solid var(--tas-primary);
+}
+
+
+.tours-all-section__btn-primary:hover {
+  background: var(--tas-primary-hover);
+}
+
+
+.tours-all-section__btn-secondary {
+  background: #ffffff;
+
+  color: var(--tas-text);
+
+  border: 1px solid var(--tas-border);
+
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.025);
+}
+
+
+.tours-all-section__btn-secondary:hover {
+  background: #fafbff;
+
+  border-color: #cfd7e3;
+
+  transform: translateY(-1px);
+}
+
+
+.tours-all-section__btn-submit {
+  background: var(--tas-success);
+
+  color: #ffffff;
+
+  border: 1px solid var(--tas-success);
+
+  box-shadow:
+    0 5px 14px rgba(22, 163, 74, 0.16);
+}
+
+
+.tours-all-section__btn-submit:hover:not(:disabled) {
+  background: var(--tas-success-hover);
+
+  border-color: var(--tas-success-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 18px rgba(22, 163, 74, 0.2);
+}
+
+
+.tours-all-section__btn-submit:disabled,
+.tours-all-section__btn-full-primary:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+.tours-all-section__btn-icon {
+  width: 15px;
+  height: 15px;
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.tours-all-section__toast {
+  position: fixed;
+
+  top: 22px;
+  right: 22px;
+
+  min-width: 290px;
+  max-width: min(420px, calc(100vw - 30px));
+
+  min-height: 52px;
+
+  padding: 9px 12px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  background: #111827;
+
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 11px;
+
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.25);
+
+  font-size: 12.5px;
+  font-weight: 600;
+
+  z-index: 9999;
+
+  animation:
+    tasSlideIn 0.28s ease-out;
+}
+
+
+.tours-all-section__toast-icon {
+  width: 17px;
+  height: 17px;
+
+  flex-shrink: 0;
+
+  color: #4ade80;
+}
+
 
 @keyframes tasSlideIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Header Top Actions */
-.tours-all-section__top-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-bottom: 4px;
-}
 
-.tours-all-section__btn-primary,
-.tours-all-section__btn-secondary,
-.tours-all-section__btn-submit {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 8px 14px;
-  border-radius: var(--tas-radius-md);
-  cursor: pointer;
-  transition: all var(--tas-transition);
-}
+/* =========================================================
+   CARD
+   ========================================================= */
 
-.tours-all-section__btn-primary {
-  background-color: var(--tas-primary);
-  color: #ffffff;
-  border: 1px solid var(--tas-primary);
-}
-
-.tours-all-section__btn-primary:hover:not(:disabled) {
-  background-color: var(--tas-primary-hover);
-}
-
-.tours-all-section__btn-submit {
-  background-color: var(--tas-success);
-  color: #ffffff;
-  border: 1px solid var(--tas-success);
-}
-
-.tours-all-section__btn-submit:hover:not(:disabled) {
-  background-color: var(--tas-success-hover);
-}
-
-.tours-all-section__btn-secondary {
-  background-color: #ffffff;
-  color: var(--tas-primary);
-  border: 1px solid var(--tas-border);
-}
-
-.tours-all-section__btn-secondary:hover {
-  background-color: #f1f5f9;
-  border-color: #cbd5e1;
-}
-
-.tours-all-section__btn-submit:disabled,
-.tours-all-section__btn-full-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.tours-all-section__btn-icon {
-  font-size: 14px;
-}
-
-/* Card Scaffolding */
 .tours-all-section__card {
+  width: 100%;
+
   background: var(--tas-card-bg);
+
   border: 1px solid var(--tas-border);
-  border-radius: var(--tas-radius-lg);
+
+  border-radius: var(--tas-radius-xl);
+
   box-shadow: var(--tas-shadow);
+
   overflow: hidden;
-  transition: box-shadow var(--tas-transition);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
 
 .tours-all-section__card:hover {
+  border-color: #d8dfe9;
+
   box-shadow: var(--tas-shadow-hover);
 }
 
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
 .tours-all-section__card-header {
-  padding: 16px 20px;
+  min-height: 76px;
+
+  padding: 15px 20px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  gap: 16px;
+
+  background: #ffffff;
+
   user-select: none;
+
+  transition: background 0.2s ease;
 }
+
 
 .tours-all-section__card-header.clickable {
   cursor: pointer;
 }
 
+
 .tours-all-section__card-header:hover {
-  background-color: #fafbfc;
+  background: #fcfcff;
 }
+
 
 .tours-all-section__header-group {
+  min-width: 0;
+
   display: flex;
   align-items: center;
-  gap: 14px;
+
+  gap: 13px;
 }
+
+
+.tours-all-section__header-copy {
+  min-width: 0;
+}
+
 
 .tours-all-section__badge-icon {
-  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 17px;
-  background-color: var(--tas-primary-light);
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f1f2ff 0%,
+      #e9eaff 100%
+    );
+
+  border: 1px solid var(--tas-primary-border);
+
   color: var(--tas-primary);
+
+  box-shadow:
+    0 5px 12px rgba(85, 70, 232, 0.065);
 }
+
+
+.tours-all-section__badge-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
 
 .tours-all-section__heading {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0 0 2px 0;
+  margin: 0 0 3px;
+
   color: var(--tas-text);
+
+  font-size: 17px;
+  line-height: 1.25;
+
+  font-weight: 720;
+
+  letter-spacing: -0.25px;
 }
+
 
 .tours-all-section__subheading {
-  font-size: 12px;
-  color: var(--tas-text-muted);
   margin: 0;
+
+  color: var(--tas-text-muted);
+
+  font-size: 12.5px;
+  line-height: 1.4;
+
+  font-weight: 500;
 }
+
 
 .tours-all-section__chevron {
-  color: var(--tas-text-muted);
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+
   display: flex;
   align-items: center;
-  font-size: 18px;
+  justify-content: center;
+
+  color: #64748b;
+
+  border-radius: 8px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
+
+
+.tours-all-section__card-header:hover
+.tours-all-section__chevron {
+  background: #f3f5f8;
+
+  color: var(--tas-text-dark);
+}
+
+
+.tours-all-section__chevron svg {
+  width: 19px;
+  height: 19px;
+}
+
+
+/* =========================================================
+   CARD BODY
+   ========================================================= */
 
 .tours-all-section__card-body {
-  padding: 20px;
-  border-top: 1px solid var(--tas-border);
+  padding: 20px 22px 22px;
+
+  border-top: 1px solid var(--tas-border-light);
+
+  background: #ffffff;
 }
 
-/* Publish Content */
-.tours-all-section__publish-grid {
+
+/* =========================================================
+   PUBLISH SECTION
+   ========================================================= */
+
+.tours-all-section__publish-grid,
+.tours-all-section__publish-panel {
+  width: 100%;
+
   display: grid;
-  grid-template-columns: 1.4fr 0.6fr;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    150px;
+
+  gap: 20px;
+
   align-items: center;
-  gap: 16px;
+
   margin-bottom: 18px;
+
+  padding: 17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fbfcff 0%,
+      #f7f8ff 100%
+    );
+
+  border: 1px solid #e7e9f5;
+
+  border-radius: 13px;
 }
+
+
+.tours-all-section__publish-left,
+.tours-all-section__publish-content {
+  min-width: 0;
+}
+
 
 .tours-all-section__quick-actions {
+  width: 100%;
+
   display: flex;
+
   gap: 10px;
+
   margin-bottom: 16px;
 }
 
+
 .tours-all-section__btn-action-light {
-  flex: 1;
-  display: inline-flex;
+  width: 100%;
+
+  min-height: 39px;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 7px 10px;
-  background-color: #f8fafc;
-  color: #334155;
+
+  gap: 7px;
+
   border: 1px solid var(--tas-border);
-  border-radius: var(--tas-radius-md);
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: var(--tas-text);
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
   cursor: pointer;
-  transition: all var(--tas-transition);
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
+
 .tours-all-section__btn-action-light:hover {
-  background-color: #f1f5f9;
+  background: #fafbff;
+
+  border-color: #cbd5e1;
+
+  box-shadow:
+    0 4px 10px rgba(15, 23, 42, 0.04);
 }
+
+
+.tours-all-section__btn-action-light svg {
+  width: 15px;
+  height: 15px;
+}
+
+
+/* =========================================================
+   PUBLISH ATTRIBUTES
+   ========================================================= */
 
 .tours-all-section__attr-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+
+  gap: 12px;
 }
+
 
 .tours-all-section__attr-item {
+  min-width: 0;
+
   display: flex;
   align-items: center;
-  font-size: 13px;
+
   gap: 6px;
+
+  color: var(--tas-text-muted);
+
+  font-size: 12px;
 }
 
+
 .tours-all-section__dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
+  min-width: 7px;
+
   border-radius: 50%;
-  background: var(--tas-text-subtle);
-  margin-right: 4px;
+
+  background: #94a3b8;
 }
+
 
 .tours-all-section__dot.published {
   background: var(--tas-success);
+
+  box-shadow:
+    0 0 0 3px rgba(22, 163, 74, 0.1);
 }
 
+
 .tours-all-section__attr-icon {
-  color: var(--tas-text-muted);
-  font-size: 14px;
+  width: 14px;
+  height: 14px;
+
+  color: #7c8ba1;
 }
+
 
 .tours-all-section__attr-label {
   color: var(--tas-text-muted);
+
+  font-weight: 500;
 }
+
 
 .tours-all-section__attr-value {
-  color: var(--tas-text);
-  font-weight: 600;
+  color: var(--tas-text-dark);
+
+  font-weight: 750;
 }
+
 
 .tours-all-section__inline-edit {
-  background: transparent;
-  border: none;
-  color: var(--tas-primary);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-left: 6px;
+  margin-left: 5px;
+
+  padding: 3px 5px;
+
   display: inline-flex;
   align-items: center;
+
   gap: 3px;
-  padding: 2px 4px;
-  border-radius: 4px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: var(--tas-primary);
+
+  font-family: inherit;
+
+  font-size: 10.5px;
+
+  font-weight: 700;
+
+  cursor: pointer;
 }
 
+
 .tours-all-section__inline-edit:hover {
-  background: var(--tas-primary-light);
+  background: var(--tas-primary-soft);
 }
+
+
+.tours-all-section__inline-edit svg {
+  width: 11px;
+  height: 11px;
+}
+
+
+/* =========================================================
+   PUBLISH VISUAL
+   ========================================================= */
 
 .tours-all-section__graphic-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
+
+.tours-all-section__publish-visual {
+  min-height: 125px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+}
+
+
 .tours-all-section__rocket-bubble {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: #e0e7ff;
+  width: 82px;
+  height: 82px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #e7e9ff,
+      #dce1ff
+    );
+
+  border: 1px solid #d8dcff;
+
+  box-shadow:
+    0 8px 20px rgba(85, 70, 232, 0.1);
 }
 
-.tours-all-section__rocket-emoji {
-  font-size: 40px;
+
+.tours-all-section__rocket-bubble span {
+  font-size: 36px;
 }
+
+
+.tours-all-section__visual-label {
+  color: #7c8799;
+
+  font-size: 10.5px;
+
+  font-weight: 600;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   FULL SUBMIT BUTTON
+   ========================================================= */
 
 .tours-all-section__btn-full-primary {
   width: 100%;
+
+  min-height: 45px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
-  background-color: var(--tas-success);
-  color: white;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
+
   padding: 10px 16px;
-  border-radius: var(--tas-radius-md);
+
+  border: 1px solid var(--tas-success);
+
+  border-radius: 9px;
+
+  background: var(--tas-success);
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 750;
+
   cursor: pointer;
-  transition: background-color var(--tas-transition);
+
+  box-shadow:
+    0 5px 14px rgba(22, 163, 74, 0.12);
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
+
 
 .tours-all-section__btn-full-primary:hover:not(:disabled) {
-  background-color: var(--tas-success-hover);
+  background: var(--tas-success-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 18px rgba(22, 163, 74, 0.17);
 }
 
-/* Forms & Inputs */
+
+.tours-all-section__btn-full-primary svg {
+  width: 15px;
+  height: 15px;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
 .tours-all-section__form-field {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+
+  margin-bottom: 18px;
+
   position: relative;
 }
 
-.tours-all-section__label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--tas-text);
-  margin-bottom: 6px;
+
+.tours-all-section__form-field--last {
+  margin-bottom: 0;
 }
 
-.tours-all-section__required {
-  color: #ef4444;
+
+.tours-all-section__label {
+  margin-bottom: 7px;
+
+  color: var(--tas-text-dark);
+
+  font-size: 12px;
+
+  font-weight: 720;
+
+  line-height: 1.3;
 }
+
+
+.tours-all-section__required {
+  margin-left: 3px;
+
+  color: #ef4444;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   INPUT / TEXTAREA
+   ========================================================= */
 
 .tours-all-section__control {
   width: 100%;
-  border: 1px solid var(--tas-border);
-  border-radius: var(--tas-radius-md);
-  padding: 8px 12px;
-  font-size: 13px;
-  color: var(--tas-text);
+
+  min-width: 0;
+
+  min-height: 43px;
+
+  padding: 10px 13px;
+
+  border: 1px solid var(--tas-border-input);
+
+  border-radius: 9px;
+
   outline: none;
+
   background: #ffffff;
-  transition: border-color var(--tas-transition), box-shadow var(--tas-transition);
+
+  color: var(--tas-text-dark);
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
+
+
+.tours-all-section__control:hover {
+  border-color: #cbd5e1;
+}
+
 
 .tours-all-section__control:focus {
-  border-color: var(--tas-border-focus);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  border-color: var(--tas-focus);
+
+  box-shadow:
+    0 0 0 4px rgba(85, 70, 232, 0.08);
 }
+
+
+.tours-all-section__control::placeholder {
+  color: #9aa8ba;
+
+  opacity: 1;
+
+  font-weight: 450;
+}
+
 
 .tours-all-section__control--textarea {
+  min-height: 102px;
+
   resize: vertical;
-  min-height: 70px;
+
+  line-height: 1.55;
 }
+
 
 .tours-all-section__counter {
-  font-size: 10px;
-  color: var(--tas-text-subtle);
+  margin-top: 4px;
+
   text-align: right;
-  margin-top: 3px;
+
+  color: #a0aabb;
+
+  font-size: 9.5px;
+
+  font-weight: 550;
 }
 
-/* Grids */
+
+/* =========================================================
+   GENERAL TWO COLUMN GRID
+   ========================================================= */
+
 .tours-all-section__row-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
+  width: 100%;
 
-.tours-all-section__seo-grid {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
   gap: 16px;
 }
 
-/* Upload Dropzone */
-.tours-all-section__file-input {
-  display: none;
+
+/* =========================================================
+   SEO CONTAINER
+
+   This is what fixes the issue from your screenshot.
+   The layout reacts to the ACTUAL CARD width.
+   ========================================================= */
+
+.tours-all-section__seo-card {
+  container-type: inline-size;
+  container-name: seo-card;
 }
 
+
+/* =========================================================
+   SEO GRID
+   DEFAULT = ONE COLUMN
+
+   This prevents tiny squeezed fields.
+   ========================================================= */
+
+.tours-all-section__seo-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: 1fr;
+
+  gap: 24px;
+
+  align-items: start;
+}
+
+
+.tours-all-section__seo-inputs,
+.tours-all-section__seo-media {
+  width: 100%;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   SEO BODY
+   ========================================================= */
+
+.tours-all-section__seo-card
+.tours-all-section__card-body {
+  padding: 22px 22px 24px;
+}
+
+
+/* =========================================================
+   SEO FORM FIELD
+   ========================================================= */
+
+.tours-all-section__seo-card
+.tours-all-section__form-field {
+  width: 100%;
+
+  margin-bottom: 19px;
+}
+
+
+.tours-all-section__seo-card
+.tours-all-section__form-field--last {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   FIELD TOP
+   ========================================================= */
+
+.tours-all-section__field-top {
+  width: 100%;
+
+  min-height: 18px;
+
+  margin-bottom: 7px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+
+.tours-all-section__field-top
+.tours-all-section__label {
+  margin: 0;
+}
+
+
+.tours-all-section__field-count {
+  flex-shrink: 0;
+
+  color: #94a3b8;
+
+  font-size: 9.5px;
+
+  line-height: 1;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   SEO LABEL
+   ========================================================= */
+
+.tours-all-section__seo-card
+.tours-all-section__label {
+  color: #111827;
+
+  font-size: 12px;
+
+  line-height: 1.3;
+
+  font-weight: 720;
+}
+
+
+/* =========================================================
+   SEO INPUT
+   ========================================================= */
+
+.tours-all-section__seo-card
+.tours-all-section__control {
+  width: 100%;
+
+  min-width: 0;
+
+  min-height: 45px;
+
+  padding: 11px 13px;
+
+  border: 1px solid #dce3ec;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-family: inherit;
+
+  font-size: 12.5px;
+
+  line-height: 1.4;
+
+  font-weight: 500;
+
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.015);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.tours-all-section__seo-card
+.tours-all-section__control:hover {
+  border-color: #cbd5e1;
+}
+
+
+.tours-all-section__seo-card
+.tours-all-section__control:focus {
+  border-color: var(--tas-primary);
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 4px rgba(85, 70, 232, 0.075);
+}
+
+
+/* =========================================================
+   SEO TEXTAREA
+   ========================================================= */
+
+.tours-all-section__seo-card
+.tours-all-section__control--textarea {
+  width: 100%;
+
+  min-height: 112px;
+
+  resize: vertical;
+
+  line-height: 1.55;
+
+  overflow-y: auto;
+}
+
+
+/* =========================================================
+   SEO HELP TEXT
+   ========================================================= */
+
+.tours-all-section__field-help {
+  display: block;
+
+  margin-top: 6px;
+
+  color: #94a3b8;
+
+  font-size: 9.5px;
+
+  line-height: 1.45;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   KEYWORD WRAPPER
+   ========================================================= */
+
+.tours-all-section__keyword-wrapper {
+  width: 100%;
+
+  min-height: 45px;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+
+.tours-all-section__keyword-wrapper > svg {
+  position: absolute;
+
+  left: 13px;
+
+  width: 16px;
+  height: 16px;
+
+  color: var(--tas-primary);
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+
+.tours-all-section__keyword-input {
+  width: 100%;
+
+  min-width: 0;
+
+  height: 45px;
+
+  padding: 11px 13px 11px 38px;
+
+  border: 1px solid #dce3ec;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-family: inherit;
+
+  font-size: 12.5px;
+
+  font-weight: 500;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.tours-all-section__keyword-input:hover {
+  border-color: #cbd5e1;
+}
+
+
+.tours-all-section__keyword-input:focus {
+  border-color: var(--tas-primary);
+
+  box-shadow:
+    0 0 0 4px rgba(85, 70, 232, 0.075);
+}
+
+
+.tours-all-section__keyword-input::placeholder {
+  color: #a1adbd;
+}
+
+
+/* =========================================================
+   META IMAGE HEADER
+   ========================================================= */
+
+.tours-all-section__media-header {
+  width: 100%;
+
+  margin-bottom: 8px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+.tours-all-section__media-header > div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.tours-all-section__media-header
+.tours-all-section__label {
+  margin-bottom: 3px;
+}
+
+
+.tours-all-section__media-description {
+  max-width: 520px;
+
+  color: #94a3b8;
+
+  font-size: 9.5px;
+
+  line-height: 1.45;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   RECOMMENDED BADGE
+   ========================================================= */
+
+.tours-all-section__recommended-badge {
+  flex-shrink: 0;
+
+  padding: 5px 8px;
+
+  border: 1px solid #bbf7d0;
+
+  border-radius: 6px;
+
+  background: #f0fdf4;
+
+  color: #15803d;
+
+  font-size: 8px;
+
+  line-height: 1;
+
+  font-weight: 750;
+
+  letter-spacing: 0.2px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   SEO UPLOAD BOX
+   ========================================================= */
+
+.tours-all-section__file-input {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
 .tours-all-section__upload-box {
-  border: 2px dashed #cbd5e1;
-  border-radius: var(--tas-radius-lg);
-  padding: 16px;
-  text-align: center;
-  background: #f8fafc;
-  cursor: pointer;
-  min-height: 180px;
+  width: 100%;
+
+  position: relative;
+
+  aspect-ratio: 1200 / 630;
+
+  min-height: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--tas-transition);
+
+  overflow: hidden;
+
+  border: 1.5px dashed #c8c7f8;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fbfbff 0%,
+      #f5f5ff 100%
+    );
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
 }
+
 
 .tours-all-section__upload-box:hover {
   border-color: var(--tas-primary);
-  background: var(--tas-primary-light);
+
+  background:
+    linear-gradient(
+      145deg,
+      #f9f9ff 0%,
+      #f1f2ff 100%
+    );
+
+  box-shadow:
+    0 10px 25px rgba(85, 70, 232, 0.075);
 }
+
+
+.tours-all-section__upload-box:focus-visible {
+  outline: 3px solid rgba(85, 70, 232, 0.15);
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   UPLOAD PLACEHOLDER
+   ========================================================= */
 
 .tours-all-section__upload-placeholder {
+  width: 100%;
+  height: 100%;
+
+  padding: 25px 18px;
+
   display: flex;
   flex-direction: column;
+
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+
+  text-align: center;
 }
 
-.tours-all-section__upload-icon {
-  font-size: 30px;
+
+/* =========================================================
+   UPLOAD ICON
+   ========================================================= */
+
+.tours-all-section__upload-icon-wrap {
+  width: 52px;
+  height: 52px;
+
+  margin-bottom: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #dcd9ff;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f1f0ff,
+      #e9e8ff
+    );
+
   color: var(--tas-primary);
-  margin-bottom: 2px;
+
+  box-shadow:
+    0 7px 18px rgba(85, 70, 232, 0.075);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+
+.tours-all-section__upload-box:hover
+.tours-all-section__upload-icon-wrap {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 9px 20px rgba(85, 70, 232, 0.11);
+}
+
+
+.tours-all-section__upload-icon-wrap svg {
+  width: 25px;
+  height: 25px;
+}
+
+
+/* =========================================================
+   UPLOAD TEXT
+   ========================================================= */
 
 .tours-all-section__upload-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--tas-text);
+  color: #111827;
+
+  font-size: 13px;
+
+  line-height: 1.3;
+
+  font-weight: 720;
 }
 
+
 .tours-all-section__upload-subtitle {
+  margin-top: 5px;
+
+  color: #64748b;
+
   font-size: 10px;
-  color: var(--tas-text-subtle);
+
+  line-height: 1.4;
+
+  font-weight: 500;
 }
+
+
+/* =========================================================
+   UPLOAD SPEC
+   ========================================================= */
+
+.tours-all-section__upload-spec {
+  margin-top: 12px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+
+  font-weight: 600;
+}
+
+
+.tours-all-section__upload-spec i {
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: #cbd5e1;
+}
+
+
+/* =========================================================
+   IMAGE NOTE
+   ========================================================= */
+
+.tours-all-section__image-note {
+  margin-top: 7px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+
+  line-height: 1.4;
+
+  font-weight: 500;
+}
+
+
+.tours-all-section__image-note svg {
+  width: 12px;
+  height: 12px;
+
+  flex-shrink: 0;
+
+  color: #7c8798;
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW
+   ========================================================= */
+
+.tours-all-section__upload-box--has-image {
+  border-style: solid;
+
+  border-color: #dce3ec;
+
+  background: #f1f5f9;
+}
+
 
 .tours-all-section__preview-box {
   width: 100%;
   height: 100%;
+
   position: relative;
+
+  overflow: hidden;
 }
+
 
 .tours-all-section__preview-img {
   width: 100%;
-  max-height: 150px;
-  object-fit: cover;
-  border-radius: var(--tas-radius-md);
-}
+  height: 100%;
 
-.tours-all-section__preview-link {
   display: block;
-  font-size: 11px;
-  color: var(--tas-primary);
-  margin-top: 6px;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.35s ease;
 }
 
-/* Affix Currency Input */
-.tours-all-section__affix-wrapper {
-  display: flex;
-  position: relative;
-  align-items: center;
+
+.tours-all-section__upload-box:hover
+.tours-all-section__preview-img {
+  transform: scale(1.015);
 }
 
-.tours-all-section__control--affix {
-  padding-right: 48px;
-}
 
-.tours-all-section__affix-unit {
+.tours-all-section__preview-gradient {
   position: absolute;
-  right: 12px;
-  font-size: 12px;
-  color: var(--tas-text-muted);
-  font-weight: 500;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 45%;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(15, 23, 42, 0.78),
+      rgba(15, 23, 42, 0)
+    );
+
   pointer-events: none;
 }
 
-/* Dropdown styling */
-.tours-all-section__select-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
 
-.tours-all-section__select-prefix {
+.tours-all-section__preview-overlay {
   position: absolute;
-  left: 10px;
-  font-size: 14px;
-  color: var(--tas-primary);
-  pointer-events: none;
-}
 
-.tours-all-section__select-suffix {
-  position: absolute;
-  right: 10px;
-  font-size: 14px;
-  color: var(--tas-text-subtle);
-  pointer-events: none;
-}
+  left: 13px;
+  right: 13px;
+  bottom: 13px;
 
-.tours-all-section__control--select {
-  padding-left: 32px;
-  padding-right: 28px;
-  appearance: none;
-  -webkit-appearance: none;
-  cursor: pointer;
-}
-
-/* Tag Inputs */
-.tours-all-section__tag-box {
-  border: 1px solid var(--tas-border);
-  border-radius: var(--tas-radius-md);
-  padding: 8px;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.tours-all-section__tag-cluster {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.tours-all-section__chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--tas-chip-bg);
-  color: var(--tas-chip-text);
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 8px;
-  border-radius: 6px;
-}
-
-.tours-all-section__chip button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--tas-chip-text);
   display: flex;
   align-items: center;
-  padding: 0;
-  font-size: 11px;
+
+  gap: 9px;
+
+  color: #ffffff;
+
+  opacity: 0;
+
+  transform: translateY(6px);
+
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
 }
 
-.tours-all-section__chip button:hover {
-  opacity: 0.7;
+
+.tours-all-section__preview-box:hover
+.tours-all-section__preview-overlay {
+  opacity: 1;
+
+  transform: translateY(0);
 }
 
-.tours-all-section__tag-inline {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
 
-.tours-all-section__tag-inline input {
-  width: 100%;
-  border: none;
-  outline: none;
-  font-size: 12px;
-  color: var(--tas-text);
-  padding: 4px 20px 4px 2px;
-}
+.tours-all-section__preview-edit {
+  width: 32px;
+  height: 32px;
 
-.tours-all-section__tag-inline input::placeholder {
-  color: var(--tas-text-subtle);
-}
+  min-width: 32px;
 
-.tours-all-section__input-icon {
-  position: absolute;
-  right: 4px;
-  color: var(--tas-text-subtle);
-  pointer-events: none;
-  font-size: 13px;
-}
-
-/* Quick Tips Section */
-.tours-all-section__tips-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 0.5fr;
-  align-items: center;
-  gap: 12px;
-}
-
-.tours-all-section__tips-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.tours-all-section__tips-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 12px;
-  line-height: 1.4;
-  color: #475569;
-}
-
-.tours-all-section__tip-icon {
-  color: var(--tas-primary);
-  margin-top: 2px;
-  flex-shrink: 0;
-  font-size: 14px;
-}
-
-.tours-all-section__clipboard-bubble {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #e0f2fe;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.13);
+
+  backdrop-filter: blur(7px);
 }
 
-.tours-all-section__clipboard-emoji {
-  font-size: 36px;
+
+.tours-all-section__preview-edit svg {
+  width: 14px;
+  height: 14px;
 }
 
-/* Responsive Collapse Rules */
-@media (max-width: 540px) {
-  .tours-all-section__row-2,
-  .tours-all-section__seo-grid,
-  .tours-all-section__publish-grid,
+
+.tours-all-section__preview-overlay > div:last-child {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+
+.tours-all-section__preview-overlay strong {
+  font-size: 11px;
+
+  line-height: 1.3;
+
+  font-weight: 720;
+}
+
+
+.tours-all-section__preview-overlay span {
+  color: #dbe3ed;
+
+  font-size: 9px;
+
+  line-height: 1.3;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   CURRENCY
+   ========================================================= */
+
+.tours-all-section__affix-wrapper {
+  width: 100%;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+
+.tours-all-section__control--affix,
+.tours-all-section__control--currency {
+  padding-left: 34px;
+
+  padding-right: 48px;
+}
+
+
+.tours-all-section__currency-symbol {
+  position: absolute;
+
+  left: 13px;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+
+.tours-all-section__affix-unit {
+  position: absolute;
+
+  right: 13px;
+
+  color: #94a3b8;
+
+  font-size: 10.5px;
+
+  font-weight: 700;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   SELECT
+   ========================================================= */
+
+.tours-all-section__select-wrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+
+.tours-all-section__select-prefix {
+  position: absolute;
+
+  left: 12px;
+
+  width: 15px;
+  height: 15px;
+
+  color: var(--tas-primary);
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+
+.tours-all-section__select-suffix {
+  position: absolute;
+
+  right: 11px;
+
+  width: 15px;
+  height: 15px;
+
+  color: #94a3b8;
+
+  pointer-events: none;
+
+  z-index: 2;
+}
+
+
+.tours-all-section__control--select {
+  padding-left: 36px;
+  padding-right: 34px;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   TAG BOX
+   ========================================================= */
+
+.tours-all-section__tag-box {
+  width: 100%;
+
+  min-height: 82px;
+
+  padding: 9px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  border: 1px solid var(--tas-border-input);
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.tours-all-section__tag-box:hover {
+  border-color: #cbd5e1;
+}
+
+
+.tours-all-section__tag-box:focus-within {
+  border-color: var(--tas-primary);
+
+  box-shadow:
+    0 0 0 4px rgba(85, 70, 232, 0.08);
+}
+
+
+.tours-all-section__tag-cluster {
+  min-height: 24px;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+
+/* =========================================================
+   CHIPS
+   ========================================================= */
+
+.tours-all-section__chip {
+  min-height: 27px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 4px 7px 4px 9px;
+
+  border-radius: 7px;
+
+  font-size: 10.5px;
+
+  font-weight: 650;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* Default chip */
+
+.tours-all-section__chip:not(
+  .tours-all-section__chip--include
+):not(
+  .tours-all-section__chip--exclude
+):not(
+  .tours-all-section__chip--tag
+) {
+  background: var(--tas-primary-soft);
+
+  color: var(--tas-primary);
+
+  border: 1px solid var(--tas-primary-border);
+}
+
+
+/* Include */
+
+.tours-all-section__chip--include {
+  background: var(--tas-success-soft);
+
+  color: #15803d;
+
+  border: 1px solid #bbf7d0;
+}
+
+
+/* Exclude */
+
+.tours-all-section__chip--exclude {
+  background: var(--tas-warning-soft);
+
+  color: #c2410c;
+
+  border: 1px solid var(--tas-warning-border);
+}
+
+
+/* Tags */
+
+.tours-all-section__chip--tag {
+  background: var(--tas-primary-soft);
+
+  color: var(--tas-primary);
+
+  border: 1px solid var(--tas-primary-border);
+}
+
+
+.tours-all-section__chip--tag > span {
+  font-weight: 800;
+}
+
+
+.tours-all-section__chip button {
+  width: 17px;
+  height: 17px;
+
+  margin-left: 2px;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 4px;
+
+  background: transparent;
+
+  color: currentColor;
+
+  cursor: pointer;
+
+  opacity: 0.65;
+}
+
+
+.tours-all-section__chip button:hover {
+  opacity: 1;
+
+  background: rgba(15, 23, 42, 0.06);
+}
+
+
+.tours-all-section__chip button svg {
+  width: 11px;
+  height: 11px;
+}
+
+
+/* =========================================================
+   TAG INPUT
+   ========================================================= */
+
+.tours-all-section__tag-inline {
+  width: 100%;
+
+  min-height: 28px;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+
+.tours-all-section__tag-inline input {
+  width: 100%;
+
+  height: 28px;
+
+  padding: 4px 30px 4px 4px;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: var(--tas-text-dark);
+
+  font-family: inherit;
+
+  font-size: 11.5px;
+}
+
+
+.tours-all-section__tag-inline input::placeholder {
+  color: #a0aabb;
+}
+
+
+.tours-all-section__input-icon {
+  position: absolute;
+
+  right: 4px;
+
+  color: var(--tas-text-subtle);
+
+  pointer-events: none;
+
+  font-size: 13px;
+}
+
+
+.tours-all-section__input-add {
+  position: absolute;
+
+  right: 3px;
+
+  width: 21px;
+  height: 21px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  background: #f1f5f9;
+
+  color: #64748b;
+
+  font-size: 15px;
+
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   QUICK TIPS
+   ========================================================= */
+
+.tours-all-section__tips-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    160px;
+
+  gap: 20px;
+
+  align-items: center;
+}
+
+
+.tours-all-section__tips-list {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 13px;
+}
+
+
+.tours-all-section__tips-list li {
+  min-width: 0;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  padding: 11px;
+
+  border: 1px solid #edf1f6;
+
+  border-radius: 9px;
+
+  background: #fcfdff;
+}
+
+
+.tours-all-section__tip-icon {
+  width: 17px;
+  height: 17px;
+  min-width: 17px;
+
+  margin-top: 1px;
+
+  color: var(--tas-success);
+}
+
+
+.tours-all-section__tips-list li > span {
+  color: var(--tas-text-dark);
+
+  font-size: 11.5px;
+
+  line-height: 1.45;
+
+  font-weight: 650;
+}
+
+
+/* =========================================================
+   QUICK TIPS SUPPORTS NEW STRUCTURE TOO
+   ========================================================= */
+
+.tours-all-section__tips-list li div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+
+.tours-all-section__tips-list strong {
+  color: var(--tas-text-dark);
+
+  font-size: 11.5px;
+
+  line-height: 1.35;
+
+  font-weight: 750;
+}
+
+
+.tours-all-section__tips-list li div span {
+  color: var(--tas-text-muted);
+
+  font-size: 10.5px;
+
+  line-height: 1.45;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   QUICK TIPS VISUAL
+   ========================================================= */
+
+.tours-all-section__tips-visual {
+  min-height: 160px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border: 1px solid #e7e9f5;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fbfcff,
+      #f4f5ff
+    );
+}
+
+
+.tours-all-section__clipboard-bubble {
+  width: 76px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #e8f6ff,
+      #dff3ff
+    );
+
+  border: 1px solid #d8efff;
+
+  box-shadow:
+    0 8px 20px rgba(14, 165, 233, 0.08);
+}
+
+
+.tours-all-section__clipboard-bubble span {
+  font-size: 34px;
+}
+
+
+.tours-all-section__tips-visual > span {
+  max-width: 110px;
+
+  color: #7c8799;
+
+  font-size: 10px;
+
+  line-height: 1.35;
+
+  text-align: center;
+
+  font-weight: 650;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.tours-all-section__btn-primary:focus-visible,
+.tours-all-section__btn-secondary:focus-visible,
+.tours-all-section__btn-submit:focus-visible,
+.tours-all-section__btn-action-light:focus-visible,
+.tours-all-section__btn-full-primary:focus-visible,
+.tours-all-section__inline-edit:focus-visible,
+.tours-all-section__keyword-input:focus-visible,
+.tours-all-section__control:focus-visible {
+  outline: 3px solid rgba(85, 70, 232, 0.18);
+
+  outline-offset: 2px;
+}
+
+
+.tours-all-section__card-header.clickable:focus-visible {
+  outline: 3px solid rgba(85, 70, 232, 0.14);
+
+  outline-offset: -3px;
+}
+
+
+/* =========================================================
+   SEO CONTAINER QUERIES
+   ========================================================= */
+
+/*
+   IMPORTANT:
+
+   These queries check the actual SEO CARD width,
+   not the browser width.
+
+   So if your admin sidebar leaves only ~450px,
+   SEO automatically becomes a clean single column.
+*/
+
+
+/* ---------------------------------------------------------
+   WIDE CARD
+   --------------------------------------------------------- */
+
+@container seo-card (min-width: 720px) {
+
+  .tours-all-section__seo-grid {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(280px, 0.82fr);
+
+    gap: 24px;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   EXTRA WIDE CARD
+   --------------------------------------------------------- */
+
+@container seo-card (min-width: 900px) {
+
+  .tours-all-section__seo-grid {
+    grid-template-columns:
+      minmax(0, 1.1fr)
+      minmax(340px, 0.9fr);
+
+    gap: 28px;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   NARROW ADMIN CARD
+   --------------------------------------------------------- */
+
+@container seo-card (max-width: 560px) {
+
+  .tours-all-section__seo-card
+  .tours-all-section__card-body {
+    padding: 18px 17px 20px;
+  }
+
+
+  .tours-all-section__seo-grid {
+    grid-template-columns: 1fr;
+
+    gap: 22px;
+  }
+
+
+  .tours-all-section__seo-card
+  .tours-all-section__form-field {
+    margin-bottom: 17px;
+  }
+
+
+  .tours-all-section__seo-card
+  .tours-all-section__control {
+    min-height: 44px;
+  }
+
+
+  .tours-all-section__seo-card
+  .tours-all-section__control--textarea {
+    min-height: 105px;
+  }
+
+
+  .tours-all-section__media-description {
+    font-size: 9px;
+  }
+
+
+  .tours-all-section__upload-placeholder {
+    padding: 18px 14px;
+  }
+
+
+  .tours-all-section__upload-icon-wrap {
+    width: 47px;
+    height: 47px;
+
+    margin-bottom: 10px;
+  }
+
+
+  .tours-all-section__upload-icon-wrap svg {
+    width: 22px;
+    height: 22px;
+  }
+
+
+  .tours-all-section__upload-title {
+    font-size: 12px;
+  }
+
+
+  .tours-all-section__upload-subtitle {
+    font-size: 9.5px;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   VERY NARROW ADMIN CARD
+   --------------------------------------------------------- */
+
+@container seo-card (max-width: 420px) {
+
+  .tours-all-section__seo-card
+  .tours-all-section__card-body {
+    padding: 16px 14px 18px;
+  }
+
+
+  .tours-all-section__media-header {
+    gap: 7px;
+  }
+
+
+  .tours-all-section__recommended-badge {
+    padding: 4px 6px;
+
+    font-size: 7px;
+  }
+
+
+  .tours-all-section__media-description {
+    font-size: 8.5px;
+  }
+
+
+  .tours-all-section__upload-box {
+    border-radius: 11px;
+  }
+
+
+  .tours-all-section__upload-icon-wrap {
+    width: 44px;
+    height: 44px;
+  }
+
+
+  .tours-all-section__upload-icon-wrap svg {
+    width: 21px;
+    height: 21px;
+  }
+
+
+  .tours-all-section__upload-title {
+    font-size: 11.5px;
+  }
+
+
+  .tours-all-section__upload-subtitle {
+    font-size: 9px;
+  }
+
+
+  .tours-all-section__upload-spec {
+    margin-top: 9px;
+
+    font-size: 8px;
+  }
+
+
+  .tours-all-section__image-note {
+    font-size: 8.5px;
+  }
+
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1400px) {
+
+  .tours-all-section {
+    gap: 20px;
+  }
+
+
+  .tours-all-section__card-header {
+    min-height: 80px;
+
+    padding-left: 23px;
+    padding-right: 23px;
+  }
+
+
+  .tours-all-section__card-body {
+    padding: 22px 24px 24px;
+  }
+
+
+  .tours-all-section__heading {
+    font-size: 18px;
+
+    font-weight: 720;
+  }
+
+
+  .tours-all-section__subheading {
+    font-size: 13px;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
   .tours-all-section__tips-grid {
     grid-template-columns: 1fr;
   }
 
-  .tours-all-section__graphic-container {
+
+  .tours-all-section__tips-visual {
+    min-height: 120px;
+
+    flex-direction: row;
+
+    justify-content: flex-start;
+
+    padding: 16px;
+  }
+
+
+  .tours-all-section__clipboard-bubble {
+    width: 60px;
+    height: 60px;
+  }
+
+
+  .tours-all-section__clipboard-bubble span {
+    font-size: 27px;
+  }
+
+
+  .tours-all-section__tips-visual > span {
+    max-width: none;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .tours-all-section {
+    gap: 15px;
+  }
+
+
+  .tours-all-section__card-header {
+    min-height: 72px;
+
+    padding: 13px 16px;
+  }
+
+
+  .tours-all-section__card-body {
+    padding: 17px;
+  }
+
+
+  .tours-all-section__row-2 {
+    grid-template-columns: 1fr;
+
+    gap: 0;
+  }
+
+
+  .tours-all-section__publish-grid,
+  .tours-all-section__publish-panel {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+  }
+
+
+  .tours-all-section__publish-visual {
+    min-height: 90px;
+
+    flex-direction: row;
+  }
+
+
+  .tours-all-section__rocket-bubble {
+    width: 64px;
+    height: 64px;
+  }
+
+
+  .tours-all-section__rocket-bubble span {
+    font-size: 29px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+
+  .tours-all-section {
+    gap: 13px;
+  }
+
+
+  /* ---------------------------------------------
+     TOP ACTIONS
+     --------------------------------------------- */
+
+  .tours-all-section__top-actions {
+    width: 100%;
+
+    justify-content: stretch;
+
+    gap: 8px;
+  }
+
+
+  .tours-all-section__btn-secondary,
+  .tours-all-section__btn-submit {
+    flex: 1;
+
+    min-height: 40px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    font-size: 12px;
+  }
+
+
+  /* ---------------------------------------------
+     CARD
+     --------------------------------------------- */
+
+  .tours-all-section__card {
+    border-radius: 13px;
+  }
+
+
+  /* ---------------------------------------------
+     HEADER
+     --------------------------------------------- */
+
+  .tours-all-section__card-header {
+    min-height: 68px;
+
+    padding: 12px 13px;
+
+    gap: 10px;
+  }
+
+
+  .tours-all-section__header-group {
+    gap: 10px;
+  }
+
+
+  .tours-all-section__badge-icon {
+    width: 37px;
+    height: 37px;
+    min-width: 37px;
+
+    border-radius: 10px;
+  }
+
+
+  .tours-all-section__badge-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+
+  .tours-all-section__heading {
+    font-size: 15px;
+
+    font-weight: 720;
+
+    letter-spacing: -0.15px;
+  }
+
+
+  .tours-all-section__subheading {
+    font-size: 10.5px;
+
+    max-width: 230px;
+  }
+
+
+  .tours-all-section__chevron {
+    width: 31px;
+    height: 31px;
+    min-width: 31px;
+  }
+
+
+  .tours-all-section__chevron svg {
+    width: 17px;
+    height: 17px;
+  }
+
+
+  /* ---------------------------------------------
+     BODY
+     --------------------------------------------- */
+
+  .tours-all-section__card-body {
+    padding: 14px;
+  }
+
+
+  /* ---------------------------------------------
+     PUBLISH
+     --------------------------------------------- */
+
+  .tours-all-section__publish-grid,
+  .tours-all-section__publish-panel {
+    padding: 13px;
+
+    border-radius: 11px;
+  }
+
+
+  .tours-all-section__attr-item {
+    flex-wrap: wrap;
+
+    font-size: 11px;
+  }
+
+
+  .tours-all-section__inline-edit {
+    font-size: 10px;
+  }
+
+
+  .tours-all-section__btn-full-primary {
+    min-height: 43px;
+
+    font-size: 12px;
+  }
+
+
+  /* ---------------------------------------------
+     FORM
+     --------------------------------------------- */
+
+  .tours-all-section__form-field {
+    margin-bottom: 15px;
+  }
+
+
+  .tours-all-section__label {
+    font-size: 11.5px;
+  }
+
+
+  .tours-all-section__control {
+    min-height: 42px;
+
+    font-size: 12.5px;
+  }
+
+
+  .tours-all-section__control--textarea {
+    min-height: 95px;
+  }
+
+
+  /* ---------------------------------------------
+     TAGS
+     --------------------------------------------- */
+
+  .tours-all-section__tag-box {
+    min-height: 76px;
+
+    padding: 8px;
+  }
+
+
+  /* ---------------------------------------------
+     QUICK TIPS
+     --------------------------------------------- */
+
+  .tours-all-section__tips-list {
+    gap: 8px;
+  }
+
+
+  .tours-all-section__tips-list li {
+    padding: 9px;
+
+    gap: 8px;
+  }
+
+
+  .tours-all-section__tips-list strong {
+    font-size: 10.5px;
+  }
+
+
+  .tours-all-section__tips-list li div span {
+    font-size: 9.5px;
+  }
+
+
+  .tours-all-section__tips-visual {
     display: none;
   }
+
+
+  /* ---------------------------------------------
+     TOAST
+     --------------------------------------------- */
+
+  .tours-all-section__toast {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+
+    min-width: 0;
+    max-width: none;
+
+    font-size: 11.5px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .tours-all-section__card-header {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+
+  .tours-all-section__card-body {
+    padding: 12px;
+  }
+
+
+  .tours-all-section__badge-icon {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+  }
+
+
+  .tours-all-section__heading {
+    font-size: 14px;
+
+    font-weight: 720;
+  }
+
+
+  .tours-all-section__subheading {
+    font-size: 9.5px;
+  }
+
+
+  .tours-all-section__publish-grid,
+  .tours-all-section__publish-panel {
+    padding: 11px;
+  }
+
+
+  .tours-all-section__attr-item {
+    gap: 5px;
+  }
+
+
+  .tours-all-section__chip {
+    font-size: 9.5px;
+  }
+
+
+  .tours-all-section__tag-box {
+    padding: 7px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .tours-all-section *,
+  .tours-all-section *::before,
+  .tours-all-section *::after {
+    scroll-behavior: auto !important;
+
+    transition-duration: 0.01ms !important;
+
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+  }
+
 }

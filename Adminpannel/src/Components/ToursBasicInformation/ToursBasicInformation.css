@@ -1,26 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* =========================================================
+   BASIC INFORMATION - COMPACT PREMIUM LAYOUT
+   Backend / functionality unchanged
+   ========================================================= */
 
-/* Main Wrapper - 60% Left Aligned */
 .tbi-admin-page-container {
   width: 60%;
-  padding: 10px 0 48px 32px;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #1e293b;
+  gap: 12px;
+
+  font-family: "Inter", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+
+  color: #172033;
   box-sizing: border-box;
 }
- 
+
 .tbi-admin-page-container * {
   box-sizing: border-box;
 }
 
-/* Page Header & Breadcrumbs */
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
 .tbi-page-header {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
+  margin: 0;
 }
 
 .tbi-page-title {
@@ -28,6 +39,7 @@
   font-weight: 700;
   color: #0f172a;
   margin: 0;
+  line-height: 1.25;
 }
 
 .tbi-breadcrumbs {
@@ -47,69 +59,124 @@
   color: #475569;
 }
 
-/* Card Container */
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
 .tbi-section-card {
+  width: 100%;
   background: #ffffff;
-  border-radius: 14px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  border-radius: 17px;
+  border: 1px solid #dfe5ee;
+
+  box-shadow:
+    0 12px 32px rgba(15, 23, 42, 0.055),
+    0 2px 7px rgba(15, 23, 42, 0.025);
+
   overflow: hidden;
+  margin: 0;
 }
 
-/* Accordion Header */
+
+/* =========================================================
+   COMPACT ACCORDION HEADER
+   ========================================================= */
+
 .tbi-section-header {
-  padding: 20px 24px;
+  min-height: 82px;
+  padding: 15px 22px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   cursor: pointer;
   user-select: none;
+
+  background: #ffffff;
 }
 
 .tbi-header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .tbi-icon-badge {
-  width: 36px;
-  height: 36px;
-  background-color: #eef2ff;
-  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+
+  background: linear-gradient(
+    145deg,
+    #f1f2ff,
+    #e8eaff
+  );
+
+  border: 1px solid #dce0ff;
+  border-radius: 12px;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.tbi-icon-badge svg {
+  width: 21px;
+  height: 21px;
+}
+
 .tbi-header-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: #1e293b;
+  font-size: 20px;
+  font-weight: 740;
+  color: #16233b;
+  letter-spacing: -0.25px;
 }
 
 .tbi-chevron-btn {
-  background: none;
+  width: 34px;
+  height: 34px;
+
+  background: transparent;
   border: none;
+
   cursor: pointer;
-  color: #475569;
+  color: #64748b;
+
   display: flex;
   align-items: center;
-  padding: 0;
+  justify-content: center;
+
+  border-radius: 8px;
+
   transform: rotate(180deg);
-  transition: transform 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.tbi-chevron-btn:hover {
+  background: #f4f6f9;
 }
 
 .tbi-chevron-btn.tbi-open {
   transform: rotate(0deg);
 }
 
-/* Form Layout */
+
+/* =========================================================
+   FORM CONTENT
+   ========================================================= */
+
 .tbi-form-content {
-  padding: 4px 24px 24px 24px;
+  padding: 18px 22px 22px;
+
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
+
+  border-top: 1px solid #edf1f6;
 }
 
 .tbi-form-grid {
@@ -128,37 +195,57 @@
   width: 100%;
 }
 
+
+/* =========================================================
+   LABELS
+   ========================================================= */
+
 .tbi-input-label {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #1e293b;
+  font-size: 14px;
+  font-weight: 700;
+  color: #172033;
+  line-height: 1.3;
 }
 
 .tbi-req {
   color: #ef4444;
-  margin-left: 2px;
+  margin-left: 3px;
 }
 
-/* Inputs and Counters */
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
 .tbi-plain-input,
 .tbi-input-with-counter input,
 .tbi-textarea-with-counter textarea,
 .tbi-editor-body textarea {
   width: 100%;
+
   font-family: inherit;
-  font-size: 13.5px;
-  color: #0f172a;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #172033;
+
+  border: 1px solid #dfe5ee;
+  border-radius: 10px;
+
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .tbi-plain-input:focus,
 .tbi-input-with-counter input:focus,
 .tbi-textarea-with-counter textarea:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #554cf0;
+  box-shadow: 0 0 0 4px rgba(85, 76, 240, 0.08);
 }
 
 .tbi-plain-input::placeholder,
@@ -169,8 +256,8 @@
 }
 
 .tbi-plain-input {
+  height: 46px;
   padding: 10px 14px;
-  height: 42px;
 }
 
 .tbi-input-with-counter {
@@ -180,23 +267,17 @@
 }
 
 .tbi-input-with-counter input {
+  height: 46px;
   padding: 10px 58px 10px 14px;
-  height: 42px;
-}
-
-.tbi-textarea-with-counter {
-  position: relative;
-}
-
-.tbi-textarea-with-counter textarea {
-  padding: 12px 14px 28px 14px;
-  resize: vertical;
 }
 
 .tbi-counter {
   position: absolute;
   right: 12px;
-  font-size: 11.5px;
+
+  font-size: 11px;
+  font-weight: 500;
+
   color: #94a3b8;
   pointer-events: none;
 }
@@ -206,71 +287,101 @@
   transform: translateY(-50%);
 }
 
+
+/* =========================================================
+   SHORT DESCRIPTION
+   ========================================================= */
+
+.tbi-textarea-with-counter {
+  position: relative;
+}
+
+.tbi-textarea-with-counter textarea {
+  min-height: 115px;
+  padding: 13px 14px 28px;
+  resize: vertical;
+}
+
 .tbi-textarea-with-counter .tbi-counter {
   bottom: 8px;
 }
 
-/* Rich Editor Styling */
+
+/* =========================================================
+   RICH EDITOR
+   ========================================================= */
+
 .tbi-rich-editor-wrapper {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid #dfe5ee;
+  border-radius: 10px;
   overflow: hidden;
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 .tbi-rich-editor-wrapper:focus-within {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #554cf0;
+  box-shadow: 0 0 0 4px rgba(85, 76, 240, 0.08);
 }
 
 .tbi-editor-toolbar {
+  min-height: 45px;
+
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  border-bottom: 1px solid #f1f5f9;
+
+  padding: 7px 11px;
+
+  border-bottom: 1px solid #edf1f6;
   background: #ffffff;
 }
 
 .tbi-toolbar-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .tbi-mock-select {
   font-size: 13px;
   color: #64748b;
   cursor: pointer;
-  padding: 2px 4px;
+  padding: 3px 5px;
 }
 
 .tbi-divider {
   width: 1px;
-  height: 16px;
-  background-color: #e2e8f0;
+  height: 18px;
+  background: #e2e8f0;
 }
 
 .tbi-tool-btn {
-  background: none;
+  width: 29px;
+  height: 29px;
+
+  background: transparent;
   border: none;
+
   cursor: pointer;
   color: #64748b;
+
   font-size: 13px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 5px;
-  border-radius: 4px;
-  transition: background-color 0.15s ease, color 0.15s ease;
+
+  border-radius: 6px;
+
+  transition: 0.15s ease;
 }
 
 .tbi-tool-btn:hover {
-  background-color: #f1f5f9;
-  color: #1e293b;
+  background: #f1f3f7;
+  color: #172033;
 }
 
 .tbi-tool-btn.tbi-bold {
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .tbi-tool-btn.tbi-italic {
@@ -286,10 +397,16 @@
 }
 
 .tbi-editor-body textarea {
+  min-height: 155px;
+
   border: none;
   border-radius: 0;
-  padding: 14px 14px 28px 14px;
+
+  padding: 14px 14px 28px;
+
+  resize: vertical;
   outline: none;
+  line-height: 1.6;
 }
 
 .tbi-editor-body textarea:focus {
@@ -300,48 +417,80 @@
   bottom: 8px;
 }
 
-/* Action Buttons */
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
 .tbi-form-actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+
   gap: 12px;
-  margin-top: 6px;
+
+  margin-top: 2px;
+  padding-top: 2px;
+}
+
+.tbi-btn-cancel,
+.tbi-btn-save {
+  min-height: 44px;
+
+  border-radius: 10px;
+
+  padding: 10px 20px;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .tbi-btn-cancel {
-  background: #f1f5f9;
+  background: #f5f7fa;
   color: #334155;
-  font-size: 13px;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 9px 20px;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
+  border: 1px solid #e2e8f0;
 }
 
 .tbi-btn-cancel:hover {
-  background: #e2e8f0;
+  background: #edf0f4;
 }
 
 .tbi-btn-save {
-  background: #4f46e5;
+  background: linear-gradient(
+    135deg,
+    #5b55ed,
+    #4f46e5
+  );
+
   color: #ffffff;
-  font-size: 13px;
-  font-weight: 600;
   border: none;
-  border-radius: 8px;
-  padding: 9px 22px;
-  cursor: pointer;
-  box-shadow: 0 1px 2px rgba(79, 70, 229, 0.2);
-  transition: background-color 0.15s ease;
+
+  min-width: 180px;
+
+  box-shadow:
+    0 8px 18px rgba(79, 70, 229, 0.18);
 }
 
 .tbi-btn-save:hover {
-  background: #4338ca;
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 11px 24px rgba(79, 70, 229, 0.24);
 }
 
-/* Responsive Styles */
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
 @media (max-width: 1200px) {
   .tbi-admin-page-container {
     width: 80%;
@@ -351,12 +500,23 @@
 @media (max-width: 768px) {
   .tbi-admin-page-container {
     width: 100%;
+  }
+
+  .tbi-section-header {
+    min-height: 74px;
+    padding: 14px 16px;
+  }
+
+  .tbi-header-title {
+    font-size: 17px;
+  }
+
+  .tbi-form-content {
     padding: 16px;
   }
 
   .tbi-form-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
   }
 
   .tbi-form-actions {
@@ -366,6 +526,5 @@
   .tbi-btn-cancel,
   .tbi-btn-save {
     width: 100%;
-    height: 40px;
   }
 }

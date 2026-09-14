@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+
 import ToursBasicInformation from "../../Components/ToursBasicInformation/ToursBasicInformation";
 import ToursImagesMedia from "../../Components/ToursImagesMedia/ToursImagesMedia";
 import ToursItinerary from "../../Components/ToursItinerary/ToursItinerary";
 import ToursLocation from "../../Components/ToursLocation/ToursLocation";
 import ToursFAQSection from "../../Components/ToursFAQSection/ToursFAQSection";
 import ToursAllSection from "../../Components/ToursAllSection/ToursAllSection";
-  
+
 import API, { IMG_URL } from "../../api/axios";
 
 import {
@@ -14,15 +15,12 @@ import {
   FiEdit2,
   FiTrash2,
   FiSearch,
-  FiEye,
   FiCheckCircle,
   FiAlertCircle,
   FiArrowLeft,
   FiX,
   FiMapPin,
   FiClock,
-  FiDollarSign,
-  FiTag,
 } from "react-icons/fi";
 
 import "./Tours.css";
@@ -58,7 +56,10 @@ const INITIAL_FAQS = [
 ];
 
 const Tours = () => {
-  // View mode: "list" | "form"
+  /* =========================================================
+     VIEW / DATABASE STATE
+  ========================================================= */
+
   const [viewMode, setViewMode] = useState("form");
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -66,70 +67,111 @@ const Tours = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editingId, setEditingId] = useState(null);
 
-  // Toast Notification State
+  /* =========================================================
+     TOAST
+  ========================================================= */
+
   const [toastMessage, setToastMessage] = useState(null);
   const [isErrorToast, setIsErrorToast] = useState(false);
 
-  // Delete Modal State
+  /* =========================================================
+     DELETE MODAL
+  ========================================================= */
+
   const [deleteModalTour, setDeleteModalTour] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Unified Form States (Clean, no auto-filled dummy data)
+  /* =========================================================
+     BASIC INFORMATION
+  ========================================================= */
+
   const [basicInfo, setBasicInfo] = useState(INITIAL_BASIC_INFO);
 
-  // Media
+  /* =========================================================
+     MEDIA
+  ========================================================= */
+
   const [mainImagePreview, setMainImagePreview] = useState(null);
   const [mainImageFile, setMainImageFile] = useState(null);
+
   const [galleryPreviews, setGalleryPreviews] = useState([]);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [existingGalleryImages, setExistingGalleryImages] = useState([]);
+
   const [videoUrl, setVideoUrl] = useState("");
 
-  // Itinerary, Location, FAQs
+  /* =========================================================
+     ITINERARY / LOCATION / FAQ
+  ========================================================= */
+
   const [itineraryDays, setItineraryDays] = useState(INITIAL_ITINERARY);
+
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState("");
+
   const [faqs, setFaqs] = useState(INITIAL_FAQS);
 
-  // Sidebar details
+  /* =========================================================
+     SIDEBAR DETAILS
+  ========================================================= */
+
   const [status, setStatus] = useState("Draft");
   const [visibility, setVisibility] = useState("Public");
   const [publishDate, setPublishDate] = useState("Immediately");
+
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
   const [focusKeyword, setFocusKeyword] = useState("");
+
   const [seoImagePreview, setSeoImagePreview] = useState(null);
   const [seoImageFile, setSeoImageFile] = useState(null);
 
   const [price, setPrice] = useState("");
   const [discountPrice, setDiscountPrice] = useState("");
   const [maxPeople, setMaxPeople] = useState("");
+
   const [difficulty, setDifficulty] = useState("Easy");
   const [bestTimeToVisit, setBestTimeToVisit] = useState("");
   const [category, setCategory] = useState("");
+
   const [includes, setIncludes] = useState([]);
   const [excludes, setExcludes] = useState([]);
   const [tags, setTags] = useState([]);
 
-  // Show Toast
+  /* =========================================================
+     TOAST FUNCTION
+  ========================================================= */
+
   const showToast = (message, isError = false) => {
     setToastMessage(message);
     setIsErrorToast(isError);
+
     setTimeout(() => {
       setToastMessage(null);
     }, 4000);
   };
 
-  // Fetch all tours from backend
+  /* =========================================================
+     FETCH TOURS
+  ========================================================= */
+
   const fetchTours = async () => {
     try {
       setLoading(true);
+
       const res = await API.get("/tours");
+
       const data = res.data.data || res.data || [];
+
       setTours(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching tours:", error);
-      showToast(error.response?.data?.message || "Failed to load tours from database", true);
+
+      showToast(
+        error.response?.data?.message ||
+          "Failed to load tours from database",
+        true
+      );
     } finally {
       setLoading(false);
     }
@@ -139,42 +181,62 @@ const Tours = () => {
     fetchTours();
   }, []);
 
-  // Reset form to completely blank
+  /* =========================================================
+     RESET FORM
+  ========================================================= */
+
   const resetForm = () => {
     setEditingId(null);
+
     setBasicInfo(INITIAL_BASIC_INFO);
+
     setMainImagePreview(null);
     setMainImageFile(null);
+
     setGalleryPreviews([]);
     setGalleryFiles([]);
     setExistingGalleryImages([]);
+
     setVideoUrl("");
+
     setItineraryDays(INITIAL_ITINERARY);
+
     setAddress("");
     setCoordinates("");
+
     setFaqs(INITIAL_FAQS);
+
     setStatus("Draft");
     setVisibility("Public");
     setPublishDate("Immediately");
+
     setMetaTitle("");
     setMetaDescription("");
     setFocusKeyword("");
+
     setSeoImagePreview(null);
     setSeoImageFile(null);
+
     setPrice("");
     setDiscountPrice("");
     setMaxPeople("");
+
     setDifficulty("Easy");
     setBestTimeToVisit("");
     setCategory("");
+
     setIncludes([]);
     setExcludes([]);
     setTags([]);
   };
 
-  // Populate form for editing
+  /* =========================================================
+     EDIT TOUR
+  ========================================================= */
+
   const handleEditTour = (tour) => {
     setEditingId(tour._id);
+
     setBasicInfo({
       title: tour.title || "",
       slug: tour.slug || "",
@@ -189,12 +251,14 @@ const Tours = () => {
         ? tour.mainImage
         : `${IMG_URL}${tour.mainImage}`
       : null;
+
     setMainImagePreview(fullMainImg);
     setMainImageFile(null);
 
     const existingGallery = (tour.galleryImages || []).map((img) =>
       img.startsWith("http") ? img : `${IMG_URL}${img}`
     );
+
     setExistingGalleryImages(tour.galleryImages || []);
     setGalleryPreviews(existingGallery);
     setGalleryFiles([]);
@@ -236,6 +300,7 @@ const Tours = () => {
     setStatus(tour.status || "Published");
     setVisibility(tour.visibility || "Public");
     setPublishDate(tour.publishDate || "Immediately");
+
     setMetaTitle(tour.metaTitle || "");
     setMetaDescription(tour.metaDescription || "");
     setFocusKeyword(tour.focusKeyword || "");
@@ -245,79 +310,137 @@ const Tours = () => {
         ? tour.seoImage
         : `${IMG_URL}${tour.seoImage}`
       : null;
+
     setSeoImagePreview(fullSeoImg);
     setSeoImageFile(null);
 
     setPrice(String(tour.price || "0"));
     setDiscountPrice(String(tour.discountPrice || "0"));
     setMaxPeople(String(tour.maxPeople || "20"));
+
     setDifficulty(tour.difficulty || "Easy");
-    setBestTimeToVisit(tour.bestTimeToVisit || "October to March");
+    setBestTimeToVisit(
+      tour.bestTimeToVisit || "October to March"
+    );
+
     setCategory(tour.category || "Culture");
+
     setIncludes(tour.includes || []);
     setExcludes(tour.excludes || []);
     setTags(tour.tags || []);
 
     setViewMode("form");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  // Handle Main File
+  /* =========================================================
+     MAIN IMAGE
+  ========================================================= */
+
   const handleMainFileChange = (file) => {
+    if (!file) return;
+
     setMainImageFile(file);
     setMainImagePreview(URL.createObjectURL(file));
   };
 
-  // Handle Gallery Files
+  /* =========================================================
+     GALLERY
+  ========================================================= */
+
   const handleGalleryFilesChange = (newFiles) => {
+    if (!newFiles?.length) return;
+
     setGalleryFiles((prev) => [...prev, ...newFiles]);
-    const newPreviews = newFiles.map((f) => URL.createObjectURL(f));
+
+    const newPreviews = newFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
+
     setGalleryPreviews((prev) => [...prev, ...newPreviews]);
   };
 
   const handleRemoveGalleryImage = (index) => {
     const existingCount = existingGalleryImages.length;
+
     if (index < existingCount) {
-      // Removing an existing image
-      setExistingGalleryImages((prev) => prev.filter((_, idx) => idx !== index));
-      setGalleryPreviews((prev) => prev.filter((_, idx) => idx !== index));
+      setExistingGalleryImages((prev) =>
+        prev.filter((_, idx) => idx !== index)
+      );
+
+      setGalleryPreviews((prev) =>
+        prev.filter((_, idx) => idx !== index)
+      );
     } else {
-      // Removing a newly uploaded file
       const newFileIndex = index - existingCount;
-      setGalleryFiles((prev) => prev.filter((_, idx) => idx !== newFileIndex));
-      setGalleryPreviews((prev) => prev.filter((_, idx) => idx !== index));
+
+      setGalleryFiles((prev) =>
+        prev.filter((_, idx) => idx !== newFileIndex)
+      );
+
+      setGalleryPreviews((prev) =>
+        prev.filter((_, idx) => idx !== index)
+      );
     }
   };
 
-  // Handle SEO File
+  /* =========================================================
+     SEO IMAGE
+  ========================================================= */
+
   const handleSeoFileChange = (file) => {
+    if (!file) return;
+
     setSeoImageFile(file);
     setSeoImagePreview(URL.createObjectURL(file));
   };
 
-  // Submit to Backend Database
+  /* =========================================================
+     SAVE TOUR
+  ========================================================= */
+
   const handleSaveTour = async () => {
-    // Validation
     if (!basicInfo.title || !basicInfo.title.trim()) {
       showToast("Please enter a Tour Title.", true);
       return;
     }
-    if (!basicInfo.destination || !basicInfo.destination.trim()) {
+
+    if (
+      !basicInfo.destination ||
+      !basicInfo.destination.trim()
+    ) {
       showToast("Please enter a Destination.", true);
       return;
     }
+
     if (!basicInfo.duration || !basicInfo.duration.trim()) {
-      showToast("Please enter Tour Duration (e.g. 5 Days 4 Nights).", true);
+      showToast(
+        "Please enter Tour Duration (e.g. 5 Days 4 Nights).",
+        true
+      );
       return;
     }
-    if (!basicInfo.shortDescription || !basicInfo.shortDescription.trim()) {
+
+    if (
+      !basicInfo.shortDescription ||
+      !basicInfo.shortDescription.trim()
+    ) {
       showToast("Please enter Short Description.", true);
       return;
     }
-    if (!basicInfo.detailedDescription || !basicInfo.detailedDescription.trim()) {
+
+    if (
+      !basicInfo.detailedDescription ||
+      !basicInfo.detailedDescription.trim()
+    ) {
       showToast("Please enter Detailed Description.", true);
       return;
     }
+
     if (!price || isNaN(Number(price))) {
       showToast("Please enter a valid Price.", true);
       return;
@@ -325,91 +448,183 @@ const Tours = () => {
 
     try {
       setSaving(true);
+
       const formData = new FormData();
 
-      // Basic Information
+      /* Basic Information */
+
       formData.append("title", basicInfo.title.trim());
       formData.append("slug", basicInfo.slug.trim());
-      formData.append("destination", basicInfo.destination.trim());
+      formData.append(
+        "destination",
+        basicInfo.destination.trim()
+      );
       formData.append("duration", basicInfo.duration.trim());
-      formData.append("shortDescription", basicInfo.shortDescription.trim());
-      formData.append("detailedDescription", basicInfo.detailedDescription.trim());
 
-      // Media files
+      formData.append(
+        "shortDescription",
+        basicInfo.shortDescription.trim()
+      );
+
+      formData.append(
+        "detailedDescription",
+        basicInfo.detailedDescription.trim()
+      );
+
+      /* Media */
+
       if (mainImageFile) {
         formData.append("mainImage", mainImageFile);
       }
+
       if (seoImageFile) {
         formData.append("seoImage", seoImageFile);
       }
+
       galleryFiles.forEach((file) => {
         formData.append("galleryImages", file);
       });
-      formData.append("existingGalleryImages", JSON.stringify(existingGalleryImages));
+
+      formData.append(
+        "existingGalleryImages",
+        JSON.stringify(existingGalleryImages)
+      );
+
       formData.append("videoUrl", videoUrl.trim());
 
-      // Itinerary, Location, FAQs (as JSON strings)
+      /* Itinerary */
+
       const cleanItinerary = itineraryDays.map((d) => ({
         dayNumber: d.dayNumber,
         title: d.title,
         description: d.description,
         highlights: d.highlights || [],
       }));
-      formData.append("itinerary", JSON.stringify(cleanItinerary));
+
+      formData.append(
+        "itinerary",
+        JSON.stringify(cleanItinerary)
+      );
+
+      /* Location */
 
       const cleanLocation = {
         address: address.trim(),
         coordinates: coordinates.trim(),
-        mapUrl: `https://maps.google.com/maps?q=${encodeURIComponent(address.trim())}&output=embed`,
+        mapUrl: `https://maps.google.com/maps?q=${encodeURIComponent(
+          address.trim()
+        )}&output=embed`,
       };
-      formData.append("location", JSON.stringify(cleanLocation));
+
+      formData.append(
+        "location",
+        JSON.stringify(cleanLocation)
+      );
+
+      /* FAQs */
 
       const cleanFaqs = faqs.map((f) => ({
         number: f.number,
         question: f.question,
         answer: f.answer,
       }));
+
       formData.append("faqs", JSON.stringify(cleanFaqs));
 
-      // Sidebar details
+      /* Sidebar */
+
       formData.append("status", status);
       formData.append("visibility", visibility);
       formData.append("publishDate", publishDate);
+
       formData.append("metaTitle", metaTitle.trim());
-      formData.append("metaDescription", metaDescription.trim());
-      formData.append("focusKeyword", focusKeyword.trim());
+      formData.append(
+        "metaDescription",
+        metaDescription.trim()
+      );
+      formData.append(
+        "focusKeyword",
+        focusKeyword.trim()
+      );
 
       formData.append("price", Number(price) || 0);
-      formData.append("discountPrice", Number(discountPrice) || 0);
-      formData.append("maxPeople", Number(maxPeople) || 20);
+      formData.append(
+        "discountPrice",
+        Number(discountPrice) || 0
+      );
+
+      formData.append(
+        "maxPeople",
+        Number(maxPeople) || 20
+      );
+
       formData.append("difficulty", difficulty);
-      formData.append("bestTimeToVisit", bestTimeToVisit.trim());
+
+      formData.append(
+        "bestTimeToVisit",
+        bestTimeToVisit.trim()
+      );
+
       formData.append("category", category.trim());
 
-      formData.append("includes", JSON.stringify(includes));
-      formData.append("excludes", JSON.stringify(excludes));
-      formData.append("tags", JSON.stringify(tags));
+      formData.append(
+        "includes",
+        JSON.stringify(includes)
+      );
+
+      formData.append(
+        "excludes",
+        JSON.stringify(excludes)
+      );
+
+      formData.append(
+        "tags",
+        JSON.stringify(tags)
+      );
 
       let res;
+
       if (editingId) {
-        res = await API.put(`/tours/${editingId}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        showToast("Tour package updated successfully in database!");
+        res = await API.put(
+          `/tours/${editingId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        showToast(
+          "Tour package updated successfully in database!"
+        );
       } else {
-        res = await API.post("/tours", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        showToast("Tour package created and saved to database successfully!");
+        res = await API.post(
+          "/tours",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        showToast(
+          "Tour package created and saved to database successfully!"
+        );
       }
 
       await fetchTours();
+
       resetForm();
+
       setViewMode("list");
     } catch (error) {
       console.error("Save tour error:", error);
+
       showToast(
-        error.response?.data?.message || "Failed to save tour package to database",
+        error.response?.data?.message ||
+          "Failed to save tour package to database",
         true
       );
     } finally {
@@ -417,40 +632,74 @@ const Tours = () => {
     }
   };
 
-  // Delete Tour and all associated images from disk
+  /* =========================================================
+     DELETE TOUR
+  ========================================================= */
+
   const confirmDeleteTour = async () => {
     if (!deleteModalTour) return;
+
     try {
       setIsDeleting(true);
-      await API.delete(`/tours/${deleteModalTour._id}`);
-      showToast("Tour package and all associated images deleted successfully!");
+
+      await API.delete(
+        `/tours/${deleteModalTour._id}`
+      );
+
+      showToast(
+        "Tour package and all associated images deleted successfully!"
+      );
+
       setDeleteModalTour(null);
+
       await fetchTours();
     } catch (error) {
       console.error("Delete tour error:", error);
-      showToast(error.response?.data?.message || "Failed to delete tour package", true);
+
+      showToast(
+        error.response?.data?.message ||
+          "Failed to delete tour package",
+        true
+      );
     } finally {
       setIsDeleting(false);
     }
   };
 
-  // Filtered tours for list view
-  const filteredTours = tours.filter((t) => {
-    const q = searchTerm.toLowerCase();
+  /* =========================================================
+     FILTER TOURS
+  ========================================================= */
+
+  const filteredTours = tours.filter((tour) => {
+    const q = searchTerm.toLowerCase().trim();
+
     return (
-      (t.title && t.title.toLowerCase().includes(q)) ||
-      (t.destination && t.destination.toLowerCase().includes(q)) ||
-      (t.category && t.category.toLowerCase().includes(q))
+      (tour.title &&
+        tour.title.toLowerCase().includes(q)) ||
+      (tour.destination &&
+        tour.destination.toLowerCase().includes(q)) ||
+      (tour.category &&
+        tour.category.toLowerCase().includes(q))
     );
   });
 
+  /* =========================================================
+     RENDER
+  ========================================================= */
+
   return (
     <div className="tours-admin-wrapper">
-      {/* Toast Notification Banner */}
+
+      {/* =====================================================
+          TOAST
+      ===================================================== */}
+
       {toastMessage && (
         <div
           className={`tours-toast-notification ${
-            isErrorToast ? "tours-toast-error" : "tours-toast-success"
+            isErrorToast
+              ? "tours-toast-error"
+              : "tours-toast-success"
           }`}
         >
           {isErrorToast ? (
@@ -458,7 +707,9 @@ const Tours = () => {
           ) : (
             <FiCheckCircle className="tours-toast-icon" />
           )}
+
           <span>{toastMessage}</span>
+
           <button
             type="button"
             className="tours-toast-close"
@@ -469,9 +720,14 @@ const Tours = () => {
         </div>
       )}
 
-      {/* Top Admin Controls Navigation Bar */}
-      <div className="tours-nav-header">
+      {/* =====================================================
+          TOP NAV HEADER
+      ===================================================== */}
+
+      <header className="tours-nav-header">
+
         <div className="tours-nav-left">
+
           {viewMode === "form" && (
             <button
               type="button"
@@ -482,19 +738,34 @@ const Tours = () => {
               }}
               title="View all tours"
             >
-              <FiArrowLeft /> Back to Tours List
+              <FiArrowLeft />
+              <span>Back to Tours List</span>
             </button>
           )}
-          <h1 className="tours-heading-main">
-            {viewMode === "list"
-              ? "Tour Packages"
-              : editingId
-              ? `Edit Tour: ${basicInfo.title || "Tour Package"}`
-              : "Add New Tour Package"}
-          </h1>
+
+          <div className="tours-title-block">
+            <h1 className="tours-heading-main">
+              {viewMode === "list"
+                ? "Tour Packages"
+                : editingId
+                ? `Edit Tour: ${
+                    basicInfo.title || "Tour Package"
+                  }`
+                : "Add New Tour Package"}
+            </h1>
+
+            <p className="tours-heading-subtitle">
+              {viewMode === "list"
+                ? "Manage your travel experiences and tour packages"
+                : editingId
+                ? "Update and manage your existing tour package"
+                : "Create a premium travel experience for your customers"}
+            </p>
+          </div>
         </div>
 
         <div className="tours-nav-right">
+
           {viewMode === "list" ? (
             <button
               type="button"
@@ -504,7 +775,8 @@ const Tours = () => {
                 setViewMode("form");
               }}
             >
-              <FiPlus /> Add New Tour
+              <FiPlus />
+              <span>Add New Tour</span>
             </button>
           ) : (
             <button
@@ -515,28 +787,37 @@ const Tours = () => {
                 setViewMode("list");
               }}
             >
-              <FiList /> View All Tours ({tours.length})
+              <FiList />
+              <span>
+                View All Tours ({tours.length})
+              </span>
             </button>
           )}
         </div>
-      </div>
+      </header>
 
-      {/* =========================================================
-          VIEW MODE: LIST (ALL TOURS TABLE)
-      ========================================================= */}
+      {/* =====================================================
+          LIST VIEW
+      ===================================================== */}
+
       {viewMode === "list" ? (
-        <div className="tours-list-container">
-          {/* Search bar */}
+        <section className="tours-list-container">
+
           <div className="tours-list-toolbar">
+
             <div className="tours-search-box">
               <FiSearch className="tours-search-icon" />
+
               <input
                 type="text"
                 placeholder="Search by title, destination, category..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) =>
+                  setSearchTerm(e.target.value)
+                }
                 className="tours-search-input"
               />
+
               {searchTerm && (
                 <button
                   type="button"
@@ -547,24 +828,44 @@ const Tours = () => {
                 </button>
               )}
             </div>
+
             <span className="tours-count-badge">
-              Total: <strong>{filteredTours.length}</strong> {filteredTours.length === 1 ? "tour" : "tours"}
+              Total:
+              <strong>
+                {filteredTours.length}
+              </strong>
+              {filteredTours.length === 1
+                ? " tour"
+                : " tours"}
             </span>
           </div>
 
           {loading ? (
             <div className="tours-loading-box">
-              <div className="tours-spinner"></div>
-              <p>Loading tour packages from database...</p>
+
+              <div className="tours-spinner" />
+
+              <p>
+                Loading tour packages from database...
+              </p>
             </div>
           ) : filteredTours.length === 0 ? (
             <div className="tours-empty-state">
-              <p className="tours-empty-title">No tour packages found</p>
+
+              <div className="tours-empty-icon">
+                <FiList />
+              </div>
+
+              <p className="tours-empty-title">
+                No tour packages found
+              </p>
+
               <p className="tours-empty-subtitle">
                 {searchTerm
                   ? "Try clearing your search query."
                   : "Click '+ Add New Tour' to create your first package."}
               </p>
+
               <button
                 type="button"
                 className="tours-btn-primary-action"
@@ -573,115 +874,169 @@ const Tours = () => {
                   setViewMode("form");
                 }}
               >
-                <FiPlus /> Create Tour Package
+                <FiPlus />
+                Create Tour Package
               </button>
             </div>
           ) : (
             <div className="tours-table-card">
-              <table className="tours-table">
-                <thead>
-                  <tr>
-                    <th>Tour Details</th>
-                    <th>Destination</th>
-                    <th>Duration</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTours.map((t) => {
-                    const thumbUrl = t.mainImage
-                      ? t.mainImage.startsWith("http")
-                        ? t.mainImage
-                        : `${IMG_URL}${t.mainImage}`
-                      : "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=150&q=80";
 
-                    return (
-                      <tr key={t._id}>
-                        <td>
-                          <div className="tours-table-item">
-                            <img
-                              src={thumbUrl}
-                              alt={t.title}
-                              className="tours-table-thumb"
-                            />
-                            <div>
-                              <strong className="tours-table-title">{t.title}</strong>
-                              <span className="tours-table-slug">/{t.slug}</span>
+              <div className="tours-table-scroll">
+
+                <table className="tours-table">
+
+                  <thead>
+                    <tr>
+                      <th>Tour Details</th>
+                      <th>Destination</th>
+                      <th>Duration</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {filteredTours.map((tour) => {
+
+                      const thumbUrl = tour.mainImage
+                        ? tour.mainImage.startsWith("http")
+                          ? tour.mainImage
+                          : `${IMG_URL}${tour.mainImage}`
+                        : "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=150&q=80";
+
+                      return (
+                        <tr key={tour._id}>
+
+                          <td>
+                            <div className="tours-table-item">
+
+                              <img
+                                src={thumbUrl}
+                                alt={tour.title}
+                                className="tours-table-thumb"
+                              />
+
+                              <div className="tours-table-content">
+
+                                <strong className="tours-table-title">
+                                  {tour.title}
+                                </strong>
+
+                                <span className="tours-table-slug">
+                                  /{tour.slug}
+                                </span>
+
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="tours-table-info-cell">
-                            <FiMapPin className="tours-cell-icon" />
-                            <span>{t.destination}</span>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="tours-table-info-cell">
-                            <FiClock className="tours-cell-icon" />
-                            <span>{t.duration}</span>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="tours-table-price">
-                            <strong>₹{Number(t.price || 0).toLocaleString("en-IN")}</strong>
-                            {t.discountPrice > 0 && (
-                              <span className="tours-table-discount">
-                                ₹{Number(t.discountPrice).toLocaleString("en-IN")}
+                          </td>
+
+                          <td>
+                            <div className="tours-table-info-cell">
+                              <FiMapPin className="tours-cell-icon" />
+                              <span>
+                                {tour.destination}
                               </span>
-                            )}
-                          </div>
-                        </td>
-                        <td>
-                          <span
-                            className={`tours-status-pill ${
-                              t.status === "Published"
-                                ? "status-published"
-                                : t.status === "Archived"
-                                ? "status-archived"
-                                : "status-draft"
-                            }`}
-                          >
-                            {t.status || "Draft"}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="tours-table-actions">
-                            <button
-                              type="button"
-                              className="tours-action-btn tours-action-edit"
-                              onClick={() => handleEditTour(t)}
-                              title="Edit Tour Package"
+                            </div>
+                          </td>
+
+                          <td>
+                            <div className="tours-table-info-cell">
+                              <FiClock className="tours-cell-icon" />
+                              <span>
+                                {tour.duration}
+                              </span>
+                            </div>
+                          </td>
+
+                          <td>
+                            <div className="tours-table-price">
+
+                              <strong>
+                                ₹
+                                {Number(
+                                  tour.price || 0
+                                ).toLocaleString("en-IN")}
+                              </strong>
+
+                              {tour.discountPrice > 0 && (
+                                <span className="tours-table-discount">
+                                  ₹
+                                  {Number(
+                                    tour.discountPrice
+                                  ).toLocaleString("en-IN")}
+                                </span>
+                              )}
+                            </div>
+                          </td>
+
+                          <td>
+                            <span
+                              className={`tours-status-pill ${
+                                tour.status === "Published"
+                                  ? "status-published"
+                                  : tour.status === "Archived"
+                                  ? "status-archived"
+                                  : "status-draft"
+                              }`}
                             >
-                              <FiEdit2 />
-                            </button>
-                            <button
-                              type="button"
-                              className="tours-action-btn tours-action-delete"
-                              onClick={() => setDeleteModalTour(t)}
-                              title="Delete Tour & Images"
-                            >
-                              <FiTrash2 />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                              {tour.status || "Draft"}
+                            </span>
+                          </td>
+
+                          <td>
+                            <div className="tours-table-actions">
+
+                              <button
+                                type="button"
+                                className="tours-action-btn tours-action-edit"
+                                onClick={() =>
+                                  handleEditTour(tour)
+                                }
+                                title="Edit Tour Package"
+                              >
+                                <FiEdit2 />
+                              </button>
+
+                              <button
+                                type="button"
+                                className="tours-action-btn tours-action-delete"
+                                onClick={() =>
+                                  setDeleteModalTour(tour)
+                                }
+                                title="Delete Tour & Images"
+                              >
+                                <FiTrash2 />
+                              </button>
+
+                            </div>
+                          </td>
+
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+
+                </table>
+
+              </div>
             </div>
           )}
-        </div>
+        </section>
       ) : (
-        /* =========================================================
-            VIEW MODE: FORM (6 EDIT / CREATE SUBCOMPONENTS)
-        ========================================================= */
-        <div className="tours-page">
-          {/* LEFT CONTENT */}
+
+        /* =====================================================
+           FORM VIEW
+        ===================================================== */
+
+        <section className="tours-page">
+
+          {/* =================================================
+              LEFT CONTENT
+          ================================================= */}
+
           <main className="tours-main-content">
+
             <ToursBasicInformation
               formData={basicInfo}
               setFormData={setBasicInfo}
@@ -698,7 +1053,9 @@ const Tours = () => {
               setVideoUrl={setVideoUrl}
               onMainFileChange={handleMainFileChange}
               onGalleryFilesChange={handleGalleryFilesChange}
-              onRemoveGalleryImage={handleRemoveGalleryImage}
+              onRemoveGalleryImage={
+                handleRemoveGalleryImage
+              }
               onSave={handleSaveTour}
               isSubmitting={saving}
             />
@@ -723,10 +1080,15 @@ const Tours = () => {
               onSave={handleSaveTour}
               isSubmitting={saving}
             />
+
           </main>
 
-          {/* RIGHT SIDEBAR */}
+          {/* =================================================
+              RIGHT SIDEBAR
+          ================================================= */}
+
           <aside className="tours-right-sidebar">
+
             <ToursAllSection
               status={status}
               setStatus={setStatus}
@@ -766,46 +1128,68 @@ const Tours = () => {
               toastMessage={toastMessage}
               showToast={showToast}
             />
+
           </aside>
-        </div>
+
+        </section>
       )}
 
-      {/* =========================================================
-          DELETE CONFIRMATION MODAL
-      ========================================================= */}
+      {/* =====================================================
+          DELETE MODAL
+      ===================================================== */}
+
       {deleteModalTour && (
         <div className="tours-modal-overlay">
+
           <div className="tours-modal-card">
+
             <div className="tours-modal-icon-danger">
               <FiTrash2 />
             </div>
-            <h3 className="tours-modal-title">Delete Tour Package?</h3>
+
+            <h3 className="tours-modal-title">
+              Delete Tour Package?
+            </h3>
+
             <p className="tours-modal-desc">
               Are you sure you want to permanently delete{" "}
-              <strong>"{deleteModalTour.title}"</strong>?
+              <strong>
+                "{deleteModalTour.title}"
+              </strong>
+              ?
               <br />
+
               <span className="tours-modal-note">
-                All associated featured, gallery, and SEO images will also be permanently deleted from the server.
+                All associated featured, gallery, and SEO
+                images will also be permanently deleted
+                from the server.
               </span>
             </p>
 
             <div className="tours-modal-actions">
+
               <button
                 type="button"
                 className="tours-modal-btn-cancel"
-                onClick={() => setDeleteModalTour(null)}
+                onClick={() =>
+                  setDeleteModalTour(null)
+                }
                 disabled={isDeleting}
               >
                 Cancel
               </button>
+
               <button
                 type="button"
                 className="tours-modal-btn-delete"
                 onClick={confirmDeleteTour}
                 disabled={isDeleting}
               >
-                {isDeleting ? "Deleting & Cleaning Images..." : "Yes, Delete Everything"}
+                {isDeleting
+                  ? "Deleting & Cleaning Images..."
+                  : "Yes, Delete Everything"}
               </button>
+
             </div>
           </div>
         </div>
