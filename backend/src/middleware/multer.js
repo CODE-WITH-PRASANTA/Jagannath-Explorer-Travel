@@ -25,10 +25,16 @@ const storage = multer.memoryStorage();
 // FILE FILTER
 // =========================================
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype && file.mimetype.startsWith("image/")) {
+  if (
+    file.mimetype &&
+    file.mimetype.startsWith("image/")
+  ) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files are allowed"), false);
+    cb(
+      new Error("Only image files are allowed"),
+      false
+    );
   }
 };
 
@@ -48,7 +54,9 @@ const multerUpload = multer({
 // SINGLE WEBP CONVERSION MIDDLEWARE
 // WEBP CONVERSION MIDDLEWARE GENERATOR
 // =========================================
-const convertToWebp = (subFolder = "gallery") => {
+const convertToWebp = (
+  subFolder = "gallery"
+) => {
   return async (req, res, next) => {
     try {
       // If no file uploaded, proceed to controller
@@ -56,8 +64,16 @@ const convertToWebp = (subFolder = "gallery") => {
         return next();
       }
 
-      // Determine target directory (e.g. src/uploads/users, src/uploads/team, or src/uploads/gallery)
-      const targetUploadPath = path.join(baseUploadDir, subFolder);
+      // Determine target directory
+      // e.g. src/uploads/users
+      // e.g. src/uploads/team
+      // e.g. src/uploads/gallery
+      // e.g. src/uploads/coupen
+      const targetUploadPath = path.join(
+        baseUploadDir,
+        subFolder
+      );
+
       ensureDirExists(targetUploadPath);
 
       // Create safe sanitized file name
@@ -69,13 +85,20 @@ const convertToWebp = (subFolder = "gallery") => {
         .replace(/^-|-$/g, "")
         .toLowerCase();
 
-      const fileName = `${originalName || "image"}-${Date.now()}-${Math.round(
+      const fileName = `${
+        originalName || "image"
+      }-${Date.now()}-${Math.round(
         Math.random() * 1e9
       )}.webp`;
 
-      const outputPath = path.join(targetUploadPath, fileName);
+      const outputPath = path.join(
+        targetUploadPath,
+        fileName
+      );
 
-      // Convert buffer to WebP via Sharp
+      // =========================================
+      // CONVERT BUFFER TO WEBP VIA SHARP
+      // =========================================
       await sharp(req.file.buffer)
         .webp({
           quality: 85,
@@ -83,25 +106,38 @@ const convertToWebp = (subFolder = "gallery") => {
         })
         .toFile(outputPath);
 
-      // Update req.file details
+      // =========================================
+      // UPDATE REQ.FILE DETAILS
+      // =========================================
       req.file.filename = fileName;
       req.file.path = outputPath;
       req.file.destination = targetUploadPath;
       req.file.mimetype = "image/webp";
       req.file.originalname = fileName;
-      req.file.size = fs.statSync(outputPath).size;
+      req.file.size =
+        fs.statSync(outputPath).size;
 
-      // URL accessible from the frontend static route
-      const relativeUrl = `/uploads/${subFolder}/${fileName}`;
+      // URL accessible from frontend static route
+      const relativeUrl =
+        `/uploads/${subFolder}/${fileName}`;
+
       req.file.url = relativeUrl;
-      req.avatarPath = relativeUrl; // Compatibility for controllers checking req.avatarPath
+
+      // Compatibility for controllers
+      // checking req.avatarPath
+      req.avatarPath = relativeUrl;
 
       next();
     } catch (error) {
-      console.error("IMAGE CONVERSION ERROR:", error);
+      console.error(
+        "IMAGE CONVERSION ERROR:",
+        error
+      );
+
       return res.status(400).json({
         success: false,
-        message: "Failed to convert image to WebP",
+        message:
+          "Failed to convert image to WebP",
         error: error.message,
       });
     }
@@ -109,24 +145,36 @@ const convertToWebp = (subFolder = "gallery") => {
 };
 
 // =========================================
-// MULTIPLE WEBP CONVERSION MIDDLEWARE GENERATOR
+// MULTIPLE WEBP CONVERSION MIDDLEWARE
+// GENERATOR
 // =========================================
-const convertMultipleToWebp = (subFolder = "gallery") => {
+const convertMultipleToWebp = (
+  subFolder = "gallery"
+) => {
   return async (req, res, next) => {
     try {
       let filesArray = [];
 
       if (Array.isArray(req.files)) {
         filesArray = req.files;
-      } else if (req.files && typeof req.files === "object") {
-        filesArray = Object.values(req.files).flat();
+      } else if (
+        req.files &&
+        typeof req.files === "object"
+      ) {
+        filesArray = Object.values(
+          req.files
+        ).flat();
       }
 
       if (!filesArray.length) {
         return next();
       }
 
-      const targetUploadPath = path.join(baseUploadDir, subFolder);
+      const targetUploadPath = path.join(
+        baseUploadDir,
+        subFolder
+      );
+
       ensureDirExists(targetUploadPath);
 
       await Promise.all(
@@ -139,11 +187,16 @@ const convertMultipleToWebp = (subFolder = "gallery") => {
             .replace(/^-|-$/g, "")
             .toLowerCase();
 
-          const fileName = `${originalName || "image"}-${Date.now()}-${Math.round(
+          const fileName = `${
+            originalName || "image"
+          }-${Date.now()}-${Math.round(
             Math.random() * 1e9
           )}.webp`;
 
-          const outputPath = path.join(targetUploadPath, fileName);
+          const outputPath = path.join(
+            targetUploadPath,
+            fileName
+          );
 
           await sharp(file.buffer)
             .webp({
@@ -154,21 +207,29 @@ const convertMultipleToWebp = (subFolder = "gallery") => {
 
           file.filename = fileName;
           file.path = outputPath;
-          file.destination = targetUploadPath;
+          file.destination =
+            targetUploadPath;
           file.mimetype = "image/webp";
           file.originalname = fileName;
-          file.size = fs.statSync(outputPath).size;
-          file.url = `/uploads/${subFolder}/${fileName}`;
+          file.size =
+            fs.statSync(outputPath).size;
+
+          file.url =
+            `/uploads/${subFolder}/${fileName}`;
         })
       );
 
       next();
     } catch (error) {
-      console.error("MULTIPLE IMAGE CONVERSIONERROR:", error);
+      console.error(
+        "MULTIPLE IMAGE CONVERSION ERROR:",
+        error
+      );
 
       return res.status(400).json({
         success: false,
-        message: "Failed to convert images to WebP",
+        message:
+          "Failed to convert images to WebP",
         error: error.message,
       });
     }
@@ -176,31 +237,110 @@ const convertMultipleToWebp = (subFolder = "gallery") => {
 };
 
 // =========================================
-// EXPORT (Backwards Compatible & Team Supported)
+// EXPORT
+// BACKWARDS COMPATIBLE
+// TEAM SUPPORTED
+// COUPEN/BANNER SUPPORTED
 // =========================================
 const upload = {
-  single: (fieldName, folder = "gallery") => {
-    // Automatically route 'avatar' to 'users' and 'image' (team member upload) to 'team'
+  // =========================================
+  // SINGLE FILE UPLOAD
+  // =========================================
+  single: (
+    fieldName,
+    folder = "gallery"
+  ) => {
     let targetFolder = folder;
-    if (fieldName === "avatar") {
+
+    /*
+      ============================================
+      EXISTING BEHAVIOR - DO NOT REMOVE
+      ============================================
+
+      upload.single("avatar")
+      -> users
+
+      upload.single("image")
+      -> team
+
+      ============================================
+      NEW COUPEN SUPPORT
+      ============================================
+
+      upload.single("image", "coupen")
+      -> coupen
+
+      This allows the Coupen/Banner module
+      to use the existing upload middleware.
+    */
+
+    // =========================================
+    // COUPEN / BANNER
+    // =========================================
+    if (folder === "coupen") {
+      targetFolder = "coupen";
+    }
+
+    // =========================================
+    // EXISTING AVATAR
+    // =========================================
+    else if (fieldName === "avatar") {
       targetFolder = "users";
-    } else if (fieldName === "image") {
+    }
+
+    // =========================================
+    // EXISTING TEAM IMAGE
+    // =========================================
+    else if (fieldName === "image") {
       targetFolder = "team";
     }
-    return [multerUpload.single(fieldName), convertToWebp(targetFolder)];
+
+    return [
+      multerUpload.single(fieldName),
+      convertToWebp(targetFolder),
+    ];
   },
-  array: (fieldName, maxCount, folder = "gallery") => [
-    multerUpload.array(fieldName, maxCount),
+
+  // =========================================
+  // MULTIPLE FILE UPLOAD
+  // =========================================
+  array: (
+    fieldName,
+    maxCount,
+    folder = "gallery"
+  ) => [
+    multerUpload.array(
+      fieldName,
+      maxCount
+    ),
     convertMultipleToWebp(folder),
   ],
-  fields: (fieldsArray, folder = "gallery") => [
-    multerUpload.fields(fieldsArray),
+
+  // =========================================
+  // MULTIPLE DIFFERENT FIELDS
+  // =========================================
+  fields: (
+    fieldsArray,
+    folder = "gallery"
+  ) => [
+    multerUpload.fields(
+      fieldsArray
+    ),
     convertMultipleToWebp(folder),
   ],
-  any: (folder = "gallery") => [
+
+  // =========================================
+  // ANY FILES
+  // =========================================
+  any: (
+    folder = "gallery"
+  ) => [
     multerUpload.any(),
     convertMultipleToWebp(folder),
   ],
 };
 
+// =========================================
+// EXPORT
+// =========================================
 module.exports = upload;

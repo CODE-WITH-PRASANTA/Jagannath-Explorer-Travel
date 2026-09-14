@@ -16,7 +16,7 @@ const teamRoutes = require("./src/routes/teamRoutes");
 const carBookingRoutes = require("./src/routes/carBookingRoutes");
 const hotelBookingRoutes = require("./src/routes/hotelBookingRoutes");
 const tourBookingRoutes = require("./src/routes/tourBookingRoutes");
-
+const coupenRoutes = require("./src/routes/coupenRoutes");
 const app = express();
 
 // Middlewares
@@ -44,6 +44,10 @@ app.use("/api/hotel-bookings", hotelBookingRoutes);
 app.use("/api/hotelbookings", hotelBookingRoutes);
 app.use("/api/tour-bookings", tourBookingRoutes);
 app.use("/api/tourbookings", tourBookingRoutes);
+app.use(
+  "/api/coupen",
+  coupenRoutes
+);
 // Root route
 app.get("/", (req, res) => {
   res.json({

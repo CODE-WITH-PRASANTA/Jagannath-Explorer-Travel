@@ -1,552 +1,1901 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { API, IMG_URL } from '../../api/axios';
-import './Experience.css';
+import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API, IMG_URL } from "../../api/axios";
+import "./Experience.css";
 
-// Fallback image assets in case uploaded media is missing
-import tour1 from '../../assets/img2.webp';
-import tour2 from '../../assets/img3.webp';
-import tour3 from '../../assets/bed5.webp';
-import tour4 from '../../assets/img4.webp';
-import tour5 from '../../assets/bed6.webp';
-import tour6 from '../../assets/img7.webp';
+// ======================================================
+// TOUR FALLBACK IMAGES
+// ======================================================
+import tour1 from "../../assets/img2.webp";
+import tour2 from "../../assets/img3.webp";
+import tour3 from "../../assets/bed5.webp";
+import tour4 from "../../assets/img4.webp";
+import tour5 from "../../assets/bed6.webp";
+import tour6 from "../../assets/img7.webp";
 
-import hotel1 from '../../assets/bed1.webp';
-import hotel2 from '../../assets/bed2.webp';
-import hotel3 from '../../assets/bed3.webp';
-import hotel4 from '../../assets/bed5.webp';
-import hotel5 from '../../assets/bed6.webp';
-import hotel6 from '../../assets/bed5.webp';
+// ======================================================
+// HOTEL FALLBACK IMAGES
+// ======================================================
+import hotel1 from "../../assets/bed1.webp";
+import hotel2 from "../../assets/bed2.webp";
+import hotel3 from "../../assets/bed3.webp";
+import hotel4 from "../../assets/bed5.webp";
+import hotel5 from "../../assets/bed6.webp";
+import hotel6 from "../../assets/bed5.webp";
 
-// Transport images
-import transport1 from '../../assets/destination-card-img1.webp';
-import transport2 from '../../assets/destination-card-img2.webp';
-import transport3 from '../../assets/destination-card-img3.webp';
-import transport4 from '../../assets/destination-card-img4.webp';
-import transport5 from '../../assets/destination-card-img5.webp';
-import transport6 from '../../assets/destination-card-img3.webp';
+// ======================================================
+// VEHICLE IMAGES
+// ======================================================
+// IMPORTANT:
+// Make sure every imported file contains the correct vehicle.
+// If your Ertiga image has another filename, replace only
+// the second import below.
+// ======================================================
+import swiftDzire from "../../assets/Swift-Dezire.webp";
+import ertiga from "../../assets/Suv1.webp";
+import audiA4 from "../../assets/Wedding-car-Audi-A4-1.webp";
+import tempoTraveller from "../../assets/TempoTraveller1 - Copy.webp";
+import urbania from "../../assets/Urbania-Traveller.webp";
+import smlCoach from "../../assets/SML-COACH-13-SEATER.webp";
+import innovaCrysta from "../../assets/Suv2.webp";
 
-const fallbackTourImages = [tour1, tour2, tour3, tour4, tour5, tour6];
-const fallbackHotelImages = [hotel1, hotel2, hotel3, hotel4, hotel5, hotel6];
-
+// ======================================================
+// VEHICLE DATA
+// ======================================================
 const transportItems = [
   {
-    id: 'trans-1',
-    distance: '68 km • 1.5 hrs',
-    image: transport1,
-    title: 'Bhubaneswar to Puri Jagannath Dham Car Rental',
-    reviews: '(380 verified reviews)',
-    path: '/car-rental/sedan-cars'
+    id: "swift-dzire",
+    name: "Swift Dzire",
+    image: swiftDzire,
+    price: 2200,
+    path: "/car-rental/sedan-cars",
+    seats: "5 Seater",
+    feature: "Automatic Climate Control",
+    luggage: "378 L",
+    fuel: "Petrol",
   },
   {
-    id: 'trans-2',
-    distance: '72 km • 2 hrs',
-    image: transport2,
-    title: 'Bhubaneswar to Konark Sun Temple & Marine Drive Cab',
-    reviews: '(295 verified reviews)',
-    path: '/car-rental/sedan-cars'
+    id: "maruti-ertiga",
+    name: "Maruti Suzuki Ertiga",
+    image: ertiga,
+    price: 3000,
+    path: "/car-rental/suv-cars",
+    seats: "7 Seater",
+    feature: "Rear AC Vents",
+    luggage: "209 Litres",
+    fuel: "Petrol",
   },
   {
-    id: 'trans-3',
-    distance: '110 km • 2.5 hrs',
-    image: transport3,
-    title: 'Bhubaneswar to Chilika Lake (Satapada) Taxi Trip',
-    reviews: '(240 verified reviews)',
-    path: '/car-rental/suv-cars'
+    id: "audi-a4",
+    name: "Audi A4",
+    image: audiA4,
+    price: 9500,
+    path: "/car-rental/luxury-wedding-cars",
+    seats: "5 Seater",
+    feature: "Premium Leather Interior",
+    luggage: "Luxury Wedding / VIP",
+    fuel: "Smooth Ride",
+    showMoreCars: true,
   },
   {
-    id: 'trans-4',
-    distance: '250 km • 6 hrs',
-    image: transport4,
-    title: 'Bhubaneswar to Daringbadi Kashmir of Odisha SUV Hire',
-    reviews: '(190 verified reviews)',
-    path: '/car-rental/suv-cars'
+    id: "tempo-traveller",
+    name: "Tempo Traveller",
+    image: tempoTraveller,
+    price: 3800,
+    path: "/car-rental/tempo-travellers",
+    seats: "12 Seater",
+    feature: "Fully Air Conditioned",
+    luggage: "Large Luggage Space",
+    fuel: "Diesel",
   },
   {
-    id: 'trans-5',
-    distance: '145 km • 3.5 hrs',
-    image: transport5,
-    title: 'Bhubaneswar to Ghatagaon Maa Tarini Temple AC Cab',
-    reviews: '(310 verified reviews)',
-    path: '/car-rental/tempo-travellers'
+    id: "urbania",
+    name: "10 Seater Urbania",
+    image: urbania,
+    price: 3500,
+    path: "/car-rental/urbania-travellers",
+    seats: "10 Seater",
+    feature: "Dual Zone FATC",
+    luggage: "460 Litres",
+    fuel: "Diesel",
   },
   {
-    id: 'trans-6',
-    distance: '160 km • 4 hrs',
-    image: transport6,
-    title: 'Bhubaneswar to Bhitarkanika National Park Traveller Hire',
-    reviews: '(175 verified reviews)',
-    path: '/car-rental/urbania-travellers'
-  }
+    id: "sml-coach",
+    name: "SML Coach - 13 Seater",
+    image: smlCoach,
+    price: 5500,
+    path: "/car-rental/coach-buses",
+    seats: "13 Seater",
+    feature: "Premium Comfortable Seats",
+    luggage: "VIP & Corporate",
+    fuel: "First-Class Comfort",
+    showMoreCars: true,
+  },
+  {
+    id: "innova-crysta",
+    name: "Toyota Innova Crysta",
+    image: innovaCrysta,
+    price: 4200,
+    path: "/car-rental/suv-cars",
+    seats: "7 Seater",
+    feature: "Automatic Climate Control",
+    luggage: "300 Litres",
+    fuel: "Diesel",
+  },
 ];
 
+// ======================================================
+// FALLBACK IMAGE ARRAYS
+// ======================================================
+const tourFallbackImages = [
+  tour1,
+  tour2,
+  tour3,
+  tour4,
+  tour5,
+  tour6,
+];
+
+const hotelFallbackImages = [
+  hotel1,
+  hotel2,
+  hotel3,
+  hotel4,
+  hotel5,
+  hotel6,
+];
+
+// ======================================================
+// HELPERS
+// ======================================================
+const safeArray = (value) => {
+  return Array.isArray(value) ? value : [];
+};
+
+const formatPrice = (value) => {
+  if (value === null || value === undefined || value === "") {
+    return "₹0";
+  }
+
+  const numericValue = Number(
+    String(value).replace(/[^0-9.]/g, "")
+  );
+
+  if (Number.isNaN(numericValue)) {
+    return `₹${value}`;
+  }
+
+  return `₹${numericValue.toLocaleString("en-IN")}`;
+};
+
+const cleanText = (value) => {
+  if (!value) return "";
+
+  return String(value)
+    .replace(/^Day\s*\d+\s*[:\-]?\s*/i, "")
+    .trim();
+};
+
+const getImageUrl = (imagePath, fallback) => {
+  if (!imagePath) {
+    return fallback;
+  }
+
+  const image = String(imagePath).trim();
+
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://") ||
+    image.startsWith("data:image")
+  ) {
+    return image;
+  }
+
+  const baseUrl = IMG_URL || "";
+
+  return `${baseUrl}${image.startsWith("/") ? image : `/${image}`}`;
+};
+
+// ======================================================
+// COMPONENT
+// ======================================================
 const Experience = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('tour');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
 
-  // Real Database States
+  // ====================================================
+  // MAIN TABS
+  // ====================================================
+  const [activeTab, setActiveTab] = useState("tour");
+
+  // ====================================================
+  // TOUR / HOTEL SLIDER
+  // ====================================================
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // ====================================================
+  // RESPONSIVE STATES
+  // ====================================================
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 650 : false
+  );
+
+  const [isTablet, setIsTablet] = useState(
+    typeof window !== "undefined"
+      ? window.innerWidth > 650 && window.innerWidth <= 992
+      : false
+  );
+
+  // ====================================================
+  // API DATA
+  // ====================================================
   const [tours, setTours] = useState([]);
   const [hotels, setHotels] = useState([]);
-  const [loadingTours, setLoadingTours] = useState(true);
-  const [loadingHotels, setLoadingHotels] = useState(true);
 
-  // Helper for Route Text
-  const formatRoute = (tour) => {
-    if (tour.route) return tour.route;
-    if (Array.isArray(tour.itinerary) && tour.itinerary.length > 0) {
-      const places = tour.itinerary
-        .map((item) => (item.title ? item.title.replace(/^Day \d+[:\s-]*/i, '').trim() : ''))
-        .filter(Boolean);
-      if (places.length > 0) return places.join(' ➔ ');
-    }
-    if (Array.isArray(tour.tags) && tour.tags.length > 0) {
-      return tour.tags.join(' ➔ ');
-    }
-    return tour.destination ? `${tour.destination.toUpperCase()} ➔ EXPLORE TOUR` : 'BHUBANESWAR ➔ PURI ➔ KONARK';
-  };
+  const [tourLoading, setTourLoading] = useState(true);
+  const [hotelLoading, setHotelLoading] = useState(true);
 
-  // Helper for Tour Image URL
-  const getTourImageUrl = (imagePath, idx) => {
-    if (!imagePath) return fallbackTourImages[idx % fallbackTourImages.length];
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://') || imagePath.startsWith('data:')) {
-      return imagePath;
-    }
-    return `${IMG_URL}${imagePath}`;
-  };
+  // ====================================================
+  // TRANSPORT SLIDER
+  // ====================================================
+  const [transportIndex, setTransportIndex] = useState(0);
 
-  // Helper for Hotel Image URL
-  const getHotelImageUrl = (images, idx) => {
-    if (Array.isArray(images) && images.length > 0) {
-      const first = images[0];
-      if (first.startsWith('http://') || first.startsWith('https://') || first.startsWith('data:')) {
-        return first;
-      }
-      return `${IMG_URL}${first}`;
-    }
-    return fallbackHotelImages[idx % fallbackHotelImages.length];
-  };
+  // ====================================================
+  // BOOKING MODAL
+  // ====================================================
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+  const [bookingStep, setBookingStep] = useState(1);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
 
-  // Fetch Tours & Hotels from Database API
-  useEffect(() => {
-    let isMounted = true;
+  const [bookingForm, setBookingForm] = useState({
+    pickUp: "",
+    dropOff: "",
+    pickUpDateTime: "",
+    dropDateTime: "",
+    fullName: "",
+    mobile: "",
+    message: "",
+    agree: false,
+  });
 
-    // 1. Fetch Tours
-    const fetchTours = async () => {
-      try {
-        setLoadingTours(true);
-        const res = await API.get('/tours');
-        if (res.data && res.data.success && Array.isArray(res.data.data)) {
-          const transformed = res.data.data.map((tour, idx) => {
-            const price = typeof tour.price === 'number'
-              ? `₹${tour.price.toLocaleString('en-IN')}`
-              : (tour.price ? `₹${tour.price}` : '₹0');
-
-            const oldPrice = tour.discountPrice && Number(tour.discountPrice) > 0
-              ? `₹${Number(tour.discountPrice).toLocaleString('en-IN')}`
-              : null;
-
-            const locationTag = tour.category
-              ? tour.category.toUpperCase()
-              : (tour.destination ? `${tour.destination.toUpperCase()} SPECIAL` : 'ODISHA TOUR');
-
-            return {
-              id: tour._id || idx + 1,
-              slug: tour.slug || tour._id,
-              badge: tour.duration || '3 DAYS / 2 NIGHT',
-              locationTag: locationTag,
-              image: getTourImageUrl(tour.mainImage, idx),
-              title: tour.title,
-              route: formatRoute(tour),
-              price: price,
-              oldPrice: oldPrice,
-            };
-          });
-
-          if (isMounted) {
-            setTours(transformed);
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching tours in Experience:', err);
-      } finally {
-        if (isMounted) setLoadingTours(false);
-      }
-    };
-
-    // 2. Fetch Hotels
-    const fetchHotels = async () => {
-      try {
-        setLoadingHotels(true);
-        const res = await API.get('/hotels');
-        const data = res.data.data || res.data || [];
-        if (Array.isArray(data)) {
-          const transformed = data.map((hotel, idx) => {
-            let parsedAmenities = [];
-            if (hotel.amenities) {
-              if (Array.isArray(hotel.amenities)) {
-                parsedAmenities = hotel.amenities.map((a) => String(a).trim()).filter(Boolean);
-              } else if (typeof hotel.amenities === 'string') {
-                parsedAmenities = hotel.amenities.split(',').map((a) => a.trim()).filter(Boolean);
-              }
-            }
-
-            const hasBreakfast = parsedAmenities.some((a) => /breakfast/i.test(a));
-            const ratingNum = Math.max(1, Math.min(5, Number(hotel.starRating) || 5));
-            const rawPrice = Number(hotel.price || 0);
-
-            const landmarkClean = (hotel.landmark || '').trim();
-            const distanceText = landmarkClean
-              ? (/^near/i.test(landmarkClean) ? landmarkClean : `Near ${landmarkClean}`)
-              : 'City Center';
-
-            const hotelSlug = (hotel.name || '')
-              .toLowerCase()
-              .trim()
-              .replace(/[^a-z0-9\s-]/g, '')
-              .replace(/\s+/g, '-')
-              .replace(/-+/g, '-');
-
-            return {
-              id: hotel._id || idx + 1,
-              slug: hotelSlug,
-              tag: hasBreakfast ? 'Free Breakfast Included' : `${ratingNum} Star Verified Stay`,
-              image: getHotelImageUrl(hotel.images, idx),
-              rating: `${ratingNum}.0 (${ratingNum} Star Hotel)`,
-              title: hotel.name,
-              location: `${hotel.city || ''}${hotel.address ? `, ${hotel.address}` : ''}`,
-              distance: distanceText,
-              amenities: parsedAmenities.slice(0, 4),
-              roomType: hotel.rooms ? `${hotel.rooms} Rooms Available` : 'Executive AC Deluxe Room',
-              bed: '1 King Bed / Double',
-              cancellation: 'Free cancellation available',
-              stayDuration: '1 night, 2 guests',
-              price: `₹${rawPrice.toLocaleString('en-IN')}`,
-              oldPrice: rawPrice > 0 ? `₹${Math.round(rawPrice * 1.15).toLocaleString('en-IN')}` : null,
-            };
-          });
-
-          if (isMounted) {
-            setHotels(transformed);
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching hotels in Experience:', err);
-      } finally {
-        if (isMounted) setLoadingHotels(false);
-      }
-    };
-
-    fetchTours();
-    fetchHotels();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
+  // ====================================================
+  // RESPONSIVE HANDLING
+  // ====================================================
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 650);
+      const width = window.innerWidth;
+
+      setIsMobile(width <= 650);
+      setIsTablet(width > 650 && width <= 992);
     };
+
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  const experienceData = {
-    tour: tours,
-    hotel: hotels,
-    transports: transportItems
-  };
+  // ====================================================
+  // TRANSPORT VISIBLE COUNT
+  // ====================================================
+  const transportVisibleCount = isMobile
+    ? 1
+    : isTablet
+      ? 2
+      : 3;
 
-  const isLoading = activeTab === 'tour' ? loadingTours : (activeTab === 'hotel' ? loadingHotels : false);
-  const currentItems = experienceData[activeTab] || [];
+  const transportMaxIndex = Math.max(
+    0,
+    transportItems.length - transportVisibleCount
+  );
 
+  useEffect(() => {
+    setTransportIndex((prev) =>
+      Math.min(prev, transportMaxIndex)
+    );
+  }, [transportMaxIndex]);
+
+  // ====================================================
+  // FETCH TOURS & HOTELS
+  // ====================================================
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchExperienceData = async () => {
+      // -----------------------------------------------
+      // TOURS
+      // -----------------------------------------------
+      setTourLoading(true);
+
+      try {
+        const response = await API.get("/tours");
+
+        const responseData = response?.data;
+
+        const tourData = responseData?.success
+          ? responseData?.data
+          : responseData?.data || responseData;
+
+        if (mounted && Array.isArray(tourData)) {
+          const formattedTours = tourData.map(
+            (tour, index) => {
+              const itinerary = safeArray(
+                tour?.itinerary
+              );
+
+              const itineraryRoute = itinerary
+                .map((item) =>
+                  cleanText(
+                    item?.title ||
+                      item?.name ||
+                      item?.location ||
+                      ""
+                  )
+                )
+                .filter(Boolean)
+                .join(" ➔ ");
+
+              const tags = safeArray(tour?.tags)
+                .map((tag) =>
+                  typeof tag === "string"
+                    ? tag
+                    : tag?.name || ""
+                )
+                .filter(Boolean)
+                .join(" • ");
+
+              const route =
+                tour?.route ||
+                itineraryRoute ||
+                tags ||
+                (tour?.destination
+                  ? `${String(
+                      tour.destination
+                    ).toUpperCase()} ➔ EXPLORE TOUR`
+                  : "BHUBANESWAR ➔ PURI ➔ KONARK");
+
+              const duration =
+                tour?.duration ||
+                tour?.durationText ||
+                "3 DAYS / 2 NIGHTS";
+
+              const destination =
+                tour?.destination ||
+                tour?.location ||
+                tour?.city ||
+                "ODISHA";
+
+              const category =
+                tour?.category ||
+                tour?.tourType ||
+                "SPECIAL";
+
+              return {
+                id:
+                  tour?._id ||
+                  tour?.id ||
+                  index + 1,
+
+                slug:
+                  tour?.slug ||
+                  tour?._id ||
+                  tour?.id,
+
+                badge: String(duration).toUpperCase(),
+
+                locationTag: `${String(
+                  category
+                ).toUpperCase()} • ${String(
+                  destination
+                ).toUpperCase()}`,
+
+                image: getImageUrl(
+                  tour?.image ||
+                    tour?.coverImage ||
+                    tour?.thumbnail ||
+                    tour?.featuredImage,
+                  tourFallbackImages[
+                    index %
+                      tourFallbackImages.length
+                  ]
+                ),
+
+                title:
+                  tour?.title ||
+                  tour?.name ||
+                  tour?.tourName ||
+                  "Odisha Tour Package",
+
+                route,
+
+                price: formatPrice(
+                  tour?.price ||
+                    tour?.offerPrice ||
+                    tour?.startingPrice ||
+                    0
+                ),
+
+                oldPrice:
+                  tour?.oldPrice ||
+                  tour?.originalPrice ||
+                  tour?.discountPrice ||
+                  "",
+
+                raw: tour,
+              };
+            }
+          );
+
+          setTours(formattedTours);
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching tours:",
+          error
+        );
+
+        if (mounted) {
+          setTours([]);
+        }
+      } finally {
+        if (mounted) {
+          setTourLoading(false);
+        }
+      }
+
+      // -----------------------------------------------
+      // HOTELS
+      // -----------------------------------------------
+      setHotelLoading(true);
+
+      try {
+        const response = await API.get("/hotels");
+
+        const responseData = response?.data;
+
+        const hotelData =
+          responseData?.data ||
+          responseData ||
+          [];
+
+        if (mounted && Array.isArray(hotelData)) {
+          const formattedHotels = hotelData.map(
+            (hotel, index) => {
+              let amenities = [];
+
+              if (Array.isArray(hotel?.amenities)) {
+                amenities = hotel.amenities;
+              } else if (
+                typeof hotel?.amenities === "string"
+              ) {
+                amenities = hotel.amenities
+                  .split(",")
+                  .map((item) => item.trim())
+                  .filter(Boolean);
+              }
+
+              const hotelImage =
+                hotel?.images?.[0] ||
+                hotel?.image ||
+                hotel?.coverImage ||
+                hotel?.thumbnail;
+
+              const hotelName =
+                hotel?.name ||
+                hotel?.hotelName ||
+                "Premium Hotel";
+
+              const hotelSlug =
+                hotel?.slug ||
+                hotel?._id ||
+                hotelName
+                  .toLowerCase()
+                  .replace(
+                    /[^a-z0-9]+/g,
+                    "-"
+                  )
+                  .replace(/(^-|-$)/g, "");
+
+              return {
+                id:
+                  hotel?._id ||
+                  hotel?.id ||
+                  index + 1,
+
+                slug: hotelSlug,
+
+                image: getImageUrl(
+                  hotelImage,
+                  hotelFallbackImages[
+                    index %
+                      hotelFallbackImages.length
+                  ]
+                ),
+
+                breakfast:
+                  hotel?.breakfast ||
+                  hotel?.breakfastIncluded ||
+                  "BREAKFAST INCLUDED",
+
+                rating:
+                  hotel?.rating ||
+                  hotel?.starRating ||
+                  "4.5",
+
+                title: hotelName,
+
+                location:
+                  hotel?.location ||
+                  hotel?.city ||
+                  "Bhubaneswar, Odisha",
+
+                distance:
+                  hotel?.distance ||
+                  hotel?.landmark ||
+                  "Near major tourist attractions",
+
+                amenities,
+
+                roomType:
+                  hotel?.roomType ||
+                  hotel?.room ||
+                  "Deluxe Room",
+
+                bed:
+                  hotel?.bed ||
+                  hotel?.bedType ||
+                  "King Bed",
+
+                cancellation:
+                  hotel?.cancellation ||
+                  hotel?.cancellationPolicy ||
+                  "Free Cancellation",
+
+                stayDuration:
+                  hotel?.stayDuration ||
+                  "Per Night",
+
+                price:
+                  hotel?.price ||
+                  hotel?.offerPrice ||
+                  hotel?.startingPrice ||
+                  0,
+
+                oldPrice:
+                  hotel?.oldPrice ||
+                  hotel?.originalPrice ||
+                  "",
+
+                raw: hotel,
+              };
+            }
+          );
+
+          setHotels(formattedHotels);
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching hotels:",
+          error
+        );
+
+        if (mounted) {
+          setHotels([]);
+        }
+      } finally {
+        if (mounted) {
+          setHotelLoading(false);
+        }
+      }
+    };
+
+    fetchExperienceData();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // ====================================================
+  // TAB DATA
+  // ====================================================
+  const experienceData = useMemo(
+    () => ({
+      tour: tours,
+      hotel: hotels,
+      transports: transportItems,
+    }),
+    [tours, hotels]
+  );
+
+  const displayedItems =
+    activeTab === "transports"
+      ? transportItems
+      : experienceData[activeTab];
+
+  const isLoading =
+    activeTab === "tour"
+      ? tourLoading
+      : activeTab === "hotel"
+        ? hotelLoading
+        : false;
+
+  // ====================================================
+  // TAB CHANGE
+  // ====================================================
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setCurrentIndex(0);
+    setTransportIndex(0);
   };
 
+  // ====================================================
+  // TOUR / HOTEL SLIDER
+  // ====================================================
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : currentItems.length - 1));
+    if (!displayedItems?.length) return;
+
+    setCurrentIndex((prev) => {
+      if (prev <= 0) {
+        return displayedItems.length - 1;
+      }
+
+      return prev - 1;
+    });
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev < currentItems.length - 1 ? prev + 1 : 0));
+    if (!displayedItems?.length) return;
+
+    setCurrentIndex((prev) => {
+      if (prev >= displayedItems.length - 1) {
+        return 0;
+      }
+
+      return prev + 1;
+    });
   };
 
+  // ====================================================
+  // TRANSPORT SLIDER
+  // ====================================================
+  const handleTransportPrev = () => {
+    setTransportIndex((prev) =>
+      Math.max(0, prev - 1)
+    );
+  };
+
+  const handleTransportNext = () => {
+    setTransportIndex((prev) =>
+      Math.min(
+        transportMaxIndex,
+        prev + 1
+      )
+    );
+  };
+
+  // ====================================================
+  // NAVIGATION
+  // ====================================================
   const handleBookTrip = (item) => {
-    if (item.slug || item.id) {
-      navigate(`/tours/${item.slug || item.id}`);
-    } else {
-      window.location.href = `tel:9668892441`;
+    if (item?.slug || item?.id) {
+      navigate(
+        `/tours/${item.slug || item.id}`
+      );
+      return;
     }
+
+    window.location.href =
+      "tel:9668892441";
   };
 
   const handleCheckAvailability = (item) => {
-    if (item.slug || item.id) {
-      navigate(`/hotel/${item.slug}`, { state: { hotelId: item.id } });
-    } else {
-      window.location.href = `tel:9556355446`;
+    if (item?.slug) {
+      navigate(`/hotel/${item.slug}`, {
+        state: {
+          hotelId: item.id,
+          hotel: item,
+        },
+      });
+
+      return;
     }
+
+    window.location.href =
+      "tel:9556355446";
   };
 
-  const handleViewTransportDetails = (item) => {
-    if (item.path) {
+  const handleViewTransportDetails = (
+    item
+  ) => {
+    if (item?.path) {
       navigate(item.path);
-    } else {
-      window.location.href = `tel:9668892441`;
+      return;
     }
+
+    window.location.href =
+      "tel:9668892441";
   };
 
-  const displayedItems = isMobile ? [currentItems[currentIndex]].filter(Boolean) : currentItems;
+  // ====================================================
+  // BOOKING MODAL
+  // ====================================================
+  const openBookingModal = (vehicle) => {
+    setSelectedVehicle(vehicle);
+    setBookingStep(1);
 
+    setBookingForm({
+      pickUp: "",
+      dropOff: "",
+      pickUpDateTime: "",
+      dropDateTime: "",
+      fullName: "",
+      mobile: "",
+      message: "",
+      agree: false,
+    });
+
+    setBookingModalOpen(true);
+
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeBookingModal = () => {
+    setBookingModalOpen(false);
+    setBookingStep(1);
+    setSelectedVehicle(null);
+
+    document.body.style.overflow = "";
+  };
+
+  const handleBookingInput = (event) => {
+    const { name, value, type, checked } =
+      event.target;
+
+    setBookingForm((prev) => ({
+      ...prev,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : value,
+    }));
+  };
+
+  const handleBookingNext = (event) => {
+    event.preventDefault();
+
+    setBookingStep(2);
+  };
+
+  const handleBookingPrevious = () => {
+    setBookingStep(1);
+  };
+
+  const handleBookingSubmit = (event) => {
+    event.preventDefault();
+
+    if (!bookingForm.agree) {
+      alert(
+        "Please accept the terms and conditions."
+      );
+      return;
+    }
+
+    console.log("Vehicle Booking:", {
+      vehicle: selectedVehicle,
+      booking: bookingForm,
+    });
+
+    alert(
+      "Booking request submitted successfully!"
+    );
+
+    closeBookingModal();
+  };
+
+  // ====================================================
+  // CLEANUP BODY SCROLL
+  // ====================================================
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  // ====================================================
+  // RENDER
+  // ====================================================
   return (
     <section className="exp-section">
-      {/* Main Section Header with SEO H1 */}
-      <header className="exp-header">
-        <span className="exp-subtitle">➔ Tour Experience ✦</span>
-        <h1 className="exp-title">Bhubaneswar Travel Agency Tour Packages</h1>
-        <p className="exp-subtext">
-          Book reliable Odisha holiday packages, temple darshan cabs, and verified hotel stays with local tour guides from Bhubaneswar.
-        </p>
+      <div className="exp-container">
 
-        {/* Tab Controls */}
-        <div className="exp-nav">
-          <button
-            type="button"
-            className={`exp-nav-btn ${activeTab === 'tour' ? 'active' : ''}`}
-            onClick={() => handleTabChange('tour')}
-          >
-            <span className="icon">🗺️</span> Odisha Tour Packages
-          </button>
-          <button
-            type="button"
-            className={`exp-nav-btn ${activeTab === 'hotel' ? 'active' : ''}`}
-            onClick={() => handleTabChange('hotel')}
-          >
-            <span className="icon">🏨</span> Verified Hotels
-          </button>
-          <button
-            type="button"
-            className={`exp-nav-btn ${activeTab === 'transports' ? 'active' : ''}`}
-            onClick={() => handleTabChange('transports')}
-          >
-            <span className="icon">🚖</span> Car & Taxi Rentals
-          </button>
+        {/* ==============================================
+            HEADER
+        ============================================== */}
+        <div className="exp-header">
+
+          <div className="exp-header-content">
+            <span className="exp-eyebrow">
+              JAGANNATH EXPLORE TRAVEL
+            </span>
+
+            <h1>
+              Bhubaneswar Travel Agency
+              <span> Tour Packages</span>
+            </h1>
+
+            <p>
+              Discover unforgettable Odisha
+              experiences with curated tour
+              packages, premium hotels and
+              comfortable transportation.
+            </p>
+          </div>
+
+          {/* ============================================
+              TABS
+          ============================================ */}
+          <div className="exp-tabs">
+
+            <button
+              type="button"
+              className={
+                activeTab === "tour"
+                  ? "exp-tab active"
+                  : "exp-tab"
+              }
+              onClick={() =>
+                handleTabChange("tour")
+              }
+            >
+              <span className="exp-tab-icon">
+                ✦
+              </span>
+              Tour Packages
+            </button>
+
+            <button
+              type="button"
+              className={
+                activeTab === "hotel"
+                  ? "exp-tab active"
+                  : "exp-tab"
+              }
+              onClick={() =>
+                handleTabChange("hotel")
+              }
+            >
+              <span className="exp-tab-icon">
+                ◆
+              </span>
+              Hotels
+            </button>
+
+            <button
+              type="button"
+              className={
+                activeTab === "transports"
+                  ? "exp-tab active"
+                  : "exp-tab"
+              }
+              onClick={() =>
+                handleTabChange("transports")
+              }
+            >
+              <span className="exp-tab-icon">
+                🚗
+              </span>
+              Transport
+            </button>
+
+          </div>
         </div>
-      </header>
 
-      {/* Cards Grid */}
-      <div className="exp-cards-grid">
-        
-        {/* Loading Indicator */}
+        {/* ==============================================
+            LOADING
+        ============================================== */}
         {isLoading && (
-          <div className="exp-loading-box">
+          <div className="exp-loading">
             <div className="exp-spinner"></div>
-            <p className="exp-loading-text">Loading {activeTab === 'tour' ? 'tour packages' : 'hotels'} from database...</p>
+            <p>
+              Loading amazing experiences...
+            </p>
           </div>
         )}
 
-        {/* Empty State */}
-        {!isLoading && currentItems.length === 0 && (
-          <div className="exp-empty-box">
-            <p className="exp-empty-text">No {activeTab === 'tour' ? 'tours' : 'hotels'} available in the database right now.</p>
-          </div>
-        )}
+        {/* ==============================================
+            TOUR / HOTEL
+        ============================================== */}
+        {!isLoading &&
+          activeTab !== "transports" && (
+            <>
+              {displayedItems.length === 0 ? (
+                <div className="exp-empty">
+                  <div className="exp-empty-icon">
+                    ✦
+                  </div>
 
-        {/* 1. TOUR PACKAGES (DATABASE DATA) */}
-        {!isLoading && activeTab === 'tour' &&
-          displayedItems.map((item) => (
-            <article 
-              className="card" 
-              key={item.id}
-              onClick={() => handleBookTrip(item)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="card-img-container">
-                <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
-                <div className="shine-effect"></div>
-                <div className="badge-duration">{item.badge}</div>
-                <div className="badge-location">📍 {item.locationTag}</div>
+                  <h3>
+                    No experiences available
+                  </h3>
+
+                  <p>
+                    Please check again shortly.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="exp-cards-grid">
+
+                    {displayedItems.map(
+                      (item, index) => {
+
+                        const isVisible =
+                          !isMobile ||
+                          index === currentIndex;
+
+                        if (!isVisible) {
+                          return null;
+                        }
+
+                        {/* ==================================
+                            TOUR CARD
+                        ================================== */}
+                        if (
+                          activeTab === "tour"
+                        ) {
+                          return (
+                            <article
+                              className="exp-tour-card"
+                              key={item.id}
+                            >
+                              <div className="exp-card-image-wrap">
+
+                                <img
+                                  src={item.image}
+                                  alt={item.title}
+                                  className="exp-card-image"
+                                  loading="lazy"
+                                  onError={(
+                                    event
+                                  ) => {
+                                    event.currentTarget.src =
+                                      tourFallbackImages[
+                                        index %
+                                          tourFallbackImages.length
+                                      ];
+                                  }}
+                                />
+
+                                <div className="exp-image-overlay"></div>
+
+                                <span className="exp-duration">
+                                  {item.badge}
+                                </span>
+
+                                <span className="exp-location">
+                                  {item.locationTag}
+                                </span>
+
+                                <div className="exp-image-shine"></div>
+                              </div>
+
+                              <div className="exp-card-content">
+
+                                <h2>
+                                  {item.title}
+                                </h2>
+
+                                <div className="exp-route">
+                                  <span>
+                                    ⟶
+                                  </span>
+                                  <span>
+                                    {item.route}
+                                  </span>
+                                </div>
+
+                                <div className="exp-card-footer">
+
+                                  <div className="exp-price-box">
+                                    <span className="exp-price-label">
+                                      Starting From
+                                    </span>
+
+                                    <div className="exp-price-row">
+                                      <strong>
+                                        {item.price}
+                                      </strong>
+
+                                      {item.oldPrice && (
+                                        <del>
+                                          {formatPrice(
+                                            item.oldPrice
+                                          )}
+                                        </del>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  <button
+                                    type="button"
+                                    className="exp-primary-btn"
+                                    onClick={() =>
+                                      handleBookTrip(
+                                        item
+                                      )
+                                    }
+                                  >
+                                    Book Trip
+                                    <span>
+                                      →
+                                    </span>
+                                  </button>
+
+                                </div>
+                              </div>
+                            </article>
+                          );
+                        }
+
+                        {/* ==================================
+                            HOTEL CARD
+                        ================================== */}
+                        return (
+                          <article
+                            className="exp-hotel-card"
+                            key={item.id}
+                          >
+
+                            <div className="exp-hotel-image-wrap">
+
+                              <img
+                                src={item.image}
+                                alt={item.title}
+                                className="exp-hotel-image"
+                                loading="lazy"
+                                onError={(
+                                  event
+                                ) => {
+                                  event.currentTarget.src =
+                                    hotelFallbackImages[
+                                      index %
+                                        hotelFallbackImages.length
+                                    ];
+                                }}
+                              />
+
+                              <div className="exp-image-overlay"></div>
+
+                              <span className="exp-breakfast">
+                                {item.breakfast}
+                              </span>
+
+                              <span className="exp-hotel-rating">
+                                ★ {item.rating}
+                              </span>
+                            </div>
+
+                            <div className="exp-hotel-content">
+
+                              <div className="exp-hotel-title-row">
+
+                                <div>
+                                  <h2>
+                                    {item.title}
+                                  </h2>
+
+                                  <p className="exp-hotel-location">
+                                    <span>
+                                      📍
+                                    </span>
+                                    {item.location}
+                                  </p>
+                                </div>
+
+                              </div>
+
+                              <p className="exp-hotel-distance">
+                                {item.distance}
+                              </p>
+
+                              <div className="exp-amenities">
+                                {item.amenities
+                                  .slice(0, 4)
+                                  .map(
+                                    (
+                                      amenity,
+                                      amenityIndex
+                                    ) => (
+                                      <span
+                                        key={`${amenity}-${amenityIndex}`}
+                                      >
+                                        ✓ {amenity}
+                                      </span>
+                                    )
+                                  )}
+                              </div>
+
+                              <div className="exp-room-info">
+
+                                <div>
+                                  <small>
+                                    ROOM
+                                  </small>
+                                  <strong>
+                                    {
+                                      item.roomType
+                                    }
+                                  </strong>
+                                </div>
+
+                                <div>
+                                  <small>
+                                    BED
+                                  </small>
+                                  <strong>
+                                    {item.bed}
+                                  </strong>
+                                </div>
+
+                                <div>
+                                  <small>
+                                    POLICY
+                                  </small>
+                                  <strong>
+                                    {
+                                      item.cancellation
+                                    }
+                                  </strong>
+                                </div>
+
+                              </div>
+
+                              <div className="exp-hotel-footer">
+
+                                <div className="exp-price-box">
+                                  <span className="exp-price-label">
+                                    {item.stayDuration}
+                                  </span>
+
+                                  <div className="exp-price-row">
+                                    <strong>
+                                      {formatPrice(
+                                        item.price
+                                      )}
+                                    </strong>
+
+                                    {item.oldPrice && (
+                                      <del>
+                                        {formatPrice(
+                                          item.oldPrice
+                                        )}
+                                      </del>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <button
+                                  type="button"
+                                  className="exp-primary-btn"
+                                  onClick={() =>
+                                    handleCheckAvailability(
+                                      item
+                                    )
+                                  }
+                                >
+                                  Check Availability
+                                  <span>
+                                    →
+                                  </span>
+                                </button>
+
+                              </div>
+                            </div>
+                          </article>
+                        );
+                      }
+                    )}
+
+                  </div>
+
+                  {/* MOBILE CONTROLS */}
+                  {isMobile &&
+                    displayedItems.length > 1 && (
+                      <div className="exp-mobile-controls">
+
+                        <button
+                          type="button"
+                          onClick={
+                            handlePrev
+                          }
+                          aria-label="Previous"
+                        >
+                          ←
+                        </button>
+
+                        <div className="exp-dots">
+                          {displayedItems.map(
+                            (_, index) => (
+                              <button
+                                type="button"
+                                key={index}
+                                className={
+                                  index ===
+                                  currentIndex
+                                    ? "active"
+                                    : ""
+                                }
+                                onClick={() =>
+                                  setCurrentIndex(
+                                    index
+                                  )
+                                }
+                                aria-label={`Go to item ${
+                                  index + 1
+                                }`}
+                              />
+                            )
+                          )}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={
+                            handleNext
+                          }
+                          aria-label="Next"
+                        >
+                          →
+                        </button>
+
+                      </div>
+                    )}
+                </>
+              )}
+            </>
+          )}
+
+        {/* ==============================================
+            TRANSPORT SECTION
+        ============================================== */}
+        {activeTab === "transports" && (
+          <div className="exp-transport-section">
+
+            <div className="exp-transport-heading">
+
+              <div>
+                <span className="exp-small-label">
+                  PREMIUM TRANSPORT
+                </span>
+
+                <h2>
+                  Choose Your Perfect Ride
+                </h2>
+
+                <p>
+                  Comfortable and reliable
+                  vehicles for local sightseeing,
+                  family tours, weddings and
+                  outstation journeys.
+                </p>
               </div>
 
-              <div className="card-content">
-                <h3 className="card-title" title={item.title}>{item.title}</h3>
-                <p className="card-route" title={item.route}>{item.route}</p>
-                <hr className="divider" />
-                <div className="card-footer">
-                  <div className="price-box">
-                    <span className="price-label">Package Starts From:</span>
-                    <div className="price-values">
-                      <span className="price-current">{item.price}</span>
-                      {item.oldPrice && <span className="price-old">{item.oldPrice}</span>}
-                    </div>
-                    <span className="price-sub">PER PERSON / NET FARE</span>
-                  </div>
-                  <button 
-                    type="button"
-                    className="green-btn" 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleBookTrip(item);
-                    }}
-                  >
-                    Book Trip ✈
-                  </button>
-                </div>
-              </div>
-            </article>
-          ))}
+              <div className="exp-transport-arrows">
 
-        {/* 2. HOTELS (DATABASE DATA) */}
-        {!isLoading && activeTab === 'hotel' &&
-          displayedItems.map((item) => (
-            <article 
-              className="card hotel-card" 
-              key={item.id}
-              onClick={() => handleCheckAvailability(item)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="card-img-container">
-                <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
-                <div className="shine-effect"></div>
-                <div className="badge-breakfast">{item.tag}</div>
-                <div className="dots-indicator">
-                  <span className="dot active"></span>
-                  <span className="dot"></span>
-                  <span className="dot"></span>
-                </div>
-              </div>
-
-              <div className="card-content">
-                <div className="rating-row">
-                  <span className="stars">★★★★★</span>
-                  <span className="rating-text">{item.rating}</span>
-                </div>
-
-                <h3 className="card-title" title={item.title}>{item.title}</h3>
-                <div className="hotel-location">
-                  <span>📍 {item.location}</span>
-                  <span className="distance">• {item.distance}</span>
-                </div>
-
-                <div className="amenities-row">
-                  {item.amenities && item.amenities.map((amenity, idx) => (
-                    <span key={idx} className="amenity-item">✔ {amenity}</span>
-                  ))}
-                </div>
-
-                <div className="hotel-footer-details">
-                  <div className="room-info">
-                    <p className="room-name">{item.roomType}</p>
-                    <p className="room-bed">{item.bed}</p>
-                    <p className="cancellation">{item.cancellation}</p>
-                  </div>
-                  <div className="hotel-pricing">
-                    <span className="stay-duration">{item.stayDuration}</span>
-                    <div className="price-values">
-                      <span className="price-current">{item.price}</span>
-                      {item.oldPrice && <span className="price-old">{item.oldPrice}</span>}
-                    </div>
-                  </div>
-                </div>
-
-                <button 
+                <button
                   type="button"
-                  className="green-btn full-btn" 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCheckAvailability(item);
-                  }}
+                  onClick={
+                    handleTransportPrev
+                  }
+                  disabled={
+                    transportIndex === 0
+                  }
+                  aria-label="Previous vehicles"
                 >
-                  View Details & Book ➔
+                  ←
                 </button>
+
+                <button
+                  type="button"
+                  onClick={
+                    handleTransportNext
+                  }
+                  disabled={
+                    transportIndex >=
+                    transportMaxIndex
+                  }
+                  aria-label="Next vehicles"
+                >
+                  →
+                </button>
+
               </div>
-            </article>
-          ))}
+            </div>
 
-        {/* 3. TRANSPORTS */}
-        {!isLoading && activeTab === 'transports' &&
-          displayedItems.map((item) => (
-            <article 
-              className="card transport-card" 
-              key={item.id}
-              onClick={() => handleViewTransportDetails(item)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="card-img-container">
-                <img src={item.image} alt={item.title} className="card-img" loading="lazy" />
-                <div className="shine-effect"></div>
-                <div className="badge-distance">{item.distance}</div>
+            <div className="exp-transport-viewport">
+
+              <div
+                className="exp-transport-track"
+                style={{
+                  transform: `translateX(-${
+                    transportIndex *
+                    (100 /
+                      transportVisibleCount)
+                  }%)`,
+                }}
+              >
+
+                {transportItems.map(
+                  (vehicle) => (
+                    <div
+                      className="exp-transport-slide"
+                      key={vehicle.id}
+                      style={{
+                        flex: `0 0 ${
+                          100 /
+                          transportVisibleCount
+                        }%`,
+                      }}
+                    >
+
+                      <article className="exp-vehicle-card">
+
+                        {/* VEHICLE IMAGE */}
+                        <div className="exp-vehicle-image-wrap">
+
+                          <img
+                            src={vehicle.image}
+                            alt={vehicle.name}
+                            className="exp-vehicle-image"
+                            loading="lazy"
+                          />
+
+                          <div className="exp-vehicle-image-overlay"></div>
+
+                          <span className="exp-vehicle-category">
+                            PREMIUM RIDE
+                          </span>
+
+                        </div>
+
+                        {/* VEHICLE BODY */}
+                        <div className="exp-vehicle-body">
+
+                          <div className="exp-vehicle-title-row">
+
+                            <div>
+                              <span className="exp-vehicle-label">
+                                JAGANNATH EXPLORE
+                              </span>
+
+                              <h3>
+                                {vehicle.name}
+                              </h3>
+                            </div>
+
+                            <div className="exp-vehicle-price">
+                              <strong>
+                                {formatPrice(
+                                  vehicle.price
+                                )}
+                              </strong>
+                              <span>
+                                / day
+                              </span>
+                            </div>
+
+                          </div>
+
+                          {/* SPECS */}
+                          <div className="exp-vehicle-specs">
+
+                            <div className="exp-spec">
+                              <span className="exp-spec-icon">
+                                👥
+                              </span>
+                              <div>
+                                <small>
+                                  SEATS
+                                </small>
+                                <strong>
+                                  {
+                                    vehicle.seats
+                                  }
+                                </strong>
+                              </div>
+                            </div>
+
+                            <div className="exp-spec">
+                              <span className="exp-spec-icon">
+                                ❄
+                              </span>
+                              <div>
+                                <small>
+                                  COMFORT
+                                </small>
+                                <strong>
+                                  {
+                                    vehicle.feature
+                                  }
+                                </strong>
+                              </div>
+                            </div>
+
+                            <div className="exp-spec">
+                              <span className="exp-spec-icon">
+                                🧳
+                              </span>
+                              <div>
+                                <small>
+                                  SPACE
+                                </small>
+                                <strong>
+                                  {
+                                    vehicle.luggage
+                                  }
+                                </strong>
+                              </div>
+                            </div>
+
+                            <div className="exp-spec">
+                              <span className="exp-spec-icon">
+                                ⛽
+                              </span>
+                              <div>
+                                <small>
+                                  TYPE
+                                </small>
+                                <strong>
+                                  {vehicle.fuel}
+                                </strong>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          {/* ACTIONS */}
+                          <div className="exp-vehicle-actions">
+
+                            <button
+                              type="button"
+                              className="exp-outline-btn"
+                              onClick={() =>
+                                handleViewTransportDetails(
+                                  vehicle
+                                )
+                              }
+                            >
+                              View Details
+                            </button>
+
+                            <button
+                              type="button"
+                              className="exp-primary-btn exp-vehicle-book-btn"
+                              onClick={() =>
+                                openBookingModal(
+                                  vehicle
+                                )
+                              }
+                            >
+                              Book Now
+                              <span>
+                                →
+                              </span>
+                            </button>
+
+                          </div>
+
+                          {vehicle.showMoreCars && (
+                            <button
+                              type="button"
+                              className="exp-more-cars"
+                              onClick={() =>
+                                handleViewTransportDetails(
+                                  vehicle
+                                )
+                              }
+                            >
+                              View More Cars
+                              <span>
+                                →
+                              </span>
+                            </button>
+                          )}
+
+                        </div>
+                      </article>
+
+                    </div>
+                  )
+                )}
+
               </div>
+            </div>
 
-              <div className="card-content">
-                <h3 className="card-title">{item.title}</h3>
-                <span className="available-label">Available Vehicles with Driver:</span>
+            {/* TRANSPORT DOTS */}
+            {transportItems.length >
+              transportVisibleCount && (
+              <div className="exp-transport-dots">
 
-                <div className="transport-icons-grid">
-                  <div className="t-icon-box">🚗 <span>Sedan</span></div>
-                  <div className="t-icon-box">🚙 <span>Innova/SUV</span></div>
-                  <div className="t-icon-box">🚐 <span>Tempo</span></div>
-                  <div className="t-icon-box">🚌 <span>Coach</span></div>
-                </div>
-
-                <div className="transport-footer">
-                  <button 
+                {Array.from({
+                  length:
+                    transportMaxIndex + 1,
+                }).map((_, index) => (
+                  <button
                     type="button"
-                    className="green-btn" 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleViewTransportDetails(item);
-                    }}
-                  >
-                    Get Cab Quote
-                  </button>
-                  <div className="t-reviews">
-                    <span className="stars">★★★★★</span>
-                    <span className="review-num">{item.reviews}</span>
-                  </div>
-                </div>
+                    key={index}
+                    className={
+                      index ===
+                      transportIndex
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() =>
+                      setTransportIndex(
+                        index
+                      )
+                    }
+                    aria-label={`Vehicle slide ${
+                      index + 1
+                    }`}
+                  />
+                ))}
+
               </div>
-            </article>
-          ))}
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Mobile Slider Controls */}
-      {!isLoading && isMobile && currentItems.length > 1 && (
-        <div className="mobile-slider-controls">
-          <button 
-            type="button"
-            className="slider-arrow-btn" 
-            onClick={handlePrev} 
-            aria-label="Previous card"
+      {/* =================================================
+          BOOKING MODAL
+      ================================================= */}
+      {bookingModalOpen &&
+        selectedVehicle && (
+          <div
+            className="vbooking-backdrop"
+            onMouseDown={(event) => {
+              if (
+                event.target ===
+                event.currentTarget
+              ) {
+                closeBookingModal();
+              }
+            }}
           >
-            ←
-          </button>
 
-          <div className="slider-indicator-dots">
-            {currentItems.map((_, idx) => (
-              <span
-                key={idx}
-                className={`slider-dot ${currentIndex === idx ? 'active' : ''}`}
-                onClick={() => setCurrentIndex(idx)}
-              />
-            ))}
+            <div
+              className="vbooking-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="vehicle-booking-title"
+            >
+
+              {/* MODAL HEADER */}
+              <div className="vbooking-header">
+
+                <div>
+                  <span>
+                    VEHICLE BOOKING
+                  </span>
+
+                  <h2 id="vehicle-booking-title">
+                    Book Your Ride
+                  </h2>
+                </div>
+
+                <button
+                  type="button"
+                  className="vbooking-close"
+                  onClick={
+                    closeBookingModal
+                  }
+                  aria-label="Close booking"
+                >
+                  ×
+                </button>
+
+              </div>
+
+              {/* PROGRESS */}
+              <div className="vbooking-progress">
+
+                <div
+                  className={
+                    bookingStep >= 1
+                      ? "active"
+                      : ""
+                  }
+                >
+                  <span>1</span>
+                  Trip Details
+                </div>
+
+                <div className="vbooking-line"></div>
+
+                <div
+                  className={
+                    bookingStep >= 2
+                      ? "active"
+                      : ""
+                  }
+                >
+                  <span>2</span>
+                  Contact Details
+                </div>
+
+              </div>
+
+              {/* VEHICLE SUMMARY */}
+              <div className="vbooking-vehicle">
+
+                <img
+                  src={selectedVehicle.image}
+                  alt={
+                    selectedVehicle.name
+                  }
+                />
+
+                <div>
+                  <span>
+                    SELECTED VEHICLE
+                  </span>
+
+                  <h3>
+                    {selectedVehicle.name}
+                  </h3>
+
+                  <strong>
+                    {formatPrice(
+                      selectedVehicle.price
+                    )}
+                    <small>
+                      {" "}
+                      / day
+                    </small>
+                  </strong>
+                </div>
+
+              </div>
+
+              {/* STEP 1 */}
+              {bookingStep === 1 && (
+                <form
+                  className="vbooking-form"
+                  onSubmit={
+                    handleBookingNext
+                  }
+                >
+
+                  <div className="vbooking-form-grid">
+
+                    <div className="vbooking-field">
+                      <label>
+                        Pick Up Location
+                      </label>
+
+                      <input
+                        type="text"
+                        name="pickUp"
+                        value={
+                          bookingForm.pickUp
+                        }
+                        onChange={
+                          handleBookingInput
+                        }
+                        placeholder="Enter pickup location"
+                        required
+                      />
+                    </div>
+
+                    <div className="vbooking-field">
+                      <label>
+                        Drop Off Location
+                      </label>
+
+                      <input
+                        type="text"
+                        name="dropOff"
+                        value={
+                          bookingForm.dropOff
+                        }
+                        onChange={
+                          handleBookingInput
+                        }
+                        placeholder="Enter drop-off location"
+                        required
+                      />
+                    </div>
+
+                    <div className="vbooking-field">
+                      <label>
+                        Pick Up Date & Time
+                      </label>
+
+                      <input
+                        type="datetime-local"
+                        name="pickUpDateTime"
+                        value={
+                          bookingForm.pickUpDateTime
+                        }
+                        onChange={
+                          handleBookingInput
+                        }
+                        required
+                      />
+                    </div>
+
+                    <div className="vbooking-field">
+                      <label>
+                        Drop Date & Time
+                      </label>
+
+                      <input
+                        type="datetime-local"
+                        name="dropDateTime"
+                        value={
+                          bookingForm.dropDateTime
+                        }
+                        onChange={
+                          handleBookingInput
+                        }
+                        required
+                      />
+                    </div>
+
+                  </div>
+
+                  <div className="vbooking-actions">
+
+                    <button
+                      type="button"
+                      className="vbooking-cancel"
+                      onClick={
+                        closeBookingModal
+                      }
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      type="submit"
+                      className="vbooking-next"
+                    >
+                      Continue
+                      <span>
+                        →
+                      </span>
+                    </button>
+
+                  </div>
+
+                </form>
+              )}
+
+              {/* STEP 2 */}
+              {bookingStep === 2 && (
+                <form
+                  className="vbooking-form"
+                  onSubmit={
+                    handleBookingSubmit
+                  }
+                >
+
+                  <div className="vbooking-form-grid">
+
+                    <div className="vbooking-field">
+                      <label>
+                        Full Name
+                      </label>
+
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={
+                          bookingForm.fullName
+                        }
+                        onChange={
+                          handleBookingInput
+                        }
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
+
+                    <div className="vbooking-field">
+                      <label>
+                        Mobile Number
+                      </label>
+
+                      <input
+                        type="tel"
+                        name="mobile"
+                        value={
+                          bookingForm.mobile
+                        }
+                        onChange={
+                          handleBookingInput
+                        }
+                        placeholder="Enter mobile number"
+                        pattern="[0-9]{10}"
+                        maxLength="10"
+                        required
+                      />
+                    </div>
+
+                  </div>
+
+                  <div className="vbooking-field">
+                    <label>
+                      Message
+                    </label>
+
+                    <textarea
+                      name="message"
+                      value={
+                        bookingForm.message
+                      }
+                      onChange={
+                        handleBookingInput
+                      }
+                      placeholder="Any special requirements?"
+                      rows="4"
+                    ></textarea>
+                  </div>
+
+                  <label className="vbooking-agree">
+
+                    <input
+                      type="checkbox"
+                      name="agree"
+                      checked={
+                        bookingForm.agree
+                      }
+                      onChange={
+                        handleBookingInput
+                      }
+                    />
+
+                    <span>
+                      I agree to the booking
+                      terms and conditions.
+                    </span>
+
+                  </label>
+
+                  <div className="vbooking-actions">
+
+                    <button
+                      type="button"
+                      className="vbooking-cancel"
+                      onClick={
+                        handleBookingPrevious
+                      }
+                    >
+                      ← Previous
+                    </button>
+
+                    <button
+                      type="submit"
+                      className="vbooking-next"
+                    >
+                      Submit Booking
+                      <span>
+                        ✓
+                      </span>
+                    </button>
+
+                  </div>
+
+                </form>
+              )}
+
+            </div>
           </div>
-
-          <button 
-            type="button"
-            className="slider-arrow-btn" 
-            onClick={handleNext} 
-            aria-label="Next card"
-          >
-            →
-          </button>
-        </div>
-      )}
+        )}
     </section>
   );
 };
