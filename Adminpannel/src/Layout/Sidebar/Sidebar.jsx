@@ -103,27 +103,30 @@ const Sidebar = ({
       path: "/our-guide",
       icon: <BookOpen size={20} />,
     },
+
     {
       text: "Car Booking",
       path: "/booklead",
       icon: <BookOpen size={20} />,
     },
-{
+
+    {
       text: "Hotel Booking",
       path: "/bookingdetails",
       icon: <BookOpen size={20} />,
     },
+
     {
       text: "Coupen",
       path: "/coupen",
       icon: <BookOpen size={20} />,
     },
+
     {
       text: "Tour Booking",
       path: "/tourbooking",
       icon: <BookOpen size={20} />,
     },
-
 
     {
       text: "Gallary",
@@ -267,6 +270,9 @@ const Sidebar = ({
                     isCollapsed
                       ? item.text
                       : undefined
+                  }
+                  aria-expanded={
+                    blogOpen || isBlogPage
                   }
                 >
                   <span className="Sidebar-icon">
