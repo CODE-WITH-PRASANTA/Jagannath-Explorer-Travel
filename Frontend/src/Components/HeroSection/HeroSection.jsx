@@ -15,7 +15,6 @@ import {
   ChevronUp,
   Check,
   ArrowRight,
-  Star,
   Sparkles,
 } from "lucide-react";
 
@@ -53,7 +52,6 @@ const sliderImages = [
     title: "Seek Blessings at\nShree Jagannath Dham.",
     subtitle:
       "Step into the divine energy of one of India's holiest shrines. Witness centuries-old rituals, the majestic Ratna Singhasana, and the golden shores of Puri — a journey that touches both soul and spirit.",
-    button: "Plan Puri Trip",
     position: "center 20%",
   },
   {
@@ -63,7 +61,6 @@ const sliderImages = [
     title: "Discover the\nWild Side of Odisha.",
     subtitle:
       "Explore Odisha's famous wildlife, beautiful landscapes and unforgettable family experiences with comfortable journeys planned around you.",
-    button: "Explore Odisha",
     position: "center center",
   },
   {
@@ -73,7 +70,6 @@ const sliderImages = [
     title: "Where Nature Meets\nSacred Serenity.",
     subtitle:
       "Discover the peaceful beauty of Chilika Lake, Kalijai Temple and the spectacular landscapes that make Odisha truly special.",
-    button: "Explore Chilika",
     position: "center center",
   },
   {
@@ -83,7 +79,6 @@ const sliderImages = [
     title: "Walk Through\nOdisha's Living History.",
     subtitle:
       "From ancient heritage to peaceful Buddhist landmarks, discover the stories, culture and architecture that shaped Odisha.",
-    button: "Discover Heritage",
     position: "center 30%",
   },
   {
@@ -93,7 +88,6 @@ const sliderImages = [
     title: "The Sun Temple —\nA Marvel Carved in Stone.",
     subtitle:
       "Marvel at the 13th-century Sun Temple, shaped like a colossal chariot with twenty-four intricately carved wheels. A masterpiece of Odisha's stone architecture, standing timeless against the Bay of Bengal.",
-    button: "Visit Konark",
     position: "center 15%",
   },
 ];
@@ -283,34 +277,6 @@ const HeroSection = () => {
           <div className="hero-section__eyebrow-divider" />
           <h1 className="hero-section__title">{currentContent.title}</h1>
           <p className="hero-section__description">{currentContent.subtitle}</p>
-
-          <div className="hero-section__cta-group">
-            <button type="button" className="hero-section__book-btn">
-              <span>{currentContent.button}</span>
-              <ArrowRight size={17} />
-            </button>
-
-            <div className="hero-section__review-card">
-              <div className="hero-section__review-icon">
-                <span>●</span>
-                <span>●</span>
-              </div>
-              <div className="hero-section__review-info">
-                <span className="hero-section__review-name">Tripadvisor</span>
-                <div className="hero-section__review-rating">
-                  <div className="hero-section__review-stars">
-                    <Star size={12} fill="currentColor" />
-                    <Star size={12} fill="currentColor" />
-                    <Star size={12} fill="currentColor" />
-                    <Star size={12} fill="currentColor" />
-                    <Star size={12} fill="currentColor" />
-                  </div>
-                  <span className="hero-section__review-score">4.5</span>
-                  <span className="hero-section__review-total">Excellent</span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* SLIDER DOTS */}

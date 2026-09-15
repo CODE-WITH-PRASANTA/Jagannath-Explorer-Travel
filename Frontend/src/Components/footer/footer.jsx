@@ -213,7 +213,6 @@ const Footer = () => {
                 <FaYoutube />
               </a>
 
-             
             </div>
 
           </div>
@@ -343,7 +342,7 @@ const Footer = () => {
               <div className="contact-content">
 
                 <a href="mailto:Jagannathexplore99@gmail.com">
-                  Jagannathexplore99@gmail.com
+                  jagannathexplorertravels@gmail.com
                 </a>
 
               </div>
@@ -447,22 +446,18 @@ const Footer = () => {
 
       <div className="footer-bottom">
 
-        <a
-          href="https://prwebstock.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="powered-by"
-        >
-          <span>
-            Powered by
-          </span>
-
-          <strong>
-            PR WEBSTOCK
-          </strong>
-
-          <FaExternalLinkAlt />
-        </a>
+        <p className="copyright-text">
+          2026 &copy; Copyright by{" "}
+          <a
+            href="https://prwebstock.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="powered-by"
+          >
+            <strong>PR WEBSTOCK</strong>
+            <FaExternalLinkAlt />
+          </a>
+        </p>
 
       </div>
 
