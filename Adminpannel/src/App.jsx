@@ -55,6 +55,7 @@ import Settings from "./Components/Settings/Settings";
 import Booklead from "./Pages/Booklead/Booklead";
 import TourBookings from "./Pages/TourBookings/TourBookings";
 import Coupen from "./Pages/Coupen/Coupen";
+import ReviewTable from "./Pages/ReviewTable/ReviewTable";
 
 const App = () => {
   return (
@@ -163,7 +164,8 @@ const App = () => {
               path="/profile"
               element={<Myprofile />}
             />
-
+            
+            <Route path="/review" element={<ReviewTable />} />
 
             {/* =================================================
                 SYSTEM

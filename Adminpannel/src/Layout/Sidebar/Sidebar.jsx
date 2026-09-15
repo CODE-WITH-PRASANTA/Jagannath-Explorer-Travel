@@ -128,6 +128,12 @@ const Sidebar = ({
       icon: <BookOpen size={20} />,
     },
 
+     {
+      text: "Review Table",
+      path: "/review",
+      icon: <BookOpen size={20} />,
+    },
+
     {
       text: "Gallary",
       path: "/gallary",
