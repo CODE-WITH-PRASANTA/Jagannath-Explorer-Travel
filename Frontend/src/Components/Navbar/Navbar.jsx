@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 // Jagannath Explorer Travels Logo
-import logo from "../../assets/logooooo.jpeg";
+import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

@@ -22,7 +22,7 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 
-import logo from "../../assets/logooooo.jpeg";
+import logo from "../../assets/logo.png";
 import "./footer.css";
 
 const Footer = () => {
