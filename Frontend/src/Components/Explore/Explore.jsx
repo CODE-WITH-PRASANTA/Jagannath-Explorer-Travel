@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Explore.css";
 
 // ======================================================
@@ -145,16 +146,6 @@ const Explore = () => {
   const [activeTab, setActiveTab] = useState("boating");
 
   const currentActivity = activitiesData[activeTab];
-
-  // ====================================================
-  // CHECK AVAILABILITY
-  // ====================================================
-
-  const handleBooking = () => {
-    alert(
-      `Check availability for ${currentActivity.badge} with Jagannath Explorer Travels.`
-    );
-  };
 
   // ====================================================
   // EXPLORE EXPERIENCE
@@ -383,13 +374,9 @@ const Explore = () => {
 
             <div className="activity-actions">
 
-              <button
-                type="button"
-                className="btn-check-avail"
-                onClick={handleBooking}
-              >
+              <Link to="/contact" className="btn-check-avail">
                 Check Availability
-              </button>
+              </Link>
 
               <button
                 type="button"
