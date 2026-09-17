@@ -1,288 +1,174 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
-
-// Jagannath Explorer Travels Logo
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCarRentalOpen, setIsCarRentalOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [carRentalOpen, setCarRentalOpen] = useState(false);
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-    setIsCarRentalOpen(false);
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen((prev) => !prev);
-  };
-
-  const toggleCarRental = () => {
-    setIsCarRentalOpen((prev) => !prev);
+  const closeMenu = () => {
+    setMobileOpen(false);
+    setCarRentalOpen(false);
   };
 
   return (
     <header className="navbar">
       <div className="navbar-container">
 
-        {/* LOGO */}
-        <NavLink
-          to="/"
-          className="navbar-logo-link"
-          onClick={closeMobileMenu}
-        >
-          <div className="navbar-logo-wrapper">
-            <img
-              src={logo}
-              alt="Jagannath Explorer Travels"
-              className="navbar-logo"
-            />
-          </div>
+        <NavLink to="/" className="navbar-logo-link" onClick={closeMenu}>
+          <img
+            src={logo}
+            alt="Jagannath Explorer Travels"
+            className="navbar-logo"
+          />
         </NavLink>
 
-        {/* NAVIGATION */}
-        <nav
-          className={`navbar-navigation ${
-            isMobileMenuOpen ? "navbar-navigation-open" : ""
-          }`}
-        >
-          <div className="navbar-navigation-inner">
+        <nav className={`navbar-nav ${mobileOpen ? "nav-open" : ""}`}>
+          <NavLink
+            to="/"
+            end
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Home
+          </NavLink>
 
-            {/* Home */}
-            <NavLink
-              to="/"
-              end
-              onClick={closeMobileMenu}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? "navbar-link-active" : ""}`
-              }
+          <NavLink
+            to="/about"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            About
+          </NavLink>
+
+          <NavLink
+            to="/tours"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Tours
+          </NavLink>
+
+          <NavLink
+            to="/hotel"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Hotel
+          </NavLink>
+
+          <div
+            className={`nav-dropdown ${
+              carRentalOpen ? "dropdown-open" : ""
+            }`}
+          >
+            <button
+              type="button"
+              className="dropdown-btn"
+              onClick={() => setCarRentalOpen(!carRentalOpen)}
             >
-              <span className="navbar-link-text">Home</span>
-            </NavLink>
-
-            {/* About */}
-            <NavLink
-              to="/about"
-              onClick={closeMobileMenu}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? "navbar-link-active" : ""}`
-              }
-            >
-              <span className="navbar-link-text">About</span>
-            </NavLink>
-
-            {/* Tours */}
-            <NavLink
-              to="/tours"
-              onClick={closeMobileMenu}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? "navbar-link-active" : ""}`
-              }
-            >
-              <span className="navbar-link-text">Tours</span>
-            </NavLink>
-
-            {/* Hotel */}
-            <NavLink
-              to="/hotel"
-              onClick={closeMobileMenu}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? "navbar-link-active" : ""}`
-              }
-            >
-              <span className="navbar-link-text">Hotel</span>
-            </NavLink>
-
-            {/* CAR RENTAL DROPDOWN */}
-            <div
-              className={`navbar-dropdown ${
-                isCarRentalOpen ? "navbar-dropdown-open" : ""
-              }`}
-            >
-              <button
-                type="button"
-                className="navbar-dropdown-button"
-                onClick={toggleCarRental}
-                aria-expanded={isCarRentalOpen}
-              >
-                <span className="navbar-link-text">Car Rental</span>
-                <svg
-                  className="navbar-dropdown-arrow"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 9L12 15L18 9"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-
-              <div className="navbar-dropdown-menu">
-                <NavLink
-                  to="/car-rental/sedan-cars"
-                  onClick={closeMobileMenu}
-                  className="navbar-dropdown-link"
-                >
-                  <span className="navbar-dropdown-icon"><span></span></span>
-                  <span>Sedan Cars</span>
-                </NavLink>
-
-                <NavLink
-                  to="/car-rental/suv-cars"
-                  onClick={closeMobileMenu}
-                  className="navbar-dropdown-link"
-                >
-                  <span className="navbar-dropdown-icon"><span></span></span>
-                  <span>SUV Cars</span>
-                </NavLink>
-
-                <NavLink
-                  to="/car-rental/luxury-cars"
-                  onClick={closeMobileMenu}
-                  className="navbar-dropdown-link"
-                >
-                  <span className="navbar-dropdown-icon"><span></span></span>
-                  <span>Luxury Cars</span>
-                </NavLink>
-
-                <NavLink
-                  to="/car-rental/tempo-travellers"
-                  onClick={closeMobileMenu}
-                  className="navbar-dropdown-link"
-                >
-                  <span className="navbar-dropdown-icon"><span></span></span>
-                  <span>Tempo Travellers</span>
-                </NavLink>
-
-                <NavLink
-                  to="/car-rental/urbania-travellers"
-                  onClick={closeMobileMenu}
-                  className="navbar-dropdown-link"
-                >
-                  <span className="navbar-dropdown-icon"><span></span></span>
-                  <span>Urbania Travellers</span>
-                </NavLink>
-
-                <NavLink
-                  to="/car-rental/small-coach"
-                  onClick={closeMobileMenu}
-                  className="navbar-dropdown-link"
-                >
-                  <span className="navbar-dropdown-icon"><span></span></span>
-                  <span>Small Coach</span>
-                </NavLink>
-              </div>
-            </div>
-
-            {/* Blog */}
-            <NavLink
-              to="/blog"
-              onClick={closeMobileMenu}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? "navbar-link-active" : ""}`
-              }
-            >
-              <span className="navbar-link-text">Blog</span>
-            </NavLink>
-
-            {/* Gallery */}
-            <NavLink
-              to="/gallery"
-              onClick={closeMobileMenu}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? "navbar-link-active" : ""}`
-              }
-            >
-              <span className="navbar-link-text">Gallery</span>
-            </NavLink>
-
-            {/* FAQ */}
-            <NavLink
-              to="/faq"
-              onClick={closeMobileMenu}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? "navbar-link-active" : ""}`
-              }
-            >
-              <span className="navbar-link-text">FAQ</span>
-            </NavLink>
-
-            {/* MOBILE CONTACT BUTTON */}
-            <NavLink
-              to="/contact"
-              onClick={closeMobileMenu}
-              className="navbar-mobile-contact"
-            >
-              <span>Contact Us</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 12H19"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M13 6L19 12L13 18"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              Car Rental
+              <svg viewBox="0 0 24 24">
+                <path d="M6 9l6 6 6-6" />
               </svg>
-            </NavLink>
+            </button>
 
+            <div className="dropdown-menu">
+              <NavLink to="/car-rental/sedan-cars" onClick={closeMenu}>
+                Sedan Cars
+              </NavLink>
+
+              <NavLink to="/car-rental/suv-cars" onClick={closeMenu}>
+                SUV Cars
+              </NavLink>
+
+              <NavLink to="/car-rental/luxury-cars" onClick={closeMenu}>
+                Luxury Cars
+              </NavLink>
+
+              <NavLink
+                to="/car-rental/tempo-travellers"
+                onClick={closeMenu}
+              >
+                Tempo Travellers
+              </NavLink>
+
+              <NavLink
+                to="/car-rental/urbania-travellers"
+                onClick={closeMenu}
+              >
+                Urbania Travellers
+              </NavLink>
+
+              <NavLink to="/car-rental/small-coach" onClick={closeMenu}>
+                Small Coach
+              </NavLink>
+            </div>
           </div>
+
+          <NavLink
+            to="/blog"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Blog
+          </NavLink>
+
+          <NavLink
+            to="/gallery"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Gallery
+          </NavLink>
+
+          <NavLink
+            to="/faq"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            FAQ
+          </NavLink>
+
+          <NavLink
+            to="/contact"
+            onClick={closeMenu}
+            className="mobile-contact"
+          >
+            Contact Us
+            <span>→</span>
+          </NavLink>
         </nav>
 
-        {/* DESKTOP CONTACT BUTTON */}
-        <NavLink to="/contact" className="navbar-contact-button">
-          <span className="navbar-contact-button-text">Contact Us</span>
-          <span className="navbar-contact-button-icon">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12H19"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M13 6L19 12L13 18"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
+        <NavLink to="/contact" className="contact-btn">
+          <span>Contact Us</span>
+          <span className="contact-arrow">→</span>
         </NavLink>
 
-        {/* MOBILE MENU BUTTON */}
         <button
           type="button"
-          className={`navbar-menu-button ${
-            isMobileMenuOpen ? "navbar-menu-button-open" : ""
-          }`}
-          onClick={toggleMobileMenu}
-          aria-label="Toggle navigation menu"
-          aria-expanded={isMobileMenuOpen}
+          className={`menu-btn ${mobileOpen ? "menu-active" : ""}`}
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle navigation"
         >
-          <span className="navbar-menu-line"></span>
-          <span className="navbar-menu-line"></span>
-          <span className="navbar-menu-line"></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
 
       </div>

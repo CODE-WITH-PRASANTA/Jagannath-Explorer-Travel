@@ -4,9 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   FaFacebookF,
   FaInstagram,
-  FaTwitter,
   FaYoutube,
-  FaLinkedinIn,
   FaPhoneAlt,
   FaEnvelope,
   FaMapMarkerAlt,
@@ -33,45 +31,18 @@ const Footer = () => {
   ========================================================= */
 
   const quickLinks = [
-    {
-      name: "Home",
-      path: "/",
-    },
-    {
-      name: "About Us",
-      path: "/about",
-    },
-    {
-      name: "Tours",
-      path: "/tours",
-    },
-    {
-      name: "Hotel",
-      path: "/hotel",
-    },
-    {
-      name: "Blog",
-      path: "/blog",
-    },
-    {
-      name: "Gallery",
-      path: "/gallery",
-    },
-    {
-      name: "FAQ",
-      path: "/faq",
-    },
-    {
-      name: "Contact",
-      path: "/contact",
-    },
+    { name: "Home", path: "/" },
+    { name: "About Us", path: "/about" },
+    { name: "Tours", path: "/tours" },
+    { name: "Hotel", path: "/hotel" },
+    { name: "Blog", path: "/blog" },
+    { name: "Gallery", path: "/gallery" },
+    { name: "FAQ", path: "/faq" },
+    { name: "Contact", path: "/contact" },
   ];
 
   /* =========================================================
-     SMOOTH ROUTE + TOP SCROLL
-     
-     First navigate to the selected page.
-     Then smoothly move the page to the top.
+     NAVIGATION
   ========================================================= */
 
   const handleNavigation = (path) => {
@@ -94,38 +65,32 @@ const Footer = () => {
     {
       name: "Puri",
       icon: <FaUmbrellaBeach />,
-      url:
-        "https://www.google.com/maps/search/?api=1&query=Puri%2C%20Odisha%2C%20India",
+      url: "https://www.google.com/maps/search/?api=1&query=Puri%2C%20Odisha%2C%20India",
     },
     {
       name: "Konark",
       icon: <FaPlaceOfWorship />,
-      url:
-        "https://www.google.com/maps/search/?api=1&query=Konark%2C%20Odisha%2C%20India",
+      url: "https://www.google.com/maps/search/?api=1&query=Konark%2C%20Odisha%2C%20India",
     },
     {
       name: "Chilika",
       icon: <FaWater />,
-      url:
-        "https://www.google.com/maps/search/?api=1&query=Chilika%20Lake%2C%20Odisha%2C%20India",
+      url: "https://www.google.com/maps/search/?api=1&query=Chilika%20Lake%2C%20Odisha%2C%20India",
     },
     {
       name: "Bhubaneswar",
       icon: <FaBuilding />,
-      url:
-        "https://www.google.com/maps/search/?api=1&query=Bhubaneswar%2C%20Odisha%2C%20India",
+      url: "https://www.google.com/maps/search/?api=1&query=Bhubaneswar%2C%20Odisha%2C%20India",
     },
     {
       name: "Dhauli",
       icon: <FaPlaceOfWorship />,
-      url:
-        "https://www.google.com/maps/search/?api=1&query=Dhauli%2C%20Bhubaneswar%2C%20Odisha%2C%20India",
+      url: "https://www.google.com/maps/search/?api=1&query=Dhauli%2C%20Bhubaneswar%2C%20Odisha%2C%20India",
     },
     {
       name: "Similipal",
       icon: <FaTree />,
-      url:
-        "https://www.google.com/maps/search/?api=1&query=Similipal%20National%20Park%2C%20Odisha%2C%20India",
+      url: "https://www.google.com/maps/search/?api=1&query=Similipal%20National%20Park%2C%20Odisha%2C%20India",
     },
   ];
 
@@ -161,13 +126,22 @@ const Footer = () => {
 
           <div className="footer-brand">
 
-            <div className="footer-logo-box">
+            {/* Logo without box */}
+            <Link
+              to="/"
+              className="footer-logo-link"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavigation("/");
+              }}
+              aria-label="Jagannath Explorer Travels Home"
+            >
               <img
                 src={logo}
                 alt="Jagannath Explorer Travels"
                 className="footer-logo"
               />
-            </div>
+            </Link>
 
             <h2 className="footer-brand-title">
               Jagannath Explorer Travels
@@ -178,6 +152,8 @@ const Footer = () => {
               across Odisha and beyond. Travel with comfort,
               care and confidence.
             </p>
+
+            {/* Social Media */}
 
             <div className="footer-social">
 
@@ -200,7 +176,7 @@ const Footer = () => {
               <a
                 href="#"
                 className="whatsapp"
-                aria-label="whatsapp"
+                aria-label="WhatsApp"
               >
                 <FaWhatsapp />
               </a>
@@ -214,7 +190,6 @@ const Footer = () => {
               </a>
 
             </div>
-
           </div>
 
           {/* =================================================
@@ -245,9 +220,7 @@ const Footer = () => {
                       <FaArrowRight />
                     </span>
 
-                    <span>
-                      {link.name}
-                    </span>
+                    <span>{link.name}</span>
                   </Link>
 
                 </li>
@@ -279,7 +252,6 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="footer-destination"
                 >
-
                   <span className="destination-icon">
                     {location.icon}
                   </span>
@@ -289,7 +261,6 @@ const Footer = () => {
                   </span>
 
                   <FaArrowRight className="destination-arrow" />
-
                 </a>
               ))}
 
@@ -341,7 +312,7 @@ const Footer = () => {
 
               <div className="contact-content">
 
-                <a href="mailto:Jagannathexplore99@gmail.com">
+                <a href="mailto:jagannathexplorertravels@gmail.com">
                   jagannathexplorertravels@gmail.com
                 </a>
 
@@ -362,7 +333,7 @@ const Footer = () => {
                 <p>
                   Plot No - 001, Mahaveer Nagar,
                   <br />
-                  Road No. - 18, Samantray Pur,
+                  Road No. - 18, Samantarapur,
                   <br />
                   Bhubaneswar, Odisha - 751002
                 </p>
@@ -382,7 +353,7 @@ const Footer = () => {
               <div className="contact-content">
 
                 <p>
-                  Mon - Sat: 9:00 AM - 6:00 PM
+                  Mon - Sat: 10:00 AM - 9:00 PM
                   <br />
                   Sunday: Closed
                 </p>
@@ -392,7 +363,6 @@ const Footer = () => {
             </div>
 
           </div>
-
         </div>
 
         {/* ===================================================
@@ -422,17 +392,14 @@ const Footer = () => {
           </div>
 
           <Link
-            to="/tours"
+            to="/contact"
             className="footer-cta-button"
             onClick={(e) => {
               e.preventDefault();
               handleNavigation("/contact");
             }}
           >
-            <span>
-              Contact Us
-            </span>
-
+            <span>Contact Us</span>
             <FaArrowRight />
           </Link>
 
@@ -448,6 +415,7 @@ const Footer = () => {
 
         <p className="copyright-text">
           2026 &copy; Copyright by{" "}
+
           <a
             href="https://prwebstock.com/"
             target="_blank"

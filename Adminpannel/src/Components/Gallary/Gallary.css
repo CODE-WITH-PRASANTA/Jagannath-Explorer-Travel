@@ -46,6 +46,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0 4px 15px rgba(20, 30, 50, 0.03);
 }
 
 .GallaryHeaderBadge span {
@@ -68,7 +69,9 @@
 .GallaryContent {
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(300px, 0.75fr) minmax(500px, 1.5fr);
+  grid-template-columns:
+    minmax(300px, 0.75fr)
+    minmax(500px, 1.5fr);
   gap: 24px;
   align-items: start;
 }
@@ -84,7 +87,8 @@
   border: 1px solid #e7eaf0;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 5px 20px rgba(25, 35, 55, 0.04);
+  box-shadow:
+    0 5px 20px rgba(25, 35, 55, 0.04);
 }
 
 .GallaryCardHeader {
@@ -141,12 +145,15 @@
   font-size: 14px;
   color: #172033;
   background: #ffffff;
-  transition: 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .GallaryFormGroup input[type="text"]:focus {
   border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.08);
 }
 
 .GallaryFormGroup input[type="text"]::placeholder {
@@ -168,7 +175,9 @@
   overflow: hidden;
   box-sizing: border-box;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .GallaryUploadBox:hover {
@@ -217,9 +226,14 @@
 }
 
 .GallaryUploadContent p {
-  margin: 0;
+  margin: 0 0 3px;
   font-size: 11px;
   color: #929aaa;
+}
+
+.GallaryUploadContent small {
+  font-size: 11px;
+  color: #667085;
 }
 
 
@@ -257,6 +271,10 @@
   font-weight: 600;
 }
 
+.GallaryPreviewHeader button:hover {
+  text-decoration: underline;
+}
+
 .GallaryPreviewImage {
   width: 100%;
   height: 170px;
@@ -269,6 +287,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 
@@ -290,7 +309,10 @@
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  transition: 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .GallaryCancelButton {
@@ -312,6 +334,13 @@
 .GallarySubmitButton:hover {
   background: #1d4ed8;
   transform: translateY(-1px);
+}
+
+.GallaryCancelButton:disabled,
+.GallarySubmitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
 }
 
 
@@ -354,7 +383,9 @@
 }
 
 .GallaryTable tbody tr {
-  transition: 0.15s ease;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
 }
 
 .GallaryTable tbody tr:hover {
@@ -394,6 +425,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.25s ease;
+}
+
+.GallaryTable tbody tr:hover
+.GallaryTableImage img {
+  transform: scale(1.05);
 }
 
 
@@ -428,7 +465,9 @@
   justify-content: center;
   cursor: pointer;
   font-size: 15px;
-  transition: 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .GallaryEditButton {
@@ -438,6 +477,7 @@
 
 .GallaryEditButton:hover {
   background: #dbeafe;
+  transform: translateY(-1px);
 }
 
 .GallaryDeleteButton {
@@ -447,6 +487,47 @@
 
 .GallaryDeleteButton:hover {
   background: #fee2e2;
+  transform: translateY(-1px);
+}
+
+.GallaryEditButton:disabled,
+.GallaryDeleteButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.GallaryLoading {
+  padding: 45px 20px !important;
+  text-align: center !important;
+  color: #7b8497;
+}
+
+.GallaryLoadingContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.GallaryLoader {
+  width: 17px;
+  height: 17px;
+  border: 2px solid #dbe4f4;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: GallarySpin 0.7s linear infinite;
+}
+
+@keyframes GallarySpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 
@@ -474,6 +555,194 @@
   margin: 0;
   color: #929aaa;
   font-size: 12px;
+}
+
+
+/* =========================================
+   PREMIUM PAGINATION
+========================================= */
+
+.GallaryPagination {
+  min-height: 70px;
+  padding: 13px 18px;
+  border-top: 1px solid #edf0f4;
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+
+/* =========================================
+   PAGINATION INFO
+========================================= */
+
+.GallaryPaginationInfo {
+  color: #8a92a3;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.GallaryPaginationInfo strong {
+  color: #3c4658;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   PAGINATION CONTROLS
+========================================= */
+
+.GallaryPaginationControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+/* =========================================
+   PAGE NUMBERS WRAPPER
+========================================= */
+
+.GallaryPageNumbers {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+/* =========================================
+   PAGE NUMBER
+========================================= */
+
+.GallaryPageNumber {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  background: transparent;
+  color: #687286;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.GallaryPageNumber:hover {
+  color: #2563eb;
+  background: #f1f5ff;
+  border-color: #dbe7ff;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   ACTIVE PAGE
+========================================= */
+
+.GallaryPageNumber.active {
+  color: #ffffff;
+  background: #2563eb;
+  border-color: #2563eb;
+
+  box-shadow:
+    0 5px 12px rgba(37, 99, 235, 0.22);
+}
+
+.GallaryPageNumber.active:hover {
+  color: #ffffff;
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+
+/* =========================================
+   PREVIOUS / NEXT
+========================================= */
+
+.GallaryPageArrow {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e1e5eb;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #596579;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.GallaryPageArrow span {
+  font-size: 23px;
+  line-height: 1;
+  margin-top: -2px;
+}
+
+.GallaryPageArrow:hover:not(:disabled) {
+  color: #2563eb;
+  background: #f5f8ff;
+  border-color: #cfdcff;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 4px 10px rgba(37, 99, 235, 0.08);
+}
+
+.GallaryPageArrow:disabled {
+  color: #c5cad3;
+  background: #f8f9fb;
+  border-color: #edf0f4;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   ELLIPSIS
+========================================= */
+
+.GallaryPageEllipsis {
+  width: 25px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #9aa2b1;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  user-select: none;
 }
 
 
@@ -561,6 +830,42 @@
     width: 100%;
     flex: none;
   }
+
+
+  /* =====================================
+     MOBILE PAGINATION
+  ===================================== */
+
+  .GallaryPagination {
+    padding: 14px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+  }
+
+  .GallaryPaginationInfo {
+    order: 2;
+    font-size: 11px;
+  }
+
+  .GallaryPaginationControls {
+    order: 1;
+  }
+
+  .GallaryPageNumber,
+  .GallaryPageArrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .GallaryPageNumbers {
+    gap: 4px;
+  }
+
+  .GallaryPageArrow span {
+    font-size: 21px;
+  }
 }
 
 
@@ -597,5 +902,34 @@
 
   .GallaryPreviewImage {
     height: 145px;
+  }
+
+
+  /* SMALL PAGINATION */
+
+  .GallaryPagination {
+    padding: 12px 8px;
+  }
+
+  .GallaryPageNumber,
+  .GallaryPageArrow {
+    width: 29px;
+    height: 29px;
+    border-radius: 7px;
+    font-size: 11px;
+  }
+
+  .GallaryPageEllipsis {
+    width: 18px;
+    height: 29px;
+    font-size: 11px;
+  }
+
+  .GallaryPageNumbers {
+    gap: 2px;
+  }
+
+  .GallaryPaginationControls {
+    gap: 4px;
   }
 }

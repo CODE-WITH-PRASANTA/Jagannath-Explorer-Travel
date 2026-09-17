@@ -83,8 +83,8 @@ const ContactMain = () => {
             </div>
 
             <div className="ContactMain__infoDetails">
-              <p>info@example.com</p>
-              <p>example@example.com</p>
+              <p>Jagannathexplore99@gmail.com</p>
+             
             </div>
           </div>
 
@@ -110,7 +110,7 @@ const ContactMain = () => {
             <div className="ContactMain__infoDetails ContactMain__locationDetails">
               <p className="ContactMain__address">
                 Plot No - 001, Mahaveer Nagar, Road No. - 18,
-                Samantray Pur, Bhubaneswar, Odisha, Pin - 751002
+                Samantarapur, Bhubaneswar, Odisha, Pin - 751002
               </p>
             </div>
           </div>
@@ -138,7 +138,7 @@ const ContactMain = () => {
 
             <div className="ContactMain__infoDetails">
               <p className="ContactMain__time">
-                8:00 AM - 10:00 PM, Friday Closed
+                10:00 AM - 9:00 PM, Sunday Closed
               </p>
             </div>
           </div>
