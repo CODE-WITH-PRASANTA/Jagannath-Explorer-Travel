@@ -1,4 +1,3 @@
-
 *,
 *::before,
 *::after {
@@ -255,112 +254,6 @@
 }
 
 /* =====================================================
-   CTA & RATINGS
-===================================================== */
-
-.hero-section__cta-group {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(12px, 2.5vw, 22px);
-  flex-wrap: wrap;
-}
-
-.hero-section__book-btn {
-  min-height: 44px;
-  padding: 0 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  background: #5a9e43;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  box-shadow: 0 10px 24px rgba(35, 91, 35, 0.32);
-  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
-}
-
-.hero-section__book-btn:hover {
-  background: #6caf50;
-  transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(35, 91, 35, 0.45);
-}
-
-.hero-section__book-btn svg {
-  transition: transform 0.25s ease;
-}
-
-.hero-section__book-btn:hover svg {
-  transform: translateX(3px);
-}
-
-.hero-section__review-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #ffffff;
-}
-
-.hero-section__review-icon {
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #00a66a;
-  box-shadow: 0 6px 16px rgba(0, 166, 106, 0.35);
-}
-
-.hero-section__review-icon span {
-  font-size: 8px;
-  color: #ffffff;
-}
-
-.hero-section__review-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.hero-section__review-name {
-  font-size: 11.5px;
-  font-weight: 800;
-  margin-bottom: 2px;
-}
-
-.hero-section__review-rating {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.hero-section__review-stars {
-  display: flex;
-  align-items: center;
-  gap: 1px;
-  color: #00a66a;
-}
-
-.hero-section__review-score {
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.hero-section__review-total {
-  font-size: 10px;
-  opacity: 0.75;
-}
-
-/* =====================================================
    SLIDER DOTS
 ===================================================== */
 
@@ -391,7 +284,7 @@
 }
 
 /* =====================================================
-   BOOKING CARD CONTAINER
+   BOOKING CARD CONTAINER & CENTERED TABS
 ===================================================== */
 
 .hero-section__booking-container {
@@ -406,14 +299,16 @@
 }
 
 .hero-section__tabs-header {
-  display: flex;
+  display: inline-flex;
   align-items: flex-end;
-  gap: 4px;
-  width: 100%;
+  justify-content: center;
+  gap: 6px;
+  width: auto;
+  margin: 0 auto;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding-left: 4px;
+  padding: 0 8px;
 }
 
 .hero-section__tabs-header::-webkit-scrollbar {
@@ -422,39 +317,46 @@
 
 .hero-section__tab-btn {
   flex: 0 0 auto;
-  min-width: 105px;
-  padding: 10px 18px;
+  min-width: 110px;
+  padding: 10px 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   border: none;
-  border-radius: 10px 10px 0 0;
+  border-radius: 12px 12px 0 0;
   background: rgba(245, 247, 242, 0.95);
   color: #334235;
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 800;
   cursor: pointer;
   backdrop-filter: blur(12px);
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: all 0.25s ease;
   white-space: nowrap;
 }
 
 .hero-section__tab-btn:hover {
   color: #3f8537;
+  background: #ffffff;
 }
 
 .hero-section__tab-btn--active {
   background: #5a9e43;
   color: #ffffff;
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.hero-section__tab-btn--active:hover {
+  color: #ffffff;
+  background: #5a9e43;
 }
 
 .hero-section__form-card {
   width: 100%;
   overflow: visible;
   background: rgba(248, 250, 246, 0.99);
-  border-radius: 0 14px 14px 14px;
+  border-radius: 16px;
   box-shadow:
     0 -5px 30px rgba(0, 0, 0, 0.1),
     0 20px 50px rgba(0, 0, 0, 0.22);
@@ -487,12 +389,12 @@
   position: relative;
   border-right: 1px solid #e0e6da;
   background: transparent;
-  transition: background 0.25s ease;
 }
 
+/* Hover and active background highlight removed as requested */
 .hero-section__field:hover,
 .hero-section__field--active {
-  background: #f4f8ef;
+  background: transparent;
 }
 
 .hero-section__field-icon {
@@ -640,7 +542,7 @@
   justify-content: center;
   gap: 8px;
   border: none;
-  border-radius: 0 14px 0 0;
+  border-radius: 0 16px 16px 0;
   background: #5a9e43;
   color: #ffffff;
   font-family: inherit;
@@ -677,7 +579,7 @@
   .hero-section__search-btn {
     grid-column: span 2;
     min-height: 54px;
-    border-radius: 0 0 14px 14px;
+    border-radius: 0 0 16px 16px;
   }
 
   .hero-section__field:nth-child(2n) {
@@ -697,7 +599,7 @@
   }
 
   .hero-section__arrow {
-    display: none; /* Slider navigation relies on touch swipe & dots on handheld screens */
+    display: none;
   }
 
   .hero-section__top-badge {
@@ -715,7 +617,6 @@
     margin-top: 24px;
   }
 
-  /* Flip dropdown to open downwards so it doesn't collide with the header */
   .hero-section__dropdown-menu {
     bottom: auto;
     top: calc(100% + 4px);
@@ -736,33 +637,25 @@
     font-size: 26px;
   }
 
-  .hero-section__cta-group {
-    flex-direction: column;
-    gap: 14px;
-    width: 100%;
-  }
-
-  .hero-section__book-btn {
-    width: 100%;
-  }
-
-  .hero-section__review-card {
-    justify-content: center;
-  }
-
   .hero-section__booking-container {
     width: calc(100% - 16px);
   }
 
+  .hero-section__tabs-header {
+    width: 100%;
+    justify-content: center;
+  }
+
   .hero-section__tab-btn {
     flex: 1;
-    min-width: 80px;
-    padding: 10px 12px;
-    font-size: 12px;
+    min-width: 75px;
+    padding: 9px 8px;
+    font-size: 11.5px;
+    border-radius: 10px 10px 0 0;
   }
 
   .hero-section__form-card {
-    border-radius: 0 0 14px 14px;
+    border-radius: 14px;
   }
 
   .hero-section__form-grid--tour,

@@ -15,6 +15,21 @@ import {
 } from 'lucide-react';
 import './Topbar.css';
 
+const BACKEND_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = `${BACKEND_BASE_URL}/api/profiles`;
+
+const DEFAULT_AVATAR =
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80';
+
+// Avatar URL helper
+const getAvatarUrl = (path) => {
+  if (!path) return DEFAULT_AVATAR;
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('blob:')) {
+    return path;
+  }
+  return `${BACKEND_BASE_URL}${path.startsWith('/') ? '' : '/'}${path}`;
+};
+
 const Topbar = ({ toggleSidebar }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -22,8 +37,43 @@ const Topbar = ({ toggleSidebar }) => {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // Profile data states
+  const [currentProfile, setCurrentProfile] = useState({
+    name: 'Admin User',
+    email: 'admin@jagannathexplorer.com',
+    travelerType: 'Super Admin',
+    avatar: DEFAULT_AVATAR,
+  });
+
   const dropdownRef = useRef(null);
   const mobileSearchInputRef = useRef(null);
+
+  // Fetch initial profile on mount
+  const fetchTopProfile = async () => {
+    try {
+      const res = await fetch(API_BASE_URL);
+      const result = await res.json();
+      if (result.success && result.data?.length > 0) {
+        setCurrentProfile(result.data[0]);
+      }
+    } catch (err) {
+      console.error('Failed to load profile in topbar:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchTopProfile();
+
+    // Listen for updates triggered by Myprofile.jsx
+    const handleProfileUpdate = (e) => {
+      if (e.detail) {
+        setCurrentProfile(e.detail);
+      }
+    };
+
+    window.addEventListener('profileUpdated', handleProfileUpdate);
+    return () => window.removeEventListener('profileUpdated', handleProfileUpdate);
+  }, []);
 
   const closeAllMenus = () => {
     setDropdownOpen(false);
@@ -42,7 +92,7 @@ const Topbar = ({ toggleSidebar }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Close everything on Escape key press
+  // Close on Escape key press
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
@@ -61,7 +111,7 @@ const Topbar = ({ toggleSidebar }) => {
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
-  // Autofocus the mobile search field when opened
+  // Autofocus the mobile search field
   useEffect(() => {
     if (mobileSearchOpen && mobileSearchInputRef.current) {
       mobileSearchInputRef.current.focus();
@@ -84,7 +134,6 @@ const Topbar = ({ toggleSidebar }) => {
   return (
     <>
       <header className="Topbar">
-        {/* Default topbar content */}
         <div className={`Topbar-inner ${mobileSearchOpen ? 'is-hidden' : ''}`}>
           <div className="Topbar-left">
             <button
@@ -147,19 +196,12 @@ const Topbar = ({ toggleSidebar }) => {
                         <span className="Topbar-notification-time">5 mins ago</span>
                       </div>
                     </div>
-                    <div className="Topbar-notification-item">
-                      <div className="Topbar-notification-dot" />
-                      <div>
-                        <p className="Topbar-notification-text">Stock alert: Alka Bottle 1L low.</p>
-                        <span className="Topbar-notification-time">20 mins ago</span>
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Messages / Mail */}
+            {/* Messages */}
             <div className="Topbar-action-wrapper">
               <button
                 className={`Topbar-action-btn ${mailOpen ? 'active' : ''}`}
@@ -185,15 +227,6 @@ const Topbar = ({ toggleSidebar }) => {
                           <strong>Support Team</strong> replied to your ticket.
                         </p>
                         <span className="Topbar-notification-time">10 mins ago</span>
-                      </div>
-                    </div>
-                    <div className="Topbar-notification-item">
-                      <div className="Topbar-notification-dot" />
-                      <div>
-                        <p className="Topbar-notification-text">
-                          New enquiry received from a customer.
-                        </p>
-                        <span className="Topbar-notification-time">1 hour ago</span>
                       </div>
                     </div>
                   </div>
@@ -227,16 +260,20 @@ const Topbar = ({ toggleSidebar }) => {
             >
               <div className="Topbar-avatar-wrapper">
                 <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                  alt="Admin User avatar"
+                  src={getAvatarUrl(currentProfile.avatar)}
+                  alt={`${currentProfile.name} avatar`}
                   className="Topbar-avatar"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = DEFAULT_AVATAR;
+                  }}
                 />
                 <span className="Topbar-status-indicator" />
               </div>
 
               <div className="Topbar-user-info">
-                <span className="Topbar-username">Admin User</span>
-                <span className="Topbar-role">Super Admin</span>
+                <span className="Topbar-username">{currentProfile.name || 'Admin User'}</span>
+                <span className="Topbar-role">{currentProfile.travelerType || 'Super Admin'}</span>
               </div>
 
               <ChevronDown size={15} className={`Topbar-chevron ${dropdownOpen ? 'open' : ''}`} />
@@ -247,13 +284,12 @@ const Topbar = ({ toggleSidebar }) => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="Topbar-user-card">
-                    <p className="Topbar-card-name">Admin User</p>
-                    <p className="Topbar-card-email">admin@jagannathexplorer.com</p>
+                    <p className="Topbar-card-name">{currentProfile.name}</p>
+                    <p className="Topbar-card-email">{currentProfile.email}</p>
                   </div>
 
                   <div className="Topbar-dropdown-divider" />
 
-                  {/* My Profile Link */}
                   <Link
                     to="/profile"
                     className="Topbar-dropdown-item"
@@ -307,7 +343,6 @@ const Topbar = ({ toggleSidebar }) => {
         )}
       </header>
 
-      {/* Spacer to prevent layout overlap with fixed header */}
       <div className="Topbar-spacer" aria-hidden="true" />
     </>
   );

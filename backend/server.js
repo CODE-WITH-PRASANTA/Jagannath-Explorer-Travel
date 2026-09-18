@@ -5,6 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const connectDB = require("./src/config/db");
 
+// Route imports
 const galleryRoutes = require("./src/routes/galleryRoutes");
 const testimonialRoutes = require("./src/routes/testimonialRoutes");
 const couponRoutes = require("./src/routes/couponRoutes");
@@ -17,8 +18,7 @@ const carBookingRoutes = require("./src/routes/carBookingRoutes");
 const hotelBookingRoutes = require("./src/routes/hotelBookingRoutes");
 const tourBookingRoutes = require("./src/routes/tourBookingRoutes");
 const coupenRoutes = require("./src/routes/coupenRoutes");
-
-// NEW
+const profileRoutes = require("./src/routes/profileRoutes");
 const enquiryRoutes = require("./src/routes/enquiryRoutes");
 
 const app = express();
@@ -31,29 +31,27 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
 
-// Routes
+// API Routes
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/coupons", couponRoutes);
-
 app.use("/api/blogs", blogRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/tours", tourRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/team", teamRoutes);
 
+// Booking Routes
 app.use("/api/car-bookings", carBookingRoutes);
 app.use("/api/bookings", carBookingRoutes);
-
 app.use("/api/hotel-bookings", hotelBookingRoutes);
 app.use("/api/hotelbookings", hotelBookingRoutes);
-
 app.use("/api/tour-bookings", tourBookingRoutes);
 app.use("/api/tourbookings", tourBookingRoutes);
 
+// Promotion, Profile, and Enquiry Routes
 app.use("/api/coupen", coupenRoutes);
-
-// NEW — Enquiries
+app.use("/api/profiles", profileRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 
 // Root route
