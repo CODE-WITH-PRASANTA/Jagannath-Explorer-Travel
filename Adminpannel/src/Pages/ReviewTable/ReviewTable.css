@@ -210,28 +210,100 @@
 
 .ReviewTableTable input[type="checkbox"] {
   appearance: none;
+  -webkit-appearance: none;
+
   width: 17px;
   height: 17px;
+
   border: 1.5px solid #aebed2;
   border-radius: 4px;
+
   background: #ffffff;
+
   cursor: pointer;
+
   position: relative;
+
+  margin: 0;
+
+  display: inline-block;
+
+  vertical-align: middle;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
 }
+
+
+/* CHECKED */
 
 .ReviewTableTable input[type="checkbox"]:checked {
   background: #08b77a;
   border-color: #08b77a;
 }
 
-.ReviewTableTable input[type="checkbox"]:checked::after {
+
+/* CHECK MARK */
+
+.ReviewTableTable
+  input[type="checkbox"]:checked::after {
   content: "✓";
+
   color: #ffffff;
+
   font-size: 12px;
+
   font-weight: 700;
+
   position: absolute;
+
   left: 3px;
+
   top: -1px;
+
+  line-height: 17px;
+}
+
+
+/* INDETERMINATE */
+
+.ReviewTableTable
+  input[type="checkbox"]:indeterminate {
+  background: #08b77a;
+  border-color: #08b77a;
+}
+
+
+/* INDETERMINATE MINUS */
+
+.ReviewTableTable
+  input[type="checkbox"]:indeterminate::after {
+  content: "";
+
+  position: absolute;
+
+  width: 9px;
+
+  height: 2px;
+
+  border-radius: 2px;
+
+  background: #ffffff;
+
+  left: 3px;
+
+  top: 6px;
+}
+
+
+/* CHECKBOX HOVER */
+
+.ReviewTableTable
+  input[type="checkbox"]:hover {
+  border-color: #08b77a;
+  box-shadow: 0 0 0 3px rgba(8, 183, 122, 0.08);
 }
 
 
@@ -247,11 +319,27 @@
   font-size: 13px;
   vertical-align: middle;
   background: #ffffff;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
 }
 
 .ReviewTableTable tbody tr:hover td {
   background: #fbfefd;
 }
+
+
+/* SELECTED ROW */
+
+.ReviewTableTable tbody tr.ReviewTableRowSelected td {
+  background: #f0fbf7;
+}
+
+.ReviewTableTable tbody tr.ReviewTableRowSelected:hover td {
+  background: #e9f8f2;
+}
+
 
 .ReviewTableNumber {
   color: #687993;
@@ -269,6 +357,7 @@
   overflow: hidden;
   border-radius: 9px;
   background: #edf2f7;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -307,8 +396,10 @@
   display: flex;
   align-items: center;
   gap: 7px;
+
   min-width: 135px;
   max-width: 170px;
+
   line-height: 1.4;
 }
 
@@ -325,9 +416,13 @@
 .ReviewTableMessage {
   width: 310px;
   max-width: 310px;
+
   overflow: hidden;
+
   white-space: nowrap;
+
   text-overflow: ellipsis;
+
   color: #536783;
 }
 
@@ -360,15 +455,19 @@
 
 .ReviewTableDate {
   min-width: 115px;
+
   display: flex;
   flex-direction: column;
+
   gap: 5px;
 }
 
 .ReviewTableDate div {
   display: flex;
   align-items: center;
+
   gap: 6px;
+
   white-space: nowrap;
 }
 
@@ -386,11 +485,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   padding: 7px 11px;
+
   border-radius: 8px;
+
   font-size: 12px;
   font-weight: 600;
+
   white-space: nowrap;
+
   background: #f3f6fa;
   color: #415573;
 }
@@ -424,6 +528,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+
   white-space: nowrap;
 }
 
@@ -433,9 +538,7 @@
   font-weight: 500;
 }
 
-.ReviewTableToggle:not(
-    .ReviewTableToggleActive
-  )
+.ReviewTableToggle:not(.ReviewTableToggleActive)
   + small {
   color: #65738b;
 }
@@ -443,25 +546,40 @@
 .ReviewTableToggle {
   width: 45px;
   height: 25px;
+
   border: none;
+
   padding: 3px;
+
   border-radius: 30px;
+
   background: #9eafc3;
+
   cursor: pointer;
+
   position: relative;
+
   transition: 0.2s ease;
+
   flex-shrink: 0;
 }
 
 .ReviewTableToggle span {
   width: 19px;
   height: 19px;
+
   background: #ffffff;
+
   border-radius: 50%;
+
   display: block;
+
   transition: 0.2s ease;
+
   transform: translateX(0);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .ReviewTableToggleActive {
@@ -474,35 +592,32 @@
 
 
 /* =====================================================
-   ACTIONS
+   ACTIONS - DELETE ONLY
 ===================================================== */
 
 .ReviewTableActions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: flex-start;
+
   white-space: nowrap;
 }
 
 .ReviewTableActions button {
   width: 38px;
   height: 38px;
+
   border: none;
+
   border-radius: 8px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
-  transition: 0.2s ease;
-}
 
-.ReviewTableEditButton {
-  color: #0879e8;
-  background: #edf6ff;
-}
-
-.ReviewTableEditButton:hover {
-  background: #dcebff;
+  transition: all 0.2s ease;
 }
 
 .ReviewTableDeleteButton {
@@ -512,15 +627,7 @@
 
 .ReviewTableDeleteButton:hover {
   background: #ffe0e5;
-}
-
-.ReviewTableMoreButton {
-  color: #60728d;
-  background: #f3f6fa;
-}
-
-.ReviewTableMoreButton:hover {
-  background: #e9eef5;
+  transform: translateY(-1px);
 }
 
 
@@ -530,6 +637,7 @@
 
 .ReviewTableEmpty {
   text-align: center !important;
+
   padding: 70px 20px !important;
 }
 
@@ -539,12 +647,15 @@
 
 .ReviewTableEmpty h3 {
   margin: 12px 0 5px;
+
   color: #263955;
+
   font-size: 16px;
 }
 
 .ReviewTableEmpty p {
   margin: 0;
+
   color: #7b8aa0;
 }
 
@@ -555,62 +666,89 @@
 
 .ReviewTableFooter {
   min-height: 65px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 20px;
+
   padding-top: 16px;
 }
 
 .ReviewTableFooter p {
   margin: 0;
+
   color: #71819a;
+
   font-size: 13px;
 }
 
 .ReviewTableFooter strong {
   color: #50627e;
+
   font-weight: 600;
 }
 
 .ReviewTablePagination {
   display: flex;
   align-items: center;
+
   gap: 8px;
 }
 
 .ReviewTablePagination button {
   min-width: 42px;
   height: 42px;
+
   border: 1px solid #dce4ed;
+
   background: #ffffff;
+
   border-radius: 9px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 5px;
+
   padding: 0 12px;
+
   color: #71819a;
+
   font-size: 13px;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
-.ReviewTablePagination button:hover:not(:disabled) {
+.ReviewTablePagination
+  button:hover:not(:disabled) {
   border-color: #08b77a;
+
   color: #08b77a;
 }
 
 .ReviewTablePagination button:disabled {
   opacity: 0.5;
+
   cursor: not-allowed;
 }
 
-.ReviewTablePagination .ReviewTablePageActive {
+.ReviewTablePagination
+  .ReviewTablePageActive {
   min-width: 42px;
+
   padding: 0;
+
   background: #08a971;
+
   color: #ffffff;
+
   border-color: #08a971;
+
   font-weight: 700;
 }
 
@@ -645,11 +783,13 @@
 
   .ReviewTable {
     padding: 16px;
+
     border-radius: 12px;
   }
 
   .ReviewTableHeader {
     align-items: flex-start;
+
     flex-direction: column;
   }
 
@@ -663,6 +803,7 @@
 
   .ReviewTableHeader p {
     font-size: 13px;
+
     line-height: 1.5;
   }
 
@@ -672,7 +813,9 @@
 
   .ReviewTableToolbar {
     width: 100%;
+
     flex-direction: column;
+
     align-items: stretch;
   }
 
@@ -686,11 +829,13 @@
 
   .ReviewTableFooter {
     align-items: flex-start;
+
     flex-direction: column;
   }
 
   .ReviewTablePagination {
     width: 100%;
+
     justify-content: flex-end;
   }
 
@@ -709,12 +854,14 @@
 
   .ReviewTableHeaderLeft {
     align-items: flex-start;
+
     gap: 10px;
   }
 
   .ReviewTableHeaderIcon {
     width: 43px;
     height: 43px;
+
     border-radius: 11px;
   }
 
@@ -740,6 +887,7 @@
 
   .ReviewTablePagination button {
     height: 38px;
+
     min-width: 38px;
   }
 

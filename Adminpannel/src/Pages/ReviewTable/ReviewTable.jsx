@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   MapPin,
   CalendarDays,
   Clock3,
-  Edit3,
   Trash2,
-  MoreHorizontal,
   ChevronLeft,
   ChevronRight,
   MessageCircle,
@@ -33,7 +31,6 @@ const ReviewTable = () => {
       platform: "Google",
       status: true,
     },
-
     {
       id: 2,
       image:
@@ -48,7 +45,6 @@ const ReviewTable = () => {
       platform: "Facebook",
       status: true,
     },
-
     {
       id: 3,
       image:
@@ -63,7 +59,6 @@ const ReviewTable = () => {
       platform: "TripAdvisor",
       status: false,
     },
-
     {
       id: 4,
       image:
@@ -78,7 +73,6 @@ const ReviewTable = () => {
       platform: "Google",
       status: true,
     },
-
     {
       id: 5,
       image:
@@ -93,7 +87,6 @@ const ReviewTable = () => {
       platform: "Instagram",
       status: true,
     },
-
     {
       id: 6,
       image:
@@ -108,7 +101,6 @@ const ReviewTable = () => {
       platform: "Google",
       status: false,
     },
-
     {
       id: 7,
       image:
@@ -123,7 +115,6 @@ const ReviewTable = () => {
       platform: "Facebook",
       status: true,
     },
-
     {
       id: 8,
       image:
@@ -141,6 +132,14 @@ const ReviewTable = () => {
   ]);
 
   // ==========================================
+  // SELECTED REVIEWS
+  // ==========================================
+
+  const [selectedReviews, setSelectedReviews] = useState([]);
+
+  const selectAllRef = useRef(null);
+
+  // ==========================================
   // PAGINATION
   // ==========================================
 
@@ -149,13 +148,80 @@ const ReviewTable = () => {
     Math.ceil(reviews.length / itemsPerPage)
   );
 
-  const startIndex =
-    (currentPage - 1) * itemsPerPage;
+  const startIndex = (currentPage - 1) * itemsPerPage;
 
   const currentReviews = reviews.slice(
     startIndex,
     startIndex + itemsPerPage
   );
+
+  // ==========================================
+  // CURRENT PAGE SELECTION STATUS
+  // ==========================================
+
+  const currentPageIds = currentReviews.map(
+    (review) => review.id
+  );
+
+  const selectedCurrentPageCount =
+    currentPageIds.filter((id) =>
+      selectedReviews.includes(id)
+    ).length;
+
+  const isAllCurrentPageSelected =
+    currentReviews.length > 0 &&
+    selectedCurrentPageCount === currentReviews.length;
+
+  const isSomeCurrentPageSelected =
+    selectedCurrentPageCount > 0 &&
+    selectedCurrentPageCount < currentReviews.length;
+
+  // ==========================================
+  // INDETERMINATE SELECT ALL CHECKBOX
+  // ==========================================
+
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate =
+        isSomeCurrentPageSelected;
+    }
+  }, [isSomeCurrentPageSelected]);
+
+  // ==========================================
+  // SELECT ALL
+  // ==========================================
+
+  const handleSelectAll = () => {
+    if (isAllCurrentPageSelected) {
+      // Deselect all current page rows
+      setSelectedReviews((prev) =>
+        prev.filter(
+          (id) => !currentPageIds.includes(id)
+        )
+      );
+    } else {
+      // Select all current page rows
+      setSelectedReviews((prev) => [
+        ...new Set([...prev, ...currentPageIds]),
+      ]);
+    }
+  };
+
+  // ==========================================
+  // INDIVIDUAL CHECKBOX
+  // ==========================================
+
+  const handleSelectReview = (id) => {
+    setSelectedReviews((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter(
+          (selectedId) => selectedId !== id
+        );
+      }
+
+      return [...prev, id];
+    });
+  };
 
   // ==========================================
   // STATUS TOGGLE
@@ -188,14 +254,28 @@ const ReviewTable = () => {
     setReviews((prev) =>
       prev.filter((review) => review.id !== id)
     );
-  };
 
-  // ==========================================
-  // EDIT
-  // ==========================================
+    // Remove from selected list
+    setSelectedReviews((prev) =>
+      prev.filter((selectedId) => selectedId !== id)
+    );
 
-  const handleEdit = (review) => {
-    console.log("Edit review:", review);
+    // Keep pagination valid
+    setCurrentPage((prevPage) => {
+      const remainingReviews = reviews.length - 1;
+
+      const newTotalPages = Math.max(
+        1,
+        Math.ceil(
+          remainingReviews / itemsPerPage
+        )
+      );
+
+      return Math.min(
+        prevPage,
+        newTotalPages
+      );
+    });
   };
 
   // ==========================================
@@ -245,8 +325,15 @@ const ReviewTable = () => {
           <thead>
             <tr>
 
+              {/* SELECT ALL */}
               <th className="ReviewTableCheckboxColumn">
-                <input type="checkbox" />
+                <input
+                  ref={selectAllRef}
+                  type="checkbox"
+                  checked={isAllCurrentPageSelected}
+                  onChange={handleSelectAll}
+                  aria-label="Select all testimonials"
+                />
               </th>
 
               <th>#</th>
@@ -275,212 +362,207 @@ const ReviewTable = () => {
           <tbody>
 
             {currentReviews.length > 0 ? (
-              currentReviews.map((review, index) => (
+              currentReviews.map(
+                (review, index) => {
 
-                <tr key={review.id}>
+                  const isSelected =
+                    selectedReviews.includes(
+                      review.id
+                    );
 
-                  {/* CHECKBOX */}
-
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-
-                  {/* NUMBER */}
-
-                  <td>
-                    <span className="ReviewTableNumber">
-                      {String(
-                        startIndex + index + 1
-                      ).padStart(2, "0")}
-                    </span>
-                  </td>
-
-                  {/* IMAGE */}
-
-                  <td>
-
-                    <div className="ReviewTableImage">
-
-                      <img
-                        src={review.image}
-                        alt={review.name}
-                        onError={(e) => {
-                          e.currentTarget.style.display =
-                            "none";
-
-                          e.currentTarget.parentElement.classList.add(
-                            "ReviewTableImageFallback"
-                          );
-                        }}
-                      />
-
-                    </div>
-
-                  </td>
-
-                  {/* NAME */}
-
-                  <td>
-
-                    <div className="ReviewTableName">
-                      {review.name}
-                    </div>
-
-                  </td>
-
-                  {/* LOCATION */}
-
-                  <td>
-
-                    <div className="ReviewTableLocation">
-
-                      <MapPin size={17} />
-
-                      <span>
-                        {review.location}
-                      </span>
-
-                    </div>
-
-                  </td>
-
-                  {/* MESSAGE */}
-
-                  <td>
-
-                    <div
-                      className="ReviewTableMessage"
-                      title={review.message}
+                  return (
+                    <tr
+                      key={review.id}
+                      className={
+                        isSelected
+                          ? "ReviewTableRowSelected"
+                          : ""
+                      }
                     >
-                      {review.message}
-                    </div>
 
-                  </td>
+                      {/* ROW CHECKBOX */}
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() =>
+                            handleSelectReview(
+                              review.id
+                            )
+                          }
+                          aria-label={`Select ${review.name}`}
+                        />
+                      </td>
 
-                  {/* RATING */}
-
-                  <td>
-                    {renderStars(review.rating)}
-                  </td>
-
-                  {/* DATE & TIME */}
-
-                  <td>
-
-                    <div className="ReviewTableDate">
-
-                      <div>
-                        <CalendarDays size={15} />
-
-                        <span>
-                          {review.date}
+                      {/* NUMBER */}
+                      <td>
+                        <span className="ReviewTableNumber">
+                          {String(
+                            startIndex +
+                              index +
+                              1
+                          ).padStart(2, "0")}
                         </span>
-                      </div>
+                      </td>
 
-                      <div>
-                        <Clock3 size={15} />
+                      {/* IMAGE */}
+                      <td>
+                        <div className="ReviewTableImage">
 
-                        <span>
-                          {review.time}
+                          <img
+                            src={review.image}
+                            alt={review.name}
+                            onError={(e) => {
+                              e.currentTarget.style.display =
+                                "none";
+
+                              e.currentTarget.parentElement.classList.add(
+                                "ReviewTableImageFallback"
+                              );
+                            }}
+                          />
+
+                        </div>
+                      </td>
+
+                      {/* NAME */}
+                      <td>
+                        <div className="ReviewTableName">
+                          {review.name}
+                        </div>
+                      </td>
+
+                      {/* LOCATION */}
+                      <td>
+                        <div className="ReviewTableLocation">
+
+                          <MapPin size={17} />
+
+                          <span>
+                            {review.location}
+                          </span>
+
+                        </div>
+                      </td>
+
+                      {/* MESSAGE */}
+                      <td>
+                        <div
+                          className="ReviewTableMessage"
+                          title={review.message}
+                        >
+                          {review.message}
+                        </div>
+                      </td>
+
+                      {/* RATING */}
+                      <td>
+                        {renderStars(
+                          review.rating
+                        )}
+                      </td>
+
+                      {/* DATE & TIME */}
+                      <td>
+
+                        <div className="ReviewTableDate">
+
+                          <div>
+                            <CalendarDays size={15} />
+
+                            <span>
+                              {review.date}
+                            </span>
+                          </div>
+
+                          <div>
+                            <Clock3 size={15} />
+
+                            <span>
+                              {review.time}
+                            </span>
+                          </div>
+
+                        </div>
+
+                      </td>
+
+                      {/* PLATFORM */}
+                      <td>
+
+                        <span
+                          className={`ReviewTablePlatform ReviewTablePlatform-${getPlatformClass(
+                            review.platform
+                          )}`}
+                        >
+                          {review.platform}
                         </span>
-                      </div>
 
-                    </div>
+                      </td>
 
-                  </td>
+                      {/* STATUS */}
+                      <td>
 
-                  {/* PLATFORM */}
+                        <div className="ReviewTableStatus">
 
-                  <td>
+                          <button
+                            type="button"
+                            className={`ReviewTableToggle ${
+                              review.status
+                                ? "ReviewTableToggleActive"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              toggleStatus(
+                                review.id
+                              )
+                            }
+                            aria-label={
+                              review.status
+                                ? "Unpublish"
+                                : "Publish"
+                            }
+                          >
+                            <span />
+                          </button>
 
-                    <span
-                      className={`ReviewTablePlatform ReviewTablePlatform-${getPlatformClass(
-                        review.platform
-                      )}`}
-                    >
-                      {review.platform}
-                    </span>
+                          <small>
+                            {review.status
+                              ? "Published"
+                              : "Unpublished"}
+                          </small>
 
-                  </td>
+                        </div>
 
-                  {/* STATUS */}
+                      </td>
 
-                  <td>
+                      {/* DELETE ONLY */}
+                      <td>
 
-                    <div className="ReviewTableStatus">
+                        <div className="ReviewTableActions">
 
-                      <button
-                        type="button"
-                        className={`ReviewTableToggle ${
-                          review.status
-                            ? "ReviewTableToggleActive"
-                            : ""
-                        }`}
-                        onClick={() =>
-                          toggleStatus(review.id)
-                        }
-                        aria-label={
-                          review.status
-                            ? "Unpublish"
-                            : "Publish"
-                        }
-                      >
-                        <span />
-                      </button>
+                          <button
+                            type="button"
+                            className="ReviewTableDeleteButton"
+                            title="Delete"
+                            aria-label={`Delete ${review.name}`}
+                            onClick={() =>
+                              handleDelete(
+                                review.id
+                              )
+                            }
+                          >
+                            <Trash2 size={17} />
+                          </button>
 
-                      <small>
-                        {review.status
-                          ? "Published"
-                          : "Unpublished"}
-                      </small>
+                        </div>
 
-                    </div>
+                      </td>
 
-                  </td>
-
-                  {/* ACTION */}
-
-                  <td>
-
-                    <div className="ReviewTableActions">
-
-                      <button
-                        type="button"
-                        className="ReviewTableEditButton"
-                        title="Edit"
-                        onClick={() =>
-                          handleEdit(review)
-                        }
-                      >
-                        <Edit3 size={17} />
-                      </button>
-
-                      <button
-                        type="button"
-                        className="ReviewTableDeleteButton"
-                        title="Delete"
-                        onClick={() =>
-                          handleDelete(review.id)
-                        }
-                      >
-                        <Trash2 size={17} />
-                      </button>
-
-                      <button
-                        type="button"
-                        className="ReviewTableMoreButton"
-                        title="More"
-                      >
-                        <MoreHorizontal size={18} />
-                      </button>
-
-                    </div>
-
-                  </td>
-
-                </tr>
-
-              ))
+                    </tr>
+                  );
+                }
+              )
             ) : (
 
               <tr>
@@ -489,6 +571,7 @@ const ReviewTable = () => {
                   colSpan="11"
                   className="ReviewTableEmpty"
                 >
+
                   <MessageCircle size={42} />
 
                   <h3>
@@ -513,7 +596,7 @@ const ReviewTable = () => {
       </div>
 
       {/* ======================================
-          PAGINATION
+          FOOTER
       ====================================== */}
 
       <div className="ReviewTableFooter">
@@ -545,7 +628,10 @@ const ReviewTable = () => {
             disabled={currentPage === 1}
             onClick={() =>
               setCurrentPage((prev) =>
-                Math.max(1, prev - 1)
+                Math.max(
+                  1,
+                  prev - 1
+                )
               )
             }
           >
@@ -555,8 +641,11 @@ const ReviewTable = () => {
           </button>
 
           {Array.from(
-            { length: totalPages },
-            (_, index) => index + 1
+            {
+              length: totalPages,
+            },
+            (_, index) =>
+              index + 1
           ).map((page) => (
 
             <button
@@ -577,7 +666,8 @@ const ReviewTable = () => {
 
           <button
             disabled={
-              currentPage >= totalPages
+              currentPage >=
+              totalPages
             }
             onClick={() =>
               setCurrentPage((prev) =>

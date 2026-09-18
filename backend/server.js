@@ -56,6 +56,7 @@ app.use("/api/coupen", coupenRoutes);
 // NEW — Enquiries
 app.use("/api/enquiries", enquiryRoutes);
 
+
 // Root route
 app.get("/", (req, res) => {
   res.json({
