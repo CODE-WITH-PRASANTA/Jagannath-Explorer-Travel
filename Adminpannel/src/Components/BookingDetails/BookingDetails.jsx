@@ -1,133 +1,579 @@
-import React, { useState, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./BookingDetails.css";
+import API from "../../api/axios";
+
 import {
-  FaCalendarAlt, FaPlus, FaBed, FaUsers, FaSearch, FaDownload,
-  FaEye, FaEdit, FaTrash, FaChevronLeft, FaChevronRight, FaTimes,
-  FaArrowUp, FaFilter, FaCar, FaUtensils, FaMapMarkerAlt, FaUserFriends
+  FaCalendarAlt,
+  FaPlus,
+  FaBed,
+  FaUsers,
+  FaSearch,
+  FaDownload,
+  FaEye,
+  FaEdit,
+  FaTrash,
+  FaChevronLeft,
+  FaChevronRight,
+  FaTimes,
+  FaFilter,
+  FaCar,
+  FaUtensils,
+  FaMapMarkerAlt,
+  FaUserFriends,
+  FaPhoneAlt,
+  FaSyncAlt,
+  FaSpinner,
 } from "react-icons/fa";
 
-const initialBookings = [
-  { id: 1, bookingId: "BK1001", name: "Ankita Nayak", phone: "9827825440", package: "Golden Tulip Luxury Package", destination: "Puri", members: 2, roomNo: "101", roomType: "Deluxe Room", checkIn: "10 Sep 2026", checkOut: "12 Sep 2026", status: "Checked In", adults: 2, children: 0, homePickup: 0, nightFood: 0, price: 4500, totalPrice: 4500 },
-  { id: 2, bookingId: "BK1002", name: "Rahul Sharma", phone: "9876543210", package: "Golden Tulip Luxury Package", destination: "Bhubaneswar", members: 3, roomNo: "203", roomType: "Premium Room", checkIn: "11 Sep 2026", checkOut: "13 Sep 2026", status: "Checked In", adults: 2, children: 1, homePickup: 500, nightFood: 350, price: 7200, totalPrice: 8050 },
-  { id: 3, bookingId: "BK1003", name: "Priya Das", phone: "9123456780", package: "Golden Tulip Luxury Package", destination: "Goa", members: 2, roomNo: "305", roomType: "Suite Room", checkIn: "12 Sep 2026", checkOut: "14 Sep 2026", status: "Booked", adults: 2, children: 0, homePickup: 500, nightFood: 0, price: 11000, totalPrice: 11500 },
-  { id: 4, bookingId: "BK1004", name: "Rohit Sahoo", phone: "8765432109", package: "Golden Tulip Luxury Package", destination: "Manali", members: 2, roomNo: "108", roomType: "Deluxe Room", checkIn: "13 Sep 2026", checkOut: "15 Sep 2026", status: "Checked Out", adults: 1, children: 1, homePickup: 0, nightFood: 350, price: 5800, totalPrice: 6150 },
-  { id: 5, bookingId: "BK1005", name: "Sneha Mishra", phone: "7987654321", package: "Golden Tulip Luxury Package", destination: "Darjeeling", members: 2, roomNo: "204", roomType: "Premium Room", checkIn: "14 Sep 2026", checkOut: "16 Sep 2026", status: "Booked", adults: 2, children: 0, homePickup: 0, nightFood: 350, price: 8500, totalPrice: 8850 },
-  { id: 6, bookingId: "BK1006", name: "Sourav Patra", phone: "9432145678", package: "Golden Tulip Luxury Package", destination: "Puri", members: 4, roomNo: "302", roomType: "Suite Room", checkIn: "15 Sep 2026", checkOut: "17 Sep 2026", status: "Checked In", adults: 3, children: 1, homePickup: 500, nightFood: 350, price: 12000, totalPrice: 12850 },
-  { id: 7, bookingId: "BK1007", name: "Neha Singh", phone: "7734562180", package: "Golden Tulip Luxury Package", destination: "Shimla", members: 2, roomNo: "109", roomType: "Deluxe Room", checkIn: "16 Sep 2026", checkOut: "18 Sep 2026", status: "Pending", adults: 2, children: 0, homePickup: 0, nightFood: 0, price: 6200, totalPrice: 6200 },
-  { id: 8, bookingId: "BK1008", name: "Amit Kumar", phone: "9056783210", package: "Golden Tulip Luxury Package", destination: "Jaipur", members: 4, roomNo: "207", roomType: "Premium Room", checkIn: "17 Sep 2026", checkOut: "19 Sep 2026", status: "Booked", adults: 2, children: 2, homePickup: 500, nightFood: 350, price: 9800, totalPrice: 10650 },
-  { id: 9, bookingId: "BK1009", name: "Pooja Verma", phone: "9812345678", package: "Golden Tulip Luxury Package", destination: "Bhubaneswar", members: 2, roomNo: "102", roomType: "Deluxe Room", checkIn: "18 Sep 2026", checkOut: "20 Sep 2026", status: "Checked In", adults: 2, children: 0, homePickup: 0, nightFood: 350, price: 4500, totalPrice: 4850 },
-];
+// =====================================================
+// DEFAULT FORM
+// =====================================================
 
 const defaultFormData = {
-  name: "", phone: "", package: "Golden Tulip Luxury Package", destination: "", members: 2,
-  roomNo: "", roomType: "Deluxe Room", checkIn: "", checkOut: "", adults: 2, children: 0,
-  homePickup: 0, nightFood: 0, status: "Booked", price: 0, totalPrice: 0
+  name: "",
+  phone: "",
+  package: "Golden Tulip Luxury Package",
+  destination: "",
+  members: 2,
+  roomNo: "",
+  roomType: "Standard Room",
+  checkIn: "",
+  checkOut: "",
+  adults: 2,
+  children: 0,
+  homePickup: 0,
+  nightFood: 0,
+  status: "Booked",
+  price: 0,
+  totalPrice: 0,
 };
 
-const formatINR = (val) => Number(val || 0).toLocaleString("en-IN");
-const getStatusClass = (s) => `BookingDetails-status-${s.toLowerCase().replace(/\s+/g, "")}`;
-const getRoomTypeClass = (r) => `BookingDetails-room-${r.split(" ")[0].toLowerCase()}`;
+// =====================================================
+// HELPERS
+// =====================================================
+
+const formatINR = (val) =>
+  Number(val || 0).toLocaleString("en-IN");
+
+const getStatusClass = (status = "") =>
+  `BookingDetails-status-${String(status)
+    .toLowerCase()
+    .replace(/\s+/g, "")}`;
+
+const getRoomTypeClass = (roomType = "") =>
+  `BookingDetails-room-${String(roomType)
+    .split(" ")[0]
+    .toLowerCase()}`;
+
+// =====================================================
+// DATE FORMAT
+// =====================================================
+
+const formatDate = (date) => {
+  if (!date) return "-";
+  const value = String(date);
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split("-");
+    const d = new Date(Number(year), Number(month) - 1, Number(day));
+    return d.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+
+  return parsed.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
+// =====================================================
+// ISO DATE FOR FORM
+// =====================================================
+
+const toISODate = (date) => {
+  if (!date) return "";
+  const value = String(date);
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "";
+
+  const year = parsed.getFullYear();
+  const month = String(parsed.getMonth() + 1).padStart(2, "0");
+  const day = String(parsed.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+// =====================================================
+// CALCULATE NIGHTS
+// =====================================================
+
+const calculateNights = (checkIn, checkOut) => {
+  if (!checkIn || !checkOut) return 1;
+  const start = new Date(`${checkIn}T00:00:00`);
+  const end = new Date(`${checkOut}T00:00:00`);
+  const difference = end.getTime() - start.getTime();
+  const nights = Math.ceil(difference / (1000 * 60 * 60 * 24));
+  return nights > 0 ? nights : 1;
+};
+
+// =====================================================
+// BOOKING ID
+// =====================================================
+
+const getBookingId = (booking, index) => {
+  if (booking?.bookingId) return booking.bookingId;
+  if (booking?._id) {
+    return `BK${String(booking._id).slice(-6).toUpperCase()}`;
+  }
+  return `BK${1001 + index}`;
+};
+
+// =====================================================
+// DATE RANGE CHECKER
+// =====================================================
+
+const matchesDateRange = (checkInStr, rangeFilter) => {
+  if (rangeFilter === "Select Date Range" || !checkInStr) return true;
+  
+  const checkInDate = new Date(checkInStr);
+  if (Number.isNaN(checkInDate.getTime())) return true;
+
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  if (rangeFilter === "This Week") {
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    return checkInDate >= startOfWeek && checkInDate <= endOfWeek;
+  }
+
+  if (rangeFilter === "This Month") {
+    return (
+      checkInDate.getMonth() === now.getMonth() &&
+      checkInDate.getFullYear() === now.getFullYear()
+    );
+  }
+
+  return true;
+};
+
+// =====================================================
+// BACKEND → FRONTEND FORMAT
+// =====================================================
+
+const normalizeBooking = (booking, index = 0) => {
+  const extraServices = booking?.extraServices || {};
+  const homePickup = extraServices.homePickup ? 500 : 0;
+  const nightFood = extraServices.nightFood ? 350 : 0;
+
+  const roomPrice =
+    Number(String(booking?.price || "0").replace(/[^\d.-]/g, "")) || 0;
+
+  const adults = Number(booking?.adults) || 1;
+  const children = Number(booking?.children) || 0;
+  const guests = Number(booking?.guests) || adults + children;
+  const totalPrice = roomPrice + homePickup + nightFood;
+
+  return {
+    id: booking?._id || booking?.id || `local-${index}`,
+    _id: booking?._id,
+    bookingId: getBookingId(booking, index),
+    name: booking?.fullName || "",
+    phone: booking?.phone || "",
+    package: booking?.hotelName || "Hotel Booking",
+    destination: booking?.destination || "",
+    members: guests,
+    roomNo: booking?.roomNo || "-",
+    roomType: booking?.roomType || "Standard Room",
+    checkIn: booking?.checkIn || "",
+    checkOut: booking?.checkOut || "",
+    status: booking?.status || "Booked",
+    adults,
+    children,
+    homePickup,
+    nightFood,
+    price: roomPrice,
+    totalPrice: Number(booking?.totalPrice) || totalPrice,
+    stayNights: booking?.stayNights || `${calculateNights(booking?.checkIn, booking?.checkOut)} Night${calculateNights(booking?.checkIn, booking?.checkOut) > 1 ? "s" : ""}`,
+    extraServices: {
+      homePickup: Boolean(extraServices.homePickup),
+      nightFood: Boolean(extraServices.nightFood),
+    },
+    createdAt: booking?.createdAt,
+    updatedAt: booking?.updatedAt,
+  };
+};
+
+// =====================================================
+// FRONTEND → BACKEND FORMAT
+// =====================================================
+
+const buildBackendPayload = (formData) => {
+  const adults = Number(formData.adults) || 1;
+  const children = Number(formData.children) || 0;
+  const guests = Number(formData.members) || adults + children;
+  const roomPrice = Number(formData.price) || 0;
+  const homePickup = Number(formData.homePickup) > 0;
+  const nightFood = Number(formData.nightFood) > 0;
+  const nights = calculateNights(formData.checkIn, formData.checkOut);
+
+  return {
+    hotelName: String(formData.package || "").trim(),
+    fullName: String(formData.name || "").trim(),
+    phone: String(formData.phone || "").replace(/\D/g, "").slice(0, 10),
+    destination: String(formData.destination || "").trim(),
+    checkIn: formData.checkIn,
+    checkOut: formData.checkOut,
+    stayNights: `${nights} Night${nights > 1 ? "s" : ""}`,
+    roomType: formData.roomType,
+    guests,
+    adults,
+    children,
+    price: `₹${roomPrice.toLocaleString("en-IN")}`,
+    status: formData.status || "Booked",
+    extraServices: {
+      homePickup,
+      nightFood,
+    },
+  };
+};
+
+// =====================================================
+// COMPONENT
+// =====================================================
 
 const BookingDetails = () => {
-  const [bookings, setBookings] = useState(initialBookings);
+  const [bookings, setBookings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [roomTypeFilter, setRoomTypeFilter] = useState("All Room Types");
+  const [dateRangeFilter, setDateRangeFilter] = useState("Select Date Range");
   const [currentPage, setCurrentPage] = useState(1);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewBooking, setViewBooking] = useState(null);
   const [editingBooking, setEditingBooking] = useState(null);
-  const [formData, setFormData] = useState(defaultFormData);
 
+  const [formData, setFormData] = useState({ ...defaultFormData });
   const itemsPerPage = 8;
-  const calculateTotal = (d) => (+d.price || 0) + (+d.homePickup || 0) + (+d.nightFood || 0);
+
+  const fetchBookings = async () => {
+    setIsLoading(true);
+    setApiError("");
+    try {
+      const response = await API.get("/hotel-bookings");
+      const responseData = response.data;
+      let bookingList = [];
+
+      if (Array.isArray(responseData)) {
+        bookingList = responseData;
+      } else if (Array.isArray(responseData?.data)) {
+        bookingList = responseData.data;
+      } else if (Array.isArray(responseData?.bookings)) {
+        bookingList = responseData.bookings;
+      }
+
+      const normalized = bookingList.map((b, idx) => normalizeBooking(b, idx));
+      setBookings(normalized);
+    } catch (error) {
+      if (error.response) {
+        setApiError(error.response.data?.message || "Failed to load hotel bookings.");
+      } else if (error.request) {
+        setApiError("Unable to connect to the backend server (localhost:5000).");
+      } else {
+        setApiError("Something went wrong while loading bookings.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  const calculateTotal = (data) => {
+    return (+data.price || 0) + (+data.homePickup || 0) + (+data.nightFood || 0);
+  };
 
   const filteredBookings = useMemo(() => {
-    const q = searchQuery.toLowerCase();
-    return bookings.filter((b) =>
-      (b.name.toLowerCase().includes(q) ||
-       b.bookingId.toLowerCase().includes(q) ||
-       b.phone.includes(searchQuery) ||
-       b.roomNo.includes(searchQuery) ||
-       (b.destination && b.destination.toLowerCase().includes(q)) ||
-       b.package.toLowerCase().includes(q)) &&
-      (statusFilter === "All Status" || b.status === statusFilter) &&
-      (roomTypeFilter === "All Room Types" || b.roomType === roomTypeFilter)
-    );
-  }, [bookings, searchQuery, statusFilter, roomTypeFilter]);
+    const q = searchQuery.trim().toLowerCase();
+
+    return bookings.filter((booking) => {
+      const matchesSearch =
+        !q ||
+        String(booking.name || "").toLowerCase().includes(q) ||
+        String(booking.bookingId || "").toLowerCase().includes(q) ||
+        String(booking.phone || "").includes(q) ||
+        String(booking.roomNo || "").toLowerCase().includes(q) ||
+        String(booking.destination || "").toLowerCase().includes(q) ||
+        String(booking.package || "").toLowerCase().includes(q);
+
+      const matchesStatus =
+        statusFilter === "All Status" || booking.status === statusFilter;
+
+      const matchesRoom =
+        roomTypeFilter === "All Room Types" || booking.roomType === roomTypeFilter;
+
+      const matchesDate = matchesDateRange(booking.checkIn, dateRangeFilter);
+
+      return matchesSearch && matchesStatus && matchesRoom && matchesDate;
+    });
+  }, [bookings, searchQuery, statusFilter, roomTypeFilter, dateRangeFilter]);
 
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage) || 1;
   const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
   const currentItems = filteredBookings.slice(indexOfFirstItem, indexOfFirstItem + itemsPerPage);
 
-  const handleDelete = (id) => window.confirm("Delete this booking?") && setBookings((prev) => prev.filter((b) => b.id !== id));
-
-  const handleEdit = (booking) => {
-    setEditingBooking(booking);
-    setFormData({ ...booking });
-    setIsModalOpen(true);
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => {
       const updated = { ...prev, [name]: value };
-      if (["price", "homePickup", "nightFood"].includes(name)) updated.totalPrice = calculateTotal(updated);
+      if (["price", "homePickup", "nightFood"].includes(name)) {
+        updated.totalPrice = calculateTotal(updated);
+      }
+      if (name === "adults" || name === "children") {
+        updated.members =
+          (Number(name === "adults" ? value : prev.adults) || 0) +
+          (Number(name === "children" ? value : prev.children) || 0);
+      }
       return updated;
     });
+    setApiError("");
+    setSuccessMessage("");
   };
 
   const handleServiceChange = (service, checked) => {
     setFormData((prev) => {
-      const updated = { ...prev, [service]: checked ? (service === "homePickup" ? 500 : 350) : 0 };
+      const updated = {
+        ...prev,
+        [service]: checked ? (service === "homePickup" ? 500 : 350) : 0,
+      };
       updated.totalPrice = calculateTotal(updated);
       return updated;
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const clean = {
-      ...formData,
-      members: +formData.members || 1,
-      adults: +formData.adults || 0,
-      children: +formData.children || 0,
-      homePickup: +formData.homePickup || 0,
-      nightFood: +formData.nightFood || 0,
-      price: +formData.price || 0,
-    };
-    clean.totalPrice = calculateTotal(clean);
+  const handleAddBooking = () => {
+    setEditingBooking(null);
+    setFormData({ ...defaultFormData });
+    setApiError("");
+    setSuccessMessage("");
+    setIsModalOpen(true);
+  };
 
-    setBookings((prev) =>
-      editingBooking
-        ? prev.map((b) => (b.id === editingBooking.id ? { ...clean, id: b.id, bookingId: b.bookingId } : b))
-        : [{ ...clean, id: Date.now(), bookingId: `BK${prev.length + 1001}` }, ...prev]
-    );
-    closeModal();
+  const handleEdit = (booking) => {
+    setEditingBooking(booking);
+    setFormData({
+      name: booking.name || "",
+      phone: booking.phone || "",
+      package: booking.package || "",
+      destination: booking.destination || "",
+      members: Number(booking.members) || 1,
+      roomNo: booking.roomNo === "-" ? "" : booking.roomNo || "",
+      roomType: booking.roomType || "Standard Room",
+      checkIn: toISODate(booking.checkIn),
+      checkOut: toISODate(booking.checkOut),
+      adults: Number(booking.adults) || 1,
+      children: Number(booking.children) || 0,
+      homePickup: Number(booking.homePickup) || 0,
+      nightFood: Number(booking.nightFood) || 0,
+      status: booking.status || "Booked",
+      price: Number(booking.price) || 0,
+      totalPrice: Number(booking.totalPrice) || calculateTotal(booking),
+    });
+    setApiError("");
+    setSuccessMessage("");
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    setApiError("");
+    setSuccessMessage("");
+
+    const name = String(formData.name || "").trim();
+    const phone = String(formData.phone || "").replace(/\D/g, "").trim();
+    const packageName = String(formData.package || "").trim();
+    const destination = String(formData.destination || "").trim();
+    const checkIn = formData.checkIn;
+    const checkOut = formData.checkOut;
+    const adults = Number(formData.adults) || 0;
+    const children = Number(formData.children) || 0;
+
+    if (name.length < 2) {
+      setApiError("Customer name must contain at least 2 characters.");
+      return;
+    }
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      setApiError("Please enter a valid 10-digit Indian phone number.");
+      return;
+    }
+    if (!packageName) {
+      setApiError("Hotel / package name is required.");
+      return;
+    }
+    if (!destination) {
+      setApiError("Destination is required.");
+      return;
+    }
+    if (!checkIn || !checkOut) {
+      setApiError("Please select check-in and check-out dates.");
+      return;
+    }
+    if (checkOut <= checkIn) {
+      setApiError("Check-out date must be after check-in date.");
+      return;
+    }
+    if (adults < 1) {
+      setApiError("At least one adult is required.");
+      return;
+    }
+
+    const payload = buildBackendPayload({
+      ...formData,
+      name,
+      phone,
+      package: packageName,
+      destination,
+      checkIn,
+      checkOut,
+      adults,
+      children,
+    });
+
+    setIsSubmitting(true);
+
+    try {
+      if (!editingBooking) {
+        const response = await API.post("/hotel-bookings", payload);
+        if (response.status === 200 || response.status === 201) {
+          setSuccessMessage("Hotel booking created successfully.");
+          closeModal();
+          await fetchBookings();
+        } else {
+          setApiError(response.data?.message || "Booking could not be created.");
+        }
+        return;
+      }
+
+      if (!editingBooking?._id) {
+        setApiError("This booking does not have a MongoDB ID, so it cannot be updated.");
+        return;
+      }
+
+      const response = await API.put(`/hotel-bookings/${editingBooking._id}`, payload);
+      if (response.status === 200 || response.status === 201) {
+        closeModal();
+        await fetchBookings();
+        setSuccessMessage("Hotel booking updated successfully.");
+      }
+    } catch (error) {
+      if (error.response) {
+        const message = error.response.data?.message;
+        const errors = error.response.data?.errors;
+        if (Array.isArray(errors) && errors.length) {
+          setApiError(errors.join(", "));
+        } else {
+          setApiError(message || "Unable to save hotel booking.");
+        }
+      } else if (error.request) {
+        setApiError("Backend server is not reachable at localhost:5000.");
+      } else {
+        setApiError("Something went wrong while saving the booking.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (booking) => {
+    if (!booking?._id) {
+      setApiError("This booking does not have a MongoDB ID and cannot be deleted.");
+      return;
+    }
+
+    if (!window.confirm(`Delete booking ${booking.bookingId}?`)) return;
+
+    try {
+      setApiError("");
+      await API.delete(`/hotel-bookings/${booking._id}`);
+      setBookings((prev) => prev.filter((item) => item._id !== booking._id));
+      setSuccessMessage("Booking deleted successfully.");
+    } catch (error) {
+      if (error.response) {
+        setApiError(error.response.data?.message || "Unable to delete booking.");
+      } else {
+        setApiError("Something went wrong while deleting the booking.");
+      }
+    }
   };
 
   const closeModal = () => {
+    if (isSubmitting) return;
     setIsModalOpen(false);
     setEditingBooking(null);
-    setFormData(defaultFormData);
+    setFormData({ ...defaultFormData });
   };
 
   const exportToCSV = () => {
-    const headers = ["Booking ID", "Name", "Phone", "Package", "Destination", "Members", "Room", "Room Type", "Check In", "Check Out", "Adults", "Children", "Home Pickup", "Night Food", "Status", "Room Price", "Total Price"];
-    const rows = filteredBookings.map((b) => [b.bookingId, b.name, b.phone, b.package, b.destination || "-", b.members || "-", b.roomNo, b.roomType, b.checkIn, b.checkOut, b.adults, b.children, b.homePickup, b.nightFood, b.status, b.price, b.totalPrice]);
-    const csv = [headers, ...rows].map((r) => r.map((c) => `"${c}"`).join(",")).join("\n");
-    const link = Object.assign(document.createElement("a"), {
-      href: URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" })),
-      download: "Room_Bookings.csv"
-    });
+    if (!filteredBookings.length) return;
+
+    const headers = [
+      "Booking ID", "Name", "Phone", "Hotel", "Destination", "Members",
+      "Room", "Room Type", "Check In", "Check Out", "Adults", "Children",
+      "Home Pickup", "Night Food", "Status", "Room Price", "Total Price",
+    ];
+
+    const rows = filteredBookings.map((b) => [
+      b.bookingId, b.name, b.phone, b.package, b.destination || "-",
+      b.members || "-", b.roomNo || "-", b.roomType, formatDate(b.checkIn),
+      formatDate(b.checkOut), b.adults, b.children, b.homePickup, b.nightFood,
+      b.status, b.price, b.totalPrice,
+    ]);
+
+    const csv = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "Room_Bookings.csv";
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const stats = [
-    { label: "Total Bookings", val: bookings.length, icon: <FaBed />, cls: "blue", sub: <><FaArrowUp /> +12% this month</>, subCls: "BookingDetails-text-green" },
+    { label: "Total Bookings", val: bookings.length, icon: <FaBed />, cls: "blue", sub: "All hotel bookings" },
     { label: "Checked In", val: bookings.filter((b) => b.status === "Checked In").length, icon: <FaCalendarAlt />, cls: "green", sub: "Currently staying" },
     { label: "Checked Out", val: bookings.filter((b) => b.status === "Checked Out").length, icon: <FaCalendarAlt />, cls: "orange", sub: "Completed stays" },
-    { label: "Total Guests", val: bookings.reduce((acc, b) => acc + (+b.adults || 0) + (+b.children || 0), 0), icon: <FaUsers />, cls: "purple", sub: "Adults + Children" },
+    { label: "Total Guests", val: bookings.reduce((t, b) => t + (Number(b.adults) || 0) + (Number(b.children) || 0), 0), icon: <FaUsers />, cls: "purple", sub: "Adults + Children" },
   ];
 
   return (
@@ -141,20 +587,39 @@ const BookingDetails = () => {
             <p>Manage and view all hotel room bookings, check-in and check-out details.</p>
           </div>
         </div>
-        <button className="BookingDetails-btn-primary" onClick={() => { setEditingBooking(null); setFormData(defaultFormData); setIsModalOpen(true); }}>
-          <FaPlus /> Add New Booking
-        </button>
+        <div className="BookingDetails-header-actions">
+          <button className="BookingDetails-btn-secondary" type="button" onClick={fetchBookings} disabled={isLoading}>
+            <FaSyncAlt className={isLoading ? "BookingDetails-spin" : ""} /> Refresh
+          </button>
+          <button className="BookingDetails-btn-primary" onClick={handleAddBooking}>
+            <FaPlus /> Add New Booking
+          </button>
+        </div>
       </div>
+
+      {/* MESSAGES */}
+      {apiError && (
+        <div className="BookingDetails-api-error" role="alert">
+          <FaTimes /><span>{apiError}</span>
+          <button type="button" onClick={() => setApiError("")}><FaTimes /></button>
+        </div>
+      )}
+      {successMessage && (
+        <div className="BookingDetails-api-success" role="status">
+          <span>{successMessage}</span>
+          <button type="button" onClick={() => setSuccessMessage("")}><FaTimes /></button>
+        </div>
+      )}
 
       {/* STATS */}
       <div className="BookingDetails-stats-grid">
-        {stats.map((s, idx) => (
+        {stats.map((stat, idx) => (
           <div key={idx} className="BookingDetails-stat-card">
-            <div className={`BookingDetails-stat-icon-wrapper BookingDetails-stat-${s.cls}`}>{s.icon}</div>
+            <div className={`BookingDetails-stat-icon-wrapper BookingDetails-stat-${stat.cls}`}>{stat.icon}</div>
             <div className="BookingDetails-stat-info">
-              <span className="BookingDetails-stat-label">{s.label}</span>
-              <h2 className="BookingDetails-stat-value">{s.val}</h2>
-              <span className={`BookingDetails-stat-subtext ${s.subCls || ""}`}>{s.sub}</span>
+              <span className="BookingDetails-stat-label">{stat.label}</span>
+              <h2 className="BookingDetails-stat-value">{stat.val}</h2>
+              <span className="BookingDetails-stat-subtext">{stat.sub}</span>
             </div>
           </div>
         ))}
@@ -177,23 +642,33 @@ const BookingDetails = () => {
             <div className="BookingDetails-select-wrapper">
               <FaFilter className="BookingDetails-select-icon" />
               <select value={statusFilter} onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}>
-                {["All Status", "Checked In", "Booked", "Checked Out", "Pending"].map((st) => <option key={st}>{st}</option>)}
+                {["All Status", "Checked In", "Booked", "Checked Out", "Pending", "Confirmed", "Cancelled"].map((st) => (
+                  <option key={st} value={st}>{st}</option>
+                ))}
               </select>
             </div>
 
             <div className="BookingDetails-select-wrapper">
               <FaBed className="BookingDetails-select-icon" />
               <select value={roomTypeFilter} onChange={(e) => { setRoomTypeFilter(e.target.value); setCurrentPage(1); }}>
-                {["All Room Types", "Deluxe Room", "Premium Room", "Suite Room"].map((rt) => <option key={rt}>{rt}</option>)}
+                {["All Room Types", "Standard Room", "Deluxe Room", "Premium Room", "Executive Suite", "Suite Room"].map((rt) => (
+                  <option key={rt} value={rt}>{rt}</option>
+                ))}
               </select>
             </div>
 
             <div className="BookingDetails-select-wrapper">
               <FaCalendarAlt className="BookingDetails-select-icon" />
-              <select><option>Select Date Range</option><option>This Week</option><option>This Month</option></select>
+              <select value={dateRangeFilter} onChange={(e) => { setDateRangeFilter(e.target.value); setCurrentPage(1); }}>
+                <option>Select Date Range</option>
+                <option>This Week</option>
+                <option>This Month</option>
+              </select>
             </div>
 
-            <button className="BookingDetails-btn-export" onClick={exportToCSV}><FaDownload /> Export CSV</button>
+            <button className="BookingDetails-btn-export" onClick={exportToCSV} disabled={!filteredBookings.length}>
+              <FaDownload /> Export CSV
+            </button>
           </div>
         </div>
 
@@ -202,37 +677,41 @@ const BookingDetails = () => {
           <table className="BookingDetails-table">
             <thead>
               <tr>
-                {["#", "Booking ID", "Customer", "Phone", "Package", "Destination", "Members", "Room", "Room Type", "Check In", "Check Out", "Guests", "Extra Services", "Status", "Room Price", "Total Price", "Actions"].map((h) => <th key={h}>{h}</th>)}
+                {["#", "Booking ID", "Customer", "Phone", "Package", "Destination", "Members", "Room", "Room Type", "Check In", "Check Out", "Guests", "Extra Services", "Status", "Room Price", "Total Price", "Actions"].map((h) => (
+                  <th key={h}>{h}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {currentItems.length > 0 ? (
-                currentItems.map((item, idx) => (
-                  <tr key={item.id}>
-                    <td>{indexOfFirstItem + idx + 1}</td>
+              {isLoading ? (
+                <tr>
+                  <td colSpan="17" className="BookingDetails-no-data">
+                    <FaSpinner className="BookingDetails-loading-spinner" />
+                    <span>Loading hotel bookings...</span>
+                  </td>
+                </tr>
+              ) : currentItems.length > 0 ? (
+                currentItems.map((item, index) => (
+                  <tr key={item.id || item._id || index}>
+                    <td>{indexOfFirstItem + index + 1}</td>
                     <td><span className="BookingDetails-booking-id">{item.bookingId}</span></td>
                     <td>
                       <div className="BookingDetails-customer">
-                        <div className="BookingDetails-avatar">{item.name[0]?.toUpperCase()}</div>
-                        <div><strong>{item.name}</strong><small>{item.package}</small></div>
+                        <div className="BookingDetails-avatar">{item.name?.[0]?.toUpperCase() || "G"}</div>
+                        <div>
+                          <strong>{item.name}</strong>
+                          <small>{item.package}</small>
+                        </div>
                       </div>
                     </td>
-                    <td><span className="BookingDetails-phone">{item.phone}</span></td>
+                    <td><span className="BookingDetails-phone"><FaPhoneAlt /> {item.phone}</span></td>
                     <td><span className="BookingDetails-package">{item.package}</span></td>
-                    <td>
-                      <span className="BookingDetails-destination">
-                        <FaMapMarkerAlt /> {item.destination || "-"}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="BookingDetails-members">
-                        <FaUserFriends /> {item.members || 1}
-                      </span>
-                    </td>
-                    <td><strong>{item.roomNo}</strong></td>
+                    <td><span className="BookingDetails-destination"><FaMapMarkerAlt /> {item.destination || "-"}</span></td>
+                    <td><span className="BookingDetails-members"><FaUserFriends /> {item.members || 1}</span></td>
+                    <td><strong>{item.roomNo || "-"}</strong></td>
                     <td><span className={`BookingDetails-badge ${getRoomTypeClass(item.roomType)}`}>{item.roomType}</span></td>
-                    <td><div className="BookingDetails-date"><FaCalendarAlt /><span>{item.checkIn}</span></div></td>
-                    <td><div className="BookingDetails-date"><FaCalendarAlt /><span>{item.checkOut}</span></div></td>
+                    <td><div className="BookingDetails-date"><FaCalendarAlt /><span>{formatDate(item.checkIn)}</span></div></td>
+                    <td><div className="BookingDetails-date"><FaCalendarAlt /><span>{formatDate(item.checkOut)}</span></div></td>
                     <td>
                       <div className="BookingDetails-guests">
                         <div><FaUsers /><span><strong>{item.adults}</strong> Adult{item.adults !== 1 ? "s" : ""}</span></div>
@@ -253,13 +732,17 @@ const BookingDetails = () => {
                       <div className="BookingDetails-actions">
                         <button className="BookingDetails-action-btn BookingDetails-action-view" onClick={() => setViewBooking(item)} title="View"><FaEye /></button>
                         <button className="BookingDetails-action-btn BookingDetails-action-edit" onClick={() => handleEdit(item)} title="Edit"><FaEdit /></button>
-                        <button className="BookingDetails-action-btn BookingDetails-action-delete" onClick={() => handleDelete(item.id)} title="Delete"><FaTrash /></button>
+                        <button className="BookingDetails-action-btn BookingDetails-action-delete" onClick={() => handleDelete(item)} title="Delete"><FaTrash /></button>
                       </div>
                     </td>
                   </tr>
                 ))
               ) : (
-                <tr><td colSpan="17" className="BookingDetails-no-data">No bookings found.</td></tr>
+                <tr>
+                  <td colSpan="17" className="BookingDetails-no-data">
+                    <FaBed /><span>No bookings found.</span>
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
@@ -280,7 +763,7 @@ const BookingDetails = () => {
         </div>
       </div>
 
-      {/* FORM MODAL */}
+      {/* ADD / EDIT MODAL */}
       {isModalOpen && (
         <div className="BookingDetails-modal-overlay" onClick={closeModal}>
           <div className="BookingDetails-modal BookingDetails-form-modal" onClick={(e) => e.stopPropagation()}>
@@ -289,45 +772,53 @@ const BookingDetails = () => {
                 <h3>{editingBooking ? "Edit Booking" : "Add New Booking"}</h3>
                 <p>Enter guest and room booking details</p>
               </div>
-              <button className="BookingDetails-close-btn" onClick={closeModal}><FaTimes /></button>
+              <button className="BookingDetails-close-btn" onClick={closeModal} disabled={isSubmitting} type="button"><FaTimes /></button>
             </div>
 
             <form onSubmit={handleSubmit} className="BookingDetails-modal-body">
+              {apiError && (
+                <div className="BookingDetails-form-error">
+                  <FaTimes /><span>{apiError}</span>
+                </div>
+              )}
+
               <div className="BookingDetails-form-row">
                 <div className="BookingDetails-form-group">
                   <label>Customer Name</label>
-                  <input type="text" name="name" placeholder="Enter customer name" value={formData.name} onChange={handleInputChange} required />
+                  <input type="text" name="name" placeholder="Enter customer name" value={formData.name} onChange={handleInputChange} required minLength="2" />
                 </div>
                 <div className="BookingDetails-form-group">
                   <label>Phone Number</label>
-                  <input type="tel" name="phone" placeholder="Enter phone number" value={formData.phone} onChange={handleInputChange} required />
+                  <input type="tel" name="phone" placeholder="Enter 10-digit phone number" value={formData.phone} onChange={handleInputChange} required maxLength="10" inputMode="numeric" />
                 </div>
               </div>
 
               <div className="BookingDetails-form-row">
                 <div className="BookingDetails-form-group">
-                  <label>Package Name</label>
-                  <input type="text" name="package" value={formData.package} onChange={handleInputChange} required />
+                  <label>Hotel / Package Name</label>
+                  <input type="text" name="package" placeholder="Enter hotel name" value={formData.package} onChange={handleInputChange} required />
                 </div>
                 <div className="BookingDetails-form-group">
                   <label>Destination</label>
-                  <input type="text" name="destination" placeholder="e.g. Puri, Goa" value={formData.destination || ""} onChange={handleInputChange} required />
+                  <input type="text" name="destination" placeholder="e.g. Puri, Bhubaneswar" value={formData.destination} onChange={handleInputChange} required />
                 </div>
               </div>
 
               <div className="BookingDetails-form-row">
                 <div className="BookingDetails-form-group">
                   <label>Total Members</label>
-                  <input type="number" name="members" min="1" placeholder="2" value={formData.members || 1} onChange={handleInputChange} required />
+                  <input type="number" name="members" min="1" value={formData.members} onChange={handleInputChange} required />
                 </div>
                 <div className="BookingDetails-form-group">
                   <label>Room Number</label>
-                  <input type="text" name="roomNo" placeholder="101" value={formData.roomNo} onChange={handleInputChange} required />
+                  <input type="text" name="roomNo" placeholder="Optional - e.g. 101" value={formData.roomNo} onChange={handleInputChange} />
                 </div>
                 <div className="BookingDetails-form-group">
                   <label>Room Type</label>
                   <select name="roomType" value={formData.roomType} onChange={handleInputChange}>
-                    {["Deluxe Room", "Premium Room", "Suite Room"].map((rt) => <option key={rt}>{rt}</option>)}
+                    {["Standard Room", "Deluxe Room", "Premium Room", "Executive Suite", "Suite Room"].map((room) => (
+                      <option key={room} value={room}>{room}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -339,7 +830,7 @@ const BookingDetails = () => {
                 </div>
                 <div className="BookingDetails-form-group">
                   <label>Check Out</label>
-                  <input type="date" name="checkOut" value={formData.checkOut} onChange={handleInputChange} required />
+                  <input type="date" name="checkOut" min={formData.checkIn || undefined} value={formData.checkOut} onChange={handleInputChange} required />
                 </div>
               </div>
 
@@ -359,15 +850,15 @@ const BookingDetails = () => {
               <div className="BookingDetails-extra-form-section">
                 {[
                   { key: "homePickup", label: "Home Pickup", price: 500, icon: <FaCar />, cls: "pickup" },
-                  { key: "nightFood", label: "Night Food", price: 350, icon: <FaUtensils />, cls: "food" }
-                ].map((s) => (
-                  <div key={s.key} className="BookingDetails-service-row">
+                  { key: "nightFood", label: "Night Food", price: 350, icon: <FaUtensils />, cls: "food" },
+                ].map((service) => (
+                  <div key={service.key} className="BookingDetails-service-row">
                     <label>
-                      <input type="checkbox" checked={Number(formData[s.key]) > 0} onChange={(e) => handleServiceChange(s.key, e.target.checked)} />
-                      <span className={`BookingDetails-service-icon ${s.cls}`}>{s.icon}</span>
-                      <span>{s.label}</span>
+                      <input type="checkbox" checked={Number(formData[service.key]) > 0} onChange={(e) => handleServiceChange(service.key, e.target.checked)} />
+                      <span className={`BookingDetails-service-icon ${service.cls}`}>{service.icon}</span>
+                      <span>{service.label}</span>
                     </label>
-                    <strong>₹{s.price}</strong>
+                    <strong>₹{formatINR(service.price)}</strong>
                   </div>
                 ))}
               </div>
@@ -383,7 +874,9 @@ const BookingDetails = () => {
                 <div className="BookingDetails-form-group">
                   <label>Booking Status</label>
                   <select name="status" value={formData.status} onChange={handleInputChange}>
-                    {["Booked", "Checked In", "Checked Out", "Pending"].map((st) => <option key={st} value={st}>{st}</option>)}
+                    {["Booked", "Pending", "Confirmed", "Checked In", "Checked Out", "Cancelled"].map((status) => (
+                      <option key={status} value={status}>{status}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -397,8 +890,10 @@ const BookingDetails = () => {
               </div>
 
               <div className="BookingDetails-modal-footer">
-                <button type="button" className="BookingDetails-btn-secondary" onClick={closeModal}>Cancel</button>
-                <button type="submit" className="BookingDetails-btn-primary">{editingBooking ? "Update Booking" : "Save Booking"}</button>
+                <button type="button" className="BookingDetails-btn-secondary" onClick={closeModal} disabled={isSubmitting}>Cancel</button>
+                <button type="submit" className="BookingDetails-btn-primary" disabled={isSubmitting}>
+                  {isSubmitting ? <><FaSpinner className="BookingDetails-spin" /> {editingBooking ? "Updating..." : "Saving..."}</> : (editingBooking ? "Update Booking" : "Save Booking")}
+                </button>
               </div>
             </form>
           </div>
@@ -418,7 +913,7 @@ const BookingDetails = () => {
             </div>
 
             <div className="BookingDetails-view-customer">
-              <div className="BookingDetails-view-avatar">{viewBooking.name[0]?.toUpperCase()}</div>
+              <div className="BookingDetails-view-avatar">{viewBooking.name?.[0]?.toUpperCase() || "G"}</div>
               <div>
                 <h4>{viewBooking.name}</h4>
                 <p>{viewBooking.phone}</p>
@@ -430,17 +925,18 @@ const BookingDetails = () => {
               <h4>Booking Information</h4>
               <div className="BookingDetails-view-grid">
                 {[
-                  { label: "Package", val: viewBooking.package },
+                  { label: "Hotel / Package", val: viewBooking.package },
                   { label: "Destination", val: viewBooking.destination || "-" },
                   { label: "Members", val: viewBooking.members || "-" },
-                  { label: "Room", val: viewBooking.roomNo },
+                  { label: "Room", val: viewBooking.roomNo || "-" },
                   { label: "Room Type", val: viewBooking.roomType },
-                  { label: "Check In", val: viewBooking.checkIn },
-                  { label: "Check Out", val: viewBooking.checkOut },
+                  { label: "Check In", val: formatDate(viewBooking.checkIn) },
+                  { label: "Check Out", val: formatDate(viewBooking.checkOut) },
+                  { label: "Stay", val: viewBooking.stayNights || "-" },
                   { label: "Adults", val: viewBooking.adults },
                   { label: "Children", val: viewBooking.children },
-                ].map((info, i) => (
-                  <div key={i} className="BookingDetails-view-item">
+                ].map((info, idx) => (
+                  <div key={idx} className="BookingDetails-view-item">
                     <span>{info.label}</span>
                     <strong>{info.val}</strong>
                   </div>
@@ -454,13 +950,13 @@ const BookingDetails = () => {
                 {[
                   { label: "Home Pickup", val: viewBooking.homePickup, icon: <FaCar />, cls: "pickup" },
                   { label: "Night Food", val: viewBooking.nightFood, icon: <FaUtensils />, cls: "food" },
-                ].map((s, i) => (
-                  <div key={i} className="BookingDetails-view-service">
+                ].map((service, idx) => (
+                  <div key={idx} className="BookingDetails-view-service">
                     <div>
-                      <span className={`BookingDetails-view-service-icon ${s.cls}`}>{s.icon}</span>
-                      <span>{s.label}</span>
+                      <span className={`BookingDetails-view-service-icon ${service.cls}`}>{service.icon}</span>
+                      <span>{service.label}</span>
                     </div>
-                    <strong>{s.val > 0 ? `₹${formatINR(s.val)}` : "Not Selected"}</strong>
+                    <strong>{service.val > 0 ? `₹${formatINR(service.val)}` : "Not Selected"}</strong>
                   </div>
                 ))}
               </div>
