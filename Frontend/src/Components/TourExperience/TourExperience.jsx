@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Tourexperience.css';
+import './TourExperience.css';
 import API from '../../api/axios';
 
 // React Icons Imports
