@@ -1,3 +1,6 @@
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
   box-sizing: border-box;
@@ -5,99 +8,1404 @@
   padding: 0;
 }
 
-/* ================= MAIN CONTAINER ================= */
 .testimonial-section {
   position: relative;
   width: 100%;
-  background-color: #f7f5ef;
-  padding: 85px 24px 105px 24px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: #171d22;
+  overflow: hidden;
+
+  padding: 80px 24px 105px;
+
+  background: #f7f5ef;
+  color: #172027;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+/* 1. Ensure the speech bubble clips its children and handles sizing */
+.speech-bubble-box {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 2. Contain review content block */
+.review-content {
+  width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
 }
 
+/* 3. Force unbroken text and long words to wrap inside */
+.review-quote-text {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  line-height: 1.6;
+  white-space: normal;
+  word-break: break-word;        /* Breaks continuous strings */
+  overflow-wrap: anywhere;       /* Ensures text wraps on any character */
+  hyphens: auto;
+}
+
+/* 4. Keep each unit constrained to its grid column */
+.review-unit {
+  min-width: 0;                  /* Crucial for CSS Grid/Flex containers */
+  box-sizing: border-box;
+}
 .testimonial-container {
+  width: 100%;
   max-width: 1260px;
   margin: 0 auto;
 }
 
-/* ================= HEADER ================= */
+/* =========================================================
+   PREMIUM FORM CARD
+========================================================= */
+
+.testimonial-form-section {
+  position: relative;
+  width: 100%;
+
+  margin: 0 auto 82px;
+  padding: 39px 48px 31px;
+
+  overflow: visible;
+
+  border: 1px solid rgba(93, 169, 67, 0.11);
+  border-radius: 25px;
+
+  background:
+    radial-gradient(
+      circle at 15% 45%,
+      rgba(117, 188, 90, 0.08),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 90% 70%,
+      rgba(117, 188, 90, 0.07),
+      transparent 23%
+    ),
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #fbfdf9 48%,
+      #f7fbf3 100%
+    );
+
+  box-shadow:
+    0 24px 65px rgba(40, 72, 36, 0.08),
+    0 5px 20px rgba(40, 72, 36, 0.035);
+}
+
+.testimonial-form-section::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  width: 250px;
+  height: 3px;
+
+  transform: translateX(-50%);
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #65ad49,
+    #85c76d,
+    #65ad49,
+    transparent
+  );
+
+  border-radius: 0 0 10px 10px;
+}
+
+.testimonial-form-section::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 10px;
+
+  border: 1px solid rgba(93, 169, 67, 0.035);
+
+  border-radius: 18px;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   TRAVEL DECORATIONS
+========================================================= */
+
+.travel-decoration,
+.travel-word-decoration {
+  position: absolute;
+
+  z-index: 0;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+.airplane {
+  top: 29px;
+  left: 13%;
+
+  color: rgba(75, 143, 53, 0.88);
+
+  font-size: 40px;
+
+  transform: rotate(-9deg);
+}
+
+.mountain {
+  left: 0;
+  bottom: 9px;
+
+  color: rgba(105, 181, 81, 0.08);
+
+  font-size: 145px;
+  line-height: 0.5;
+}
+
+.compass {
+  left: 21px;
+  bottom: 22px;
+
+  width: 78px;
+  height: 78px;
+
+  border: 7px solid rgba(90, 160, 70, 0.1);
+
+  border-radius: 50%;
+
+  color: rgba(90, 160, 70, 0.13);
+
+  font-size: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trees {
+  right: 4px;
+  bottom: 5px;
+
+  color: rgba(78, 146, 57, 0.1);
+
+  font-size: 55px;
+
+  letter-spacing: -14px;
+}
+
+.travel-word-decoration {
+  top: 38px;
+  right: 48px;
+
+  color: rgba(69, 135, 50, 0.68);
+
+  font-family: "Caveat", cursive;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  line-height: 1.05;
+
+  transform: rotate(-9deg);
+}
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.testimonial-form-header {
+  position: relative;
+  z-index: 2;
+
+  text-align: center;
+
+  margin-bottom: 27px;
+}
+
+.testimonial-form-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  margin-bottom: 5px;
+
+  color: #4f9839;
+
+  font-family: "Caveat", cursive;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.testimonial-form-badge span:first-child,
+.testimonial-form-badge span:last-child {
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+}
+
+.testimonial-form-header h2 {
+  margin-bottom: 7px;
+
+  color: #12202a;
+
+  font-size: 36px;
+  line-height: 1.15;
+
+  font-weight: 800;
+
+  letter-spacing: -1px;
+}
+
+.testimonial-form-header p {
+  max-width: 690px;
+
+  margin: 0 auto;
+
+  color: #76818a;
+
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.testimonial-form {
+  position: relative;
+  z-index: 3;
+}
+
+.testimonial-form-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 24px;
+}
+
+.second-row {
+  margin-top: 22px;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.form-field label {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  margin-bottom: 7px;
+
+  color: #34424d;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.form-field label > span {
+  color: #e64b4b;
+}
+
+.form-field label small {
+  color: #8d9699;
+
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.form-input-wrapper {
+  position: relative;
+
+  width: 100%;
+}
+
+.form-input-wrapper input,
+.form-textarea-wrapper textarea {
+  width: 100%;
+
+  outline: none;
+
+  border: 1px solid #dfe6df;
+
+  background: rgba(255, 255, 255, 0.82);
+
+  color: #1c252b;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.form-input-wrapper input {
+  height: 48px;
+
+  padding: 0 15px 0 47px;
+
+  border-radius: 11px;
+}
+
+.form-input-wrapper input:hover,
+.form-textarea-wrapper textarea:hover {
+  border-color: #c8d7c4;
+}
+
+.form-input-wrapper input:focus,
+.form-textarea-wrapper textarea:focus {
+  border-color: rgba(93, 169, 67, 0.65);
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(93, 169, 67, 0.08),
+    0 7px 20px rgba(52, 91, 44, 0.045);
+}
+
+.form-input-wrapper input::placeholder,
+.form-textarea-wrapper textarea::placeholder {
+  color: #a3aba9;
+}
+
+/* =========================================================
+   INPUT ICONS
+========================================================= */
+
+.form-input-icon {
+  position: absolute;
+
+  left: 17px;
+  top: 50%;
+
+  z-index: 2;
+
+  transform: translateY(-50%);
+
+  color: #8a969b;
+
+  font-size: 14px;
+
+  pointer-events: none;
+}
+
+.location-icon,
+.date-icon {
+  color: #5da943;
+}
+
+/* =========================================================
+   CUSTOM CALENDAR INPUT
+========================================================= */
+
+.calendar-field {
+  position: relative;
+}
+
+.calendar-input {
+  position: relative;
+
+  width: 100%;
+  height: 48px;
+
+  padding: 0 39px 0 47px;
+
+  border: 1px solid #dfe6df;
+
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.82);
+
+  color: #263037;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  outline: none;
+
+  display: flex;
+  align-items: center;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.calendar-input:hover {
+  border-color: #c8d7c4;
+  background: #ffffff;
+}
+
+.calendar-input-active {
+  border-color: rgba(93, 169, 67, 0.65);
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(93, 169, 67, 0.08),
+    0 8px 20px rgba(52, 91, 44, 0.05);
+}
+
+.selected-date-text {
+  color: #263037;
+  font-weight: 600;
+}
+
+.date-placeholder {
+  color: #a3aba9;
+}
+
+.calendar-dropdown-icon {
+  position: absolute;
+
+  right: 15px;
+
+  color: #89948f;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   PREMIUM EMBOSSED CALENDAR
+========================================================= */
+
+.premium-calendar {
+  position: absolute;
+
+  top: calc(100% + 10px);
+  left: 0;
+
+  z-index: 100;
+
+  width: 310px;
+
+  padding: 17px;
+
+  border: 1px solid rgba(93, 169, 67, 0.13);
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #f9fcf7 100%
+    );
+
+  box-shadow:
+    12px 14px 30px rgba(42, 75, 37, 0.11),
+    -6px -6px 16px rgba(255, 255, 255, 0.95),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.9),
+    inset -2px -2px 5px rgba(65, 102, 59, 0.035);
+
+  animation: calendarOpen 0.22s ease-out;
+}
+
+@keyframes calendarOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================================
+   CALENDAR HEADER
+========================================================= */
+
+.calendar-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1px 1px 13px;
+}
+
+.calendar-month-title {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 1px;
+}
+
+.calendar-month-title strong {
+  color: #23312a;
+
+  font-size: 14px;
+
+  font-weight: 800;
+}
+
+.calendar-month-title span {
+  color: #829087;
+
+  font-size: 10px;
+
+  font-weight: 600;
+}
+
+.calendar-nav-btn {
+  width: 31px;
+  height: 31px;
+
+  padding: 0;
+
+  border: 1px solid #dce8d8;
+
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #eef4eb
+    );
+
+  color: #5da943;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow:
+    3px 3px 7px rgba(52, 84, 46, 0.07),
+    -2px -2px 5px rgba(255, 255, 255, 0.9);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.calendar-nav-btn:hover:not(:disabled) {
+  background: #5da943;
+  color: #ffffff;
+
+  transform: scale(1.05);
+
+  box-shadow:
+    0 5px 12px rgba(93, 169, 67, 0.2);
+}
+
+.calendar-nav-btn:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.calendar-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   EMBOSSED LINE
+========================================================= */
+
+.calendar-emboss-line {
+  height: 1px;
+
+  margin: 0 2px 13px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #dce8d8,
+      #ffffff,
+      #dce8d8,
+      transparent
+    );
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* =========================================================
+   WEEKDAYS
+========================================================= */
+
+.calendar-weekdays {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  margin-bottom: 7px;
+}
+
+.calendar-weekdays span {
+  color: #8c9891;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  text-align: center;
+}
+
+/* =========================================================
+   CALENDAR DAYS
+========================================================= */
+
+.calendar-days {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 4px;
+}
+
+.calendar-empty {
+  height: 34px;
+}
+
+.calendar-day {
+  position: relative;
+
+  width: 100%;
+  height: 34px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #48534e;
+
+  font-family: inherit;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.calendar-day span {
+  position: relative;
+  z-index: 2;
+}
+
+.calendar-day:hover:not(:disabled) {
+  background: rgba(93, 169, 67, 0.09);
+
+  color: #4f9a38;
+
+  transform: translateY(-1px);
+}
+
+.calendar-day.today {
+  color: #4f9a38;
+}
+
+.calendar-day.today::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: 3px;
+
+  left: 50%;
+
+  width: 4px;
+  height: 4px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: #5da943;
+}
+
+.calendar-day.selected {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #6ab94d,
+      #4e9e36
+    );
+
+  box-shadow:
+    4px 5px 9px rgba(63, 118, 48, 0.2),
+    -2px -2px 5px rgba(255, 255, 255, 0.5),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+.calendar-day.selected::after {
+  display: none;
+}
+
+.calendar-day.past {
+  color: #cbd2cd;
+
+  cursor: not-allowed;
+}
+
+.calendar-day.past:hover {
+  background: transparent;
+  transform: none;
+}
+
+/* =========================================================
+   CALENDAR FOOTER
+========================================================= */
+
+.calendar-footer {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 13px;
+  padding-top: 11px;
+
+  border-top: 1px solid #edf2eb;
+}
+
+.calendar-footer > span {
+  color: #76827b;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+.calendar-today-btn {
+  padding: 5px 10px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: rgba(93, 169, 67, 0.08);
+
+  color: #559a3d;
+
+  font-family: inherit;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.calendar-today-btn:hover {
+  background: #5da943;
+  color: #ffffff;
+}
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.rating-selector {
+  height: 48px;
+
+  width: 100%;
+
+  padding: 0 14px;
+
+  border: 1px solid #dfe6df;
+
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.82);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.rating-selector:hover {
+  border-color: #c8d7c4;
+  background: #ffffff;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+
+  gap: 2px;
+}
+
+.rating-star-btn {
+  width: 28px;
+  height: 32px;
+
+  padding: 0;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #f6a313;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    color 0.18s ease;
+}
+
+.rating-star-btn:hover {
+  transform: translateY(-2px) scale(1.13);
+}
+
+.rating-value {
+  min-width: 38px;
+
+  color: #7e8985;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  text-align: right;
+}
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+.upload-box {
+  position: relative;
+
+  width: 100%;
+  height: 48px;
+
+  border: 1px dashed #cfdcc9;
+
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.68);
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.upload-box:hover {
+  border-color: #72b65b;
+
+  background: rgba(250, 253, 248, 0.95);
+
+  box-shadow:
+    0 6px 16px rgba(82, 139, 66, 0.05);
+}
+
+.upload-box input {
+  display: none;
+}
+
+.upload-content {
+  width: 100%;
+  height: 100%;
+
+  padding: 5px 42px 5px 14px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  cursor: pointer;
+}
+
+.upload-icon-box {
+  width: 30px;
+  height: 30px;
+
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  background: rgba(93, 169, 67, 0.09);
+
+  color: #4d9b37;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+}
+
+.upload-text {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
+}
+
+.upload-text strong {
+  color: #4d9b37;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+.upload-text span {
+  color: #8a9691;
+
+  font-size: 9px;
+}
+
+.upload-text span b {
+  font-weight: 700;
+}
+
+.image-preview-wrapper {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+}
+
+.upload-preview-image {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  object-fit: cover;
+
+  border-radius: 7px;
+
+  border: 1px solid #dce7d8;
+}
+
+.upload-preview-text {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.upload-preview-text strong {
+  color: #4d9b37;
+
+  font-size: 10px;
+}
+
+.upload-preview-text span {
+  color: #89938f;
+
+  font-size: 9px;
+}
+
+.remove-image-btn {
+  position: absolute;
+
+  top: 50%;
+  right: 10px;
+
+  width: 25px;
+  height: 25px;
+
+  transform: translateY(-50%);
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #f1f3f0;
+
+  color: #78817d;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.remove-image-btn:hover {
+  background: #e95555;
+  color: #ffffff;
+
+  transform:
+    translateY(-50%)
+    scale(1.06);
+}
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.testimonial-form-bottom {
+  display: grid;
+
+  grid-template-columns: 1fr 235px;
+
+  align-items: end;
+
+  gap: 28px;
+
+  margin-top: 21px;
+}
+
+.form-textarea-wrapper {
+  position: relative;
+}
+
+.form-textarea-wrapper textarea {
+  min-height: 94px;
+
+  padding: 14px 15px 14px 47px;
+
+  resize: vertical;
+
+  border-radius: 11px;
+
+  line-height: 1.6;
+}
+
+.form-textarea-icon {
+  position: absolute;
+
+  left: 17px;
+  top: 17px;
+
+  color: #4e9d38;
+
+  font-size: 14px;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.testimonial-submit-btn {
+  width: 100%;
+  height: 50px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #64b747 0%,
+      #4ca035 100%
+    );
+
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 11px;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 24px rgba(78, 159, 54, 0.2);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.testimonial-submit-btn svg {
+  font-size: 13px;
+
+  transition: transform 0.25s ease;
+}
+
+.testimonial-submit-btn:hover {
+  filter: brightness(1.03);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 29px rgba(78, 159, 54, 0.28);
+}
+
+.testimonial-submit-btn:hover svg {
+  transform:
+    translateX(4px)
+    rotate(-5deg);
+}
+
+.testimonial-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   FORM MESSAGE
+========================================================= */
+
+.testimonial-form-message {
+  min-height: 40px;
+
+  margin-top: 17px;
+
+  padding: 10px 15px;
+
+  border-radius: 9px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+.testimonial-form-message.success {
+  color: #347d27;
+
+  background: rgba(92, 174, 71, 0.09);
+
+  border: 1px solid rgba(92, 174, 71, 0.22);
+}
+
+.testimonial-form-message.error {
+  color: #b64d4d;
+
+  background: rgba(211, 82, 82, 0.07);
+
+  border: 1px solid rgba(211, 82, 82, 0.16);
+}
+
+/* =========================================================
+   REVIEWS HEADER
+========================================================= */
+
 .testimonial-header {
   text-align: center;
-  margin-bottom: 30px;
+
+  margin-bottom: 27px;
 }
 
 .testimonial-badge {
   display: inline-flex;
   align-items: center;
+
   gap: 8px;
+
+  margin-bottom: 5px;
+
   color: #5da943;
-  font-family: 'Caveat', cursive;
-  font-size: 26px;
+
+  font-family: "Caveat", cursive;
+
+  font-size: 25px;
+
   font-weight: 700;
-  margin-bottom: 6px;
 }
 
 .badge-arrow,
 .badge-sparkle {
-  font-size: 16px;
+  font-family: Arial, sans-serif;
+
+  font-size: 15px;
 }
 
 .testimonial-main-title {
-  font-size: 44px;
-  font-weight: 800;
   color: #111827;
-  letter-spacing: -0.5px;
+
+  font-size: 44px;
+
+  line-height: 1.15;
+
+  font-weight: 800;
+
+  letter-spacing: -1px;
 }
 
-/* ================= PLATFORM SELECTOR PILL ================= */
+.testimonial-subtitle {
+  max-width: 560px;
+
+  margin: 9px auto 0;
+
+  color: #8a938e;
+
+  font-size: 11px;
+
+  line-height: 1.7;
+}
+
+/* =========================================================
+   PLATFORM
+========================================================= */
+
 .platform-nav-pill {
-  background-color: #ffffff;
   width: fit-content;
-  max-width: 720px;
-  margin: 0 auto 55px auto;
-  border-radius: 8px;
-  padding: 6px 14px;
+
+  max-width: 100%;
+
+  margin: 0 auto 52px;
+
+  padding: 5px 13px;
+
   display: flex;
   align-items: center;
-  gap: 26px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  justify-content: center;
+
+  gap: 24px;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(30, 50, 35, 0.04);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.035);
 }
 
 .pill-btn {
-  background: none;
+  position: relative;
+
+  min-height: 36px;
+
+  padding: 7px;
+
   border: none;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13.5px;
+
+  background: transparent;
+
+  color: #626d71;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
   font-weight: 600;
-  color: #525b62;
-  cursor: pointer;
+
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 6px;
-  position: relative;
-  transition: all 0.25s ease;
+
+  gap: 7px;
+
+  cursor: pointer;
+
+  transition: color 0.25s ease;
+}
+
+.pill-btn:hover {
+  color: #5da943;
 }
 
 .pill-btn.active {
   color: #5da943;
-  font-weight: 700;
+
+  font-weight: 800;
 }
 
 .pill-btn.active::after {
-  content: '';
+  content: "";
+
   position: absolute;
-  bottom: 0;
+
   left: 0;
-  width: 100%;
+  right: 0;
+  bottom: 0;
+
   height: 2px;
-  background-color: #5da943;
-  border-radius: 2px;
+
+  border-radius: 5px;
+
+  background: #5da943;
 }
 
 .platform-icon {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .tripadvisor-color {
@@ -106,291 +1414,1073 @@
 
 .circle-fb-icon,
 .circle-g-icon {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
+
   border-radius: 50%;
-  background-color: #6b7280;
+
+  background: #69737d;
+
   color: #ffffff;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  font-weight: 700;
+
+  font-size: 9px;
 }
 
-/* ================= SLIDER AREA WITH ARROWS ================= */
+/* =========================================================
+   REVIEW SLIDER
+========================================================= */
+
 .slider-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 40px;
-}
 
-/* Circular Arrow Buttons */
-.nav-arrow-btn {
-  position: absolute;
-  top: 40%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  border: 1.5px solid #8ec47a;
-  color: #5da943;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-  transition: all 0.25s ease;
-  z-index: 10;
-}
-
-.nav-arrow-btn:hover {
-  background-color: #5da943;
-  color: #ffffff;
-  border-color: #5da943;
-  transform: translateY(-50%) scale(1.08);
-}
-
-.left-arrow {
-  left: -15px;
-}
-
-.right-arrow {
-  right: -15px;
-}
-
-/* ================= 3x3 CARDS GRID ================= */
-.reviews-3x3-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
   width: 100%;
+
+  padding: 0 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reviews-grid {
+  width: 100%;
+
+  display: grid;
+
+  gap: 27px;
+}
+
+.reviews-grid.three-cards {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.reviews-grid.two-cards {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.reviews-grid.one-card {
+  grid-template-columns: 1fr;
 }
 
 .review-unit {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
 }
 
-/* Speech Bubble Box */
+/* =========================================================
+   REVIEW CARD
+========================================================= */
+
 .speech-bubble-box {
   position: relative;
-  background-color: #ffffff;
-  border-radius: 14px;
-  padding: 34px 28px 26px 28px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.035);
-  min-height: 250px;
+
+  min-height: 255px;
+
+  padding: 30px 27px 24px;
+
+  margin-bottom: 23px;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(25, 45, 30, 0.035);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 13px 35px rgba(28, 54, 29, 0.045),
+    0 3px 10px rgba(28, 54, 29, 0.025);
+
   display: flex;
   flex-direction: column;
+
   justify-content: space-between;
-  margin-bottom: 24px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.speech-bubble-box:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 20px 42px rgba(28, 54, 29, 0.075),
+    0 5px 12px rgba(28, 54, 29, 0.035);
+}
+
+.review-content {
+  position: relative;
+
+  min-height: 115px;
+}
+
+.review-quote-mark {
+  position: absolute;
+
+  top: -15px;
+  left: -3px;
+
+  color: rgba(93, 169, 67, 0.08);
+
+  font-family: Georgia, serif;
+
+  font-size: 70px;
+
+  line-height: 1;
+
+  font-weight: 900;
 }
 
 .review-quote-text {
-  font-size: 13.5px;
-  line-height: 1.85;
-  color: #525960;
-  margin-bottom: 24px;
+  position: relative;
+
+  z-index: 2;
+
+  padding-top: 10px;
+
+  color: #596267;
+
+  font-size: 13px;
+
+  line-height: 1.8;
 }
 
-/* Bubble Pointer Tail at Center Bottom */
-.bubble-pointer-tail {
-  position: absolute;
-  bottom: -10px;
-  left: 36px;
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 11px solid #ffffff;
-}
+/* =========================================================
+   CARD META
+========================================================= */
 
-/* Card Bottom Metadata */
 .card-meta-bottom {
+  position: relative;
+
+  min-height: 47px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #f0f3ee;
+
   display: flex;
   align-items: center;
+
   justify-content: space-between;
-  position: relative;
-  border-top: 1px solid #f6f8f5;
-  padding-top: 16px;
 }
 
 .stars-row {
   display: flex;
-  gap: 2px;
+  align-items: center;
+
+  gap: 3px;
 }
 
-.star-char {
-  color: #fca834;
-  font-size: 18px;
+.star-filled {
+  color: #f6a623;
+
+  font-size: 15px;
+}
+
+.star-empty {
+  color: #e2e7e1;
+
+  font-size: 15px;
 }
 
 .quote-watermark-icon {
   position: absolute;
-  left: 48%;
+
+  left: 50%;
+  top: 1px;
+
   transform: translateX(-50%);
-  font-size: 48px;
-  font-weight: 900;
-  color: #f1f4ef;
+
+  color: #f0f3ee;
+
+  font-family: Georgia, serif;
+
+  font-size: 47px;
+
   line-height: 1;
-  pointer-events: none;
-  font-family: serif;
+
+  font-weight: 900;
 }
 
 .timestamp-block {
   display: flex;
   flex-direction: column;
+
+  align-items: flex-end;
+
   text-align: right;
+
   line-height: 1.35;
 }
 
 .date-str {
-  font-size: 11px;
-  font-weight: 800;
   color: #171d22;
+
+  font-size: 10px;
+
+  font-weight: 800;
 }
 
 .time-str {
-  font-size: 10px;
+  color: #96a09b;
+
+  font-size: 9px;
+
   font-weight: 600;
-  color: #8c968f;
 }
 
-/* ================= TRAVELER PROFILE ROW ================= */
+/* =========================================================
+   BUBBLE
+========================================================= */
+
+.bubble-pointer-tail {
+  position: absolute;
+
+  left: 38px;
+  bottom: -10px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+
+  border-top: 11px solid #ffffff;
+
+  filter:
+    drop-shadow(
+      0 4px 2px rgba(0, 0, 0, 0.025)
+    );
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
 .traveler-profile-row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding-left: 16px;
+
+  gap: 13px;
+
+  padding-left: 17px;
 }
 
 .traveler-avatar {
-  width: 44px;
-  height: 44px;
+  width: 45px;
+  height: 45px;
+
+  flex-shrink: 0;
+
   border-radius: 50%;
+
   object-fit: cover;
+
   border: 2px solid #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 5px 13px rgba(0, 0, 0, 0.09);
 }
 
 .traveler-details {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
 }
 
 .traveler-name {
-  font-size: 16px;
-  font-weight: 800;
   color: #171d22;
-  line-height: 1.2;
+
+  font-size: 15px;
+
+  line-height: 1.25;
+
+  font-weight: 800;
 }
 
 .traveler-country {
-  font-size: 12px;
+  margin-top: 3px;
+
+  color: #8c9690;
+
+  font-size: 11px;
+
   font-weight: 500;
-  color: #8c968f;
 }
 
-/* ================= MOBILE DOTS INDICATOR ================= */
+/* =========================================================
+   ARROWS
+========================================================= */
+
+.nav-arrow-btn {
+  position: absolute;
+
+  top: 42%;
+
+  z-index: 10;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  border: 1px solid #9bc98a;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  color: #5da943;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transform: translateY(-50%);
+
+  box-shadow:
+    0 7px 20px rgba(50, 80, 45, 0.07);
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.nav-arrow-btn:hover:not(:disabled) {
+  background: #5da943;
+
+  color: #ffffff;
+
+  border-color: #5da943;
+
+  transform:
+    translateY(-50%)
+    scale(1.08);
+
+  box-shadow:
+    0 10px 22px rgba(93, 169, 67, 0.2);
+}
+
+.nav-arrow-btn:disabled {
+  opacity: 0.35;
+
+  cursor: not-allowed;
+}
+
+.left-arrow {
+  left: -1px;
+}
+
+.right-arrow {
+  right: -1px;
+}
+
+/* =========================================================
+   DOTS
+========================================================= */
+
 .mobile-dots-container {
   display: flex;
-  justify-content: center;
+
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+
+  gap: 7px;
+
   margin-top: 25px;
 }
 
 .mobile-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
+
+  padding: 0;
+
+  border: none;
+
   border-radius: 50%;
-  background-color: #d8decb;
+
+  background: #d5ddcf;
+
   cursor: pointer;
-  transition: all 0.25s ease;
+
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
 }
 
 .mobile-dot.active {
-  background-color: #5da943;
   width: 22px;
-  border-radius: 12px;
+
+  border-radius: 10px;
+
+  background: #5da943;
 }
 
-/* ================= RESPONSIVE BREAKPOINTS ================= */
-@media (max-width: 1080px) {
-  .reviews-3x3-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* =========================================================
+   LOADING
+========================================================= */
 
-  .reviews-3x3-grid .review-unit:last-child {
-    display: none;
-  }
+.testimonial-loading {
+  min-height: 300px;
 
-  .slider-wrapper {
-    padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color: #6f7973;
+
+  font-size: 13px;
+}
+
+.testimonial-loader {
+  width: 30px;
+  height: 30px;
+
+  border: 3px solid #dfe9da;
+
+  border-top-color: #5da943;
+
+  border-radius: 50%;
+
+  animation:
+    testimonialSpin
+    0.8s
+    linear
+    infinite;
+}
+
+@keyframes testimonialSpin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@media (max-width: 768px) {
-  .testimonial-section {
-    padding: 60px 16px 75px 16px;
-  }
+.testimonial-error {
+  padding: 80px 20px;
 
-  .testimonial-main-title {
-    font-size: 30px;
-  }
+  text-align: center;
 
-  .platform-nav-pill {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 14px;
-    padding: 10px;
-  }
+  color: #bd5353;
+
+  font-size: 13px;
 }
 
-/* मोबाइल रिस्पॉन्सिव (<= 650px) - केवल 1 कार्ड और साइड ऐरो नेविगेशन */
-@media (max-width: 650px) {
-  .slider-wrapper {
-    padding: 0 10px;
-    max-width: 380px;
-    margin: 0 auto;
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1450px) {
+  .testimonial-form-section {
+    padding-left: 60px;
+    padding-right: 60px;
   }
 
-  .reviews-3x3-grid {
-    grid-template-columns: 1fr;
-    width: 100%;
-  }
-
-  .reviews-3x3-grid .review-unit:last-child {
-    display: flex;
+  .testimonial-form-header h2 {
+    font-size: 38px;
   }
 
   .speech-bubble-box {
-    padding: 24px 20px 20px 20px;
-    min-height: 230px;
+    min-height: 270px;
+  }
+}
+
+/* =========================================================
+   1050px
+========================================================= */
+
+@media (max-width: 1050px) {
+  .testimonial-section {
+    padding: 70px 20px 90px;
+  }
+
+  .testimonial-form-section {
+    padding: 37px 32px 30px;
+  }
+
+  .testimonial-form-grid {
+    gap: 17px;
+  }
+
+  .testimonial-form-bottom {
+    grid-template-columns: 1fr 200px;
+    gap: 20px;
+  }
+
+  .testimonial-main-title {
+    font-size: 39px;
+  }
+
+  .slider-wrapper {
+    padding-left: 38px;
+    padding-right: 38px;
+  }
+
+  .reviews-grid {
+    gap: 20px;
+  }
+
+  .speech-bubble-box {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .travel-word-decoration {
+    right: 30px;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+  .testimonial-section {
+    padding: 60px 16px 75px;
+  }
+
+  .testimonial-form-section {
+    padding: 34px 23px 27px;
+
+    border-radius: 20px;
+
+    margin-bottom: 65px;
+  }
+
+  .testimonial-form-header h2 {
+    font-size: 30px;
+  }
+
+  .testimonial-form-header p {
+    font-size: 11px;
+  }
+
+  .testimonial-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .testimonial-form-grid .form-field:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .second-row .form-field:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .testimonial-form-bottom {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+  }
+
+  .testimonial-submit-btn {
+    height: 50px;
+  }
+
+  .airplane {
+    left: 8%;
+    font-size: 32px;
+  }
+
+  .travel-word-decoration {
+    top: 28px;
+    right: 25px;
+
+    font-size: 22px;
+  }
+
+  .compass {
+    width: 60px;
+    height: 60px;
+
+    font-size: 30px;
+  }
+
+  .testimonial-main-title {
+    font-size: 34px;
+  }
+
+  .platform-nav-pill {
+    gap: 13px;
+  }
+
+  .pill-btn {
+    font-size: 11px;
+  }
+
+  .slider-wrapper {
+    padding-left: 32px;
+    padding-right: 32px;
   }
 
   .nav-arrow-btn {
-    width: 38px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .premium-calendar {
+    width: 300px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+  .testimonial-section {
+    padding: 45px 11px 60px;
+  }
+
+  .testimonial-form-section {
+    padding: 29px 15px 24px;
+
+    margin-bottom: 54px;
+
+    border-radius: 17px;
+  }
+
+  .testimonial-form-section::after {
+    inset: 7px;
+
+    border-radius: 13px;
+  }
+
+  .testimonial-form-badge {
+    font-size: 19px;
+  }
+
+  .testimonial-form-header {
+    margin-bottom: 22px;
+  }
+
+  .testimonial-form-header h2 {
+    font-size: 25px;
+  }
+
+  .testimonial-form-header p {
+    max-width: 330px;
+
+    font-size: 10px;
+  }
+
+  .testimonial-form-grid {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+  }
+
+  .testimonial-form-grid .form-field:last-child,
+  .second-row .form-field:last-child {
+    grid-column: auto;
+  }
+
+  .second-row {
+    margin-top: 15px;
+  }
+
+  .form-field label {
+    font-size: 10px;
+  }
+
+  .form-input-wrapper input {
+    height: 46px;
+
+    font-size: 11px;
+  }
+
+  .calendar-input {
+    height: 46px;
+
+    font-size: 11px;
+  }
+
+  .rating-selector {
+    height: 46px;
+  }
+
+  .rating-star-btn {
+    width: 25px;
+
+    font-size: 15px;
+  }
+
+  /* =======================================================
+     MOBILE CALENDAR
+  ======================================================= */
+
+  .premium-calendar {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    width: calc(100vw - 32px);
+
+    max-width: 330px;
+
+    transform: translate(-50%, -50%);
+
+    padding: 18px;
+
+    border-radius: 19px;
+
+    box-shadow:
+      16px 18px 40px rgba(35, 65, 31, 0.18),
+      -8px -8px 20px rgba(255, 255, 255, 0.96),
+      inset 2px 2px 5px rgba(255, 255, 255, 0.95),
+      inset -2px -2px 6px rgba(65, 102, 59, 0.045);
+
+    animation: mobileCalendarOpen 0.23s ease-out;
+  }
+
+  @keyframes mobileCalendarOpen {
+    from {
+      opacity: 0;
+      transform:
+        translate(-50%, -48%)
+        scale(0.96);
+    }
+
+    to {
+      opacity: 1;
+      transform:
+        translate(-50%, -50%)
+        scale(1);
+    }
+  }
+
+  .calendar-month-title strong {
+    font-size: 15px;
+  }
+
+  .calendar-month-title span {
+    font-size: 10px;
+  }
+
+  .calendar-nav-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .calendar-day {
     height: 38px;
+
+    font-size: 11px;
+
+    border-radius: 10px;
+  }
+
+  .calendar-empty {
+    height: 38px;
+  }
+
+  .calendar-weekdays span {
+    font-size: 8px;
+  }
+
+  .upload-box {
+    height: 52px;
+  }
+
+  .testimonial-form-bottom {
+    margin-top: 15px;
+  }
+
+  .form-textarea-wrapper textarea {
+    min-height: 105px;
+
+    font-size: 11px;
+  }
+
+  .testimonial-submit-btn {
+    height: 48px;
+
+    font-size: 10px;
+  }
+
+  /* decorations */
+
+  .airplane {
+    top: 19px;
+    left: 7%;
+
+    font-size: 26px;
+  }
+
+  .mountain {
+    font-size: 90px;
+  }
+
+  .compass,
+  .trees {
+    display: none;
+  }
+
+  .travel-word-decoration {
+    top: 23px;
+    right: 14px;
+
+    font-size: 17px;
+  }
+
+  /* reviews */
+
+  .testimonial-badge {
+    font-size: 21px;
+  }
+
+  .testimonial-main-title {
+    font-size: 29px;
+
+    letter-spacing: -0.5px;
+  }
+
+  .testimonial-subtitle {
+    padding: 0 10px;
+
+    font-size: 10px;
+  }
+
+  .platform-nav-pill {
+    width: 100%;
+    max-width: 360px;
+
+    padding: 5px 6px;
+
+    gap: 1px;
+
+    margin-bottom: 40px;
+  }
+
+  .pill-btn {
+    flex: 1;
+
+    justify-content: center;
+
+    gap: 4px;
+
+    padding: 7px 3px;
+
+    font-size: 9px;
+  }
+
+  .platform-icon {
     font-size: 12px;
-    top: 36%;
+  }
+
+  .circle-fb-icon,
+  .circle-g-icon {
+    width: 15px;
+    height: 15px;
+
+    font-size: 8px;
+  }
+
+  .slider-wrapper {
+    padding-left: 27px;
+    padding-right: 27px;
+  }
+
+  .speech-bubble-box {
+    min-height: 235px;
+
+    padding: 25px 19px 20px;
+
+    border-radius: 15px;
+  }
+
+  .review-quote-text {
+    font-size: 12px;
+
+    line-height: 1.75;
+  }
+
+  .review-quote-mark {
+    font-size: 61px;
+  }
+
+  .nav-arrow-btn {
+    width: 36px;
+    height: 36px;
+
+    font-size: 10px;
   }
 
   .left-arrow {
-    left: -16px;
+    left: -2px;
   }
 
   .right-arrow {
-    right: -16px;
+    right: -2px;
   }
 
-  .nav-arrow-btn:active {
-    background-color: #5da943;
-    color: #ffffff;
-    transform: translateY(-50%) scale(0.92);
+  .traveler-profile-row {
+    padding-left: 8px;
+
+    gap: 10px;
+  }
+
+  .traveler-avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .traveler-name {
+    font-size: 13px;
+  }
+
+  .traveler-country {
+    font-size: 10px;
+  }
+
+  .star-filled,
+  .star-empty {
+    font-size: 13px;
+  }
+
+  .date-str {
+    font-size: 9px;
+  }
+
+  .time-str {
+    font-size: 8px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+  .testimonial-section {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .testimonial-form-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .testimonial-form-header h2 {
+    font-size: 22px;
+  }
+
+  .testimonial-form-badge {
+    font-size: 17px;
+  }
+
+  .travel-word-decoration {
+    font-size: 15px;
+  }
+
+  .platform-nav-pill {
+    max-width: 100%;
+  }
+
+  .pill-btn {
+    font-size: 8px;
+  }
+
+  .slider-wrapper {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .speech-bubble-box {
+    min-height: 225px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .nav-arrow-btn {
+    width: 33px;
+    height: 33px;
+  }
+
+  .premium-calendar {
+    width: calc(100vw - 24px);
+
+    max-width: 320px;
+
+    padding: 15px;
+  }
+
+  .calendar-day {
+    height: 35px;
+  }
+
+  .calendar-empty {
+    height: 35px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 340px) {
+  .testimonial-main-title {
+    font-size: 25px;
+  }
+
+  .testimonial-form-header h2 {
+    font-size: 21px;
+  }
+
+  .platform-nav-pill {
+    gap: 0;
+  }
+
+  .pill-btn {
+    font-size: 7.5px;
+  }
+
+  .circle-fb-icon,
+  .circle-g-icon {
+    display: none;
+  }
+
+  .speech-bubble-box {
+    min-height: 215px;
+  }
+
+  .premium-calendar {
+    width: calc(100vw - 18px);
+
+    padding: 13px;
+  }
+
+  .calendar-days {
+    gap: 2px;
+  }
+
+  .calendar-day {
+    height: 33px;
+
+    font-size: 10px;
+  }
+
+  .calendar-empty {
+    height: 33px;
   }
 }

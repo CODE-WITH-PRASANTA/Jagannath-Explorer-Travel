@@ -2,11 +2,11 @@ const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
-
+ 
 // =========================================
 // HELPER: ENSURE DIRECTORY EXISTS
 // =========================================
-
+ 
 const ensureDirExists = (dirPath) => {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });
