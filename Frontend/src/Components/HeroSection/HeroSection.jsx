@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import "./HeroSection.css";
+import { API } from "../../api/axios";
 
 import {
   MapPin,
@@ -10,7 +12,6 @@ import {
   ChevronRight,
   Compass,
   Building2,
-  Car,
   Briefcase,
   ChevronUp,
   Check,
@@ -24,11 +25,8 @@ import kalijaee from "../../assets/kalijaee.webp";
 import Dhauli from "../../assets/Bhubaneswar.webp";
 import SunTemple from "../../assets/Kohinur.webp";
 
-// ======================================================
-// ODISHA DESTINATIONS
-// ======================================================
-
-const odishaDestinations = [
+// Default Fallbacks if backend is booting/empty
+const defaultOdishaDestinations = [
   "Puri",
   "Bhubaneswar",
   "Konark",
@@ -36,13 +34,7 @@ const odishaDestinations = [
   "Gopalpur",
   "Cuttack",
   "Daringbadi",
-  "Sambalpur",
-  "Simlipal National Park",
 ];
-
-// ======================================================
-// HERO SLIDES
-// ======================================================
 
 const sliderImages = [
   {
@@ -51,7 +43,7 @@ const sliderImages = [
     eyebrow: "Sacred & Timeless",
     title: "Seek Blessings at\nShree Jagannath Dham.",
     subtitle:
-      "Step into the divine energy of one of India's holiest shrines. Witness centuries-old rituals, the majestic Ratna Singhasana, and the golden shores of Puri — a journey that touches both soul and spirit.",
+      "Step into the divine energy of one of India's holiest shrines. Witness centuries-old rituals, the majestic Ratna Singhasana, and the golden shores of Puri.",
     position: "center 20%",
   },
   {
@@ -60,7 +52,7 @@ const sliderImages = [
     eyebrow: "Wildlife & Nature",
     title: "Discover the\nWild Side of Odisha.",
     subtitle:
-      "Explore Odisha's famous wildlife, beautiful landscapes and unforgettable family experiences with comfortable journeys planned around you.",
+      "Explore Odisha's famous wildlife, beautiful landscapes and unforgettable family experiences.",
     position: "center center",
   },
   {
@@ -69,7 +61,7 @@ const sliderImages = [
     eyebrow: "Nature Escape",
     title: "Where Nature Meets\nSacred Serenity.",
     subtitle:
-      "Discover the peaceful beauty of Chilika Lake, Kalijai Temple and the spectacular landscapes that make Odisha truly special.",
+      "Discover the peaceful beauty of Chilika Lake and Kalijai Temple.",
     position: "center center",
   },
   {
@@ -78,7 +70,7 @@ const sliderImages = [
     eyebrow: "History & Heritage",
     title: "Walk Through\nOdisha's Living History.",
     subtitle:
-      "From ancient heritage to peaceful Buddhist landmarks, discover the stories, culture and architecture that shaped Odisha.",
+      "From ancient heritage to peaceful landmarks, discover the culture that shaped Odisha.",
     position: "center 30%",
   },
   {
@@ -87,16 +79,12 @@ const sliderImages = [
     eyebrow: "UNESCO World Heritage Site",
     title: "The Sun Temple —\nA Marvel Carved in Stone.",
     subtitle:
-      "Marvel at the 13th-century Sun Temple, shaped like a colossal chariot with twenty-four intricately carved wheels. A masterpiece of Odisha's stone architecture, standing timeless against the Bay of Bengal.",
+      "Marvel at the 13th-century Sun Temple, shaped like a colossal chariot with twenty-four intricately carved wheels.",
     position: "center 15%",
   },
 ];
 
-// ======================================================
-// CUSTOM DROPDOWN
-// ======================================================
-
-const CustomDropdown = ({ label, value, options, onChange, icon: Icon }) => {
+const CustomDropdown = ({ label, value, options = [], onChange, icon: Icon }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -106,19 +94,13 @@ const CustomDropdown = ({ label, value, options, onChange, icon: Icon }) => {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
   return (
     <div
-      className={`hero-section__field ${
-        isOpen ? "hero-section__field--active" : ""
-      }`}
+      className={`hero-section__field ${isOpen ? "hero-section__field--active" : ""}`}
       ref={dropdownRef}
     >
       <div className="hero-section__field-icon">
@@ -130,10 +112,8 @@ const CustomDropdown = ({ label, value, options, onChange, icon: Icon }) => {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <span className="hero-section__field-label">{label}</span>
-
         <div className="hero-section__custom-trigger">
-          <span className="hero-section__selected-val">{value}</span>
-
+          <span className="hero-section__selected-val">{value || "Select"}</span>
           <ChevronDown
             size={17}
             className={`hero-section__field-caret ${
@@ -158,7 +138,6 @@ const CustomDropdown = ({ label, value, options, onChange, icon: Icon }) => {
                 }}
               >
                 <span>{option}</span>
-
                 {option === value && (
                   <Check size={16} className="hero-section__check-icon" />
                 )}
@@ -171,48 +150,133 @@ const CustomDropdown = ({ label, value, options, onChange, icon: Icon }) => {
   );
 };
 
-// ======================================================
-// HERO COMPONENT
-// ======================================================
-
 const HeroSection = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tour");
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // TOUR
-  const [tourDest, setTourDest] = useState("Puri");
-  const [tourType, setTourType] = useState("Family Tour");
-  const [tourDay, setTourDay] = useState("Monday");
-  const [tourCategory, setTourCategory] = useState("Economy");
+  // Backend Data States
+  const [backendTours, setBackendTours] = useState([]);
+  const [backendHotels, setBackendHotels] = useState([]);
 
-  // HOTEL
-  const [hotelLocation, setHotelLocation] = useState("Bhubaneswar");
-  const [hotelDates, setHotelDates] = useState("Sep 4 - Sep 7");
+  // TOUR Form State
+  const [tourDest, setTourDest] = useState("");
+  const [tourType, setTourType] = useState("All");
+  const [tourDay, setTourDay] = useState("Anyday");
+  const [tourCategory, setTourCategory] = useState("All");
+
+  // HOTEL Form State
+  const [hotelLocation, setHotelLocation] = useState("");
+  const [hotelDates, setHotelDates] = useState("Flexible Dates");
   const [rooms, setRooms] = useState(1);
-  const [guests, setGuests] = useState("1 Adults, 0 Child");
+  const [guests, setGuests] = useState("2 Adults, 0 Child");
 
-  // TRANSPORT
-  const [fromLoc, setFromLoc] = useState("Bhubaneswar");
-  const [toLoc, setToLoc] = useState("Puri");
-  const [departDate, setDepartDate] = useState("Sep 4 - Sep 4");
-  const [returnDate, setReturnDate] = useState("Sep 5 - Sep 5");
+  // Fetch backend tours and hotels to build dynamic dropdowns
+  useEffect(() => {
+    const fetchDropdownData = async () => {
+      try {
+        const [tourRes, hotelRes] = await Promise.allSettled([
+          API.get("/tours"),
+          API.get("/hotels"),
+        ]);
 
+        if (tourRes.status === "fulfilled" && tourRes.value.data) {
+          const list = tourRes.value.data.data || tourRes.value.data || [];
+          setBackendTours(Array.isArray(list) ? list : []);
+        }
+
+        if (hotelRes.status === "fulfilled" && hotelRes.value.data) {
+          const list = hotelRes.value.data.data || hotelRes.value.data || [];
+          setBackendHotels(Array.isArray(list) ? list : []);
+        }
+      } catch (err) {
+        console.error("Error fetching hero dropdown data:", err);
+      }
+    };
+
+    fetchDropdownData();
+  }, []);
+
+  // Compute Dynamic Options for Tours
+  const dynamicTourDestinations = useMemo(() => {
+    const unique = Array.from(
+      new Set(backendTours.map((t) => t.destination).filter(Boolean))
+    );
+    return unique.length > 0 ? unique : defaultOdishaDestinations;
+  }, [backendTours]);
+
+  const dynamicTourTypes = useMemo(() => {
+    const unique = Array.from(
+      new Set(backendTours.map((t) => t.tourType || t.type).filter(Boolean))
+    );
+    return [
+      "All",
+      ...(unique.length > 0
+        ? unique
+        : ["Family Tour", "Adventure Tour", "Spiritual Tour", "Heritage Tour"]),
+    ];
+  }, [backendTours]);
+
+  const dynamicTourCategories = useMemo(() => {
+    const unique = Array.from(
+      new Set(backendTours.map((t) => t.category).filter(Boolean))
+    );
+    return [
+      "All",
+      ...(unique.length > 0
+        ? unique
+        : ["Economy", "Standard", "Luxury", "Premium"]),
+    ];
+  }, [backendTours]);
+
+  // Compute Dynamic Options for Hotels
+  const dynamicHotelCities = useMemo(() => {
+    const unique = Array.from(
+      new Set(backendHotels.map((h) => h.city?.trim()).filter(Boolean))
+    );
+    return unique.length > 0 ? unique : defaultOdishaDestinations;
+  }, [backendHotels]);
+
+  // Set initial selected values once data loads
+  useEffect(() => {
+    if (!tourDest && dynamicTourDestinations.length > 0) {
+      setTourDest(dynamicTourDestinations[0]);
+    }
+  }, [dynamicTourDestinations, tourDest]);
+
+  useEffect(() => {
+    if (!hotelLocation && dynamicHotelCities.length > 0) {
+      setHotelLocation(dynamicHotelCities[0]);
+    }
+  }, [dynamicHotelCities, hotelLocation]);
+
+  // Slider Autoplay
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
     }, 6500);
-
     return () => clearInterval(timer);
   }, []);
 
-  const handlePrev = () => {
-    setCurrentSlide((prev) =>
-      prev === 0 ? sliderImages.length - 1 : prev - 1
-    );
+  // Handle Searches & Navigation with Query Params
+  const handleTourSearch = () => {
+    const params = new URLSearchParams();
+    if (tourDest && tourDest !== "All") params.set("location", tourDest);
+    if (tourType && tourType !== "All") params.set("tourType", tourType);
+    if (tourCategory && tourCategory !== "All") params.set("category", tourCategory);
+    if (tourDay && tourDay !== "Anyday") params.set("day", tourDay);
+
+    navigate(`/tours?${params.toString()}`);
   };
 
-  const handleNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+  const handleHotelSearch = () => {
+    const params = new URLSearchParams();
+    if (hotelLocation && hotelLocation !== "All") params.set("search", hotelLocation);
+    if (rooms) params.set("rooms", rooms);
+    if (guests) params.set("guests", guests);
+    if (hotelDates && hotelDates !== "Flexible Dates") params.set("dates", hotelDates);
+
+    navigate(`/hotels?${params.toString()}`);
   };
 
   const currentContent = sliderImages[currentSlide];
@@ -220,7 +284,6 @@ const HeroSection = () => {
   return (
     <section className="hero-section">
       <div className="hero-section__wrapper">
-        {/* BACKGROUND IMAGES */}
         <div className="hero-section__slides">
           {sliderImages.map((slide, index) => (
             <div
@@ -236,22 +299,23 @@ const HeroSection = () => {
           ))}
         </div>
 
-        {/* 4K PREMIUM ENHANCED OVERLAYS */}
         <div className="hero-section__overlay" />
         <div className="hero-section__image-vignette" />
         <div className="hero-section__film-grain" />
 
-        {/* TOP MINI BRAND */}
         <div className="hero-section__top-badge">
           <Sparkles size={14} />
           <span>Discover Odisha With Us</span>
         </div>
 
-        {/* SLIDER ARROWS */}
         <button
           type="button"
           className="hero-section__arrow hero-section__arrow--left"
-          onClick={handlePrev}
+          onClick={() =>
+            setCurrentSlide((prev) =>
+              prev === 0 ? sliderImages.length - 1 : prev - 1
+            )
+          }
           aria-label="Previous slide"
         >
           <ChevronLeft size={21} />
@@ -260,13 +324,14 @@ const HeroSection = () => {
         <button
           type="button"
           className="hero-section__arrow hero-section__arrow--right"
-          onClick={handleNext}
+          onClick={() =>
+            setCurrentSlide((prev) => (prev + 1) % sliderImages.length)
+          }
           aria-label="Next slide"
         >
           <ChevronRight size={21} />
         </button>
 
-        {/* HERO CONTENT */}
         <div className="hero-section__content" key={currentSlide}>
           <div className="hero-section__tag">
             <MapPin size={15} />
@@ -279,7 +344,6 @@ const HeroSection = () => {
           <p className="hero-section__description">{currentContent.subtitle}</p>
         </div>
 
-        {/* SLIDER DOTS */}
         <div className="hero-section__dots">
           {sliderImages.map((_, index) => (
             <button
@@ -318,17 +382,6 @@ const HeroSection = () => {
               <Building2 size={17} />
               <span>Hotel</span>
             </button>
-
-            <button
-              type="button"
-              className={`hero-section__tab-btn ${
-                activeTab === "transport" ? "hero-section__tab-btn--active" : ""
-              }`}
-              onClick={() => setActiveTab("transport")}
-            >
-              <Car size={17} />
-              <span>Transport</span>
-            </button>
           </div>
 
           <div className="hero-section__form-card">
@@ -337,32 +390,45 @@ const HeroSection = () => {
                 <CustomDropdown
                   label="Destination"
                   value={tourDest}
-                  options={odishaDestinations}
+                  options={dynamicTourDestinations}
                   onChange={setTourDest}
                   icon={MapPin}
                 />
                 <CustomDropdown
                   label="Tour Type"
                   value={tourType}
-                  options={["Family Tour", "Adventure Tour", "Spiritual Tour", "Heritage Tour"]}
+                  options={dynamicTourTypes}
                   onChange={setTourType}
                   icon={Briefcase}
                 />
                 <CustomDropdown
                   label="When"
                   value={tourDay}
-                  options={["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]}
+                  options={[
+                    "Anyday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                  ]}
                   onChange={setTourDay}
                   icon={Calendar}
                 />
                 <CustomDropdown
                   label="Tour Category"
                   value={tourCategory}
-                  options={["Economy", "Standard", "Luxury", "Premium"]}
+                  options={dynamicTourCategories}
                   onChange={setTourCategory}
                   icon={Sparkles}
                 />
-                <button type="button" className="hero-section__search-btn">
+                <button
+                  type="button"
+                  className="hero-section__search-btn"
+                  onClick={handleTourSearch}
+                >
                   <span>Search</span>
                   <ArrowRight size={17} />
                 </button>
@@ -374,14 +440,19 @@ const HeroSection = () => {
                 <CustomDropdown
                   label="Location"
                   value={hotelLocation}
-                  options={odishaDestinations}
+                  options={dynamicHotelCities}
                   onChange={setHotelLocation}
                   icon={MapPin}
                 />
                 <CustomDropdown
                   label="Check in - Check out"
                   value={hotelDates}
-                  options={["Sep 4 - Sep 4", "Sep 4 - Sep 7", "Sep 8 - Sep 12", "Sep 15 - Sep 20"]}
+                  options={[
+                    "Flexible Dates",
+                    "This Weekend",
+                    "Next Weekend",
+                    "Next 30 Days",
+                  ]}
                   onChange={setHotelDates}
                   icon={Calendar}
                 />
@@ -403,55 +474,33 @@ const HeroSection = () => {
                     />
                   </div>
                   <div className="hero-section__spinner-arrows">
-                    <ChevronUp size={14} onClick={() => setRooms((prev) => Math.min(10, prev + 1))} />
-                    <ChevronDown size={14} onClick={() => setRooms((prev) => Math.max(1, prev - 1))} />
+                    <ChevronUp
+                      size={14}
+                      onClick={() => setRooms((prev) => Math.min(10, prev + 1))}
+                    />
+                    <ChevronDown
+                      size={14}
+                      onClick={() => setRooms((prev) => Math.max(1, prev - 1))}
+                    />
                   </div>
                 </div>
                 <CustomDropdown
                   label="Guests"
                   value={guests}
-                  options={["1 Adults, 0 Child", "2 Adults, 0 Child", "2 Adults, 1 Child", "3 Adults, 2 Child"]}
+                  options={[
+                    "1 Adults, 0 Child",
+                    "2 Adults, 0 Child",
+                    "2 Adults, 1 Child",
+                    "3 Adults, 2 Child",
+                  ]}
                   onChange={setGuests}
                   icon={Users}
                 />
-                <button type="button" className="hero-section__search-btn">
-                  <span>Search</span>
-                  <ArrowRight size={17} />
-                </button>
-              </div>
-            )}
-
-            {activeTab === "transport" && (
-              <div className="hero-section__form-grid hero-section__form-grid--transport">
-                <CustomDropdown
-                  label="From"
-                  value={fromLoc}
-                  options={odishaDestinations}
-                  onChange={setFromLoc}
-                  icon={MapPin}
-                />
-                <CustomDropdown
-                  label="To"
-                  value={toLoc}
-                  options={odishaDestinations}
-                  onChange={setToLoc}
-                  icon={MapPin}
-                />
-                <CustomDropdown
-                  label="Journey date"
-                  value={departDate}
-                  options={["Sep 4 - Sep 4", "Sep 5 - Sep 5", "Sep 10 - Sep 10"]}
-                  onChange={setDepartDate}
-                  icon={Calendar}
-                />
-                <CustomDropdown
-                  label="Return date"
-                  value={returnDate}
-                  options={["Sep 4 - Sep 4", "Sep 6 - Sep 6", "Sep 12 - Sep 12"]}
-                  onChange={setReturnDate}
-                  icon={Calendar}
-                />
-                <button type="button" className="hero-section__search-btn">
+                <button
+                  type="button"
+                  className="hero-section__search-btn"
+                  onClick={handleHotelSearch}
+                >
                   <span>Search</span>
                   <ArrowRight size={17} />
                 </button>

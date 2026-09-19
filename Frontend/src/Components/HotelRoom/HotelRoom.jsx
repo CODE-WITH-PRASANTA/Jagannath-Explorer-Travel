@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './HotelRoom.css';
 import API, { IMG_URL } from '../../api/axios';
 
@@ -7,7 +7,6 @@ import API, { IMG_URL } from '../../api/axios';
 import {
   FaSearch,
   FaStar,
-  FaStarHalfAlt,
   FaMapMarkerAlt,
   FaArrowRight,
   FaChevronLeft,
@@ -15,10 +14,12 @@ import {
   FaCheck,
   FaTimes,
   FaUndo,
-  FaFilter
+  FaFilter,
+  FaBed,
+  FaUserFriends
 } from 'react-icons/fa';
 
-// Import fallback images from src/assets/
+// Fallback images from assets
 import room1_1 from '../../assets/bed1.webp';
 import room1_2 from '../../assets/bed5.webp';
 import room1_3 from '../../assets/bed2.webp';
@@ -58,24 +59,46 @@ const RATING_TIERS = [
 
 const HotelRoom = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeImageIndexes, setActiveImageIndexes] = useState({});
 
-  // Real Filter States
-  const [searchQuery, setSearchQuery] = useState('');
+  // Query Params Initialization
+  const urlSearch = searchParams.get('search') || searchParams.get('location') || '';
+  const urlCity = searchParams.get('city') || '';
+  const urlRooms = searchParams.get('rooms') || '';
+  const urlGuests = searchParams.get('guests') || '';
+
+  // Filter States
+  const [searchQuery, setSearchQuery] = useState(urlSearch);
+  const [selectedCities, setSelectedCities] = useState(urlCity ? [urlCity] : []);
   const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
-  const [selectedCities, setSelectedCities] = useState([]);
   const [popularFilterKeys, setPopularFilterKeys] = useState([]);
+  const [minRoomsRequired, setMinRoomsRequired] = useState(urlRooms ? Number(urlRooms) : 0);
 
-  // Fetch hotels from backend using .env API configuration
+  // Sync state if URL changes dynamically
+  useEffect(() => {
+    const activeSearch = searchParams.get('search') || searchParams.get('location') || '';
+    const activeCity = searchParams.get('city');
+    const activeRooms = searchParams.get('rooms');
+
+    if (activeSearch) setSearchQuery(activeSearch);
+    if (activeCity) setSelectedCities([activeCity]);
+    if (activeRooms) setMinRoomsRequired(Number(activeRooms));
+  }, [searchParams]);
+
+  // Fetch hotels from backend
   useEffect(() => {
     const fetchHotels = async () => {
       try {
+        setLoading(true);
         const response = await API.get('/hotels');
-        const data = response.data.data || response.data || [];
+        const data = response.data?.data || response.data || [];
+
         if (Array.isArray(data) && data.length > 0) {
           const formatted = data.map((hotel, index) => {
             let hotelImgs = [];
@@ -89,55 +112,57 @@ const HotelRoom = () => {
               hotelImgs = [room1_1, room1_2, room1_3];
             }
 
-            const landmarkClean = (hotel.landmark || "").trim();
+            const landmarkClean = (hotel.landmark || '').trim();
             const distanceText = landmarkClean
               ? (/^near/i.test(landmarkClean) ? landmarkClean : `Near ${landmarkClean}`)
-              : "City Center";
+              : 'City Center';
 
-            // Parse amenities
+            // Normalize amenities
             let parsedAmenities = [];
             if (hotel.amenities) {
               if (Array.isArray(hotel.amenities)) {
-                parsedAmenities = hotel.amenities.map(a => String(a).trim()).filter(Boolean);
+                parsedAmenities = hotel.amenities.map((a) => String(a).trim()).filter(Boolean);
               } else if (typeof hotel.amenities === 'string') {
                 parsedAmenities = hotel.amenities.split(',').map((a) => a.trim()).filter(Boolean);
               }
             }
 
-            const hasBreakfast = parsedAmenities.some(a => /breakfast/i.test(a));
+            const hasBreakfast = parsedAmenities.some((a) => /breakfast/i.test(a));
             const rawPrice = Number(hotel.price || 0);
             const ratingNum = Math.max(1, Math.min(5, Number(hotel.starRating) || 5));
+            const totalRoomsNum = parseInt(hotel.rooms, 10) || 0;
 
             return {
               id: hotel._id || hotel.id || index + 1,
-              name: hotel.name,
-              city: (hotel.city || "").trim(),
-              address: hotel.address || "",
-              landmark: hotel.landmark || "",
+              name: hotel.name || 'Premium Hotel',
+              city: (hotel.city || '').trim(),
+              address: hotel.address || '',
+              landmark: hotel.landmark || '',
               location: `${hotel.city || ''}${hotel.address ? `, ${hotel.address}` : ''}`,
               distance: distanceText,
               starRating: ratingNum,
               reviewsCount: `${ratingNum}.0 reviews`,
-              badge: hasBreakfast ? "Breakfast Included" : "",
-              shortDesc: hotel.shortDesc || "",
-              checkIn: hotel.checkIn || "14:00",
-              checkOut: hotel.checkOut || "11:00",
-              rooms: hotel.rooms || "",
+              badge: hasBreakfast ? 'Breakfast Included' : '',
+              shortDesc: hotel.shortDesc || '',
+              checkIn: hotel.checkIn || '14:00',
+              checkOut: hotel.checkOut || '11:00',
+              rooms: totalRoomsNum,
               amenities: parsedAmenities,
               rawPrice: rawPrice,
               price: rawPrice.toLocaleString('en-IN'),
               originalPrice: Math.round(rawPrice * 1.15).toLocaleString('en-IN'),
               images: hotelImgs,
-              status: hotel.status || "Active"
+              status: hotel.status || 'Active'
             };
           });
+
           setHotels(formatted);
           setActiveImageIndexes(
             formatted.reduce((acc, hotel) => ({ ...acc, [hotel.id]: 0 }), {})
           );
         }
       } catch (error) {
-        console.error("Error fetching hotels from backend API:", error);
+        console.error('Error fetching hotels from backend API:', error);
       } finally {
         setLoading(false);
       }
@@ -149,7 +174,6 @@ const HotelRoom = () => {
   // Touch Swipe States
   const [touchStartX, setTouchStartX] = useState(null);
 
-  // Mouse hover behavior for Desktop
   const handleMouseMove = (e, hotelId) => {
     if (window.innerWidth <= 992) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -166,7 +190,6 @@ const HotelRoom = () => {
     setActiveImageIndexes((prev) => ({ ...prev, [hotelId]: index }));
   };
 
-  // Next / Previous controls for Mobile & Desktop click
   const handlePrevImage = (e, hotelId, totalImages) => {
     e.stopPropagation();
     setActiveImageIndexes((prev) => {
@@ -183,7 +206,6 @@ const HotelRoom = () => {
     });
   };
 
-  // Mobile Touch Swipe Handlers
   const handleTouchStart = (e) => {
     setTouchStartX(e.touches[0].clientX);
   };
@@ -203,7 +225,7 @@ const HotelRoom = () => {
     setTouchStartX(null);
   };
 
-  // Dynamic Available Amenities & Cities with Counts
+  // Dynamic Amenities & Cities options
   const availableAmenities = useMemo(() => {
     const map = new Map();
     hotels.forEach((h) => {
@@ -235,7 +257,6 @@ const HotelRoom = () => {
     return Array.from(map.values()).sort((a, b) => b.count - a.count);
   }, [hotels]);
 
-  // Real Popular Filters List calculated from backend hotels
   const popularFilterOptions = useMemo(() => {
     const freeWifiCount = hotels.filter((h) =>
       (h.amenities || []).some((a) => /wifi/i.test(a))
@@ -255,7 +276,7 @@ const HotelRoom = () => {
 
     const options = [
       { id: 'free_wifi', label: 'Free High-Speed Wifi', count: freeWifiCount },
-      { id: 'air_condition', label: 'Air Conditioned Rooms', count: acCount },
+      { id: 'air_condition', label: 'Air Conditioned Rooms', count: acCount }
     ];
 
     if (poolCount > 0) {
@@ -268,7 +289,7 @@ const HotelRoom = () => {
     return options.filter((opt) => opt.count > 0);
   }, [hotels]);
 
-  // Toggle Handlers
+  // Filter Toggle Handlers
   const togglePriceRange = (rangeId) => {
     setSelectedPriceRanges((prev) =>
       prev.includes(rangeId) ? prev.filter((id) => id !== rangeId) : [...prev, rangeId]
@@ -301,7 +322,6 @@ const HotelRoom = () => {
     );
   };
 
-  // Reset All Filters
   const resetAllFilters = () => {
     setSearchQuery('');
     setSelectedPriceRanges([]);
@@ -309,6 +329,8 @@ const HotelRoom = () => {
     setSelectedAmenities([]);
     setSelectedCities([]);
     setPopularFilterKeys([]);
+    setMinRoomsRequired(0);
+    setSearchParams({});
   };
 
   const activeFiltersCount =
@@ -317,12 +339,13 @@ const HotelRoom = () => {
     selectedRatings.length +
     selectedAmenities.length +
     selectedCities.length +
-    popularFilterKeys.length;
+    popularFilterKeys.length +
+    (minRoomsRequired > 0 ? 1 : 0);
 
-  // Filter hotels based on all real active criteria
+  // Filter Execution
   const displayedHotels = useMemo(() => {
     return hotels.filter((hotel) => {
-      // 1. Search Query
+      // 1. Destination Search query (name, city, address, or landmark)
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const matchName = hotel.name?.toLowerCase().includes(q);
@@ -334,7 +357,14 @@ const HotelRoom = () => {
         }
       }
 
-      // 2. Price Range Filter
+      // 2. Minimum rooms filter
+      if (minRoomsRequired > 0 && hotel.rooms > 0) {
+        if (hotel.rooms < minRoomsRequired) {
+          return false;
+        }
+      }
+
+      // 3. Price Range Filter
       if (selectedPriceRanges.length > 0) {
         const matchAnyRange = selectedPriceRanges.some((rangeId) => {
           const tier = PRICE_TIERS.find((t) => t.id === rangeId);
@@ -343,7 +373,7 @@ const HotelRoom = () => {
         if (!matchAnyRange) return false;
       }
 
-      // 3. Star Rating Filter
+      // 4. Star Rating Filter
       if (selectedRatings.length > 0) {
         const matchRating = selectedRatings.some((rId) => {
           const tier = RATING_TIERS.find((t) => t.id === rId);
@@ -352,7 +382,7 @@ const HotelRoom = () => {
         if (!matchRating) return false;
       }
 
-      // 4. Amenities Filter (Hotel must have all selected amenities)
+      // 5. Amenities Filter
       if (selectedAmenities.length > 0) {
         const hotelAmenitiesLower = (hotel.amenities || []).map((a) => a.toLowerCase());
         const hasAllSelected = selectedAmenities.every((selAmenity) =>
@@ -361,14 +391,14 @@ const HotelRoom = () => {
         if (!hasAllSelected) return false;
       }
 
-      // 5. City Filter
+      // 6. City Filter
       if (selectedCities.length > 0) {
         const hotelCity = (hotel.city || '').toLowerCase();
         const matchCity = selectedCities.some((c) => c.toLowerCase() === hotelCity);
         if (!matchCity) return false;
       }
 
-      // 6. Popular Filter Keys
+      // 7. Popular Filter Keys
       if (popularFilterKeys.length > 0) {
         if (popularFilterKeys.includes('free_wifi')) {
           const hasWifi = (hotel.amenities || []).some((a) => /wifi/i.test(a));
@@ -397,22 +427,22 @@ const HotelRoom = () => {
     selectedRatings,
     selectedAmenities,
     selectedCities,
-    popularFilterKeys
+    popularFilterKeys,
+    minRoomsRequired
   ]);
 
-  // Structured SEO Schema Markup
   const schemaMarkup = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "name": "Jagannatha Tour and Travels - Premium Hotel Rooms",
-    "itemListElement": displayedHotels.map((hotel, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "item": {
-        "@type": "Hotel",
-        "name": hotel.name,
-        "address": hotel.location,
-        "priceRange": `₹${hotel.price}`
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Jagannatha Tour and Travels - Premium Hotel Rooms',
+    itemListElement: displayedHotels.map((hotel, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Hotel',
+        name: hotel.name,
+        address: hotel.location,
+        priceRange: `₹${hotel.price}`
       }
     }))
   };
@@ -425,16 +455,16 @@ const HotelRoom = () => {
       />
 
       <div className="HotelRoom-container">
-        
         {/* Left Sidebar Filters */}
         <aside className="HotelRoom-sidebar">
-
-          {/* Active Filters / Reset Header */}
+          {/* Active Filters Header */}
           {activeFiltersCount > 0 && (
             <div className="HotelRoom-activeFiltersBox">
               <div className="HotelRoom-activeFiltersInfo">
                 <FaFilter className="HotelRoom-filterActiveIcon" />
-                <span>{activeFiltersCount} filter{activeFiltersCount > 1 ? 's' : ''} active</span>
+                <span>
+                  {activeFiltersCount} filter{activeFiltersCount > 1 ? 's' : ''} active
+                </span>
               </div>
               <button
                 className="HotelRoom-clearAllBtn"
@@ -446,7 +476,28 @@ const HotelRoom = () => {
             </div>
           )}
 
-          {/* Search Box */}
+          {/* Hero Context Summary */}
+          {(urlGuests || minRoomsRequired > 0) && (
+            <div className="HotelRoom-filterCard" style={{ background: '#f8fafc' }}>
+              <h3 className="HotelRoom-filterTitle" style={{ marginBottom: '8px' }}>
+                Your Booking Details
+              </h3>
+              {minRoomsRequired > 0 && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#475569', marginBottom: '6px' }}>
+                  <FaBed />
+                  <span>Rooms requested: <strong>{minRoomsRequired}</strong></span>
+                </div>
+              )}
+              {urlGuests && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#475569' }}>
+                  <FaUserFriends />
+                  <span>Guests: <strong>{urlGuests}</strong></span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Destination Search Box */}
           <div className="HotelRoom-filterCard">
             <h3 className="HotelRoom-filterTitle">Search Destination</h3>
             <div className="HotelRoom-searchBox">
@@ -474,7 +525,7 @@ const HotelRoom = () => {
             </div>
           </div>
 
-          {/* Real Popular Filters */}
+          {/* Popular Filters */}
           {popularFilterOptions.length > 0 && (
             <div className="HotelRoom-filterCard">
               <h3 className="HotelRoom-filterTitle">Popular Filters</h3>
@@ -496,7 +547,7 @@ const HotelRoom = () => {
             </div>
           )}
 
-          {/* Real Price Range Filter */}
+          {/* Price Range Filter */}
           <div className="HotelRoom-filterCard">
             <h3 className="HotelRoom-filterTitle">Price Per Night</h3>
             <ul className="HotelRoom-filterList">
@@ -519,7 +570,7 @@ const HotelRoom = () => {
             </ul>
           </div>
 
-          {/* Real Star Rating Filter */}
+          {/* Star Rating Filter */}
           <div className="HotelRoom-filterCard">
             <h3 className="HotelRoom-filterTitle">Star Rating</h3>
             <ul className="HotelRoom-filterList">
@@ -549,7 +600,7 @@ const HotelRoom = () => {
             </ul>
           </div>
 
-          {/* Real Destinations / Cities */}
+          {/* City / Destination Filter */}
           {availableCities.length > 0 && (
             <div className="HotelRoom-filterCard">
               <h3 className="HotelRoom-filterTitle">City / Destination</h3>
@@ -571,7 +622,7 @@ const HotelRoom = () => {
             </div>
           )}
 
-          {/* Real Dynamic Amenities Filter */}
+          {/* Amenities Filter */}
           {availableAmenities.length > 0 && (
             <div className="HotelRoom-filterCard">
               <h3 className="HotelRoom-filterTitle">Amenities</h3>
@@ -592,19 +643,18 @@ const HotelRoom = () => {
               </ul>
             </div>
           )}
-
         </aside>
 
-        {/* Main Hotel Cards List */}
+        {/* Main Hotel Cards Display */}
         <main className="HotelRoom-main">
           {loading ? (
-            <div style={{ textAlign: "center", padding: "60px 20px", color: "#666", gridColumn: "1 / -1" }}>
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: '#666', gridColumn: '1 / -1' }}>
               <h3>Loading hotels...</h3>
             </div>
           ) : displayedHotels.length === 0 ? (
             <div className="HotelRoom-emptyState">
               <h3>No hotels match your filters</h3>
-              <p>Try adjusting your search query, price range, star rating, or amenities.</p>
+              <p>Try adjusting your search query, price range, star rating, or destination.</p>
               {activeFiltersCount > 0 && (
                 <button className="HotelRoom-resetBtnLarge" onClick={resetAllFilters}>
                   <FaUndo /> Reset All Filters
@@ -615,11 +665,12 @@ const HotelRoom = () => {
             displayedHotels.map((hotel) => {
               const currentImgIndex = activeImageIndexes[hotel.id] || 0;
               const totalImages = hotel.images ? hotel.images.length : 1;
-              const currentImage = hotel.images && hotel.images.length > 0
-                ? hotel.images[currentImgIndex % totalImages]
-                : room1_1;
+              const currentImage =
+                hotel.images && hotel.images.length > 0
+                  ? hotel.images[currentImgIndex % totalImages]
+                  : room1_1;
 
-              const hotelSlug = (hotel.name || "")
+              const hotelSlug = (hotel.name || '')
                 .toLowerCase()
                 .trim()
                 .replace(/[^a-z0-9\s-]/g, '')
@@ -628,160 +679,155 @@ const HotelRoom = () => {
 
               return (
                 <article className="HotelRoom-card" key={hotel.id}>
-                
-                {/* Image & Mobile Touch/Swipe Container */}
-                <div
-                  className="HotelRoom-imageWrapper"
-                  onMouseMove={(e) => handleMouseMove(e, hotel.id)}
-                  onTouchStart={handleTouchStart}
-                  onTouchEnd={(e) => handleTouchEnd(e, hotel.id, totalImages)}
-                >
-                  {hotel.badge && (
-                    <span className="HotelRoom-tagBadge">{hotel.badge}</span>
-                  )}
-                  
-                  <img
-                    src={currentImage}
-                    alt={`${hotel.name} - Jagannatha Tour and Travels`}
-                    className="HotelRoom-img"
-                  />
-
-                  {/* Navigation Arrows for Mobile & Touch */}
-                  <button
-                    className="HotelRoom-navBtn HotelRoom-navBtnPrev"
-                    onClick={(e) => handlePrevImage(e, hotel.id, totalImages)}
-                    aria-label="Previous image"
+                  {/* Image Carousel & Touch Handlers */}
+                  <div
+                    className="HotelRoom-imageWrapper"
+                    onMouseMove={(e) => handleMouseMove(e, hotel.id)}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={(e) => handleTouchEnd(e, hotel.id, totalImages)}
                   >
-                    <FaChevronLeft />
-                  </button>
+                    {hotel.badge && (
+                      <span className="HotelRoom-tagBadge">{hotel.badge}</span>
+                    )}
 
-                  <button
-                    className="HotelRoom-navBtn HotelRoom-navBtnNext"
-                    onClick={(e) => handleNextImage(e, hotel.id, totalImages)}
-                    aria-label="Next image"
-                  >
-                    <FaChevronRight />
-                  </button>
+                    <img
+                      src={currentImage}
+                      alt={`${hotel.name} - Jagannatha Tour and Travels`}
+                      className="HotelRoom-img"
+                    />
 
-                  {/* Touch-Friendly Pagination Indicators */}
-                  <div className="HotelRoom-dotsOverlay">
-                    {hotel.images && hotel.images.map((_, dotIndex) => (
-                      <button
-                        key={dotIndex}
-                        className={`HotelRoom-dot ${
-                          currentImgIndex === dotIndex ? 'HotelRoom-dotActive' : ''
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveImageIndexes((prev) => ({
-                            ...prev,
-                            [hotel.id]: dotIndex
-                          }));
-                        }}
-                        aria-label={`Slide ${dotIndex + 1}`}
-                      >
-                        <span className="HotelRoom-dotInner" />
-                      </button>
-                    ))}
-                  </div>
+                    <button
+                      type="button"
+                      className="HotelRoom-navBtn HotelRoom-navBtnPrev"
+                      onClick={(e) => handlePrevImage(e, hotel.id, totalImages)}
+                      aria-label="Previous image"
+                    >
+                      <FaChevronLeft />
+                    </button>
 
-                  {/* Mobile Image Counter Badge */}
-                  <span className="HotelRoom-imageCounter">
-                    {currentImgIndex + 1}/{totalImages}
-                  </span>
-                </div>
+                    <button
+                      type="button"
+                      className="HotelRoom-navBtn HotelRoom-navBtnNext"
+                      onClick={(e) => handleNextImage(e, hotel.id, totalImages)}
+                      aria-label="Next image"
+                    >
+                      <FaChevronRight />
+                    </button>
 
-                {/* Hotel Content */}
-                <div className="HotelRoom-content">
-                  <div className="HotelRoom-ratingRow">
-                    <div className="HotelRoom-stars" aria-label={`${hotel.starRating} star hotel`}>
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <FaStar
-                          key={s}
-                          className={s <= hotel.starRating ? "HotelRoom-starYellow" : "HotelRoom-starEmpty"}
-                        />
-                      ))}
+                    <div className="HotelRoom-dotsOverlay">
+                      {hotel.images &&
+                        hotel.images.map((_, dotIndex) => (
+                          <button
+                            type="button"
+                            key={dotIndex}
+                            className={`HotelRoom-dot ${
+                              currentImgIndex === dotIndex ? 'HotelRoom-dotActive' : ''
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveImageIndexes((prev) => ({
+                                ...prev,
+                                [hotel.id]: dotIndex
+                              }));
+                            }}
+                            aria-label={`Slide ${dotIndex + 1}`}
+                          >
+                            <span className="HotelRoom-dotInner" />
+                          </button>
+                        ))}
                     </div>
-                    <span className="HotelRoom-reviewText">
-                      {hotel.starRating}.0 ({hotel.starRating} Star Hotel)
+
+                    <span className="HotelRoom-imageCounter">
+                      {currentImgIndex + 1}/{totalImages}
                     </span>
                   </div>
 
-                  <h2
-                    className="HotelRoom-title"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/hotel/${hotelSlug}`, { state: { hotelId: hotel.id } })}
-                  >
-                    {hotel.name}
-                  </h2>
-
-                  <div className="HotelRoom-locationRow">
-                    <FaMapMarkerAlt className="HotelRoom-locationIcon" />
-                    <span className="HotelRoom-locationText">{hotel.location}</span>
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.location)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="HotelRoom-mapLink"
-                    >
-                      Show on map
-                    </a>
-                    <span className="HotelRoom-distanceText">{hotel.distance}</span>
-                  </div>
-
-                  {/* Dynamic Amenities Row */}
-                  {hotel.amenities && hotel.amenities.length > 0 && (
-                    <div className="HotelRoom-amenitiesRow">
-                      {hotel.amenities.map((item, idx) => (
-                        <span key={idx} className="HotelRoom-amenity">
-                          <FaCheck className="HotelRoom-amenityIcon" /> {item}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Real Hotel Short Description */}
-                  {hotel.shortDesc && (
-                    <p className="HotelRoom-shortDesc">
-                      {hotel.shortDesc}
-                    </p>
-                  )}
-
-                  <div className="HotelRoom-footer">
-                    <div className="HotelRoom-roomMeta">
-                      <p className="HotelRoom-stayInfo">
-                        Check-in: <strong>{hotel.checkIn}</strong> | Check-out: <strong>{hotel.checkOut}</strong>
-                      </p>
-                      {hotel.rooms && (
-                        <p className="HotelRoom-roomsCount">
-                          <strong>{hotel.rooms}</strong> Total Rooms Available
-                        </p>
-                      )}
-                      <p className="HotelRoom-cancellation">Free cancellation available</p>
-                    </div>
-
-                    <div className="HotelRoom-priceAction">
-                      <span className="HotelRoom-nightInfo">1 night, 2 adults</span>
-                      <div className="HotelRoom-priceRow">
-                        <span className="HotelRoom-price">₹{hotel.price}</span>
-                        <span className="HotelRoom-originalPrice">₹{hotel.originalPrice}</span>
+                  {/* Details & Card Body */}
+                  <div className="HotelRoom-content">
+                    <div className="HotelRoom-ratingRow">
+                      <div className="HotelRoom-stars" aria-label={`${hotel.starRating} star hotel`}>
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <FaStar
+                            key={s}
+                            className={s <= hotel.starRating ? 'HotelRoom-starYellow' : 'HotelRoom-starEmpty'}
+                          />
+                        ))}
                       </div>
-                      <button
-                        className="HotelRoom-availabilityBtn"
-                        onClick={() => navigate(`/hotel/${hotelSlug}`, { state: { hotelId: hotel.id } })}
+                      <span className="HotelRoom-reviewText">
+                        {hotel.starRating}.0 ({hotel.starRating} Star Hotel)
+                      </span>
+                    </div>
+
+                    <h2
+                      className="HotelRoom-title"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/hotel/${hotelSlug}`, { state: { hotelId: hotel.id } })}
+                    >
+                      {hotel.name}
+                    </h2>
+
+                    <div className="HotelRoom-locationRow">
+                      <FaMapMarkerAlt className="HotelRoom-locationIcon" />
+                      <span className="HotelRoom-locationText">{hotel.location}</span>
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.location)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="HotelRoom-mapLink"
                       >
-                        Check Availability <FaArrowRight className="HotelRoom-arrowIcon" />
-                      </button>
+                        Show on map
+                      </a>
+                      <span className="HotelRoom-distanceText">{hotel.distance}</span>
+                    </div>
+
+                    {hotel.amenities && hotel.amenities.length > 0 && (
+                      <div className="HotelRoom-amenitiesRow">
+                        {hotel.amenities.map((item, idx) => (
+                          <span key={idx} className="HotelRoom-amenity">
+                            <FaCheck className="HotelRoom-amenityIcon" /> {item}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {hotel.shortDesc && (
+                      <p className="HotelRoom-shortDesc">{hotel.shortDesc}</p>
+                    )}
+
+                    <div className="HotelRoom-footer">
+                      <div className="HotelRoom-roomMeta">
+                        <p className="HotelRoom-stayInfo">
+                          Check-in: <strong>{hotel.checkIn}</strong> | Check-out: <strong>{hotel.checkOut}</strong>
+                        </p>
+                        {hotel.rooms > 0 && (
+                          <p className="HotelRoom-roomsCount">
+                            <strong>{hotel.rooms}</strong> Total Rooms Available
+                          </p>
+                        )}
+                        <p className="HotelRoom-cancellation">Free cancellation available</p>
+                      </div>
+
+                      <div className="HotelRoom-priceAction">
+                        <span className="HotelRoom-nightInfo">1 night, 2 adults</span>
+                        <div className="HotelRoom-priceRow">
+                          <span className="HotelRoom-price">₹{hotel.price}</span>
+                          <span className="HotelRoom-originalPrice">₹{hotel.originalPrice}</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="HotelRoom-availabilityBtn"
+                          onClick={() => navigate(`/hotel/${hotelSlug}`, { state: { hotelId: hotel.id } })}
+                        >
+                          Check Availability <FaArrowRight className="HotelRoom-arrowIcon" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-
-                </div>
-              </article>
-            );
-          })
-        )}
-      </main>
-
+                </article>
+              );
+            })
+          )}
+        </main>
       </div>
     </section>
   );
