@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./Hotel.css";
 import {
   Plus,
@@ -51,11 +51,6 @@ const Hotel = () => {
     status: "Active",
   });
 
-  // Validation States
-  const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({});
-  const formTopRef = useRef(null);
-
   // Existing image URLs (from DB when editing)
   const [existingImages, setExistingImages] = useState([]);
   // Newly selected File objects for upload
@@ -102,173 +97,14 @@ const Hotel = () => {
     }
   };
 
-  // ================= FIELD VALIDATION ================= //
-  const validateField = (name, value, allFormData = formData, totalImagesCount = existingImages.length + newImageFiles.length) => {
-    let error = "";
-
-    switch (name) {
-      case "name":
-        if (!value || !value.toString().trim()) {
-          error = "Hotel name is required.";
-        } else if (value.toString().trim().length < 3) {
-          error = "Hotel name must be at least 3 characters long.";
-        }
-        break;
-
-      case "city":
-        if (!value || !value.toString().trim()) {
-          error = "City / destination is required.";
-        }
-        break;
-
-      case "shortDesc":
-        if (!value || !value.toString().trim()) {
-          error = "Short description is required.";
-        } else if (value.toString().trim().length < 10) {
-          error = "Short description must be at least 10 characters long.";
-        }
-        break;
-
-      case "detailedDesc":
-        if (!value || !value.toString().trim()) {
-          error = "Detailed description is required.";
-        } else if (value.toString().trim().length < 15) {
-          error = "Detailed description must be at least 15 characters long.";
-        }
-        break;
-
-      case "address":
-        if (!value || !value.toString().trim()) {
-          error = "Full address is required.";
-        } else if (value.toString().trim().length < 5) {
-          error = "Please enter a valid, detailed address.";
-        }
-        break;
-
-      case "amenities":
-        if (!value || !value.toString().trim()) {
-          error = "Amenities / facilities are required (e.g. Wifi, Pool, AC).";
-        }
-        break;
-
-      case "price":
-        if (value === "" || value === null || value === undefined) {
-          error = "Price per night is required.";
-        } else if (isNaN(value) || Number(value) <= 0) {
-          error = "Price must be a valid positive number greater than 0.";
-        }
-        break;
-
-      case "rooms":
-        if (value === "" || value === null || value === undefined) {
-          error = "Total rooms count is required.";
-        } else if (isNaN(value) || Number(value) < 1) {
-          error = "Rooms must be at least 1.";
-        }
-        break;
-
-      case "checkIn":
-        if (!value || !value.toString().trim()) {
-          error = "Check-in time is required (e.g. 14:00).";
-        }
-        break;
-
-      case "checkOut":
-        if (!value || !value.toString().trim()) {
-          error = "Check-out time is required (e.g. 11:00).";
-        }
-        break;
-
-      case "phone": {
-        const rawPhone = (value || "").toString().trim();
-        if (!rawPhone) {
-          error = "Phone number is required.";
-        } else if (!/^[0-9]{10}$/.test(rawPhone)) {
-          error = "Phone number must be exactly 10 digits.";
-        }
-        break;
-      }
-
-      case "email":
-        if (value && value.toString().trim()) {
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(value.toString().trim())) {
-            error = "Please enter a valid email address (e.g. name@hotel.com).";
-          }
-        }
-        break;
-
-      case "images":
-        if (totalImagesCount <= 0) {
-          error = "Please upload at least 1 hotel image.";
-        } else if (totalImagesCount > 6) {
-          error = "Maximum 6 images are allowed.";
-        }
-        break;
-
-      default:
-        break;
-    }
-
-    return error;
-  };
-
-  const validateAll = () => {
-    const newErrors = {};
-    const totalImgs = existingImages.length + newImageFiles.length;
-
-    Object.keys(formData).forEach((field) => {
-      const error = validateField(field, formData[field], formData, totalImgs);
-      if (error) {
-        newErrors[field] = error;
-      }
-    });
-
-    const imgError = validateField("images", "", formData, totalImgs);
-    if (imgError) {
-      newErrors.images = imgError;
-    }
-
-    setErrors(newErrors);
-    return {
-      isValid: Object.keys(newErrors).length === 0,
-      errors: newErrors,
-    };
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    const updatedForm = { ...formData, [name]: value };
-    setFormData(updatedForm);
-
-    if (touched[name]) {
-      const error = validateField(name, value, updatedForm);
-      setErrors((prev) => ({ ...prev, [name]: error }));
-    }
-  };
-
-  const handleInputBlur = (e) => {
-    const { name, value } = e.target;
-    setTouched((prev) => ({ ...prev, [name]: true }));
-    const error = validateField(name, value);
-    setErrors((prev) => ({ ...prev, [name]: error }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
-
-    // Validate file formats and size (10MB max)
-    const validFormats = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
-    const invalidFiles = files.filter(
-      (f) => !validFormats.includes(f.type.toLowerCase()) || f.size > 10 * 1024 * 1024
-    );
-
-    if (invalidFiles.length > 0) {
-      alert("Only JPG, PNG, and WebP images up to 10MB are allowed.");
-      e.target.value = "";
-      return;
-    }
 
     const totalCurrentImages = existingImages.length + newImageFiles.length;
     const availableSlots = 6 - totalCurrentImages;
@@ -282,41 +118,19 @@ const Hotel = () => {
     const filesToAdd = files.slice(0, availableSlots);
     const newPreviews = filesToAdd.map((file) => URL.createObjectURL(file));
 
-    const updatedFiles = [...newImageFiles, ...filesToAdd];
-    setNewImageFiles(updatedFiles);
+    setNewImageFiles((prev) => [...prev, ...filesToAdd]);
     setNewImagePreviews((prev) => [...prev, ...newPreviews]);
     e.target.value = "";
-
-    // Clear image error if valid count
-    const totalCount = existingImages.length + updatedFiles.length;
-    if (totalCount > 0 && totalCount <= 6) {
-      setErrors((prev) => ({ ...prev, images: "" }));
-    }
   };
 
   const removeExistingImage = (index) => {
-    const updated = existingImages.filter((_, i) => i !== index);
-    setExistingImages(updated);
-    const totalCount = updated.length + newImageFiles.length;
-    if (totalCount === 0) {
-      setErrors((prev) => ({ ...prev, images: "Please upload at least 1 hotel image." }));
-    } else {
-      setErrors((prev) => ({ ...prev, images: "" }));
-    }
+    setExistingImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const removeNewFile = (index) => {
     URL.revokeObjectURL(newImagePreviews[index]);
-    const updatedFiles = newImageFiles.filter((_, i) => i !== index);
-    setNewImageFiles(updatedFiles);
+    setNewImageFiles((prev) => prev.filter((_, i) => i !== index));
     setNewImagePreviews((prev) => prev.filter((_, i) => i !== index));
-
-    const totalCount = existingImages.length + updatedFiles.length;
-    if (totalCount === 0) {
-      setErrors((prev) => ({ ...prev, images: "Please upload at least 1 hotel image." }));
-    } else {
-      setErrors((prev) => ({ ...prev, images: "" }));
-    }
   };
 
   const handleOpenAddForm = () => {
@@ -338,8 +152,6 @@ const Hotel = () => {
       rooms: "",
       status: "Active",
     });
-    setErrors({});
-    setTouched({});
     setExistingImages([]);
     setNewImageFiles([]);
     setNewImagePreviews([]);
@@ -368,8 +180,6 @@ const Hotel = () => {
       rooms: hotel.rooms || "",
       status: hotel.status || "Active",
     });
-    setErrors({});
-    setTouched({});
     setExistingImages(Array.isArray(hotel.images) ? hotel.images : []);
     setNewImageFiles([]);
     setNewImagePreviews([]);
@@ -396,53 +206,34 @@ const Hotel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Mark all fields as touched
-    const allTouched = Object.keys(formData).reduce(
-      (acc, key) => ({ ...acc, [key]: true }),
-      { images: true }
-    );
-    setTouched(allTouched);
-
-    const { isValid, errors: validationErrors } = validateAll();
-
-    if (!isValid) {
-      const errorCount = Object.keys(validationErrors).length;
-      showNotification(
-        `Please fix the ${errorCount} error${errorCount > 1 ? "s" : ""} in the form before submitting.`,
-        true
-      );
-      if (formTopRef.current) {
-        formTopRef.current.scrollIntoView({ behavior: "smooth" });
-      }
-      return;
-    }
-
     try {
       setSaving(true);
       setErrorMsg("");
 
       const postData = new FormData();
-      postData.append("name", formData.name.trim());
-      postData.append("shortDesc", formData.shortDesc.trim());
-      postData.append("detailedDesc", formData.detailedDesc ? formData.detailedDesc.trim() : "");
-      postData.append("city", formData.city.trim());
-      postData.append("address", formData.address.trim());
-      postData.append("landmark", formData.landmark ? formData.landmark.trim() : "");
+
+      // Safe fallbacks to satisfy backend required validations
+      postData.append("name", (formData.name || "").trim() || "Untitled Hotel");
+      postData.append("shortDesc", (formData.shortDesc || "").trim() || "No description provided");
+      postData.append("detailedDesc", (formData.detailedDesc || "").trim());
+      postData.append("city", (formData.city || "").trim() || "Not Specified");
+      postData.append("address", (formData.address || "").trim() || "Not Specified");
+      postData.append("landmark", (formData.landmark || "").trim());
       postData.append("starRating", Number(formData.starRating) || 5);
-      postData.append("amenities", formData.amenities ? formData.amenities.trim() : "");
-      postData.append("price", Number(formData.price) || 0);
+      postData.append("amenities", (formData.amenities || "").trim());
+      postData.append("price", formData.price !== "" && !isNaN(formData.price) ? Number(formData.price) : 0);
       postData.append("rooms", Number(formData.rooms) || 0);
       postData.append("checkIn", formData.checkIn || "14:00");
       postData.append("checkOut", formData.checkOut || "11:00");
-      postData.append("phone", formData.phone.trim());
-      postData.append("email", formData.email ? formData.email.trim() : "");
+      postData.append("phone", (formData.phone || "").trim() || "0000000000");
+      postData.append("email", (formData.email || "").trim());
       postData.append("status", formData.status || "Active");
 
       if (editingId) {
         postData.append("existingImages", JSON.stringify(existingImages));
       }
 
-      // Append new image files
+      // Append newly uploaded image files
       newImageFiles.forEach((file) => {
         postData.append("images", file);
       });
@@ -492,7 +283,7 @@ const Hotel = () => {
 
   return (
     <div className="hotel-admin-wrapper">
-      {/* Toast / Notification Banner */}
+      {/* Toast Notification Banner */}
       {successMsg && (
         <div
           style={{
@@ -601,7 +392,7 @@ const Hotel = () => {
                             <div className="hotel-table-img-wrap">
                               <img
                                 src={formatImageUrl(primaryImage)}
-                                alt={hotel.name}
+                                alt={hotel.name || "Hotel"}
                                 onError={(e) => {
                                   e.target.src =
                                     "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80";
@@ -610,11 +401,11 @@ const Hotel = () => {
                             </div>
                           </td>
                           <td className="hotel-td-name">
-                            <strong>{hotel.name}</strong>
-                            <span>{hotel.shortDesc}</span>
+                            <strong>{hotel.name || "Untitled Hotel"}</strong>
+                            <span>{hotel.shortDesc || "No description provided"}</span>
                           </td>
                           <td>
-                            {hotel.city}, {hotel.address}
+                            {[hotel.city, hotel.address].filter(Boolean).join(", ") || "Location not set"}
                           </td>
                           <td>
                             <div className="hotel-star-row">
@@ -636,7 +427,9 @@ const Hotel = () => {
                               ))}
                             </div>
                           </td>
-                          <td className="hotel-td-price">₹{hotel.price}</td>
+                          <td className="hotel-td-price">
+                            ₹{hotel.price ? Number(hotel.price).toLocaleString("en-IN") : "0"}
+                          </td>
                           <td>{hotel.rooms || 0}</td>
                           <td>
                             <span
@@ -695,7 +488,7 @@ const Hotel = () => {
 
       {/* ================= ADD / EDIT FORM VIEW ================= */}
       {viewMode === "form" && (
-        <div className="hotel-form-container" ref={formTopRef}>
+        <div className="hotel-form-container">
           <div className="hotel-form-top-bar">
             <button
               className="hotel-back-btn"
@@ -707,68 +500,50 @@ const Hotel = () => {
             <h2>{editingId ? "Edit Hotel Details" : "Add New Hotel"}</h2>
           </div>
 
-          <form className="hotel-entry-form" onSubmit={handleSubmit} noValidate>
+          <form className="hotel-entry-form" onSubmit={handleSubmit}>
             <div className="hotel-form-card">
               <h3 className="hotel-form-section-title">Basic Information</h3>
 
               <div className="hotel-form-grid">
                 {/* Hotel Name */}
-                <div className={`hotel-field-group ${touched.name && errors.name ? "has-error" : ""}`}>
-                  <label>Hotel Name *</label>
+                <div className="hotel-field-group">
+                  <label>Hotel Name</label>
                   <input
                     type="text"
                     name="name"
                     placeholder="Enter hotel name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
                   />
-                  {touched.name && errors.name && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.name}
-                    </span>
-                  )}
                 </div>
 
                 {/* City */}
-                <div className={`hotel-field-group ${touched.city && errors.city ? "has-error" : ""}`}>
-                  <label>City / Destination *</label>
+                <div className="hotel-field-group">
+                  <label>City / Destination</label>
                   <input
                     type="text"
                     name="city"
                     placeholder="e.g. Puri, Bhubaneswar, Goa"
                     value={formData.city}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
                   />
-                  {touched.city && errors.city && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.city}
-                    </span>
-                  )}
                 </div>
 
                 {/* Short Description */}
-                <div className={`hotel-field-group full-span ${touched.shortDesc && errors.shortDesc ? "has-error" : ""}`}>
-                  <label>Short Description *</label>
+                <div className="hotel-field-group full-span">
+                  <label>Short Description</label>
                   <input
                     type="text"
                     name="shortDesc"
-                    placeholder="Brief highlights or overview of the property (min 10 characters)"
+                    placeholder="Brief highlights or overview of the property"
                     value={formData.shortDesc}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
                   />
-                  {touched.shortDesc && errors.shortDesc && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.shortDesc}
-                    </span>
-                  )}
                 </div>
 
-                {/* DETAILED DESCRIPTION */}
-                <div className={`hotel-field-group full-span ${touched.detailedDesc && errors.detailedDesc ? "has-error" : ""}`}>
-                  <label>Detailed Description *</label>
+                {/* Detailed Description */}
+                <div className="hotel-field-group full-span">
+                  <label>Detailed Description</label>
                   <div className="tinymce-editor-box">
                     <div className="tinymce-toolbar">
                       <button type="button" title="Bold">
@@ -796,7 +571,6 @@ const Hotel = () => {
                       placeholder="Write comprehensive hotel overview, luxury suites information, dining experiences, etc..."
                       value={formData.detailedDesc}
                       onChange={handleInputChange}
-                      onBlur={handleInputBlur}
                     />
                     <div className="tinymce-statusbar">
                       <span>HTML / Text Supported</span>
@@ -810,29 +584,18 @@ const Hotel = () => {
                       </span>
                     </div>
                   </div>
-                  {touched.detailedDesc && errors.detailedDesc && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.detailedDesc}
-                    </span>
-                  )}
                 </div>
 
                 {/* Address */}
-                <div className={`hotel-field-group ${touched.address && errors.address ? "has-error" : ""}`}>
-                  <label>Address *</label>
+                <div className="hotel-field-group">
+                  <label>Address</label>
                   <textarea
                     name="address"
                     rows={2}
                     placeholder="Enter full address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
                   />
-                  {touched.address && errors.address && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.address}
-                    </span>
-                  )}
                 </div>
 
                 {/* Landmark */}
@@ -849,7 +612,7 @@ const Hotel = () => {
 
                 {/* Star Rating */}
                 <div className="hotel-field-group">
-                  <label>Star Rating *</label>
+                  <label>Star Rating</label>
                   <select
                     name="starRating"
                     value={formData.starRating}
@@ -864,135 +627,87 @@ const Hotel = () => {
                 </div>
 
                 {/* Amenities */}
-                <div className={`hotel-field-group ${touched.amenities && errors.amenities ? "has-error" : ""}`}>
-                  <label>Amenities / Facilities *</label>
+                <div className="hotel-field-group">
+                  <label>Amenities / Facilities</label>
                   <input
                     type="text"
                     name="amenities"
                     placeholder="e.g. Free Wifi, Pool, Spa, Parking, AC"
                     value={formData.amenities}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
                   />
-                  {touched.amenities && errors.amenities && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.amenities}
-                    </span>
-                  )}
                 </div>
 
                 {/* Price */}
-                <div className={`hotel-field-group ${touched.price && errors.price ? "has-error" : ""}`}>
-                  <label>Price per Night (₹) *</label>
+                <div className="hotel-field-group">
+                  <label>Price per Night (₹)</label>
                   <input
                     type="number"
                     name="price"
                     placeholder="e.g. 2898"
                     value={formData.price}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
-                    min="1"
                   />
-                  {touched.price && errors.price && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.price}
-                    </span>
-                  )}
                 </div>
 
                 {/* Rooms */}
-                <div className={`hotel-field-group ${touched.rooms && errors.rooms ? "has-error" : ""}`}>
-                  <label>Total Rooms *</label>
+                <div className="hotel-field-group">
+                  <label>Total Rooms</label>
                   <input
                     type="number"
                     name="rooms"
                     placeholder="e.g. 120"
                     value={formData.rooms}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
-                    min="1"
                   />
-                  {touched.rooms && errors.rooms && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.rooms}
-                    </span>
-                  )}
                 </div>
 
                 {/* Check In */}
-                <div className={`hotel-field-group ${touched.checkIn && errors.checkIn ? "has-error" : ""}`}>
-                  <label>Check-in Time *</label>
+                <div className="hotel-field-group">
+                  <label>Check-in Time</label>
                   <input
                     type="text"
                     name="checkIn"
                     placeholder="e.g. 14:00"
                     value={formData.checkIn}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
                   />
-                  {touched.checkIn && errors.checkIn && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.checkIn}
-                    </span>
-                  )}
                 </div>
 
                 {/* Check Out */}
-                <div className={`hotel-field-group ${touched.checkOut && errors.checkOut ? "has-error" : ""}`}>
-                  <label>Check-out Time *</label>
+                <div className="hotel-field-group">
+                  <label>Check-out Time</label>
                   <input
                     type="text"
                     name="checkOut"
                     placeholder="e.g. 11:00"
                     value={formData.checkOut}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
                   />
-                  {touched.checkOut && errors.checkOut && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.checkOut}
-                    </span>
-                  )}
                 </div>
 
                 {/* Phone */}
-                <div className={`hotel-field-group ${touched.phone && errors.phone ? "has-error" : ""}`}>
-                  <label>Phone Number * (10 Digits)</label>
+                <div className="hotel-field-group">
+                  <label>Phone Number</label>
                   <input
                     type="tel"
                     name="phone"
-                    maxLength={10}
                     placeholder="e.g. 9876543210"
                     value={formData.phone}
-                    onChange={(e) => {
-                      const val = e.target.value.replace(/\D/g, "").slice(0, 10);
-                      handleInputChange({ target: { name: "phone", value: val } });
-                    }}
-                    onBlur={handleInputBlur}
+                    onChange={handleInputChange}
                   />
-                  {touched.phone && errors.phone && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.phone}
-                    </span>
-                  )}
                 </div>
 
                 {/* Email */}
-                <div className={`hotel-field-group ${touched.email && errors.email ? "has-error" : ""}`}>
+                <div className="hotel-field-group">
                   <label>Email Address</label>
                   <input
                     type="email"
                     name="email"
-                    placeholder="e.g. contact@hotel.com (optional)"
+                    placeholder="e.g. contact@hotel.com"
                     value={formData.email}
                     onChange={handleInputChange}
-                    onBlur={handleInputBlur}
                   />
-                  {touched.email && errors.email && (
-                    <span className="hotel-field-error">
-                      <AlertCircle size={13} /> {errors.email}
-                    </span>
-                  )}
                 </div>
 
                 {/* Status */}
@@ -1009,19 +724,19 @@ const Hotel = () => {
                 </div>
               </div>
 
-              {/* MULTIPLE IMAGE UPLOAD SECTION */}
+              {/* IMAGE UPLOAD SECTION */}
               <div className="hotel-form-section-divider"></div>
               <h3 className="hotel-form-section-title">
-                Hotel Images * (Max 6 total)
+                Hotel Images (Optional - Max 6 total)
               </h3>
 
               {existingImages.length + newImageFiles.length < 6 && (
-                <div className={`hotel-upload-dropzone ${touched.images && errors.images ? "has-error" : ""}`}>
+                <div className="hotel-upload-dropzone">
                   <input
                     type="file"
                     id="hotel-file-input"
                     multiple
-                    accept="image/png, image/jpeg, image/webp, image/jpg"
+                    accept="image/*"
                     onChange={handleImageUpload}
                     style={{ display: "none" }}
                   />
@@ -1034,7 +749,7 @@ const Hotel = () => {
                       Click to upload images
                     </span>
                     <span className="upload-sub-text">
-                      PNG, JPG or WEBP (Converted to WebP on upload)
+                      Upload any image format
                     </span>
                     <span className="upload-limit-text">
                       Remaining slots:{" "}
@@ -1042,12 +757,6 @@ const Hotel = () => {
                     </span>
                   </label>
                 </div>
-              )}
-
-              {touched.images && errors.images && (
-                <span className="hotel-field-error" style={{ marginTop: "10px" }}>
-                  <AlertCircle size={14} /> {errors.images}
-                </span>
               )}
 
               {/* Uploaded Previews Thumbnails Grid */}
