@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../api/axios';
-import './TourExperience.css'
+import './TourExperience.css';
+
 // React Icons Imports
-
-
 import {
   FaClock,
   FaUser,
@@ -179,7 +178,6 @@ const TourExperience = ({ tour }) => {
   const handleModalChange = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      // Allow only digits and limit to max 10 digits
       const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
       setModalForm((prev) => ({ ...prev, phone: digitsOnly }));
       return;
@@ -224,7 +222,6 @@ const TourExperience = ({ tour }) => {
       if (res.data?.success || res.status === 201 || res.status === 200) {
         alert('🎉 Booking inquiry submitted successfully! Our team will contact you shortly.');
         
-        // Reset and clear modal form
         setModalForm({
           name: '',
           packageName: tour?.title || 'Odisha Heritage Tour Package',
@@ -237,7 +234,6 @@ const TourExperience = ({ tour }) => {
           checkOut: ''
         });
 
-        // Reset sidebar date pickers & counters
         setCheckInDate('');
         setCheckOutDate('');
         setAdultQty(1);
@@ -271,44 +267,44 @@ const TourExperience = ({ tour }) => {
   };
 
   return (
-    <section className="TourExperience">
-      <div className="TourExperience-container">
+    <section className="Tour-Experience">
+      <div className="Tour-Experience-container">
 
         {/* ================= LEFT MAIN CONTENT ================= */}
-        <div className="TourExperience-mainContent">
-          <h1 className="TourExperience-title">
+        <div className="Tour-Experience-mainContent">
+          <h1 className="Tour-Experience-title">
             {tour?.title || "Jagannath Dham & Odisha Tour Package"}
           </h1>
 
-          <div className="TourExperience-priceTag">
-            <span className="TourExperience-priceAmount">
+          <div className="Tour-Experience-priceTag">
+            <span className="Tour-Experience-priceAmount">
               ₹{adultPrice.toLocaleString('en-IN')}
             </span>
-            <span className="TourExperience-priceUnit">/per person</span>
+            <span className="Tour-Experience-priceUnit">/per person</span>
           </div>
 
-          <div className="TourExperience-metaRow">
+          <div className="Tour-Experience-metaRow">
             {tour?.duration && (
-              <div className="TourExperience-metaItem">
-                <FaClock className="TourExperience-metaIcon" />
+              <div className="Tour-Experience-metaItem">
+                <FaClock className="Tour-Experience-metaIcon" />
                 <span>{tour.duration}</span>
               </div>
             )}
             {tour?.maxPeople && (
-              <div className="TourExperience-metaItem">
-                <FaUser className="TourExperience-metaIcon" />
+              <div className="Tour-Experience-metaItem">
+                <FaUser className="Tour-Experience-metaIcon" />
                 <span>Max People : {tour.maxPeople}</span>
               </div>
             )}
             {tour?.destination && (
-              <div className="TourExperience-metaItem">
-                <FaMapMarkerAlt className="TourExperience-metaIcon" />
+              <div className="Tour-Experience-metaItem">
+                <FaMapMarkerAlt className="Tour-Experience-metaIcon" />
                 <span>{tour.destination}</span>
               </div>
             )}
           </div>
 
-          <div className="TourExperience-description">
+          <div className="Tour-Experience-description">
             {tour?.detailedDescription ? (
               <p>{tour.detailedDescription}</p>
             ) : tour?.shortDescription ? (
@@ -321,21 +317,21 @@ const TourExperience = ({ tour }) => {
           </div>
 
           {/* Included and Excluded */}
-          <div className="TourExperience-section">
-            <h2 className="TourExperience-sectionTitle">Included and Excluded</h2>
-            <div className="TourExperience-incExcGrid">
-              <div className="TourExperience-incExcColumn">
+          <div className="Tour-Experience-section">
+            <h2 className="Tour-Experience-sectionTitle">Included and Excluded</h2>
+            <div className="Tour-Experience-incExcGrid">
+              <div className="Tour-Experience-incExcColumn">
                 {includedList.map((item, idx) => (
-                  <div className="TourExperience-incItem" key={idx}>
-                    <FaCheck className="TourExperience-checkIcon" />
+                  <div className="Tour-Experience-incItem" key={idx}>
+                    <FaCheck className="Tour-Experience-checkIcon" />
                     <span>{item}</span>
                   </div>
                 ))}
               </div>
-              <div className="TourExperience-incExcColumn">
+              <div className="Tour-Experience-incExcColumn">
                 {excludedList.map((item, idx) => (
-                  <div className="TourExperience-excItem" key={idx}>
-                    <FaTimes className="TourExperience-timesIcon" />
+                  <div className="Tour-Experience-excItem" key={idx}>
+                    <FaTimes className="Tour-Experience-timesIcon" />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -344,12 +340,12 @@ const TourExperience = ({ tour }) => {
           </div>
 
           {/* Highlights */}
-          <div className="TourExperience-section">
-            <h2 className="TourExperience-sectionTitle">Highlights of the Tour</h2>
-            <div className="TourExperience-highlightsList">
+          <div className="Tour-Experience-section">
+            <h2 className="Tour-Experience-sectionTitle">Highlights of the Tour</h2>
+            <div className="Tour-Experience-highlightsList">
               {highlightsList.map((item, idx) => (
-                <div className="TourExperience-highlightItem" key={idx}>
-                  <FaCheckCircle className="TourExperience-greenCircleIcon" />
+                <div className="Tour-Experience-highlightItem" key={idx}>
+                  <FaCheckCircle className="Tour-Experience-greenCircleIcon" />
                   <span>{item}</span>
                 </div>
               ))}
@@ -357,9 +353,9 @@ const TourExperience = ({ tour }) => {
           </div>
 
           {/* Itinerary */}
-          <div className="TourExperience-section">
-            <h2 className="TourExperience-sectionTitle">Itinerary</h2>
-            <div className="TourExperience-itineraryAccordion">
+          <div className="Tour-Experience-section">
+            <h2 className="Tour-Experience-sectionTitle">Itinerary</h2>
+            <div className="Tour-Experience-itineraryAccordion">
               {itineraryList.map((dayItem, idx) => {
                 const dayBadgeText = dayItem.dayNumber || `Day ${String(idx + 1).padStart(2, '0')}`;
                 const isItemOpen = openDay === idx + 1;
@@ -367,27 +363,27 @@ const TourExperience = ({ tour }) => {
 
                 return (
                   <div
-                    className={`TourExperience-accordionItem ${isItemOpen ? 'TourExperience-open' : ''}`}
+                    className={`Tour-Experience-accordionItem ${isItemOpen ? 'Tour-Experience-open' : ''}`}
                     key={idx}
                   >
                     <div
-                      className="TourExperience-accordionHeader"
+                      className="Tour-Experience-accordionHeader"
                       onClick={() => toggleDay(idx + 1)}
                     >
-                      <div className="TourExperience-dayBadge">{dayBadgeText} :</div>
-                      <h3 className="TourExperience-dayTitle">{dayItem.title || `Day ${idx + 1} Sightseeing`}</h3>
+                      <div className="Tour-Experience-dayBadge">{dayBadgeText} :</div>
+                      <h3 className="Tour-Experience-dayTitle">{dayItem.title || `Day ${idx + 1} Sightseeing`}</h3>
                       {isItemOpen ? (
-                        <FaChevronUp className="TourExperience-accordionIcon" />
+                        <FaChevronUp className="Tour-Experience-accordionIcon" />
                       ) : (
-                        <FaChevronDown className="TourExperience-accordionIcon" />
+                        <FaChevronDown className="Tour-Experience-accordionIcon" />
                       )}
                     </div>
                     {isItemOpen && (
-                      <div className="TourExperience-accordionBody">
+                      <div className="Tour-Experience-accordionBody">
                         {dayItem.description && <p>{dayItem.description}</p>}
                         {Array.isArray(dayActivities) && dayActivities.map((act, aIdx) => (
-                          <div className="TourExperience-daySubItem" key={aIdx}>
-                            <FaCheck className="TourExperience-checkIcon" />
+                          <div className="Tour-Experience-daySubItem" key={aIdx}>
+                            <FaCheck className="Tour-Experience-checkIcon" />
                             <span>{act}</span>
                           </div>
                         ))}
@@ -402,20 +398,20 @@ const TourExperience = ({ tour }) => {
         </div>
 
         {/* ================= RIGHT SIDEBAR ================= */}
-        <div className="TourExperience-sidebar">
+        <div className="Tour-Experience-sidebar">
 
-          <div className="TourExperience-bookingCard">
-            <h2 className="TourExperience-bookingTitle">Book Your Tour</h2>
-            <p className="TourExperience-bookingSubtitle">
+          <div className="Tour-Experience-bookingCard">
+            <h2 className="Tour-Experience-bookingTitle">Book Your Tour</h2>
+            <p className="Tour-Experience-bookingSubtitle">
               Reserve your ideal trip early for a hassle-free trip; secure comfort and convenience!
             </p>
 
-            <div className="TourExperience-onlineSection">
+            <div className="Tour-Experience-onlineSection">
               {/* Check In & Check Out Date Input Fields */}
-              <div className="TourExperience-datePickersContainer">
-                <div className="TourExperience-dateInputGroup">
-                  <label className="TourExperience-dateFieldLabel">
-                    <FaCalendarAlt className="TourExperience-dateIcon" /> Check In
+              <div className="Tour-Experience-datePickersContainer">
+                <div className="Tour-Experience-dateInputGroup">
+                  <label className="Tour-Experience-dateFieldLabel">
+                    <FaCalendarAlt className="Tour-Experience-dateIcon" /> Check In
                   </label>
                   <input
                     type="date"
@@ -427,45 +423,45 @@ const TourExperience = ({ tour }) => {
                         setCheckOutDate(e.target.value);
                       }
                     }}
-                    className="TourExperience-dateInputField"
+                    className="Tour-Experience-dateInputField"
                   />
                 </div>
 
-                <div className="TourExperience-dateInputGroup">
-                  <label className="TourExperience-dateFieldLabel">
-                    <FaCalendarAlt className="TourExperience-dateIcon" /> Check Out
+                <div className="Tour-Experience-dateInputGroup">
+                  <label className="Tour-Experience-dateFieldLabel">
+                    <FaCalendarAlt className="Tour-Experience-dateIcon" /> Check Out
                   </label>
                   <input
                     type="date"
                     min={checkInDate || new Date().toISOString().split('T')[0]}
                     value={checkOutDate}
                     onChange={(e) => setCheckOutDate(e.target.value)}
-                    className="TourExperience-dateInputField"
+                    className="Tour-Experience-dateInputField"
                   />
                 </div>
               </div>
 
               {/* Quantity Selectors */}
-              <div className="TourExperience-qtySection">
+              <div className="Tour-Experience-qtySection">
                 {/* Adult */}
-                <div className="TourExperience-qtyRow">
-                  <div className="TourExperience-qtyLabel">
-                    <span className="TourExperience-personType">Adult:</span>
-                    <span className="TourExperience-priceSale">₹{adultPrice.toLocaleString('en-IN')}</span>
+                <div className="Tour-Experience-qtyRow">
+                  <div className="Tour-Experience-qtyLabel">
+                    <span className="Tour-Experience-personType">Adult:</span>
+                    <span className="Tour-Experience-priceSale">₹{adultPrice.toLocaleString('en-IN')}</span>
                   </div>
-                  <div className="TourExperience-counter">
+                  <div className="Tour-Experience-counter">
                     <button
                       type="button"
-                      className="TourExperience-counterBtn"
+                      className="Tour-Experience-counterBtn"
                       onClick={() => setAdultQty(Math.max(1, adultQty - 1))}
                       aria-label="Decrease Adults"
                     >
                       <FaMinus />
                     </button>
-                    <span className="TourExperience-countValue">{adultQty}</span>
+                    <span className="Tour-Experience-countValue">{adultQty}</span>
                     <button
                       type="button"
-                      className="TourExperience-counterBtn"
+                      className="Tour-Experience-counterBtn"
                       onClick={() => setAdultQty(adultQty + 1)}
                       aria-label="Increase Adults"
                     >
@@ -475,24 +471,24 @@ const TourExperience = ({ tour }) => {
                 </div>
 
                 {/* Children */}
-                <div className="TourExperience-qtyRow">
-                  <div className="TourExperience-qtyLabel">
-                    <span className="TourExperience-personType">Children:</span>
-                    <span className="TourExperience-priceSale">₹{childPrice.toLocaleString('en-IN')}</span>
+                <div className="Tour-Experience-qtyRow">
+                  <div className="Tour-Experience-qtyLabel">
+                    <span className="Tour-Experience-personType">Children:</span>
+                    <span className="Tour-Experience-priceSale">₹{childPrice.toLocaleString('en-IN')}</span>
                   </div>
-                  <div className="TourExperience-counter">
+                  <div className="Tour-Experience-counter">
                     <button
                       type="button"
-                      className="TourExperience-counterBtn"
+                      className="Tour-Experience-counterBtn"
                       onClick={() => setChildQty(Math.max(0, childQty - 1))}
                       aria-label="Decrease Children"
                     >
                       <FaMinus />
                     </button>
-                    <span className="TourExperience-countValue">{childQty}</span>
+                    <span className="Tour-Experience-countValue">{childQty}</span>
                     <button
                       type="button"
-                      className="TourExperience-counterBtn"
+                      className="Tour-Experience-counterBtn"
                       onClick={() => setChildQty(childQty + 1)}
                       aria-label="Increase Children"
                     >
@@ -503,72 +499,72 @@ const TourExperience = ({ tour }) => {
               </div>
 
               {/* Extra Services */}
-              <div className="TourExperience-extraServices">
-                <h3 className="TourExperience-extraTitle">Other Extra Services</h3>
+              <div className="Tour-Experience-extraServices">
+                <h3 className="Tour-Experience-extraTitle">Other Extra Services</h3>
 
-                <div className="TourExperience-extraRow" onClick={() => handleServiceChange('homePickup')}>
-                  <div className="TourExperience-checkboxSquare">
-                    {extraServices.homePickup && <span className="TourExperience-innerCheck"></span>}
+                <div className="Tour-Experience-extraRow" onClick={() => handleServiceChange('homePickup')}>
+                  <div className="Tour-Experience-checkboxSquare">
+                    {extraServices.homePickup && <span className="Tour-Experience-innerCheck"></span>}
                   </div>
-                  <span className="TourExperience-extraName">Home / Airport Pickup</span>
-                  <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.homePickup}</span>
+                  <span className="Tour-Experience-extraName">Home / Airport Pickup</span>
+                  <span className="Tour-Experience-extraPrice">₹{SERVICE_PRICES.homePickup}</span>
                 </div>
 
-                <div className="TourExperience-extraRow" onClick={() => handleServiceChange('nightFood')}>
-                  <div className="TourExperience-checkboxSquare">
-                    {extraServices.nightFood && <span className="TourExperience-innerCheck"></span>}
+                <div className="Tour-Experience-extraRow" onClick={() => handleServiceChange('nightFood')}>
+                  <div className="Tour-Experience-checkboxSquare">
+                    {extraServices.nightFood && <span className="Tour-Experience-innerCheck"></span>}
                   </div>
-                  <span className="TourExperience-extraName">Special Mahaprasad / Food</span>
-                  <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.nightFood}</span>
+                  <span className="Tour-Experience-extraName">Special Mahaprasad / Food</span>
+                  <span className="Tour-Experience-extraPrice">₹{SERVICE_PRICES.nightFood}</span>
                 </div>
 
-                <div className="TourExperience-extraRow" onClick={() => handleServiceChange('seaplane')}>
-                  <div className="TourExperience-checkboxSquare">
-                    {extraServices.seaplane && <span className="TourExperience-innerCheck"></span>}
+                <div className="Tour-Experience-extraRow" onClick={() => handleServiceChange('seaplane')}>
+                  <div className="Tour-Experience-checkboxSquare">
+                    {extraServices.seaplane && <span className="Tour-Experience-innerCheck"></span>}
                   </div>
-                  <span className="TourExperience-extraName">Chilika Boating & Sightseeing</span>
-                  <span className="TourExperience-extraPrice">₹{SERVICE_PRICES.seaplane}</span>
+                  <span className="Tour-Experience-extraName">Chilika Boating & Sightseeing</span>
+                  <span className="Tour-Experience-extraPrice">₹{SERVICE_PRICES.seaplane}</span>
                 </div>
               </div>
 
               {/* Breakdown Calculation Items */}
-              <div className="TourExperience-breakdownBox">
-                <div className="TourExperience-breakdownItem">
-                  <span className="TourExperience-breakdownType">Adult</span>
-                  <div className="TourExperience-formula">
+              <div className="Tour-Experience-breakdownBox">
+                <div className="Tour-Experience-breakdownItem">
+                  <span className="Tour-Experience-breakdownType">Adult</span>
+                  <div className="Tour-Experience-formula">
                     <span>₹{adultPrice} <small>PRICE</small></span>
-                    <span className="TourExperience-operator">×</span>
+                    <span className="Tour-Experience-operator">×</span>
                     <span>{String(adultQty).padStart(2, '0')} <small>QTY</small></span>
                   </div>
-                  <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
-                  <span className="TourExperience-breakdownTotal">₹{(adultPrice * adultQty).toLocaleString('en-IN')}</span>
+                  <FaLongArrowAltRight className="Tour-Experience-breakdownArrow" />
+                  <span className="Tour-Experience-breakdownTotal">₹{(adultPrice * adultQty).toLocaleString('en-IN')}</span>
                 </div>
 
                 {childQty > 0 && (
-                  <div className="TourExperience-breakdownItem">
-                    <span className="TourExperience-breakdownType">Children</span>
-                    <div className="TourExperience-formula">
+                  <div className="Tour-Experience-breakdownItem">
+                    <span className="Tour-Experience-breakdownType">Children</span>
+                    <div className="Tour-Experience-formula">
                       <span>₹{childPrice} <small>PRICE</small></span>
-                      <span className="TourExperience-operator">×</span>
+                      <span className="Tour-Experience-operator">×</span>
                       <span>{String(childQty).padStart(2, '0')} <small>QTY</small></span>
                     </div>
-                    <FaLongArrowAltRight className="TourExperience-breakdownArrow" />
-                    <span className="TourExperience-breakdownTotal">₹{(childPrice * childQty).toLocaleString('en-IN')}</span>
+                    <FaLongArrowAltRight className="Tour-Experience-breakdownArrow" />
+                    <span className="Tour-Experience-breakdownTotal">₹{(childPrice * childQty).toLocaleString('en-IN')}</span>
                   </div>
                 )}
               </div>
 
               {/* Total Price */}
-              <div className="TourExperience-totalRow">
-                <span className="TourExperience-totalLabel">Total Price:</span>
-                <span className="TourExperience-totalValue">₹{totalPrice.toLocaleString('en-IN')}</span>
+              <div className="Tour-Experience-totalRow">
+                <span className="Tour-Experience-totalLabel">Total Price:</span>
+                <span className="Tour-Experience-totalValue">₹{totalPrice.toLocaleString('en-IN')}</span>
               </div>
 
               {/* Action Buttons */}
               <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
                 <button
                   type="button"
-                  className="TourExperience-bookNowBtn"
+                  className="Tour-Experience-bookNowBtn"
                   onClick={handleBookNow}
                   style={{ flex: 1 }}
                 >
@@ -576,7 +572,7 @@ const TourExperience = ({ tour }) => {
                 </button>
                 <button
                   type="button"
-                  className="TourExperience-bookNowBtn"
+                  className="Tour-Experience-bookNowBtn"
                   onClick={handleOpenModal}
                   style={{ flex: 1, backgroundColor: '#0f172a' }}
                 >
@@ -588,15 +584,15 @@ const TourExperience = ({ tour }) => {
           </div>
 
           {/* Support Agent Card */}
-          <div className="TourExperience-supportCard">
-            <img src={supportAgent} alt="Customer Support Agent" className="TourExperience-supportImg" />
-            <div className="TourExperience-supportBanner">
-              <div className="TourExperience-phoneCircle">
-                <FaPhoneAlt className="TourExperience-phoneIcon" />
+          <div className="Tour-Experience-supportCard">
+            <img src={supportAgent} alt="Customer Support Agent" className="Tour-Experience-supportImg" />
+            <div className="Tour-Experience-supportBanner">
+              <div className="Tour-Experience-phoneCircle">
+                <FaPhoneAlt className="Tour-Experience-phoneIcon" />
               </div>
-              <div className="TourExperience-supportText">
-                <span className="TourExperience-supportLabel">For More Inquiries</span>
-                <span className="TourExperience-phoneNumber">+91 96688 92441</span>
+              <div className="Tour-Experience-supportText">
+                <span className="Tour-Experience-supportLabel">For More Inquiries</span>
+                <span className="Tour-Experience-phoneNumber">+91 96688 92441</span>
               </div>
             </div>
           </div>
@@ -607,23 +603,23 @@ const TourExperience = ({ tour }) => {
 
       {/* ================= MODAL: COMPLETE BOOKING ================= */}
       {isModalOpen && (
-        <div className="TourExperience-modalOverlay" onClick={() => setIsModalOpen(false)}>
-          <div className="TourExperience-modalBox" onClick={(e) => e.stopPropagation()}>
+        <div className="Tour-Experience-modalOverlay" onClick={() => setIsModalOpen(false)}>
+          <div className="Tour-Experience-modalBox" onClick={(e) => e.stopPropagation()}>
             <button
               type="button"
-              className="TourExperience-modalCloseBtn"
+              className="Tour-Experience-modalCloseBtn"
               onClick={() => setIsModalOpen(false)}
               aria-label="Close modal"
             >
               <FaTimes />
             </button>
 
-            <h2 className="TourExperience-modalTitle">Complete Booking Inquiry</h2>
+            <h2 className="Tour-Experience-modalTitle">Complete Booking Inquiry</h2>
 
-            <form className="TourExperience-modalForm" onSubmit={handleModalSubmit}>
-              <div className="TourExperience-modalRow">
-                <div className="TourExperience-modalGroup">
-                  <label className="TourExperience-modalLabel">Full Name</label>
+            <form className="Tour-Experience-modalForm" onSubmit={handleModalSubmit}>
+              <div className="Tour-Experience-modalRow">
+                <div className="Tour-Experience-modalGroup">
+                  <label className="Tour-Experience-modalLabel">Full Name</label>
                   <input
                     type="text"
                     name="name"
@@ -631,12 +627,12 @@ const TourExperience = ({ tour }) => {
                     value={modalForm.name}
                     onChange={handleModalChange}
                     required
-                    className="TourExperience-modalInput"
+                    className="Tour-Experience-modalInput"
                   />
                 </div>
 
-                <div className="TourExperience-modalGroup">
-                  <label className="TourExperience-modalLabel">Phone No.</label>
+                <div className="Tour-Experience-modalGroup">
+                  <label className="Tour-Experience-modalLabel">Phone No.</label>
                   <input
                     type="tel"
                     name="phone"
@@ -645,94 +641,94 @@ const TourExperience = ({ tour }) => {
                     value={modalForm.phone}
                     onChange={handleModalChange}
                     required
-                    className="TourExperience-modalInput"
+                    className="Tour-Experience-modalInput"
                   />
                 </div>
               </div>
 
-              <div className="TourExperience-modalRow">
-                <div className="TourExperience-modalGroup">
-                  <label className="TourExperience-modalLabel">Package Name</label>
+              <div className="Tour-Experience-modalRow">
+                <div className="Tour-Experience-modalGroup">
+                  <label className="Tour-Experience-modalLabel">Package Name</label>
                   <input
                     type="text"
                     name="packageName"
                     value={modalForm.packageName}
                     onChange={handleModalChange}
                     required
-                    className="TourExperience-modalInput"
+                    className="Tour-Experience-modalInput"
                   />
                 </div>
 
-                <div className="TourExperience-modalGroup">
-                  <label className="TourExperience-modalLabel">Destination</label>
+                <div className="Tour-Experience-modalGroup">
+                  <label className="Tour-Experience-modalLabel">Destination</label>
                   <input
                     type="text"
                     name="destination"
                     value={modalForm.destination}
                     onChange={handleModalChange}
                     required
-                    className="TourExperience-modalInput"
+                    className="Tour-Experience-modalInput"
                   />
                 </div>
               </div>
 
-              <div className="TourExperience-modalRow">
-                <div className="TourExperience-modalGroup">
-                  <label className="TourExperience-modalLabel">Check In Date</label>
+              <div className="Tour-Experience-modalRow">
+                <div className="Tour-Experience-modalGroup">
+                  <label className="Tour-Experience-modalLabel">Check In Date</label>
                   <input
                     type="date"
                     name="checkIn"
                     min={new Date().toISOString().split('T')[0]}
                     value={modalForm.checkIn}
                     onChange={handleModalChange}
-                    className="TourExperience-modalInput"
+                    className="Tour-Experience-modalInput"
                   />
                 </div>
 
-                <div className="TourExperience-modalGroup">
-                  <label className="TourExperience-modalLabel">Check Out Date</label>
+                <div className="Tour-Experience-modalGroup">
+                  <label className="Tour-Experience-modalLabel">Check Out Date</label>
                   <input
                     type="date"
                     name="checkOut"
                     min={modalForm.checkIn || new Date().toISOString().split('T')[0]}
                     value={modalForm.checkOut}
                     onChange={handleModalChange}
-                    className="TourExperience-modalInput"
+                    className="Tour-Experience-modalInput"
                   />
                 </div>
               </div>
 
-              <div className="TourExperience-modalRow">
-                <div className="TourExperience-modalGroup">
-                  <label className="TourExperience-modalLabel">Price</label>
+              <div className="Tour-Experience-modalRow">
+                <div className="Tour-Experience-modalGroup">
+                  <label className="Tour-Experience-modalLabel">Price</label>
                   <input
                     type="text"
                     name="price"
                     value={modalForm.price}
                     onChange={handleModalChange}
-                    className="TourExperience-modalInput"
+                    className="Tour-Experience-modalInput"
                   />
                 </div>
 
-                <div className="TourExperience-modalGroup">
-                  <label className="TourExperience-modalLabel">Member(s)</label>
+                <div className="Tour-Experience-modalGroup">
+                  <label className="Tour-Experience-modalLabel">Member(s)</label>
                   <input
                     type="text"
                     name="members"
                     value={modalForm.members}
                     onChange={handleModalChange}
-                    className="TourExperience-modalInput"
+                    className="Tour-Experience-modalInput"
                   />
                 </div>
               </div>
 
-              <div className="TourExperience-modalGroup">
-                <label className="TourExperience-modalLabel">Category</label>
+              <div className="Tour-Experience-modalGroup">
+                <label className="Tour-Experience-modalLabel">Category</label>
                 <select
                   name="category"
                   value={modalForm.category}
                   onChange={handleModalChange}
-                  className="TourExperience-modalSelect"
+                  className="Tour-Experience-modalSelect"
                 >
                   <option value="Standard">Standard</option>
                   <option value="Deluxe">Deluxe</option>
@@ -741,7 +737,7 @@ const TourExperience = ({ tour }) => {
                 </select>
               </div>
 
-              <button type="submit" className="TourExperience-modalSubmitBtn" disabled={isSubmitting}>
+              <button type="submit" className="Tour-Experience-modalSubmitBtn" disabled={isSubmitting}>
                 {isSubmitting ? 'Submitting Booking...' : 'Submit Booking'}
               </button>
             </form>
