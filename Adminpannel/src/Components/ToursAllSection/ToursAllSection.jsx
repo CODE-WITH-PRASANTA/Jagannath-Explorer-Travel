@@ -1075,7 +1075,7 @@ const ToursAllSection = ({
                 <div className="tours-all-section__affix-wrapper">
 
                   <span className="tours-all-section__currency-symbol">
-                    $
+                    ₹
                   </span>
 
                   <input
@@ -1089,7 +1089,7 @@ const ToursAllSection = ({
                   />
 
                   <span className="tours-all-section__affix-unit">
-                    USD
+                    INR
                   </span>
                 </div>
               </div>
@@ -1103,7 +1103,7 @@ const ToursAllSection = ({
                 <div className="tours-all-section__affix-wrapper">
 
                   <span className="tours-all-section__currency-symbol">
-                    $
+                    ₹
                   </span>
 
                   <input
@@ -1119,7 +1119,7 @@ const ToursAllSection = ({
                   />
 
                   <span className="tours-all-section__affix-unit">
-                    USD
+                    INR
                   </span>
                 </div>
               </div>
