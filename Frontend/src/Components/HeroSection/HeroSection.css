@@ -4,13 +4,23 @@
   box-sizing: border-box;
 }
 
+/* =====================================================
+   HERO SECTION
+===================================================== */
+
 .hero-section {
   width: 100%;
-  padding: clamp(10px, 2.5vw, 24px) clamp(10px, 2.5vw, 28px) clamp(24px, 4vw, 48px);
+  padding: clamp(10px, 2.5vw, 24px)
+    clamp(10px, 2.5vw, 28px)
+    clamp(24px, 4vw, 48px);
   background: #f5f7f2;
   font-family: "Plus Jakarta Sans", sans-serif;
   color: #18251b;
 }
+
+/* =====================================================
+   HERO WRAPPER
+===================================================== */
 
 .hero-section__wrapper {
   position: relative;
@@ -29,7 +39,7 @@
 }
 
 /* =====================================================
-   BACKGROUND & OVERLAYS
+   BACKGROUND
 ===================================================== */
 
 .hero-section__slides {
@@ -46,11 +56,11 @@
   background-size: cover;
   background-position: center;
   opacity: 0;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+
   transition:
     opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
     transform 8s cubic-bezier(0.25, 1, 0.5, 1);
+
   transform: scale(1.04);
 }
 
@@ -63,6 +73,7 @@
   position: absolute;
   inset: 0;
   z-index: -3;
+
   background: linear-gradient(
     90deg,
     rgba(4, 15, 8, 0.86) 0%,
@@ -77,6 +88,7 @@
   inset: 0;
   z-index: -2;
   pointer-events: none;
+
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.35) 0%,
@@ -92,7 +104,12 @@
   z-index: -1;
   pointer-events: none;
   opacity: 0.022;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 0);
+
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.8) 1px,
+    transparent 0
+  );
+
   background-size: 3px 3px;
 }
 
@@ -104,21 +121,29 @@
   position: absolute;
   top: clamp(14px, 2.5vw, 28px);
   left: clamp(14px, 2.5vw, 32px);
+
   display: inline-flex;
   align-items: center;
   gap: 7px;
+
   padding: 7px 13px;
+
   color: #ffffff;
   background: rgba(255, 255, 255, 0.14);
+
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50px;
+
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+
   font-size: clamp(9px, 1.2vw, 11px);
   font-weight: 700;
   letter-spacing: 0.6px;
   text-transform: uppercase;
+
   z-index: 8;
+
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
@@ -135,27 +160,38 @@
 .hero-section__arrow {
   position: absolute;
   top: 40%;
+
   width: clamp(38px, 4vw, 48px);
   height: clamp(38px, 4vw, 48px);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.14);
+
   border: 1px solid rgba(255, 255, 255, 0.35);
+
   color: #ffffff;
+
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+
   cursor: pointer;
   z-index: 10;
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
 }
 
 .hero-section__arrow:hover {
   background: #ffffff;
   color: #1d5a32;
   border-color: #ffffff;
-  transform: translateY(-50%) scale(1.06);
 }
 
 .hero-section__arrow--left {
@@ -163,26 +199,41 @@
   transform: translateY(-50%);
 }
 
+.hero-section__arrow--left:hover {
+  transform: translateY(-50%) scale(1.06);
+}
+
 .hero-section__arrow--right {
   right: clamp(10px, 2vw, 25px);
   transform: translateY(-50%);
 }
 
+.hero-section__arrow--right:hover {
+  transform: translateY(-50%) scale(1.06);
+}
+
 /* =====================================================
-   HERO MAIN CONTENT
+   HERO CONTENT
 ===================================================== */
 
 .hero-section__content {
   position: relative;
   z-index: 5;
+
   width: min(850px, calc(100% - 32px));
+
   margin: clamp(70px, 10vw, 92px) auto 0;
+
   padding: 0 10px;
+
   text-align: center;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: heroContentIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  animation: heroContentIn 0.8s
+    cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes heroContentIn {
@@ -190,6 +241,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -200,61 +252,87 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+
   padding: 5px 12px;
   margin-bottom: 12px;
+
   color: #ffffff;
   background: rgba(77, 141, 67, 0.88);
+
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50px;
+
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.3px;
+
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .hero-section__eyebrow {
   color: #f3cb6b;
+
   font-size: clamp(10px, 1.2vw, 11px);
   font-weight: 800;
+
   text-transform: uppercase;
   letter-spacing: 2.2px;
+
   margin-bottom: 8px;
+
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .hero-section__eyebrow-divider {
   width: 36px;
   height: 2px;
+
   margin-bottom: 14px;
-  background: linear-gradient(90deg, transparent, #f3cb6b, transparent);
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #f3cb6b,
+    transparent
+  );
+
   border-radius: 2px;
 }
 
 .hero-section__title {
   margin: 0;
+
   color: #ffffff;
+
   font-size: clamp(26px, 5vw, 52px);
   line-height: 1.16;
   font-weight: 800;
+
   letter-spacing: -0.5px;
-  white-space: normal;
+  white-space: pre-line;
+
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
 .hero-section__description {
   max-width: 620px;
+
   margin: 14px auto 20px;
+
   color: rgba(255, 255, 255, 0.92);
+
   font-size: clamp(12.5px, 1.5vw, 14px);
   line-height: 1.65;
   font-weight: 400;
+
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* =====================================================
-   SLIDER DOTS
+   DOTS
 ===================================================== */
 
 .hero-section__dots {
@@ -262,52 +340,75 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
+
   z-index: 7;
+
   margin: 20px auto 14px;
 }
 
 .hero-section__dot {
   width: 7px;
   height: 7px;
+
   padding: 0;
+
   border: none;
   border-radius: 50%;
+
   background: rgba(255, 255, 255, 0.5);
+
   cursor: pointer;
-  transition: width 0.25s ease, background 0.25s ease;
+
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
 }
 
 .hero-section__dot--active {
   width: 22px;
+
   border-radius: 20px;
+
   background: #f3cb6b;
 }
 
 /* =====================================================
-   BOOKING CARD CONTAINER & CENTERED TABS
+   BOOKING CONTAINER
 ===================================================== */
 
 .hero-section__booking-container {
   position: relative;
+
   width: calc(100% - clamp(20px, 4vw, 80px));
   max-width: 1330px;
+
   z-index: 20;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   margin-top: auto;
 }
+
+/* =====================================================
+   TABS
+===================================================== */
 
 .hero-section__tabs-header {
   display: inline-flex;
   align-items: flex-end;
   justify-content: center;
   gap: 6px;
+
   width: auto;
+
   margin: 0 auto;
+
   overflow-x: auto;
+
   scrollbar-width: none;
-  -ms-overflow-style: none;
+
   padding: 0 8px;
 }
 
@@ -317,22 +418,36 @@
 
 .hero-section__tab-btn {
   flex: 0 0 auto;
+
   min-width: 110px;
+
   padding: 10px 22px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
+
   border: none;
+
   border-radius: 12px 12px 0 0;
+
   background: rgba(245, 247, 242, 0.95);
+
   color: #334235;
+
   font-family: inherit;
+
   font-size: 13px;
   font-weight: 800;
+
   cursor: pointer;
+
   backdrop-filter: blur(12px);
+
   transition: all 0.25s ease;
+
   white-space: nowrap;
 }
 
@@ -344,6 +459,7 @@
 .hero-section__tab-btn--active {
   background: #5a9e43;
   color: #ffffff;
+
   box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.08);
 }
 
@@ -352,46 +468,70 @@
   background: #5a9e43;
 }
 
+/* =====================================================
+   FORM CARD
+===================================================== */
+
 .hero-section__form-card {
   width: 100%;
+
   overflow: visible;
+
   background: rgba(248, 250, 246, 0.99);
+
   border-radius: 16px;
+
   box-shadow:
     0 -5px 30px rgba(0, 0, 0, 0.1),
     0 20px 50px rgba(0, 0, 0, 0.22);
+
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }
 
 .hero-section__form-grid {
   display: grid;
+
   width: 100%;
+
   align-items: stretch;
+
   border-radius: inherit;
 }
 
 .hero-section__form-grid--tour,
 .hero-section__form-grid--transport {
-  grid-template-columns: repeat(4, 1fr) 145px;
+  grid-template-columns:
+    repeat(4, 1fr)
+    145px;
 }
 
 .hero-section__form-grid--hotel {
-  grid-template-columns: 1.1fr 1.3fr 0.7fr 1.15fr 145px;
+  grid-template-columns:
+    1.1fr 1.3fr 0.7fr 1.15fr 145px;
 }
+
+/* =====================================================
+   FIELD
+===================================================== */
 
 .hero-section__field {
   min-height: 70px;
+
   display: flex;
   align-items: center;
+
   gap: 12px;
+
   padding: 12px 18px;
+
   position: relative;
+
   border-right: 1px solid #e0e6da;
+
   background: transparent;
 }
 
-/* Hover and active background highlight removed as requested */
 .hero-section__field:hover,
 .hero-section__field--active {
   background: transparent;
@@ -400,73 +540,110 @@
 .hero-section__field-icon {
   width: 36px;
   height: 36px;
+
   flex-shrink: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 50%;
+
   background: #eaf3e5;
+
   color: #4f963e;
 }
 
 .hero-section__field-body {
   flex: 1;
+
   min-width: 0;
+
   display: flex;
   flex-direction: column;
+
   cursor: pointer;
 }
 
 .hero-section__field-label {
   margin-bottom: 3px;
+
   color: #7a857a;
+
   font-size: 10px;
   font-weight: 700;
+
   text-transform: uppercase;
+
   letter-spacing: 0.7px;
 }
 
 .hero-section__custom-trigger {
   width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 6px;
 }
 
 .hero-section__selected-val {
   min-width: 0;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
+
   white-space: nowrap;
+
   color: #1d291f;
+
   font-size: 13px;
   font-weight: 800;
 }
 
 .hero-section__field-caret {
   flex-shrink: 0;
+
   color: #778177;
+
   transition: transform 0.25s ease;
 }
 
 .hero-section__field-caret--rotated {
   color: #4f963e;
+
   transform: rotate(180deg);
 }
 
+/* =====================================================
+   NORMAL DROPDOWN
+===================================================== */
+
 .hero-section__dropdown-menu {
   position: absolute;
+
   left: 0;
+
   bottom: calc(100% + 8px);
+
   width: 100%;
+
   min-width: 220px;
+
   padding: 6px;
+
   background: #ffffff;
+
   border: 1px solid #edf0eb;
+
   border-radius: 12px;
+
   box-shadow: 0 16px 40px rgba(24, 37, 27, 0.18);
+
   z-index: 100;
+
   animation: dropdownIn 0.2s ease both;
 }
 
@@ -475,6 +652,7 @@
     opacity: 0;
     transform: translateY(6px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -483,9 +661,13 @@
 
 .hero-section__dropdown-list {
   margin: 0;
+
   padding: 0;
+
   list-style: none;
+
   max-height: 200px;
+
   overflow-y: auto;
 }
 
@@ -493,41 +675,460 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 9px 12px;
+
   border-radius: 7px;
+
   color: #39463b;
+
   font-size: 12px;
   font-weight: 700;
+
   cursor: pointer;
-  transition: all 0.18s ease;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
 }
 
 .hero-section__dropdown-item:hover {
   background: #f1f7ed;
+
   color: #4f963e;
 }
 
 .hero-section__dropdown-item--selected {
   background: #edf7e9;
+
   color: #4f963e;
 }
 
+/* =====================================================
+   SMALL "WHEN / ANYDAY" DROPDOWN
+===================================================== */
+
+/*
+   TOUR FORM:
+   3rd field = When
+
+   This makes ONLY the Anyday/When popup smaller.
+*/
+
+.hero-section__form-grid--tour
+  .hero-section__field:nth-child(3)
+  .hero-section__dropdown-menu {
+  left: 50%;
+
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+
+  padding: 5px;
+
+  border-radius: 12px;
+
+  transform: translateX(-50%);
+
+  box-shadow:
+    0 14px 35px rgba(24, 37, 27, 0.16),
+    0 3px 10px rgba(24, 37, 27, 0.06);
+
+  bottom: calc(100% + 7px);
+}
+
+/* Small Anyday list */
+
+.hero-section__form-grid--tour
+  .hero-section__field:nth-child(3)
+  .hero-section__dropdown-list {
+  max-height: 210px;
+  overflow-y: auto;
+  padding: 1px;
+}
+
+/* Small Anyday items */
+
+.hero-section__form-grid--tour
+  .hero-section__field:nth-child(3)
+  .hero-section__dropdown-item {
+  min-height: 31px;
+
+  padding: 7px 10px;
+
+  border-radius: 7px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Selected Anyday */
+
+.hero-section__form-grid--tour
+  .hero-section__field:nth-child(3)
+  .hero-section__dropdown-item--selected {
+  background: #edf7e9;
+  color: #4f963e;
+}
+
+/* =====================================================
+   DATE PICKER FIELD
+===================================================== */
+
+.hero-section__date-field {
+  z-index: 120;
+}
+
+/* =====================================================
+   CALENDAR POPUP
+===================================================== */
+
+.hero-section__calendar-popup {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: calc(100% + 12px);
+
+  transform: translateX(-50%);
+
+  width: 520px;
+
+  max-width: calc(100vw - 30px);
+
+  display: grid;
+
+  grid-template-columns: 155px 1fr;
+
+  background: #ffffff;
+
+  border: 1px solid #e7ece4;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 70px rgba(21, 40, 25, 0.22),
+    0 5px 20px rgba(21, 40, 25, 0.08);
+
+  z-index: 9999;
+
+  animation:
+    calendarPopupIn 0.22s
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes calendarPopupIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(8px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(0)
+      scale(1);
+  }
+}
+
+/* =====================================================
+   CALENDAR SIDEBAR
+===================================================== */
+
+.hero-section__calendar-sidebar {
+  padding: 20px 14px;
+
+  background: #f4f8f1;
+
+  border-right: 1px solid #e7ece4;
+}
+
+.hero-section__calendar-sidebar-title {
+  padding: 2px 10px 13px;
+
+  color: #748073;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+.hero-section__quick-date {
+  width: 100%;
+
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 11px;
+
+  margin-bottom: 4px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #435143;
+
+  font-family: inherit;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.hero-section__quick-date:hover {
+  background: #e8f2e3;
+
+  color: #4f963e;
+}
+
+.hero-section__quick-date--active {
+  background: #5a9e43;
+
+  color: #ffffff;
+}
+
+.hero-section__quick-date--active:hover {
+  background: #5a9e43;
+
+  color: #ffffff;
+}
+
+/* =====================================================
+   CALENDAR MAIN
+===================================================== */
+
+.hero-section__calendar-main {
+  padding: 19px 20px 20px;
+}
+
+.hero-section__calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 17px;
+}
+
+.hero-section__calendar-month {
+  display: block;
+
+  color: #1c2b20;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.hero-section__calendar-year {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #879287;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.hero-section__calendar-nav {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.hero-section__calendar-nav button {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e4e9e1;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #536054;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.hero-section__calendar-nav button:hover {
+  background: #eef6ea;
+
+  color: #4f963e;
+
+  border-color: #d8e8d1;
+}
+
+/* =====================================================
+   WEEKDAYS
+===================================================== */
+
+.hero-section__calendar-weekdays {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  margin-bottom: 7px;
+}
+
+.hero-section__calendar-weekdays span {
+  text-align: center;
+
+  color: #9aa39a;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+/* =====================================================
+   CALENDAR DAYS
+===================================================== */
+
+.hero-section__calendar-days {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 4px;
+}
+
+.hero-section__calendar-day {
+  width: 100%;
+
+  aspect-ratio: 1;
+
+  min-height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #344236;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.hero-section__calendar-day:hover:not(:disabled) {
+  background: #edf6e9;
+
+  color: #4f963e;
+
+  transform: translateY(-1px);
+}
+
+.hero-section__calendar-day--muted {
+  color: #c6ccc5;
+}
+
+.hero-section__calendar-day--today {
+  color: #4f963e;
+
+  background: #edf6e9;
+
+  box-shadow: inset 0 0 0 1px #b9d8ae;
+}
+
+.hero-section__calendar-day--selected {
+  background: #5a9e43 !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 5px 12px rgba(90, 158, 67, 0.28);
+}
+
+.hero-section__calendar-day:disabled {
+  cursor: not-allowed;
+
+  color: #d5d9d3;
+
+  background: transparent;
+}
+
+/* =====================================================
+   NUMBER INPUT
+===================================================== */
+
 .hero-section__field-number {
   width: 100%;
+
   border: none;
+
   outline: none;
+
   padding: 0;
+
   background: transparent;
+
   color: #1d291f;
+
   font-family: inherit;
+
   font-size: 13px;
+
   font-weight: 800;
 }
 
 .hero-section__spinner-arrows {
   display: flex;
+
   flex-direction: column;
+
   color: #849084;
+
   cursor: pointer;
 }
 
@@ -535,21 +1136,40 @@
   color: #4f963e;
 }
 
+/* =====================================================
+   SEARCH BUTTON
+===================================================== */
+
 .hero-section__search-btn {
   min-height: 70px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   gap: 8px;
+
   border: none;
+
   border-radius: 0 16px 16px 0;
+
   background: #5a9e43;
+
   color: #ffffff;
+
   font-family: inherit;
+
   font-size: 13px;
+
   font-weight: 800;
+
   cursor: pointer;
-  transition: background 0.25s ease;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
 .hero-section__search-btn:hover {
@@ -565,10 +1185,9 @@
 }
 
 /* =====================================================
-   RESPONSIVE BREAKPOINTS
+   LAPTOP / SMALL DESKTOP
 ===================================================== */
 
-/* Laptops / Small Desktops */
 @media (max-width: 1200px) {
   .hero-section__form-grid--tour,
   .hero-section__form-grid--hotel,
@@ -578,7 +1197,9 @@
 
   .hero-section__search-btn {
     grid-column: span 2;
+
     min-height: 54px;
+
     border-radius: 0 0 16px 16px;
   }
 
@@ -589,12 +1210,40 @@
   .hero-section__field:nth-child(n + 3) {
     border-top: 1px solid #e0e6da;
   }
+
+  /* Keep Anyday popup compact */
+
+  .hero-section__form-grid--tour
+    .hero-section__field:nth-child(3)
+    .hero-section__dropdown-menu {
+    left: 50%;
+
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+
+    bottom: auto;
+
+    top: calc(100% + 7px);
+
+    transform: translateX(-50%);
+  }
+
+  .hero-section__calendar-popup {
+    bottom: auto;
+
+    top: calc(100% + 8px);
+  }
 }
 
-/* Tablets */
+/* =====================================================
+   TABLET
+===================================================== */
+
 @media (max-width: 860px) {
   .hero-section__wrapper {
     min-height: auto;
+
     padding-bottom: 24px;
   }
 
@@ -604,7 +1253,9 @@
 
   .hero-section__top-badge {
     position: static;
+
     margin-top: 16px;
+
     align-self: center;
   }
 
@@ -614,16 +1265,39 @@
 
   .hero-section__booking-container {
     width: calc(100% - 32px);
+
     margin-top: 24px;
   }
 
-  .hero-section__dropdown-menu {
-    bottom: auto;
-    top: calc(100% + 4px);
+  .hero-section__calendar-popup {
+    grid-template-columns: 135px 1fr;
+
+    width: 490px;
+  }
+
+  .hero-section__calendar-sidebar {
+    padding: 16px 10px;
+  }
+
+  .hero-section__calendar-main {
+    padding: 16px;
+  }
+
+  /* Compact Anyday dropdown */
+
+  .hero-section__form-grid--tour
+    .hero-section__field:nth-child(3)
+    .hero-section__dropdown-menu {
+    width: 170px;
+    min-width: 170px;
+    max-width: 170px;
   }
 }
 
-/* Mobile Devices */
+/* =====================================================
+   MOBILE
+===================================================== */
+
 @media (max-width: 600px) {
   .hero-section {
     padding: 8px 8px 16px;
@@ -643,14 +1317,19 @@
 
   .hero-section__tabs-header {
     width: 100%;
+
     justify-content: center;
   }
 
   .hero-section__tab-btn {
     flex: 1;
+
     min-width: 75px;
+
     padding: 9px 8px;
+
     font-size: 11.5px;
+
     border-radius: 10px 10px 0 0;
   }
 
@@ -666,15 +1345,161 @@
 
   .hero-section__field {
     min-height: 64px;
+
     border-right: none;
+
     border-top: none;
+
     border-bottom: 1px solid #e0e6da;
+
     padding: 10px 14px;
   }
 
   .hero-section__search-btn {
     grid-column: span 1;
+
     min-height: 52px;
+
     border-radius: 0 0 14px 14px;
+  }
+
+  /* ===================================================
+     MOBILE ANYDAY DROPDOWN
+  =================================================== */
+
+  .hero-section__form-grid--tour
+    .hero-section__field:nth-child(3)
+    .hero-section__dropdown-menu {
+    left: 50%;
+
+    width: 165px;
+    min-width: 165px;
+    max-width: 165px;
+
+    bottom: auto;
+
+    top: calc(100% + 5px);
+
+    padding: 5px;
+
+    transform: translateX(-50%);
+  }
+
+  .hero-section__form-grid--tour
+    .hero-section__field:nth-child(3)
+    .hero-section__dropdown-item {
+    min-height: 30px;
+
+    padding: 6px 9px;
+
+    font-size: 10.5px;
+  }
+
+  /* ===================================================
+     MOBILE CALENDAR
+  =================================================== */
+
+  .hero-section__calendar-popup {
+    position: fixed;
+
+    left: 50%;
+
+    top: 50%;
+
+    bottom: auto;
+
+    transform: translate(-50%, -50%);
+
+    width: calc(100vw - 24px);
+
+    max-width: 420px;
+
+    grid-template-columns: 1fr;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    border-radius: 18px;
+  }
+
+  .hero-section__calendar-sidebar {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 12px;
+
+    border-right: none;
+
+    border-bottom: 1px solid #e7ece4;
+  }
+
+  .hero-section__calendar-sidebar-title {
+    width: 100%;
+
+    padding: 2px 7px 7px;
+  }
+
+  .hero-section__quick-date {
+    width: auto;
+
+    flex: 1;
+
+    min-height: 36px;
+
+    justify-content: center;
+
+    padding: 0 8px;
+
+    margin: 0;
+
+    font-size: 10px;
+  }
+
+  .hero-section__calendar-main {
+    padding: 15px;
+  }
+
+  .hero-section__calendar-day {
+    min-height: 38px;
+
+    font-size: 11px;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 380px) {
+  .hero-section__calendar-popup {
+    width: calc(100vw - 16px);
+  }
+
+  .hero-section__quick-date {
+    font-size: 9px;
+  }
+
+  .hero-section__calendar-day {
+    min-height: 34px;
+  }
+
+  .hero-section__calendar-main {
+    padding: 12px;
+  }
+
+  /* Extra small Anyday popup */
+
+  .hero-section__form-grid--tour
+    .hero-section__field:nth-child(3)
+    .hero-section__dropdown-menu {
+    width: 155px;
+    min-width: 155px;
+    max-width: 155px;
   }
 }

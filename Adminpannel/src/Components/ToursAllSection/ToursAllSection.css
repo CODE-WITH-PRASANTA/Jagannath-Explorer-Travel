@@ -944,9 +944,6 @@
 
 /* =========================================================
    SEO CONTAINER
-
-   This is what fixes the issue from your screenshot.
-   The layout reacts to the ACTUAL CARD width.
    ========================================================= */
 
 .tours-all-section__seo-card {
@@ -954,13 +951,6 @@
   container-name: seo-card;
 }
 
-
-/* =========================================================
-   SEO GRID
-   DEFAULT = ONE COLUMN
-
-   This prevents tiny squeezed fields.
-   ========================================================= */
 
 .tours-all-section__seo-grid {
   width: 100%;
@@ -983,19 +973,11 @@
 }
 
 
-/* =========================================================
-   SEO BODY
-   ========================================================= */
-
 .tours-all-section__seo-card
 .tours-all-section__card-body {
   padding: 22px 22px 24px;
 }
 
-
-/* =========================================================
-   SEO FORM FIELD
-   ========================================================= */
 
 .tours-all-section__seo-card
 .tours-all-section__form-field {
@@ -1010,10 +992,6 @@
   margin-bottom: 0;
 }
 
-
-/* =========================================================
-   FIELD TOP
-   ========================================================= */
 
 .tours-all-section__field-top {
   width: 100%;
@@ -1049,10 +1027,6 @@
 }
 
 
-/* =========================================================
-   SEO LABEL
-   ========================================================= */
-
 .tours-all-section__seo-card
 .tours-all-section__label {
   color: #111827;
@@ -1064,10 +1038,6 @@
   font-weight: 720;
 }
 
-
-/* =========================================================
-   SEO INPUT
-   ========================================================= */
 
 .tours-all-section__seo-card
 .tours-all-section__control {
@@ -1124,10 +1094,6 @@
 }
 
 
-/* =========================================================
-   SEO TEXTAREA
-   ========================================================= */
-
 .tours-all-section__seo-card
 .tours-all-section__control--textarea {
   width: 100%;
@@ -1141,10 +1107,6 @@
   overflow-y: auto;
 }
 
-
-/* =========================================================
-   SEO HELP TEXT
-   ========================================================= */
 
 .tours-all-section__field-help {
   display: block;
@@ -1160,10 +1122,6 @@
   font-weight: 500;
 }
 
-
-/* =========================================================
-   KEYWORD WRAPPER
-   ========================================================= */
 
 .tours-all-section__keyword-wrapper {
   width: 100%;
@@ -1242,10 +1200,6 @@
 }
 
 
-/* =========================================================
-   META IMAGE HEADER
-   ========================================================= */
-
 .tours-all-section__media-header {
   width: 100%;
 
@@ -1286,10 +1240,6 @@
 }
 
 
-/* =========================================================
-   RECOMMENDED BADGE
-   ========================================================= */
-
 .tours-all-section__recommended-badge {
   flex-shrink: 0;
 
@@ -1314,10 +1264,6 @@
   text-transform: uppercase;
 }
 
-
-/* =========================================================
-   SEO UPLOAD BOX
-   ========================================================= */
 
 .tours-all-section__file-input {
   position: absolute;
@@ -1389,10 +1335,6 @@
 }
 
 
-/* =========================================================
-   UPLOAD PLACEHOLDER
-   ========================================================= */
-
 .tours-all-section__upload-placeholder {
   width: 100%;
   height: 100%;
@@ -1408,10 +1350,6 @@
   text-align: center;
 }
 
-
-/* =========================================================
-   UPLOAD ICON
-   ========================================================= */
 
 .tours-all-section__upload-icon-wrap {
   width: 52px;
@@ -1460,10 +1398,6 @@
 }
 
 
-/* =========================================================
-   UPLOAD TEXT
-   ========================================================= */
-
 .tours-all-section__upload-title {
   color: #111827;
 
@@ -1487,10 +1421,6 @@
   font-weight: 500;
 }
 
-
-/* =========================================================
-   UPLOAD SPEC
-   ========================================================= */
 
 .tours-all-section__upload-spec {
   margin-top: 12px;
@@ -1517,10 +1447,6 @@
   background: #cbd5e1;
 }
 
-
-/* =========================================================
-   IMAGE NOTE
-   ========================================================= */
 
 .tours-all-section__image-note {
   margin-top: 7px;
@@ -1549,10 +1475,6 @@
   color: #7c8798;
 }
 
-
-/* =========================================================
-   IMAGE PREVIEW
-   ========================================================= */
 
 .tours-all-section__upload-box--has-image {
   border-style: solid;
@@ -1757,6 +1679,32 @@
 
 
 /* =========================================================
+   INPUT PREFIX WRAPPER (For Minimum/Maximum People)
+   ========================================================= */
+
+.tours-all-section__input-prefix-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.tours-all-section__input-prefix-icon {
+  position: absolute;
+  left: 13px;
+  width: 15px;
+  height: 15px;
+  color: var(--tas-primary);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tours-all-section__control--prefixed {
+  padding-left: 38px;
+}
+
+
+/* =========================================================
    SELECT
    ========================================================= */
 
@@ -1889,8 +1837,6 @@
 }
 
 
-/* Default chip */
-
 .tours-all-section__chip:not(
   .tours-all-section__chip--include
 ):not(
@@ -1906,8 +1852,6 @@
 }
 
 
-/* Include */
-
 .tours-all-section__chip--include {
   background: var(--tas-success-soft);
 
@@ -1917,18 +1861,14 @@
 }
 
 
-/* Exclude */
-
 .tours-all-section__chip--exclude {
   background: var(--tas-warning-soft);
 
   color: #c2410c;
 
-  border: 1px solid var(--tas-warning-border);
+  border: 1px solid #fed7aa;
 }
 
-
-/* Tags */
 
 .tours-all-section__chip--tag {
   background: var(--tas-primary-soft);
@@ -2136,10 +2076,6 @@
 }
 
 
-/* =========================================================
-   QUICK TIPS SUPPORTS NEW STRUCTURE TOO
-   ========================================================= */
-
 .tours-all-section__tips-list li div {
   min-width: 0;
 
@@ -2273,21 +2209,6 @@
    SEO CONTAINER QUERIES
    ========================================================= */
 
-/*
-   IMPORTANT:
-
-   These queries check the actual SEO CARD width,
-   not the browser width.
-
-   So if your admin sidebar leaves only ~450px,
-   SEO automatically becomes a clean single column.
-*/
-
-
-/* ---------------------------------------------------------
-   WIDE CARD
-   --------------------------------------------------------- */
-
 @container seo-card (min-width: 720px) {
 
   .tours-all-section__seo-grid {
@@ -2301,10 +2222,6 @@
 }
 
 
-/* ---------------------------------------------------------
-   EXTRA WIDE CARD
-   --------------------------------------------------------- */
-
 @container seo-card (min-width: 900px) {
 
   .tours-all-section__seo-grid {
@@ -2317,10 +2234,6 @@
 
 }
 
-
-/* ---------------------------------------------------------
-   NARROW ADMIN CARD
-   --------------------------------------------------------- */
 
 @container seo-card (max-width: 560px) {
 
@@ -2390,10 +2303,6 @@
 
 }
 
-
-/* ---------------------------------------------------------
-   VERY NARROW ADMIN CARD
-   --------------------------------------------------------- */
 
 @container seo-card (max-width: 420px) {
 
@@ -2608,10 +2517,6 @@
   }
 
 
-  /* ---------------------------------------------
-     TOP ACTIONS
-     --------------------------------------------- */
-
   .tours-all-section__top-actions {
     width: 100%;
 
@@ -2634,18 +2539,10 @@
   }
 
 
-  /* ---------------------------------------------
-     CARD
-     --------------------------------------------- */
-
   .tours-all-section__card {
     border-radius: 13px;
   }
 
-
-  /* ---------------------------------------------
-     HEADER
-     --------------------------------------------- */
 
   .tours-all-section__card-header {
     min-height: 68px;
@@ -2705,18 +2602,10 @@
   }
 
 
-  /* ---------------------------------------------
-     BODY
-     --------------------------------------------- */
-
   .tours-all-section__card-body {
     padding: 14px;
   }
 
-
-  /* ---------------------------------------------
-     PUBLISH
-     --------------------------------------------- */
 
   .tours-all-section__publish-grid,
   .tours-all-section__publish-panel {
@@ -2745,10 +2634,6 @@
   }
 
 
-  /* ---------------------------------------------
-     FORM
-     --------------------------------------------- */
-
   .tours-all-section__form-field {
     margin-bottom: 15px;
   }
@@ -2771,20 +2656,12 @@
   }
 
 
-  /* ---------------------------------------------
-     TAGS
-     --------------------------------------------- */
-
   .tours-all-section__tag-box {
     min-height: 76px;
 
     padding: 8px;
   }
 
-
-  /* ---------------------------------------------
-     QUICK TIPS
-     --------------------------------------------- */
 
   .tours-all-section__tips-list {
     gap: 8px;
@@ -2812,10 +2689,6 @@
     display: none;
   }
 
-
-  /* ---------------------------------------------
-     TOAST
-     --------------------------------------------- */
 
   .tours-all-section__toast {
     top: 12px;
@@ -2907,5 +2780,4 @@
 
     animation-iteration-count: 1 !important;
   }
-
 }

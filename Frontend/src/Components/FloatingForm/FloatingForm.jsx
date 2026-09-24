@@ -10,8 +10,6 @@ import "./FloatingForm.css";
 import travelImage from "../../assets/images.webp";
 
 const API_URL = "http://localhost:5000";
-
-// Keep this number identical everywhere.
 const CALL_NUMBER = "+919668892441";
 
 const FloatingForm = ({
@@ -223,6 +221,7 @@ const FloatingForm = ({
       );
 
       generateCaptcha();
+
       return false;
     }
 
@@ -230,6 +229,7 @@ const FloatingForm = ({
       alert(
         "Please agree to the Terms & Conditions to continue."
       );
+
       return false;
     }
 
@@ -263,7 +263,6 @@ const FloatingForm = ({
             email: formData.email.trim(),
             mobile: formData.mobile.trim(),
             service: formData.service,
-
             travelDate: "",
             travelers: 1,
             departure: "",
@@ -339,9 +338,9 @@ const FloatingForm = ({
 
   return (
     <>
-      {/* =================================================
+      {/* ==========================================
           FIXED SIDE ENQUIRE BUTTON
-      ================================================= */}
+      ========================================== */}
       {!isOpen && (
         <button
           type="button"
@@ -379,9 +378,9 @@ const FloatingForm = ({
         </button>
       )}
 
-      {/* =================================================
+      {/* ==========================================
           ENQUIRY MODAL
-      ================================================= */}
+      ========================================== */}
       {isOpen && (
         <div
           className="floating-form-backdrop"
@@ -400,134 +399,21 @@ const FloatingForm = ({
         >
           <div className="floating-form-card">
 
-          <div className="floating-form-promo-content">
-            {/* Badge */}
-            <div className="floating-form-badge">
-              <span>
-                ✨ Odisha's Trusted Travel Partner
-              </span>
-            </div>
-
-            {/* Promo Title */}
-            <h2 className="floating-form-promo-title">
-              Your Journey Begins with <br />
-              <span>
-                Jagannath Explorer Travels
-              </span>
-            </h2>
-
-            {/* Description */}
-            <p className="floating-form-promo-desc">
-              Crafting unforgettable journeys
-              with personalized travel planning,
-              unbeatable deals, and seamless
-              experiences.
-            </p>
-
-            {/* Features */}
-            <ul className="floating-form-features">
-              <li>
-                <span
-                  className="floating-form-check"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
-
-                <span>
-                  Curated Odisha Travel Experiences
-                </span>
-              </li>
-
-              <li>
-                <span
-                  className="floating-form-check"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
-
-                <span>
-                  Premium &amp; Budget Car Rental Options
-                </span>
-              </li>
-
-              <li>
-                <span
-                  className="floating-form-check"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
-
-                <span>
-                  Professional Chauffeurs for Smooth Travel
-                </span>
-              </li>
-
-              <li>
-                <span
-                  className="floating-form-check"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
-
-                <span>
-                  Tailor-Made Trips as per Your Needs
-                </span>
-              </li>
-
-              <li>
-                <span
-                  className="floating-form-check"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
-
-                <span>
-                  Safe, Smooth &amp; Convenient Travel Guaranteed
-                </span>
-              </li>
-            </ul>
-
-            {/* Tagline */}
-            <p className="floating-form-tagline">
-              Tell us your travel plan — we'll handle the rest.
-            </p>
-
-            {/* Call Button */}
-              <a
-                href="tel:+919668892441"
-                className="floating-form-call-btn"
-                aria-label="Call Jagannath Explorer Travels at +91 9668892441"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                </svg>
-
-                <span>
-                  Call Now: (+91) 9668892441
-                </span>
-              </a>
-          </div>
-        </div>
-
-        {/* ==========================================
-            RIGHT FORM PANEL
-        ========================================== */}
-        <div className="floating-form-pane">
-          <div className="floating-form-header-wrap">
-            <h3
-              id="floating-form-title"
-              className="floating-form-title"
+            {/* ==========================================
+                LEFT PROMO PANEL
+            ========================================== */}
+            <div
+              className="floating-form-promo"
+              style={{
+                backgroundImage: `
+                  linear-gradient(
+                    180deg,
+                    rgba(3, 9, 18, 0.30),
+                    rgba(3, 7, 14, 0.88)
+                  ),
+                  url(${travelImage})
+                `,
+              }}
             >
               <div className="floating-form-promo-overlay" />
 
@@ -545,9 +431,8 @@ const FloatingForm = ({
                 <h2 className="floating-form-promo-title">
                   Your Journey Begins
                   <br />
-                  With
+                  With{" "}
                   <span>
-                    {" "}
                     Jagannath Explorer Travels
                   </span>
                 </h2>
@@ -582,7 +467,7 @@ const FloatingForm = ({
                     <div>
                       <strong>Reliable Cars</strong>
                       <small>
-                        Local & outstation travel
+                        Local &amp; outstation travel
                       </small>
                     </div>
                   </div>
@@ -595,7 +480,7 @@ const FloatingForm = ({
                     <div>
                       <strong>Expert Chauffeurs</strong>
                       <small>
-                        Comfortable & smooth rides
+                        Comfortable &amp; smooth rides
                       </small>
                     </div>
                   </div>
@@ -642,7 +527,9 @@ const FloatingForm = ({
 
                   <span>
                     Call Now
-                    <strong>+91 96688 92441</strong>
+                    <strong>
+                      +91 96688 92441
+                    </strong>
                   </span>
                 </button>
 
@@ -713,6 +600,7 @@ const FloatingForm = ({
                         width="17"
                         height="17"
                         fill="currentColor"
+                        aria-hidden="true"
                       >
                         <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                       </svg>
@@ -757,7 +645,6 @@ const FloatingForm = ({
                   </label>
 
                   <div className="floating-form-input-wrap">
-
                     <span className="floating-form-country-code">
                       +91
                     </span>
@@ -782,11 +669,11 @@ const FloatingForm = ({
                         width="17"
                         height="17"
                         fill="currentColor"
+                        aria-hidden="true"
                       >
-                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.39 21 3 13.61 3 4.5 3 3.95 3.45 3.5 4 3.5h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l-2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.39 21 3 13.61 3 4.5 3 3.95 3.45 3.5 4 3.5h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
                       </svg>
                     </span>
-
                   </div>
                 </div>
 
@@ -836,7 +723,6 @@ const FloatingForm = ({
 
                 {/* CAPTCHA */}
                 <div className="floating-form-captcha-group">
-
                   <label
                     htmlFor="floatingFormCaptcha"
                     className="floating-form-label"
@@ -888,7 +774,6 @@ const FloatingForm = ({
 
                 {/* TERMS */}
                 <div className="floating-form-terms">
-
                   <input
                     type="checkbox"
                     id="floatingFormTerms"
@@ -901,11 +786,10 @@ const FloatingForm = ({
                   <label htmlFor="floatingFormTerms">
                     I agree to the{" "}
                     <a href="/terms">
-                      Terms & Conditions
+                      Terms &amp; Conditions
                     </a>{" "}
                     of Jagannath Explorer Travels.
                   </label>
-
                 </div>
 
                 {/* SUBMIT */}
@@ -928,6 +812,7 @@ const FloatingForm = ({
                         width="17"
                         height="17"
                         fill="currentColor"
+                        aria-hidden="true"
                       >
                         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
                       </svg>
