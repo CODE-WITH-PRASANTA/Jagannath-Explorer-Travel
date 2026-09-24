@@ -18,7 +18,7 @@ const LuxuryCars = () => {
     address: {
       "@type": "PostalAddress",
       streetAddress:
-        "Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur",
+        "Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantarapur",
       addressLocality: "Bhubaneswar",
       addressRegion: "Odisha",
       postalCode: "751002",

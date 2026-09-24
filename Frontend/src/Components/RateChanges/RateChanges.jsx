@@ -271,7 +271,7 @@ const RateChanges = () => {
           <div className="business-info__item">
             <span className="business-info__icon" aria-hidden="true">📍</span>
             <span>
-              Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur,
+              Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantarapur,
               Bhubaneswar, Odisha, Pin - 751002
             </span>
           </div>

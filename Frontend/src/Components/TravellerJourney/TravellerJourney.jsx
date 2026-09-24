@@ -32,7 +32,7 @@ import urbania17 from "../../assets/Urbania-Traveller.webp";
 const BUSINESS = {
   name: "Jagannath Explorer Travels",
   address:
-    "Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur, Bhubaneswar, Odisha, Pin - 751002",
+    "Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantarapur, Bhubaneswar, Odisha, Pin - 751002",
   phone1: "9668892441",
   phone2: "9556355446",
 };

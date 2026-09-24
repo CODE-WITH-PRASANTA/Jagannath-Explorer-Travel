@@ -2,112 +2,75 @@ const Gallery = require("../models/Gallery");
 const fs = require("fs");
 const path = require("path");
 
-/*
-=========================================
-GET ALL GALLERY
-=========================================
-*/
-
-const getGallery = async (req, res) => {
-  try {
-    const gallery = await Gallery.find().sort({
-      createdAt: -1,
-    });
-
-    res.status(200).json({
-      success: true,
-      count: gallery.length,
-      data: gallery,
-    });
-  } catch (error) {
-    console.error("GET GALLERY ERROR:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch gallery",
-      error: error.message,
-    });
-  }
-};
-
-
-/*
-=========================================
-GET SINGLE GALLERY
-=========================================
-*/
-
-const getSingleGallery = async (req, res) => {
-  try {
-    const gallery = await Gallery.findById(req.params.id);
-
-    if (!gallery) {
-      return res.status(404).json({
-        success: false,
-        message: "Gallery image not found",
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      data: gallery,
-    });
-  } catch (error) {
-    console.error("GET SINGLE GALLERY ERROR:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch gallery image",
-      error: error.message,
-    });
-  }
-};
-
-
-/*
-=========================================
-CREATE GALLERY
-=========================================
-*/
+// =====================================================
+// CREATE GALLERY
+// POST /api/gallery
+// =====================================================
 
 const createGallery = async (req, res) => {
   try {
-    const { imageName } = req.body;
+    const { mediaName, mediaType } = req.body;
 
-    // Validate image name
-    if (!imageName || !imageName.trim()) {
+    // Validate title
+    if (!mediaName || !mediaName.trim()) {
       return res.status(400).json({
         success: false,
-        message: "Image name is required",
+        message: "Media title/name is required.",
       });
     }
 
-    // Validate uploaded image
+    // Validate uploaded file
     if (!req.file) {
       return res.status(400).json({
         success: false,
-        message: "Gallery image is required",
+        message: "Please upload an image or video.",
       });
     }
 
+    let detectedMediaType = "image";
+
+    if (req.file.mimetype.startsWith("video/")) {
+      detectedMediaType = "video";
+    }
+
+    // If frontend sends mediaType, validate it
+    if (
+      mediaType &&
+      !["image", "video"].includes(mediaType)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid media type.",
+      });
+    }
+
+    const finalMediaType =
+      mediaType || detectedMediaType;
+
+    // Create URL
+    const mediaUrl =
+      `/uploads/gallery/${req.file.filename}`;
+
+    // Create MongoDB document
     const gallery = await Gallery.create({
-      imageName: imageName.trim(),
-      image: req.file.filename,
+      mediaName: mediaName.trim(),
+      mediaType: finalMediaType,
+      mediaUrl,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
-      message: "Gallery image added successfully",
+      message: "Gallery media uploaded successfully.",
       data: gallery,
     });
   } catch (error) {
     console.error("CREATE GALLERY ERROR:", error);
 
-    // Delete uploaded file if database save fails
+    // Remove uploaded file if DB creation fails
     if (req.file) {
       const filePath = path.join(
         __dirname,
-        "../uploads/gallery",
+        "../../uploads/gallery",
         req.file.filename
       );
 
@@ -116,118 +79,175 @@ const createGallery = async (req, res) => {
       }
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Failed to add gallery image",
+      message: "Failed to create gallery media.",
       error: error.message,
     });
   }
 };
 
+// =====================================================
+// GET ALL GALLERY
+// GET /api/gallery
+// =====================================================
 
-/*
-=========================================
-UPDATE GALLERY
-=========================================
-*/
+const getGallery = async (req, res) => {
+  try {
+    const gallery = await Gallery.find()
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      count: gallery.length,
+      data: gallery,
+    });
+  } catch (error) {
+    console.error("GET GALLERY ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch gallery.",
+      error: error.message,
+    });
+  }
+};
+
+// =====================================================
+// GET SINGLE GALLERY
+// GET /api/gallery/:id
+// =====================================================
+
+const getSingleGallery = async (req, res) => {
+  try {
+    const gallery = await Gallery.findById(req.params.id);
+
+    if (!gallery) {
+      return res.status(404).json({
+        success: false,
+        message: "Gallery media not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: gallery,
+    });
+  } catch (error) {
+    console.error("GET SINGLE GALLERY ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch gallery media.",
+      error: error.message,
+    });
+  }
+};
+
+// =====================================================
+// UPDATE GALLERY
+// PUT /api/gallery/:id
+// =====================================================
 
 const updateGallery = async (req, res) => {
   try {
-    const { imageName } = req.body;
+    const { mediaName, mediaType } = req.body;
 
     const gallery = await Gallery.findById(req.params.id);
 
     if (!gallery) {
-      // If multer uploaded a file but gallery doesn't exist,
-      // remove the newly uploaded file.
       if (req.file) {
-        const newFilePath = path.join(
+        const uploadedPath = path.join(
           __dirname,
-          "../uploads/gallery",
+          "../../uploads/gallery",
           req.file.filename
         );
 
-        if (fs.existsSync(newFilePath)) {
-          fs.unlinkSync(newFilePath);
+        if (fs.existsSync(uploadedPath)) {
+          fs.unlinkSync(uploadedPath);
         }
       }
 
       return res.status(404).json({
         success: false,
-        message: "Gallery image not found",
+        message: "Gallery media not found.",
       });
     }
 
-    if (!imageName || !imageName.trim()) {
-      return res.status(400).json({
-        success: false,
-        message: "Image name is required",
-      });
+    // Update title
+    if (mediaName && mediaName.trim()) {
+      gallery.mediaName = mediaName.trim();
     }
 
-    // Keep old image initially
-    let oldImage = gallery.image;
-
-    gallery.imageName = imageName.trim();
-
-    // If a new image was uploaded
+    // If new file uploaded
     if (req.file) {
-      gallery.image = req.file.filename;
-    }
+      const oldMediaUrl = gallery.mediaUrl;
 
-    const updatedGallery = await gallery.save();
+      let newMediaType = "image";
 
-    // Delete old image after successful DB update
-    if (req.file && oldImage) {
-      const oldImagePath = path.join(
-        __dirname,
-        "../uploads/gallery",
-        oldImage
-      );
-
-      if (
-        fs.existsSync(oldImagePath) &&
-        oldImage !== req.file.filename
-      ) {
-        fs.unlinkSync(oldImagePath);
+      if (req.file.mimetype.startsWith("video/")) {
+        newMediaType = "video";
       }
+
+      gallery.mediaUrl =
+        `/uploads/gallery/${req.file.filename}`;
+
+      gallery.mediaType =
+        mediaType || newMediaType;
+
+      // Delete old physical file
+      if (oldMediaUrl) {
+        const oldFileName =
+          path.basename(oldMediaUrl);
+
+        const oldFilePath = path.join(
+          __dirname,
+          "../../uploads/gallery",
+          oldFileName
+        );
+
+        if (fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath);
+        }
+      }
+    } else if (mediaType) {
+      gallery.mediaType = mediaType;
     }
 
-    res.status(200).json({
+    await gallery.save();
+
+    return res.status(200).json({
       success: true,
-      message: "Gallery image updated successfully",
-      data: updatedGallery,
+      message: "Gallery media updated successfully.",
+      data: gallery,
     });
   } catch (error) {
     console.error("UPDATE GALLERY ERROR:", error);
 
-    // Delete newly uploaded image if update fails
     if (req.file) {
-      const newFilePath = path.join(
+      const filePath = path.join(
         __dirname,
-        "../uploads/gallery",
+        "../../uploads/gallery",
         req.file.filename
       );
 
-      if (fs.existsSync(newFilePath)) {
-        fs.unlinkSync(newFilePath);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
       }
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Failed to update gallery image",
+      message: "Failed to update gallery media.",
       error: error.message,
     });
   }
 };
 
-
-/*
-=========================================
-DELETE GALLERY
-=========================================
-*/
+// =====================================================
+// DELETE GALLERY
+// DELETE /api/gallery/:id
+// =====================================================
 
 const deleteGallery = async (req, res) => {
   try {
@@ -236,46 +256,48 @@ const deleteGallery = async (req, res) => {
     if (!gallery) {
       return res.status(404).json({
         success: false,
-        message: "Gallery image not found",
+        message: "Gallery media not found.",
       });
     }
 
-    // Delete image from uploads folder
-    if (gallery.image) {
-      const imagePath = path.join(
+    // Delete physical file
+    if (gallery.mediaUrl) {
+      const fileName =
+        path.basename(gallery.mediaUrl);
+
+      const filePath = path.join(
         __dirname,
-        "../uploads/gallery",
-        gallery.image
+        "../../uploads/gallery",
+        fileName
       );
 
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
       }
     }
 
     // Delete MongoDB document
     await Gallery.findByIdAndDelete(req.params.id);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: "Gallery image deleted successfully",
+      message: "Gallery media deleted successfully.",
     });
   } catch (error) {
     console.error("DELETE GALLERY ERROR:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Failed to delete gallery image",
+      message: "Failed to delete gallery media.",
       error: error.message,
     });
   }
 };
 
-
 module.exports = {
+  createGallery,
   getGallery,
   getSingleGallery,
-  createGallery,
   updateGallery,
   deleteGallery,
 };

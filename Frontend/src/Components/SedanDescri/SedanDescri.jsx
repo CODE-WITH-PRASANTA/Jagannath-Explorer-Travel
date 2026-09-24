@@ -684,7 +684,7 @@ const SedanDescri = () => {
         <div className="sedan-catalog__business-info">
           <div className="info-item">
             <span className="info-icon">📍</span>
-            <span>Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur, Bhubaneswar, Odisha - 751002</span>
+            <span>Plot No - 001, Mahaveer Nagar, Road No. - 18,Samantarapur, Bhubaneswar, Odisha - 751002</span>
           </div>
           <div className="info-item">
             <span className="info-icon">📞</span>

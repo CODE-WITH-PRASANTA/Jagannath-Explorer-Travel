@@ -1,481 +1,746 @@
- 
-/* Fullscreen Backdrop with Enhanced Frosted Glass Blur */ 
-.floating-form-backdrop { 
-  position: fixed; 
-  inset: 0; 
-  width: 100vw; 
-  height: 100vh; 
-  height: 100dvh; 
-  background-color: rgba(4, 9, 18, 0.76); 
-  backdrop-filter: blur(14px) saturate(150%); 
-  -webkit-backdrop-filter: blur(14px) saturate(150%); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  padding: 20px; 
-  z-index: 99999; 
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; 
-  box-sizing: border-box; 
-  animation: floatingFormFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-} 
- 
-.floating-form-backdrop *, 
-.floating-form-backdrop *::before, 
-.floating-form-backdrop *::after { 
-  box-sizing: border-box; 
-} 
- 
-/* Modal Card Structure */ 
-.floating-form-card { 
-  position: relative; 
-  width: 100%; 
-  max-width: 980px; 
-  max-height: 90vh; 
-  max-height: 90dvh; 
-  border-radius: 20px; 
-  overflow: hidden; 
-  display: flex; 
-  background-color: #0c1524; 
-  box-shadow: 0 35px 85px -15px rgba(0, 0, 0, 0.85),  
-              0 0 0 1px rgba(255, 255, 255, 0.14); 
-  animation: floatingFormPopIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-} 
- 
-@keyframes floatingFormFadeIn { 
-  from { opacity: 0; } 
-  to { opacity: 1; } 
-} 
- 
-@keyframes floatingFormPopIn { 
-  from { 
-    opacity: 0; 
-    transform: scale(0.92) translateY(12px); 
-  } 
-  to { 
-    opacity: 1; 
-    transform: scale(1) translateY(0); 
-  } 
-} 
- 
-/* Floating Close Button */ 
-.floating-form-close { 
-  position: absolute; 
-  top: 16px; 
-  right: 16px; 
-  width: 38px; 
-  height: 38px; 
-  min-width: 38px; 
-  min-height: 38px; 
-  border-radius: 50%; 
-  background: linear-gradient(135deg, #f55513 0%, #df4404 100%); 
-  color: #ffffff; 
-  border: 2px solid rgba(255, 255, 255, 0.35); 
-  font-size: 14px; 
-  font-weight: 700; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  cursor: pointer; 
-  z-index: 50; 
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; 
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45); 
-} 
- 
-.floating-form-close:hover { 
-  transform: scale(1.12) rotate(90deg); 
-  box-shadow: 0 6px 20px rgba(245, 85, 19, 0.5); 
-} 
- 
-/* Left Promo Section */ 
-.floating-form-promo { 
-  position: relative; 
-  width: 48%; 
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  display: flex; 
-  align-items: center; 
-} 
- 
-.floating-form-promo-overlay { 
-  position: absolute; 
-  inset: 0; 
-  background: linear-gradient( 
-    180deg, 
-    rgba(6, 11, 20, 0.94) 0%, 
-    rgba(10, 18, 30, 0.86) 50%, 
-    rgba(6, 11, 20, 0.98) 100% 
-  ); 
-} 
- 
-.floating-form-promo-content { 
-  position: relative; 
-  z-index: 2; 
-  padding: 38px 32px; 
-  color: #ffffff; 
-} 
+/* =========================================================
+   FLOATING TRAVEL ENQUIRY
+   PREMIUM SIDE BUTTON (LEFT SIDE) + MODAL
+   JAGANNATH EXPLORER TRAVELS
+   ========================================================= */
+
+.floating-form-backdrop,
+.floating-form-backdrop *,
+.floating-form-backdrop *::before,
+.floating-form-backdrop *::after,
+.floating-enquire-trigger,
+.floating-enquire-trigger *,
+.floating-enquire-trigger *::before,
+.floating-enquire-trigger *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   SIDE ENQUIRE BUTTON (LEFT SIDE)
+   ========================================================= */
+
+.floating-enquire-trigger {
+  position: fixed;
+
+  left: 0;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 48px;
+  min-height: 148px;
+
+  padding: 13px 7px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: none;
+
+  border-radius: 0 15px 15px 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 105, 45, 0.98),
+      rgba(218, 57, 4, 0.98)
+    );
+
+  color: #fff;
+
+  cursor: pointer;
+
+  z-index: 99990;
+
+  box-shadow:
+    5px 8px 30px rgba(245, 85, 19, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+
+  font-family:
+    "Plus Jakarta Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  transition:
+    width 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    border-radius 0.25s ease;
+
+  overflow: hidden;
+}
+
+/* Soft glow */
+
+.floating-enquire-trigger::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 1px;
+
+  border-radius: 0 14px 14px 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.2),
+      transparent 45%
+    );
+
+  pointer-events: none;
+}
+
+/* Hover */
+
+.floating-enquire-trigger:hover {
+  width: 58px;
+
+  transform:
+    translateY(-50%)
+    translateX(2px);
+
+  box-shadow:
+    8px 12px 38px rgba(245, 85, 19, 0.42),
+    0 0 22px rgba(245, 85, 19, 0.16);
+}
+
+/* =========================================================
+   GLOW
+   ========================================================= */
+
+.floating-enquire-glow {
+  position: absolute;
+
+  top: 14px;
+  left: 9px;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  box-shadow:
+    0 0 0 0 rgba(255, 255, 255, 0.55);
+
+  animation:
+    floatingEnquirePulse
+    2s
+    infinite;
+
+  pointer-events: none;
+}
+
+@keyframes floatingEnquirePulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(255, 255, 255, 0.5);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 8px rgba(255, 255, 255, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.floating-enquire-icon {
+  position: relative;
+  z-index: 2;
+
+  width: 29px;
+  height: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.floating-enquire-icon svg {
+  display: block;
+}
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+.floating-enquire-text {
+  position: relative;
+  z-index: 2;
+
+  display: block;
+
+  writing-mode: vertical-rl;
+
+  transform: rotate(180deg);
+
+  color: #fff;
+
+  font-size: 0.61rem;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  text-shadow:
+    0 1px 5px rgba(0, 0, 0, 0.16);
+}
+
+/* =========================================================
+   ARROW
+   ========================================================= */
+
+.floating-enquire-arrow {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 23px;
+  height: 23px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.14);
+
+  font-size: 0.9rem;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.floating-enquire-trigger:hover
+.floating-enquire-arrow {
+  transform: translateX(2px);
+
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* =========================================================
+   MODAL BACKDROP & STYLES (Kept identical)
+   ========================================================= */
+
+.floating-form-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  background: rgba(3, 8, 18, 0.76);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: floatingFormFadeIn 0.25s ease forwards;
+  font-family: "Plus Jakarta Sans", -apple-system, sans-serif;
+}
+
+@keyframes floatingFormFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes floatingFormPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes floatingFormSpin {
+  to { transform: rotate(360deg); }
+}
+
+.floating-form-card {
+  position: relative;
+  width: min(100%, 760px);
+  max-height: 90dvh;
+  display: flex;
+  overflow: hidden;
+  border-radius: 17px;
+  background: #0b1320;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.025);
+  animation: floatingFormPopIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.floating-form-close {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(8, 15, 27, 0.82);
+  color: #fff;
+  cursor: pointer;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.floating-form-close span {
+  display: block;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.floating-form-close:hover {
+  transform: rotate(90deg);
+  background: #f55513;
+  border-color: #ff7740;
+}
+
+.floating-form-promo {
+  position: relative;
+  width: 42%;
+  min-height: 440px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.floating-form-promo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3, 9, 18, 0.48) 0%, rgba(4, 10, 19, 0.7) 48%, rgba(3, 7, 14, 0.96) 100%);
+}
+
+.floating-form-promo-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 30px 23px 24px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .floating-form-badge {
-  display: inline-block;
-  background: rgba(245, 85, 19, 0.18);
-  border: 1px solid rgba(245, 85, 19, 0.35);
-  padding: 5px 12px;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  margin-bottom: 12px;
   border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #ff7a3d;
-  margin-bottom: 14px;
-  letter-spacing: 0.3px;
+  background: rgba(245, 85, 19, 0.14);
+  border: 1px solid rgba(255, 122, 61, 0.3);
+  color: #ff9363;
+  font-size: 0.56rem;
+  font-weight: 700;
 }
- 
-.floating-form-promo-title { 
-  font-size: 1.4rem; 
-  font-weight: 700; 
-  line-height: 1.35; 
-  margin: 0 0 10px 0; 
-  letter-spacing: -0.3px; 
-} 
- 
-.floating-form-promo-title span { 
-  color: #ff6220;
-  text-shadow: 0 2px 10px rgba(245, 85, 19, 0.3);
-} 
- 
-.floating-form-promo-desc { 
-  font-size: 0.81rem; 
-  line-height: 1.5; 
-  color: #cbd5e1; 
-  margin: 0 0 18px 0; 
-} 
- 
-.floating-form-features { 
-  list-style: none; 
-  padding: 0; 
-  margin: 0 0 18px 0; 
-  display: flex; 
-  flex-direction: column; 
-  gap: 9px; 
-} 
- 
-.floating-form-features li { 
-  display: flex; 
-  align-items: flex-start; 
-  gap: 8px; 
-  font-size: 0.81rem; 
-  font-weight: 500; 
-  color: #f1f5f9; 
-} 
- 
-.floating-form-check { 
-  color: #f55513; 
-  font-weight: 800; 
-  font-size: 0.95rem; 
-  line-height: 1; 
-} 
- 
-.floating-form-tagline { 
-  font-size: 0.8rem; 
-  color: #cbd5e1; 
-  margin: 0 0 16px 0; 
+
+.floating-form-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff6422;
+  box-shadow: 0 0 8px rgba(255, 100, 34, 0.8);
+}
+
+.floating-form-small-label {
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.53rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.floating-form-promo-title {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 1.45rem;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.floating-form-promo-title span {
+  color: #ff6828;
+}
+
+.floating-form-promo-desc {
+  max-width: 320px;
+  margin: 0 0 15px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.63rem;
+  line-height: 1.5;
+}
+
+.floating-form-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.floating-form-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 7px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.floating-form-feature-icon {
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(245, 85, 19, 0.14);
+  color: #ff7136;
+  font-size: 0.55rem;
+  font-weight: 800;
+}
+
+.floating-form-feature strong {
+  display: block;
+  margin-bottom: 1px;
+  color: #fff;
+  font-size: 0.55rem;
+}
+
+.floating-form-feature small {
+  display: block;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.47rem;
+}
+
+.floating-form-divider {
+  width: 100%;
+  height: 1px;
+  margin: 0 0 10px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+}
+
+.floating-form-tagline {
+  margin: 0 0 10px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.59rem;
   font-style: italic;
-} 
- 
-.floating-form-call-btn { 
-  display: inline-flex; 
-  align-items: center; 
-  gap: 8px; 
-  background: linear-gradient(135deg, #f55513 0%, #e04402 100%); 
-  color: #ffffff; 
-  padding: 10px 22px; 
-  border-radius: 999px; 
-  text-decoration: none; 
-  font-size: 0.82rem; 
-  font-weight: 700; 
-  box-shadow: 0 4px 16px rgba(245, 85, 19, 0.45); 
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; 
-} 
- 
-.floating-form-call-btn:hover { 
-  transform: translateY(-2px); 
-  box-shadow: 0 6px 20px rgba(245, 85, 19, 0.6); 
-} 
- 
-/* Right Form Section */ 
-.floating-form-pane { 
-  width: 52%; 
-  background: linear-gradient(160deg, #1f6cd5 0%, #11438f 40%, #091938 85%, #050b18 100%); 
-  padding: 38px 34px; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center; 
-  overflow-y: auto; 
-} 
+}
+
+.floating-form-tagline strong {
+  color: #fff;
+}
+
+.floating-form-call-btn {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f55513, #dc3f04);
+  color: #fff;
+  cursor: pointer;
+}
+
+.floating-form-pane {
+  width: 58%;
+  padding: 27px 25px 22px;
+  overflow-y: auto;
+  background: radial-gradient(circle at 90% 5%, rgba(245, 85, 19, 0.12), transparent 30%), linear-gradient(150deg, #18202d 0%, #101a28 55%, #09111e 100%);
+}
 
 .floating-form-header-wrap {
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
- 
-.floating-form-title { 
-  color: #ffffff; 
-  font-size: 1.4rem; 
-  font-weight: 700; 
-  margin: 0 0 4px 0; 
-  letter-spacing: -0.2px; 
-} 
+
+.floating-form-form-badge {
+  width: fit-content;
+  margin: 0 auto 5px;
+  color: #ff7740;
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.floating-form-title {
+  margin: 0 0 4px;
+  color: #fff;
+  font-size: 1.18rem;
+  font-weight: 800;
+}
 
 .floating-form-subtitle {
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.78rem;
-  margin: 0;
+  max-width: 310px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.59rem;
 }
- 
-.floating-form-body { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 12px; 
-} 
- 
-.floating-form-field { 
-  position: relative; 
-} 
- 
-.floating-form-field input, 
-.floating-form-field select { 
-  width: 100%; 
-  height: 42px; 
-  padding: 0 40px 0 14px; 
-  background-color: rgba(255, 255, 255, 0.15); 
-  border: 1px solid rgba(255, 255, 255, 0.25); 
-  border-radius: 8px; 
-  font-size: 0.84rem; 
-  color: #ffffff; 
-  outline: none; 
-  font-family: inherit; 
-  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; 
-} 
- 
-.floating-form-field input::placeholder { 
-  color: rgba(255, 255, 255, 0.72); 
-} 
- 
-.floating-form-field input:focus, 
-.floating-form-field select:focus { 
-  border-color: #ffffff; 
-  background-color: rgba(255, 255, 255, 0.24); 
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
-} 
- 
-.floating-form-field-icon { 
-  position: absolute; 
-  right: 14px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  color: rgba(255, 255, 255, 0.8); 
-  pointer-events: none; 
-  display: flex; 
-} 
- 
-.floating-form-select { 
-  position: relative; 
-} 
- 
-.floating-form-select select { 
-  appearance: none; 
-  -webkit-appearance: none; 
-  cursor: pointer; 
-  color: rgba(255, 255, 255, 0.92); 
-} 
- 
-.floating-form-select select option { 
-  background-color: #0b1e42; 
-  color: #ffffff; 
-} 
- 
-.floating-form-chevron { 
-  position: absolute; 
-  right: 14px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  font-size: 0.65rem; 
-  color: rgba(255, 255, 255, 0.8); 
-  pointer-events: none; 
-} 
- 
-/* Captcha Layout */ 
-.floating-form-captcha-group { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 5px; 
-} 
- 
-.floating-form-captcha-label { 
-  font-size: 0.74rem; 
-  color: rgba(255, 255, 255, 0.88); 
-  font-weight: 500; 
-} 
- 
-.floating-form-captcha-row { 
-  display: grid; 
-  grid-template-columns: 85px 1fr 42px; 
-  gap: 8px; 
-  align-items: center; 
-} 
- 
-.floating-form-captcha-box { 
-  height: 40px; 
-  border: 1.5px dashed rgba(255, 255, 255, 0.45); 
-  border-radius: 8px; 
-  background-color: rgba(0, 0, 0, 0.3); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  font-family: monospace; 
-  font-size: 1.1rem; 
-  letter-spacing: 3px; 
-  font-weight: 700; 
-  color: #ffffff; 
-  user-select: none; 
-} 
- 
-.floating-form-captcha-input { 
-  height: 40px; 
-  background-color: #ffffff; 
-  border: none; 
-  border-radius: 8px; 
-  padding: 0 12px; 
-  font-size: 0.84rem; 
-  color: #0f172a; 
-  font-weight: 600; 
-  outline: none; 
-  font-family: inherit; 
-} 
- 
-.floating-form-captcha-input::placeholder { 
-  color: #94a3b8; 
-  font-weight: 400; 
-} 
- 
-.floating-form-captcha-refresh { 
-  height: 40px; 
-  width: 42px; 
-  border-radius: 8px; 
-  border: 1px solid rgba(255, 255, 255, 0.4); 
-  background-color: rgba(255, 255, 255, 0.12); 
-  color: #ffffff; 
-  font-size: 1.2rem; 
-  line-height: 1; 
-  cursor: pointer; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  transition: transform 0.2s ease, background-color 0.2s ease; 
-} 
- 
-.floating-form-captcha-refresh:hover { 
-  background-color: rgba(255, 255, 255, 0.24); 
-  transform: rotate(45deg); 
-} 
- 
-/* Terms Checkbox */ 
-.floating-form-terms { 
-  display: flex; 
-  align-items: flex-start; 
-  gap: 8px; 
-  font-size: 0.73rem; 
-  color: rgba(255, 255, 255, 0.9); 
-  line-height: 1.35; 
-} 
- 
-.floating-form-terms input { 
-  margin-top: 2px; 
-  accent-color: #ff5513; 
-  width: 15px; 
-  height: 15px; 
-  cursor: pointer; 
-  flex-shrink: 0; 
-} 
- 
-.floating-form-terms a { 
-  color: #93c5fd; 
-  text-decoration: underline; 
-} 
- 
-/* Submit Action Button */ 
-.floating-form-submit { 
-  height: 44px; 
-  margin-top: 2px; 
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); 
-  color: #ffffff; 
-  border: none; 
-  border-radius: 999px; 
-  font-size: 0.9rem; 
-  font-weight: 600; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 8px; 
-  cursor: pointer; 
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.45); 
-  font-family: inherit; 
-  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease; 
-} 
- 
-.floating-form-submit:hover { 
-  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); 
-  transform: translateY(-1px); 
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6); 
-} 
- 
-/* Mobile & Tablet Responsiveness */ 
-@media (max-width: 820px) { 
-  .floating-form-backdrop { 
-    padding: 12px; 
-    align-items: center; 
-  } 
- 
-  .floating-form-card { 
-    flex-direction: column; 
-    max-height: 92dvh; 
-    overflow-y: auto; 
-    border-radius: 14px; 
-  } 
- 
-  .floating-form-close { 
-    top: 12px; 
-    right: 12px; 
-    width: 32px; 
-    height: 32px; 
-  } 
- 
-  .floating-form-promo, 
-  .floating-form-pane { 
-    width: 100%; 
-  } 
- 
-  .floating-form-promo-content { 
-    padding: 24px 18px 20px 18px; 
-  } 
- 
-  .floating-form-promo-title { 
-    font-size: 1.15rem; 
-    padding-right: 32px; 
-  } 
- 
-  .floating-form-features { 
-    display: none; /* Keeps the form prioritized on small screens */ 
-  } 
- 
-  .floating-form-pane { 
-    padding: 22px 18px 26px 18px; 
-  } 
- 
-  .floating-form-title { 
-    font-size: 1.2rem; 
-  } 
- 
-  .floating-form-captcha-row { 
-    grid-template-columns: 75px 1fr 40px; 
-    gap: 6px; 
-  } 
+
+.floating-form-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.floating-form-field {
+  width: 100%;
+}
+
+.floating-form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 4px 2px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.57rem;
+  font-weight: 600;
+}
+
+.floating-form-label span {
+  color: rgba(255, 255, 255, 0.34);
+  font-size: 0.5rem;
+}
+
+.floating-form-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.floating-form-field input,
+.floating-form-field select {
+  width: 100%;
+  height: 37px;
+  padding: 0 35px 0 11px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 7px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.62rem;
+}
+
+.floating-form-field-icon {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.38);
+  pointer-events: none;
+}
+
+.floating-form-country-code {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  color: #ff7941;
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+.floating-form-country-code + input {
+  padding-left: 39px;
+}
+
+.floating-form-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.floating-form-field select option {
+  background: #101b2b;
+  color: #fff;
+}
+
+.floating-form-chevron {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.48rem;
+  pointer-events: none;
+}
+
+.floating-form-captcha-group {
+  width: 100%;
+  margin-top: 1px;
+}
+
+.floating-form-captcha-row {
+  display: grid;
+  grid-template-columns: 67px 1fr 35px;
+  gap: 5px;
+  width: 100%;
+}
+
+.floating-form-captcha-box {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  border: 1px dashed rgba(255, 122, 61, 0.5);
+  background: repeating-linear-gradient(-45deg, rgba(245, 85, 19, 0.08), rgba(245, 85, 19, 0.08) 5px, rgba(255, 255, 255, 0.035) 5px, rgba(255, 255, 255, 0.035) 10px);
+  color: #ff8751;
+  font-family: monospace;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.floating-form-captcha-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 9px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 7px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.95);
+  color: #101827;
+  font-size: 0.61rem;
+  font-weight: 600;
+}
+
+.floating-form-captcha-refresh {
+  width: 35px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.floating-form-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 1px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.51rem;
+}
+
+.floating-form-terms input {
+  width: 12px;
+  height: 12px;
+  accent-color: #f55513;
+  cursor: pointer;
+}
+
+.floating-form-terms a {
+  color: #ff7b43;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.floating-form-submit {
+  width: 100%;
+  min-height: 39px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff6a2b 0%, #f04c0a 55%, #d83b03 100%);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(245, 85, 19, 0.25);
+}
+
+.floating-form-spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  animation: floatingFormSpin 0.7s linear infinite;
+}
+
+.floating-form-secure-text {
+  margin: -1px 0 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 0.47rem;
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS FOR LEFT SIDE TRIGGER
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .floating-enquire-trigger {
+    left: 0;
+    width: 42px;
+    min-height: 118px;
+    padding: 9px 5px;
+    border-radius: 0 11px 11px 0;
+  }
+  .floating-enquire-glow {
+    top: 10px;
+    left: 7px;
+  }
 }
