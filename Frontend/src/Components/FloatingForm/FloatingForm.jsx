@@ -5,7 +5,6 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-
 import "./FloatingForm.css";
 import travelImage from "../../assets/images.webp";
 
@@ -59,7 +58,7 @@ const FloatingForm = ({
   }, [generateCaptcha, isSubmitting]);
 
   // ==========================================
-  // OPTIONAL AUTO OPEN
+  // AUTO OPEN
   // ==========================================
   useEffect(() => {
     if (!triggerOnLoad) return;
@@ -85,7 +84,7 @@ const FloatingForm = ({
   }, [isOpen]);
 
   // ==========================================
-  // LOCK BACKGROUND SCROLL
+  // LOCK BODY SCROLL
   // ==========================================
   useEffect(() => {
     if (!isOpen) return;
@@ -221,7 +220,6 @@ const FloatingForm = ({
       );
 
       generateCaptcha();
-
       return false;
     }
 
@@ -229,7 +227,6 @@ const FloatingForm = ({
       alert(
         "Please agree to the Terms & Conditions to continue."
       );
-
       return false;
     }
 
@@ -341,6 +338,7 @@ const FloatingForm = ({
       {/* ==========================================
           FIXED SIDE ENQUIRE BUTTON
       ========================================== */}
+
       {!isOpen && (
         <button
           type="button"
@@ -381,6 +379,7 @@ const FloatingForm = ({
       {/* ==========================================
           ENQUIRY MODAL
       ========================================== */}
+
       {isOpen && (
         <div
           className="floating-form-backdrop"
@@ -398,10 +397,25 @@ const FloatingForm = ({
           aria-describedby="floating-form-description"
         >
           <div className="floating-form-card">
+            {/* ==========================================
+                CLOSE BUTTON
+            ========================================== */}
+
+            <button
+              type="button"
+              className="floating-form-close"
+              onClick={handleClose}
+              disabled={isSubmitting}
+              aria-label="Close enquiry form"
+              title="Close"
+            >
+              <span>×</span>
+            </button>
 
             {/* ==========================================
                 LEFT PROMO PANEL
             ========================================== */}
+
             <div
               className="floating-form-promo"
               style={{
@@ -418,7 +432,6 @@ const FloatingForm = ({
               <div className="floating-form-promo-overlay" />
 
               <div className="floating-form-promo-content">
-
                 <div className="floating-form-badge">
                   <span className="floating-form-badge-dot" />
                   Odisha's Trusted Travel Partner
@@ -445,7 +458,6 @@ const FloatingForm = ({
                 </p>
 
                 <div className="floating-form-feature-grid">
-
                   <div className="floating-form-feature">
                     <span className="floating-form-feature-icon">
                       ✓
@@ -497,7 +509,6 @@ const FloatingForm = ({
                       </small>
                     </div>
                   </div>
-
                 </div>
 
                 <div className="floating-form-divider" />
@@ -532,17 +543,15 @@ const FloatingForm = ({
                     </strong>
                   </span>
                 </button>
-
               </div>
             </div>
 
             {/* ==========================================
                 RIGHT FORM PANEL
             ========================================== */}
+
             <div className="floating-form-pane">
-
               <div className="floating-form-header-wrap">
-
                 <div className="floating-form-form-badge">
                   QUICK ENQUIRY
                 </div>
@@ -561,7 +570,6 @@ const FloatingForm = ({
                   Share your details and our travel
                   expert will contact you shortly.
                 </p>
-
               </div>
 
               <form
@@ -569,7 +577,6 @@ const FloatingForm = ({
                 className="floating-form-body"
                 noValidate
               >
-
                 {/* NAME */}
                 <div className="floating-form-field">
                   <label
@@ -731,7 +738,6 @@ const FloatingForm = ({
                   </label>
 
                   <div className="floating-form-captcha-row">
-
                     <div
                       className="floating-form-captcha-box"
                       aria-label={`CAPTCHA code ${captchaRaw
@@ -768,7 +774,6 @@ const FloatingForm = ({
                     >
                       ↻
                     </button>
-
                   </div>
                 </div>
 
@@ -824,7 +829,6 @@ const FloatingForm = ({
                   🔒 Your information is safe and will only
                   be used to contact you regarding your enquiry.
                 </p>
-
               </form>
             </div>
           </div>

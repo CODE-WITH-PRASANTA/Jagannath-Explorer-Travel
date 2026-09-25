@@ -1,6 +1,7 @@
+
 /* =========================================================
    FLOATING TRAVEL ENQUIRY
-   PREMIUM SIDE BUTTON (LEFT SIDE) + MODAL
+   PREMIUM RESPONSIVE VERSION
    JAGANNATH EXPLORER TRAVELS
    ========================================================= */
 
@@ -16,15 +17,13 @@
 }
 
 /* =========================================================
-   SIDE ENQUIRE BUTTON (LEFT SIDE)
+   SIDE ENQUIRE BUTTON
    ========================================================= */
 
 .floating-enquire-trigger {
   position: fixed;
-
   left: 0;
   top: 50%;
-
   transform: translateY(-50%);
 
   width: 48px;
@@ -36,12 +35,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   gap: 9px;
 
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-left: none;
-
   border-radius: 0 15px 15px 0;
 
   background:
@@ -52,7 +49,6 @@
     );
 
   color: #fff;
-
   cursor: pointer;
 
   z-index: 99990;
@@ -71,19 +67,14 @@
   transition:
     width 0.25s ease,
     box-shadow 0.25s ease,
-    transform 0.25s ease,
-    border-radius 0.25s ease;
+    transform 0.25s ease;
 
   overflow: hidden;
 }
 
-/* Soft glow */
-
 .floating-enquire-trigger::before {
   content: "";
-
   position: absolute;
-
   inset: 1px;
 
   border-radius: 0 14px 14px 0;
@@ -97,8 +88,6 @@
 
   pointer-events: none;
 }
-
-/* Hover */
 
 .floating-enquire-trigger:hover {
   width: 58px;
@@ -129,9 +118,6 @@
 
   background: #fff;
 
-  box-shadow:
-    0 0 0 0 rgba(255, 255, 255, 0.55);
-
   animation:
     floatingEnquirePulse
     2s
@@ -158,7 +144,7 @@
 }
 
 /* =========================================================
-   ICON
+   TRIGGER ICON
    ========================================================= */
 
 .floating-enquire-icon {
@@ -175,7 +161,6 @@
   border-radius: 50%;
 
   background: rgba(255, 255, 255, 0.15);
-
   border: 1px solid rgba(255, 255, 255, 0.2);
 
   box-shadow:
@@ -187,7 +172,7 @@
 }
 
 /* =========================================================
-   TEXT
+   TRIGGER TEXT
    ========================================================= */
 
 .floating-enquire-text {
@@ -197,17 +182,13 @@
   display: block;
 
   writing-mode: vertical-rl;
-
   transform: rotate(180deg);
 
   color: #fff;
 
   font-size: 0.61rem;
-
   font-weight: 800;
-
   letter-spacing: 1.5px;
-
   line-height: 1;
 
   white-space: nowrap;
@@ -217,7 +198,7 @@
 }
 
 /* =========================================================
-   ARROW
+   TRIGGER ARROW
    ========================================================= */
 
 .floating-enquire-arrow {
@@ -225,7 +206,6 @@
   z-index: 2;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
@@ -247,103 +227,220 @@
 .floating-enquire-arrow {
   transform: translateX(2px);
 
-  background: rgba(255, 255, 255, 0.22);
+  background:
+    rgba(255, 255, 255, 0.22);
 }
 
 /* =========================================================
-   MODAL BACKDROP & STYLES (Kept identical)
+   MODAL BACKDROP
    ========================================================= */
 
 .floating-form-backdrop {
   position: fixed;
   inset: 0;
-  width: 100vw;
+
+  width: 100%;
   height: 100dvh;
-  padding: 12px;
+
+  padding: 20px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   z-index: 99999;
-  background: rgba(3, 8, 18, 0.76);
+
+  background:
+    rgba(3, 8, 18, 0.78);
+
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  animation: floatingFormFadeIn 0.25s ease forwards;
-  font-family: "Plus Jakarta Sans", -apple-system, sans-serif;
+
+  animation:
+    floatingFormFadeIn
+    0.25s
+    ease forwards;
+
+  font-family:
+    "Plus Jakarta Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 @keyframes floatingFormFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes floatingFormPopIn {
   from {
     opacity: 0;
-    transform: scale(0.94) translateY(15px);
+    transform:
+      scale(0.94)
+      translateY(15px);
   }
+
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform:
+      scale(1)
+      translateY(0);
   }
 }
 
 @keyframes floatingFormSpin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
 
 .floating-form-card {
   position: relative;
+
   width: min(100%, 760px);
-  max-height: 90dvh;
+  max-height: calc(100dvh - 40px);
+
   display: flex;
+
   overflow: hidden;
-  border-radius: 17px;
+
+  border-radius: 18px;
+
   background: #0b1320;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.025);
-  animation: floatingFormPopIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.12);
+
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.025);
+
+  animation:
+    floatingFormPopIn
+    0.32s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
 }
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
 
 .floating-form-close {
   position: absolute;
-  top: 9px;
-  right: 9px;
-  width: 30px;
-  height: 30px;
+
+  top: 10px;
+  right: 10px;
+
+  width: 34px;
+  height: 34px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.22);
+
   border-radius: 50%;
-  background: rgba(8, 15, 27, 0.82);
+
+  background:
+    rgba(6, 12, 22, 0.82);
+
   color: #fff;
+
   cursor: pointer;
-  z-index: 50;
-  backdrop-filter: blur(8px);
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+
+  z-index: 100;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 5px 18px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
 .floating-form-close span {
   display: block;
-  font-size: 18px;
+
+  margin-top: -2px;
+
+  font-size: 23px;
   font-weight: 300;
+
   line-height: 1;
 }
 
 .floating-form-close:hover {
-  transform: rotate(90deg);
-  background: #f55513;
-  border-color: #ff7740;
+  transform: rotate(90deg) scale(1.05);
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff6b2c,
+      #db3f05
+    );
+
+  border-color:
+    rgba(255, 255, 255, 0.4);
+
+  box-shadow:
+    0 7px 22px rgba(245, 85, 19, 0.35);
 }
+
+.floating-form-close:active {
+  transform:
+    rotate(90deg)
+    scale(0.94);
+}
+
+.floating-form-close:focus-visible {
+  outline: 2px solid #ff7a43;
+  outline-offset: 3px;
+}
+
+.floating-form-close:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   LEFT PROMO
+   ========================================================= */
 
 .floating-form-promo {
   position: relative;
+
   width: 42%;
   min-height: 440px;
+
   display: flex;
   align-items: stretch;
+
   overflow: hidden;
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -352,31 +449,56 @@
 .floating-form-promo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(3, 9, 18, 0.48) 0%, rgba(4, 10, 19, 0.7) 48%, rgba(3, 7, 14, 0.96) 100%);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3, 9, 18, 0.42) 0%,
+      rgba(4, 10, 19, 0.7) 48%,
+      rgba(3, 7, 14, 0.96) 100%
+    );
 }
 
 .floating-form-promo-content {
   position: relative;
   z-index: 2;
+
   width: 100%;
+
   padding: 30px 23px 24px;
+
   color: #fff;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+/* =========================================================
+   PROMO BADGE
+   ========================================================= */
+
 .floating-form-badge {
   width: fit-content;
+
   display: inline-flex;
   align-items: center;
   gap: 6px;
+
   padding: 5px 9px;
+
   margin-bottom: 12px;
+
   border-radius: 999px;
-  background: rgba(245, 85, 19, 0.14);
-  border: 1px solid rgba(255, 122, 61, 0.3);
+
+  background:
+    rgba(245, 85, 19, 0.14);
+
+  border:
+    1px solid rgba(255, 122, 61, 0.3);
+
   color: #ff9363;
+
   font-size: 0.56rem;
   font-weight: 700;
 }
@@ -384,22 +506,38 @@
 .floating-form-badge-dot {
   width: 6px;
   height: 6px;
+
+  flex-shrink: 0;
+
   border-radius: 50%;
+
   background: #ff6422;
-  box-shadow: 0 0 8px rgba(255, 100, 34, 0.8);
+
+  box-shadow:
+    0 0 8px rgba(255, 100, 34, 0.8);
 }
+
+/* =========================================================
+   PROMO CONTENT
+   ========================================================= */
 
 .floating-form-small-label {
   margin-bottom: 6px;
-  color: rgba(255, 255, 255, 0.45);
+
+  color:
+    rgba(255, 255, 255, 0.45);
+
   font-size: 0.53rem;
   font-weight: 700;
+
   letter-spacing: 1.5px;
 }
 
 .floating-form-promo-title {
   margin: 0 0 10px;
+
   color: #fff;
+
   font-size: 1.45rem;
   line-height: 1.15;
   font-weight: 800;
@@ -411,66 +549,114 @@
 
 .floating-form-promo-desc {
   max-width: 320px;
+
   margin: 0 0 15px;
-  color: rgba(255, 255, 255, 0.68);
+
+  color:
+    rgba(255, 255, 255, 0.68);
+
   font-size: 0.63rem;
   line-height: 1.5;
 }
 
+/* =========================================================
+   FEATURE GRID
+   ========================================================= */
+
 .floating-form-feature-grid {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 7px;
+
   margin-bottom: 14px;
 }
 
 .floating-form-feature {
   display: flex;
   align-items: flex-start;
+
   gap: 6px;
+
   padding: 7px;
+
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.07);
 }
 
 .floating-form-feature-icon {
   width: 17px;
   height: 17px;
+
+  flex-shrink: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 50%;
-  background: rgba(245, 85, 19, 0.14);
+
+  background:
+    rgba(245, 85, 19, 0.14);
+
   color: #ff7136;
+
   font-size: 0.55rem;
   font-weight: 800;
 }
 
 .floating-form-feature strong {
   display: block;
+
   margin-bottom: 1px;
+
   color: #fff;
+
   font-size: 0.55rem;
 }
 
 .floating-form-feature small {
   display: block;
-  color: rgba(255, 255, 255, 0.45);
+
+  color:
+    rgba(255, 255, 255, 0.45);
+
   font-size: 0.47rem;
 }
+
+/* =========================================================
+   PROMO FOOTER
+   ========================================================= */
 
 .floating-form-divider {
   width: 100%;
   height: 1px;
+
   margin: 0 0 10px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.14),
+      transparent
+    );
 }
 
 .floating-form-tagline {
   margin: 0 0 10px;
-  color: rgba(255, 255, 255, 0.58);
+
+  color:
+    rgba(255, 255, 255, 0.58);
+
   font-size: 0.59rem;
+
   font-style: italic;
 }
 
@@ -478,58 +664,164 @@
   color: #fff;
 }
 
+/* =========================================================
+   CALL BUTTON
+   ========================================================= */
+
 .floating-form-call-btn {
   width: fit-content;
+
   display: inline-flex;
   align-items: center;
   gap: 7px;
+
   padding: 7px 11px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
   border-radius: 999px;
-  background: linear-gradient(135deg, #f55513, #dc3f04);
+
+  background:
+    linear-gradient(
+      135deg,
+      #f55513,
+      #dc3f04
+    );
+
   color: #fff;
+
   cursor: pointer;
+
+  box-shadow:
+    0 6px 18px rgba(245, 85, 19, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+.floating-form-call-btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 9px 24px rgba(245, 85, 19, 0.3);
+}
+
+.floating-form-call-btn span:last-child {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 0.55rem;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.floating-form-call-btn strong {
+  margin-top: 2px;
+
+  font-size: 0.62rem;
+}
+
+/* =========================================================
+   RIGHT FORM PANEL
+   ========================================================= */
 
 .floating-form-pane {
   width: 58%;
+
   padding: 27px 25px 22px;
+
   overflow-y: auto;
-  background: radial-gradient(circle at 90% 5%, rgba(245, 85, 19, 0.12), transparent 30%), linear-gradient(150deg, #18202d 0%, #101a28 55%, #09111e 100%);
+
+  background:
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(245, 85, 19, 0.12),
+      transparent 30%
+    ),
+    linear-gradient(
+      150deg,
+      #18202d 0%,
+      #101a28 55%,
+      #09111e 100%
+    );
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgba(255, 255, 255, 0.18)
+    transparent;
 }
+
+.floating-form-pane::-webkit-scrollbar {
+  width: 5px;
+}
+
+.floating-form-pane::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.floating-form-pane::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.18);
+}
+
+/* =========================================================
+   FORM HEADER
+   ========================================================= */
 
 .floating-form-header-wrap {
   text-align: center;
+
   margin-bottom: 14px;
 }
 
 .floating-form-form-badge {
   width: fit-content;
+
   margin: 0 auto 5px;
+
   color: #ff7740;
+
   font-size: 0.52rem;
   font-weight: 800;
+
   letter-spacing: 1.3px;
 }
 
 .floating-form-title {
   margin: 0 0 4px;
+
   color: #fff;
+
   font-size: 1.18rem;
   font-weight: 800;
 }
 
 .floating-form-subtitle {
   max-width: 310px;
+
   margin: 0 auto;
-  color: rgba(255, 255, 255, 0.48);
+
+  color:
+    rgba(255, 255, 255, 0.48);
+
   font-size: 0.59rem;
+  line-height: 1.45;
 }
+
+/* =========================================================
+   FORM BODY
+   ========================================================= */
 
 .floating-form-body {
   width: 100%;
+
   display: flex;
   flex-direction: column;
+
   gap: 8px;
 }
 
@@ -537,23 +829,38 @@
   width: 100%;
 }
 
+/* =========================================================
+   LABEL
+   ========================================================= */
+
 .floating-form-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   margin: 0 0 4px 2px;
-  color: rgba(255, 255, 255, 0.72);
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
   font-size: 0.57rem;
   font-weight: 600;
 }
 
 .floating-form-label span {
-  color: rgba(255, 255, 255, 0.34);
+  color:
+    rgba(255, 255, 255, 0.34);
+
   font-size: 0.5rem;
 }
 
+/* =========================================================
+   INPUT
+   ========================================================= */
+
 .floating-form-input-wrap {
   position: relative;
+
   width: 100%;
 }
 
@@ -561,32 +868,79 @@
 .floating-form-field select {
   width: 100%;
   height: 37px;
-  padding: 0 35px 0 11px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
+
+  padding:
+    0 35px 0 11px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.11);
+
   border-radius: 7px;
+
   outline: none;
-  background: rgba(255, 255, 255, 0.06);
+
+  background:
+    rgba(255, 255, 255, 0.06);
+
   color: #fff;
+
   font-family: inherit;
   font-size: 0.62rem;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.floating-form-field input::placeholder {
+  color:
+    rgba(255, 255, 255, 0.3);
+}
+
+.floating-form-field input:focus,
+.floating-form-field select:focus {
+  border-color:
+    rgba(255, 105, 45, 0.7);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(245, 85, 19, 0.09);
 }
 
 .floating-form-field-icon {
   position: absolute;
+
   right: 11px;
   top: 50%;
+
   transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.38);
+
+  color:
+    rgba(255, 255, 255, 0.38);
+
   pointer-events: none;
 }
 
+/* =========================================================
+   COUNTRY CODE
+   ========================================================= */
+
 .floating-form-country-code {
   position: absolute;
+
   left: 11px;
   top: 50%;
+
   transform: translateY(-50%);
+
   z-index: 2;
+
   color: #ff7941;
+
   font-size: 0.6rem;
   font-weight: 700;
 }
@@ -595,9 +949,14 @@
   padding-left: 39px;
 }
 
+/* =========================================================
+   SELECT
+   ========================================================= */
+
 .floating-form-field select {
   appearance: none;
   -webkit-appearance: none;
+
   cursor: pointer;
 }
 
@@ -608,139 +967,720 @@
 
 .floating-form-chevron {
   position: absolute;
+
   right: 11px;
   top: 50%;
+
   transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.4);
+
+  color:
+    rgba(255, 255, 255, 0.4);
+
   font-size: 0.48rem;
+
   pointer-events: none;
 }
 
+/* =========================================================
+   CAPTCHA
+   ========================================================= */
+
 .floating-form-captcha-group {
   width: 100%;
+
   margin-top: 1px;
 }
 
 .floating-form-captcha-row {
   display: grid;
-  grid-template-columns: 67px 1fr 35px;
+
+  grid-template-columns:
+    67px
+    minmax(0, 1fr)
+    35px;
+
   gap: 5px;
+
   width: 100%;
 }
 
 .floating-form-captcha-box {
   width: 100%;
   height: 36px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 7px;
-  border: 1px dashed rgba(255, 122, 61, 0.5);
-  background: repeating-linear-gradient(-45deg, rgba(245, 85, 19, 0.08), rgba(245, 85, 19, 0.08) 5px, rgba(255, 255, 255, 0.035) 5px, rgba(255, 255, 255, 0.035) 10px);
+
+  border:
+    1px dashed rgba(255, 122, 61, 0.5);
+
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(245, 85, 19, 0.08),
+      rgba(245, 85, 19, 0.08) 5px,
+      rgba(255, 255, 255, 0.035) 5px,
+      rgba(255, 255, 255, 0.035) 10px
+    );
+
   color: #ff8751;
+
   font-family: monospace;
+
   font-size: 0.82rem;
   font-weight: 800;
+
   letter-spacing: 2px;
 }
 
 .floating-form-captcha-input {
   width: 100%;
   height: 36px;
+
   padding: 0 9px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.11);
+
   border-radius: 7px;
+
   outline: none;
+
   background: rgba(255, 255, 255, 0.95);
+
   color: #101827;
+
   font-size: 0.61rem;
   font-weight: 600;
+}
+
+.floating-form-captcha-input:focus {
+  border-color: #ff7136;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(245, 85, 19, 0.1);
 }
 
 .floating-form-captcha-refresh {
   width: 35px;
   height: 36px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 7px;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  background: rgba(255, 255, 255, 0.07);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.13);
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
   color: #fff;
+
   cursor: pointer;
+
   font-size: 0.95rem;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
+
+.floating-form-captcha-refresh:hover {
+  transform: rotate(90deg);
+
+  background:
+    rgba(245, 85, 19, 0.2);
+}
+
+/* =========================================================
+   TERMS
+   ========================================================= */
 
 .floating-form-terms {
   display: flex;
   align-items: flex-start;
+
   gap: 6px;
+
   margin-top: 1px;
-  color: rgba(255, 255, 255, 0.55);
+
+  color:
+    rgba(255, 255, 255, 0.55);
+
   font-size: 0.51rem;
+
+  line-height: 1.4;
 }
 
 .floating-form-terms input {
   width: 12px;
   height: 12px;
+
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
   accent-color: #f55513;
+
+  cursor: pointer;
+}
+
+.floating-form-terms label {
   cursor: pointer;
 }
 
 .floating-form-terms a {
   color: #ff7b43;
+
   text-decoration: none;
+
   font-weight: 600;
 }
+
+.floating-form-terms a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   SUBMIT BUTTON
+   ========================================================= */
 
 .floating-form-submit {
   width: 100%;
   min-height: 39px;
+
   margin-top: 2px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 7px;
+
   border: none;
   border-radius: 999px;
-  background: linear-gradient(135deg, #ff6a2b 0%, #f04c0a 55%, #d83b03 100%);
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff6a2b 0%,
+      #f04c0a 55%,
+      #d83b03 100%
+    );
+
   color: #fff;
+
   font-size: 0.65rem;
   font-weight: 800;
+
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(245, 85, 19, 0.25);
+
+  box-shadow:
+    0 6px 20px rgba(245, 85, 19, 0.25);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
 }
+
+.floating-form-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 9px 25px rgba(245, 85, 19, 0.35);
+}
+
+.floating-form-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.floating-form-submit:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   SPINNER
+   ========================================================= */
 
 .floating-form-spinner {
   width: 14px;
   height: 14px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
-  animation: floatingFormSpin 0.7s linear infinite;
-}
 
-.floating-form-secure-text {
-  margin: -1px 0 0;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.32);
-  font-size: 0.47rem;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  border:
+    2px solid rgba(255, 255, 255, 0.3);
+
+  border-top-color: #fff;
+
+  animation:
+    floatingFormSpin
+    0.7s
+    linear
+    infinite;
 }
 
 /* =========================================================
-   RESPONSIVE ADJUSTMENTS FOR LEFT SIDE TRIGGER
+   SECURE TEXT
    ========================================================= */
 
-@media (max-width: 480px) {
-  .floating-enquire-trigger {
-    left: 0;
-    width: 42px;
-    min-height: 118px;
-    padding: 9px 5px;
-    border-radius: 0 11px 11px 0;
+.floating-form-secure-text {
+  margin: -1px 0 0;
+
+  text-align: center;
+
+  color:
+    rgba(255, 255, 255, 0.32);
+
+  font-size: 0.47rem;
+
+  line-height: 1.4;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .floating-form-backdrop {
+    padding: 14px;
   }
-  .floating-enquire-glow {
-    top: 10px;
-    left: 7px;
+
+  .floating-form-card {
+    width: min(100%, 620px);
+
+    max-height:
+      calc(100dvh - 28px);
+
+    flex-direction: column;
+
+    border-radius: 17px;
+  }
+
+  .floating-form-promo {
+    width: 100%;
+
+    min-height: 210px;
+    max-height: 230px;
+  }
+
+  .floating-form-promo-content {
+    padding:
+      24px 22px 20px;
+
+    justify-content: flex-end;
+  }
+
+  .floating-form-promo-title {
+    font-size: 1.28rem;
+  }
+
+  .floating-form-promo-desc {
+    max-width: 560px;
+
+    margin-bottom: 10px;
+  }
+
+  .floating-form-feature-grid {
+    display: none;
+  }
+
+  .floating-form-divider {
+    display: none;
+  }
+
+  .floating-form-tagline {
+    margin-bottom: 8px;
+  }
+
+  .floating-form-pane {
+    width: 100%;
+
+    padding:
+      22px 22px 20px;
+
+    max-height:
+      calc(100dvh - 238px);
+
+    overflow-y: auto;
+  }
+
+  .floating-form-close {
+    top: 9px;
+    right: 9px;
+
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+  .floating-form-backdrop {
+    align-items: flex-start;
+
+    padding:
+      max(10px, env(safe-area-inset-top))
+      10px
+      max(10px, env(safe-area-inset-bottom));
+
+    overflow-y: auto;
+  }
+
+  .floating-form-card {
+    width: 100%;
+
+    max-width: 100%;
+
+    max-height:
+      calc(
+        100dvh
+        - max(10px, env(safe-area-inset-top))
+        - max(10px, env(safe-area-inset-bottom))
+        - 20px
+      );
+
+    margin: auto 0;
+
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* -----------------------------------------
+     MOBILE PROMO
+     ----------------------------------------- */
+
+  .floating-form-promo {
+    min-height: 175px;
+    max-height: 175px;
+
+    flex-shrink: 0;
+
+    background-position:
+      center 45%;
+  }
+
+  .floating-form-promo-content {
+    padding:
+      22px 17px 17px;
+  }
+
+  .floating-form-badge {
+    margin-bottom: 7px;
+
+    padding:
+      4px 7px;
+
+    font-size: 0.49rem;
+  }
+
+  .floating-form-small-label {
+    margin-bottom: 4px;
+
+    font-size: 0.45rem;
+
+    letter-spacing: 1.1px;
+  }
+
+  .floating-form-promo-title {
+    margin-bottom: 6px;
+
+    font-size: 1.12rem;
+
+    line-height: 1.12;
+  }
+
+  .floating-form-promo-desc {
+    display: none;
+  }
+
+  .floating-form-call-btn {
+    padding:
+      6px 9px;
+
+    gap: 6px;
+  }
+
+  .floating-form-call-btn span:last-child {
+    font-size: 0.49rem;
+  }
+
+  .floating-form-call-btn strong {
+    font-size: 0.55rem;
+  }
+
+  /* -----------------------------------------
+     MOBILE FORM
+     ----------------------------------------- */
+
+  .floating-form-pane {
+    width: 100%;
+
+    flex: 1;
+
+    min-height: 0;
+
+    max-height:
+      calc(100dvh - 205px);
+
+    padding:
+      17px 16px 18px;
+
+    overflow-y: auto;
+  }
+
+  .floating-form-header-wrap {
+    margin-bottom: 12px;
+  }
+
+  .floating-form-form-badge {
+    margin-bottom: 4px;
+
+    font-size: 0.48rem;
+  }
+
+  .floating-form-title {
+    margin-bottom: 3px;
+
+    font-size: 1.05rem;
+  }
+
+  .floating-form-subtitle {
+    max-width: 290px;
+
+    font-size: 0.55rem;
+
+    line-height: 1.4;
+  }
+
+  .floating-form-body {
+    gap: 7px;
+  }
+
+  .floating-form-label {
+    margin-bottom: 3px;
+
+    font-size: 0.55rem;
+  }
+
+  .floating-form-field input,
+  .floating-form-field select {
+    height: 38px;
+
+    font-size: 0.64rem;
+
+    border-radius: 7px;
+  }
+
+  .floating-form-captcha-row {
+    grid-template-columns:
+      64px
+      minmax(0, 1fr)
+      36px;
+
+    gap: 5px;
+  }
+
+  .floating-form-captcha-box,
+  .floating-form-captcha-input,
+  .floating-form-captcha-refresh {
+    height: 37px;
+  }
+
+  .floating-form-terms {
+    font-size: 0.51rem;
+
+    line-height: 1.35;
+  }
+
+  .floating-form-submit {
+    min-height: 40px;
+
+    font-size: 0.63rem;
+  }
+
+  .floating-form-secure-text {
+    font-size: 0.45rem;
+  }
+
+  /* -----------------------------------------
+     CLOSE BUTTON
+     ----------------------------------------- */
+
+  .floating-form-close {
+    top: 8px;
+    right: 8px;
+
+    width: 33px;
+    height: 33px;
+
+    background:
+      rgba(5, 11, 20, 0.88);
+  }
+
+  .floating-form-close span {
+    font-size: 22px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .floating-form-backdrop {
+    padding:
+      7px
+      7px
+      max(7px, env(safe-area-inset-bottom));
+  }
+
+  .floating-form-card {
+    border-radius: 13px;
+
+    max-height:
+      calc(100dvh - 14px);
+  }
+
+  .floating-form-promo {
+    min-height: 155px;
+    max-height: 155px;
+  }
+
+  .floating-form-promo-content {
+    padding:
+      19px 14px 14px;
+  }
+
+  .floating-form-promo-title {
+    font-size: 1rem;
+  }
+
+  .floating-form-pane {
+    max-height:
+      calc(100dvh - 183px);
+
+    padding:
+      14px 13px 15px;
+  }
+
+  .floating-form-title {
+    font-size: 0.98rem;
+  }
+
+  .floating-form-subtitle {
+    font-size: 0.51rem;
+  }
+
+  .floating-form-body {
+    gap: 6px;
+  }
+
+  .floating-form-field input,
+  .floating-form-field select {
+    height: 36px;
+
+    padding-left: 9px;
+    padding-right: 32px;
+
+    font-size: 0.59rem;
+  }
+
+  .floating-form-country-code {
+    left: 9px;
+  }
+
+  .floating-form-country-code + input {
+    padding-left: 37px;
+  }
+
+  .floating-form-captcha-row {
+    grid-template-columns:
+      59px
+      minmax(0, 1fr)
+      33px;
+  }
+
+  .floating-form-captcha-box,
+  .floating-form-captcha-input,
+  .floating-form-captcha-refresh {
+    height: 35px;
+  }
+
+  .floating-form-submit {
+    min-height: 38px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL HEIGHT DEVICES
+   ========================================================= */
+
+@media (max-height: 650px) and (max-width: 760px) {
+  .floating-form-promo {
+    min-height: 135px;
+    max-height: 135px;
+  }
+
+  .floating-form-promo-content {
+    padding:
+      15px 17px 13px;
+  }
+
+  .floating-form-promo-title {
+    font-size: 0.95rem;
+  }
+
+  .floating-form-badge,
+  .floating-form-small-label {
+    margin-bottom: 3px;
+  }
+
+  .floating-form-pane {
+    max-height:
+      calc(100dvh - 163px);
+
+    padding:
+      13px 16px 15px;
+  }
+
+  .floating-form-header-wrap {
+    margin-bottom: 8px;
+  }
+
+  .floating-form-body {
+    gap: 5px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-form-backdrop,
+  .floating-form-card,
+  .floating-enquire-trigger,
+  .floating-enquire-glow,
+  .floating-form-spinner {
+    animation: none !important;
+    transition: none !important;
   }
 }
