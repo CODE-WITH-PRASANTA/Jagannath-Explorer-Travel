@@ -12,28 +12,49 @@ const GalleryMain = () => {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [activeIndex, setActiveIndex] = useState(null);
 
+  // =====================================================
+  // API BASE URL HELPER
+  // =====================================================
+  const getMediaUrl = (url) => {
+    if (!url) return "";
+
+    if (
+      url.startsWith("http://") ||
+      url.startsWith("https://") ||
+      url.startsWith("blob:")
+    ) {
+      return url;
+    }
+
+    return `${IMG_URL}${url}`;
+  };
+
   // Fetch Gallery Data from Backend API
   useEffect(() => {
     const fetchGallery = async () => {
       try {
         setLoading(true);
         const response = await API.get('/gallery');
+        
         if (response.data && response.data.success) {
+          const rawData = response.data.data || [];
+          
           // Map backend schema keys to match frontend expected structure
-          const formattedGallery = response.data.data.map((item) => ({
+          const formattedGallery = rawData.map((item) => ({
             id: item._id,
-            title: item.imageName,
-            // Handle image path correctly, falling back to uploads path if not an absolute URL
-            src: item.image && item.image.startsWith('http')
-              ? item.image
-              : `${IMG_URL || 'http://localhost:5000'}/uploads/gallery/${item.image}`,
-            alt: item.imageName
+            title: item.mediaName || "Untitled Media",
+            src: getMediaUrl(item.mediaUrl),
+            type: item.mediaType || "image",
+            alt: item.mediaName || "Gallery media item"
           }));
+          
           setItems(formattedGallery);
+        } else {
+          setItems([]);
         }
       } catch (err) {
         console.error('Error fetching gallery:', err);
-        setError('Failed to load gallery images. Please try again later.');
+        setError('Failed to load gallery items. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -81,11 +102,19 @@ const GalleryMain = () => {
   }, [activeIndex, showNext, showPrev]);
 
   if (loading) {
-    return <div className="gallery-main"><p style={{ textAlign: 'center', padding: '40px' }}>Loading gallery...</p></div>;
+    return (
+      <div className="gallery-main">
+        <p style={{ textAlign: 'center', padding: '40px' }}>Loading gallery...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="gallery-main"><p style={{ textAlign: 'center', color: 'red', padding: '40px' }}>{error}</p></div>;
+    return (
+      <div className="gallery-main">
+        <p style={{ textAlign: 'center', color: 'red', padding: '40px' }}>{error}</p>
+      </div>
+    );
   }
 
   if (items.length === 0) {
@@ -110,12 +139,23 @@ const GalleryMain = () => {
               }
             }}
           >
-            <img
-              src={item.src}
-              alt={item.alt}
-              className="gallery-main__image"
-              loading="lazy"
-            />
+            {item.type === 'video' ? (
+              <video
+                src={item.src}
+                className="gallery-main__image"
+                preload="metadata"
+                muted
+                playsInline
+              />
+            ) : (
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="gallery-main__image"
+                loading="lazy"
+              />
+            )}
+            
             <div className="gallery-main__overlay">
               <svg
                 className="gallery-main__overlay-icon"
@@ -154,7 +194,7 @@ const GalleryMain = () => {
           onClick={closeLightbox}
           role="dialog"
           aria-modal="true"
-          aria-label="Image Lightbox"
+          aria-label="Media Lightbox"
         >
           <div
             className="gallery-main__lightbox-card"
@@ -171,23 +211,33 @@ const GalleryMain = () => {
             <button
               className="gallery-main__lightbox-nav gallery-main__lightbox-nav--prev"
               onClick={showPrev}
-              aria-label="Previous image"
+              aria-label="Previous item"
             >
               &#10094;
             </button>
 
             <div className="gallery-main__lightbox-img-wrapper">
-              <img
-                src={displayedItems[activeIndex].src}
-                alt={displayedItems[activeIndex].alt}
-                className="gallery-main__lightbox-image"
-              />
+              {displayedItems[activeIndex].type === 'video' ? (
+                <video
+                  src={displayedItems[activeIndex].src}
+                  className="gallery-main__lightbox-image"
+                  controls
+                  autoPlay
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={displayedItems[activeIndex].src}
+                  alt={displayedItems[activeIndex].alt}
+                  className="gallery-main__lightbox-image"
+                />
+              )}
             </div>
 
             <button
               className="gallery-main__lightbox-nav gallery-main__lightbox-nav--next"
               onClick={showNext}
-              aria-label="Next image"
+              aria-label="Next item"
             >
               &#10095;
             </button>

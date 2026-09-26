@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -6,12 +7,10 @@ const path = require("path");
 
 const connectDB = require("./src/config/db");
 
-// Route imports
 // ============================================
 // ROUTES
 // ============================================
 
-const galleryRoutes = require("./src/routes/galleryRoutes");
 const testimonialRoutes = require("./src/routes/testimonialRoutes");
 const couponRoutes = require("./src/routes/couponRoutes");
 const blogRoutes = require("./src/routes/blogRoutes");
@@ -20,16 +19,27 @@ const tourRoutes = require("./src/routes/tourRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 const teamRoutes = require("./src/routes/teamRoutes");
 
+const galleryRoutes = require("./src/routes/galleryRoutes");
 const carBookingRoutes = require("./src/routes/carBookingRoutes");
 const hotelBookingRoutes = require("./src/routes/hotelBookingRoutes");
 const tourBookingRoutes = require("./src/routes/tourBookingRoutes");
 
-// Your hotel booking form route
+// Hotel booking form route
 const hotelBookingFormRoutes = require("./src/routes/hotelBookingFormRoutes");
 
 const coupenRoutes = require("./src/routes/coupenRoutes");
 const profileRoutes = require("./src/routes/profileRoutes");
 const enquiryRoutes = require("./src/routes/enquiryRoutes");
+
+// ============================================
+// GALLERY ROUTE
+// ============================================
+
+
+
+// ============================================
+// APP
+// ============================================
 
 const app = express();
 
@@ -47,34 +57,6 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static uploaded files
-app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
-
-// API Routes
-app.use("/api/gallery", galleryRoutes);
-app.use("/api/testimonials", testimonialRoutes);
-app.use("/api/coupons", couponRoutes);
-app.use("/api/blogs", blogRoutes);
-app.use("/api/hotels", hotelRoutes);
-app.use("/api/tours", tourRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/team", teamRoutes);
-
-// Booking Routes
-app.use("/api/car-bookings", carBookingRoutes);
-app.use("/api/bookings", carBookingRoutes);
-app.use("/api/hotel-bookings", hotelBookingRoutes);
-app.use("/api/hotelbookings", hotelBookingRoutes);
-app.use("/api/tour-bookings", tourBookingRoutes);
-app.use("/api/tourbookings", tourBookingRoutes);
-
-// Promotion, Profile, and Enquiry Routes
-app.use("/api/coupen", coupenRoutes);
-app.use("/api/profiles", profileRoutes);
-app.use("/api/enquiries", enquiryRoutes);
-
-
-// Root route
 // ============================================
 // STATIC UPLOADS
 // ============================================
@@ -88,26 +70,37 @@ app.use(
 // API ROUTES
 // ============================================
 
-app.use("/api/gallery", galleryRoutes);
+// Gallery
 
+
+// Testimonials
 app.use("/api/testimonials", testimonialRoutes);
 
+// Coupons
 app.use("/api/coupons", couponRoutes);
 
+// Blogs
 app.use("/api/blogs", blogRoutes);
 
+// Hotels
 app.use("/api/hotels", hotelRoutes);
 
+// Tours
 app.use("/api/tours", tourRoutes);
 
+// Users
 app.use("/api/users", userRoutes);
 
+// Team
 app.use("/api/team", teamRoutes);
 
 // ============================================
 // CAR BOOKINGS
 // ============================================
-
+app.use(
+  "/api/gallery",
+  galleryRoutes
+);
 app.use("/api/car-bookings", carBookingRoutes);
 
 app.use("/api/bookings", carBookingRoutes);
@@ -122,6 +115,9 @@ app.use("/api/hotel-bookings", hotelBookingRoutes);
 // Hotel booking form route
 app.use("/api/hotel-bookings", hotelBookingFormRoutes);
 
+// Alternative hotel booking URL
+app.use("/api/hotelbookings", hotelBookingRoutes);
+
 // ============================================
 // TOUR BOOKINGS
 // ============================================
@@ -135,6 +131,18 @@ app.use("/api/tourbookings", tourBookingRoutes);
 // ============================================
 
 app.use("/api/coupen", coupenRoutes);
+
+// ============================================
+// PROFILE
+// ============================================
+
+app.use("/api/profiles", profileRoutes);
+
+// ============================================
+// ENQUIRIES
+// ============================================
+
+app.use("/api/enquiries", enquiryRoutes);
 
 // ============================================
 // ROOT ROUTE
@@ -190,3 +198,4 @@ connectDB()
     console.error("Database connection failed:", error);
     process.exit(1);
   });
+

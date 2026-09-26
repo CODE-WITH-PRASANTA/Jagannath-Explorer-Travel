@@ -213,7 +213,7 @@ const TransportTariff = () => {
             <address>
               Plot No - 001, Mahaveer Nagar, Road No. - 18,
               <br />
-              Samantray Pur, Bhubaneswar, Odisha, Pin - 751002
+             Samantarapur, Bhubaneswar, Odisha, Pin - 751002
             </address>
           </div>
 

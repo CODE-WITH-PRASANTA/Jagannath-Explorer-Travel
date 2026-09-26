@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -14,10 +14,6 @@ import { FaUser } from "react-icons/fa";
 import { RiPlaneLine } from "react-icons/ri";
 
 import "./Login.css";
-
-// =========================================
-// YOUR OWN IMAGE
-// =========================================
 import cultureImage from "../../assets/login.png";
 
 const Login = () => {
@@ -33,10 +29,6 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  // =========================================
-  // HANDLE INPUT CHANGE
-  // =========================================
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -50,10 +42,6 @@ const Login = () => {
     }
   };
 
-  // =========================================
-  // LOGIN
-  // =========================================
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -61,11 +49,7 @@ const Login = () => {
       formData.identifier === "jagannatha" &&
       formData.password === "12345"
     ) {
-      sessionStorage.setItem(
-        "isAdminAuthenticated",
-        "true"
-      );
-
+      sessionStorage.setItem("isAdminAuthenticated", "true");
       setIsSuccess(true);
 
       setTimeout(() => {
@@ -73,59 +57,30 @@ const Login = () => {
       }, 2500);
     } else {
       setErrorMessage(
-        "Invalid Credentials! Use ID: jagannatha & Pass: 12345"
+        "Invalid Credentials! Please try again."
       );
     }
   };
 
   return (
     <div className="Login-container">
-
-      {/* =========================================
-          SUCCESS OVERLAY
-      ========================================= */}
-
       {isSuccess && (
         <div className="Login-success-overlay">
-
           <div className="Login-success-card-3d">
-
             <div className="Login-success-icon-wrapper">
-              <FiCheckCircle
-                size={80}
-                className="Login-success-icon"
-              />
+              <FiCheckCircle size={80} className="Login-success-icon" />
             </div>
-
-            <h1 className="Login-success-title">
-              LOGIN SUCCESSFUL
-            </h1>
-
+            <h1 className="Login-success-title">LOGIN SUCCESSFUL</h1>
             <p className="Login-success-subtitle">
               Welcome back to Jagannath Explorer Admin Portal
             </p>
-
             <div className="Login-success-loader"></div>
-
           </div>
-
         </div>
       )}
 
-      {/* =========================================
-          MAIN LOGIN CARD
-      ========================================= */}
-
-      <div
-        className={`Login-card-wrapper ${
-          isSuccess ? "Login-blur" : ""
-        }`}
-      >
-
-        {/* =========================================
-            LEFT BRANDING SECTION
-        ========================================= */}
-
+      <div className={`Login-card-wrapper ${isSuccess ? "Login-blur" : ""}`}>
+        {/* LEFT BRANDING SECTION */}
         <div
           className="Login-brand-section"
           style={{
@@ -138,135 +93,57 @@ const Login = () => {
             `,
           }}
         >
-
-          {/* BRAND HEADER */}
-
           <div className="Login-brand-header">
-
             <div className="Login-logo-container">
-
               <div className="Login-logo-badge">
-                <div className="Login-logo-temple-icon">
-                  🛕
-                </div>
+                <div className="Login-logo-temple-icon">🛕</div>
               </div>
-
               <div className="Login-logo-text-group">
-
-                <h2 className="Login-brand-title">
-                  Jagannath Explorer
-                </h2>
-
-                <span className="Login-brand-subtitle">
-                  TRAVELS
-                </span>
-
-                <p className="Login-brand-tagline">
-                  Explore • Discover • Travel
-                </p>
-
+                <h2 className="Login-brand-title">Jagannath Explorer</h2>
+                <span className="Login-brand-subtitle">TRAVELS</span>
+                <p className="Login-brand-tagline">Explore • Discover • Travel</p>
               </div>
-
             </div>
-
           </div>
-
-          {/* HERO CONTENT */}
 
           <div className="Login-hero-content">
-
             <h1 className="Login-hero-heading">
-              Discover the
-              <br />
-
-              <span className="Login-hero-highlight">
-                Beautiful Odisha
-              </span>
+              Discover the <br />
+              <span className="Login-hero-highlight">Beautiful Odisha</span>
             </h1>
-
             <p className="Login-hero-description">
-              Your trusted tour and travel partner in Odisha,
-              offering customized tour packages, adventure
-              trips, and memorable travel experiences.
+              Your trusted tour and travel partner in Odisha, offering customized tour packages, adventure trips, and memorable travel experiences.
             </p>
-
           </div>
-
-          {/* HERO FOOTER */}
 
           <div className="Login-hero-footer">
-
             <p className="Login-handwritten">
-              Travel More
-              <br />
-              Live Better{" "}
-              <RiPlaneLine className="Login-plane-icon" />
+              Travel More <br />
+              Live Better <RiPlaneLine className="Login-plane-icon" />
             </p>
-
           </div>
-
         </div>
 
-        {/* =========================================
-            RIGHT LOGIN FORM
-        ========================================= */}
-
+        {/* RIGHT LOGIN FORM */}
         <div className="Login-form-section">
-
-          {/* AVATAR */}
-
           <div className="Login-avatar-container">
-
             <div className="Login-avatar-3d">
-
-              <FaUser
-                size={26}
-                color="#2e7d32"
-              />
-
+              <FaUser size={26} color="#2e7d32" />
             </div>
-
           </div>
-
-          {/* HEADER */}
 
           <div className="Login-form-header">
-
-            <h2>
-              Welcome Back
-            </h2>
-
-            <p>
-              Login to your account and continue your
-              journey with Jagannath Explorer Travels.
-            </p>
-
+            <h2>Welcome Back</h2>
+            <p>Login to your account and continue your journey with Jagannath Explorer Travels.</p>
           </div>
 
-          {/* ERROR */}
-
           {errorMessage && (
-            <div className="Login-error-badge">
-              {errorMessage}
-            </div>
+            <div className="Login-error-badge">{errorMessage}</div>
           )}
 
-          {/* FORM */}
-
-          <form
-            onSubmit={handleSubmit}
-            className="Login-form"
-          >
-
-            {/* IDENTIFIER */}
-
+          <form onSubmit={handleSubmit} className="Login-form">
             <div className="Login-input-group">
-
-              <FiMail
-                className="Login-input-icon"
-                size={18}
-              />
-
+              <FiMail className="Login-input-icon" size={18} />
               <input
                 type="text"
                 name="identifier"
@@ -275,144 +152,47 @@ const Login = () => {
                 onChange={handleChange}
                 required
               />
-
             </div>
 
-            {/* PASSWORD */}
-
             <div className="Login-input-group">
-
-              <FiLock
-                className="Login-input-icon"
-                size={18}
-              />
-
+              <FiLock className="Login-input-icon" size={18} />
               <input
-                type={
-                  showPassword
-                    ? "text"
-                    : "password"
-                }
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 required
               />
-
               <button
                 type="button"
                 className="Login-password-toggle"
-                onClick={() =>
-                  setShowPassword(
-                    !showPassword
-                  )
-                }
+                onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <FiEyeOff size={18} />
-                ) : (
-                  <FiEye size={18} />
-                )}
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
               </button>
-
             </div>
 
-            {/* OPTIONS */}
-
             <div className="Login-form-options">
-
               <label className="Login-checkbox-label">
-
                 <input
                   type="checkbox"
                   name="rememberMe"
-                  checked={
-                    formData.rememberMe
-                  }
+                  checked={formData.rememberMe}
                   onChange={handleChange}
                 />
-
-                <span>
-                  Remember me
-                </span>
-
+                <span>Remember me</span>
               </label>
-
-              <a
-                href="#forgot"
-                className="Login-forgot-link"
-              >
-                Forgot Password?
-              </a>
-
+              <a href="#forgot" className="Login-forgot-link">Forgot Password?</a>
             </div>
 
-            {/* LOGIN BUTTON */}
-
-            <button
-              type="submit"
-              className="Login-submit-btn"
-            >
-
-              <span>
-                Login
-              </span>
-
+            <button type="submit" className="Login-submit-btn">
+              <span>Login</span>
               <FiArrowRight size={18} />
-
             </button>
-
-            {/* DIVIDER */}
-
-            <div className="Login-divider">
-
-              <span>
-                Default Admin Credentials
-              </span>
-
-            </div>
-
-            {/* CREDENTIALS */}
-
-            <div className="Login-credentials-box">
-
-              <div className="Login-cred-item">
-
-                <span className="Login-cred-label">
-                  ID:
-                </span>
-
-                <span className="Login-cred-value">
-                  jagannatha
-                </span>
-
-              </div>
-
-              <div className="Login-cred-divider">
-                |
-              </div>
-
-              <div className="Login-cred-item">
-
-                <span className="Login-cred-label">
-                  Password:
-                </span>
-
-                <span className="Login-cred-value">
-                  12345
-                </span>
-
-              </div>
-
-            </div>
-
           </form>
-
         </div>
-
       </div>
-
     </div>
   );
 };

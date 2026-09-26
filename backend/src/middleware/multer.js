@@ -1,12 +1,13 @@
+
 const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
- 
+
 // =========================================
 // HELPER: ENSURE DIRECTORY EXISTS
 // =========================================
- 
+
 const ensureDirExists = (dirPath) => {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });
@@ -29,17 +30,61 @@ const storage = multer.memoryStorage();
 // =========================================
 
 const fileFilter = (req, file, cb) => {
+  // =========================================
+  // GALLERY
+  // Gallery supports IMAGE + VIDEO
+  // =========================================
+
+  if (
+    req.baseUrl === "/api/gallery" ||
+    req.originalUrl.startsWith("/api/gallery")
+  ) {
+    const allowedImages = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/webp",
+      "image/avif",
+    ];
+
+    const allowedVideos = [
+      "video/mp4",
+      "video/webm",
+      "video/ogg",
+      "video/quicktime",
+    ];
+
+    if (
+      allowedImages.includes(file.mimetype) ||
+      allowedVideos.includes(file.mimetype)
+    ) {
+      return cb(null, true);
+    }
+
+    return cb(
+      new Error(
+        "Only JPG, JPEG, PNG, WEBP, AVIF, MP4, WEBM, OGG and MOV files are allowed for Gallery."
+      ),
+      false
+    );
+  }
+
+  // =========================================
+  // EXISTING IMAGE UPLOADS
+  // TEAM / COUPEN / AVATAR / OTHER
+  // =========================================
+
   if (
     file.mimetype &&
     file.mimetype.startsWith("image/")
   ) {
-    cb(null, true);
-  } else {
-    cb(
-      new Error("Only image files are allowed"),
-      false
-    );
+    return cb(null, true);
   }
+
+  return cb(
+    new Error("Only image files are allowed"),
+    false
+  );
 };
 
 // =========================================
@@ -52,8 +97,10 @@ const multerUpload = multer({
   fileFilter: fileFilter,
 
   limits: {
-    // Maximum original upload size: 10 MB per file
-    fileSize: 10 * 1024 * 1024,
+    // Maximum original upload size: 50 MB
+    // Images: controller/frontend can restrict to 10 MB
+    // Videos: Gallery can use up to 50 MB
+    fileSize: 50 * 1024 * 1024,
   },
 });
 
@@ -71,6 +118,90 @@ const convertToWebp = (
       if (!req.file) {
         return next();
       }
+
+      // =========================================
+      // GALLERY VIDEO
+      // DO NOT SEND VIDEO THROUGH SHARP
+      // =========================================
+
+      if (
+        req.file.mimetype &&
+        req.file.mimetype.startsWith("video/")
+      ) {
+        const targetUploadPath = path.join(
+          baseUploadDir,
+          subFolder
+        );
+
+        ensureDirExists(targetUploadPath);
+
+        // Original video extension
+        const extension = path
+          .extname(req.file.originalname)
+          .toLowerCase();
+
+        // Safe video name
+        const originalName = path
+          .parse(req.file.originalname)
+          .name
+          .replace(/[^a-zA-Z0-9]/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "")
+          .toLowerCase();
+
+        const fileName = `${
+          originalName || "video"
+        }-${Date.now()}-${Math.round(
+          Math.random() * 1e9
+        )}${extension || ".mp4"}`;
+
+        const outputPath = path.join(
+          targetUploadPath,
+          fileName
+        );
+
+        // Save video buffer directly
+        fs.writeFileSync(
+          outputPath,
+          req.file.buffer
+        );
+
+        // =========================================
+        // UPDATE REQ.FILE DETAILS
+        // =========================================
+
+        req.file.filename = fileName;
+
+        req.file.path = outputPath;
+
+        req.file.destination =
+          targetUploadPath;
+
+        // Keep original video mimetype
+        req.file.mimetype =
+          req.file.mimetype || "video/mp4";
+
+        req.file.originalname = fileName;
+
+        req.file.size =
+          fs.statSync(outputPath).size;
+
+        // URL accessible from frontend static route
+        const relativeUrl =
+          `/uploads/${subFolder}/${fileName}`;
+
+        req.file.url = relativeUrl;
+
+        // Compatibility for controllers
+        req.avatarPath = relativeUrl;
+
+        return next();
+      }
+
+      // =========================================
+      // IMAGE CONVERSION
+      // EXISTING BEHAVIOR PRESERVED
+      // =========================================
 
       // Determine target directory
       const targetUploadPath = path.join(
@@ -142,14 +273,14 @@ const convertToWebp = (
 
     } catch (error) {
       console.error(
-        "IMAGE CONVERSION ERROR:",
+        "IMAGE/VIDEO UPLOAD ERROR:",
         error
       );
 
       return res.status(400).json({
         success: false,
         message:
-          "Failed to convert image to WebP",
+          "Failed to process uploaded media",
         error: error.message,
       });
     }
@@ -192,6 +323,69 @@ const convertMultipleToWebp = (
 
       await Promise.all(
         filesArray.map(async (file) => {
+
+          // =========================================
+          // VIDEO
+          // DO NOT USE SHARP
+          // =========================================
+
+          if (
+            file.mimetype &&
+            file.mimetype.startsWith("video/")
+          ) {
+            const extension = path
+              .extname(file.originalname)
+              .toLowerCase();
+
+            const originalName = path
+              .parse(file.originalname)
+              .name
+              .replace(/[^a-zA-Z0-9]/g, "-")
+              .replace(/-+/g, "-")
+              .replace(/^-|-$/g, "")
+              .toLowerCase();
+
+            const fileName = `${
+              originalName || "video"
+            }-${Date.now()}-${Math.round(
+              Math.random() * 1e9
+            )}${extension || ".mp4"}`;
+
+            const outputPath = path.join(
+              targetUploadPath,
+              fileName
+            );
+
+            // Save video directly
+            fs.writeFileSync(
+              outputPath,
+              file.buffer
+            );
+
+            file.filename = fileName;
+
+            file.path = outputPath;
+
+            file.destination =
+              targetUploadPath;
+
+            // Keep video mimetype
+            file.originalname = fileName;
+
+            file.size =
+              fs.statSync(outputPath).size;
+
+            file.url =
+              `/uploads/${subFolder}/${fileName}`;
+
+            return;
+          }
+
+          // =========================================
+          // IMAGE
+          // EXISTING WEBP BEHAVIOR
+          // =========================================
+
           const originalName = path
             .parse(file.originalname)
             .name
@@ -241,14 +435,14 @@ const convertMultipleToWebp = (
 
     } catch (error) {
       console.error(
-        "MULTIPLE IMAGE CONVERSION ERROR:",
+        "MULTIPLE IMAGE/VIDEO CONVERSION ERROR:",
         error
       );
 
       return res.status(400).json({
         success: false,
         message:
-          "Failed to convert images to WebP",
+          "Failed to process uploaded media",
         error: error.message,
       });
     }
@@ -260,6 +454,7 @@ const convertMultipleToWebp = (
 // BACKWARDS COMPATIBLE
 // TEAM SUPPORTED
 // COUPEN/BANNER SUPPORTED
+// GALLERY IMAGE + VIDEO SUPPORTED
 // =========================================
 
 const upload = {
@@ -286,11 +481,23 @@ const upload = {
         Gallery route:
         /api/gallery
 
-        Gallery uses:
+        Gallery can use:
+
         upload.single("image")
 
-        So it must save inside:
-        src/uploads/gallery
+        OR
+
+        upload.single("mediaFile")
+
+        It supports:
+        - Images
+        - Videos
+
+        Images:
+        saved as WebP
+
+        Videos:
+        saved in original video format
 
         ========================================
         TEAM BEHAVIOR REMAINS SAME
@@ -346,7 +553,7 @@ const upload = {
         }
 
         // =====================================
-        // CONVERT IMAGE
+        // CONVERT IMAGE / SAVE VIDEO
         // =====================================
 
         return convertToWebp(
@@ -403,3 +610,4 @@ const upload = {
 // =========================================
 
 module.exports = upload;
+

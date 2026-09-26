@@ -479,7 +479,7 @@ const SuvRate = () => {
               <strong>Jagannath Explorer Travels</strong>
               <span>
                 Plot No - 001, Mahaveer Nagar, Road No. - 18,
-                Samantray Pur, Bhubaneswar, Odisha - 751002
+                Samantarapur, Bhubaneswar, Odisha - 751002
               </span>
             </div>
           </div>

@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { FaStar, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { SiTripadvisor } from 'react-icons/si';
 import './Facility.css';
 
 // =====================================================
 // Local Assets
 // =====================================================
-import facilityImg1 from '../../assets/koraput coffee (1).webp';
-import facilityImg2 from '../../assets/eco retreat.webp';
-
-// If you have a separate background image, import it like:
-// import bgPattern from '../../assets/bg-pattern.webp';
-
+import facilityImg1 from '../../assets/ShriJaganath.webp';
+import facilityImg2 from '../../assets/Konar.webp';
 
 const facilitySlides = [
   {
@@ -91,7 +87,6 @@ const Facility = () => {
         <div
           className="facility-left-col"
           style={{
-            // Temporary: using first facility image as background
             '--bg-image': `url(${facilityImg1})`,
           }}
         >
@@ -234,222 +229,8 @@ const Facility = () => {
 
           </div>
 
-          {/* =====================================================
-              UNIFIED RATING CARD
-          ===================================================== */}
-          <div className="floating-rating-panel">
-
-            <div className="unified-rating-card">
-
-              {/* =================================================
-                  PART 1 — OVERALL RATING
-              ================================================= */}
-              <div className="rating-part">
-
-                <h4 className="card-box-title">
-                  Overall Rating
-                </h4>
-
-                <div className="rating-score-block">
-
-                  <span className="big-score">
-                    4.5
-                  </span>
-
-                  <span className="out-of-text">
-                    out of 5
-                  </span>
-
-                </div>
-
-                {/* Stars */}
-                <div className="stars-row">
-
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar
-                      key={i}
-                      className="yellow-star"
-                    />
-                  ))}
-
-                  <span className="star-score-val">
-                    4.5
-                  </span>
-
-                </div>
-
-                {/* Review */}
-                <div className="review-meta">
-
-                  <span>
-                    Based on 15171 independent review
-                  </span>
-
-                  <div className="mini-ta-dots">
-
-                    <span className="ta-dot"></span>
-                    <span className="ta-dot"></span>
-                    <span className="ta-dot"></span>
-                    <span className="ta-dot"></span>
-                    <span className="ta-dot half"></span>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-              {/* Divider */}
-              <div className="card-inner-divider"></div>
-
-              {/* =================================================
-                  PART 2 — CUSTOMER EXPERIENCE
-              ================================================= */}
-              <div className="rating-part">
-
-                <h4 className="card-box-title">
-                  Customer Experience
-                </h4>
-
-                <p className="card-box-subtitle">
-                  Curabitur convallis enim at orci
-                  ullamcorper sagittis. Morbi nullalacu.
-                </p>
-
-                <div className="experience-breakdown">
-
-                  {/* Experience Score */}
-                  <div className="exp-score-box">
-
-                    <span className="exp-big-score">
-                      4.5
-                    </span>
-
-                    <span className="exp-out-of">
-                      out of 5
-                    </span>
-
-                    <div className="exp-mini-stars">
-
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar key={i} />
-                      ))}
-
-                    </div>
-
-                  </div>
-
-                  {/* Progress Bars */}
-                  <div className="progress-bars-list">
-
-                    {/* 5 Star */}
-                    <div className="bar-row">
-
-                      <span className="star-num">
-                        5 ★
-                      </span>
-
-                      <div className="progress-track">
-                        <div
-                          className="progress-fill"
-                          style={{ width: '85%' }}
-                        ></div>
-                      </div>
-
-                      <span className="count-val">
-                        9655
-                      </span>
-
-                    </div>
-
-                    {/* 4 Star */}
-                    <div className="bar-row">
-
-                      <span className="star-num">
-                        4 ★
-                      </span>
-
-                      <div className="progress-track">
-                        <div
-                          className="progress-fill"
-                          style={{ width: '45%' }}
-                        ></div>
-                      </div>
-
-                      <span className="count-val">
-                        3635
-                      </span>
-
-                    </div>
-
-                    {/* 3 Star */}
-                    <div className="bar-row">
-
-                      <span className="star-num">
-                        3 ★
-                      </span>
-
-                      <div className="progress-track">
-                        <div
-                          className="progress-fill"
-                          style={{ width: '20%' }}
-                        ></div>
-                      </div>
-
-                      <span className="count-val">
-                        907
-                      </span>
-
-                    </div>
-
-                    {/* 2 Star */}
-                    <div className="bar-row">
-
-                      <span className="star-num">
-                        2 ★
-                      </span>
-
-                      <div className="progress-track">
-                        <div
-                          className="progress-fill"
-                          style={{ width: '12%' }}
-                        ></div>
-                      </div>
-
-                      <span className="count-val">
-                        373
-                      </span>
-
-                    </div>
-
-                    {/* 1 Star */}
-                    <div className="bar-row">
-
-                      <span className="star-num">
-                        1 ★
-                      </span>
-
-                      <div className="progress-track">
-                        <div
-                          className="progress-fill"
-                          style={{ width: '5%' }}
-                        ></div>
-                      </div>
-
-                      <span className="count-val">
-                        198
-                      </span>
-
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
         </div>
+
       </div>
     </section>
   );

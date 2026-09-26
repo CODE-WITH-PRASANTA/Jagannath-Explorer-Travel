@@ -2,15 +2,27 @@ const mongoose = require("mongoose");
 
 const gallerySchema = new mongoose.Schema(
   {
-    imageName: {
+    mediaName: {
       type: String,
       required: true,
       trim: true,
     },
 
-    image: {
+    mediaType: {
       type: String,
       required: true,
+      enum: ["image", "video"],
+      default: "image",
+    },
+
+    mediaUrl: {
+      type: String,
+      required: true,
+    },
+
+    uploadedOn: {
+      type: Date,
+      default: Date.now,
     },
   },
   {
@@ -18,6 +30,4 @@ const gallerySchema = new mongoose.Schema(
   }
 );
 
-const Gallery = mongoose.model("Gallery", gallerySchema);
-
-module.exports = Gallery;
+module.exports = mongoose.model("Gallery", gallerySchema);

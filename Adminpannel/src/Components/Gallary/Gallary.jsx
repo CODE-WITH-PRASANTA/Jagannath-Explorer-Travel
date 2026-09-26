@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import "./Gallary.css";
 
@@ -6,236 +7,406 @@ import API, { IMG_URL } from "../../api/axios";
 const ITEMS_PER_PAGE = 5;
 
 const Gallary = () => {
-  const [imageName, setImageName] = useState("");
-  const [image, setImage] = useState(null);
+  // =====================================================
+  // STATE
+  // =====================================================
+
+  const [mediaName, setMediaName] = useState("");
+  const [mediaFile, setMediaFile] = useState(null);
+  const [mediaType, setMediaType] = useState("image");
+
   const [preview, setPreview] = useState("");
+
   const [editId, setEditId] = useState(null);
 
   const [galleryData, setGalleryData] = useState([]);
 
-  const [loading, setLoading] = useState(false);
-  const [tableLoading, setTableLoading] = useState(true);
-
   const [currentPage, setCurrentPage] = useState(1);
 
-  const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
-  // =========================================
-  // IMAGE URL PARSER
-  // =========================================
+  const imageInputRef = useRef(null);
+  const videoInputRef = useRef(null);
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "";
+  // Always contains latest gallery list
+  const galleryRef = useRef([]);
+  galleryRef.current = galleryData;
 
+  // =====================================================
+  // API BASE URL HELPER
+  // =====================================================
+
+  const getMediaUrl = (url) => {
+    if (!url) return "";
+
+    // Already full URL
     if (
-      imagePath.startsWith("http://") ||
-      imagePath.startsWith("https://")
+      url.startsWith("http://") ||
+      url.startsWith("https://") ||
+      url.startsWith("blob:")
     ) {
-      return imagePath;
+      return url;
     }
 
-    let cleanPath = String(imagePath).replace(/\\/g, "/");
-
-    const baseUrl = (IMG_URL || "").replace(/\/$/, "");
-
-    if (
-      cleanPath.startsWith("/uploads/") ||
-      cleanPath.startsWith("uploads/")
-    ) {
-      const formattedPath = cleanPath.startsWith("/")
-        ? cleanPath
-        : `/${cleanPath}`;
-
-      return `${baseUrl}${formattedPath}`;
-    }
-
-    if (cleanPath.startsWith("/")) {
-      cleanPath = cleanPath.substring(1);
-    }
-
-    return `${baseUrl}/uploads/gallery/${cleanPath}`;
+    return `${IMG_URL}${url}`;
   };
 
-  // =========================================
-  // FETCH ALL GALLERY
-  // =========================================
+  // =====================================================
+  // BLOB URL HELPERS
+  // =====================================================
+
+  const revokeUrl = (url) => {
+    if (
+      url &&
+      typeof url === "string" &&
+      url.startsWith("blob:")
+    ) {
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  const revokeIfUnsaved = (url) => {
+    if (!url) return;
+
+    const isSaved = galleryRef.current.some(
+      (item) => getMediaUrl(item.mediaUrl) === url
+    );
+
+    if (!isSaved) {
+      revokeUrl(url);
+    }
+  };
+
+  // =====================================================
+  // CLEAR FILE INPUTS
+  // =====================================================
+
+  const clearFileInputs = () => {
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
+
+    if (videoInputRef.current) {
+      videoInputRef.current.value = "";
+    }
+  };
+
+  // =====================================================
+  // COMPONENT CLEANUP
+  // =====================================================
+
+  useEffect(() => {
+    return () => {
+      galleryRef.current.forEach((item) => {
+        revokeUrl(item.mediaUrl);
+      });
+
+      revokeUrl(preview);
+    };
+  }, []);
+
+  // =====================================================
+  // FETCH GALLERY FROM BACKEND
+  // GET /api/gallery
+  // =====================================================
 
   const fetchGallery = async () => {
     try {
-      setTableLoading(true);
+      setFetching(true);
 
       const response = await API.get("/gallery");
 
-      setGalleryData(response.data?.data || []);
+      if (response.data?.success) {
+        setGalleryData(response.data.data || []);
+      } else {
+        setGalleryData([]);
+      }
     } catch (error) {
       console.error("FETCH GALLERY ERROR:", error);
 
-      alert(
+      const message =
         error.response?.data?.message ||
-          error.message ||
-          "Unable to load gallery"
-      );
+        "Failed to load gallery data.";
+
+      alert(message);
     } finally {
-      setTableLoading(false);
+      setFetching(false);
     }
   };
 
-  // =========================================
-  // LOAD GALLERY
-  // =========================================
+  // =====================================================
+  // LOAD GALLERY ON PAGE OPEN
+  // =====================================================
 
   useEffect(() => {
     fetchGallery();
   }, []);
 
-  // =========================================
-  // PAGINATION CALCULATION
-  // =========================================
+  // =====================================================
+  // FILE SELECT & PREVIEW
+  // =====================================================
 
-  const totalPages = Math.ceil(galleryData.length / ITEMS_PER_PAGE);
+  const handleFileChange = (e, type) => {
+    const selectedFile = e.target.files?.[0];
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    if (!selectedFile) return;
 
-  const currentGalleryData = galleryData.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE
-  );
+    // ===================================================
+    // IMAGE VALIDATION
+    // ===================================================
 
-  // =========================================
-  // KEEP PAGE VALID AFTER DELETE
-  // =========================================
+    if (type === "image") {
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+        "image/avif",
+      ];
 
-  useEffect(() => {
-    if (totalPages === 0) {
-      setCurrentPage(1);
-      return;
+      if (!allowedTypes.includes(selectedFile.type)) {
+        alert(
+          "Only JPG, JPEG, PNG, WEBP, and AVIF images are allowed."
+        );
+
+        e.target.value = "";
+        return;
+      }
+
+      if (selectedFile.size > 10 * 1024 * 1024) {
+        alert("Image size must be less than 10 MB.");
+
+        e.target.value = "";
+        return;
+      }
     }
 
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [currentPage, totalPages]);
+    // ===================================================
+    // VIDEO VALIDATION
+    // ===================================================
 
-  // =========================================
-  // IMAGE SELECT & PREVIEW
-  // =========================================
+    if (type === "video") {
+      const allowedTypes = [
+        "video/mp4",
+        "video/webm",
+        "video/ogg",
+        "video/quicktime",
+      ];
 
-  const handleImageChange = (e) => {
-    const selectedImage = e.target.files?.[0];
+      if (!allowedTypes.includes(selectedFile.type)) {
+        alert(
+          "Only MP4, WEBM, OGG, and MOV videos are allowed."
+        );
 
-    if (!selectedImage) {
-      return;
-    }
+        e.target.value = "";
+        return;
+      }
 
-    const allowedTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "image/webp",
-      "image/avif",
-    ];
+      if (selectedFile.size > 50 * 1024 * 1024) {
+        alert("Video size must be less than 50 MB.");
 
-    if (!allowedTypes.includes(selectedImage.type)) {
-      alert("Only JPG, JPEG, PNG, WEBP, and AVIF images are allowed.");
-
-      e.target.value = "";
-      return;
+        e.target.value = "";
+        return;
+      }
     }
 
-    if (selectedImage.size > 10 * 1024 * 1024) {
-      alert("Image size must be less than 10 MB.");
+    // ===================================================
+    // REMOVE OLD UNSAVED BLOB
+    // ===================================================
 
-      e.target.value = "";
-      return;
+    revokeIfUnsaved(preview);
+
+    // ===================================================
+    // CLEAR OTHER INPUT
+    // ===================================================
+
+    if (
+      type === "image" &&
+      videoInputRef.current
+    ) {
+      videoInputRef.current.value = "";
     }
 
-    if (preview && preview.startsWith("blob:")) {
-      URL.revokeObjectURL(preview);
+    if (
+      type === "video" &&
+      imageInputRef.current
+    ) {
+      imageInputRef.current.value = "";
     }
 
-    setImage(selectedImage);
-    setPreview(URL.createObjectURL(selectedImage));
+    // ===================================================
+    // CREATE PREVIEW
+    // ===================================================
+
+    const newBlobUrl =
+      URL.createObjectURL(selectedFile);
+
+    setMediaFile(selectedFile);
+    setMediaType(type);
+    setPreview(newBlobUrl);
   };
 
-  // =========================================
+  // =====================================================
   // SUBMIT FORM
-  // =========================================
+  // CREATE / UPDATE
+  // =====================================================
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!imageName.trim()) {
-      alert("Please enter image name.");
+    // ===================================================
+    // VALIDATE TITLE
+    // ===================================================
+
+    if (!mediaName.trim()) {
+      alert("Please enter a media title/name.");
       return;
     }
 
-    if (!editId && !image) {
-      alert("Please select an image.");
+    // ===================================================
+    // VALIDATE FILE FOR CREATE
+    // ===================================================
+
+    if (!editId && !mediaFile) {
+      alert("Please upload a media file.");
       return;
     }
 
     try {
       setLoading(true);
 
+      // =================================================
+      // FORM DATA
+      // =================================================
+
       const formData = new FormData();
 
-      formData.append("imageName", imageName.trim());
+      formData.append(
+        "mediaName",
+        mediaName.trim()
+      );
 
-      if (image) {
-        formData.append("image", image);
+      formData.append(
+        "mediaType",
+        mediaType
+      );
+
+      // IMPORTANT:
+      // Backend uses upload.single("mediaFile")
+      //
+      if (mediaFile) {
+        formData.append(
+          "mediaFile",
+          mediaFile
+        );
       }
 
-      let response;
+      // =================================================
+      // UPDATE
+      // =================================================
 
       if (editId) {
-        response = await API.put(`/gallery/${editId}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-      } else {
-        response = await API.post("/gallery", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await API.put(
+          `/gallery/${editId}`,
+          formData
+        );
+
+        if (response.data?.success) {
+          alert(
+            "Media updated successfully."
+          );
+
+          // Remove local blob preview
+          revokeUrl(preview);
+
+          resetForm(false);
+
+          // Reload fresh MongoDB data
+          await fetchGallery();
+
+          return;
+        }
+
+        throw new Error(
+          response.data?.message ||
+            "Failed to update media."
+        );
       }
 
-      alert(
-        response.data?.message || "Gallery image saved successfully"
+      // =================================================
+      // CREATE
+      // =================================================
+
+      const response = await API.post(
+        "/gallery",
+        formData
       );
 
-      await fetchGallery();
+      if (response.data?.success) {
+        alert(
+          "Media uploaded successfully."
+        );
 
-      setCurrentPage(1);
+        // Remove local blob preview
+        revokeUrl(preview);
 
-      resetForm();
+        resetForm(false);
+
+        setCurrentPage(1);
+
+        // Reload from MongoDB
+        await fetchGallery();
+
+        return;
+      }
+
+      throw new Error(
+        response.data?.message ||
+          "Failed to upload media."
+      );
     } catch (error) {
-      console.error("SAVE GALLERY ERROR:", error);
-
-      alert(
-        error.response?.data?.message ||
-          error.message ||
-          "Failed to save gallery image"
+      console.error(
+        "GALLERY SUBMIT ERROR:",
+        error
       );
+
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Something went wrong.";
+
+      alert(message);
     } finally {
       setLoading(false);
     }
   };
 
-  // =========================================
+  // =====================================================
   // EDIT GALLERY
-  // =========================================
+  // =====================================================
 
   const handleEdit = (item) => {
-    if (preview && preview.startsWith("blob:")) {
-      URL.revokeObjectURL(preview);
-    }
+    revokeIfUnsaved(preview);
+
+    clearFileInputs();
 
     setEditId(item._id);
-    setImageName(item.imageName || "");
-    setImage(null);
-    setPreview(getImageUrl(item.image));
+
+    setMediaName(
+      item.mediaName || ""
+    );
+
+    setMediaFile(null);
+
+    setMediaType(
+      item.mediaType || "image"
+    );
+
+    setPreview(
+      getMediaUrl(item.mediaUrl)
+    );
 
     window.scrollTo({
       top: 0,
@@ -243,106 +414,173 @@ const Gallary = () => {
     });
   };
 
-  // =========================================
+  // =====================================================
   // DELETE GALLERY
-  // =========================================
+  // DELETE /api/gallery/:id
+  // =====================================================
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this gallery image?"
-    );
+    const confirmDelete =
+      window.confirm(
+        "Are you sure you want to delete this item?"
+      );
 
     if (!confirmDelete) {
       return;
     }
 
     try {
-      setLoading(true);
+      setDeletingId(id);
 
-      const response = await API.delete(`/gallery/${id}`);
-
-      alert(
-        response.data?.message ||
-          "Gallery image deleted successfully"
+      const response = await API.delete(
+        `/gallery/${id}`
       );
 
-      setGalleryData((prev) =>
-        prev.filter((item) => item._id !== id)
-      );
+      if (response.data?.success) {
+        // If currently editing this item
+        if (editId === id) {
+          resetForm();
+        }
 
-      if (editId === id) {
-        resetForm();
+        // Remove from current UI immediately
+        setGalleryData((prev) =>
+          prev.filter(
+            (item) => item._id !== id
+          )
+        );
+
+        alert(
+          "Media deleted successfully."
+        );
+
+        return;
       }
-    } catch (error) {
-      console.error("DELETE GALLERY ERROR:", error);
 
-      alert(
-        error.response?.data?.message ||
-          error.message ||
-          "Failed to delete gallery image"
+      throw new Error(
+        response.data?.message ||
+          "Failed to delete media."
       );
+    } catch (error) {
+      console.error(
+        "DELETE GALLERY ERROR:",
+        error
+      );
+
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to delete media.";
+
+      alert(message);
     } finally {
-      setLoading(false);
+      setDeletingId(null);
     }
   };
 
-  // =========================================
+  // =====================================================
   // RESET FORM
-  // =========================================
+  // =====================================================
 
-  const resetForm = () => {
-    if (preview && preview.startsWith("blob:")) {
-      URL.revokeObjectURL(preview);
+  const resetForm = (
+    revokePreview = true
+  ) => {
+    if (revokePreview) {
+      revokeIfUnsaved(preview);
     }
 
-    setImageName("");
-    setImage(null);
+    setMediaName("");
+    setMediaFile(null);
+    setMediaType("image");
     setPreview("");
     setEditId(null);
 
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    clearFileInputs();
   };
 
-  // =========================================
+  // =====================================================
   // REMOVE PREVIEW
-  // =========================================
+  // =====================================================
 
   const removePreview = () => {
-    if (preview && preview.startsWith("blob:")) {
-      URL.revokeObjectURL(preview);
-    }
+    revokeIfUnsaved(preview);
 
-    setImage(null);
+    setMediaFile(null);
     setPreview("");
 
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    clearFileInputs();
+  };
+
+  // =====================================================
+  // VIDEO FRAME
+  // =====================================================
+
+  const showVideoFrame = (e) => {
+    try {
+      e.currentTarget.currentTime = 0.1;
+    } catch (err) {
+      // Ignore
     }
   };
 
-  // =========================================
-  // CHANGE PAGE
-  // =========================================
+  // =====================================================
+  // PAGINATION
+  // =====================================================
 
-  const handlePageChange = (page) => {
-    if (page < 1 || page > totalPages || page === currentPage) {
+  const totalPages = Math.ceil(
+    galleryData.length /
+      ITEMS_PER_PAGE
+  );
+
+  const startIndex =
+    (currentPage - 1) *
+    ITEMS_PER_PAGE;
+
+  const currentGalleryData =
+    galleryData.slice(
+      startIndex,
+      startIndex + ITEMS_PER_PAGE
+    );
+
+  useEffect(() => {
+    if (totalPages === 0) {
+      setCurrentPage(1);
+      return;
+    }
+
+    if (
+      currentPage > totalPages
+    ) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
+
+  const handlePageChange = (
+    page
+  ) => {
+    if (
+      page < 1 ||
+      page > totalPages ||
+      page === currentPage
+    ) {
       return;
     }
 
     setCurrentPage(page);
   };
 
-  // =========================================
-  // GENERATE PAGE NUMBERS
-  // =========================================
+  // =====================================================
+  // PAGE NUMBERS
+  // =====================================================
 
   const getPageNumbers = () => {
     const pages = [];
 
     if (totalPages <= 5) {
-      for (let i = 1; i <= totalPages; i++) {
+      for (
+        let i = 1;
+        i <= totalPages;
+        i++
+      ) {
         pages.push(i);
       }
 
@@ -355,15 +593,31 @@ const Gallary = () => {
       pages.push("left-ellipsis");
     }
 
-    const startPage = Math.max(2, currentPage - 1);
-    const endPage = Math.min(totalPages - 1, currentPage + 1);
+    const startPage = Math.max(
+      2,
+      currentPage - 1
+    );
 
-    for (let i = startPage; i <= endPage; i++) {
+    const endPage = Math.min(
+      totalPages - 1,
+      currentPage + 1
+    );
+
+    for (
+      let i = startPage;
+      i <= endPage;
+      i++
+    ) {
       pages.push(i);
     }
 
-    if (currentPage < totalPages - 2) {
-      pages.push("right-ellipsis");
+    if (
+      currentPage <
+      totalPages - 2
+    ) {
+      pages.push(
+        "right-ellipsis"
+      );
     }
 
     pages.push(totalPages);
@@ -371,51 +625,60 @@ const Gallary = () => {
     return pages;
   };
 
+  // =====================================================
+  // RENDER
+  // =====================================================
+
   return (
     <div className="Gallary">
 
-      {/* =========================================
+      {/* =================================================
           HEADER
-      ========================================= */}
+      ================================================= */}
 
       <div className="GallaryHeader">
         <div>
-          <h2>Gallery Management</h2>
+          <h2>
+            Gallery & Video Management
+          </h2>
 
           <p>
-            Add and manage your travel gallery images
+            Upload, update, and manage
+            your travel photos and videos
           </p>
         </div>
 
         <div className="GallaryHeaderBadge">
-          <span>{galleryData.length}</span>
+          <span>
+            {galleryData.length}
+          </span>
 
-          <small>Total Images</small>
+          <small>
+            Total Media
+          </small>
         </div>
       </div>
 
-      {/* =========================================
-          CONTENT
-      ========================================= */}
-
       <div className="GallaryContent">
 
-        {/* =========================================
+        {/* =================================================
             FORM CARD
-        ========================================= */}
+        ================================================= */}
 
         <div className="GallaryFormCard">
 
           <div className="GallaryCardHeader">
             <div>
               <h3>
-                {editId ? "Edit Gallery" : "Add Gallery"}
+                {editId
+                  ? "Edit Media"
+                  : "Upload Media"}
               </h3>
 
               <p>
                 {editId
-                  ? "Update gallery image details"
-                  : "Upload a new gallery image"}
+                  ? "Update existing media"
+                  : "Add photo or video to gallery"}
               </p>
             </div>
           </div>
@@ -425,64 +688,144 @@ const Gallary = () => {
             onSubmit={handleSubmit}
           >
 
-            {/* IMAGE NAME */}
+            {/* MEDIA NAME */}
 
             <div className="GallaryFormGroup">
-
               <label htmlFor="GallaryName">
-                Image Name <span>*</span>
+                Media Title{" "}
+                <span>*</span>
               </label>
 
               <input
                 id="GallaryName"
                 type="text"
-                placeholder="Enter image name"
-                value={imageName}
+                placeholder="Enter title or description"
+                value={mediaName}
                 onChange={(e) =>
-                  setImageName(e.target.value)
+                  setMediaName(
+                    e.target.value
+                  )
                 }
               />
-
             </div>
 
-            {/* IMAGE UPLOAD */}
+            {/* UPLOAD SECTION */}
 
-            <div className="GallaryFormGroup">
+            <div className="GallaryUploadGrid">
 
-              <label htmlFor="GallaryImage">
-                Image {!editId && <span>*</span>}
-              </label>
+              {/* PHOTO */}
 
-              <div className="GallaryUploadBox">
+              <div className="GallaryFormGroup">
 
-                <input
-                  ref={fileInputRef}
-                  id="GallaryImage"
-                  type="file"
-                  accept="image/jpeg,image/jpg,image/png,image/webp,image/avif"
-                  onChange={handleImageChange}
-                />
+                <label>
+                  Upload Photo{" "}
+                  {!editId &&
+                    mediaType ===
+                      "image" && (
+                      <span>*</span>
+                    )}
+                </label>
 
-                <div className="GallaryUploadContent">
+                <div
+                  className={`GallaryUploadBox ${
+                    mediaType ===
+                      "image" &&
+                    preview
+                      ? "active"
+                      : ""
+                  }`}
+                >
 
-                  <div className="GallaryUploadIcon">
-                    ↑
+                  <input
+                    ref={imageInputRef}
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png,image/webp,image/avif"
+                    onChange={(e) =>
+                      handleFileChange(
+                        e,
+                        "image"
+                      )
+                    }
+                  />
+
+                  <div className="GallaryUploadContent">
+
+                    <div className="GallaryUploadIcon">
+                      📷
+                    </div>
+
+                    <h4>
+                      Upload Photo
+                    </h4>
+
+                    <p>
+                      JPG, PNG, WEBP, AVIF
+                    </p>
+
+                    <small>
+                      Max: 10 MB
+                    </small>
+
                   </div>
-
-                  <h4>Choose Image</h4>
-
-                  <p>
-                    PNG, JPG, JPEG, WEBP or AVIF
-                  </p>
-
-                  <small>
-                    Maximum size: 10 MB
-                  </small>
-
                 </div>
-
               </div>
 
+              {/* VIDEO */}
+
+              <div className="GallaryFormGroup">
+
+                <label>
+                  Upload Video{" "}
+                  {!editId &&
+                    mediaType ===
+                      "video" && (
+                      <span>*</span>
+                    )}
+                </label>
+
+                <div
+                  className={`GallaryUploadBox ${
+                    mediaType ===
+                      "video" &&
+                    preview
+                      ? "active"
+                      : ""
+                  }`}
+                >
+
+                  <input
+                    ref={videoInputRef}
+                    type="file"
+                    accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                    onChange={(e) =>
+                      handleFileChange(
+                        e,
+                        "video"
+                      )
+                    }
+                  />
+
+                  <div className="GallaryUploadContent">
+
+                    <div className="GallaryUploadIcon">
+                      🎥
+                    </div>
+
+                    <h4>
+                      Upload Video
+                    </h4>
+
+                    <p>
+                      MP4, WEBM, MOV
+                    </p>
+
+                    <small>
+                      Max: 50 MB
+                    </small>
+
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* PREVIEW */}
@@ -493,7 +836,9 @@ const Gallary = () => {
                 <div className="GallaryPreviewHeader">
 
                   <span>
-                    Image Preview
+                    Selected Preview (
+                    {mediaType.toUpperCase()}
+                    )
                   </span>
 
                   <button
@@ -507,19 +852,24 @@ const Gallary = () => {
 
                 <div className="GallaryPreviewImage">
 
-                  <img
-                    src={preview}
-                    alt="Gallery Preview"
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-
-                      e.currentTarget.src =
-                        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23ccc' viewBox='0 0 24 24'><path d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/></svg>";
-                    }}
-                  />
+                  {mediaType ===
+                  "video" ? (
+                    <video
+                      key={preview}
+                      src={preview}
+                      controls
+                      playsInline
+                      preload="metadata"
+                    />
+                  ) : (
+                    <img
+                      key={preview}
+                      src={preview}
+                      alt="Preview"
+                    />
+                  )}
 
                 </div>
-
               </div>
             )}
 
@@ -530,7 +880,9 @@ const Gallary = () => {
               <button
                 type="button"
                 className="GallaryCancelButton"
-                onClick={resetForm}
+                onClick={() =>
+                  resetForm()
+                }
                 disabled={loading}
               >
                 Clear
@@ -542,31 +894,34 @@ const Gallary = () => {
                 disabled={loading}
               >
                 {loading
-                  ? "Please Wait..."
+                  ? editId
+                    ? "Updating..."
+                    : "Uploading..."
                   : editId
-                  ? "Update Image"
-                  : "Add Image"}
+                  ? "Update Media"
+                  : "Publish Media"}
               </button>
 
             </div>
 
           </form>
-
         </div>
 
-        {/* =========================================
+        {/* =================================================
             TABLE CARD
-        ========================================= */}
+        ================================================= */}
 
         <div className="GallaryTableCard">
 
           <div className="GallaryCardHeader">
 
             <div>
-              <h3>Gallery List</h3>
+              <h3>
+                Media Library
+              </h3>
 
               <p>
-                All uploaded gallery images
+                All uploaded photos and videos
               </p>
             </div>
 
@@ -578,161 +933,235 @@ const Gallary = () => {
 
               <thead>
                 <tr>
-                  <th>Sl. No.</th>
-                  <th>Image</th>
-                  <th>Image Name</th>
-                  <th>Action</th>
+                  <th>
+                    Sl. No.
+                  </th>
+
+                  <th>
+                    Media Preview
+                  </th>
+
+                  <th>
+                    Title
+                  </th>
+
+                  <th>
+                    Type
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
                 </tr>
               </thead>
 
               <tbody>
 
-                {tableLoading ? (
+                {/* LOADING */}
+
+                {fetching ? (
                   <tr>
                     <td
-                      colSpan="4"
-                      className="GallaryLoading"
+                      colSpan="5"
+                      className="GallaryEmpty"
                     >
-                      <div className="GallaryLoadingContent">
-                        <span className="GallaryLoader"></span>
-                        Loading gallery...
+                      <div className="GallaryEmptyIcon">
+                        ⏳
                       </div>
+
+                      <h4>
+                        Loading Media...
+                      </h4>
+
+                      <p>
+                        Fetching gallery from server
+                      </p>
                     </td>
                   </tr>
-                ) : currentGalleryData.length > 0 ? (
+                ) : currentGalleryData.length >
+                  0 ? (
 
-                  currentGalleryData.map((item, index) => {
+                  currentGalleryData.map(
+                    (item, index) => {
 
-                    const computedUrl =
-                      getImageUrl(item.image);
+                      const serialNumber =
+                        startIndex +
+                        index +
+                        1;
 
-                    const serialNumber =
-                      startIndex + index + 1;
+                      const itemUrl =
+                        getMediaUrl(
+                          item.mediaUrl
+                        );
 
-                    return (
-                      <tr
-                        key={
-                          item._id || index
-                        }
-                      >
+                      return (
+                        <tr
+                          key={
+                            item._id
+                          }
+                        >
 
-                        {/* SERIAL */}
+                          {/* SERIAL */}
 
-                        <td>
-                          <span className="GallarySerial">
-                            {String(
-                              serialNumber
-                            ).padStart(2, "0")}
-                          </span>
-                        </td>
+                          <td>
+                            <span className="GallarySerial">
+                              {String(
+                                serialNumber
+                              ).padStart(
+                                2,
+                                "0"
+                              )}
+                            </span>
+                          </td>
 
-                        {/* IMAGE */}
+                          {/* PREVIEW */}
 
-                        <td>
+                          <td>
 
-                          <div className="GallaryTableImage">
+                            <div className="GallaryTableImage">
 
-                            <img
-                              src={computedUrl}
-                              alt={
-                                item.imageName ||
-                                "Gallery item"
+                              {item.mediaType ===
+                              "video" ? (
+                                <video
+                                  key={
+                                    itemUrl
+                                  }
+                                  src={
+                                    itemUrl
+                                  }
+                                  preload="metadata"
+                                  muted
+                                  playsInline
+                                  onLoadedMetadata={
+                                    showVideoFrame
+                                  }
+                                />
+                              ) : (
+                                <img
+                                  key={
+                                    itemUrl
+                                  }
+                                  src={
+                                    itemUrl
+                                  }
+                                  alt={
+                                    item.mediaName ||
+                                    "Media item"
+                                  }
+                                />
+                              )}
+
+                            </div>
+
+                          </td>
+
+                          {/* TITLE */}
+
+                          <td>
+
+                            <div className="GallaryImageName">
+                              {
+                                item.mediaName
                               }
-                              loading="lazy"
-                              onError={(e) => {
+                            </div>
 
-                                console.warn(
-                                  `Failed to load image for "${item.imageName}":`,
-                                  computedUrl
-                                );
+                          </td>
 
-                                e.currentTarget.onerror =
-                                  null;
+                          {/* TYPE */}
 
-                                e.currentTarget.src =
-                                  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' fill='%23a0aec0' viewBox='0 0 24 24'><path d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/></svg>";
-                              }}
-                            />
+                          <td>
 
-                          </div>
-
-                        </td>
-
-                        {/* NAME */}
-
-                        <td>
-
-                          <div className="GallaryImageName">
-                            {item.imageName}
-                          </div>
-
-                        </td>
-
-                        {/* ACTION */}
-
-                        <td>
-
-                          <div className="GallaryActions">
-
-                            <button
-                              type="button"
-                              className="GallaryEditButton"
-                              onClick={() =>
-                                handleEdit(item)
-                              }
-                              disabled={loading}
-                              title="Edit"
+                            <span
+                              className={`GallaryTypeTag ${item.mediaType}`}
                             >
-                              ✎
-                            </button>
+                              {(
+                                item.mediaType ||
+                                "image"
+                              ).toUpperCase()}
+                            </span>
 
-                            <button
-                              type="button"
-                              className="GallaryDeleteButton"
-                              onClick={() =>
-                                handleDelete(
+                          </td>
+
+                          {/* ACTION */}
+
+                          <td>
+
+                            <div className="GallaryActions">
+
+                              <button
+                                type="button"
+                                className="GallaryEditButton"
+                                onClick={() =>
+                                  handleEdit(
+                                    item
+                                  )
+                                }
+                                title="Edit"
+                                disabled={
+                                  loading ||
+                                  deletingId ===
+                                    item._id
+                                }
+                              >
+                                ✎
+                              </button>
+
+                              <button
+                                type="button"
+                                className="GallaryDeleteButton"
+                                onClick={() =>
+                                  handleDelete(
+                                    item._id
+                                  )
+                                }
+                                title="Delete"
+                                disabled={
+                                  deletingId ===
                                   item._id
-                                )
-                              }
-                              disabled={loading}
-                              title="Delete"
-                            >
-                              🗑
-                            </button>
+                                }
+                              >
+                                {deletingId ===
+                                item._id
+                                  ? "..."
+                                  : "🗑"}
+                              </button>
 
-                          </div>
+                            </div>
 
-                        </td>
+                          </td>
 
-                      </tr>
-                    );
-                  })
+                        </tr>
+                      );
+                    }
+                  )
 
                 ) : (
 
+                  /* EMPTY */
+
                   <tr>
 
                     <td
-                      colSpan="4"
+                      colSpan="5"
                       className="GallaryEmpty"
                     >
 
                       <div className="GallaryEmptyIcon">
-                        🖼
+                        📁
                       </div>
 
                       <h4>
-                        No Gallery Images
+                        No Media Found
                       </h4>
 
                       <p>
-                        Add your first gallery image
+                        Upload your first photo or
+                        video using the form
                       </p>
 
                     </td>
 
                   </tr>
-
                 )}
 
               </tbody>
@@ -741,36 +1170,45 @@ const Gallary = () => {
 
           </div>
 
-          {/* =========================================
-              PREMIUM PAGINATION
-          ========================================= */}
+          {/* =================================================
+              PAGINATION
+          ================================================= */}
 
-          {!tableLoading && totalPages > 1 && (
+          {totalPages > 1 && (
+
             <div className="GallaryPagination">
 
               <div className="GallaryPaginationInfo">
+
                 <span>
+
                   Showing{" "}
+
                   <strong>
                     {startIndex + 1}
                   </strong>
+
                   {" - "}
+
                   <strong>
                     {Math.min(
-                      startIndex + ITEMS_PER_PAGE,
+                      startIndex +
+                        ITEMS_PER_PAGE,
                       galleryData.length
                     )}
                   </strong>
+
                   {" of "}
+
                   <strong>
                     {galleryData.length}
                   </strong>
+
                 </span>
+
               </div>
 
               <div className="GallaryPaginationControls">
-
-                {/* PREVIOUS */}
 
                 <button
                   type="button"
@@ -780,41 +1218,33 @@ const Gallary = () => {
                       currentPage - 1
                     )
                   }
-                  disabled={currentPage === 1}
+                  disabled={
+                    currentPage === 1
+                  }
                   aria-label="Previous page"
-                  title="Previous page"
                 >
-                  <span>‹</span>
+                  <span>
+                    ‹
+                  </span>
                 </button>
-
-                {/* PAGE NUMBERS */}
 
                 <div className="GallaryPageNumbers">
 
                   {getPageNumbers().map(
-                    (page, index) => {
+                    (
+                      page,
+                      index
+                    ) => {
 
                       if (
                         page ===
-                        "left-ellipsis"
-                      ) {
-                        return (
-                          <span
-                            key={`left-${index}`}
-                            className="GallaryPageEllipsis"
-                          >
-                            ...
-                          </span>
-                        );
-                      }
-
-                      if (
+                          "left-ellipsis" ||
                         page ===
-                        "right-ellipsis"
+                          "right-ellipsis"
                       ) {
                         return (
                           <span
-                            key={`right-${index}`}
+                            key={`ell-${index}`}
                             className="GallaryPageEllipsis"
                           >
                             ...
@@ -827,7 +1257,8 @@ const Gallary = () => {
                           key={page}
                           type="button"
                           className={`GallaryPageNumber ${
-                            currentPage === page
+                            currentPage ===
+                            page
                               ? "active"
                               : ""
                           }`}
@@ -836,14 +1267,10 @@ const Gallary = () => {
                               page
                             )
                           }
-                          aria-label={`Go to page ${page}`}
-                          aria-current={
-                            currentPage === page
-                              ? "page"
-                              : undefined
-                          }
                         >
-                          {String(page).padStart(
+                          {String(
+                            page
+                          ).padStart(
                             2,
                             "0"
                           )}
@@ -854,8 +1281,6 @@ const Gallary = () => {
 
                 </div>
 
-                {/* NEXT */}
-
                 <button
                   type="button"
                   className="GallaryPageArrow"
@@ -865,12 +1290,14 @@ const Gallary = () => {
                     )
                   }
                   disabled={
-                    currentPage === totalPages
+                    currentPage ===
+                    totalPages
                   }
                   aria-label="Next page"
-                  title="Next page"
                 >
-                  <span>›</span>
+                  <span>
+                    ›
+                  </span>
                 </button>
 
               </div>
@@ -887,3 +1314,4 @@ const Gallary = () => {
 };
 
 export default Gallary;
+

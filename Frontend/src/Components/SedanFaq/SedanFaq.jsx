@@ -154,7 +154,7 @@ const SedanFaq = () => {
         <div className="sedan-faq__business">
           <strong>Jagannath Explorer Travels</strong>
           <span>
-            Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantray Pur,
+            Plot No - 001, Mahaveer Nagar, Road No. - 18, Samantarapur,
             Bhubaneswar, Odisha - 751002
           </span>
 

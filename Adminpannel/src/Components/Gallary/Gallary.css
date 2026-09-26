@@ -185,6 +185,11 @@
   background: #f8faff;
 }
 
+.GallaryUploadBox.active {
+  border-color: #2563eb;
+  background: #f3f7ff;
+}
+
 .GallaryUploadBox input[type="file"] {
   position: absolute;
   inset: 0;
@@ -288,6 +293,14 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.GallaryPreviewImage video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000000;
 }
 
 
@@ -409,7 +422,7 @@
 
 
 /* =========================================
-   TABLE IMAGE
+   TABLE MEDIA (IMAGE + VIDEO)
 ========================================= */
 
 .GallaryTableImage {
@@ -418,18 +431,21 @@
   overflow: hidden;
   border-radius: 7px;
   background: #edf0f4;
+  position: relative;
 }
 
-.GallaryTableImage img {
+.GallaryTableImage img,
+.GallaryTableImage video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
   transition: transform 0.25s ease;
 }
 
-.GallaryTable tbody tr:hover
-.GallaryTableImage img {
+.GallaryTable tbody tr:hover .GallaryTableImage img,
+.GallaryTable tbody tr:hover .GallaryTableImage video {
   transform: scale(1.05);
 }
 
@@ -747,6 +763,42 @@
 
 
 /* =========================================
+   DUAL UPLOAD GRID
+========================================= */
+
+.GallaryUploadGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+
+/* =========================================
+   MEDIA TYPE TAG
+========================================= */
+
+.GallaryTypeTag {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.GallaryTypeTag.image {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.GallaryTypeTag.video {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+
+/* =========================================
    TABLET
 ========================================= */
 
@@ -812,6 +864,10 @@
     padding: 17px;
   }
 
+  .GallaryUploadGrid {
+    grid-template-columns: 1fr;
+  }
+
   .GallaryTable th,
   .GallaryTable td {
     padding: 12px;
@@ -832,9 +888,7 @@
   }
 
 
-  /* =====================================
-     MOBILE PAGINATION
-  ===================================== */
+  /* MOBILE PAGINATION */
 
   .GallaryPagination {
     padding: 14px;
