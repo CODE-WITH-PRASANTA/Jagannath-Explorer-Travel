@@ -216,9 +216,7 @@
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 15px 45px rgba(24, 42, 34, 0.07);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-sizing: border-box;
 }
 
@@ -249,12 +247,11 @@
 .exp-image-overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      to top,
-      rgba(10, 22, 17, 0.48),
-      transparent 55%
-    );
+  background: linear-gradient(
+    to top,
+    rgba(10, 22, 17, 0.48),
+    transparent 55%
+  );
   pointer-events: none;
 }
 
@@ -418,9 +415,7 @@
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 15px 45px rgba(24, 42, 34, 0.07);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-sizing: border-box;
 }
 
@@ -661,9 +656,7 @@
   border-radius: 18px;
   background: #fff;
   box-shadow: 0 13px 40px rgba(27, 43, 36, 0.07);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-sizing: border-box;
 }
 
@@ -694,12 +687,11 @@
 .exp-vehicle-image-overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      to top,
-      rgba(13, 23, 19, 0.55),
-      transparent 55%
-    );
+  background: linear-gradient(
+    to top,
+    rgba(13, 23, 19, 0.55),
+    transparent 55%
+  );
   pointer-events: none;
 }
 
@@ -878,9 +870,7 @@
   border-radius: 50%;
   background: #d2d3cc;
   cursor: pointer;
-  transition:
-    width 0.25s ease,
-    background 0.25s ease;
+  transition: width 0.25s ease, background 0.25s ease;
 }
 
 .exp-transport-dots button.active,
@@ -925,16 +915,11 @@
     opacity: 0;
     transform: translateY(18px) scale(0.98);
   }
-
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
-
-/* =========================================================
-   BOOKING HEADER
-========================================================= */
 
 .vbooking-header {
   display: flex;
@@ -981,10 +966,6 @@
   background: #1d352b;
 }
 
-/* =========================================================
-   BOOKING PROGRESS
-========================================================= */
-
 .vbooking-progress {
   display: flex;
   align-items: center;
@@ -1030,10 +1011,6 @@
   background: #dedfd8;
 }
 
-/* =========================================================
-   VEHICLE SUMMARY
-========================================================= */
-
 .vbooking-vehicle {
   display: flex;
   align-items: center;
@@ -1077,10 +1054,6 @@
   font-size: 8px;
   font-weight: 500;
 }
-
-/* =========================================================
-   BOOKING FORM
-========================================================= */
 
 .vbooking-form {
   padding: 0 21px 20px;
@@ -1141,10 +1114,6 @@
   color: #adb1ad;
 }
 
-/* =========================================================
-   AGREEMENT
-========================================================= */
-
 .vbooking-agree {
   display: flex;
   align-items: flex-start;
@@ -1163,10 +1132,6 @@
   flex-shrink: 0;
   accent-color: #1d352b;
 }
-
-/* =========================================================
-   BOOKING ACTIONS
-========================================================= */
 
 .vbooking-actions {
   display: flex;
@@ -1217,126 +1182,94 @@
 }
 
 /* =========================================================
-   TABLET - 1100px
+   RESPONSIVE BREAKPOINTS
 ========================================================= */
 
 @media (max-width: 1100px) {
   .exp-container {
     width: min(100%, calc(100% - 30px));
   }
-
   .exp-header {
     align-items: flex-start;
     flex-direction: column;
   }
-
   .exp-tabs {
     width: 100%;
   }
-
   .exp-tab {
     flex: 1;
   }
-
   .exp-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   .exp-card-image-wrap {
     height: 270px;
   }
 }
 
-/* =========================================================
-   TABLET - 992px
-========================================================= */
-
 @media (max-width: 992px) {
   .exp-section {
     padding: 70px 0;
   }
-
   .exp-cards-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
   }
-
   .exp-vehicle-image-wrap {
     height: 210px;
   }
-
   .exp-vehicle-title-row {
     flex-direction: column;
     gap: 8px;
   }
-
   .exp-vehicle-price {
     align-self: flex-start;
   }
-
   .exp-vehicle-body {
     padding: 17px;
   }
-
   .exp-vehicle-title-row h3 {
     font-size: 17px;
   }
-
   .exp-vehicle-specs {
     gap: 7px;
   }
-
   .exp-spec {
     padding: 8px;
   }
 }
 
-/* =========================================================
-   MOBILE - 650px
-========================================================= */
-
 @media (max-width: 650px) {
   .exp-section {
     padding: 48px 0;
   }
-
   .exp-container {
     width: calc(100% - 24px);
     max-width: 100%;
   }
-
-  /* Header */
-
   .exp-header {
     gap: 22px;
     margin-bottom: 27px;
   }
-
   .exp-header-content {
     width: 100%;
   }
-
   .exp-eyebrow,
   .exp-small-label {
     margin-bottom: 9px;
     font-size: 8px;
     letter-spacing: 1.7px;
   }
-
   .exp-header h1 {
     font-size: 30px;
     line-height: 1.08;
     letter-spacing: -0.9px;
   }
-
   .exp-header p {
     margin-top: 11px;
     font-size: 12px;
     line-height: 1.65;
   }
-
-  /* Tabs */
-
   .exp-tabs {
     width: 100%;
     display: grid;
@@ -1346,7 +1279,6 @@
     border-radius: 11px;
     box-sizing: border-box;
   }
-
   .exp-tab {
     min-width: 0;
     min-height: 40px;
@@ -1355,32 +1287,24 @@
     font-size: 9px;
     line-height: 1;
   }
-
   .exp-tab-icon {
     display: none;
   }
-
-  /* Cards */
-
   .exp-cards-grid {
     display: block;
     width: 100%;
   }
-
   .exp-tour-card,
   .exp-hotel-card {
     width: 100%;
     border-radius: 15px;
   }
-
   .exp-card-image-wrap {
     height: 225px;
   }
-
   .exp-hotel-image-wrap {
     height: 215px;
   }
-
   .exp-duration,
   .exp-location {
     top: 12px;
@@ -1389,35 +1313,28 @@
     font-size: 7px;
     letter-spacing: 0.5px;
   }
-
   .exp-duration {
     left: 12px;
   }
-
   .exp-location {
     right: 12px;
   }
-
   .exp-card-content,
   .exp-hotel-content {
     padding: 16px;
   }
-
   .exp-card-content h2,
   .exp-hotel-title-row h2 {
     margin-bottom: 10px;
     font-size: 18px;
   }
-
   .exp-route {
     min-height: 35px;
     font-size: 11px;
   }
-
   .exp-route > span:first-child {
     font-size: 15px;
   }
-
   .exp-card-footer,
   .exp-hotel-footer {
     align-items: stretch;
@@ -1426,34 +1343,26 @@
     margin-top: 17px;
     padding-top: 14px;
   }
-
   .exp-price-box {
     width: 100%;
   }
-
   .exp-price-label {
     font-size: 8px;
   }
-
   .exp-price-row strong {
     font-size: 20px;
   }
-
   .exp-primary-btn {
     width: 100%;
     min-height: 40px;
     font-size: 10px;
   }
-
-  /* Mobile arrows/dots */
-
   .exp-mobile-controls {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 15px;
   }
-
   .exp-mobile-controls > button {
     width: 36px;
     height: 36px;
@@ -1466,334 +1375,261 @@
     font-size: 15px;
     cursor: pointer;
   }
-
   .exp-dots {
     display: flex;
     align-items: center;
     gap: 5px;
   }
-
   .exp-dots button {
     width: 6px;
     height: 6px;
   }
-
   .exp-dots button.active {
     width: 19px;
   }
-
-  /* Hotel */
-
   .exp-breakfast {
     top: 12px;
     left: 12px;
     padding: 6px 8px;
     font-size: 7px;
   }
-
   .exp-hotel-rating {
     right: 12px;
     top: 12px;
     padding: 6px 8px;
     font-size: 9px;
   }
-
   .exp-hotel-location {
     font-size: 10px;
   }
-
   .exp-hotel-distance {
     margin-top: 9px;
     font-size: 10px;
   }
-
   .exp-amenities {
     gap: 5px;
     margin-top: 13px;
   }
-
   .exp-amenities span {
     padding: 5px 7px;
     font-size: 8px;
   }
-
   .exp-room-info {
     gap: 7px;
     margin-top: 13px;
   }
-
   .exp-room-info > div {
     padding: 8px;
   }
-
   .exp-room-info small {
     font-size: 7px;
   }
-
   .exp-room-info strong {
     font-size: 9px;
   }
-
-  /* Transport heading */
-
   .exp-transport-heading {
     align-items: flex-start;
     flex-direction: column;
     gap: 12px;
     margin-bottom: 18px;
   }
-
   .exp-transport-heading h2 {
     font-size: 27px;
     letter-spacing: -0.6px;
   }
-
   .exp-transport-heading p {
     margin-top: 7px;
     font-size: 11px;
     line-height: 1.6;
   }
-
   .exp-transport-arrows {
     width: 100%;
     justify-content: flex-end;
     gap: 7px;
   }
-
   .exp-transport-arrows button {
     width: 37px;
     height: 37px;
     font-size: 15px;
   }
-
-  /* Transport */
-
   .exp-transport-slide {
     width: 100%;
     padding: 0;
   }
-
   .exp-vehicle-card {
     width: 100%;
     border-radius: 15px;
   }
-
   .exp-vehicle-image-wrap {
     height: 200px;
   }
-
   .exp-vehicle-body {
     padding: 15px;
   }
-
   .exp-vehicle-title-row {
     flex-direction: row;
     align-items: flex-start;
     gap: 10px;
   }
-
   .exp-vehicle-label {
     margin-bottom: 4px;
     font-size: 7px;
   }
-
   .exp-vehicle-title-row h3 {
     font-size: 17px;
     line-height: 1.2;
   }
-
   .exp-vehicle-price strong {
     font-size: 17px;
   }
-
   .exp-vehicle-price span {
     font-size: 8px;
   }
-
   .exp-vehicle-specs {
     grid-template-columns: repeat(2, 1fr);
     gap: 6px;
     margin-top: 14px;
   }
-
   .exp-spec {
     gap: 7px;
     padding: 8px;
     border-radius: 7px;
   }
-
   .exp-spec-icon {
     width: 24px;
     height: 24px;
     border-radius: 6px;
     font-size: 10px;
   }
-
   .exp-spec small {
     margin-bottom: 1px;
     font-size: 6px;
   }
-
   .exp-spec strong {
     font-size: 8px;
   }
-
   .exp-vehicle-actions {
     grid-template-columns: 1fr 1fr;
     gap: 7px;
     margin-top: 13px;
   }
-
   .exp-outline-btn,
   .exp-vehicle-book-btn {
     min-height: 38px;
     font-size: 9px;
   }
-
   .exp-more-cars {
     margin-top: 9px;
     font-size: 8px;
   }
-
   .exp-transport-dots {
     gap: 5px;
     margin-top: 16px;
   }
-
-  /* =====================================================
-     SMALL BOOKING POPUP MOBILE
-  ===================================================== */
-
   .vbooking-backdrop {
     align-items: center;
     padding: 10px;
   }
-
   .vbooking-modal {
     width: 100%;
     max-width: 480px;
     max-height: calc(100vh - 20px);
     border-radius: 13px;
   }
-
   .vbooking-header {
     padding: 14px 16px 12px;
   }
-
   .vbooking-header span {
     font-size: 7px;
   }
-
   .vbooking-header h2 {
     margin-top: 3px;
     font-size: 18px;
   }
-
   .vbooking-close {
     width: 29px;
     height: 29px;
     font-size: 17px;
   }
-
   .vbooking-progress {
     padding: 10px 16px;
   }
-
   .vbooking-progress > div:not(.vbooking-line) {
     gap: 5px;
     font-size: 7px;
   }
-
   .vbooking-progress span {
     width: 21px;
     height: 21px;
     font-size: 8px;
   }
-
   .vbooking-line {
     margin: 0 7px;
   }
-
   .vbooking-vehicle {
     gap: 9px;
     margin: 11px 16px;
     padding: 7px;
     border-radius: 8px;
   }
-
   .vbooking-vehicle img {
     width: 68px;
     height: 48px;
     border-radius: 6px;
   }
-
   .vbooking-vehicle span {
     font-size: 6px;
   }
-
   .vbooking-vehicle h3 {
     margin: 2px 0;
     font-size: 12px;
   }
-
   .vbooking-vehicle strong {
     font-size: 10px;
   }
-
   .vbooking-vehicle strong small {
     font-size: 7px;
   }
-
   .vbooking-form {
     padding: 0 16px 15px;
   }
-
   .vbooking-form-grid {
     grid-template-columns: 1fr;
     gap: 0;
   }
-
   .vbooking-field {
     gap: 4px;
     margin-bottom: 8px;
   }
-
   .vbooking-field label {
     font-size: 8px;
   }
-
   .vbooking-field input,
   .vbooking-field textarea {
     padding: 8px 9px;
     border-radius: 6px;
     font-size: 10px;
   }
-
   .vbooking-field input {
     min-height: 35px;
   }
-
   .vbooking-field textarea {
     min-height: 60px;
   }
-
   .vbooking-agree {
     gap: 6px;
     margin: 1px 0 10px;
     font-size: 8px;
   }
-
   .vbooking-agree input {
     width: 12px;
     height: 12px;
   }
-
   .vbooking-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 7px;
   }
-
   .vbooking-cancel,
   .vbooking-next {
     width: 100%;
@@ -1803,197 +1639,146 @@
   }
 }
 
-/* =========================================================
-   SMALL MOBILE - 480px
-========================================================= */
-
 @media (max-width: 480px) {
   .exp-section {
     padding: 42px 0;
   }
-
   .exp-container {
     width: calc(100% - 20px);
   }
-
   .exp-header h1 {
     font-size: 27px;
   }
-
   .exp-header p {
     font-size: 11px;
   }
-
   .exp-tab {
     min-height: 38px;
     font-size: 8px;
   }
-
   .exp-card-image-wrap {
     height: 210px;
   }
-
   .exp-hotel-image-wrap {
     height: 200px;
   }
-
   .exp-vehicle-image-wrap {
     height: 185px;
   }
-
   .exp-vehicle-title-row {
     flex-direction: column;
     gap: 6px;
   }
-
   .exp-vehicle-price {
     align-self: flex-start;
   }
-
   .exp-vehicle-title-row h3 {
     font-size: 16px;
   }
-
   .exp-vehicle-specs {
     grid-template-columns: 1fr 1fr;
   }
-
   .exp-vehicle-actions {
     grid-template-columns: 1fr;
   }
-
   .exp-more-cars {
     margin-top: 7px;
   }
-
   .vbooking-modal {
     max-width: 100%;
   }
-
   .vbooking-progress > div:not(.vbooking-line) {
     font-size: 6.5px;
   }
-
   .vbooking-progress span {
     width: 20px;
     height: 20px;
   }
 }
 
-/* =========================================================
-   VERY SMALL MOBILE - 400px
-========================================================= */
-
 @media (max-width: 400px) {
   .exp-container {
     width: calc(100% - 16px);
   }
-
   .exp-header h1 {
     font-size: 25px;
   }
-
   .exp-tabs {
     gap: 3px;
     padding: 3px;
     border-radius: 9px;
   }
-
   .exp-tab {
     min-height: 36px;
     padding: 0 2px;
     font-size: 7.5px;
   }
-
   .exp-card-content,
   .exp-hotel-content {
     padding: 14px;
   }
-
   .exp-card-image-wrap {
     height: 195px;
   }
-
   .exp-hotel-image-wrap {
     height: 185px;
   }
-
   .exp-vehicle-image-wrap {
     height: 175px;
   }
-
   .exp-vehicle-body {
     padding: 13px;
   }
-
   .exp-vehicle-title-row h3 {
     font-size: 15px;
   }
-
   .exp-spec {
     padding: 7px;
   }
-
   .exp-spec-icon {
     width: 22px;
     height: 22px;
   }
-
   .vbooking-backdrop {
     padding: 7px;
   }
-
   .vbooking-modal {
     max-height: calc(100vh - 14px);
     border-radius: 11px;
   }
-
   .vbooking-header {
     padding: 12px 13px 10px;
   }
-
   .vbooking-header h2 {
     font-size: 17px;
   }
-
   .vbooking-progress {
     padding: 8px 13px;
   }
-
   .vbooking-progress > div:not(.vbooking-line) {
     gap: 4px;
     font-size: 6px;
   }
-
   .vbooking-progress span {
     width: 19px;
     height: 19px;
   }
-
   .vbooking-line {
     margin: 0 5px;
   }
-
   .vbooking-vehicle {
     margin: 9px 13px;
   }
-
   .vbooking-form {
     padding: 0 13px 13px;
   }
-
   .vbooking-field input {
     min-height: 34px;
   }
-
   .vbooking-actions {
     grid-template-columns: 1fr;
   }
 }
-
-/* =========================================================
-   ACCESSIBILITY
-========================================================= */
 
 .exp-tab:focus-visible,
 .exp-primary-btn:focus-visible,
@@ -2008,10 +1793,6 @@
   outline-offset: 2px;
 }
 
-/* =========================================================
-   REDUCE MOTION
-========================================================= */
-
 @media (prefers-reduced-motion: reduce) {
   .exp-tour-card,
   .exp-hotel-card,
@@ -2025,10 +1806,6 @@
     animation: none;
   }
 }
-
-/* =========================================================
-   PREVENT HORIZONTAL OVERFLOW
-========================================================= */
 
 .exp-section,
 .exp-section * {

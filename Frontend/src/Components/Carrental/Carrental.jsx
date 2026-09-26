@@ -3,10 +3,9 @@ import { FaChevronLeft, FaChevronRight, FaTimes, FaCheck, FaUser, FaPhoneAlt } f
 import './Carrental.css';
 import API from '../../api/axios';
 
-// अपनी इमेज फ़ाइल्स को यहाँ इम्पोर्ट करें
+// Image imports (Audi A4 removed)
 import swiftDzireImg from '../../assets/Swift-Dezire.webp';
 import ertigaImg from '../../assets/Maruti-Suzuki-Ertiga.webp';
-import audiA4Img from '../../assets/Wedding-car-Audi-A4-1.webp';
 import innovaCrystaImg from '../../assets/Tempo-Traveller-13-SEATER.webp';
 import scorpioNImg from '../../assets/Urbania-Traveller.webp';
 import eClassImg from '../../assets/SML-COACH-13-SEATER.webp';
@@ -39,20 +38,6 @@ const carData = [
     price: '₹3000',
     duration: '/8 Hours',
     hasMoreCars: false,
-  },
-  {
-    id: 3,
-    name: 'Audi A4',
-    image: audiA4Img,
-    specs: [
-      { label: 'Sunroof', value: 'Electric Sunroof' },
-      { label: 'Interior', value: 'Premium Leather Interior' },
-      { label: 'Use', value: 'Luxury Wedding / Groom Entry' },
-      { label: 'Advantage', value: 'Smooth Ride' },
-    ],
-    price: '₹9500',
-    duration: '/8 Hours',
-    hasMoreCars: true,
   },
   {
     id: 4,
@@ -492,7 +477,7 @@ const Carrental = () => {
                       rows="3" 
                       placeholder="Your Message (max 150 characters)"
                       value={formData.message} 
-                      onChange={handleInputChange}
+                      onChange={handleInputChange} 
                     />
                   </div>
 
@@ -513,8 +498,8 @@ const Carrental = () => {
                   <button type="button" className="bk-btn-dark" onClick={() => setStep(1)}>
                     &larr; Previous
                   </button>
-                  <button type="submit" className="bk-btn-cyan">
-                    Submit &rarr;
+                  <button type="submit" className="bk-btn-cyan" disabled={submitting}>
+                    {submitting ? 'Submitting...' : 'Submit →'}
                   </button>
                 </div>
               </form>
