@@ -14,6 +14,8 @@ import {
   FiActivity,
   FiInfo,
   FiEdit2,
+  FiUsers,
+  FiUserCheck,
 } from "react-icons/fi";
 import "./ToursAllSection.css";
 
@@ -46,6 +48,9 @@ const ToursAllSection = ({
 
   discountPrice: externalDiscountPrice,
   setDiscountPrice: externalSetDiscountPrice,
+
+  minPeople: externalMinPeople,
+  setMinPeople: externalSetMinPeople,
 
   maxPeople: externalMaxPeople,
   setMaxPeople: externalSetMaxPeople,
@@ -245,6 +250,9 @@ const ToursAllSection = ({
   const [internalDiscountPrice, setInternalDiscountPrice] =
     useState("");
 
+  const [internalMinPeople, setInternalMinPeople] =
+    useState("");
+
   const [internalMaxPeople, setInternalMaxPeople] =
     useState("");
 
@@ -273,6 +281,14 @@ const ToursAllSection = ({
   const setDiscountPrice =
     externalSetDiscountPrice ||
     setInternalDiscountPrice;
+
+  const minPeople =
+    externalMinPeople !== undefined
+      ? externalMinPeople
+      : internalMinPeople;
+
+  const setMinPeople =
+    externalSetMinPeople || setInternalMinPeople;
 
   const maxPeople =
     externalMaxPeople !== undefined
@@ -1260,9 +1276,32 @@ const ToursAllSection = ({
               </div>
             </div>
 
-            {/* PEOPLE / DIFFICULTY */}
+            {/* MINIMUM PEOPLE / MAXIMUM PEOPLE */}
 
             <div className="tours-all-section__row-2">
+
+              <div className="tours-all-section__form-field">
+
+                <label className="tours-all-section__label">
+                  Minimum People
+                </label>
+
+                <div className="tours-all-section__input-prefix-wrapper">
+                  <FiUserCheck className="tours-all-section__input-prefix-icon" />
+                  <input
+                    type="number"
+                    min="1"
+                    className="tours-all-section__control tours-all-section__control--prefixed"
+                    placeholder="e.g. 1"
+                    value={minPeople}
+                    onChange={(e) =>
+                      setMinPeople(
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+              </div>
 
               <div className="tours-all-section__form-field">
 
@@ -1270,57 +1309,26 @@ const ToursAllSection = ({
                   Maximum People
                 </label>
 
-                <input
-                  type="number"
-                  className="tours-all-section__control"
-                  placeholder="e.g. 20"
-                  value={maxPeople}
-                  onChange={(e) =>
-                    setMaxPeople(
-                      e.target.value
-                    )
-                  }
-                />
-              </div>
-
-              <div className="tours-all-section__form-field">
-
-                <label className="tours-all-section__label">
-                  Difficulty Level
-                </label>
-
-                <div className="tours-all-section__select-wrapper">
-
-                  <FiActivity className="tours-all-section__select-prefix" />
-
-                  <select
-                    className="tours-all-section__control tours-all-section__control--select"
-                    value={difficulty}
+                <div className="tours-all-section__input-prefix-wrapper">
+                  <FiUsers className="tours-all-section__input-prefix-icon" />
+                  <input
+                    type="number"
+                    min="1"
+                    className="tours-all-section__control tours-all-section__control--prefixed"
+                    placeholder="e.g. 20"
+                    value={maxPeople}
                     onChange={(e) =>
-                      setDifficulty(
+                      setMaxPeople(
                         e.target.value
                       )
                     }
-                  >
-                    <option value="Easy">
-                      Easy
-                    </option>
-
-                    <option value="Moderate">
-                      Moderate
-                    </option>
-
-                    <option value="Difficult">
-                      Difficult
-                    </option>
-                  </select>
-
-                  <FiChevronDown className="tours-all-section__select-suffix" />
+                  />
                 </div>
               </div>
+
             </div>
 
-            {/* BEST TIME / CATEGORY */}
+            {/* BEST TIME TO VISIT / CATEGORY */}
 
             <div className="tours-all-section__row-2">
 
@@ -1411,6 +1419,7 @@ const ToursAllSection = ({
                   <FiChevronDown className="tours-all-section__select-suffix" />
                 </div>
               </div>
+
             </div>
 
             {/* TAGS */}

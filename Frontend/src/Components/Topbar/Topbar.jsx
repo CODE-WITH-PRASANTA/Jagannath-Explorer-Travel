@@ -3,7 +3,7 @@ import "./Topbar.css";
 
 const Topbar = () => {
   const address =
-    "Plot no 001, Mahaveer Nagar, Road no 18, Samantray Pur, Bhubaneswar, Odisha 751002";
+    "Plot no 001, Mahaveer Nagar, Road no 18, Samantarapur, Bhubaneswar, Odisha 751002";
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     address
   )}`;
