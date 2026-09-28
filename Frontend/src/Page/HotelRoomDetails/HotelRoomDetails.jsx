@@ -6,7 +6,7 @@ import HotelRoomBreadCrumb from '../../Components/HotelRoomBreadCrumb/HotelRoomB
 import HotelRoomImages from '../../Components/HotelRoomImages/HotelRoomImages';
 import HotelRoomExperience from '../../Components/HotelRoomExperience/HotelRoomExperience';
 import HotelroomDetailsMap from '../../Components/HotelroomDetailsMap/HotelroomDetailsMap';
-import HotelRoomDetailsReview from '../../Components/HotelRoomDetailsReview/HotelRoomDetailsReview';
+
 
 const HotelRoomDetails = () => {
   const [searchParams] = useSearchParams();
@@ -77,7 +77,7 @@ const HotelRoomDetails = () => {
       <HotelRoomImages hotel={hotel} />
       <HotelRoomExperience hotel={hotel} />
       <HotelroomDetailsMap hotel={hotel} />
-      <HotelRoomDetailsReview hotel={hotel} />
+     
     </div>
   );
 };
