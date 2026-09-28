@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+
 import "./App.css";
 
 // Components
@@ -8,7 +14,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/footer/footer";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
- 
+
 // Pages
 import Home from "./Page/Home/Home";
 import Tours from "./Page/Tours/Tours";
@@ -27,8 +33,11 @@ import Faqs from "./Page/Faqs/Faqs";
 import Gallery from "./Page/Gallery/Gallery";
 import Blogs from "./Page/Blogs/Blogs";
 import BLogDetails from "./Page/BLogDetails/BLogDetails";
+import FloatingSupport from "./Components/FloatingSupport/FloatingSupport";
 
-// पेज बदलते ही स्क्रीन को टॉप पर स्क्रॉल कराने के लिए हेल्पर कॉम्पोनेंट
+// ==========================================
+// SCROLL TO TOP
+// ==========================================
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -43,71 +52,151 @@ const ScrollToTop = () => {
   return null;
 };
 
+// ==========================================
+// APP
+// ==========================================
 const App = () => {
-  // Manage popup state at root
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
   return (
     <BrowserRouter>
-      {/* Route change पर टॉप पर स्क्रॉल करेगा */}
+      {/* Scroll to top on route change */}
       <ScrollToTop />
 
-      {/* Topbar: scrolls away naturally */}
+      {/* Topbar */}
       <Topbar />
 
-      {/* Navbar: sticky header */}
+      {/* Navbar */}
       <Navbar />
 
-      {/* Routes */}
+      {/* ==========================================
+          ROUTES
+      ========================================== */}
       <Routes>
+        {/* Home */}
         <Route path="/" element={<Home />} />
-        <Route path="/car-rental/sedan-cars" element={<SedanCar />} />
-        <Route path="/car-rental/suv-cars" element={<Suvcars />} />
-        <Route path="/car-rental/luxury-cars" element={<LuxuryCars />} />
-        <Route path="/car-rental/tempo-travellers" element={<TempoTravell />} />
-        <Route path="/car-rental/small-coach" element={<SmlCoach />} />
-        <Route path="/car-rental/urbania-travellers" element={<UrbaniaTraveller />} />
-        <Route path="/tours" element={<Tours />} />
-        <Route path="/tours/:slug" element={<TourDetails />} />
-        <Route path="/tourdetails" element={<TourDetails />} />
-        <Route path="/tourdetails/:slug" element={<TourDetails />} />
-        <Route path="/hotel" element={<Hotel />} />
-        <Route path="/hotel/:slug" element={<HotelRoomDetails />} />
-        <Route path="/hotelroomdetails" element={<HotelRoomDetails />} />
-        <Route path="/hotelroomdetails/:id" element={<HotelRoomDetails />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/faq" element={<Faqs />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/blog" element={<Blogs />} />
-        <Route path="/blogdetails" element={<BLogDetails />} />
+
+        {/* Car Rental */}
+        <Route
+          path="/car-rental/sedan-cars"
+          element={<SedanCar />}
+        />
+
+        <Route
+          path="/car-rental/suv-cars"
+          element={<Suvcars />}
+        />
+
+        <Route
+          path="/car-rental/luxury-cars"
+          element={<LuxuryCars />}
+        />
+
+        <Route
+          path="/car-rental/tempo-travellers"
+          element={<TempoTravell />}
+        />
+
+        <Route
+          path="/car-rental/small-coach"
+          element={<SmlCoach />}
+        />
+
+        <Route
+          path="/car-rental/urbania-travellers"
+          element={<UrbaniaTraveller />}
+        />
+
+        {/* Tours */}
+        <Route
+          path="/tours"
+          element={<Tours />}
+        />
+
+        <Route
+          path="/tours/:slug"
+          element={<TourDetails />}
+        />
+
+        <Route
+          path="/tourdetails"
+          element={<TourDetails />}
+        />
+
+        <Route
+          path="/tourdetails/:slug"
+          element={<TourDetails />}
+        />
+
+        {/* Hotels */}
+        <Route
+          path="/hotel"
+          element={<Hotel />}
+        />
+
+        <Route
+          path="/hotel/:slug"
+          element={<HotelRoomDetails />}
+        />
+
+        <Route
+          path="/hotelroomdetails"
+          element={<HotelRoomDetails />}
+        />
+
+        <Route
+          path="/hotelroomdetails/:id"
+          element={<HotelRoomDetails />}
+        />
+
+        {/* Other Pages */}
+        <Route
+          path="/about"
+          element={<About />}
+        />
+
+        <Route
+          path="/contact"
+          element={<Contact />}
+        />
+
+        <Route
+          path="/faq"
+          element={<Faqs />}
+        />
+
+        <Route
+          path="/gallery"
+          element={<Gallery />}
+        />
+
+        {/* Blog */}
+        <Route
+          path="/blog"
+          element={<Blogs />}
+        />
+
+        <Route
+          path="/blogdetails"
+          element={<BLogDetails />}
+        />
       </Routes>
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating Social Icons */}
       <FloatingIcons />
 
-      {/* Fixed Interactive Form Modal */}
-      <FloatingForm 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+      {/* ==========================================
+          FLOATING ENQUIRY
+          
+          Button automatically appears on the
+          RIGHT SIDE when popup is closed.
+      ========================================== */}
+      <FloatingForm
+        triggerOnLoad={false}
       />
-
-      {/* Floating launcher trigger shown when modal is dismissed */}
-      {!isModalOpen && (
-        <button
-          type="button"
-          className="floating-form-launcher"
-          onClick={() => setIsModalOpen(true)}
-          aria-label="Enquire Now"
-        >
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
-            <path d="M7 9h10v2H7zm0-3h10v2H7z"/>
-          </svg>
-          <span>Enquire Now</span>
-        </button>
-      )}
+      <FloatingSupport />
+      
     </BrowserRouter>
   );
 };

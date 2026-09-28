@@ -4,15 +4,17 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-import "./FloatingForm.css";
-// import travelImage from "../../assets/images.webp"; // Uncomment if used in CSS/JSX
 
-const API_URL = "http://localhost:5000";
+import "./FloatingForm.css";
+import API from "../../api/axios";
+
+import travelImage from "../../assets/images.webp";
+
 const CALL_NUMBER = "+919668892441";
 
 const FloatingForm = ({
   triggerOnLoad = false,
-  loadDelay = 800,
+  loadDelay = 3000,
   onFormSubmitSuccess,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +59,7 @@ const FloatingForm = ({
   }, [generateCaptcha, isSubmitting]);
 
   // ==========================================
-  // AUTO OPEN
+  // AUTOMATIC POPUP
   // ==========================================
   useEffect(() => {
     if (!triggerOnLoad) return;
@@ -66,8 +68,14 @@ const FloatingForm = ({
       handleOpen();
     }, loadDelay);
 
-    return () => clearTimeout(timer);
-  }, [triggerOnLoad, loadDelay, handleOpen]);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [
+    triggerOnLoad,
+    loadDelay,
+    handleOpen,
+  ]);
 
   // ==========================================
   // FOCUS FIRST INPUT
@@ -79,7 +87,9 @@ const FloatingForm = ({
       firstInputRef.current?.focus();
     }, 350);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [isOpen]);
 
   // ==========================================
@@ -88,11 +98,14 @@ const FloatingForm = ({
   useEffect(() => {
     if (!isOpen) return;
 
-    const originalOverflow = document.body.style.overflow;
+    const originalOverflow =
+      document.body.style.overflow;
+
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      document.body.style.overflow =
+        originalOverflow;
     };
   }, [isOpen]);
 
@@ -119,12 +132,19 @@ const FloatingForm = ({
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, isSubmitting, handleClose]);
+  }, [
+    isOpen,
+    isSubmitting,
+    handleClose,
+  ]);
 
   // ==========================================
   // HANDLE INPUT
@@ -132,12 +152,14 @@ const FloatingForm = ({
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
+    // Mobile
     if (name === "mobile") {
       const onlyNumbers = value.replace(/\D/g, "").slice(0, 10);
       setFormData((prev) => ({ ...prev, mobile: onlyNumbers }));
       return;
     }
 
+    // CAPTCHA
     if (name === "captchaInput") {
       const onlyNumbers = value.replace(/\D/g, "").slice(0, 3);
       setFormData((prev) => ({ ...prev, captchaInput: onlyNumbers }));
@@ -154,38 +176,70 @@ const FloatingForm = ({
   // VALIDATE FORM
   // ==========================================
   const validateForm = () => {
-    const fullName = formData.fullName.trim();
-    const email = formData.email.trim();
-    const mobile = formData.mobile.trim();
+    const fullName =
+      formData.fullName.trim();
+
+    const email =
+      formData.email.trim();
+
+    const mobile =
+      formData.mobile.trim();
 
     if (fullName.length < 6) {
-      alert("Please enter your full name with at least 6 characters.");
+      alert(
+        "Please enter your full name with at least 6 characters."
+      );
+
       return false;
     }
 
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      alert("Please enter a valid email address.");
+    if (
+      email &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        email
+      )
+    ) {
+      alert(
+        "Please enter a valid email address."
+      );
+
       return false;
     }
 
     if (!/^[6-9]\d{9}$/.test(mobile)) {
-      alert("Please enter a valid 10 digit Indian mobile number.");
+      alert(
+        "Please enter a valid 10 digit Indian mobile number."
+      );
+
       return false;
     }
 
     if (formData.service === "") {
-      alert("Please select a travel service.");
+      alert(
+        "Please select a travel service."
+      );
+
       return false;
     }
 
-    if (formData.captchaInput.trim() !== captchaRaw) {
-      alert("Invalid CAPTCHA code. Please try again.");
+    if (
+      formData.captchaInput.trim() !==
+      captchaRaw
+    ) {
+      alert(
+        "Invalid CAPTCHA code. Please try again."
+      );
+
       generateCaptcha();
+
       return false;
     }
 
     if (!formData.agreeTerms) {
-      alert("Please agree to the Terms & Conditions to continue.");
+      alert(
+        "Please agree to the Terms & Conditions to continue."
+      );
+
       return false;
     }
 
@@ -206,42 +260,47 @@ const FloatingForm = ({
     try {
       setIsSubmitting(true);
 
-      const response = await fetch(`${API_URL}/api/enquiries`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName: formData.fullName.trim(),
-          email: formData.email.trim(),
-          mobile: formData.mobile.trim(),
-          service: formData.service,
+      const response = await API.post(
+        "/enquiries",
+        {
+          fullName:
+            formData.fullName.trim(),
+
+          email:
+            formData.email.trim(),
+
+          mobile:
+            formData.mobile.trim(),
+
+          service:
+            formData.service,
+
           travelDate: "",
           travelers: 1,
           departure: "",
           destination: "",
           budget: "",
-          message: "Website enquiry submitted through Floating Form.",
-        }),
-      });
 
-      let data = {};
-      try {
-        data = await response.json();
-      } catch {
-        data = {};
-      }
+          message:
+            "Website enquiry submitted through Floating Form.",
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error(data.message || "Unable to submit your enquiry.");
-      }
+      const data = response.data;
+
+      console.log(
+        "Enquiry saved successfully:",
+        data?.enquiry
+      );
 
       alert(
         "Thank you! Your travel enquiry has been received successfully. Our travel expert will contact you shortly."
       );
 
       if (onFormSubmitSuccess) {
-        onFormSubmitSuccess(data.enquiry);
+        onFormSubmitSuccess(
+          data?.enquiry
+        );
       }
 
       setFormData({
@@ -255,20 +314,38 @@ const FloatingForm = ({
 
       setIsOpen(false);
     } catch (error) {
-      console.error("Enquiry submission error:", error);
-      const errorMessage =
-        error.message || "Something went wrong. Please try again.";
-      alert(errorMessage);
+      console.error(
+        "Enquiry submission error:",
+        error
+      );
+
+      alert(
+        error.response?.data?.message ||
+          error.message ||
+          "Something went wrong. Please try again."
+      );
+
       generateCaptcha();
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // ==========================================
+  // CALL NOW
+  // ==========================================
+  const handleCall = () => {
+    window.location.href =
+      `tel:${CALL_NUMBER}`;
+  };
+
   return (
     <>
       {/* ==========================================
-          FIXED SIDE ENQUIRE BUTTON
+          RIGHT SIDE ENQUIRE BUTTON
+
+          Automatically visible when popup
+          is closed.
       ========================================== */}
       {!isOpen && (
         <button
@@ -288,27 +365,33 @@ const FloatingForm = ({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              aria-hidden="true"
             >
               <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
               <path d="M8 9h8" />
               <path d="M8 13h5" />
             </svg>
           </span>
-          <span className="floating-enquire-text">ENQUIRE NOW</span>
-          <span className="floating-enquire-arrow">→</span>
+
+          <span className="floating-enquire-text">
+            ENQUIRE NOW
+          </span>
+
+          <span className="floating-enquire-arrow">
+            ←
+          </span>
         </button>
       )}
 
       {/* ==========================================
-          ENQUIRY MODAL
+          MODAL
       ========================================== */}
       {isOpen && (
         <div
           className="floating-form-backdrop"
           onMouseDown={(event) => {
             if (
-              event.target === event.currentTarget &&
+              event.target ===
+                event.currentTarget &&
               !isSubmitting
             ) {
               handleClose();
@@ -317,113 +400,142 @@ const FloatingForm = ({
           role="dialog"
           aria-modal="true"
           aria-labelledby="floating-form-title"
-          aria-describedby="floating-form-description"
         >
           <div className="floating-form-card">
-            
+
+            {/* CLOSE */}
+            <button
+              type="button"
+              className="floating-form-close"
+              onClick={handleClose}
+              disabled={isSubmitting}
+              aria-label="Close enquiry form"
+            >
+              <span>×</span>
+            </button>
+
             {/* ==========================================
-                LEFT PROMO PANEL
+                LEFT PROMO
             ========================================== */}
-            <div className="floating-form-promo-content">
-              <div className="floating-form-badge">
-                <span className="floating-form-badge-dot" />
-                <span>✨ Odisha's Trusted Travel Partner</span>
-              </div>
+            <div
+              className="floating-form-promo"
+              style={{
+                backgroundImage: `
+                  linear-gradient(
+                    180deg,
+                    rgba(3, 9, 18, 0.30),
+                    rgba(3, 7, 14, 0.88)
+                  ),
+                  url(${travelImage})
+                `,
+              }}
+            >
+              <div className="floating-form-promo-overlay" />
 
-              <div className="floating-form-small-label">
-                PLAN • EXPLORE • EXPERIENCE
-              </div>
+              <div className="floating-form-promo-content">
+                <div className="floating-form-badge">
+                  <span className="floating-form-badge-dot" />
+                  Odisha's Trusted Travel Partner
+                </div>
 
-              <h2 className="floating-form-promo-title">
-                Your Journey Begins <br />
-                <span>With Jagannath Explorer Travels</span>
-              </h2>
+                <div className="floating-form-small-label">
+                  PLAN • EXPLORE • EXPERIENCE
+                </div>
 
-              <p className="floating-form-promo-desc">
-                Crafting unforgettable journeys with personalized travel planning,
-                unbeatable deals, and seamless experiences.
-              </p>
+                <h2 className="floating-form-promo-title">
+                  Your Journey Begins <br />
+                  With <span>Jagannath Explorer Travels</span>
+                </h2>
 
-              <div className="floating-form-feature-grid">
-                <div className="floating-form-feature">
-                  <span className="floating-form-feature-icon">✓</span>
-                  <div>
-                    <strong>Curated Trips</strong>
-                    <small>Designed around your plan</small>
+                <p className="floating-form-promo-desc">
+                  Discover Odisha with personalized itineraries, reliable car rentals,
+                  professional chauffeurs and hassle-free travel planning.
+                </p>
+
+                <div className="floating-form-feature-grid">
+                  <div className="floating-form-feature">
+                    <span className="floating-form-feature-icon">✓</span>
+                    <div>
+                      <strong>Curated Trips</strong>
+                      <small>Designed around your plan</small>
+                    </div>
+                  </div>
+
+                  <div className="floating-form-feature">
+                    <span className="floating-form-feature-icon">✓</span>
+                    <div>
+                      <strong>Reliable Cars</strong>
+                      <small>Local &amp; outstation travel</small>
+                    </div>
+                  </div>
+
+                  <div className="floating-form-feature">
+                    <span className="floating-form-feature-icon">✓</span>
+                    <div>
+                      <strong>Expert Chauffeurs</strong>
+                      <small>Comfortable &amp; smooth rides</small>
+                    </div>
+                  </div>
+
+                  <div className="floating-form-feature">
+                    <span className="floating-form-feature-icon">✓</span>
+                    <div>
+                      <strong>Custom Plans</strong>
+                      <small>Built around your needs</small>
+                    </div>
                   </div>
                 </div>
 
-                <div className="floating-form-feature">
-                  <span className="floating-form-feature-icon">✓</span>
-                  <div>
-                    <strong>Reliable Cars</strong>
-                    <small>Local & outstation travel</small>
-                  </div>
-                </div>
+                <div className="floating-form-divider" />
 
-                <div className="floating-form-feature">
-                  <span className="floating-form-feature-icon">✓</span>
-                  <div>
-                    <strong>Expert Chauffeurs</strong>
-                    <small>Comfortable & smooth rides</small>
-                  </div>
-                </div>
+                <p className="floating-form-tagline">
+                  Tell us your travel plan — <strong>we'll handle the rest.</strong>
+                </p>
 
-                <div className="floating-form-feature">
-                  <span className="floating-form-feature-icon">✓</span>
-                  <div>
-                    <strong>Custom Plans</strong>
-                    <small>Built around your needs</small>
-                  </div>
-                </div>
-              </div>
-
-              <div className="floating-form-divider" />
-
-              <p className="floating-form-tagline">
-                Tell us your travel plan — <strong>we'll handle the rest.</strong>
-              </p>
-
-              <a
-                href={`tel:${CALL_NUMBER}`}
-                className="floating-form-call-btn"
-                aria-label={`Call Jagannath Explorer Travels at ${CALL_NUMBER}`}
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  aria-hidden="true"
+                <button
+                  type="button"
+                  className="floating-form-call-btn"
+                  onClick={handleCall}
                 >
-                  <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                </svg>
-                <span>
-                  Call Now <strong>+91 96688 92441</strong>
-                </span>
-              </a>
+                  <span className="floating-form-call-icon">
+                    ☎
+                  </span>
+                  <span>
+                    Call Now <strong>+91 96688 92441</strong>
+                  </span>
+                </button>
+              </div>
             </div>
 
             {/* ==========================================
-                RIGHT FORM PANEL
+                RIGHT FORM
             ========================================== */}
             <div className="floating-form-pane">
               <div className="floating-form-header-wrap">
-                <div className="floating-form-form-badge">QUICK ENQUIRY</div>
+                <div className="floating-form-form-badge">
+                  QUICK ENQUIRY
+                </div>
 
                 <h3 id="floating-form-title" className="floating-form-title">
                   Plan Your Trip Today
                 </h3>
 
-                <p id="floating-form-description" className="floating-form-subtitle">
+                <p className="floating-form-subtitle">
                   Share your details and our travel expert will contact you shortly.
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="floating-form-body" noValidate>
+              <form
+                onSubmit={handleSubmit}
+                className="floating-form-body"
+                noValidate
+              >
                 {/* NAME */}
                 <div className="floating-form-field">
-                  <label htmlFor="floatingFormFullName" className="floating-form-label">
+                  <label
+                    htmlFor="floatingFormFullName"
+                    className="floating-form-label"
+                  >
                     Full Name
                   </label>
                   <div className="floating-form-input-wrap">
@@ -463,13 +575,18 @@ const FloatingForm = ({
                       onChange={handleChange}
                       autoComplete="email"
                     />
-                    <span className="floating-form-field-icon">✉</span>
+                    <span className="floating-form-field-icon">
+                      ✉
+                    </span>
                   </div>
                 </div>
 
                 {/* MOBILE */}
                 <div className="floating-form-field">
-                  <label htmlFor="floatingFormMobile" className="floating-form-label">
+                  <label
+                    htmlFor="floatingFormMobile"
+                    className="floating-form-label"
+                  >
                     Mobile Number
                   </label>
                   <div className="floating-form-input-wrap">
@@ -516,13 +633,18 @@ const FloatingForm = ({
                       <option value="Chauffeur Drive">Chauffeur Drive</option>
                       <option value="Custom Itinerary">Custom Itinerary</option>
                     </select>
-                    <span className="floating-form-chevron">▼</span>
+                    <span className="floating-form-chevron">
+                      ▼
+                    </span>
                   </div>
                 </div>
 
                 {/* CAPTCHA */}
                 <div className="floating-form-captcha-group">
-                  <label htmlFor="floatingFormCaptcha" className="floating-form-label">
+                  <label
+                    htmlFor="floatingFormCaptcha"
+                    className="floating-form-label"
+                  >
                     Security Verification
                   </label>
                   <div className="floating-form-captcha-row">
@@ -549,7 +671,6 @@ const FloatingForm = ({
                       type="button"
                       className="floating-form-captcha-refresh"
                       onClick={generateCaptcha}
-                      title="Generate new CAPTCHA"
                       aria-label="Generate new CAPTCHA"
                     >
                       ↻
@@ -586,9 +707,7 @@ const FloatingForm = ({
                   ) : (
                     <>
                       Submit Enquiry
-                      <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
-                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                      </svg>
+                      <span>→</span>
                     </>
                   )}
                 </button>
@@ -598,7 +717,6 @@ const FloatingForm = ({
                 </p>
               </form>
             </div>
-
           </div>
         </div>
       )}

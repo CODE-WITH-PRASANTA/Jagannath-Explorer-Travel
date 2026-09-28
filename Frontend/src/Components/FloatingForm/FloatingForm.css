@@ -1,4 +1,3 @@
-
 /* =========================================================
    FLOATING TRAVEL ENQUIRY
    PREMIUM RESPONSIVE VERSION
@@ -17,13 +16,15 @@
 }
 
 /* =========================================================
-   SIDE ENQUIRE BUTTON
+   RIGHT SIDE ENQUIRE BUTTON
    ========================================================= */
 
 .floating-enquire-trigger {
   position: fixed;
-  left: 0;
+  right: 0;
+  left: auto;
   top: 50%;
+
   transform: translateY(-50%);
 
   width: 48px;
@@ -38,8 +39,8 @@
   gap: 9px;
 
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-left: none;
-  border-radius: 0 15px 15px 0;
+  border-right: none;
+  border-radius: 15px 0 0 15px;
 
   background:
     linear-gradient(
@@ -49,12 +50,13 @@
     );
 
   color: #fff;
+
   cursor: pointer;
 
   z-index: 99990;
 
   box-shadow:
-    5px 8px 30px rgba(245, 85, 19, 0.28),
+    -5px 8px 30px rgba(245, 85, 19, 0.28),
     0 0 0 1px rgba(255, 255, 255, 0.04);
 
   font-family:
@@ -72,16 +74,19 @@
   overflow: hidden;
 }
 
+/* Inner shine */
+
 .floating-enquire-trigger::before {
   content: "";
+
   position: absolute;
   inset: 1px;
 
-  border-radius: 0 14px 14px 0;
+  border-radius: 14px 0 0 14px;
 
   background:
     linear-gradient(
-      135deg,
+      225deg,
       rgba(255, 255, 255, 0.2),
       transparent 45%
     );
@@ -89,16 +94,34 @@
   pointer-events: none;
 }
 
+/* Hover */
+
 .floating-enquire-trigger:hover {
   width: 58px;
 
   transform:
     translateY(-50%)
-    translateX(2px);
+    translateX(-2px);
 
   box-shadow:
-    8px 12px 38px rgba(245, 85, 19, 0.42),
+    -8px 12px 38px rgba(245, 85, 19, 0.42),
     0 0 22px rgba(245, 85, 19, 0.16);
+}
+
+/* Active */
+
+.floating-enquire-trigger:active {
+  transform:
+    translateY(-50%)
+    translateX(-1px)
+    scale(0.98);
+}
+
+/* Focus */
+
+.floating-enquire-trigger:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
 /* =========================================================
@@ -109,7 +132,7 @@
   position: absolute;
 
   top: 14px;
-  left: 9px;
+  right: 9px;
 
   width: 6px;
   height: 6px;
@@ -160,8 +183,11 @@
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background:
+    rgba(255, 255, 255, 0.15);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.2);
 
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -188,6 +214,7 @@
 
   font-size: 0.61rem;
   font-weight: 800;
+
   letter-spacing: 1.5px;
   line-height: 1;
 
@@ -214,7 +241,8 @@
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, 0.14);
+  background:
+    rgba(255, 255, 255, 0.14);
 
   font-size: 0.9rem;
 
@@ -225,7 +253,7 @@
 
 .floating-enquire-trigger:hover
 .floating-enquire-arrow {
-  transform: translateX(2px);
+  transform: translateX(-2px);
 
   background:
     rgba(255, 255, 255, 0.22);
@@ -285,6 +313,7 @@
 @keyframes floatingFormPopIn {
   from {
     opacity: 0;
+
     transform:
       scale(0.94)
       translateY(15px);
@@ -292,6 +321,7 @@
 
   to {
     opacity: 1;
+
     transform:
       scale(1)
       translateY(0);
@@ -312,7 +342,9 @@
   position: relative;
 
   width: min(100%, 760px);
-  max-height: calc(100dvh - 40px);
+
+  max-height:
+    calc(100dvh - 40px);
 
   display: flex;
 
@@ -394,7 +426,9 @@
 }
 
 .floating-form-close:hover {
-  transform: rotate(90deg) scale(1.05);
+  transform:
+    rotate(90deg)
+    scale(1.05);
 
   background:
     linear-gradient(
@@ -465,7 +499,10 @@
 
   width: 100%;
 
-  padding: 30px 23px 24px;
+  padding:
+    30px
+    23px
+    24px;
 
   color: #fff;
 
@@ -485,7 +522,9 @@
   align-items: center;
   gap: 6px;
 
-  padding: 5px 9px;
+  padding:
+    5px
+    9px;
 
   margin-bottom: 12px;
 
@@ -550,7 +589,10 @@
 .floating-form-promo-desc {
   max-width: 320px;
 
-  margin: 0 0 15px;
+  margin:
+    0
+    0
+    15px;
 
   color:
     rgba(255, 255, 255, 0.68);
@@ -566,7 +608,9 @@
 .floating-form-feature-grid {
   display: grid;
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:
+    1fr
+    1fr;
 
   gap: 7px;
 
@@ -638,7 +682,10 @@
   width: 100%;
   height: 1px;
 
-  margin: 0 0 10px;
+  margin:
+    0
+    0
+    10px;
 
   background:
     linear-gradient(
@@ -650,7 +697,10 @@
 }
 
 .floating-form-tagline {
-  margin: 0 0 10px;
+  margin:
+    0
+    0
+    10px;
 
   color:
     rgba(255, 255, 255, 0.58);
@@ -673,9 +723,12 @@
 
   display: inline-flex;
   align-items: center;
+
   gap: 7px;
 
-  padding: 7px 11px;
+  padding:
+    7px
+    11px;
 
   border:
     1px solid rgba(255, 255, 255, 0.08);
@@ -714,6 +767,7 @@
 
   font-size: 0.55rem;
   line-height: 1.15;
+
   text-align: left;
 }
 
@@ -730,7 +784,10 @@
 .floating-form-pane {
   width: 58%;
 
-  padding: 27px 25px 22px;
+  padding:
+    27px
+    25px
+    22px;
 
   overflow-y: auto;
 
@@ -748,6 +805,7 @@
     );
 
   scrollbar-width: thin;
+
   scrollbar-color:
     rgba(255, 255, 255, 0.18)
     transparent;
@@ -781,7 +839,10 @@
 .floating-form-form-badge {
   width: fit-content;
 
-  margin: 0 auto 5px;
+  margin:
+    0
+    auto
+    5px;
 
   color: #ff7740;
 
@@ -792,7 +853,10 @@
 }
 
 .floating-form-title {
-  margin: 0 0 4px;
+  margin:
+    0
+    0
+    4px;
 
   color: #fff;
 
@@ -803,7 +867,9 @@
 .floating-form-subtitle {
   max-width: 310px;
 
-  margin: 0 auto;
+  margin:
+    0
+    auto;
 
   color:
     rgba(255, 255, 255, 0.48);
@@ -838,7 +904,11 @@
   align-items: center;
   justify-content: space-between;
 
-  margin: 0 0 4px 2px;
+  margin:
+    0
+    0
+    4px
+    2px;
 
   color:
     rgba(255, 255, 255, 0.72);
@@ -870,7 +940,10 @@
   height: 37px;
 
   padding:
-    0 35px 0 11px;
+    0
+    35px
+    0
+    11px;
 
   border:
     1px solid rgba(255, 255, 255, 0.11);
@@ -885,6 +958,7 @@
   color: #fff;
 
   font-family: inherit;
+
   font-size: 0.62rem;
 
   transition:
@@ -917,7 +991,8 @@
   right: 11px;
   top: 50%;
 
-  transform: translateY(-50%);
+  transform:
+    translateY(-50%);
 
   color:
     rgba(255, 255, 255, 0.38);
@@ -935,7 +1010,8 @@
   left: 11px;
   top: 50%;
 
-  transform: translateY(-50%);
+  transform:
+    translateY(-50%);
 
   z-index: 2;
 
@@ -971,7 +1047,8 @@
   right: 11px;
   top: 50%;
 
-  transform: translateY(-50%);
+  transform:
+    translateY(-50%);
 
   color:
     rgba(255, 255, 255, 0.4);
@@ -1040,7 +1117,9 @@
   width: 100%;
   height: 36px;
 
-  padding: 0 9px;
+  padding:
+    0
+    9px;
 
   border:
     1px solid rgba(255, 255, 255, 0.11);
@@ -1049,7 +1128,8 @@
 
   outline: none;
 
-  background: rgba(255, 255, 255, 0.95);
+  background:
+    rgba(255, 255, 255, 0.95);
 
   color: #101827;
 
@@ -1165,6 +1245,7 @@
   gap: 7px;
 
   border: none;
+
   border-radius: 999px;
 
   background:
@@ -1237,7 +1318,10 @@
    ========================================================= */
 
 .floating-form-secure-text {
-  margin: -1px 0 0;
+  margin:
+    -1px
+    0
+    0;
 
   text-align: center;
 
@@ -1278,7 +1362,9 @@
 
   .floating-form-promo-content {
     padding:
-      24px 22px 20px;
+      24px
+      22px
+      20px;
 
     justify-content: flex-end;
   }
@@ -1309,7 +1395,9 @@
     width: 100%;
 
     padding:
-      22px 22px 20px;
+      22px
+      22px
+      20px;
 
     max-height:
       calc(100dvh - 238px);
@@ -1323,6 +1411,49 @@
 
     width: 34px;
     height: 34px;
+  }
+
+  /* RIGHT FLOATING BUTTON */
+
+  .floating-enquire-trigger {
+    width: 46px;
+    min-height: 140px;
+
+    padding:
+      12px
+      6px;
+
+    gap: 8px;
+
+    border-radius:
+      14px
+      0
+      0
+      14px;
+  }
+
+  .floating-enquire-trigger:hover {
+    width: 53px;
+
+    transform:
+      translateY(-50%)
+      translateX(-2px);
+  }
+
+  .floating-enquire-text {
+    font-size: 0.58rem;
+
+    letter-spacing: 1.35px;
+  }
+
+  .floating-enquire-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .floating-enquire-arrow {
+    width: 22px;
+    height: 22px;
   }
 }
 
@@ -1364,6 +1495,72 @@
   }
 
   /* -----------------------------------------
+     MOBILE RIGHT BUTTON
+     ----------------------------------------- */
+
+  .floating-enquire-trigger {
+    right: 0;
+    left: auto;
+
+    width: 43px;
+    min-height: 128px;
+
+    padding:
+      10px
+      5px;
+
+    gap: 7px;
+
+    border-radius:
+      13px
+      0
+      0
+      13px;
+
+    box-shadow:
+      -4px 6px 22px rgba(245, 85, 19, 0.3);
+  }
+
+  .floating-enquire-trigger:hover {
+    width: 49px;
+
+    transform:
+      translateY(-50%)
+      translateX(-2px);
+  }
+
+  .floating-enquire-glow {
+    top: 11px;
+    right: 7px;
+
+    width: 5px;
+    height: 5px;
+  }
+
+  .floating-enquire-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .floating-enquire-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .floating-enquire-text {
+    font-size: 0.54rem;
+
+    letter-spacing: 1.15px;
+  }
+
+  .floating-enquire-arrow {
+    width: 20px;
+    height: 20px;
+
+    font-size: 0.78rem;
+  }
+
+  /* -----------------------------------------
      MOBILE PROMO
      ----------------------------------------- */
 
@@ -1379,14 +1576,17 @@
 
   .floating-form-promo-content {
     padding:
-      22px 17px 17px;
+      22px
+      17px
+      17px;
   }
 
   .floating-form-badge {
     margin-bottom: 7px;
 
     padding:
-      4px 7px;
+      4px
+      7px;
 
     font-size: 0.49rem;
   }
@@ -1413,7 +1613,8 @@
 
   .floating-form-call-btn {
     padding:
-      6px 9px;
+      6px
+      9px;
 
     gap: 6px;
   }
@@ -1441,7 +1642,9 @@
       calc(100dvh - 205px);
 
     padding:
-      17px 16px 18px;
+      17px
+      16px
+      18px;
 
     overflow-y: auto;
   }
@@ -1559,6 +1762,56 @@
       calc(100dvh - 14px);
   }
 
+  /* SMALL RIGHT BUTTON */
+
+  .floating-enquire-trigger {
+    width: 39px;
+    min-height: 116px;
+
+    padding:
+      8px
+      4px;
+
+    gap: 6px;
+
+    border-radius:
+      11px
+      0
+      0
+      11px;
+  }
+
+  .floating-enquire-trigger:hover {
+    width: 44px;
+
+    transform:
+      translateY(-50%)
+      translateX(-1px);
+  }
+
+  .floating-enquire-icon {
+    width: 23px;
+    height: 23px;
+  }
+
+  .floating-enquire-icon svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .floating-enquire-text {
+    font-size: 0.48rem;
+
+    letter-spacing: 1px;
+  }
+
+  .floating-enquire-arrow {
+    width: 18px;
+    height: 18px;
+
+    font-size: 0.7rem;
+  }
+
   .floating-form-promo {
     min-height: 155px;
     max-height: 155px;
@@ -1566,7 +1819,9 @@
 
   .floating-form-promo-content {
     padding:
-      19px 14px 14px;
+      19px
+      14px
+      14px;
   }
 
   .floating-form-promo-title {
@@ -1578,7 +1833,9 @@
       calc(100dvh - 183px);
 
     padding:
-      14px 13px 15px;
+      14px
+      13px
+      15px;
   }
 
   .floating-form-title {
@@ -1641,7 +1898,9 @@
 
   .floating-form-promo-content {
     padding:
-      15px 17px 13px;
+      15px
+      17px
+      13px;
   }
 
   .floating-form-promo-title {
@@ -1658,7 +1917,9 @@
       calc(100dvh - 163px);
 
     padding:
-      13px 16px 15px;
+      13px
+      16px
+      15px;
   }
 
   .floating-form-header-wrap {
