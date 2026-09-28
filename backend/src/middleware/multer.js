@@ -1,4 +1,3 @@
-
 const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
@@ -31,8 +30,7 @@ const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   // =========================================
-  // GALLERY
-  // Gallery supports IMAGE + VIDEO
+  // GALLERY (IMAGE + VIDEO)
   // =========================================
 
   if (
@@ -70,21 +68,14 @@ const fileFilter = (req, file, cb) => {
   }
 
   // =========================================
-  // EXISTING IMAGE UPLOADS
-  // TEAM / COUPEN / AVATAR / OTHER
+  // SETTINGS / LOGO / TEAM / COUPEN / AVATAR / OTHERS
   // =========================================
 
-  if (
-    file.mimetype &&
-    file.mimetype.startsWith("image/")
-  ) {
+  if (file.mimetype && file.mimetype.startsWith("image/")) {
     return cb(null, true);
   }
 
-  return cb(
-    new Error("Only image files are allowed"),
-    false
-  );
+  return cb(new Error("Only image files are allowed"), false);
 };
 
 // =========================================
@@ -93,54 +84,39 @@ const fileFilter = (req, file, cb) => {
 
 const multerUpload = multer({
   storage: storage,
-
   fileFilter: fileFilter,
-
   limits: {
-    // Maximum original upload size: 50 MB
-    // Images: controller/frontend can restrict to 10 MB
-    // Videos: Gallery can use up to 50 MB
+    // 50 MB overall buffer limit
     fileSize: 50 * 1024 * 1024,
   },
 });
 
 // =========================================
-// SINGLE WEBP CONVERSION MIDDLEWARE
-// WEBP CONVERSION MIDDLEWARE GENERATOR
+// SINGLE WEBP CONVERSION MIDDLEWARE GENERATOR
 // =========================================
 
-const convertToWebp = (
-  subFolder = "gallery"
-) => {
+const convertToWebp = (subFolder = "gallery") => {
   return async (req, res, next) => {
     try {
-      // If no file uploaded, proceed to controller
       if (!req.file) {
         return next();
       }
 
       // =========================================
-      // GALLERY VIDEO
-      // DO NOT SEND VIDEO THROUGH SHARP
+      // GALLERY VIDEO (PASS THROUGH DIRECTLY)
       // =========================================
 
       if (
         req.file.mimetype &&
         req.file.mimetype.startsWith("video/")
       ) {
-        const targetUploadPath = path.join(
-          baseUploadDir,
-          subFolder
-        );
-
+        const targetUploadPath = path.join(baseUploadDir, subFolder);
         ensureDirExists(targetUploadPath);
 
-        // Original video extension
         const extension = path
           .extname(req.file.originalname)
           .toLowerCase();
 
-        // Safe video name
         const originalName = path
           .parse(req.file.originalname)
           .name
@@ -151,67 +127,37 @@ const convertToWebp = (
 
         const fileName = `${
           originalName || "video"
-        }-${Date.now()}-${Math.round(
-          Math.random() * 1e9
-        )}${extension || ".mp4"}`;
+        }-${Date.now()}-${Math.round(Math.random() * 1e9)}${
+          extension || ".mp4"
+        }`;
 
-        const outputPath = path.join(
-          targetUploadPath,
-          fileName
-        );
+        const outputPath = path.join(targetUploadPath, fileName);
 
-        // Save video buffer directly
-        fs.writeFileSync(
-          outputPath,
-          req.file.buffer
-        );
-
-        // =========================================
-        // UPDATE REQ.FILE DETAILS
-        // =========================================
+        fs.writeFileSync(outputPath, req.file.buffer);
 
         req.file.filename = fileName;
-
         req.file.path = outputPath;
-
-        req.file.destination =
-          targetUploadPath;
-
-        // Keep original video mimetype
-        req.file.mimetype =
-          req.file.mimetype || "video/mp4";
-
+        req.file.destination = targetUploadPath;
+        req.file.mimetype = req.file.mimetype || "video/mp4";
         req.file.originalname = fileName;
+        req.file.size = fs.statSync(outputPath).size;
 
-        req.file.size =
-          fs.statSync(outputPath).size;
-
-        // URL accessible from frontend static route
-        const relativeUrl =
-          `/uploads/${subFolder}/${fileName}`;
-
+        const relativeUrl = `/uploads/${subFolder}/${fileName}`;
         req.file.url = relativeUrl;
-
-        // Compatibility for controllers
         req.avatarPath = relativeUrl;
+        req.fileUrl = relativeUrl;
+        req.logoPath = relativeUrl;
 
         return next();
       }
 
       // =========================================
-      // IMAGE CONVERSION
-      // EXISTING BEHAVIOR PRESERVED
+      // IMAGE CONVERSION TO WEBP VIA SHARP
       // =========================================
 
-      // Determine target directory
-      const targetUploadPath = path.join(
-        baseUploadDir,
-        subFolder
-      );
-
+      const targetUploadPath = path.join(baseUploadDir, subFolder);
       ensureDirExists(targetUploadPath);
 
-      // Create safe sanitized file name
       const originalName = path
         .parse(req.file.originalname)
         .name
@@ -222,18 +168,9 @@ const convertToWebp = (
 
       const fileName = `${
         originalName || "image"
-      }-${Date.now()}-${Math.round(
-        Math.random() * 1e9
-      )}.webp`;
+      }-${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
 
-      const outputPath = path.join(
-        targetUploadPath,
-        fileName
-      );
-
-      // =========================================
-      // CONVERT BUFFER TO WEBP VIA SHARP
-      // =========================================
+      const outputPath = path.join(targetUploadPath, fileName);
 
       await sharp(req.file.buffer)
         .webp({
@@ -242,45 +179,27 @@ const convertToWebp = (
         })
         .toFile(outputPath);
 
-      // =========================================
-      // UPDATE REQ.FILE DETAILS
-      // =========================================
-
       req.file.filename = fileName;
-
       req.file.path = outputPath;
-
-      req.file.destination =
-        targetUploadPath;
-
+      req.file.destination = targetUploadPath;
       req.file.mimetype = "image/webp";
-
       req.file.originalname = fileName;
+      req.file.size = fs.statSync(outputPath).size;
 
-      req.file.size =
-        fs.statSync(outputPath).size;
-
-      // URL accessible from frontend static route
-      const relativeUrl =
-        `/uploads/${subFolder}/${fileName}`;
-
+      const relativeUrl = `/uploads/${subFolder}/${fileName}`;
       req.file.url = relativeUrl;
 
-      // Compatibility for controllers
+      // Controller compatibility helpers
       req.avatarPath = relativeUrl;
+      req.fileUrl = relativeUrl;
+      req.logoPath = relativeUrl;
 
       next();
-
     } catch (error) {
-      console.error(
-        "IMAGE/VIDEO UPLOAD ERROR:",
-        error
-      );
-
+      console.error("IMAGE/VIDEO UPLOAD ERROR:", error);
       return res.status(400).json({
         success: false,
-        message:
-          "Failed to process uploaded media",
+        message: "Failed to process uploaded media",
         error: error.message,
       });
     }
@@ -288,51 +207,31 @@ const convertToWebp = (
 };
 
 // =========================================
-// MULTIPLE WEBP CONVERSION MIDDLEWARE
-// GENERATOR
+// MULTIPLE WEBP CONVERSION MIDDLEWARE GENERATOR
 // =========================================
 
-const convertMultipleToWebp = (
-  subFolder = "gallery"
-) => {
+const convertMultipleToWebp = (subFolder = "gallery") => {
   return async (req, res, next) => {
     try {
       let filesArray = [];
 
       if (Array.isArray(req.files)) {
         filesArray = req.files;
-      } else if (
-        req.files &&
-        typeof req.files === "object"
-      ) {
-        filesArray = Object.values(
-          req.files
-        ).flat();
+      } else if (req.files && typeof req.files === "object") {
+        filesArray = Object.values(req.files).flat();
       }
 
       if (!filesArray.length) {
         return next();
       }
 
-      const targetUploadPath = path.join(
-        baseUploadDir,
-        subFolder
-      );
-
+      const targetUploadPath = path.join(baseUploadDir, subFolder);
       ensureDirExists(targetUploadPath);
 
       await Promise.all(
         filesArray.map(async (file) => {
-
-          // =========================================
           // VIDEO
-          // DO NOT USE SHARP
-          // =========================================
-
-          if (
-            file.mimetype &&
-            file.mimetype.startsWith("video/")
-          ) {
+          if (file.mimetype && file.mimetype.startsWith("video/")) {
             const extension = path
               .extname(file.originalname)
               .toLowerCase();
@@ -347,45 +246,23 @@ const convertMultipleToWebp = (
 
             const fileName = `${
               originalName || "video"
-            }-${Date.now()}-${Math.round(
-              Math.random() * 1e9
-            )}${extension || ".mp4"}`;
+            }-${Date.now()}-${Math.round(Math.random() * 1e9)}${
+              extension || ".mp4"
+            }`;
 
-            const outputPath = path.join(
-              targetUploadPath,
-              fileName
-            );
-
-            // Save video directly
-            fs.writeFileSync(
-              outputPath,
-              file.buffer
-            );
+            const outputPath = path.join(targetUploadPath, fileName);
+            fs.writeFileSync(outputPath, file.buffer);
 
             file.filename = fileName;
-
             file.path = outputPath;
-
-            file.destination =
-              targetUploadPath;
-
-            // Keep video mimetype
+            file.destination = targetUploadPath;
             file.originalname = fileName;
-
-            file.size =
-              fs.statSync(outputPath).size;
-
-            file.url =
-              `/uploads/${subFolder}/${fileName}`;
-
+            file.size = fs.statSync(outputPath).size;
+            file.url = `/uploads/${subFolder}/${fileName}`;
             return;
           }
 
-          // =========================================
           // IMAGE
-          // EXISTING WEBP BEHAVIOR
-          // =========================================
-
           const originalName = path
             .parse(file.originalname)
             .name
@@ -396,14 +273,9 @@ const convertMultipleToWebp = (
 
           const fileName = `${
             originalName || "image"
-          }-${Date.now()}-${Math.round(
-            Math.random() * 1e9
-          )}.webp`;
+          }-${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
 
-          const outputPath = path.join(
-            targetUploadPath,
-            fileName
-          );
+          const outputPath = path.join(targetUploadPath, fileName);
 
           await sharp(file.buffer)
             .webp({
@@ -413,36 +285,21 @@ const convertMultipleToWebp = (
             .toFile(outputPath);
 
           file.filename = fileName;
-
           file.path = outputPath;
-
-          file.destination =
-            targetUploadPath;
-
+          file.destination = targetUploadPath;
           file.mimetype = "image/webp";
-
           file.originalname = fileName;
-
-          file.size =
-            fs.statSync(outputPath).size;
-
-          file.url =
-            `/uploads/${subFolder}/${fileName}`;
+          file.size = fs.statSync(outputPath).size;
+          file.url = `/uploads/${subFolder}/${fileName}`;
         })
       );
 
       next();
-
     } catch (error) {
-      console.error(
-        "MULTIPLE IMAGE/VIDEO CONVERSION ERROR:",
-        error
-      );
-
+      console.error("MULTIPLE MEDIA CONVERSION ERROR:", error);
       return res.status(400).json({
         success: false,
-        message:
-          "Failed to process uploaded media",
+        message: "Failed to process uploaded media",
         error: error.message,
       });
     }
@@ -450,164 +307,70 @@ const convertMultipleToWebp = (
 };
 
 // =========================================
-// EXPORT
-// BACKWARDS COMPATIBLE
-// TEAM SUPPORTED
-// COUPEN/BANNER SUPPORTED
-// GALLERY IMAGE + VIDEO SUPPORTED
+// EXPORT MULTER HELPER
 // =========================================
 
 const upload = {
-
-  // =========================================
   // SINGLE FILE UPLOAD
-  // =========================================
-
-  single: (
-    fieldName,
-    folder = "gallery"
-  ) => {
-
+  single: (fieldName, folder = "gallery") => {
     return [
       multerUpload.single(fieldName),
 
       async (req, res, next) => {
-
-        /*
-        ========================================
-        GALLERY FIX
-        ========================================
-
-        Gallery route:
-        /api/gallery
-
-        Gallery can use:
-
-        upload.single("image")
-
-        OR
-
-        upload.single("mediaFile")
-
-        It supports:
-        - Images
-        - Videos
-
-        Images:
-        saved as WebP
-
-        Videos:
-        saved in original video format
-
-        ========================================
-        TEAM BEHAVIOR REMAINS SAME
-        ========================================
-
-        Team uses:
-        upload.single("image")
-
-        Team route:
-        /api/team
-
-        So it continues saving inside:
-        src/uploads/team
-
-        ========================================
-        */
-
         let targetFolder = folder;
 
-        // =====================================
-        // GALLERY ROUTE
-        // =====================================
-
+        // 1. SETTINGS / LOGO ROUTE OR FIELD
         if (
+          req.baseUrl === "/api/settings" ||
+          req.originalUrl.startsWith("/api/settings") ||
+          folder === "settings" ||
+          fieldName === "logoFile" ||
+          fieldName === "logo"
+        ) {
+          targetFolder = "settings";
+        }
+        // 2. GALLERY ROUTE
+        else if (
           req.baseUrl === "/api/gallery" ||
           req.originalUrl.startsWith("/api/gallery")
         ) {
           targetFolder = "gallery";
         }
-
-        // =====================================
-        // COUPEN / BANNER
-        // =====================================
-
+        // 3. COUPEN / BANNER
         else if (folder === "coupen") {
           targetFolder = "coupen";
         }
-
-        // =====================================
-        // EXISTING AVATAR
-        // =====================================
-
+        // 4. USERS AVATAR
         else if (fieldName === "avatar") {
           targetFolder = "users";
         }
-
-        // =====================================
-        // EXISTING TEAM IMAGE
-        // =====================================
-
+        // 5. TEAM IMAGE
         else if (fieldName === "image") {
           targetFolder = "team";
         }
 
-        // =====================================
-        // CONVERT IMAGE / SAVE VIDEO
-        // =====================================
-
-        return convertToWebp(
-          targetFolder
-        )(req, res, next);
+        return convertToWebp(targetFolder)(req, res, next);
       },
     ];
   },
 
-  // =========================================
   // MULTIPLE FILE UPLOAD
-  // =========================================
-
-  array: (
-    fieldName,
-    maxCount,
-    folder = "gallery"
-  ) => [
-    multerUpload.array(
-      fieldName,
-      maxCount
-    ),
+  array: (fieldName, maxCount, folder = "gallery") => [
+    multerUpload.array(fieldName, maxCount),
     convertMultipleToWebp(folder),
   ],
 
-  // =========================================
   // MULTIPLE DIFFERENT FIELDS
-  // =========================================
-
-  fields: (
-    fieldsArray,
-    folder = "gallery"
-  ) => [
-    multerUpload.fields(
-      fieldsArray
-    ),
+  fields: (fieldsArray, folder = "gallery") => [
+    multerUpload.fields(fieldsArray),
     convertMultipleToWebp(folder),
   ],
 
-  // =========================================
   // ANY FILES
-  // =========================================
-
-  any: (
-    folder = "gallery"
-  ) => [
+  any: (folder = "gallery") => [
     multerUpload.any(),
     convertMultipleToWebp(folder),
   ],
 };
 
-// =========================================
-// EXPORT
-// =========================================
-
 module.exports = upload;
-

@@ -14,6 +14,7 @@ import Explore from '../../Components/Explore/Explore';
 import Hurryup from '../../Components/Hurryup/Hurryup';
 import Testimonial from '../../Components/Testimonial/Testimonial';
 import Latesttravel from '../../Components/Latesttravel/Latesttravel';
+import HotelPackage from '../../Components/HotelPackage/HotelPackage';
 
 const Home = () => {
   return (
@@ -120,9 +121,11 @@ const Home = () => {
         <Journey />
         <Carrental />
         <Experience />
+       
         <Facility />
         <Tourpackage />
         <Oursuccess />
+         <HotelPackage />
         <Explore />
         <Hurryup />
         <Testimonial />

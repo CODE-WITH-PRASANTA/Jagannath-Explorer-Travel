@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -31,11 +30,8 @@ const coupenRoutes = require("./src/routes/coupenRoutes");
 const profileRoutes = require("./src/routes/profileRoutes");
 const enquiryRoutes = require("./src/routes/enquiryRoutes");
 
-// ============================================
-// GALLERY ROUTE
-// ============================================
-
-
+// Website / Admin Settings route
+const settingRoutes = require("./src/routes/settingRoutes");
 
 // ============================================
 // APP
@@ -71,7 +67,7 @@ app.use(
 // ============================================
 
 // Gallery
-
+app.use("/api/gallery", galleryRoutes);
 
 // Testimonials
 app.use("/api/testimonials", testimonialRoutes);
@@ -94,15 +90,14 @@ app.use("/api/users", userRoutes);
 // Team
 app.use("/api/team", teamRoutes);
 
+// Website / Admin Settings
+app.use("/api/settings", settingRoutes);
+
 // ============================================
 // CAR BOOKINGS
 // ============================================
-app.use(
-  "/api/gallery",
-  galleryRoutes
-);
-app.use("/api/car-bookings", carBookingRoutes);
 
+app.use("/api/car-bookings", carBookingRoutes);
 app.use("/api/bookings", carBookingRoutes);
 
 // ============================================
@@ -123,7 +118,6 @@ app.use("/api/hotelbookings", hotelBookingRoutes);
 // ============================================
 
 app.use("/api/tour-bookings", tourBookingRoutes);
-
 app.use("/api/tourbookings", tourBookingRoutes);
 
 // ============================================
@@ -189,13 +183,10 @@ const PORT = process.env.PORT || 5000;
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(
-        `Server running on http://localhost:${PORT}`
-      );
+      console.log(`Server running on http://localhost:${PORT}`);
     });
   })
   .catch((error) => {
     console.error("Database connection failed:", error);
     process.exit(1);
   });
-

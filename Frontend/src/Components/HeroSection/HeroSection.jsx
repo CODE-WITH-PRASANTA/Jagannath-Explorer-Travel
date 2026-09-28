@@ -28,7 +28,6 @@ import SunTemple from "../../assets/Kohinur.webp";
 /* =====================================================
    DEFAULT DESTINATIONS
 ===================================================== */
-
 const defaultOdishaDestinations = [
   "Puri",
   "Bhubaneswar",
@@ -42,7 +41,6 @@ const defaultOdishaDestinations = [
 /* =====================================================
    HERO SLIDER
 ===================================================== */
-
 const sliderImages = [
   {
     url: Jaganathmandir,
@@ -87,14 +85,13 @@ const sliderImages = [
     title: "The Sun Temple —\nA Marvel Carved in Stone.",
     subtitle:
       "Marvel at the 13th-century Sun Temple, shaped like a colossal chariot with twenty-four intricately carved wheels.",
-    position: "center 15%",
+    position: "center 25%",
   },
 ];
 
 /* =====================================================
    CUSTOM DROPDOWN
 ===================================================== */
-
 const CustomDropdown = ({
   label,
   value,
@@ -116,7 +113,6 @@ const CustomDropdown = ({
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
-
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
@@ -147,9 +143,7 @@ const CustomDropdown = ({
           <ChevronDown
             size={17}
             className={`hero-section__field-caret ${
-              isOpen
-                ? "hero-section__field-caret--rotated"
-                : ""
+              isOpen ? "hero-section__field-caret--rotated" : ""
             }`}
           />
         </div>
@@ -191,7 +185,6 @@ const CustomDropdown = ({
 /* =====================================================
    DATE PICKER
 ===================================================== */
-
 const TourDatePicker = ({ value, onChange }) => {
   const pickerRef = useRef(null);
 
@@ -199,24 +192,13 @@ const TourDatePicker = ({ value, onChange }) => {
   today.setHours(0, 0, 0, 0);
 
   const [isOpen, setIsOpen] = useState(false);
-
   const [currentMonth, setCurrentMonth] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1)
   );
 
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
   ];
 
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -232,7 +214,6 @@ const TourDatePicker = ({ value, onChange }) => {
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
-
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
@@ -240,7 +221,6 @@ const TourDatePicker = ({ value, onChange }) => {
 
   const formatDate = (date) => {
     if (!date) return "";
-
     return date.toLocaleDateString("en-IN", {
       day: "2-digit",
       month: "short",
@@ -258,11 +238,8 @@ const TourDatePicker = ({ value, onChange }) => {
 
   const handleDateSelect = (date) => {
     const formatted = dateKey(date);
-
     onChange(formatted);
-    setCurrentMonth(
-      new Date(date.getFullYear(), date.getMonth(), 1)
-    );
+    setCurrentMonth(new Date(date.getFullYear(), date.getMonth(), 1));
     setIsOpen(false);
   };
 
@@ -281,15 +258,12 @@ const TourDatePicker = ({ value, onChange }) => {
 
     if (type === "This Weekend") {
       const day = selected.getDay();
-
       if (day === 0) {
         // Sunday
       } else if (day === 6) {
         // Saturday
       } else {
-        selected.setDate(
-          selected.getDate() + (6 - day)
-        );
+        selected.setDate(selected.getDate() + (6 - day));
       }
     }
 
@@ -299,30 +273,15 @@ const TourDatePicker = ({ value, onChange }) => {
   const generateCalendarDays = () => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
-
     const firstDay = new Date(year, month, 1).getDay();
-
-    const daysInMonth = new Date(
-      year,
-      month + 1,
-      0
-    ).getDate();
-
-    const previousMonthDays = new Date(
-      year,
-      month,
-      0
-    ).getDate();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const previousMonthDays = new Date(year, month, 0).getDate();
 
     const days = [];
 
     for (let i = firstDay - 1; i >= 0; i--) {
       days.push({
-        date: new Date(
-          year,
-          month - 1,
-          previousMonthDays - i
-        ),
+        date: new Date(year, month - 1, previousMonthDays - i),
         currentMonth: false,
       });
     }
@@ -335,34 +294,20 @@ const TourDatePicker = ({ value, onChange }) => {
     }
 
     let nextDay = 1;
-
     while (days.length < 42) {
       days.push({
         date: new Date(year, month + 1, nextDay),
         currentMonth: false,
       });
-
       nextDay++;
     }
 
     return days;
   };
 
-  const isPastDate = (date) => {
-    return date < today;
-  };
-
-  const isToday = (date) => {
-    return dateKey(date) === dateKey(today);
-  };
-
-  const isSelected = (date) => {
-    if (!selectedDate) return false;
-
-    return (
-      dateKey(date) === dateKey(selectedDate)
-    );
-  };
+  const isPastDate = (date) => date < today;
+  const isToday = (date) => dateKey(date) === dateKey(today);
+  const isSelected = (date) => (selectedDate ? dateKey(date) === dateKey(selectedDate) : false);
 
   const goPreviousMonth = () => {
     const previous = new Date(
@@ -370,7 +315,6 @@ const TourDatePicker = ({ value, onChange }) => {
       currentMonth.getMonth() - 1,
       1
     );
-
     const minimumMonth = new Date(
       today.getFullYear(),
       today.getMonth(),
@@ -395,42 +339,29 @@ const TourDatePicker = ({ value, onChange }) => {
   return (
     <div
       className={`hero-section__field hero-section__date-field ${
-        isOpen
-          ? "hero-section__field--active"
-          : ""
+        isOpen ? "hero-section__field--active" : ""
       }`}
       ref={pickerRef}
     >
       <div className="hero-section__field-icon">
-        <Calendar
-          size={20}
-          strokeWidth={1.8}
-        />
+        <Calendar size={20} strokeWidth={1.8} />
       </div>
 
       <div
         className="hero-section__field-body"
-        onClick={() =>
-          setIsOpen((prev) => !prev)
-        }
+        onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span className="hero-section__field-label">
-          When
-        </span>
+        <span className="hero-section__field-label">When</span>
 
         <div className="hero-section__custom-trigger">
           <span className="hero-section__selected-val">
-            {value
-              ? formatDate(selectedDate)
-              : "Anyday"}
+            {value ? formatDate(selectedDate) : "Anyday"}
           </span>
 
           <ChevronDown
             size={17}
             className={`hero-section__field-caret ${
-              isOpen
-                ? "hero-section__field-caret--rotated"
-                : ""
+              isOpen ? "hero-section__field-caret--rotated" : ""
             }`}
           />
         </div>
@@ -446,27 +377,18 @@ const TourDatePicker = ({ value, onChange }) => {
             <button
               type="button"
               className={`hero-section__quick-date ${
-                !value
-                  ? "hero-section__quick-date--active"
-                  : ""
+                !value ? "hero-section__quick-date--active" : ""
               }`}
-              onClick={() =>
-                handleQuickSelect("Anyday")
-              }
+              onClick={() => handleQuickSelect("Anyday")}
             >
               <span>Anyday</span>
-
-              {!value && (
-                <Check size={15} />
-              )}
+              {!value && <Check size={15} />}
             </button>
 
             <button
               type="button"
               className="hero-section__quick-date"
-              onClick={() =>
-                handleQuickSelect("Today")
-              }
+              onClick={() => handleQuickSelect("Today")}
             >
               <span>Today</span>
             </button>
@@ -474,9 +396,7 @@ const TourDatePicker = ({ value, onChange }) => {
             <button
               type="button"
               className="hero-section__quick-date"
-              onClick={() =>
-                handleQuickSelect("Tomorrow")
-              }
+              onClick={() => handleQuickSelect("Tomorrow")}
             >
               <span>Tomorrow</span>
             </button>
@@ -484,9 +404,7 @@ const TourDatePicker = ({ value, onChange }) => {
             <button
               type="button"
               className="hero-section__quick-date"
-              onClick={() =>
-                handleQuickSelect("This Weekend")
-              }
+              onClick={() => handleQuickSelect("This Weekend")}
             >
               <span>This Weekend</span>
             </button>
@@ -496,11 +414,8 @@ const TourDatePicker = ({ value, onChange }) => {
             <div className="hero-section__calendar-header">
               <div>
                 <span className="hero-section__calendar-month">
-                  {monthNames[
-                    currentMonth.getMonth()
-                  ]}
+                  {monthNames[currentMonth.getMonth()]}
                 </span>
-
                 <span className="hero-section__calendar-year">
                   {currentMonth.getFullYear()}
                 </span>
@@ -514,7 +429,6 @@ const TourDatePicker = ({ value, onChange }) => {
                 >
                   <ChevronLeft size={17} />
                 </button>
-
                 <button
                   type="button"
                   onClick={goNextMonth}
@@ -534,8 +448,7 @@ const TourDatePicker = ({ value, onChange }) => {
             <div className="hero-section__calendar-days">
               {generateCalendarDays().map(
                 ({ date, currentMonth: isCurrentMonth }) => {
-                  const disabled =
-                    isPastDate(date);
+                  const disabled = isPastDate(date);
 
                   return (
                     <button
@@ -544,26 +457,11 @@ const TourDatePicker = ({ value, onChange }) => {
                       disabled={disabled}
                       className={`
                         hero-section__calendar-day
-                        ${
-                          !isCurrentMonth
-                            ? "hero-section__calendar-day--muted"
-                            : ""
-                        }
-                        ${
-                          isToday(date)
-                            ? "hero-section__calendar-day--today"
-                            : ""
-                        }
-                        ${
-                          isSelected(date)
-                            ? "hero-section__calendar-day--selected"
-                            : ""
-                        }
+                        ${!isCurrentMonth ? "hero-section__calendar-day--muted" : ""}
+                        ${isToday(date) ? "hero-section__calendar-day--today" : ""}
+                        ${isSelected(date) ? "hero-section__calendar-day--selected" : ""}
                       `}
-                      onClick={() =>
-                        !disabled &&
-                        handleDateSelect(date)
-                      }
+                      onClick={() => !disabled && handleDateSelect(date)}
                     >
                       {date.getDate()}
                     </button>
@@ -581,384 +479,160 @@ const TourDatePicker = ({ value, onChange }) => {
 /* =====================================================
    HERO SECTION
 ===================================================== */
-
 const HeroSection = () => {
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] =
-    useState("tour");
+  const [activeTab, setActiveTab] = useState("tour");
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const [currentSlide, setCurrentSlide] =
-    useState(0);
+  /* BACKEND DATA */
+  const [backendTours, setBackendTours] = useState([]);
+  const [backendHotels, setBackendHotels] = useState([]);
 
-  /* ===================================================
-     BACKEND DATA
-  =================================================== */
+  /* TOUR FORM */
+  const [tourDest, setTourDest] = useState("");
+  const [tourType, setTourType] = useState("All");
+  const [tourDate, setTourDate] = useState("");
+  const [tourCategory, setTourCategory] = useState("All");
 
-  const [backendTours, setBackendTours] =
-    useState([]);
+  /* HOTEL FORM */
+  const [hotelLocation, setHotelLocation] = useState("");
+  const [hotelDates, setHotelDates] = useState("Flexible Dates");
+  const [rooms, setRooms] = useState(1);
+  const [guests, setGuests] = useState("2 Adults, 0 Child");
 
-  const [backendHotels, setBackendHotels] =
-    useState([]);
-
-  /* ===================================================
-     TOUR FORM
-  =================================================== */
-
-  const [tourDest, setTourDest] =
-    useState("");
-
-  const [tourType, setTourType] =
-    useState("All");
-
-  const [tourDate, setTourDate] =
-    useState("");
-
-  const [tourCategory, setTourCategory] =
-    useState("All");
-
-  /* ===================================================
-     HOTEL FORM
-  =================================================== */
-
-  const [hotelLocation, setHotelLocation] =
-    useState("");
-
-  const [hotelDates, setHotelDates] =
-    useState("Flexible Dates");
-
-  const [rooms, setRooms] =
-    useState(1);
-
-  const [guests, setGuests] =
-    useState("2 Adults, 0 Child");
-
-  /* ===================================================
-     FETCH TOURS + HOTELS
-  =================================================== */
-
+  /* FETCH DATA */
   useEffect(() => {
     const fetchDropdownData = async () => {
       try {
-        const [
-          tourRes,
-          hotelRes,
-        ] = await Promise.allSettled([
+        const [tourRes, hotelRes] = await Promise.allSettled([
           API.get("/tours"),
           API.get("/hotels"),
         ]);
 
-        if (
-          tourRes.status === "fulfilled" &&
-          tourRes.value.data
-        ) {
+        if (tourRes.status === "fulfilled" && tourRes.value.data) {
           const list =
-            tourRes.value.data.data ||
-            tourRes.value.data ||
-            [];
-
-          setBackendTours(
-            Array.isArray(list) ? list : []
-          );
+            tourRes.value.data.data || tourRes.value.data || [];
+          setBackendTours(Array.isArray(list) ? list : []);
         }
 
-        if (
-          hotelRes.status === "fulfilled" &&
-          hotelRes.value.data
-        ) {
+        if (hotelRes.status === "fulfilled" && hotelRes.value.data) {
           const list =
-            hotelRes.value.data.data ||
-            hotelRes.value.data ||
-            [];
-
-          setBackendHotels(
-            Array.isArray(list) ? list : []
-          );
+            hotelRes.value.data.data || hotelRes.value.data || [];
+          setBackendHotels(Array.isArray(list) ? list : []);
         }
       } catch (err) {
-        console.error(
-          "Error fetching hero dropdown data:",
-          err
-        );
+        console.error("Error fetching hero dropdown data:", err);
       }
     };
 
     fetchDropdownData();
   }, []);
 
-  /* ===================================================
-     TOUR DESTINATIONS
-  =================================================== */
+  /* DERIVED OPTIONS */
+  const dynamicTourDestinations = useMemo(() => {
+    const unique = Array.from(
+      new Set(backendTours.map((t) => t.destination).filter(Boolean))
+    );
+    return unique.length > 0 ? unique : defaultOdishaDestinations;
+  }, [backendTours]);
 
-  const dynamicTourDestinations =
-    useMemo(() => {
-      const unique = Array.from(
-        new Set(
-          backendTours
-            .map((t) => t.destination)
-            .filter(Boolean)
-        )
-      );
-
-      return unique.length > 0
+  const dynamicTourTypes = useMemo(() => {
+    const unique = Array.from(
+      new Set(backendTours.map((t) => t.tourType || t.type).filter(Boolean))
+    );
+    return [
+      "All",
+      ...(unique.length > 0
         ? unique
-        : defaultOdishaDestinations;
-    }, [backendTours]);
+        : [
+            "Family Tour",
+            "Adventure Tour",
+            "Spiritual Tour",
+            "Heritage Tour",
+          ]),
+    ];
+  }, [backendTours]);
 
-  /* ===================================================
-     TOUR TYPES
-  =================================================== */
-
-  const dynamicTourTypes =
-    useMemo(() => {
-      const unique = Array.from(
-        new Set(
-          backendTours
-            .map(
-              (t) =>
-                t.tourType || t.type
-            )
-            .filter(Boolean)
-        )
-      );
-
-      return [
-        "All",
-        ...(unique.length > 0
-          ? unique
-          : [
-              "Family Tour",
-              "Adventure Tour",
-              "Spiritual Tour",
-              "Heritage Tour",
-            ]),
-      ];
-    }, [backendTours]);
-
-  /* ===================================================
-     TOUR CATEGORIES
-  =================================================== */
-
-  const dynamicTourCategories =
-    useMemo(() => {
-      const unique = Array.from(
-        new Set(
-          backendTours
-            .map((t) => t.category)
-            .filter(Boolean)
-        )
-      );
-
-      return [
-        "All",
-        ...(unique.length > 0
-          ? unique
-          : [
-              "Economy",
-              "Standard",
-              "Luxury",
-              "Premium",
-            ]),
-      ];
-    }, [backendTours]);
-
-  /* ===================================================
-     HOTEL CITIES
-  =================================================== */
-
-  const dynamicHotelCities =
-    useMemo(() => {
-      const unique = Array.from(
-        new Set(
-          backendHotels
-            .map((h) =>
-              h.city?.trim()
-            )
-            .filter(Boolean)
-        )
-      );
-
-      return unique.length > 0
+  const dynamicTourCategories = useMemo(() => {
+    const unique = Array.from(
+      new Set(backendTours.map((t) => t.category).filter(Boolean))
+    );
+    return [
+      "All",
+      ...(unique.length > 0
         ? unique
-        : defaultOdishaDestinations;
-    }, [backendHotels]);
+        : ["Economy", "Standard", "Luxury", "Premium"]),
+    ];
+  }, [backendTours]);
 
-  /* ===================================================
-     INITIAL VALUES
-  =================================================== */
+  const dynamicHotelCities = useMemo(() => {
+    const unique = Array.from(
+      new Set(backendHotels.map((h) => h.city?.trim()).filter(Boolean))
+    );
+    return unique.length > 0 ? unique : defaultOdishaDestinations;
+  }, [backendHotels]);
+
+  /* DEFAULT SELECTIONS */
+  useEffect(() => {
+    if (!tourDest && dynamicTourDestinations.length > 0) {
+      setTourDest(dynamicTourDestinations[0]);
+    }
+  }, [dynamicTourDestinations, tourDest]);
 
   useEffect(() => {
-    if (
-      !tourDest &&
-      dynamicTourDestinations.length > 0
-    ) {
-      setTourDest(
-        dynamicTourDestinations[0]
-      );
+    if (!hotelLocation && dynamicHotelCities.length > 0) {
+      setHotelLocation(dynamicHotelCities[0]);
     }
-  }, [
-    dynamicTourDestinations,
-    tourDest,
-  ]);
+  }, [dynamicHotelCities, hotelLocation]);
 
-  useEffect(() => {
-    if (
-      !hotelLocation &&
-      dynamicHotelCities.length > 0
-    ) {
-      setHotelLocation(
-        dynamicHotelCities[0]
-      );
-    }
-  }, [
-    dynamicHotelCities,
-    hotelLocation,
-  ]);
-
-  /* ===================================================
-     SLIDER AUTOPLAY
-  =================================================== */
-
+  /* SLIDER AUTOPLAY */
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide(
-        (prev) =>
-          (prev + 1) %
-          sliderImages.length
-      );
+      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
     }, 6500);
 
     return () => clearInterval(timer);
   }, []);
 
-  /* ===================================================
-     TOUR SEARCH
-  =================================================== */
-
+  /* HANDLERS */
   const handleTourSearch = () => {
-    const params =
-      new URLSearchParams();
-
-    if (
-      tourDest &&
-      tourDest !== "All"
-    ) {
-      params.set(
-        "location",
-        tourDest
-      );
-    }
-
-    if (
-      tourType &&
-      tourType !== "All"
-    ) {
-      params.set(
-        "tourType",
-        tourType
-      );
-    }
-
-    if (
-      tourCategory &&
-      tourCategory !== "All"
-    ) {
-      params.set(
-        "category",
-        tourCategory
-      );
-    }
-
-    if (tourDate) {
-      params.set(
-        "date",
-        tourDate
-      );
-    }
-
-    navigate(
-      `/tours?${params.toString()}`
-    );
+    const params = new URLSearchParams();
+    if (tourDest && tourDest !== "All") params.set("location", tourDest);
+    if (tourType && tourType !== "All") params.set("tourType", tourType);
+    if (tourCategory && tourCategory !== "All") params.set("category", tourCategory);
+    if (tourDate) params.set("date", tourDate);
+    navigate(`/tours?${params.toString()}`);
   };
-
-  /* ===================================================
-     HOTEL SEARCH
-  =================================================== */
 
   const handleHotelSearch = () => {
-    const params =
-      new URLSearchParams();
-
-    if (
-      hotelLocation &&
-      hotelLocation !== "All"
-    ) {
-      params.set(
-        "search",
-        hotelLocation
-      );
-    }
-
-    if (rooms) {
-      params.set(
-        "rooms",
-        rooms
-      );
-    }
-
-    if (guests) {
-      params.set(
-        "guests",
-        guests
-      );
-    }
-
-    if (
-      hotelDates &&
-      hotelDates !==
-        "Flexible Dates"
-    ) {
-      params.set(
-        "dates",
-        hotelDates
-      );
-    }
-
-    navigate(
-      `/hotels?${params.toString()}`
-    );
+    const params = new URLSearchParams();
+    if (hotelLocation && hotelLocation !== "All") params.set("search", hotelLocation);
+    if (rooms) params.set("rooms", rooms);
+    if (guests) params.set("guests", guests);
+    if (hotelDates && hotelDates !== "Flexible Dates") params.set("dates", hotelDates);
+    navigate(`/hotels?${params.toString()}`);
   };
 
-  const currentContent =
-    sliderImages[currentSlide];
-
-  /* ===================================================
-     JSX
-  =================================================== */
+  const currentContent = sliderImages[currentSlide];
 
   return (
     <section className="hero-section">
       <div className="hero-section__wrapper">
-
-        {/* BACKGROUND */}
+        {/* BACKGROUND SLIDES */}
         <div className="hero-section__slides">
-          {sliderImages.map(
-            (slide, index) => (
-              <div
-                key={slide.location}
-                className={`hero-section__slide ${
-                  index === currentSlide
-                    ? "hero-section__slide--active"
-                    : ""
-                }`}
-                style={{
-                  backgroundImage: `url("${slide.url}")`,
-                  backgroundPosition:
-                    slide.position,
-                }}
-              />
-            )
-          )}
+          {sliderImages.map((slide, index) => (
+            <div
+              key={slide.location}
+              className={`hero-section__slide ${
+                index === currentSlide ? "hero-section__slide--active" : ""
+              }`}
+              style={{
+                backgroundImage: `url("${slide.url}")`,
+                backgroundPosition: slide.position,
+              }}
+            />
+          ))}
         </div>
 
         <div className="hero-section__overlay" />
@@ -968,9 +642,7 @@ const HeroSection = () => {
         {/* TOP BADGE */}
         <div className="hero-section__top-badge">
           <Sparkles size={14} />
-          <span>
-            Discover Odisha With Us
-          </span>
+          <span>Discover Odisha With Us</span>
         </div>
 
         {/* SLIDER ARROWS */}
@@ -978,13 +650,11 @@ const HeroSection = () => {
           type="button"
           className="hero-section__arrow hero-section__arrow--left"
           onClick={() =>
-            setCurrentSlide(
-              (prev) =>
-                prev === 0
-                  ? sliderImages.length - 1
-                  : prev - 1
+            setCurrentSlide((prev) =>
+              prev === 0 ? sliderImages.length - 1 : prev - 1
             )
           }
+          aria-label="Previous Slide"
         >
           <ChevronLeft size={21} />
         </button>
@@ -993,26 +663,18 @@ const HeroSection = () => {
           type="button"
           className="hero-section__arrow hero-section__arrow--right"
           onClick={() =>
-            setCurrentSlide(
-              (prev) =>
-                (prev + 1) %
-                sliderImages.length
-            )
+            setCurrentSlide((prev) => (prev + 1) % sliderImages.length)
           }
+          aria-label="Next Slide"
         >
           <ChevronRight size={21} />
         </button>
 
         {/* HERO CONTENT */}
-        <div
-          className="hero-section__content"
-          key={currentSlide}
-        >
+        <div className="hero-section__content" key={currentSlide}>
           <div className="hero-section__tag">
             <MapPin size={15} />
-            <span>
-              {currentContent.location}
-            </span>
+            <span>{currentContent.location}</span>
           </div>
 
           <span className="hero-section__eyebrow">
@@ -1032,43 +694,29 @@ const HeroSection = () => {
 
         {/* SLIDER DOTS */}
         <div className="hero-section__dots">
-          {sliderImages.map(
-            (_, index) => (
-              <button
-                type="button"
-                key={index}
-                onClick={() =>
-                  setCurrentSlide(index)
-                }
-                className={`hero-section__dot ${
-                  currentSlide === index
-                    ? "hero-section__dot--active"
-                    : ""
-                }`}
-              />
-            )
-          )}
+          {sliderImages.map((_, index) => (
+            <button
+              type="button"
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`hero-section__dot ${
+                currentSlide === index ? "hero-section__dot--active" : ""
+              }`}
+              aria-label={`Slide ${index + 1}`}
+            />
+          ))}
         </div>
 
-        {/* =================================================
-            BOOKING MODULE
-        ================================================= */}
-
+        {/* BOOKING MODULE */}
         <div className="hero-section__booking-container">
-
           {/* TABS */}
           <div className="hero-section__tabs-header">
-
             <button
               type="button"
               className={`hero-section__tab-btn ${
-                activeTab === "tour"
-                  ? "hero-section__tab-btn--active"
-                  : ""
+                activeTab === "tour" ? "hero-section__tab-btn--active" : ""
               }`}
-              onClick={() =>
-                setActiveTab("tour")
-              }
+              onClick={() => setActiveTab("tour")}
             >
               <Compass size={17} />
               <span>Tour</span>
@@ -1077,33 +725,24 @@ const HeroSection = () => {
             <button
               type="button"
               className={`hero-section__tab-btn ${
-                activeTab === "hotel"
-                  ? "hero-section__tab-btn--active"
-                  : ""
+                activeTab === "hotel" ? "hero-section__tab-btn--active" : ""
               }`}
-              onClick={() =>
-                setActiveTab("hotel")
-              }
+              onClick={() => setActiveTab("hotel")}
             >
               <Building2 size={17} />
               <span>Hotel</span>
             </button>
-
           </div>
 
           {/* FORM CARD */}
           <div className="hero-section__form-card">
-
-            {/* TOUR */}
+            {/* TOUR FORM */}
             {activeTab === "tour" && (
               <div className="hero-section__form-grid hero-section__form-grid--tour">
-
                 <CustomDropdown
                   label="Destination"
                   value={tourDest}
-                  options={
-                    dynamicTourDestinations
-                  }
+                  options={dynamicTourDestinations}
                   onChange={setTourDest}
                   icon={MapPin}
                 />
@@ -1111,14 +750,11 @@ const HeroSection = () => {
                 <CustomDropdown
                   label="Tour Type"
                   value={tourType}
-                  options={
-                    dynamicTourTypes
-                  }
+                  options={dynamicTourTypes}
                   onChange={setTourType}
                   icon={Briefcase}
                 />
 
-                {/* NEW DATE PICKER */}
                 <TourDatePicker
                   value={tourDate}
                   onChange={setTourDate}
@@ -1127,42 +763,30 @@ const HeroSection = () => {
                 <CustomDropdown
                   label="Tour Category"
                   value={tourCategory}
-                  options={
-                    dynamicTourCategories
-                  }
-                  onChange={
-                    setTourCategory
-                  }
+                  options={dynamicTourCategories}
+                  onChange={setTourCategory}
                   icon={Sparkles}
                 />
 
                 <button
                   type="button"
                   className="hero-section__search-btn"
-                  onClick={
-                    handleTourSearch
-                  }
+                  onClick={handleTourSearch}
                 >
                   <span>Search</span>
                   <ArrowRight size={17} />
                 </button>
-
               </div>
             )}
 
-            {/* HOTEL */}
+            {/* HOTEL FORM */}
             {activeTab === "hotel" && (
               <div className="hero-section__form-grid hero-section__form-grid--hotel">
-
                 <CustomDropdown
                   label="Location"
                   value={hotelLocation}
-                  options={
-                    dynamicHotelCities
-                  }
-                  onChange={
-                    setHotelLocation
-                  }
+                  options={dynamicHotelCities}
+                  onChange={setHotelLocation}
                   icon={MapPin}
                 />
 
@@ -1175,14 +799,11 @@ const HeroSection = () => {
                     "Next Weekend",
                     "Next 30 Days",
                   ]}
-                  onChange={
-                    setHotelDates
-                  }
+                  onChange={setHotelDates}
                   icon={Calendar}
                 />
 
                 <div className="hero-section__field">
-
                   <div className="hero-section__field-icon">
                     <Building2 size={20} />
                   </div>
@@ -1191,7 +812,6 @@ const HeroSection = () => {
                     <label className="hero-section__field-label">
                       Rooms
                     </label>
-
                     <input
                       type="number"
                       min="1"
@@ -1202,10 +822,7 @@ const HeroSection = () => {
                         setRooms(
                           Math.max(
                             1,
-                            parseInt(
-                              e.target.value,
-                              10
-                            ) || 1
+                            parseInt(e.target.value, 10) || 1
                           )
                         )
                       }
@@ -1216,30 +833,16 @@ const HeroSection = () => {
                     <ChevronUp
                       size={14}
                       onClick={() =>
-                        setRooms(
-                          (prev) =>
-                            Math.min(
-                              10,
-                              prev + 1
-                            )
-                        )
+                        setRooms((prev) => Math.min(10, prev + 1))
                       }
                     />
-
                     <ChevronDown
                       size={14}
                       onClick={() =>
-                        setRooms(
-                          (prev) =>
-                            Math.max(
-                              1,
-                              prev - 1
-                            )
-                        )
+                        setRooms((prev) => Math.max(1, prev - 1))
                       }
                     />
                   </div>
-
                 </div>
 
                 <CustomDropdown
@@ -1258,17 +861,13 @@ const HeroSection = () => {
                 <button
                   type="button"
                   className="hero-section__search-btn"
-                  onClick={
-                    handleHotelSearch
-                  }
+                  onClick={handleHotelSearch}
                 >
                   <span>Search</span>
                   <ArrowRight size={17} />
                 </button>
-
               </div>
             )}
-
           </div>
         </div>
       </div>
