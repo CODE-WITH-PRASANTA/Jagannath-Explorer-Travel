@@ -151,6 +151,11 @@ const Sidebar = ({
       path: "/enquiries",
       icon: <Mail size={20} />,
     },
+    {
+      text: "Support",
+      path: "/need-help",
+      icon: <Mail size={20} />,
+    },
 
     {
       text: "Coupons",

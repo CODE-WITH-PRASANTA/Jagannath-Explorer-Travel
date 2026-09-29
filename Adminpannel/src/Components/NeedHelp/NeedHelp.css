@@ -1,0 +1,717 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* Main Wrapper */
+.NeedHelp {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  width: 100%;
+  max-width: 1360px;
+  margin: 28px auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Card Container */
+.NeedHelp__card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  border: 1px solid #e9edf4;
+  overflow: visible; /* allows status dropdown popover to overflow smoothly */
+}
+
+/* Responsive Table Wrapper */
+.NeedHelp__table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/* Table */
+.NeedHelp__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  min-width: 980px;
+}
+
+/* ================= EYE-CATCHING TOP HEADER ROW ================= */
+.NeedHelp__header-row {
+  /* High-end gradient header with vivid accent line */
+  background: linear-gradient(135deg, #f0f6ff 0%, #eef2ff 50%, #f8faff 100%);
+  position: relative;
+}
+
+.NeedHelp__th {
+  padding: 18px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e3a8a; /* Deep elegant navy blue */
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #dbeafe;
+  white-space: nowrap;
+}
+
+.NeedHelp__th--hash {
+  width: 55px;
+  padding-left: 28px;
+}
+
+.NeedHelp__th--name {
+  min-width: 210px;
+}
+
+.NeedHelp__th--message {
+  min-width: 230px;
+}
+
+.NeedHelp__th--date {
+  min-width: 170px;
+}
+
+.NeedHelp__th--status-col {
+  min-width: 130px;
+}
+
+.NeedHelp__th--action {
+  text-align: center;
+  width: 140px;
+  padding-right: 28px;
+}
+
+.NeedHelp__sort-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.NeedHelp__sort-icon {
+  width: 15px;
+  height: 15px;
+  stroke: #2563eb;
+  transition: transform 0.2s ease;
+}
+
+.NeedHelp__sort-label:hover .NeedHelp__sort-icon {
+  transform: translateY(2px);
+}
+
+/* ================= TABLE BODY ================= */
+.NeedHelp__tr {
+  transition: all 0.18s ease;
+  position: relative;
+}
+
+.NeedHelp__tr:hover {
+  background-color: #f8fafc;
+}
+
+.NeedHelp__td {
+  padding: 16px 20px;
+  font-size: 13.5px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.NeedHelp__td--hash {
+  color: #64748b;
+  font-weight: 600;
+  padding-left: 28px;
+}
+
+.NeedHelp__td--action-cell {
+  position: relative;
+  overflow: visible;
+}
+
+/* User & Avatar */
+.NeedHelp__user-cell {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.NeedHelp__avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Pastel Avatars */
+.NeedHelp__avatar--blue   { background-color: #dbeafe; color: #1d4ed8; }
+.NeedHelp__avatar--purple { background-color: #f3e8ff; color: #7e22ce; }
+.NeedHelp__avatar--pink   { background-color: #fce7f3; color: #be185d; }
+.NeedHelp__avatar--green  { background-color: #dcfce7; color: #15803d; }
+.NeedHelp__avatar--orange { background-color: #ffedd5; color: #c2410c; }
+
+.NeedHelp__user-name {
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.NeedHelp__phone-text {
+  font-weight: 500;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.NeedHelp__message-text {
+  display: block;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #475569;
+  font-weight: 400;
+}
+
+/* Date Details */
+.NeedHelp__date-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.NeedHelp__calendar-icon {
+  width: 18px;
+  height: 18px;
+  stroke: #94a3b8;
+  flex-shrink: 0;
+}
+
+.NeedHelp__date-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.NeedHelp__date-primary {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.NeedHelp__date-time {
+  font-size: 11.5px;
+  color: #94a3b8;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ================= STATUS PILL BADGES ================= */
+.NeedHelp__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.NeedHelp__badge-dot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Status variants */
+.NeedHelp__badge--new {
+  background-color: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fef3c7;
+}
+.NeedHelp__badge--new .NeedHelp__badge-dot { background-color: #f59e0b; }
+
+.NeedHelp__badge--replied {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #d1fae5;
+}
+.NeedHelp__badge--replied .NeedHelp__badge-dot { background-color: #10b981; }
+
+.NeedHelp__badge--closed {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fee2e2;
+}
+.NeedHelp__badge--closed .NeedHelp__badge-dot { background-color: #ef4444; }
+
+/* ================= ACTION BUTTONS GROUP ================= */
+.NeedHelp__actions-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+}
+
+.NeedHelp__btn-action {
+  width: 35px;
+  height: 35px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: transparent;
+  outline: none;
+}
+
+.NeedHelp__btn-action svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* View Action (Blue) */
+.NeedHelp__btn-action--view {
+  background-color: #eff6ff;
+  color: #2563eb;
+  border-color: #dbeafe;
+}
+.NeedHelp__btn-action--view:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+/* Status Change Action (Emerald / Green) */
+.NeedHelp__btn-action--status {
+  background-color: #ecfdf5;
+  color: #059669;
+  border-color: #d1fae5;
+}
+.NeedHelp__btn-action--status:hover,
+.NeedHelp__btn-action--active {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+}
+
+/* Delete Action (Rose / Red) */
+.NeedHelp__btn-action--delete {
+  background-color: #fef2f2;
+  color: #e11d48;
+  border-color: #ffe4e6;
+}
+.NeedHelp__btn-action--delete:hover {
+  background-color: #e11d48;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+}
+
+/* ================= STATUS CHANGE DROPDOWN POPOVER ================= */
+.NeedHelp__status-dropdown-wrap {
+  position: relative;
+}
+
+.NeedHelp__status-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: -20px;
+  width: 175px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  padding: 6px;
+  z-index: 100;
+  animation: NeedHelpMenuPop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.NeedHelp__status-menu-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 10px 4px 10px;
+}
+
+.NeedHelp__status-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.NeedHelp__status-option:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.NeedHelp__status-option--selected {
+  background-color: #f0f7ff;
+  color: #0066ff;
+}
+
+.NeedHelp__status-dot-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.NeedHelp__dot--new     { background-color: #f59e0b; }
+.NeedHelp__dot--replied { background-color: #10b981; }
+.NeedHelp__dot--closed  { background-color: #ef4444; }
+
+.NeedHelp__check-icon {
+  width: 14px;
+  height: 14px;
+  stroke: #0066ff;
+  margin-left: auto;
+}
+
+/* Empty State */
+.NeedHelp__empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* ================= FOOTER & PAGINATION ================= */
+.NeedHelp__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  background-color: #ffffff;
+  border-top: 1px solid #f1f5f9;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.NeedHelp__footer-info {
+  font-size: 13.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.NeedHelp__pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.NeedHelp__pg-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: 9px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #334155;
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.NeedHelp__pg-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.NeedHelp__pg-btn:hover:not(:disabled):not(.NeedHelp__pg-btn--active) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.NeedHelp__pg-btn--active {
+  background-color: #0066ff !important;
+  color: #ffffff !important;
+  border-color: #0066ff !important;
+  box-shadow: 0 4px 10px rgba(0, 102, 255, 0.32);
+}
+
+.NeedHelp__pg-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ================= PREMIUM MODALS ================= */
+.NeedHelp__modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: NeedHelpFadeIn 0.2s ease-out;
+}
+
+.NeedHelp__modal {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+  padding: 28px;
+  position: relative;
+  animation: NeedHelpScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.NeedHelp__modal--delete {
+  max-width: 440px;
+  text-align: center;
+}
+
+.NeedHelp__modal--view {
+  max-width: 520px;
+}
+
+.NeedHelp__modal-icon-circle {
+  width: 56px;
+  height: 56px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+
+.NeedHelp__modal-icon-circle svg {
+  width: 26px;
+  height: 26px;
+}
+
+.NeedHelp__modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 10px 0;
+}
+
+.NeedHelp__modal-desc {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+.NeedHelp__modal-desc strong {
+  color: #0f172a;
+}
+
+.NeedHelp__modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.NeedHelp__modal--delete .NeedHelp__modal-actions {
+  justify-content: center;
+}
+
+.NeedHelp__modal-btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.NeedHelp__modal-btn--cancel {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+.NeedHelp__modal-btn--cancel:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.NeedHelp__modal-btn--danger {
+  background-color: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}
+.NeedHelp__modal-btn--danger:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+.NeedHelp__modal-btn--primary {
+  background-color: #0066ff;
+  color: #ffffff;
+}
+.NeedHelp__modal-btn--primary:hover {
+  background-color: #0052cc;
+}
+
+/* View Modal */
+.NeedHelp__view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.NeedHelp__view-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.NeedHelp__view-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.NeedHelp__modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.NeedHelp__modal-close:hover {
+  color: #0f172a;
+}
+
+.NeedHelp__view-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.NeedHelp__view-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.NeedHelp__view-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+}
+
+.NeedHelp__view-value {
+  font-size: 14px;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.NeedHelp__view-message-box {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* Keyframes */
+@keyframes NeedHelpFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes NeedHelpScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes NeedHelpMenuPop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .NeedHelp {
+    margin: 14px auto;
+    padding: 0 10px;
+  }
+
+  .NeedHelp__footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+  }
+
+  .NeedHelp__footer-info {
+    font-size: 13px;
+  }
+
+  .NeedHelp__modal {
+    padding: 22px 18px;
+  }
+}

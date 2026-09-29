@@ -56,6 +56,7 @@ import Booklead from "./Pages/Booklead/Booklead";
 import TourBookings from "./Pages/TourBookings/TourBookings";
 import Coupen from "./Pages/Coupen/Coupen";
 import ReviewTable from "./Pages/ReviewTable/ReviewTable";
+import NeedHelp from "./Components/NeedHelp/NeedHelp";
 
 const App = () => {
   return (
@@ -94,6 +95,8 @@ const App = () => {
             <Route path="/customers" element={<Customers />} />
 
             <Route path="/enquiries" element={<Enquiries />} />
+
+            <Route path="/need-help" element={<NeedHelp/>} />
 
             <Route path="/coupons" element={<Coupons />} />
 

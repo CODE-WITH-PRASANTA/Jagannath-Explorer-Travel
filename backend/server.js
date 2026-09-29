@@ -30,6 +30,9 @@ const coupenRoutes = require("./src/routes/coupenRoutes");
 const profileRoutes = require("./src/routes/profileRoutes");
 const enquiryRoutes = require("./src/routes/enquiryRoutes");
 
+// Need Help route
+const needHelpRoutes = require("./src/routes/needHelpRoutes");
+
 // Website / Admin Settings route
 const settingRoutes = require("./src/routes/settingRoutes");
 
@@ -137,6 +140,12 @@ app.use("/api/profiles", profileRoutes);
 // ============================================
 
 app.use("/api/enquiries", enquiryRoutes);
+
+// ============================================
+// NEED HELP
+// ============================================
+
+app.use("/api/need-help", needHelpRoutes);
 
 // ============================================
 // ROOT ROUTE

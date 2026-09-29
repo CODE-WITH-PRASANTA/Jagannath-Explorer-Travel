@@ -83,7 +83,7 @@ const ContactMain = () => {
             </div>
 
             <div className="ContactMain__infoDetails">
-              <p>Jagannathexplore99@gmail.com</p>
+              <p>jagannathexplorertravels@gmail.com</p>
              
             </div>
           </div>
