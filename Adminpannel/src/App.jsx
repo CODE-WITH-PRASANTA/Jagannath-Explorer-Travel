@@ -47,7 +47,7 @@ import Myprofile from "./Components/Myprofile/Myprofile";
 // =====================================================
 // System
 // =====================================================
-import Settings from "./Components/Settings/Settings";
+
 
 // =====================================================
 // Other
@@ -174,10 +174,7 @@ const App = () => {
                 SYSTEM
             ================================================= */}
 
-            <Route
-              path="/settings"
-              element={<Settings />}
-            />
+           
 
           </Route>
         </Route>
