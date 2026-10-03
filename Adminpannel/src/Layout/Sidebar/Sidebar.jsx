@@ -2,21 +2,26 @@ import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import {
-  LayoutDashboard,
-  Map,
-  Hotel,
-  Edit3,
-  Image,
-  MessageSquareQuote,
-  Mail,
-  Tag,
-  User,
-  Settings,
-  Bus,
-  X,
-  ChevronDown,
-  BookOpen,
-} from "lucide-react";
+  FiGrid,
+  FiMap,
+  FiHome,
+  FiEdit3,
+  FiBookOpen,
+  FiTruck,
+  FiCalendar,
+  FiTag,
+  FiSend,
+  FiStar,
+  FiImage,
+  FiMessageSquare,
+  FiClipboard,
+  FiHeadphones,
+  FiUsers,
+  FiX,
+  FiChevronDown,
+  FiFileText,
+  FiPlusSquare,
+} from "react-icons/fi";
 
 import "./Sidebar.css";
 
@@ -39,10 +44,10 @@ const BrandMark = ({ className = "" }) => (
       border: "1px solid rgba(255,255,255,0.08)",
     }}
   >
-    <Bus
-      size={20}
+    <FiTruck
+      size={21}
       color="#22c55e"
-      strokeWidth={2.2}
+      strokeWidth={2}
     />
   </div>
 );
@@ -58,7 +63,10 @@ const Sidebar = ({
 }) => {
   const location = useLocation();
 
-  /* Blog dropdown automatically opens on Blog pages */
+  /* =======================================================
+     BLOG PAGE CHECK
+  ======================================================= */
+
   const isBlogPage =
     location.pathname === "/blog" ||
     location.pathname.startsWith("/blog/");
@@ -73,19 +81,19 @@ const Sidebar = ({
     {
       text: "Dashboard",
       path: "/",
-      icon: <LayoutDashboard size={20} />,
+      icon: <FiGrid size={20} />,
     },
 
     {
       text: "Tour",
       path: "/tours",
-      icon: <Map size={20} />,
+      icon: <FiMap size={20} />,
     },
 
     {
       text: "Hotel",
       path: "/hotels",
-      icon: <Hotel size={20} />,
+      icon: <FiHome size={20} />,
     },
 
     /* =====================================================
@@ -95,84 +103,79 @@ const Sidebar = ({
     {
       type: "dropdown",
       text: "Blog",
-      icon: <Edit3 size={20} />,
+      icon: <FiEdit3 size={20} />,
     },
 
     {
       text: "Our Guide",
       path: "/our-guide",
-      icon: <BookOpen size={20} />,
+      icon: <FiBookOpen size={20} />,
     },
 
     {
       text: "Car Booking",
       path: "/booklead",
-      icon: <BookOpen size={20} />,
+      icon: <FiTruck size={20} />,
     },
 
     {
       text: "Hotel Booking",
       path: "/bookingdetails",
-      icon: <BookOpen size={20} />,
+      icon: <FiCalendar size={20} />,
     },
 
     {
       text: "Coupen",
       path: "/coupen",
-      icon: <BookOpen size={20} />,
+      icon: <FiTag size={20} />,
     },
 
     {
       text: "Tour Booking",
       path: "/tourbooking",
-      icon: <BookOpen size={20} />,
+      icon: <FiSend size={20} />,
     },
 
-     {
+    {
       text: "Review Table",
       path: "/review",
-      icon: <BookOpen size={20} />,
+      icon: <FiStar size={20} />,
     },
 
     {
       text: "Gallary",
       path: "/gallary",
-      icon: <Image size={20} />,
+      icon: <FiImage size={20} />,
     },
 
     {
       text: "Testimonial",
       path: "/testimonials",
-      icon: <MessageSquareQuote size={20} />,
+      icon: <FiMessageSquare size={20} />,
     },
 
     {
       text: "Enquiries",
       path: "/enquiries",
-      icon: <Mail size={20} />,
+      icon: <FiClipboard size={20} />,
     },
+
     {
       text: "Support",
       path: "/need-help",
-      icon: <Mail size={20} />,
+      icon: <FiHeadphones size={20} />,
     },
 
     {
       text: "Coupons",
       path: "/coupons",
-      icon: <Tag size={20} />,
+      icon: <FiTag size={20} />,
     },
 
     {
       text: "User",
       path: "/users",
-      icon: <User size={20} />,
-    },
-
-    {
-      text: "Setting",
-      path: "/settings",
-      icon: <Settings size={20} />,
+      icon: <FiUsers size={20} />,
     },
   ];
 
@@ -187,7 +190,7 @@ const Sidebar = ({
   };
 
   /* =======================================================
-     BLOG DROPDOWN TOGGLE
+     BLOG DROPDOWN
   ======================================================= */
 
   const handleBlogToggle = () => {
@@ -195,6 +198,10 @@ const Sidebar = ({
       setBlogOpen((prev) => !prev);
     }
   };
+
+  /* =======================================================
+     RENDER
+  ======================================================= */
 
   return (
     <aside
@@ -234,7 +241,9 @@ const Sidebar = ({
           </div>
         )}
 
-        {/* Mobile close button */}
+        {/* =================================================
+            MOBILE CLOSE
+        ================================================= */}
 
         {isMobileOpen && (
           <button
@@ -243,7 +252,7 @@ const Sidebar = ({
             onClick={onClose}
             aria-label="Close menu"
           >
-            <X size={20} />
+            <FiX size={20} />
           </button>
         )}
       </div>
@@ -254,7 +263,6 @@ const Sidebar = ({
 
       <nav className="Sidebar-nav">
         {menuItems.map((item) => {
-
           /* =================================================
              BLOG DROPDOWN
           ================================================= */
@@ -269,7 +277,7 @@ const Sidebar = ({
                     : ""
                 }`}
               >
-                {/* Blog Main Button */}
+                {/* BLOG BUTTON */}
 
                 <button
                   type="button"
@@ -294,10 +302,10 @@ const Sidebar = ({
                     isMobileOpen) && (
                     <>
                       <span className="Sidebar-text">
-                        Blog
+                        {item.text}
                       </span>
 
-                      <ChevronDown
+                      <FiChevronDown
                         size={16}
                         className={`Sidebar-chevron ${
                           blogOpen || isBlogPage
@@ -318,7 +326,7 @@ const Sidebar = ({
                   (blogOpen || isBlogPage) && (
                     <div className="Sidebar-submenu">
 
-                      {/* Blog Management */}
+                      {/* BLOG MANAGEMENT */}
 
                       <NavLink
                         to="/blog"
@@ -332,10 +340,14 @@ const Sidebar = ({
                           }`
                         }
                       >
-                        Blog Management
+                        <FiFileText size={16} />
+
+                        <span>
+                          Blog Management
+                        </span>
                       </NavLink>
 
-                      {/* Blog Post */}
+                      {/* BLOG POST */}
 
                       <NavLink
                         to="/blog/new"
@@ -349,9 +361,12 @@ const Sidebar = ({
                           }`
                         }
                       >
-                        Blog Post
-                      </NavLink>
+                        <FiPlusSquare size={16} />
 
+                        <span>
+                          Blog Post
+                        </span>
+                      </NavLink>
                     </div>
                   )}
               </div>

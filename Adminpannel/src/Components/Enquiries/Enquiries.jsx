@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './Enquiries.css';
+import API from '../../api/axios';
 
 import {
   FiFileText,
@@ -26,7 +27,6 @@ import {
   FiRefreshCw,
 } from 'react-icons/fi';
 
-const API_URL = 'http://localhost:5000';
 
 const initialForm = {
   fullName: '',
@@ -73,11 +73,11 @@ const Enquiries = () => {
         setRefreshing(true);
       }
 
-      const response = await fetch(`${API_URL}/api/enquiries`);
-      const data = await response.json();
+      const response = await API.get('/enquiries');
+      const data = response.data;
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch enquiries.');
+      if (!data) {
+        throw new Error('Failed to fetch enquiries.');
       }
 
       const formattedData = (data.enquiries || []).map((item) => ({
@@ -159,33 +159,25 @@ const Enquiries = () => {
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/enquiries`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          email: formData.email,
-          mobile: formData.phone,
-          service: formData.tourPackage,
-          travelDate: formData.travelDate,
-          travelers: formData.travelers
-            ? Number(formData.travelers)
-            : 1,
-          departure: formData.departure,
-          destination: formData.destination,
-          budget: formData.budget,
-          message: formData.message,
-        }),
+      const response = await API.post('/enquiries', {
+        fullName: formData.fullName,
+        email: formData.email,
+        mobile: formData.phone,
+        service: formData.tourPackage,
+        travelDate: formData.travelDate,
+        travelers: formData.travelers
+          ? Number(formData.travelers)
+          : 1,
+        departure: formData.departure,
+        destination: formData.destination,
+        budget: formData.budget,
+        message: formData.message,
       });
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (!response.ok) {
-        throw new Error(
-          data.message || 'Failed to create enquiry.'
-        );
+      if (!data) {
+        throw new Error('Failed to create enquiry.');
       }
 
       await fetchEnquiries(false);
@@ -216,19 +208,11 @@ const Enquiries = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/enquiries/${id}`,
-        {
-          method: 'DELETE',
-        }
-      );
+      const response = await API.delete(`/enquiries/${id}`);
+      const data = response.data;
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.message || 'Failed to delete enquiry.'
-        );
+      if (!data) {
+        throw new Error('Failed to delete enquiry.');
       }
 
       setEnquiries((prev) =>
@@ -268,37 +252,29 @@ const Enquiries = () => {
     if (!editItem) return;
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/enquiries/${editItem.id}`,
+      const response = await API.put(
+        `/enquiries/${editItem.id}`,
         {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: editItem.name,
-            email: editItem.email,
-            phone: editItem.phone,
-            tour: editItem.tour,
-            travelDate: editItem.travelDate,
-            travelers: Number(editItem.travelers) || 1,
-            departure: editItem.departure || 'N/A',
-            destination: editItem.destination || 'N/A',
-            budget: editItem.budget || 'Flexible',
-            message:
-              editItem.message ||
-              'No requirements specified.',
-            status: editItem.status,
-          }),
+          name: editItem.name,
+          email: editItem.email,
+          phone: editItem.phone,
+          tour: editItem.tour,
+          travelDate: editItem.travelDate,
+          travelers: Number(editItem.travelers) || 1,
+          departure: editItem.departure || 'N/A',
+          destination: editItem.destination || 'N/A',
+          budget: editItem.budget || 'Flexible',
+          message:
+            editItem.message ||
+            'No requirements specified.',
+          status: editItem.status,
         }
       );
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (!response.ok) {
-        throw new Error(
-          data.message || 'Failed to update enquiry.'
-        );
+      if (!data) {
+        throw new Error('Failed to update enquiry.');
       }
 
       setEnquiries((prev) =>
@@ -463,9 +439,7 @@ const Enquiries = () => {
     try {
       await Promise.all(
         selectedIds.map((id) =>
-          fetch(`${API_URL}/api/enquiries/${id}`, {
-            method: 'DELETE',
-          })
+          API.delete(`/enquiries/${id}`)
         )
       );
 
